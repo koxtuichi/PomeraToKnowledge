@@ -4,80 +4,107 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "フロントエンドエンジニアのリーダーであり、副業でAI活用に従事している人物。",
+      "detail": "フロントエンドエンジニアであり、副業でAI活用アドバイザーを務める自分",
       "sentiment": -0.2,
+      "tags": [
+        "Cognitive Distortion: Should Statements",
+        "Multitasking"
+      ],
       "community": 0
     },
     {
       "id": "diary:2026-02-16",
       "label": "2026/02/16の日記",
       "type": "diary",
-      "detail": "副業のタスクが溜まっていることへの焦りと、本業終了後の計画についての記録。",
+      "detail": "副業のタスク管理とメインの仕事の調整に関する記録",
       "date": "2026-02-16",
       "community": 0
     },
     {
       "id": "project:saiteki",
-      "label": "株式会社Saitekiの副業",
+      "label": "株式会社Saiteki",
       "type": "project",
-      "detail": "AI活用を検討する副業。時給3000円。",
+      "detail": "AI活用を検討する副業。時給3000円",
       "community": 1
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saitekiの副社長。S級のAIモデル開発を目指し、学習用資料を作成している。",
+      "detail": "Saitekiの副社長。カスタムチューニング担当",
       "community": 1
     },
     {
       "id": "person:kaime",
       "label": "開米さん",
       "type": "person",
-      "detail": "Saiteki所属のQAスペシャリスト。AIによる作業代替の資料作成を担当。",
+      "detail": "SaitekiのQAスペシャリスト。AI置き換え資料作成担当",
       "community": 1
     },
     {
       "id": "project:main_job",
       "label": "メインの仕事",
       "type": "project",
-      "detail": "フロントエンドで2チーム8人のリーダーを務める。",
+      "detail": "フロントエンド開発のリーダー（2チーム8名体制）",
       "community": 2
     },
     {
-      "id": "emotion:overwhelmed",
-      "label": "タスク過多の焦燥感",
-      "type": "emotion",
-      "detail": "やるべきことが溜まってきていることによる心理的負荷。",
-      "sentiment": -0.4,
-      "tags": [
-        "Cognitive Distortion: Emotional Reasoning"
-      ],
-      "community": 0
-    },
-    {
-      "id": "goal:qa_deployment",
-      "label": "AI代替作業の全社展開",
-      "type": "goal",
-      "status": "Active",
-      "detail": "2月中の完了を目指しているが、進捗の確認が必要な状況。",
-      "community": 1
-    },
-    {
-      "id": "concept:analysis_utilization",
-      "label": "社員分析の利用案資料化",
-      "type": "concept",
-      "detail": "社員分析の結果をどのように活用するかを資料にまとめるタスク。",
-      "community": 1
-    },
-    {
-      "id": "event:side_job_start",
-      "label": "副業タスクの開始",
+      "id": "event:suzuki_material_review",
+      "label": "鈴木さんの学習資料確認",
       "type": "event",
+      "detail": "カスタムチューニング用の質問回答形式資料の確認",
       "status": "Scheduled",
       "date": "2026-02-16",
-      "detail": "メインの仕事を18時に終えた後、連絡業務から開始する予定。",
       "community": 1
+    },
+    {
+      "id": "event:kaime_status_check",
+      "label": "開米さんの作業状況確認",
+      "type": "event",
+      "detail": "AI置き換え作業資料の進捗および全社員展開の準備確認",
+      "status": "Scheduled",
+      "date": "2026-02-16",
+      "community": 1
+    },
+    {
+      "id": "event:document_analysis_usage",
+      "label": "社員分析の利用案資料化",
+      "type": "event",
+      "detail": "分析結果をどのように活用するかを資料にまとめる作業",
+      "status": "Scheduled",
+      "date": "2026-02-16",
+      "community": 1
+    },
+    {
+      "id": "goal:s_tier_ai",
+      "label": "S級のAIモデル作成",
+      "type": "goal",
+      "status": "Active",
+      "detail": "カスタムチューニングを通じて最高品質のAIモデルを構築する",
+      "tags": [
+        "Growth",
+        "AI"
+      ],
+      "community": 1
+    },
+    {
+      "id": "goal:qa_docs_deployment",
+      "label": "QA資料の全社員展開",
+      "type": "goal",
+      "status": "Active",
+      "detail": "2月中に完了予定だが進捗に懸念あり",
+      "community": 1
+    },
+    {
+      "id": "emotion:overwhelmed",
+      "label": "タスクの蓄積感",
+      "type": "emotion",
+      "detail": "副業のタスクが溜まり、時間を確保しなければならないという焦り",
+      "sentiment": -0.4,
+      "tags": [
+        "Workload"
+      ],
+      "community": 0
     },
     {
       "id": "diary:2026-02-15",
@@ -85,8 +112,8 @@
       "type": "diary",
       "date": "2026-02-15",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-15T16:11:28.745041",
-      "last_seen": "2026-02-15T16:11:28.745042",
+      "first_seen": "2026-02-15T16:29:47.524934",
+      "last_seen": "2026-02-15T16:29:47.524935",
       "weight": 1
     }
   ],
@@ -95,67 +122,79 @@
       "source": "person:self",
       "target": "diary:2026-02-16",
       "type": "ABOUT",
-      "label": "記録する"
+      "label": "記述"
     },
     {
       "source": "person:self",
       "target": "project:saiteki",
       "type": "PARTICIPATES",
-      "label": "副業として従事"
+      "label": "副業として参画"
     },
     {
       "source": "person:self",
       "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "リーダーを務める"
+      "label": "リーダーとして従事"
+    },
+    {
+      "source": "person:self",
+      "target": "person:suzuki",
+      "type": "PARTICIPATES",
+      "label": "連携"
+    },
+    {
+      "source": "person:self",
+      "target": "person:kaime",
+      "type": "PARTICIPATES",
+      "label": "マネジメント・確認"
+    },
+    {
+      "source": "person:self",
+      "target": "event:suzuki_material_review",
+      "type": "PLANS",
+      "label": "18時以降に実施予定"
+    },
+    {
+      "source": "person:self",
+      "target": "event:kaime_status_check",
+      "type": "PLANS",
+      "label": "18時以降に実施予定"
+    },
+    {
+      "source": "person:self",
+      "target": "event:document_analysis_usage",
+      "type": "PLANS",
+      "label": "資料作成を予定"
     },
     {
       "source": "person:self",
       "target": "emotion:overwhelmed",
       "type": "FEELING",
-      "label": "やるべきことが溜まっていると感じる"
-    },
-    {
-      "source": "person:self",
-      "target": "event:side_job_start",
-      "type": "PLANS",
-      "label": "18時以降に開始予定"
-    },
-    {
-      "source": "project:saiteki",
-      "target": "person:suzuki",
-      "type": "MENTIONS",
-      "label": "副社長として所属"
-    },
-    {
-      "source": "project:saiteki",
-      "target": "person:kaime",
-      "type": "MENTIONS",
-      "label": "QAスペシャリストとして所属"
+      "label": "プレッシャーを感じている"
     },
     {
       "source": "person:suzuki",
-      "target": "person:self",
-      "type": "CAUSAL",
-      "label": "学習資料完成の連絡を送る"
+      "target": "goal:s_tier_ai",
+      "type": "TARGETS",
+      "label": "目標に設定"
     },
     {
       "source": "person:kaime",
-      "target": "goal:qa_deployment",
+      "target": "goal:qa_docs_deployment",
       "type": "TARGETS",
-      "label": "2月中のゴールを目指す"
-    },
-    {
-      "source": "person:self",
-      "target": "concept:analysis_utilization",
-      "type": "DISCOVERS",
-      "label": "利用案を具体化する"
+      "label": "2月中の完了を目指す"
     },
     {
       "source": "project:main_job",
-      "target": "event:side_job_start",
+      "target": "project:saiteki",
       "type": "BARRIER",
-      "label": "完了するまで副業が開始できない"
+      "label": "日中の時間拘束"
+    },
+    {
+      "source": "event:suzuki_material_review",
+      "target": "person:suzuki",
+      "type": "ABOUT",
+      "label": "鈴木さんからの依頼"
     },
     {
       "source": "person:self",
@@ -195,33 +234,45 @@
     },
     {
       "source": "diary:2026-02-15",
+      "target": "event:suzuki_material_review",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "event:kaime_status_check",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "event:document_analysis_usage",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:s_tier_ai",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:qa_docs_deployment",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
       "target": "emotion:overwhelmed",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "goal:qa_deployment",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "concept:analysis_utilization",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "event:side_job_start",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-15T16:11:28.745029",
+    "generated_at": "2026-02-15T16:29:47.524920",
     "source_file": "diary/20260215_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 10,
-    "edge_count": 11
+    "node_count": 12,
+    "edge_count": 13
   }
 }
