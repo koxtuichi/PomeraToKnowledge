@@ -4,176 +4,80 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "日記の作成者。33歳の妻と0歳の息子を持つ父親。",
+      "detail": "フロントエンドエンジニアのリーダーであり、副業でAI活用に従事している人物。",
+      "sentiment": -0.2,
       "community": 0
     },
     {
-      "id": "event:pet_room_cleaning",
-      "label": "ペット部屋の掃除",
-      "type": "event",
-      "detail": "フローリングの粘着部分を剥がしてきれいにすること。二つの仕事と育児で時間が取れない課題がある。",
-      "sentiment": -0.2,
-      "status": "Active",
-      "tags": [
-        "生活習慣",
-        "時間管理"
-      ],
-      "community": 1
+      "id": "diary:2026-02-16",
+      "label": "2026/02/16の日記",
+      "type": "diary",
+      "detail": "副業のタスクが溜まっていることへの焦りと、本業終了後の計画についての記録。",
+      "date": "2026-02-16",
+      "community": 0
     },
     {
-      "id": "goal:keep_pet_room_clean",
-      "label": "ペット部屋をきれいに保つ",
-      "type": "goal",
-      "detail": "毎日の掃除を習慣化したいが、現実的には難しいと感じている。",
-      "status": "Active",
-      "tags": [
-        "習慣化"
-      ],
-      "community": 1
-    },
-    {
-      "id": "insight:sticky_residue_trouble",
-      "label": "粘着部分が剥がせない悩み",
-      "type": "insight",
-      "detail": "粘着タイプの爪とぎカバーを剥がした後の残りが取れない。",
-      "sentiment": -0.4,
-      "community": 1
-    },
-    {
-      "id": "goal:weight_under_75kg",
-      "label": "体重75kg切り",
-      "type": "goal",
-      "detail": "今年の目標。現在は80.5kg前後。1日1食1200kcalを意識している。",
-      "sentiment": 0.5,
-      "status": "Active",
-      "date": "2026-12-31",
-      "tags": [
-        "健康",
-        "ダイエット",
-        "Growth"
-      ],
-      "community": 3
-    },
-    {
-      "id": "event:cheat_day",
-      "label": "週一のチートデイ",
-      "type": "event",
-      "detail": "停滞期打破のため、体に飢餓状態でないことを伝えるための戦略。",
-      "status": "Scheduled",
-      "community": 3
-    },
-    {
-      "id": "project:pomera_workflow",
-      "label": "ポメラ×AIナレッジグラフ構築",
+      "id": "project:saiteki",
+      "label": "株式会社Saitekiの副業",
       "type": "project",
-      "detail": "ポメラからGmail経由でGitHub Actionsを回し、Geminiで分析してナレッジグラフに反映する仕組み。",
-      "sentiment": 0.9,
-      "status": "Active",
-      "tags": [
-        "技術開発",
-        "自動化"
-      ],
-      "community": 4
+      "detail": "AI活用を検討する副業。時給3000円。",
+      "community": 1
     },
     {
-      "id": "insight:youtube_restriction",
-      "label": "YouTube視聴の制限",
-      "type": "insight",
-      "detail": "ポメラ関連の動画を見すぎて夜更かししてしまうため、制限が必要と感じている。",
-      "sentiment": -0.3,
+      "id": "person:suzuki",
+      "label": "鈴木さん",
+      "type": "person",
+      "detail": "Saitekiの副社長。S級のAIモデル開発を目指し、学習用資料を作成している。",
+      "community": 1
+    },
+    {
+      "id": "person:kaime",
+      "label": "開米さん",
+      "type": "person",
+      "detail": "Saiteki所属のQAスペシャリスト。AIによる作業代替の資料作成を担当。",
+      "community": 1
+    },
+    {
+      "id": "project:main_job",
+      "label": "メインの仕事",
+      "type": "project",
+      "detail": "フロントエンドで2チーム8人のリーダーを務める。",
+      "community": 2
+    },
+    {
+      "id": "emotion:overwhelmed",
+      "label": "タスク過多の焦燥感",
+      "type": "emotion",
+      "detail": "やるべきことが溜まってきていることによる心理的負荷。",
+      "sentiment": -0.4,
       "tags": [
-        "生活リズム"
+        "Cognitive Distortion: Emotional Reasoning"
       ],
       "community": 0
     },
     {
-      "id": "goal:realistic_monster_design",
-      "label": "リアリティを感じるモンスターデザイン",
+      "id": "goal:qa_deployment",
+      "label": "AI代替作業の全社展開",
       "type": "goal",
-      "detail": "Draw Sessionsのような絵を描きたい。現状は納得がいっていない。",
-      "sentiment": -0.2,
       "status": "Active",
-      "tags": [
-        "趣味",
-        "芸術"
-      ],
-      "community": 5
+      "detail": "2月中の完了を目指しているが、進捗の確認が必要な状況。",
+      "community": 1
     },
     {
-      "id": "person:souma",
-      "label": "蒼馬",
-      "type": "person",
-      "detail": "0歳の息子。5月9日生まれ。現在は生後9ヶ月。",
-      "community": 2
+      "id": "concept:analysis_utilization",
+      "label": "社員分析の利用案資料化",
+      "type": "concept",
+      "detail": "社員分析の結果をどのように活用するかを資料にまとめるタスク。",
+      "community": 1
     },
     {
-      "id": "person:sayaka",
-      "label": "さやか",
-      "type": "person",
-      "detail": "妻。同い年の33歳。",
-      "community": 2
-    },
-    {
-      "id": "person:mugi",
-      "label": "むぎ",
-      "type": "person",
-      "detail": "ペットのボストンテリア。おととしの10月から飼育。",
-      "community": 2
-    },
-    {
-      "id": "place:shiroyama_park",
-      "label": "城山公園",
-      "type": "place",
-      "detail": "家族3人で散歩に行った大きな公園。ピクニックの候補地。",
-      "sentiment": 0.7,
-      "community": 2
-    },
-    {
-      "id": "event:choking_incident",
-      "label": "蒼馬の喉詰まり事故",
+      "id": "event:side_job_start",
+      "label": "副業タスクの開始",
       "type": "event",
-      "detail": "初めてのクッキーを仕事中に与え、喉に詰まらせてしまった危急事態。",
-      "sentiment": -0.9,
-      "status": "Completed",
-      "date": "2026-02-15",
-      "tags": [
-        "トラブル",
-        "育児",
-        "危機管理"
-      ],
-      "community": 2
-    },
-    {
-      "id": "insight:parental_guilt",
-      "label": "親としての失格感",
-      "type": "insight",
-      "detail": "危機管理ができていなかった自分を責める気持ち。",
-      "sentiment": -1.0,
-      "tags": [
-        "Cognitive Distortion: Labeling",
-        "Conflict"
-      ],
-      "community": 2
-    },
-    {
-      "id": "insight:github_actions_issue",
-      "label": "GitHub Actionsの実行制限",
-      "type": "insight",
-      "detail": "指定の時間に正確にスケジューリングするのが難しいという懸念。",
-      "sentiment": -0.2,
-      "tags": [
-        "技術的課題"
-      ],
-      "community": 4
-    },
-    {
-      "id": "goal:publish_pomera_book",
-      "label": "ポメラ活用案の出版",
-      "type": "goal",
-      "detail": "考案したワークフローを本にまとめたいという希望。",
-      "sentiment": 0.8,
-      "status": "Active",
-      "community": 4
+      "status": "Scheduled",
+      "date": "2026-02-16",
+      "detail": "メインの仕事を18時に終えた後、連絡業務から開始する予定。",
+      "community": 1
     },
     {
       "id": "diary:2026-02-15",
@@ -181,89 +85,77 @@
       "type": "diary",
       "date": "2026-02-15",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-16T00:53:16.368382",
-      "last_seen": "2026-02-16T00:53:16.368383",
+      "first_seen": "2026-02-15T16:11:28.745041",
+      "last_seen": "2026-02-15T16:11:28.745042",
       "weight": 1
     }
   ],
   "edges": [
     {
       "source": "person:self",
-      "target": "event:pet_room_cleaning",
-      "type": "PLANS",
-      "label": "掃除を予定している"
-    },
-    {
-      "source": "person:self",
-      "target": "goal:keep_pet_room_clean",
-      "type": "TARGETS",
-      "label": "習慣化を目指している"
-    },
-    {
-      "source": "person:self",
-      "target": "goal:weight_under_75kg",
-      "type": "TARGETS",
-      "label": "減量を目標としている"
-    },
-    {
-      "source": "person:self",
-      "target": "project:pomera_workflow",
-      "type": "DISCOVERS",
-      "label": "楽しいワークフローを考案中"
-    },
-    {
-      "source": "project:pomera_workflow",
-      "target": "insight:github_actions_issue",
-      "type": "BARRIER",
-      "label": "スケジューリングの難しさ"
-    },
-    {
-      "source": "person:self",
-      "target": "goal:realistic_monster_design",
-      "type": "TARGETS",
-      "label": "上達を目指している"
-    },
-    {
-      "source": "event:choking_incident",
-      "target": "insight:parental_guilt",
-      "type": "CAUSAL",
-      "label": "事故が後悔を引き起こした"
-    },
-    {
-      "source": "person:self",
-      "target": "insight:parental_guilt",
-      "type": "FEELING",
-      "label": "自分を責めている"
-    },
-    {
-      "source": "person:self",
-      "target": "goal:publish_pomera_book",
-      "type": "TARGETS",
-      "label": "本にしたいと希望している"
-    },
-    {
-      "source": "event:choking_incident",
-      "target": "person:souma",
+      "target": "diary:2026-02-16",
       "type": "ABOUT",
-      "label": "息子が危険な目にあった"
-    },
-    {
-      "source": "event:choking_incident",
-      "target": "person:sayaka",
-      "type": "PARTICIPATES",
-      "label": "妻がクッキーを取り出した"
+      "label": "記録する"
     },
     {
       "source": "person:self",
-      "target": "place:shiroyama_park",
-      "type": "AT",
-      "label": "家族で行った"
+      "target": "project:saiteki",
+      "type": "PARTICIPATES",
+      "label": "副業として従事"
     },
     {
       "source": "person:self",
-      "target": "person:mugi",
+      "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "むぎと散歩した"
+      "label": "リーダーを務める"
+    },
+    {
+      "source": "person:self",
+      "target": "emotion:overwhelmed",
+      "type": "FEELING",
+      "label": "やるべきことが溜まっていると感じる"
+    },
+    {
+      "source": "person:self",
+      "target": "event:side_job_start",
+      "type": "PLANS",
+      "label": "18時以降に開始予定"
+    },
+    {
+      "source": "project:saiteki",
+      "target": "person:suzuki",
+      "type": "MENTIONS",
+      "label": "副社長として所属"
+    },
+    {
+      "source": "project:saiteki",
+      "target": "person:kaime",
+      "type": "MENTIONS",
+      "label": "QAスペシャリストとして所属"
+    },
+    {
+      "source": "person:suzuki",
+      "target": "person:self",
+      "type": "CAUSAL",
+      "label": "学習資料完成の連絡を送る"
+    },
+    {
+      "source": "person:kaime",
+      "target": "goal:qa_deployment",
+      "type": "TARGETS",
+      "label": "2月中のゴールを目指す"
+    },
+    {
+      "source": "person:self",
+      "target": "concept:analysis_utilization",
+      "type": "DISCOVERS",
+      "label": "利用案を具体化する"
+    },
+    {
+      "source": "project:main_job",
+      "target": "event:side_job_start",
+      "type": "BARRIER",
+      "label": "完了するまで副業が開始できない"
     },
     {
       "source": "person:self",
@@ -273,105 +165,63 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "event:pet_room_cleaning",
+      "target": "diary:2026-02-16",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:keep_pet_room_clean",
+      "target": "project:saiteki",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "insight:sticky_residue_trouble",
+      "target": "person:suzuki",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:weight_under_75kg",
+      "target": "person:kaime",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "event:cheat_day",
+      "target": "project:main_job",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "project:pomera_workflow",
+      "target": "emotion:overwhelmed",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "insight:youtube_restriction",
+      "target": "goal:qa_deployment",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:realistic_monster_design",
+      "target": "concept:analysis_utilization",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "person:souma",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "person:sayaka",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "person:mugi",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "place:shiroyama_park",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "event:choking_incident",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "insight:parental_guilt",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "insight:github_actions_issue",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "goal:publish_pomera_book",
+      "target": "event:side_job_start",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T00:53:16.368364",
-    "source_file": "diary/20260216_POMERA2026年2月15日.txt",
-    "node_count": 17,
-    "edge_count": 13
+    "generated_at": "2026-02-15T16:11:28.745029",
+    "source_file": "diary/20260215_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
+    "node_count": 10,
+    "edge_count": 11
   }
 }
