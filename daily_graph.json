@@ -1,0 +1,156 @@
+{
+  "nodes": [
+    {
+      "id": "person:self",
+      "label": "自分",
+      "type": "self",
+      "detail": "日記の作成者。2つの仕事を掛け持ちし、育児と家事・ダイエットを並行している。",
+      "sentiment": 0.2,
+      "community": 0
+    },
+    {
+      "id": "diary:2026-02-15",
+      "label": "2026年2月15日の日記",
+      "type": "diary",
+      "detail": "掃除の悩みと減量の進捗についての記録",
+      "date": "2026-02-15",
+      "community": 0
+    },
+    {
+      "id": "event:pet_room_cleaning",
+      "label": "ペット部屋の掃除",
+      "type": "event",
+      "detail": "フローリングの粘着部分を剥がしてきれいにすること",
+      "status": "Scheduled",
+      "date": "2026-02-15",
+      "sentiment": -0.2,
+      "community": 1
+    },
+    {
+      "id": "goal:clean_pet_room_habit",
+      "label": "ペット部屋をきれいに保つ",
+      "type": "goal",
+      "status": "Active",
+      "detail": "毎日の掃除をマストと捉えているが、実行が難しいと感じている",
+      "tags": [
+        "Cognitive Distortion: Should Statements",
+        "Habit"
+      ],
+      "community": 1
+    },
+    {
+      "id": "insight:sticky_residue_problem",
+      "label": "粘着部分が剥がせない悩み",
+      "type": "insight",
+      "detail": "爪とぎカバーの粘着がフローリングに残ってしまった問題",
+      "sentiment": -0.4,
+      "community": 1
+    },
+    {
+      "id": "barrier:time_poverty",
+      "label": "時間の不足",
+      "type": "concept",
+      "detail": "仕事の掛け持ちと育児により、掃除の習慣化に必要な時間が確保できない",
+      "tags": [
+        "Conflict"
+      ],
+      "community": 1
+    },
+    {
+      "id": "goal:weight_loss_75kg",
+      "label": "今年の目標：体重75kg切り",
+      "type": "goal",
+      "status": "Active",
+      "detail": "92kgから80.5kgまで減量済み。最終目標に向けた継続。",
+      "sentiment": 0.8,
+      "tags": [
+        "Growth"
+      ],
+      "community": 2
+    },
+    {
+      "id": "insight:weight_plateau",
+      "label": "体重の停滞期",
+      "type": "insight",
+      "detail": "12kg減量後、最近2週間ほど体重が変動していない状態",
+      "sentiment": -0.1,
+      "community": 2
+    },
+    {
+      "id": "concept:cheat_day",
+      "label": "週1回のチートデイ",
+      "type": "concept",
+      "detail": "飢餓状態を防ぐために普通の量を食べる。先週から開始。",
+      "community": 2
+    },
+    {
+      "id": "concept:dietary_restriction",
+      "label": "食事制限戦略",
+      "type": "concept",
+      "detail": "1日1食（1200kcal程度）を基本とする減量法",
+      "community": 2
+    }
+  ],
+  "edges": [
+    {
+      "source": "person:self",
+      "target": "diary:2026-02-15",
+      "type": "MENTIONS",
+      "label": "記述する"
+    },
+    {
+      "source": "person:self",
+      "target": "event:pet_room_cleaning",
+      "type": "PLANS",
+      "label": "掃除を予定する"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:clean_pet_room_habit",
+      "type": "TARGETS",
+      "label": "習慣化を目指す"
+    },
+    {
+      "source": "person:self",
+      "target": "insight:sticky_residue_problem",
+      "type": "FEELING",
+      "label": "悩んでいる"
+    },
+    {
+      "source": "barrier:time_poverty",
+      "target": "goal:clean_pet_room_habit",
+      "type": "BARRIER",
+      "label": "習慣化を阻害する"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:weight_loss_75kg",
+      "type": "TARGETS",
+      "label": "目標に設定する"
+    },
+    {
+      "source": "concept:cheat_day",
+      "target": "insight:weight_plateau",
+      "type": "SOLVES",
+      "label": "停滞期打破のための対策"
+    },
+    {
+      "source": "concept:dietary_restriction",
+      "target": "goal:weight_loss_75kg",
+      "type": "TARGETS",
+      "label": "減量目標達成の手段"
+    },
+    {
+      "source": "insight:weight_plateau",
+      "target": "concept:cheat_day",
+      "type": "TRIGGERED_BY",
+      "label": "停滞をきっかけに導入"
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-02-15T19:43:09.157544",
+    "source_file": "diary/20260215_POMERA2026年2月15日.txt",
+    "node_count": 10,
+    "edge_count": 9
+  }
+}

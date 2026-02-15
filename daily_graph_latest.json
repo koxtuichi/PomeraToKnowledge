@@ -1,0 +1,196 @@
+{
+  "nodes": [
+    {
+      "id": "person:self",
+      "label": "自分",
+      "type": "self",
+      "detail": "日記の筆者。ポメラを活用した自己分析システムの構築を模索中。",
+      "sentiment": 0.8,
+      "community": 0
+    },
+    {
+      "id": "item:pomera_skeleton",
+      "label": "スケルトンポメラ",
+      "type": "project",
+      "detail": "メルカリで購入した黄色の限定モデル。所有欲を満たしてくれるアイテム。",
+      "sentiment": 1.0,
+      "tags": [
+        "所有欲",
+        "希少品"
+      ],
+      "community": 1
+    },
+    {
+      "id": "event:pomera_arrival",
+      "label": "ポメラ到着予定",
+      "type": "event",
+      "detail": "2026/02/15にポメラが届く予定。",
+      "status": "Scheduled",
+      "date": "2026-02-15",
+      "sentiment": 0.9,
+      "community": 1
+    },
+    {
+      "id": "place:lalaport",
+      "label": "ららぽーと",
+      "type": "place",
+      "detail": "家族3人で訪れた場所。さやかの両親とも合流。",
+      "sentiment": 0.7,
+      "community": 2
+    },
+    {
+      "id": "person:souma",
+      "label": "蒼馬",
+      "type": "person",
+      "detail": "筆者の子供。コップやリモコンのおもちゃを買ってもらった。",
+      "community": 2
+    },
+    {
+      "id": "event:lunch_gatten_sushi",
+      "label": "がってん寿司での食事",
+      "type": "event",
+      "detail": "鯛の塩炙りが非常に美味しかった。ダイエット中だが5貫ほど摂取。",
+      "sentiment": 0.8,
+      "community": 2
+    },
+    {
+      "id": "concept:json_ld",
+      "label": "JSON-LD",
+      "type": "concept",
+      "detail": "LLMとの認識の相違を埋めるための構造化データフォーマット。",
+      "tags": [
+        "ナレッジベース",
+        "セマンティック"
+      ],
+      "community": 3
+    },
+    {
+      "id": "insight:structure_vs_freedom",
+      "label": "構造化と自由記述のジレンマ",
+      "type": "insight",
+      "detail": "思考を遮らない自由な記述と、LLMによる分析のための構造化をどう両立させるか。",
+      "tags": [
+        "Cognitive Distortion: All-or-Nothing",
+        "設計思想"
+      ],
+      "sentiment": -0.2,
+      "community": 3
+    },
+    {
+      "id": "goal:pomera_effective_use",
+      "label": "ポメラの有効活用",
+      "type": "goal",
+      "status": "Active",
+      "detail": "以前の挫折（DM100/30/200）を繰り返さず、ポメラを自己分析に役立てる。",
+      "community": 1
+    },
+    {
+      "id": "event:past_pomera_failures",
+      "label": "過去のポメラ挫折経験",
+      "type": "event",
+      "detail": "DM100, DM30, DM200を購入したが、ブログ執筆の重圧などで使いこなせず売却した。",
+      "sentiment": -0.5,
+      "community": 1
+    },
+    {
+      "id": "insight:diary_mental_health",
+      "label": "日記によるメンタル改善",
+      "type": "insight",
+      "detail": "自分と向き合い書くことで、頭のモヤモヤが晴れ、達成感を得られる。",
+      "tags": [
+        "自己対話",
+        "成長"
+      ],
+      "sentiment": 0.9,
+      "community": 0
+    },
+    {
+      "id": "goal:define_pomera_role",
+      "label": "ポメラの役割（責務）の定義",
+      "type": "goal",
+      "status": "Active",
+      "detail": "入力負荷を下げ、継続しやすくするためにポメラで行う範囲を明確にする。",
+      "community": 3
+    }
+  ],
+  "edges": [
+    {
+      "source": "person:self",
+      "target": "event:pomera_arrival",
+      "type": "PLANS",
+      "label": "到着を楽しみに待つ"
+    },
+    {
+      "source": "person:self",
+      "target": "item:pomera_skeleton",
+      "type": "FEELING",
+      "label": "購入できて興奮している"
+    },
+    {
+      "source": "person:self",
+      "target": "place:lalaport",
+      "type": "PARTICIPATES",
+      "label": "家族と買い物に行く"
+    },
+    {
+      "source": "person:souma",
+      "target": "place:lalaport",
+      "type": "PARTICIPATES",
+      "label": "一緒に買い物"
+    },
+    {
+      "source": "person:self",
+      "target": "event:lunch_gatten_sushi",
+      "type": "PARTICIPATES",
+      "label": "鯛のお寿司を楽しむ"
+    },
+    {
+      "source": "person:self",
+      "target": "concept:json_ld",
+      "type": "DISCOVERS",
+      "label": "フォーマットの存在を知る"
+    },
+    {
+      "source": "concept:json_ld",
+      "target": "insight:structure_vs_freedom",
+      "type": "SOLVES",
+      "label": "認識のずれを防ぐ解決策として期待"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:pomera_effective_use",
+      "type": "TARGETS",
+      "label": "今度こそ使いこなしたい"
+    },
+    {
+      "source": "event:past_pomera_failures",
+      "target": "goal:pomera_effective_use",
+      "type": "BARRIER",
+      "label": "過去の失敗が心理的ハードルになっている"
+    },
+    {
+      "source": "person:self",
+      "target": "insight:diary_mental_health",
+      "type": "FEELING",
+      "label": "達成感とモヤモヤの解消"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:define_pomera_role",
+      "type": "TARGETS",
+      "label": "負荷軽減のための設計"
+    },
+    {
+      "source": "goal:define_pomera_role",
+      "target": "goal:pomera_effective_use",
+      "type": "CAUSAL",
+      "label": "役割の明確化が継続の鍵となる"
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-02-15T13:00:53.523956",
+    "source_file": "daily_diary_latest.txt",
+    "node_count": 12,
+    "edge_count": 12
+  }
+}

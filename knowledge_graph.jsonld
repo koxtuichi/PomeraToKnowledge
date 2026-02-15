@@ -1,0 +1,733 @@
+{
+  "nodes": [
+    {
+      "id": "self",
+      "label": "自分",
+      "type": "self",
+      "detail": "日記の著者",
+      "weight": 10
+    },
+    {
+      "id": "diary:1b17b86a",
+      "label": "2026-02-01",
+      "type": "diary",
+      "detail": "気分: まあまあ / 体調: 普通",
+      "mood": 3,
+      "health": 3,
+      "highlights": [
+        "アイデアは寝かせることで熟成する、という考え方が自分の仕事にも当てはまる気がする",
+        "自分も今の仕事にこのままでいいのか、と少し考えてしまった"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "person:8b058ad3",
+      "label": "佐藤",
+      "type": "person",
+      "detail": "",
+      "weight": 4
+    },
+    {
+      "id": "project:8d0fce7e",
+      "label": "読書",
+      "type": "project",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "place:f949f1b2",
+      "label": "カフェ",
+      "type": "place",
+      "detail": "",
+      "weight": 3
+    },
+    {
+      "id": "insight:eca60542",
+      "label": "アイデアは寝かせることで熟成する、という考え方が自分の仕事に...",
+      "type": "insight",
+      "detail": "アイデアは寝かせることで熟成する、という考え方が自分の仕事にも当てはまる気がする",
+      "weight": 2
+    },
+    {
+      "id": "insight:a704cafd",
+      "label": "自分も今の仕事にこのままでいいのか、と少し考えてしまった",
+      "type": "insight",
+      "detail": "自分も今の仕事にこのままでいいのか、と少し考えてしまった",
+      "weight": 2
+    },
+    {
+      "id": "person:95184192",
+      "label": "田中さん",
+      "type": "person",
+      "detail": "",
+      "weight": 3
+    },
+    {
+      "id": "diary:593ad490",
+      "label": "2026-02-02",
+      "type": "diary",
+      "detail": "気分: 低い / 体調: 疲れ気味",
+      "mood": 2,
+      "health": 2,
+      "highlights": [
+        "言い返せなかった自分にも腹が立つ。もっと論理的に反論できるようになりたい"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "person:07077e3c",
+      "label": "山田部長",
+      "type": "person",
+      "detail": "",
+      "weight": 4
+    },
+    {
+      "id": "project:f0cb2f90",
+      "label": "A案件",
+      "type": "project",
+      "detail": "",
+      "weight": 6
+    },
+    {
+      "id": "project:7dbbc413",
+      "label": "ブログリニューアル",
+      "type": "project",
+      "detail": "",
+      "weight": 5
+    },
+    {
+      "id": "emotion:ccd7a483",
+      "label": "落ち込み",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "emotion:f074c2ee",
+      "label": "安心",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "emotion:730a36fa",
+      "label": "ワクワク",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "insight:285be678",
+      "label": "言い返せなかった自分にも腹が立つ。もっと論理的に反論できるよ...",
+      "type": "insight",
+      "detail": "言い返せなかった自分にも腹が立つ。もっと論理的に反論できるようになりたい",
+      "weight": 2
+    },
+    {
+      "id": "diary:776c1af8",
+      "label": "2026-02-03",
+      "type": "diary",
+      "detail": "気分: 普通 / 体調: 普通",
+      "mood": 3,
+      "health": 3,
+      "highlights": [
+        "「バッファは怠慢ではなく、不確実性への誠実な対応だ」と自分に言い聞かせた",
+        "人に教えることで、自分の理解も深まることを実感した"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "person:d445568b",
+      "label": "鈴木さん",
+      "type": "person",
+      "detail": "",
+      "weight": 3
+    },
+    {
+      "id": "emotion:d6de23d4",
+      "label": "共感",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "insight:5a350c38",
+      "label": "「バッファは怠慢ではなく、不確実性への誠実な対応だ」と自分に...",
+      "type": "insight",
+      "detail": "「バッファは怠慢ではなく、不確実性への誠実な対応だ」と自分に言い聞かせた",
+      "weight": 2
+    },
+    {
+      "id": "insight:74f7809e",
+      "label": "人に教えることで、自分の理解も深まることを実感した",
+      "type": "insight",
+      "detail": "人に教えることで、自分の理解も深まることを実感した",
+      "weight": 2
+    },
+    {
+      "id": "diary:b9990b6f",
+      "label": "2026-02-04",
+      "type": "diary",
+      "detail": "気分: 高い / 体調: 良い",
+      "mood": 5,
+      "health": 4,
+      "highlights": [
+        "運動と翌日の気分には明確な相関がある気がする。データで検証したい",
+        "数字で語ると、感情的な反論が来にくい。これは大きな学びだ"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "emotion:dc28f1f7",
+      "label": "達成感",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "emotion:bce39d8c",
+      "label": "没頭",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "insight:d9ac189f",
+      "label": "運動と翌日の気分には明確な相関がある気がする。データで検証し...",
+      "type": "insight",
+      "detail": "運動と翌日の気分には明確な相関がある気がする。データで検証したい",
+      "weight": 2
+    },
+    {
+      "id": "insight:323c24b6",
+      "label": "数字で語ると、感情的な反論が来にくい。これは大きな学びだ",
+      "type": "insight",
+      "detail": "数字で語ると、感情的な反論が来にくい。これは大きな学びだ",
+      "weight": 2
+    },
+    {
+      "id": "diary:3fe36570",
+      "label": "2026-02-05",
+      "type": "diary",
+      "detail": "気分: まあまあ / 体調: 普通",
+      "mood": 3,
+      "health": 3,
+      "highlights": [
+        "新しいプロジェクトの初期段階が一番ワクワクする。可能性が無限に感じられるから",
+        "他人の決断を見ると、自分の現状を客観視できる。佐藤の行動力は見習いたい"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "person:09e6041d",
+      "label": "高橋さん",
+      "type": "person",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "project:d6e59a86",
+      "label": "B案件",
+      "type": "project",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "emotion:c88b2586",
+      "label": "期待",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "insight:f0b72033",
+      "label": "新しいプロジェクトの初期段階が一番ワクワクする。可能性が無限...",
+      "type": "insight",
+      "detail": "新しいプロジェクトの初期段階が一番ワクワクする。可能性が無限に感じられるから",
+      "weight": 2
+    },
+    {
+      "id": "insight:01349945",
+      "label": "他人の決断を見ると、自分の現状を客観視できる。佐藤の行動力は...",
+      "type": "insight",
+      "detail": "他人の決断を見ると、自分の現状を客観視できる。佐藤の行動力は見習いたい",
+      "weight": 2
+    },
+    {
+      "id": "diary:4f4672ec",
+      "label": "2026-02-06",
+      "type": "diary",
+      "detail": "気分: 低い / 体調: 疲れ気味",
+      "mood": 2,
+      "health": 2,
+      "highlights": [
+        "追い詰められた時に冷静でいられる人を尊敬する。自分もそうなりたい",
+        "鈴木さんの成長が早い。教えたことがちゃんと身についている"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "emotion:33a87eb7",
+      "label": "焦り",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "emotion:75584018",
+      "label": "感謝",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "emotion:6dfedbe2",
+      "label": "罪悪感",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "insight:42f00aa9",
+      "label": "追い詰められた時に冷静でいられる人を尊敬する。自分もそうなり...",
+      "type": "insight",
+      "detail": "追い詰められた時に冷静でいられる人を尊敬する。自分もそうなりたい",
+      "weight": 2
+    },
+    {
+      "id": "insight:e3143b2a",
+      "label": "鈴木さんの成長が早い。教えたことがちゃんと身についている",
+      "type": "insight",
+      "detail": "鈴木さんの成長が早い。教えたことがちゃんと身についている",
+      "weight": 2
+    },
+    {
+      "id": "diary:c5c04ddf",
+      "label": "2026-02-07",
+      "type": "diary",
+      "detail": "気分: 回復 / 体調: 普通",
+      "mood": 4,
+      "health": 3,
+      "highlights": [
+        "山田部長との関係が「恐怖」から「対等な議論」に少しずつ変わってきている気がする",
+        "A案件は大変だけど、チームとして動けている実感がある。鈴木さんの成長も嬉しい",
+        "佐藤の話を聞いていて、自分は今の環境で「成長できている」と感じていることに気づいた。これは大きな発見だ"
+      ],
+      "weight": 3
+    },
+    {
+      "id": "emotion:11f0d51b",
+      "label": "充実",
+      "type": "emotion",
+      "detail": "",
+      "weight": 2
+    },
+    {
+      "id": "insight:0906b24e",
+      "label": "山田部長との関係が「恐怖」から「対等な議論」に少しずつ変わっ...",
+      "type": "insight",
+      "detail": "山田部長との関係が「恐怖」から「対等な議論」に少しずつ変わってきている気がする",
+      "weight": 2
+    },
+    {
+      "id": "insight:26b75737",
+      "label": "A案件は大変だけど、チームとして動けている実感がある。鈴木さ...",
+      "type": "insight",
+      "detail": "A案件は大変だけど、チームとして動けている実感がある。鈴木さんの成長も嬉しい",
+      "weight": 2
+    },
+    {
+      "id": "insight:79e6e042",
+      "label": "佐藤の話を聞いていて、自分は今の環境で「成長できている」と感...",
+      "type": "insight",
+      "detail": "佐藤の話を聞いていて、自分は今の環境で「成長できている」と感じていることに気づいた。これは大きな発見だ",
+      "weight": 2
+    }
+  ],
+  "edges": [
+    {
+      "source": "diary:1b17b86a",
+      "target": "person:8b058ad3",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:1b17b86a",
+      "target": "project:8d0fce7e",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:1b17b86a",
+      "target": "place:f949f1b2",
+      "type": "AT",
+      "label": "場所"
+    },
+    {
+      "source": "diary:1b17b86a",
+      "target": "insight:eca60542",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:1b17b86a",
+      "target": "insight:a704cafd",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "person:8b058ad3",
+      "target": "self",
+      "type": "RELATION",
+      "label": "友人",
+      "is_direct_relation": true
+    },
+    {
+      "source": "person:8b058ad3",
+      "target": "person:95184192",
+      "type": "RELATION",
+      "label": "同期",
+      "is_direct_relation": true
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "person:07077e3c",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "person:95184192",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "project:f0cb2f90",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "project:7dbbc413",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "emotion:ccd7a483",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "emotion:f074c2ee",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "emotion:730a36fa",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:593ad490",
+      "target": "insight:285be678",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "person:07077e3c",
+      "target": "self",
+      "type": "RELATION",
+      "label": "上司",
+      "is_direct_relation": true
+    },
+    {
+      "source": "person:07077e3c",
+      "target": "project:f0cb2f90",
+      "type": "RELATION",
+      "label": "管理",
+      "is_direct_relation": true
+    },
+    {
+      "source": "person:95184192",
+      "target": "self",
+      "type": "RELATION",
+      "label": "同僚",
+      "is_direct_relation": true
+    },
+    {
+      "source": "person:95184192",
+      "target": "self",
+      "type": "RELATION",
+      "label": "メンター的存在",
+      "is_direct_relation": true
+    },
+    {
+      "source": "project:f0cb2f90",
+      "target": "project:7dbbc413",
+      "type": "RELATION",
+      "label": "前提",
+      "is_direct_relation": true
+    },
+    {
+      "source": "diary:776c1af8",
+      "target": "person:d445568b",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:776c1af8",
+      "target": "project:f0cb2f90",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:776c1af8",
+      "target": "emotion:d6de23d4",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:776c1af8",
+      "target": "insight:5a350c38",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:776c1af8",
+      "target": "insight:74f7809e",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "person:d445568b",
+      "target": "self",
+      "type": "RELATION",
+      "label": "部下",
+      "is_direct_relation": true
+    },
+    {
+      "source": "person:d445568b",
+      "target": "project:f0cb2f90",
+      "type": "RELATION",
+      "label": "担当",
+      "is_direct_relation": true
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "person:07077e3c",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "person:95184192",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "project:f0cb2f90",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "project:7dbbc413",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "emotion:dc28f1f7",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "emotion:bce39d8c",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "insight:d9ac189f",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:b9990b6f",
+      "target": "insight:323c24b6",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "person:95184192",
+      "target": "project:7dbbc413",
+      "type": "RELATION",
+      "label": "協力",
+      "is_direct_relation": true
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "person:09e6041d",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "person:8b058ad3",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "project:d6e59a86",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "project:f0cb2f90",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "emotion:c88b2586",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "insight:f0b72033",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:3fe36570",
+      "target": "insight:01349945",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "person:09e6041d",
+      "target": "project:d6e59a86",
+      "type": "RELATION",
+      "label": "クライアント",
+      "is_direct_relation": true
+    },
+    {
+      "source": "project:d6e59a86",
+      "target": "project:f0cb2f90",
+      "type": "RELATION",
+      "label": "後続",
+      "is_direct_relation": true
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "person:07077e3c",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "person:d445568b",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "project:f0cb2f90",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "project:7dbbc413",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "emotion:33a87eb7",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "emotion:75584018",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "emotion:6dfedbe2",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "insight:42f00aa9",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:4f4672ec",
+      "target": "insight:e3143b2a",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "person:8b058ad3",
+      "type": "MENTIONS",
+      "label": "登場"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "project:7dbbc413",
+      "type": "ABOUT",
+      "label": "関連"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "emotion:11f0d51b",
+      "type": "FEELS",
+      "label": "感情"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "place:f949f1b2",
+      "type": "AT",
+      "label": "場所"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "insight:0906b24e",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "insight:26b75737",
+      "type": "DISCOVERS",
+      "label": "発見"
+    },
+    {
+      "source": "diary:c5c04ddf",
+      "target": "insight:79e6e042",
+      "type": "DISCOVERS",
+      "label": "発見"
+    }
+  ],
+  "metadata": {
+    "node_count": 43,
+    "edge_count": 61,
+    "entry_count": 7,
+    "date_range": "2026-02-01 ~ 2026-02-07"
+  }
+}
