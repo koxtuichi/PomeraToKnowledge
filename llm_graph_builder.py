@@ -323,6 +323,23 @@ def main():
                 f.write(f"- **主な関心事:** {', '.join(interests[:10])}\n")
 
         print(f"✅ 分析レポートを保存しました: {args.output_report}")
+
+        # --- NEW: Inject Analysis into Graph Node and Re-save ---
+        if updated_master:
+            current_date_str = datetime.now().strftime("%Y-%m-%d")
+            diary_node_id = f"diary:{current_date_str}"
+            
+            # Find the diary node in master
+            for node in updated_master.get("nodes", []):
+                if node.get("id") == diary_node_id:
+                    node["analysis_content"] = analysis_text
+                    print(f"✅ グラフの {diary_node_id} に分析結果を統合しました")
+                    break
+            
+            # Re-save Master Graph with analysis content
+            with open(args.master_graph, "w", encoding="utf-8") as f:
+                json.dump(updated_master, f, ensure_ascii=False, indent=2)
+
         
     except Exception as e:
         print(f"❌ 分析中にエラーが発生しました: {e}")
