@@ -1,110 +1,121 @@
 {
   "nodes": [
     {
-      "id": "diary:2026-02-16",
-      "label": "2026年2月16日の日記",
-      "type": "diary",
-      "detail": "副業のタスク管理、家族への感謝、将来のお金への不安についての記録",
-      "date": "2026-02-16"
-    },
-    {
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "フロントエンドエンジニアのリーダーであり、Saitekiで副業も行っている",
+      "detail": "フロントエンドで2チーム8人のリーダーを務める開発者。副業も行っている。",
+      "community": 0
+    },
+    {
+      "id": "diary:20260216",
+      "label": "2026/02/16 日記",
+      "type": "diary",
+      "detail": "副業の多忙さ、家族への感謝、将来の金銭的不安についての記録",
+      "date": "2026-02-16",
       "community": 0
     },
     {
       "id": "project:saiteki",
-      "label": "株式会社Saitekiでの副業",
+      "label": "株式会社Saiteki",
       "type": "project",
-      "detail": "AI活用を推進する副業。時給3000円。タスクが積載気味",
-      "sentiment": -0.1,
+      "detail": "AI活用を考える副業。時間給3000円。",
+      "status": "Active",
+      "sentiment": 0.1,
       "community": 1
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saiteki副社長。S級AIモデル構築のための資料作成を依頼中",
+      "detail": "Saitekiの副社長。S級AIモデル構築のための学習資料を作成依頼中。",
       "community": 1
     },
     {
       "id": "person:kaime",
       "label": "開米さん",
       "type": "person",
-      "detail": "SaitekiのQAスペシャリスト。AI置き換え作業の資料を担当。2月末完了目標",
+      "detail": "SaitekiのQAスペシャリスト。AI置き換え作業の資料作成を担当。",
+      "community": 1
+    },
+    {
+      "id": "goal:ai_manual_completion",
+      "label": "AI展開資料の完成",
+      "type": "goal",
+      "detail": "全社員向けに展開するためのAI置き換え作業資料の完成。2月中の目標。",
+      "status": "Active",
+      "tags": [
+        "Growth"
+      ],
       "community": 1
     },
     {
       "id": "project:main_job",
       "label": "メインの仕事",
       "type": "project",
-      "detail": "フロントエンド領域で2チーム8人を率いるリーダー職",
-      "community": 2
+      "detail": "フロントエンドのチームリーダー（2チーム8名規模）。",
+      "community": 1
     },
     {
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "妻。日々の育児と離乳食作りを担っている",
-      "sentiment": 0.5,
-      "community": 3
+      "detail": "妻。育児と家事を担っている。",
+      "sentiment": 0.8,
+      "community": 2
     },
     {
       "id": "person:souma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "息子（9ヶ月）。5倍がゆを食べている",
-      "community": 3
+      "detail": "月齢9ヶ月の息子。",
+      "community": 2
     },
     {
-      "id": "event:cooking_porridge",
+      "id": "event:cooking_5baigayu",
       "label": "5倍がゆ作り",
       "type": "event",
-      "detail": "離乳食作りの大変さを自ら体験した出来事",
+      "detail": "離乳食作りを通じて、育児の大変さを再認識した出来事。",
       "status": "Completed",
-      "sentiment": 0.2,
-      "community": 3
+      "sentiment": 0.5,
+      "tags": [
+        "Growth"
+      ],
+      "community": 2
     },
     {
-      "id": "insight:gratitude_realization",
-      "label": "妻への感謝の再認識",
+      "id": "insight:gratitude_childcare",
+      "label": "育児への感謝",
       "type": "insight",
-      "detail": "家事の大変さを体験し、言葉に出して感謝を伝えるべきだと感じた",
-      "sentiment": 0.8,
-      "tags": [
-        "Growth",
-        "Empathy"
-      ],
-      "community": 3
+      "detail": "さやかが毎日行っている離乳食作りの大変さを理解し、感謝が足りなかったと反省。",
+      "sentiment": 0.6,
+      "community": 2
     },
     {
-      "id": "emotion:money_anxiety",
-      "label": "将来のお金への不安",
+      "id": "emotion:financial_anxiety",
+      "label": "金銭的な不安",
       "type": "emotion",
-      "detail": "税金支払いや確定申告による支出増への懸念",
-      "sentiment": -0.7,
+      "detail": "税金支払いや将来の貯蓄に対する継続的な心配。",
+      "sentiment": -0.6,
       "tags": [
-        "Cognitive Distortion: Fortune-Telling"
+        "Cognitive Distortion: Fortune Telling"
       ],
-      "community": 4
+      "community": 3
     },
     {
       "id": "event:kakutei_shinkoku",
       "label": "確定申告",
       "type": "event",
-      "detail": "所得税の支払いと住宅ローン減税の確認が必要なイベント",
+      "detail": "所得税の支払いや住宅ローン減税の手続きが関わる。",
       "status": "Scheduled",
-      "community": 4
+      "community": 3
     },
     {
-      "id": "goal:savings",
-      "label": "毎月の貯金",
-      "type": "goal",
-      "detail": "月10〜20万円の貯蓄を目指す。現在残高は約110万円",
-      "status": "Active",
-      "community": 4
+      "id": "concept:savings",
+      "label": "貯金",
+      "type": "concept",
+      "detail": "現在の貯蓄額は110万円程度。毎月10-20万円の積立を目標としている。",
+      "community": 3
     },
     {
       "id": "diary:2026-02-15",
@@ -112,12 +123,18 @@
       "type": "diary",
       "date": "2026-02-15",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-15T21:13:21.781397",
-      "last_seen": "2026-02-15T21:13:21.781399",
+      "first_seen": "2026-02-15T21:29:31.442708",
+      "last_seen": "2026-02-15T21:29:31.442709",
       "weight": 1
     }
   ],
   "edges": [
+    {
+      "source": "person:self",
+      "target": "diary:20260216",
+      "type": "MENTIONS",
+      "label": "日記を書く"
+    },
     {
       "source": "person:self",
       "target": "project:saiteki",
@@ -128,7 +145,7 @@
       "source": "person:self",
       "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "リーダーとして勤務"
+      "label": "リーダーを務める"
     },
     {
       "source": "person:suzuki",
@@ -144,45 +161,51 @@
     },
     {
       "source": "person:self",
-      "target": "event:cooking_porridge",
-      "type": "PARTICIPATES",
-      "label": "自ら調理"
-    },
-    {
-      "source": "event:cooking_porridge",
-      "target": "insight:gratitude_realization",
-      "type": "CAUSAL",
-      "label": "大変さを知って気づきを得る"
+      "target": "goal:ai_manual_completion",
+      "type": "TARGETS",
+      "label": "目標としている"
     },
     {
       "source": "person:self",
-      "target": "insight:gratitude_realization",
+      "target": "insight:gratitude_childcare",
       "type": "DISCOVERS",
-      "label": "感謝の重要性に気づく"
+      "label": "大変さを実感"
+    },
+    {
+      "source": "insight:gratitude_childcare",
+      "target": "person:sayaka",
+      "type": "ABOUT",
+      "label": "感謝の対象"
+    },
+    {
+      "source": "insight:gratitude_childcare",
+      "target": "event:cooking_5baigayu",
+      "type": "TRIGGERED_BY",
+      "label": "調理の経験から"
+    },
+    {
+      "source": "person:souma",
+      "target": "event:cooking_5baigayu",
+      "type": "ABOUT",
+      "label": "離乳食を食べる"
     },
     {
       "source": "person:self",
-      "target": "emotion:money_anxiety",
+      "target": "emotion:financial_anxiety",
       "type": "FEELING",
       "label": "不安を感じている"
     },
     {
-      "source": "event:kakutei_shinkoku",
-      "target": "emotion:money_anxiety",
-      "type": "TRIGGERED_BY",
-      "label": "税金への不透明さが不安を煽る"
-    },
-    {
-      "source": "person:self",
-      "target": "goal:savings",
-      "type": "TARGETS",
-      "label": "資産形成を目指す"
-    },
-    {
-      "source": "person:self",
+      "source": "emotion:financial_anxiety",
       "target": "event:kakutei_shinkoku",
-      "type": "PLANS",
-      "label": "申告の準備をする"
+      "type": "TRIGGERED_BY",
+      "label": "税金への不安"
+    },
+    {
+      "source": "person:self",
+      "target": "concept:savings",
+      "type": "ABOUT",
+      "label": "資産状況"
     },
     {
       "source": "person:self",
@@ -192,7 +215,7 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "diary:2026-02-16",
+      "target": "diary:20260216",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -216,6 +239,12 @@
     },
     {
       "source": "diary:2026-02-15",
+      "target": "goal:ai_manual_completion",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
       "target": "project:main_job",
       "relationship": "MENTIONS",
       "weight": 1
@@ -234,19 +263,19 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "event:cooking_porridge",
+      "target": "event:cooking_5baigayu",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "insight:gratitude_realization",
+      "target": "insight:gratitude_childcare",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "emotion:money_anxiety",
+      "target": "emotion:financial_anxiety",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -258,15 +287,15 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:savings",
+      "target": "concept:savings",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-15T21:13:21.781385",
+    "generated_at": "2026-02-15T21:29:31.442695",
     "source_file": "diary/20260215_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 13,
-    "edge_count": 11
+    "node_count": 14,
+    "edge_count": 13
   }
 }
