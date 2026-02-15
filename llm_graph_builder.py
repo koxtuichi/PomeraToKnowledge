@@ -199,7 +199,22 @@ def main():
         daily_graph = extract_graph(diary_text)
         
         # Meta data
-        current_date_str = datetime.now().strftime("%Y-%m-%d")
+        # Try to extract date from filename first, else use today
+        import re
+        filename_date = None
+        # Pattern for "20260216_POMERA2026年2月15日.txt" -> Extract 2026年2月15日 part and convert
+        # Or simpler: just looks for YYYY-MM-DD or YYYYMMDD in filename if available
+        # But user format is specific: YYYYMMDD_POMERA(Date)
+        
+        # Attempt to parse specific format "POMERAyyyy年m月d日"
+        match = re.search(r'POMERA(\d{4})年(\d{1,2})月(\d{1,2})日', args.input_file)
+        if match:
+            y, m, d = match.groups()
+            current_date_str = f"{y}-{int(m):02d}-{int(d):02d}"
+        else:
+            # Fallback to today
+            current_date_str = datetime.now().strftime("%Y-%m-%d")
+
         daily_graph["metadata"] = {
             "generated_at": datetime.now().isoformat(),
             "source_file": args.input_file,
