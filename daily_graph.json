@@ -4,56 +4,48 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "フロントエンドエンジニアのチームリーダーで、副業も行っている。",
+      "detail": "フロントエンドリーダーとして働きながら、副業や育児、家計管理を行う日記の筆者",
       "sentiment": 0.0,
       "community": 0
     },
     {
+      "id": "diary:2026-02-16",
+      "label": "日記：2026/02/16",
+      "type": "diary",
+      "detail": "副業の進捗、家族への感謝、税金や将来への不安についての記録",
+      "date": "2026-02-16",
+      "community": 0
+    },
+    {
       "id": "project:saiteki",
-      "label": "株式会社Saitekiでの副業",
+      "label": "株式会社Saiteki",
       "type": "project",
-      "detail": "AI活用を考える副業。時間給3000円。タスクが溜まりつつある。",
-      "sentiment": 0.1,
-      "status": "Active",
-      "tags": [
-        "Cognitive Distortion: Should Statement",
-        "Growth"
-      ],
+      "detail": "AI活用を考える副業。時間給3000円",
+      "sentiment": 0.2,
       "community": 1
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saitekiの副社長。S級のAIモデル作成を目指している。",
-      "sentiment": 0.5,
+      "detail": "Saitekiの副社長。S級のAIモデル作成を目指し、学習資料の作成を依頼している",
       "community": 1
     },
     {
       "id": "person:kaime",
       "label": "開米さん",
       "type": "person",
-      "detail": "SaitekiのQAスペシャリスト。AI置き換え作業の資料作成を担当。",
-      "sentiment": 0.2,
+      "detail": "Saiteki所属のQAスペシャリスト。AI置き換え作業の資料作成を担当",
       "community": 1
     },
     {
-      "id": "goal:kaime_task_deadline",
-      "label": "全社員向けAI展開資料の完成",
+      "id": "goal:ai_expansion",
+      "label": "AI作業の全社員展開",
       "type": "goal",
-      "detail": "開米さんに任せている作業。2月中の完成を目標としている。",
       "status": "Active",
-      "date": "2026-02-28",
-      "community": 1
-    },
-    {
-      "id": "goal:employee_analysis_doc",
-      "label": "社員分析資料の作成",
-      "type": "goal",
-      "detail": "分析結果の利用案を資料化すること。",
-      "status": "Active",
+      "detail": "AIに置き換えられる作業の資料を全社員向けに展開する。期限は2月中",
       "tags": [
-        "Cognitive Distortion: Should Statement"
+        "Growth"
       ],
       "community": 1
     },
@@ -61,243 +53,221 @@
       "id": "project:main_job",
       "label": "メインの仕事",
       "type": "project",
-      "detail": "フロントエンドで2チーム8人のリーダー。18時完了予定。",
-      "sentiment": 0.2,
-      "community": 1
+      "detail": "フロントエンドで2チーム8人のリーダーを務める",
+      "community": 4
     },
     {
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "妻。日々の育児や離乳食作りを担っている。",
+      "detail": "妻。日々の育児（離乳食作りなど）を担っている",
       "sentiment": 0.8,
       "community": 2
     },
     {
-      "id": "person:soma",
+      "id": "person:souma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "月齢9ヶ月の息子。",
-      "sentiment": 0.9,
+      "detail": "月齢9ヶ月の息子",
       "community": 2
     },
     {
-      "id": "event:making_porridge",
-      "label": "5倍がゆ作り",
-      "type": "event",
-      "detail": "蒼馬のための離乳食作り。大変さを実感した。",
-      "status": "Completed",
-      "date": "2026-02-16",
-      "sentiment": 0.3,
-      "community": 2
-    },
-    {
-      "id": "insight:gratitude_realization",
-      "label": "感謝の再認識",
-      "type": "insight",
-      "detail": "妻の大変さを実感し、感謝の一言の重要性に気づいた。",
-      "sentiment": 0.7,
-      "tags": [
-        "Growth",
-        "Mindfulness"
-      ],
-      "community": 2
-    },
-    {
-      "id": "emotion:financial_anxiety",
-      "label": "お金の心配",
-      "type": "emotion",
-      "detail": "税金の支払いや確定申告への不安が絶えない。",
-      "sentiment": -0.6,
-      "tags": [
-        "Cognitive Distortion: Fortune Telling",
-        "Conflict"
-      ],
-      "community": 3
-    },
-    {
-      "id": "insight:savings_status",
-      "label": "貯金状況",
-      "type": "insight",
-      "detail": "現在の貯金額は110万円程度。月10〜20万の貯金を目標としている。",
-      "sentiment": 0.0,
-      "community": 3
-    },
-    {
-      "id": "concept:tax_return",
-      "label": "確定申告",
+      "id": "concept:five_times_porridge",
+      "label": "5倍がゆ",
       "type": "concept",
-      "detail": "所得税の支払いや住宅ローン減税の適用が関わる不透明な要素。",
-      "sentiment": -0.2,
+      "detail": "蒼馬が食べている離乳食。作るのが非常に大変であることを実感した",
+      "tags": [
+        "Parenting"
+      ],
+      "community": 2
+    },
+    {
+      "id": "emotion:anxiety_finance",
+      "label": "金銭面への不安",
+      "type": "emotion",
+      "detail": "税金の支払いや確定申告による支出増加に対する漠然とした恐怖",
+      "sentiment": -0.7,
+      "tags": [
+        "Cognitive Distortion: Fortune Telling"
+      ],
       "community": 3
     },
     {
-      "id": "diary:2026-02-16",
-      "label": "2026-02-16の日記",
+      "id": "concept:savings",
+      "label": "貯金",
+      "type": "concept",
+      "detail": "現在の貯金額は約110万円。毎月10-20万円の貯金を目指している",
+      "community": 3
+    },
+    {
+      "id": "insight:mortgage_deduction",
+      "label": "住宅ローン減税の活用",
+      "type": "insight",
+      "detail": "昨年家を購入したため、節税の可能性がある",
+      "sentiment": 0.4,
+      "community": 3
+    },
+    {
+      "id": "diary:2026-02-15",
+      "label": "2026-02-15の日記",
       "type": "diary",
-      "date": "2026-02-16",
+      "date": "2026-02-15",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-16T02:11:03.033672",
-      "last_seen": "2026-02-16T02:11:03.033674",
+      "first_seen": "2026-02-15T17:20:31.263313",
+      "last_seen": "2026-02-15T17:20:31.263315",
       "weight": 1
     }
   ],
   "edges": [
     {
       "source": "person:self",
-      "target": "project:saiteki",
-      "type": "PARTICIPATES",
-      "label": "副業に従事している"
+      "target": "diary:2026-02-16",
+      "type": "ABOUT",
+      "label": "執筆"
     },
     {
-      "source": "person:suzuki",
-      "target": "person:self",
+      "source": "person:self",
+      "target": "project:saiteki",
+      "type": "PARTICIPATES",
+      "label": "副業に従事"
+    },
+    {
+      "source": "person:self",
+      "target": "person:suzuki",
       "type": "MENTIONS",
-      "label": "学習資料完成の連絡を送った"
+      "label": "資料のやり取り"
     },
     {
       "source": "person:self",
       "target": "person:kaime",
-      "type": "ABOUT",
-      "label": "作業状況を確認予定"
+      "type": "MENTIONS",
+      "label": "進捗確認の必要性"
     },
     {
       "source": "person:kaime",
-      "target": "goal:kaime_task_deadline",
+      "target": "goal:ai_expansion",
       "type": "TARGETS",
       "label": "2月中の完了を目指す"
     },
     {
       "source": "person:self",
-      "target": "goal:employee_analysis_doc",
-      "type": "TARGETS",
-      "label": "資料化を計画"
-    },
-    {
-      "source": "person:self",
       "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "8人のリーダーを務める"
-    },
-    {
-      "source": "event:making_porridge",
-      "target": "insight:gratitude_realization",
-      "type": "CAUSAL",
-      "label": "大変さを知ることで感謝に繋がった"
+      "label": "チームリーダー"
     },
     {
       "source": "person:self",
       "target": "person:sayaka",
       "type": "FEELING",
-      "label": "感謝の気持ち"
+      "label": "感謝と反省"
     },
     {
-      "source": "concept:tax_return",
-      "target": "emotion:financial_anxiety",
+      "source": "concept:five_times_porridge",
+      "target": "person:sayaka",
       "type": "TRIGGERED_BY",
-      "label": "支払額が不透明で不安を煽る"
+      "label": "大変さを知り感謝が芽生える"
     },
     {
       "source": "person:self",
-      "target": "emotion:financial_anxiety",
+      "target": "emotion:anxiety_finance",
       "type": "FEELING",
-      "label": "お金の心配を感じている"
+      "label": "税金に対して不安を感じる"
+    },
+    {
+      "source": "insight:mortgage_deduction",
+      "target": "emotion:anxiety_finance",
+      "type": "SOLVES",
+      "label": "不安を和らげる可能性"
     },
     {
       "source": "person:self",
-      "target": "insight:savings_status",
-      "type": "DISCOVERS",
-      "label": "現状を把握している"
+      "target": "concept:savings",
+      "type": "MENTIONS",
+      "label": "資産状況の把握"
     },
     {
       "source": "person:self",
-      "target": "diary:2026-02-16",
+      "target": "diary:2026-02-15",
       "relationship": "WROTE",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
+      "source": "diary:2026-02-15",
+      "target": "diary:2026-02-16",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
       "target": "project:saiteki",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
+      "source": "diary:2026-02-15",
       "target": "person:suzuki",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
+      "source": "diary:2026-02-15",
       "target": "person:kaime",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "goal:kaime_task_deadline",
+      "source": "diary:2026-02-15",
+      "target": "goal:ai_expansion",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "goal:employee_analysis_doc",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-16",
+      "source": "diary:2026-02-15",
       "target": "project:main_job",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
+      "source": "diary:2026-02-15",
       "target": "person:sayaka",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "person:soma",
+      "source": "diary:2026-02-15",
+      "target": "person:souma",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "event:making_porridge",
+      "source": "diary:2026-02-15",
+      "target": "concept:five_times_porridge",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "insight:gratitude_realization",
+      "source": "diary:2026-02-15",
+      "target": "emotion:anxiety_finance",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "emotion:financial_anxiety",
+      "source": "diary:2026-02-15",
+      "target": "concept:savings",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
-      "source": "diary:2026-02-16",
-      "target": "insight:savings_status",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-16",
-      "target": "concept:tax_return",
+      "source": "diary:2026-02-15",
+      "target": "insight:mortgage_deduction",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T02:11:03.033663",
-    "source_file": "diary/20260216_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 14,
+    "generated_at": "2026-02-15T17:20:31.263299",
+    "source_file": "diary/20260215_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
+    "node_count": 13,
     "edge_count": 11
   }
 }
