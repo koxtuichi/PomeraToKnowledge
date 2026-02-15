@@ -282,6 +282,7 @@ def main():
 
     # 5. Merge into Master Graph
     print("🔄 Merging into Master Graph...")
+    updated_master = None
     try:
         # Load the daily graph again
         with open(args.output_graph, "r", encoding="utf-8") as f:
@@ -296,7 +297,9 @@ def main():
         
     except Exception as e:
         print(f"❌ マージ中にエラーが発生しました: {e}")
-        # Continue to analysis even if merge fails
+        # Fallback: Use daily graph mixed with master context for analysis if merge fails
+        updated_master = master_graph
+
 
     # 5. Analyze with Context
     try:

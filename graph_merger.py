@@ -114,8 +114,11 @@ def merge_graphs(master, daily):
     master_edges = {}
     # Use a composite key to identify unique edges
     for e in master.get('edges', []):
-        key = f"{e['source']}|{e['target']}|{e['type']}"
-        master_edges[key] = e
+        try:
+            key = f"{e.get('source', '')}|{e.get('target', '')}|{e.get('type', 'UNKNOWN')}"
+            master_edges[key] = e
+        except Exception:
+            continue
         
     new_edge_count = 0
     updated_edge_count = 0
@@ -125,7 +128,11 @@ def merge_graphs(master, daily):
         source = id_remap.get(edge['source'], edge['source'])
         target = id_remap.get(edge['target'], edge['target'])
         
-        key = f"{source}|{target}|{edge['type']}"
+        try:
+            key = f"{source}|{target}|{edge.get('type', 'UNKNOWN')}"
+        except Exception:
+            continue
+
         current_time = datetime.now().isoformat()
         
         if key in master_edges:
