@@ -4,146 +4,137 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "日記の筆者。33歳。二つの仕事を掛け持ちし、育児と家事、趣味の両立に励んでいる。",
-      "sentiment": 0.1,
+      "detail": "日記の筆者。33歳。仕事と育児を両立しながら自己改善に励む。",
       "community": 0
-    },
-    {
-      "id": "event:pet_room_cleaning",
-      "label": "ペット部屋の掃除",
-      "type": "event",
-      "detail": "粘着剤の汚れを落とし、部屋を清潔に保つ作業。",
-      "sentiment": -0.2,
-      "status": "Completed",
-      "date": "2026-02-15",
-      "tags": [
-        "家事",
-        "悩み"
-      ],
-      "community": 1
-    },
-    {
-      "id": "goal:daily_cleaning",
-      "label": "毎日の掃除の習慣化",
-      "type": "goal",
-      "detail": "毎日掃除をマストにしたいが、多忙により困難を感じている。",
-      "sentiment": -0.3,
-      "status": "Active",
-      "tags": [
-        "Cognitive Distortion: Should Statements",
-        "習慣化"
-      ],
-      "community": 1
-    },
-    {
-      "id": "goal:weight_loss_75",
-      "label": "体重75kg切り",
-      "type": "goal",
-      "detail": "今年の目標。現在は約80.5kg。1ヶ月で12kgの減量に成功した後の停滞期。",
-      "sentiment": 0.4,
-      "status": "Active",
-      "tags": [
-        "ダイエット",
-        "健康"
-      ],
-      "community": 2
-    },
-    {
-      "id": "concept:cheat_day",
-      "label": "週一回のチートデイ",
-      "type": "concept",
-      "detail": "飢餓状態を防ぐために普通の量を食べる日。先週から導入。",
-      "sentiment": 0.2,
-      "community": 2
-    },
-    {
-      "id": "project:pomera_ai_workflow",
-      "label": "ポメラ×AI自己分析ワークフロー",
-      "type": "project",
-      "detail": "ポメラからGmail経由でテキストを送信し、自動でナレッジグラフ化・分析する仕組み。",
-      "sentiment": 0.9,
-      "status": "Active",
-      "tags": [
-        "開発",
-        "自動化"
-      ],
-      "community": 3
-    },
-    {
-      "id": "emotion:workflow_excitement",
-      "label": "ワークフロー構築の楽しさ",
-      "type": "emotion",
-      "detail": "新しいシステムを考えることに強い充足感を感じている。",
-      "sentiment": 1.0,
-      "community": 3
-    },
-    {
-      "id": "insight:youtube_overuse",
-      "label": "YouTube視聴の制限",
-      "type": "insight",
-      "detail": "寝る前にポメラ関連の動画を観すぎて夜更かしに繋がっている自覚。",
-      "sentiment": -0.4,
-      "tags": [
-        "自制",
-        "睡眠不足"
-      ],
-      "community": 4
-    },
-    {
-      "id": "goal:monster_design_reality",
-      "label": "リアリティのあるモンスターデザイン",
-      "type": "goal",
-      "detail": "Draw Sessionsのような絵を描きたいが、現状は納得がいっていない。",
-      "sentiment": -0.2,
-      "status": "Active",
-      "tags": [
-        "趣味",
-        "絵画",
-        "自己研鑽"
-      ],
-      "community": 4
-    },
-    {
-      "id": "person:mugi",
-      "label": "むぎ",
-      "type": "person",
-      "detail": "ボストンテリア。おととしの10月から飼っている愛犬。",
-      "sentiment": 0.8,
-      "community": 5
-    },
-    {
-      "id": "person:soma",
-      "label": "蒼馬",
-      "type": "person",
-      "detail": "筆者の息子。0歳。5月9日生まれ。初めてシーソーを体験した。",
-      "sentiment": 0.9,
-      "community": 5
     },
     {
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "筆者の妻。33歳。家族で城山公園に散歩へ行った。",
-      "sentiment": 0.7,
+      "detail": "妻。同い年の33歳。危機の際に冷静に蒼馬を助けた。",
       "community": 5
     },
     {
-      "id": "place:shiroyama_park",
-      "label": "城山公園",
-      "type": "place",
-      "detail": "家族3人で訪れた大きい公園。将来的にピクニックをしたい場所。",
-      "sentiment": 0.6,
+      "id": "person:souma",
+      "label": "蒼馬",
+      "type": "person",
+      "detail": "息子。0歳（5月9日生まれ）。現在9ヶ月。",
       "community": 5
     },
     {
-      "id": "event:family_walk_20260215",
-      "label": "家族での散歩",
+      "id": "person:mugi",
+      "label": "むぎ",
+      "type": "person",
+      "detail": "ペットのボストンテリア。一昨年の10月から飼育。",
+      "community": 1
+    },
+    {
+      "id": "event:pet_room_cleaning",
+      "label": "ペット部屋の掃除",
       "type": "event",
-      "detail": "昼間の犬の散歩と、午後の家族3人での公園への外出。",
-      "sentiment": 0.8,
+      "detail": "フローリングに付着した粘着部分の除去と部屋の清掃。",
       "status": "Completed",
+      "sentiment": -0.2,
+      "community": 1
+    },
+    {
+      "id": "insight:cleaning_habit",
+      "label": "掃除の習慣化",
+      "type": "insight",
+      "detail": "仕事を二つ掛け持ちしており、育児もあるため時間の確保が困難。",
+      "tags": [
+        "Cognitive Distortion: Should statements"
+      ],
+      "community": 1
+    },
+    {
+      "id": "goal:weight_loss_75kg",
+      "label": "体重75kg切り",
+      "type": "goal",
+      "status": "Active",
+      "detail": "1ヶ月で12kg減量したが現在は停滞期。1日1食1200kcalを意識。",
+      "sentiment": 0.4,
+      "community": 2
+    },
+    {
+      "id": "concept:cheat_day",
+      "label": "チートデイ",
+      "type": "concept",
+      "detail": "週に一回普通の量を食べ、飢餓状態でないことを体に伝える手法。",
+      "community": 2
+    },
+    {
+      "id": "project:pomera_ai_workflow",
+      "label": "ポメラ・AI連携ワークフロー",
+      "type": "project",
+      "detail": "ポメラからGmail経由でナレッジグラフに自動反映する仕組みの開発。",
+      "status": "Active",
+      "sentiment": 0.9,
+      "community": 3
+    },
+    {
+      "id": "emotion:workflow_joy",
+      "label": "ワークフロー構築の楽しさ",
+      "type": "emotion",
+      "detail": "ポメラとAIを繋げる構想に強いワクワク感を感じている。",
+      "sentiment": 1.0,
+      "community": 3
+    },
+    {
+      "id": "concept:youtube_restriction",
+      "label": "YouTube視聴制限",
+      "type": "concept",
+      "detail": "夜更かし防止のため、ポメラ関連動画の過剰視聴を控える必要がある。",
+      "sentiment": -0.4,
+      "community": 4
+    },
+    {
+      "id": "goal:realistic_monster_design",
+      "label": "リアリティのあるモンスターデザイン",
+      "type": "goal",
+      "status": "Active",
+      "detail": "Draw Sessionsのような絵を目指すが、現状の画力に納得がいっていない。",
+      "sentiment": -0.3,
+      "tags": [
+        "Growth"
+      ],
+      "community": 4
+    },
+    {
+      "id": "event:shiroyama_park_walk",
+      "label": "城山公園への散歩",
+      "type": "event",
+      "status": "Completed",
+      "detail": "家族3人での外出。蒼馬と初めてシーソーをした。",
       "date": "2026-02-15",
+      "sentiment": 0.8,
       "community": 5
+    },
+    {
+      "id": "event:choking_incident",
+      "label": "クッキー誤嚥事故",
+      "type": "event",
+      "status": "Completed",
+      "detail": "蒼馬が初めてのクッキーを喉に詰まらせた危機的状況。",
+      "date": "2026-02-15",
+      "sentiment": -1.0,
+      "tags": [
+        "Conflict",
+        "Crisis Management"
+      ],
+      "community": 5
+    },
+    {
+      "id": "emotion:parental_guilt",
+      "label": "親としての失格感",
+      "type": "emotion",
+      "detail": "仕事をしながらお菓子を与えた不注意への強い自己嫌悪。",
+      "sentiment": -0.9,
+      "tags": [
+        "Cognitive Distortion: Labeling",
+        "Cognitive Distortion: Personalization"
+      ],
+      "community": 0
     },
     {
       "id": "diary:2026-02-15",
@@ -151,8 +142,8 @@
       "type": "diary",
       "date": "2026-02-15",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-15T14:56:26.615828",
-      "last_seen": "2026-02-15T14:56:26.615831",
+      "first_seen": "2026-02-15T15:10:55.377201",
+      "last_seen": "2026-02-15T15:10:55.377202",
       "weight": 1
     }
   ],
@@ -161,79 +152,67 @@
       "source": "person:self",
       "target": "event:pet_room_cleaning",
       "type": "PARTICIPATES",
-      "label": "粘着汚れを剥がそうとする"
+      "label": "掃除を実行"
     },
     {
       "source": "person:self",
-      "target": "goal:daily_cleaning",
+      "target": "goal:weight_loss_75kg",
       "type": "TARGETS",
-      "label": "マストにしたいが難しい"
+      "label": "減量を目指す"
     },
     {
-      "source": "person:self",
-      "target": "goal:weight_loss_75",
-      "type": "TARGETS",
-      "label": "今年の目標として設定"
-    },
-    {
-      "source": "goal:weight_loss_75",
-      "target": "concept:cheat_day",
-      "type": "TRIGGERED_BY",
-      "label": "停滞期解消のために導入"
+      "source": "concept:cheat_day",
+      "target": "goal:weight_loss_75kg",
+      "type": "SOLVES",
+      "label": "停滞期打破の対策"
     },
     {
       "source": "person:self",
       "target": "project:pomera_ai_workflow",
       "type": "DISCOVERS",
-      "label": "仕組みを考えている"
+      "label": "仕組みを考案"
     },
     {
-      "source": "project:pomera_ai_workflow",
-      "target": "emotion:workflow_excitement",
+      "source": "person:self",
+      "target": "emotion:workflow_joy",
       "type": "FEELING",
-      "label": "考えることが楽しい"
+      "label": "楽しさを感じる"
     },
     {
       "source": "person:self",
-      "target": "insight:youtube_overuse",
-      "type": "DISCOVERS",
-      "label": "制限が必要だと感じている"
-    },
-    {
-      "source": "person:self",
-      "target": "goal:monster_design_reality",
+      "target": "goal:realistic_monster_design",
       "type": "TARGETS",
-      "label": "リアリティを追求している"
+      "label": "趣味の目標"
     },
     {
       "source": "person:self",
-      "target": "event:family_walk_20260215",
+      "target": "event:shiroyama_park_walk",
       "type": "PARTICIPATES",
-      "label": "家族全員で外出"
+      "label": "家族で散歩"
     },
     {
-      "source": "event:family_walk_20260215",
-      "target": "place:shiroyama_park",
-      "type": "AT",
-      "label": "城山公園へ行く"
+      "source": "event:choking_incident",
+      "target": "emotion:parental_guilt",
+      "type": "CAUSAL",
+      "label": "事故が自己嫌悪を引き起こした"
     },
     {
-      "source": "event:family_walk_20260215",
-      "target": "person:mugi",
-      "type": "PARTICIPATES",
-      "label": "犬のむぎも一緒"
+      "source": "person:sayaka",
+      "target": "event:choking_incident",
+      "type": "SOLVES",
+      "label": "クッキーを取り出した"
     },
     {
-      "source": "event:family_walk_20260215",
-      "target": "person:soma",
-      "type": "PARTICIPATES",
-      "label": "息子と一緒にシーソー"
+      "source": "insight:cleaning_habit",
+      "target": "event:pet_room_cleaning",
+      "type": "BARRIER",
+      "label": "時間の不足"
     },
     {
-      "source": "event:family_walk_20260215",
-      "target": "person:sayaka",
-      "type": "PARTICIPATES",
-      "label": "妻と向かい合って座る"
+      "source": "person:self",
+      "target": "concept:youtube_restriction",
+      "type": "PLANS",
+      "label": "制限を検討"
     },
     {
       "source": "person:self",
@@ -243,19 +222,37 @@
     },
     {
       "source": "diary:2026-02-15",
+      "target": "person:sayaka",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "person:souma",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "person:mugi",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
       "target": "event:pet_room_cleaning",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:daily_cleaning",
+      "target": "insight:cleaning_habit",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:weight_loss_75",
+      "target": "goal:weight_loss_75kg",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -273,57 +270,45 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "emotion:workflow_excitement",
+      "target": "emotion:workflow_joy",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "insight:youtube_overuse",
+      "target": "concept:youtube_restriction",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:monster_design_reality",
+      "target": "goal:realistic_monster_design",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "person:mugi",
+      "target": "event:shiroyama_park_walk",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "person:soma",
+      "target": "event:choking_incident",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "person:sayaka",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "place:shiroyama_park",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "event:family_walk_20260215",
+      "target": "emotion:parental_guilt",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-15T14:56:26.615780",
+    "generated_at": "2026-02-15T15:10:55.377187",
     "source_file": "diary/20260215_POMERA2026年2月15日.txt",
-    "node_count": 14,
-    "edge_count": 13
+    "node_count": 15,
+    "edge_count": 11
   }
 }
