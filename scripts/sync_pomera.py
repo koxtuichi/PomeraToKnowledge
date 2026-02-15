@@ -8,7 +8,7 @@ from datetime import datetime
 # Default configuration
 POMERA_MOUNT_NAME = "POMERA"  # Adjust if your mount name differs
 LOCAL_DIARY_DIR = "diary"     # Relative to script
-ANALYSIS_SCRIPT = "llm_graph_builder.py"
+ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
 
 def get_pomera_path(mount_name):
     """Check if Pomera is mounted at /Volumes/{mount_name}"""

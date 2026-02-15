@@ -13,7 +13,7 @@ IMAP_SERVER = "imap.gmail.com"
 EMAIL_ACCOUNT = os.getenv("GMAIL_ACCOUNT")
 APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 LOCAL_DIARY_DIR = "diary"
-ANALYSIS_SCRIPT = "llm_graph_builder.py"
+ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
 SUBJECT_KEYWORD = "POMERA" # Subject to filter by (all caps as requested)
 HISTORY_FILE = "sync_history.txt"
 

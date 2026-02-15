@@ -35,7 +35,7 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
           # メールから日記を取得し、分析・マージを実行
-          python sync_email.py
+          python scripts/sync_email.py
 
       - name: Commit and Push changes
         run: |

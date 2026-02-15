@@ -19,5 +19,5 @@ cd "$PROJECT_DIR"
 
 # Run sync script
 echo "[$(date)] Starting Auto Sync..." >> "$LOG_FILE"
-/usr/bin/python3 sync_email.py >> "$LOG_FILE" 2>&1
+/usr/bin/python3 scripts/sync_email.py >> "$LOG_FILE" 2>&1
 echo "[$(date)] Sync Finished." >> "$LOG_FILE"

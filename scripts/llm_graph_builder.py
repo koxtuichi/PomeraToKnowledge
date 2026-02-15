@@ -83,14 +83,27 @@ Your goal is to provide deep, meaningful insights based on the user's diary and 
 4. **PSYCHOLOGICAL DEPTH**: Weave specific psychological frameworks (CBT, Self-Determination Theory) into the narrative WITHOUT naming them.
 5. **CONNECTION**: Explicitly connect today's events with past patterns (Master Context).
 
-### Structure of Your Response (Internal Logic Only - do not output headers)
-- Start with empathy/validation of the day's core emotion or event.
-- Transition into analysis of any struggles or patterns (Meta-Cognition).
-- Discuss specific goals only if they are at risk or need attention.
-- End with a gentle, actionable nudge for tomorrow.
+### Structure of Your Response
+Output two distinct parts separated by the delimiter `===DETAILS===`.
+
+**Part 1: Coach's Comment (The "Hook")**
+- A concise, warm, and impactful message (3-5 sentences).
+- Summarize the most important insight or praise.
+- This is what the user sees first. Make it count.
+
+`===DETAILS===`
+
+**Part 2: Deep Narrative Analysis (The "Body")**
+- The full psychological essay as defined above.
+- Deep dive into patterns, struggles, and specific advice.
+- Connect to past context.
 
 ### Final Output Requirement
-Return ONLY the narrative text. No markdown formatting for structure (except casual paragraphs).
+Return the text in the format:
+[Part 1 Text]
+===DETAILS===
+[Part 2 Text]
+
 Language: Japanese.
 """
 
@@ -196,6 +209,10 @@ def main():
 
     # 3. Extract Daily Graph
     try:
+        import unicodedata
+        # Normalize to NFC to handle macOS filename differences
+        args.input_file = unicodedata.normalize('NFC', args.input_file)
+        
         daily_graph = extract_graph(diary_text)
         
         # Meta data
@@ -211,9 +228,11 @@ def main():
         if match:
             y, m, d = match.groups()
             current_date_str = f"{y}-{int(m):02d}-{int(d):02d}"
+            print(f"📅 Extracted Date from Filename: {current_date_str}")
         else:
             # Fallback to today
             current_date_str = datetime.now().strftime("%Y-%m-%d")
+            print(f"⚠️ Could not extract date from filename '{args.input_file}'. Using today: {current_date_str}")
 
         daily_graph["metadata"] = {
             "generated_at": datetime.now().isoformat(),
@@ -336,7 +355,7 @@ def main():
 
         # --- NEW: Inject Analysis into Graph Node and Re-save ---
         if updated_master:
-            current_date_str = datetime.now().strftime("%Y-%m-%d")
+            # current_date_str is already set from filename or today fallback
             diary_node_id = f"diary:{current_date_str}"
             
             # Find the diary node in master
