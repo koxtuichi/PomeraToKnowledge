@@ -15,6 +15,7 @@ APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 LOCAL_DIARY_DIR = "diary"
 ANALYSIS_SCRIPT = "llm_graph_builder.py"
 SUBJECT_KEYWORD = "POMERA" # Subject to filter by (all caps as requested)
+HISTORY_FILE = "sync_history.txt"
 
 def clean_filename(subject):
     """Converts email subject to a safe filename."""
@@ -59,8 +60,6 @@ def save_attachment(part, directory):
         
         if os.path.exists(filepath):
             print(f"      ⚠️  File exists, overwriting: {os.path.basename(filepath)}")
-            # Overwrite logic: Just proceed to write, effectively replacing the content.
-            # No timestamp appending.
             
         with open(filepath, "wb") as f:
             f.write(part.get_payload(decode=True))
@@ -81,29 +80,52 @@ def connect_imap():
         return None
 
 def check_emails(mail, save_dir):
+    # Load history
+    history = set()
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, "r") as f:
+            history = set(line.strip() for line in f if line.strip())
+
     # Fetch the latest IDs from the inbox directly
-    # This is more robust than IMAP SEARCH which can be flaky with non-ASCII subjects
     status, count = mail.select("inbox")
+    if status != "OK" or not count[0]:
+        return []
+        
     total_emails = int(count[0])
     
-    # Process the last 50 emails to find Pomera entries
-    # (High enough to find recent ones, low enough to be fast)
+    # Process the last 50 emails
     start_id = max(1, total_emails - 50 + 1)
-    email_ids = [str(i).encode() for i in range(start_id, total_emails + 1)]
+    status, data = mail.search(None, f"{start_id}:{total_emails}")
+    if status != "OK" or not data[0]:
+        return []
+        
+    email_ids = data[0].split()
     
     saved_files = []
+    new_history = []
 
     if not email_ids:
         return []
 
-    # Process only last 20 emails
-    recent_ids = email_ids[-20:]
-    print(f"📩 未読メール {len(email_ids)} 件中、最新の {len(recent_ids)} 件をチェック中...")
+    print(f"📩 最新の {len(email_ids)} 件をチェック中...")
 
-    for e_id in recent_ids:
-        # Fetch status and subject only first to filter
-        status, msg_header = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+    for e_id_bytes in email_ids:
+        e_id = e_id_bytes.decode()
         
+        # Get UID for persistent tracking
+        status, data = mail.fetch(e_id, "(UID)")
+        if not data or not data[0]: continue
+        
+        uid_match = re.search(r'UID (\d+)', data[0].decode())
+        if not uid_match:
+            continue
+        uid = uid_match.group(1)
+        
+        if uid in history:
+            continue
+
+        # Fetch subject
+        status, msg_header = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
         subject_matched = False
         subject = ""
         
@@ -111,26 +133,19 @@ def check_emails(mail, save_dir):
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
                 raw_subject = msg["Subject"]
-                subject = clean_filename(raw_subject)
-                
-                # Check if subject contains keyword (Case insensitive)
-                if SUBJECT_KEYWORD.lower() in subject.lower():
-                    subject_matched = True
+                if raw_subject:
+                    subject = clean_filename(raw_subject)
+                    if SUBJECT_KEYWORD.lower() in subject.lower():
+                        subject_matched = True
         
         if not subject_matched:
-            # Skip this email (not Pomera)
             continue
 
         print(f"👉 Processing Pomera Email: {subject}")
-        # Now fetch the full content
         status, msg_data = mail.fetch(e_id, "(RFC822)")
         for response_part in msg_data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
-
-                # Strategy: 
-                # 1. If attachment exists (.txt), save it.
-                # 2. If no attachment, save body as .txt.
                 
                 has_attachment = False
                 if msg.is_multipart():
@@ -147,16 +162,21 @@ def check_emails(mail, save_dir):
                                 print(f"      📎 Saved Attachment: {os.path.basename(saved_path)}")
 
                 if not has_attachment:
-                    # Save body as text file
                     body = get_body_content(msg)
                     if body:
-                        # Use subject + date as filename
                         filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
                         filepath = os.path.join(save_dir, filename)
                         with open(filepath, "w", encoding="utf-8") as f:
                             f.write(body)
                         saved_files.append(filepath)
                         print(f"      📝 Saved Body: {filename}")
+        
+        new_history.append(uid)
+
+    if new_history:
+        with open(HISTORY_FILE, "a") as f:
+            for uid in new_history:
+                f.write(f"{uid}\n")
 
     return saved_files
 
@@ -193,7 +213,7 @@ def main():
                     run_analysis(new_files)
                 else:
                     if not args.watch:
-                        print("💤 新着メールはありません。")
+                        print("💤 新着のPomeraメールはありませんでした。")
                 
                 mail.logout()
             except Exception as e:
