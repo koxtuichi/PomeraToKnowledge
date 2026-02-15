@@ -4,61 +4,61 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "フロントエンド開発のリーダーであり、副業もこなしている。育児にも参画中。",
-      "sentiment": -0.2,
+      "detail": "フロントエンドリーダー、副業エンジニア、一児の父",
       "community": 0
     },
     {
-      "id": "project:side_job",
-      "label": "副業（株式会社Saiteki）",
+      "id": "diary:2026-02-16",
+      "label": "2026/02/16の日記",
+      "type": "diary",
+      "detail": "仕事の多忙さ、家族への感謝、将来の金銭不安についての記録",
+      "date": "2026-02-16",
+      "community": 0
+    },
+    {
+      "id": "project:saiteki",
+      "label": "株式会社Saiteki",
       "type": "project",
-      "detail": "AI活用を考える業務。時給3000円。タスクが溜まりつつある。",
-      "sentiment": -0.3,
+      "detail": "AI活用を考える副業。時給3000円",
+      "sentiment": 0.2,
       "community": 1
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saitekiの副社長。カスタムチューニング用の資料作成を依頼中。",
-      "community": 1
-    },
-    {
-      "id": "goal:s_class_ai",
-      "label": "S級のAIモデル作成",
-      "type": "goal",
-      "status": "Active",
-      "detail": "鈴木さんと協力して高品質なAIモデルを構築する。",
+      "detail": "Saiteki副社長。S級のAIモデル制作を目指している",
       "community": 1
     },
     {
       "id": "person:kaime",
       "label": "開米さん",
       "type": "person",
-      "detail": "QAスペシャリスト。AIによる業務置換の資料作成を担当。",
+      "detail": "Saiteki所属のQAスペシャリスト。AIによる業務置換を検討中",
       "community": 1
     },
     {
       "id": "goal:ai_deployment",
-      "label": "AI作業の全社員展開",
+      "label": "全社員向けAI展開",
       "type": "goal",
       "status": "Active",
-      "date": "2026-02-28",
-      "detail": "開米さんの資料を元に展開を目指す。期限は2月中でややタイト。",
+      "detail": "2月中の完了を目指しているが、進捗は不透明",
+      "sentiment": -0.1,
       "community": 1
     },
     {
       "id": "project:main_job",
       "label": "メインの仕事",
       "type": "project",
-      "detail": "フロントエンド担当。2チーム8人のリーダー業務。",
+      "detail": "フロントエンド開発の2チーム8名のリーダー業務",
+      "sentiment": 0.1,
       "community": 1
     },
     {
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "配偶者。育児と家事を主に担ってくれている。",
+      "detail": "日記の執筆者の妻",
       "sentiment": 0.5,
       "community": 2
     },
@@ -66,38 +66,39 @@
       "id": "person:souma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "9ヶ月の息子。離乳食（5倍がゆ）を食べている。",
+      "detail": "生後9ヶ月の息子",
       "community": 2
     },
     {
-      "id": "event:making_porridge",
+      "id": "event:cooking_porridge",
       "label": "5倍がゆ作り",
       "type": "event",
       "status": "Completed",
-      "detail": "離乳食作りの大変さを自ら体験した。",
-      "sentiment": 0.2,
+      "detail": "離乳食を自ら作り、その手間を実感した出来事",
+      "date": "2026-02-16",
+      "sentiment": 0.3,
       "community": 2
     },
     {
-      "id": "insight:gratitude_revisited",
-      "label": "育児への感謝の再認識",
+      "id": "insight:gratitude_realization",
+      "label": "さやかへの感謝の再認識",
       "type": "insight",
-      "detail": "料理の大変さを通じて、妻さやかへの感謝が不足していたことに気づいた。",
+      "detail": "家事・育児の大変さを実体験し、感謝を伝える重要性を感じた",
+      "sentiment": 0.8,
       "tags": [
         "Growth",
         "Empathy"
       ],
-      "sentiment": 0.6,
       "community": 2
     },
     {
-      "id": "emotion:financial_anxiety",
+      "id": "emotion:anxiety_finance",
       "label": "金銭的な不安",
       "type": "emotion",
-      "detail": "税金支払い（所得税等）や家計の不透明さからくる不安。",
-      "sentiment": -0.7,
+      "detail": "税金の支払いや将来の不透明な支出に対する不安感",
+      "sentiment": -0.6,
       "tags": [
-        "Cognitive Distortion: Fortune-telling"
+        "Cognitive Distortion: Fortune Telling"
       ],
       "community": 3
     },
@@ -105,16 +106,14 @@
       "id": "concept:savings",
       "label": "貯金",
       "type": "concept",
-      "detail": "現在110万円程度。月10-20万の貯蓄を目指すが不安定。",
+      "detail": "現在の貯金額は約110万円程度。毎月10-20万円の積立を目標とする",
       "community": 3
     },
     {
-      "id": "event:tax_return",
-      "label": "確定申告",
-      "type": "event",
-      "status": "Scheduled",
-      "date": "2026-03-15",
-      "detail": "所得税の支払いや住宅ローン減税の確認が必要。",
+      "id": "concept:tax_return",
+      "label": "確定申告・所得税",
+      "type": "concept",
+      "detail": "住宅ローン控除の適用を含め、納税額が不明確なことが不安の種",
       "community": 3
     },
     {
@@ -123,95 +122,83 @@
       "type": "diary",
       "date": "2026-02-15",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-15T17:29:53.146392",
-      "last_seen": "2026-02-15T17:29:53.146394",
+      "first_seen": "2026-02-15T17:46:07.561406",
+      "last_seen": "2026-02-15T17:46:07.561407",
       "weight": 1
     }
   ],
   "edges": [
     {
       "source": "person:self",
-      "target": "project:side_job",
+      "target": "diary:2026-02-16",
+      "type": "MENTIONS",
+      "label": "執筆"
+    },
+    {
+      "source": "person:self",
+      "target": "project:saiteki",
       "type": "PARTICIPATES",
       "label": "副業に従事"
+    },
+    {
+      "source": "person:suzuki",
+      "target": "project:saiteki",
+      "type": "PARTICIPATES",
+      "label": "副社長として関与"
+    },
+    {
+      "source": "person:kaime",
+      "target": "project:saiteki",
+      "type": "PARTICIPATES",
+      "label": "QAとして関与"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:ai_deployment",
+      "type": "TARGETS",
+      "label": "目標達成を目指す"
     },
     {
       "source": "person:self",
       "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "リーダーとして勤務"
-    },
-    {
-      "source": "project:side_job",
-      "target": "person:suzuki",
-      "type": "MENTIONS",
-      "label": "副社長として協業"
-    },
-    {
-      "source": "person:suzuki",
-      "target": "goal:s_class_ai",
-      "type": "TARGETS",
-      "label": "作成を目指す"
-    },
-    {
-      "source": "project:side_job",
-      "target": "person:kaime",
-      "type": "MENTIONS",
-      "label": "作業を依頼中"
-    },
-    {
-      "source": "person:kaime",
-      "target": "goal:ai_deployment",
-      "type": "TARGETS",
-      "label": "2月中の完了を目指す"
+      "label": "リーダーとして従事"
     },
     {
       "source": "person:self",
-      "target": "event:making_porridge",
-      "type": "PARTICIPATES",
-      "label": "離乳食を自作"
-    },
-    {
-      "source": "event:making_porridge",
-      "target": "insight:gratitude_revisited",
-      "type": "CAUSAL",
-      "label": "大変さを知り気づきを得る"
-    },
-    {
-      "source": "insight:gratitude_revisited",
       "target": "person:sayaka",
-      "type": "ABOUT",
-      "label": "さやかへの感謝"
+      "type": "FEELING",
+      "label": "感謝の念を抱く"
     },
     {
-      "source": "person:souma",
-      "target": "event:making_porridge",
+      "source": "event:cooking_porridge",
+      "target": "insight:gratitude_realization",
+      "type": "CAUSAL",
+      "label": "実体験から気づきを得る"
+    },
+    {
+      "source": "event:cooking_porridge",
+      "target": "person:souma",
       "type": "ABOUT",
-      "label": "食事の対象"
+      "label": "離乳食の対象"
     },
     {
       "source": "person:self",
-      "target": "emotion:financial_anxiety",
+      "target": "emotion:anxiety_finance",
       "type": "FEELING",
       "label": "不安を感じている"
     },
     {
-      "source": "emotion:financial_anxiety",
-      "target": "event:tax_return",
+      "source": "concept:tax_return",
+      "target": "emotion:anxiety_finance",
       "type": "TRIGGERED_BY",
-      "label": "納税額の不透明さ"
-    },
-    {
-      "source": "person:self",
-      "target": "event:tax_return",
-      "type": "PLANS",
-      "label": "申告の準備"
+      "label": "金額の不明瞭さが不安を煽る"
     },
     {
       "source": "person:self",
       "target": "concept:savings",
       "type": "ABOUT",
-      "label": "現状を把握"
+      "label": "資産状況の把握"
     },
     {
       "source": "person:self",
@@ -221,19 +208,19 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "project:side_job",
+      "target": "diary:2026-02-16",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "project:saiteki",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:suzuki",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-15",
-      "target": "goal:s_class_ai",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -269,19 +256,19 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "event:making_porridge",
+      "target": "event:cooking_porridge",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "insight:gratitude_revisited",
+      "target": "insight:gratitude_realization",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-15",
-      "target": "emotion:financial_anxiety",
+      "target": "emotion:anxiety_finance",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -293,15 +280,15 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "event:tax_return",
+      "target": "concept:tax_return",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-15T17:29:53.146378",
+    "generated_at": "2026-02-15T17:46:07.561392",
     "source_file": "diary/20260215_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
     "node_count": 14,
-    "edge_count": 14
+    "edge_count": 12
   }
 }
