@@ -518,6 +518,17 @@
 
     // GRAPH_DATA_START
     const GRAPH_DATA = {
+  "@context": {
+    "nodes": {
+      "@id": "http://schema.org/thing",
+      "@container": "@set"
+    },
+    "edges": {
+      "@id": "http://schema.org/link",
+      "@container": "@set"
+    }
+  },
+  "@type": "KnowledgeGraph",
   "nodes": [
     {
       "id": "person:self",
@@ -540,7 +551,7 @@
       "type": "event",
       "detail": "メルカリで購入したスケルトンのポメラが届く予定。",
       "sentiment": 0.9,
-      "status": "Scheduled",
+      "status": "Completed",
       "date": "2026-02-15",
       "tags": [
         "Excitement",
@@ -4810,53 +4821,132 @@
     window.resetZoom = resetZoom;
 
     // ── Future Goals Rendering (Right Sidebar) ──
+    const COMMUNITY_LABELS = {
+      0: "Personal / Inner Self",
+      1: "Work / Projects",
+      2: "Family / Relationships",
+      3: "Health / Wellness",
+      4: "Hobbies / Creative",
+      5: "Finance",
+      6: "Learning / Growth",
+      7: "Social / Community",
+      8: "Environment / Home",
+      9: "Other"
+    };
+
+    // Auto-detect community labels if possible (mock implementation for now)
+    // In a real app, these might come from a config or be inferred.
+
     function renderFutureGoals() {
       const container = document.getElementById('goal-list');
       if (!container) return;
       container.innerHTML = '';
 
       // Filter for Goals and Events
+      // Exclude Completed events/goals
       const goals = GRAPH_DATA.nodes.filter(n =>
         (n.type === 'goal' && n.status === 'Active') ||
         (n.type === 'event' && n.status === 'Scheduled')
       );
-
-      // Sort: Events by Date (Asc), Goals by Weight (Desc)
-      goals.sort((a, b) => {
-        if (a.type === 'event' && b.type === 'event') {
-          return (a.date || '9999').localeCompare(b.date || '9999');
-        }
-        if (a.type === 'event') return -1;
-        if (b.type === 'event') return 1;
-        return b.weight - a.weight;
-      });
 
       if (goals.length === 0) {
         container.innerHTML = '<div style="color:#64748b; font-size:12px; text-align:center; padding:20px;">No active goals or scheduled events.</div>';
         return;
       }
 
-      goals.forEach(node => {
-        const div = document.createElement('div');
-        div.className = 'goal-item';
-        // Check if focusNode is available
-        div.onclick = () => { if (typeof focusNode === 'function') focusNode(node); };
-        div.style.cursor = 'pointer';
+      // Group by Community
+      const grouped = {};
+      goals.forEach(n => {
+        const comm = n.community !== undefined ? n.community : 9;
+        if (!grouped[comm]) grouped[comm] = [];
+        grouped[comm].push(n);
+      });
 
-        let dateDisplay = '';
-        if (node.date) dateDisplay = `<div class="goal-date">📅 ${node.date}</div>`;
+      // Sort communities (0 to 9, then others)
+      const sortedKeys = Object.keys(grouped).sort((a, b) => Number(a) - Number(b));
 
-        let typeLabel = node.type === 'event' ? 'SCHEDULED' : 'ACTIVE GOAL';
-        let typeClass = node.type;
+      sortedKeys.forEach(commId => {
+        const groupNodes = grouped[commId];
 
-        div.innerHTML = `
-                                  <div class="goal-type ${typeClass}">${typeLabel}</div>
-                                  ${dateDisplay}
-                                  <div class="goal-label">${node.label}</div>
-                                `;
-        container.appendChild(div);
+        // Sort nodes within group
+        groupNodes.sort((a, b) => {
+          // Events first (by date), then goals (by weight)
+          if (a.type === 'event' && b.type !== 'event') return -1;
+          if (a.type !== 'event' && b.type === 'event') return 1;
+          if (a.type === 'event') return (a.date || '9999').localeCompare(b.date || '9999');
+          return (b.weight || 0) - (a.weight || 0);
+        });
+
+        // Create Header
+        const header = document.createElement('div');
+        header.style.padding = '8px 4px';
+        header.style.fontSize = '12px';
+        header.style.fontWeight = '700';
+        header.style.color = '#94a3b8';
+        header.style.borderBottom = '1px solid #334155';
+        header.style.marginTop = '12px';
+        header.style.marginBottom = '8px';
+        header.innerText = COMMUNITY_LABELS[commId] || `Community ${commId}`;
+        container.appendChild(header);
+
+        // Create Items
+        groupNodes.forEach(node => {
+          const div = document.createElement('div');
+          div.className = 'goal-item';
+          div.onclick = () => focusNode(node);
+          div.style.cursor = 'pointer';
+
+          let dateDisplay = '';
+          if (node.date && node.type === 'event') {
+            // Basic date formatting
+            dateDisplay = `<div class="goal-date">📅 ${node.date}</div>`;
+          }
+
+          let typeLabel = node.type === 'event' ? 'SCHEDULED' : 'ACTIVE GOAL';
+          let typeClass = node.type;
+
+          div.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div class="goal-type ${typeClass}">${typeLabel}</div>
+              <div style="font-size:10px; color:#64748b;">#${node.id.split(':')[0]}</div>
+            </div>
+            ${dateDisplay}
+            <div class="goal-label">${node.label}</div>
+          `;
+          container.appendChild(div);
+        });
       });
     }
+
+    // ── Focus Node Functionality ──
+    window.focusNode = function (nodeOrId) {
+      let node = nodeOrId;
+      if (typeof nodeOrId === 'string') {
+        node = GRAPH_DATA.nodes.find(n => n.id === nodeOrId);
+      }
+      if (!node) return;
+
+      // 1. Set State
+      state.selectedNodeId = node.id;
+
+      // 2. Update Side Panels
+      updateDetailPanel(node);
+      highlightNode(node);
+
+      // 3. Zoom/Pan to Node
+      // Helper to transform coordinates
+      // We need to find the node's current position in the simulation
+      // d3 handles this via the bound data
+
+      // Calculate translate
+      const scale = 2; // Fixed zoom level for focus
+      const x = -node.x * scale + width / 2;
+      const y = -node.y * scale + height / 2;
+
+      const transform = d3.zoomIdentity.translate(x, y).scale(scale);
+
+      svg.transition().duration(750).call(zoom.transform, transform);
+    };
 
     // Initial Trigger
     renderFutureGoals();

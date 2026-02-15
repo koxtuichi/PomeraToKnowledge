@@ -12,8 +12,12 @@ except ImportError:
     # For standalone testing or different path structures, provide a dummy
     print("⚠️  graph_merger module not found. Persistence features will be limited.")
     class text_merger:
-        def load_graph(path): return {"nodes": [], "edges": [], "metadata": {}}
-        def merge_graphs(master, daily): return daily
+        def load_graph(path): return {"@context": {}, "@type": "KnowledgeGraph", "nodes": [], "edges": [], "metadata": {}}
+        def merge_graphs(master, daily):
+             # Simple merge for dummy implementation
+             master["nodes"].extend(daily.get("nodes", []))
+             master["edges"].extend(daily.get("edges", []))
+             return master
 
 # ── 設定 ──
 # export GOOGLE_API_KEY="your-api-key"
@@ -189,7 +193,7 @@ def main():
     parser = argparse.ArgumentParser(description="Pomera Diary to Knowledge Graph & Analysis")
     parser.add_argument("input_file", help="Path to the daily diary text file")
     parser.add_argument("--output_graph", default="daily_graph.json", help="Output path for Daily Graph JSON")
-    parser.add_argument("--master_graph", default="master_graph.json", help="Path to Master Graph JSON")
+    parser.add_argument("--master_graph", default="knowledge_graph.jsonld", help="Path to Master Graph JSON-LD")
     parser.add_argument("--output_report", default="daily_report.md", help="Output path for Analysis Report")
     
     args = parser.parse_args()
@@ -204,7 +208,20 @@ def main():
 
     # 2. Load Master Graph (for Context & Merging)
     print(f"📂 Loading Master Graph: {args.master_graph}")
-    master_graph = graph_merger.load_graph(args.master_graph)
+    try:
+        master_graph = graph_merger.load_graph(args.master_graph)
+    except Exception as e:
+        print(f"⚠️ Failed to load master graph, initializing new one: {e}")
+        master_graph = {
+            "@context": {
+                "nodes": { "@id": "http://schema.org/thing", "@container": "@set" },
+                "edges": { "@id": "http://schema.org/link", "@container": "@set" }
+            },
+            "@type": "KnowledgeGraph",
+            "nodes": [],
+            "edges": [],
+            "metadata": {}
+        }
     master_context_str = get_master_context(master_graph)
 
     # 3. Extract Daily Graph
