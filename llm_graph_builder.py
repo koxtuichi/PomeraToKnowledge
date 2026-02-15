@@ -268,16 +268,18 @@ def main():
                     "weight": 1
                 })
 
+        # 4. Save Daily Graph JSON
+        with open(args.output_graph, "w", encoding="utf-8") as f:
+            json.dump(daily_graph, f, ensure_ascii=False, indent=2)
+
     except Exception as e:
         print(f"❌ Error during extraction: {e}")
         return
 
-
-
     # 5. Merge into Master Graph
     print("🔄 Merging into Master Graph...")
     try:
-        # Load the daily graph again, as it might have been modified by save_analysis_results
+        # Load the daily graph again
         with open(args.output_graph, "r", encoding="utf-8") as f:
             daily_graph_for_merge = json.load(f)
         
@@ -299,7 +301,20 @@ def main():
         # Save Report
         with open(args.output_report, "w", encoding="utf-8") as f:
             f.write(f"# 日次分析レポート ({datetime.now().date()})\n\n")
+            f.write(f"**対象ファイル: {os.path.basename(args.input_file)}**\n\n")
             f.write(analysis_text)
+            
+            # --- CUMULATIVE SUMMARY (If multiple entries today) ---
+            # Search master graph for nodes created today
+            today_entities = [n for n in updated_master.get("nodes", []) 
+                             if n.get("last_seen", "").startswith(datetime.now().strftime("%Y-%m-%d"))]
+            if len(today_entities) > 5: # Some reasonable threshold for "has context"
+                f.write("\n\n---\n## 本日の累積インサイト\n")
+                f.write("※本日複数の更新がありました。これまでの情報を統合した状況です。\n")
+                # Briefly list key interests found today
+                interests = [n.get("label") for n in today_entities if n.get("type") not in ["diary", "self"]]
+                f.write(f"- **主な関心事:** {', '.join(interests[:10])}\n")
+
         print(f"✅ 分析レポートを保存しました: {args.output_report}")
         
     except Exception as e:
