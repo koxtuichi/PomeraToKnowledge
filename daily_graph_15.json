@@ -1,0 +1,318 @@
+{
+  "nodes": [
+    {
+      "id": "person:self",
+      "label": "私",
+      "type": "self",
+      "detail": "日記の筆者。33歳。ポメラで執筆し、減量と育児、仕事を並行している。",
+      "community": 0
+    },
+    {
+      "id": "goal:pet_room_clean",
+      "label": "ペット部屋をきれいに保つ",
+      "type": "goal",
+      "detail": "毎日掃除を習慣化し、ペット部屋の清潔を維持すること。",
+      "status": "Active",
+      "community": 1
+    },
+    {
+      "id": "insight:adhesive_problem",
+      "label": "粘着部分の剥離困難",
+      "type": "insight",
+      "detail": "フローリングに貼った爪とぎカバーの粘着剤が残ってしまい、掃除の障壁になっている。",
+      "sentiment": -0.4,
+      "community": 1
+    },
+    {
+      "id": "goal:weight_under_75kg",
+      "label": "体重75kgを切る",
+      "type": "goal",
+      "detail": "現在の80.5kgから75kg未満を目指す。1日1食1200kcalを意識。",
+      "status": "Active",
+      "community": 2
+    },
+    {
+      "id": "insight:weight_plateau",
+      "label": "減量の停滞期",
+      "type": "insight",
+      "detail": "12kg減量後、ここ2週間ほど体重が変動していない状態。",
+      "sentiment": -0.2,
+      "community": 2
+    },
+    {
+      "id": "concept:cheat_day",
+      "label": "チートデイ",
+      "type": "concept",
+      "detail": "飢餓状態を防ぐため、週に一度普通の量を食べる日。効果を検証中。",
+      "community": 2
+    },
+    {
+      "id": "project:pomera_ai_workflow",
+      "label": "ポメラAI自動化ワークフロー",
+      "type": "project",
+      "detail": "ポメラからGmail経由でGitHub Actionsを動かし、Geminiで分析して知識グラフ化する仕組み。",
+      "status": "Active",
+      "community": 3
+    },
+    {
+      "id": "emotion:workflow_excitement",
+      "label": "ワークフロー考案の楽しさ",
+      "type": "emotion",
+      "detail": "ポメラとAIを繋げるフローを考えることに強い充足感を感じている。",
+      "sentiment": 0.9,
+      "community": 3
+    },
+    {
+      "id": "insight:github_actions_limitation",
+      "label": "GitHub Actionsの実行時間制限",
+      "type": "insight",
+      "detail": "定期実行のスケジューリング精度に懸念がある。",
+      "sentiment": -0.3,
+      "community": 3
+    },
+    {
+      "id": "goal:monster_design_realism",
+      "label": "リアリティを感じるモンスターデザイン",
+      "type": "goal",
+      "detail": "Draw Sessionsのような納得感のある絵を描けるようになること。",
+      "status": "Active",
+      "community": 4
+    },
+    {
+      "id": "person:mugi",
+      "label": "むぎ",
+      "type": "person",
+      "detail": "おととし10月から飼っているボストンテリア。",
+      "community": 5
+    },
+    {
+      "id": "person:souma",
+      "label": "蒼馬",
+      "type": "person",
+      "detail": "5月9日生まれの0歳（9ヶ月）の息子。",
+      "community": 5
+    },
+    {
+      "id": "person:sayaka",
+      "label": "さやか",
+      "type": "person",
+      "detail": "同い年（33歳）の妻。",
+      "community": 5
+    },
+    {
+      "id": "event:choking_incident",
+      "label": "蒼馬の喉づまり事故",
+      "type": "event",
+      "detail": "初めてのクッキーを喉に詰まらせ、危うく窒息しかけた出来事。",
+      "sentiment": -0.9,
+      "status": "Completed",
+      "community": 5
+    },
+    {
+      "id": "insight:parent_guilt",
+      "label": "親としての自責の念",
+      "type": "insight",
+      "detail": "仕事中の不注意で息子を危険にさらしたことへの強い後悔。",
+      "sentiment": -1.0,
+      "tags": [
+        "Cognitive Distortion: Labeling",
+        "Cognitive Distortion: All-or-Nothing"
+      ],
+      "community": 5
+    },
+    {
+      "id": "goal:pomera_book",
+      "label": "ポメラ活用案の出版",
+      "type": "goal",
+      "detail": "構築したワークフローを本としてまとめたい。",
+      "status": "Active",
+      "community": 3
+    },
+    {
+      "id": "diary:2026-02-15",
+      "label": "2026-02-15の日記",
+      "type": "diary",
+      "date": "2026-02-15",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-02-16T02:11:19.683841",
+      "last_seen": "2026-02-16T02:11:19.683843",
+      "weight": 1
+    }
+  ],
+  "edges": [
+    {
+      "source": "person:self",
+      "target": "goal:pet_room_clean",
+      "type": "TARGETS",
+      "label": "目標としている"
+    },
+    {
+      "source": "goal:pet_room_clean",
+      "target": "insight:adhesive_problem",
+      "type": "BARRIER",
+      "label": "剥がれない粘着剤が障壁"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:weight_under_75kg",
+      "type": "TARGETS",
+      "label": "今年の目標"
+    },
+    {
+      "source": "goal:weight_under_75kg",
+      "target": "concept:cheat_day",
+      "type": "PLANS",
+      "label": "停滞期打破のために導入"
+    },
+    {
+      "source": "person:self",
+      "target": "project:pomera_ai_workflow",
+      "type": "PLANS",
+      "label": "仕組みを構築中"
+    },
+    {
+      "source": "project:pomera_ai_workflow",
+      "target": "emotion:workflow_excitement",
+      "type": "FEELING",
+      "label": "考えるのが楽しい"
+    },
+    {
+      "source": "project:pomera_ai_workflow",
+      "target": "insight:github_actions_limitation",
+      "type": "BARRIER",
+      "label": "実行時間の不確実性"
+    },
+    {
+      "source": "person:self",
+      "target": "goal:monster_design_realism",
+      "type": "TARGETS",
+      "label": "描けるようになりたい"
+    },
+    {
+      "source": "person:self",
+      "target": "event:choking_incident",
+      "type": "PARTICIPATES",
+      "label": "当事者として対応"
+    },
+    {
+      "source": "event:choking_incident",
+      "target": "insight:parent_guilt",
+      "type": "CAUSAL",
+      "label": "自分の不注意で起きたと自責"
+    },
+    {
+      "source": "person:sayaka",
+      "target": "event:choking_incident",
+      "type": "SOLVES",
+      "label": "口からクッキーを取り出した"
+    },
+    {
+      "source": "project:pomera_ai_workflow",
+      "target": "goal:pomera_book",
+      "type": "EVOLVED_TO",
+      "label": "成果を本にしたい"
+    },
+    {
+      "source": "person:self",
+      "target": "diary:2026-02-15",
+      "relationship": "WROTE",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:pet_room_clean",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:adhesive_problem",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:weight_under_75kg",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:weight_plateau",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "concept:cheat_day",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "project:pomera_ai_workflow",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "emotion:workflow_excitement",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:github_actions_limitation",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:monster_design_realism",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "person:mugi",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "person:souma",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "person:sayaka",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "event:choking_incident",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:parent_guilt",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:pomera_book",
+      "relationship": "MENTIONS",
+      "weight": 1
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-02-16T02:11:19.683816",
+    "source_file": "diary/20260215_POMERA2026年2月15日.txt",
+    "node_count": 16,
+    "edge_count": 12
+  }
+}

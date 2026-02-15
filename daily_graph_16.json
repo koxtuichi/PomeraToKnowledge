@@ -1,0 +1,236 @@
+{
+  "nodes": [
+    {
+      "id": "person:self",
+      "label": "自分",
+      "type": "self",
+      "detail": "フロントエンドエンジニアであり、副業でAI活用を推進している。",
+      "sentiment": -0.1,
+      "community": 0
+    },
+    {
+      "id": "diary:2026-02-16",
+      "label": "2026/02/16の日記",
+      "type": "diary",
+      "detail": "副業のタスクが溜まっている状況と、本業後の作業予定について。",
+      "sentiment": -0.2,
+      "date": "2026-02-16",
+      "tags": [
+        "Cognitive Distortion: Should Statements"
+      ],
+      "community": 0
+    },
+    {
+      "id": "project:saiteki",
+      "label": "株式会社Saiteki",
+      "type": "project",
+      "detail": "AI活用を考える副業。時間給3000円。",
+      "sentiment": 0.2,
+      "community": 1
+    },
+    {
+      "id": "person:suzuki",
+      "label": "鈴木さん",
+      "type": "person",
+      "detail": "Saitekiの副社長。カスタムチューニング用の質問回答形式資料を作成依頼中。",
+      "sentiment": 0.3,
+      "community": 1
+    },
+    {
+      "id": "person:kaime",
+      "label": "開米さん",
+      "type": "person",
+      "detail": "SaitekiのQAスペシャリスト。AI置換作業の資料作成を担当。",
+      "sentiment": 0.1,
+      "tags": [
+        "Cognitive Distortion: Fortune Telling"
+      ],
+      "community": 1
+    },
+    {
+      "id": "project:main_job",
+      "label": "メインの仕事",
+      "type": "project",
+      "detail": "フロントエンドで2チーム8人のリーダーを務める。",
+      "sentiment": 0.0,
+      "community": 2
+    },
+    {
+      "id": "event:side_work_start",
+      "label": "副業タスクの開始",
+      "type": "event",
+      "detail": "本業終了後の18時以降に連絡とタスク整理を開始する。",
+      "status": "Scheduled",
+      "date": "2026-02-16",
+      "community": 1
+    },
+    {
+      "id": "goal:ai_model_s",
+      "label": "S級のAIモデル作成",
+      "type": "goal",
+      "status": "Active",
+      "detail": "鈴木さんと協力して進めている、高品質なAIモデルの構築。",
+      "sentiment": 0.5,
+      "community": 1
+    },
+    {
+      "id": "goal:ai_deployment",
+      "label": "全社員向けAI展開",
+      "type": "goal",
+      "status": "Active",
+      "detail": "開米さんの資料を元にAI活用を全社に広める。期限は2月末。",
+      "sentiment": 0.0,
+      "community": 1
+    },
+    {
+      "id": "concept:employee_analysis_proposal",
+      "label": "社員分析の利用案資料化",
+      "type": "concept",
+      "detail": "社員分析の結果をどのように活用するかをまとめた資料の作成案。",
+      "sentiment": 0.2,
+      "community": 1
+    },
+    {
+      "id": "emotion:task_pressure",
+      "label": "タスク蓄積へのプレッシャー",
+      "type": "emotion",
+      "detail": "やるべきことが溜まってきていることによる焦燥感。",
+      "sentiment": -0.4,
+      "community": 0
+    }
+  ],
+  "edges": [
+    {
+      "source": "person:self",
+      "target": "diary:2026-02-16",
+      "type": "ABOUT",
+      "label": "記録"
+    },
+    {
+      "source": "person:self",
+      "target": "project:saiteki",
+      "type": "PARTICIPATES",
+      "label": "副業に従事"
+    },
+    {
+      "source": "person:self",
+      "target": "project:main_job",
+      "type": "PARTICIPATES",
+      "label": "チームリーダーとして勤務"
+    },
+    {
+      "source": "person:self",
+      "target": "event:side_work_start",
+      "type": "PLANS",
+      "label": "18時以降の稼働を予定"
+    },
+    {
+      "source": "person:self",
+      "target": "emotion:task_pressure",
+      "type": "FEELING",
+      "label": "タスクの溜まりに焦りを感じる"
+    },
+    {
+      "source": "person:suzuki",
+      "target": "goal:ai_model_s",
+      "type": "TARGETS",
+      "label": "作成を目指す"
+    },
+    {
+      "source": "person:kaime",
+      "target": "goal:ai_deployment",
+      "type": "TARGETS",
+      "label": "全社展開を目標とする"
+    },
+    {
+      "source": "person:self",
+      "target": "concept:employee_analysis_proposal",
+      "type": "DISCOVERS",
+      "label": "利用案を構想中"
+    },
+    {
+      "source": "project:main_job",
+      "target": "event:side_work_start",
+      "type": "CAUSAL",
+      "label": "本業が終わるまで副業が開始できない"
+    },
+    {
+      "source": "person:suzuki",
+      "target": "event:side_work_start",
+      "type": "TRIGGERED_BY",
+      "label": "鈴木さんからの連絡がタスク発生の起点"
+    },
+    {
+      "source": "person:kaime",
+      "target": "event:side_work_start",
+      "type": "TRIGGERED_BY",
+      "label": "状況確認の必要性"
+    },
+    {
+      "source": "person:self",
+      "target": "diary:2026-02-16",
+      "relationship": "WROTE",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "project:saiteki",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:suzuki",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:kaime",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "project:main_job",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:side_work_start",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "goal:ai_model_s",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "goal:ai_deployment",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "concept:employee_analysis_proposal",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "emotion:task_pressure",
+      "relationship": "MENTIONS",
+      "weight": 1
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-02-16T02:12:05.654574",
+    "source_file": "diary/20260216_POMERA2026年2月16日.txt",
+    "node_count": 11,
+    "edge_count": 11
+  }
+}
