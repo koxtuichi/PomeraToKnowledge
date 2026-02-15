@@ -25,7 +25,7 @@ def merge_graphs(master, daily):
     # Map label+type to ID for duplicate detection
     # only for specific types where names should be unique identifiers
     label_map = {} 
-    mergeable_types = {'person', 'place', 'project', 'concept', 'goal', 'emotion'}
+    mergeable_types = {'person', 'place', 'project', 'concept', 'goal', 'emotion', 'insight'}
     
     for n in master.get('nodes', []):
         if n.get('type') in mergeable_types and n.get('label'):

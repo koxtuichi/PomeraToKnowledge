@@ -1026,20 +1026,6 @@
       "weight": 3
     },
     {
-      "id": "project:monster_design",
-      "label": "モンスターデザインの習作",
-      "type": "project",
-      "detail": "趣味で毎日モンスターを描いている。Draw Sessionsを目標にしている。",
-      "sentiment": -0.2,
-      "tags": [
-        "Cognitive Distortion: Labeling"
-      ],
-      "community": 4,
-      "first_seen": "2026-02-16T00:26:33.487774",
-      "last_seen": "2026-02-16T00:26:33.487774",
-      "weight": 1
-    },
-    {
       "id": "goal:realistic_monster_design",
       "label": "リアリティのあるモンスターデザイン",
       "type": "goal",
@@ -1047,10 +1033,11 @@
       "status": "Active",
       "community": 4,
       "first_seen": "2026-02-16T00:26:33.487775",
-      "last_seen": "2026-02-16T01:22:01.418702",
-      "weight": 6,
+      "last_seen": "2026-02-16T02:11:19.685311",
+      "weight": 9,
       "sentiment": -0.2,
       "tags": [
+        "Cognitive Distortion: Labeling",
         "Self-Reflection",
         "Skill Up",
         "イラスト",
@@ -1205,17 +1192,6 @@
       "weight": 3
     },
     {
-      "id": "insight:gh_actions_limitation",
-      "label": "GitHub Actionsのスケジュール制約",
-      "type": "insight",
-      "detail": "定期実行の時間を厳密にスケジューリングするのが難しいという技術的懸念。",
-      "sentiment": -0.2,
-      "community": 3,
-      "first_seen": "2026-02-16T00:30:31.747209",
-      "last_seen": "2026-02-16T00:30:31.747209",
-      "weight": 1
-    },
-    {
       "id": "goal:publish_book",
       "label": "ポメラ活用術の書籍化",
       "type": "goal",
@@ -1305,20 +1281,6 @@
       "first_seen": "2026-02-16T00:39:23.912814",
       "last_seen": "2026-02-16T01:12:58.180727",
       "weight": 2
-    },
-    {
-      "id": "insight:github_actions_scheduling",
-      "label": "GitHub Actionsの実行タイミング懸念",
-      "type": "insight",
-      "detail": "指定時間通りのスケジューリングが難しいという制約。",
-      "sentiment": -0.2,
-      "tags": [
-        "技術的課題"
-      ],
-      "community": 3,
-      "first_seen": "2026-02-16T00:39:23.912823",
-      "last_seen": "2026-02-16T00:39:23.912823",
-      "weight": 1
     },
     {
       "id": "project:side_job_saiteki",
@@ -1614,19 +1576,6 @@
       "weight": 1
     },
     {
-      "id": "goal:monster_design_realism",
-      "label": "リアリティを感じるモンスターデザイン",
-      "type": "goal",
-      "detail": "Draw Sessionsのような納得感のある絵を描けるようになること。",
-      "status": "Active",
-      "sentiment": -0.2,
-      "community": 4,
-      "first_seen": "2026-02-16T01:19:06.350218",
-      "last_seen": "2026-02-16T02:11:19.685311",
-      "weight": 2,
-      "tags": []
-    },
-    {
       "id": "event:walk_shiroyama_park",
       "label": "城山公園での散歩",
       "type": "event",
@@ -1652,17 +1601,6 @@
       "community": 5,
       "first_seen": "2026-02-16T01:19:06.350246",
       "last_seen": "2026-02-16T01:19:06.350246",
-      "weight": 1
-    },
-    {
-      "id": "insight:github_actions_limit",
-      "label": "GitHub Actionsのスケジューリング懸念",
-      "type": "insight",
-      "detail": "定期実行の指定時間に難しさがある。",
-      "sentiment": -0.2,
-      "community": 3,
-      "first_seen": "2026-02-16T01:19:06.350248",
-      "last_seen": "2026-02-16T01:19:06.350248",
       "weight": 1
     },
     {
@@ -2338,7 +2276,7 @@
     },
     {
       "source": "person:self",
-      "target": "project:monster_design",
+      "target": "goal:realistic_monster_design",
       "type": "PARTICIPATES",
       "label": "毎日描いている",
       "first_seen": "2026-02-16T00:26:33.487824",
@@ -2346,7 +2284,7 @@
       "weight": 1
     },
     {
-      "source": "project:monster_design",
+      "source": "goal:realistic_monster_design",
       "target": "goal:realistic_monster_design",
       "type": "TARGETS",
       "label": "リアリティを追求",
@@ -2505,20 +2443,11 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "project:monster_design",
-      "relationship": "MENTIONS",
-      "weight": 1,
-      "first_seen": "2026-02-16T00:26:33.487842",
-      "last_seen": "2026-02-16T00:26:33.487842"
-    },
-    {
-      "source": "diary:2026-02-16",
       "target": "goal:realistic_monster_design",
       "relationship": "MENTIONS",
-      "weight": 3,
-      "first_seen": "2026-02-16T00:26:33.487843",
-      "last_seen": "2026-02-16T00:39:23.912991",
-      "label": null
+      "weight": 4,
+      "first_seen": "2026-02-16T00:26:33.487842",
+      "last_seen": "2026-02-16T00:26:33.487842"
     },
     {
       "source": "diary:2026-02-16",
@@ -2605,7 +2534,7 @@
       "label": "技術向上を目指す",
       "first_seen": "2026-02-16T00:30:31.747250",
       "last_seen": "2026-02-16T01:22:01.419279",
-      "weight": 5
+      "weight": 7
     },
     {
       "source": "person:self",
@@ -2698,7 +2627,7 @@
       "source": "diary:2026-02-16",
       "target": "insight:gh_actions_limitation",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T00:30:31.747274",
       "last_seen": "2026-02-16T00:30:31.747274"
     },
@@ -2783,7 +2712,7 @@
       "weight": 3
     },
     {
-      "source": "insight:github_actions_scheduling",
+      "source": "insight:gh_actions_limitation",
       "target": "project:pomera_ai_workflow",
       "type": "BARRIER",
       "label": "運用上の懸念",
@@ -2838,14 +2767,6 @@
       "weight": 1,
       "first_seen": "2026-02-16T00:39:23.913004",
       "last_seen": "2026-02-16T00:39:23.913004"
-    },
-    {
-      "source": "diary:2026-02-16",
-      "target": "insight:github_actions_scheduling",
-      "relationship": "MENTIONS",
-      "weight": 1,
-      "first_seen": "2026-02-16T00:39:23.913009",
-      "last_seen": "2026-02-16T00:39:23.913009"
     },
     {
       "source": "person:self",
@@ -3159,7 +3080,7 @@
       "source": "diary:2026-02-15",
       "target": "goal:realistic_monster_design",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T00:53:16.369687",
       "last_seen": "2026-02-16T01:22:01.419317",
       "label": null
@@ -3428,15 +3349,6 @@
       "weight": 1
     },
     {
-      "source": "person:self",
-      "target": "goal:monster_design_realism",
-      "type": "TARGETS",
-      "label": "描けるようになりたい",
-      "first_seen": "2026-02-16T01:19:06.350516",
-      "last_seen": "2026-02-16T02:11:19.685507",
-      "weight": 2
-    },
-    {
       "source": "event:walk_shiroyama_park",
       "target": "person:souma",
       "type": "MENTIONS",
@@ -3473,7 +3385,7 @@
       "weight": 1
     },
     {
-      "source": "insight:github_actions_limit",
+      "source": "insight:gh_actions_limitation",
       "target": "project:pomera_workflow",
       "type": "BARRIER",
       "label": "実装上の課題",
@@ -3532,15 +3444,6 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "goal:monster_design_realism",
-      "relationship": "MENTIONS",
-      "weight": 2,
-      "first_seen": "2026-02-16T01:19:06.350553",
-      "last_seen": "2026-02-16T02:11:19.685540",
-      "label": null
-    },
-    {
-      "source": "diary:2026-02-15",
       "target": "event:walk_shiroyama_park",
       "relationship": "MENTIONS",
       "weight": 1,
@@ -3557,7 +3460,7 @@
     },
     {
       "source": "diary:2026-02-15",
-      "target": "insight:github_actions_limit",
+      "target": "insight:gh_actions_limitation",
       "relationship": "MENTIONS",
       "weight": 1,
       "first_seen": "2026-02-16T01:19:06.350566",
