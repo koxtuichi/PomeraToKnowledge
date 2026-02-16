@@ -4,236 +4,191 @@
       "id": "日記:2026-02-16",
       "label": "2026/02/16の日記",
       "type": "日記",
-      "detail": "副業のタスク整理、家族への感謝、税金への不安、仕事の改善フロー、ブログへの意欲について",
+      "detail": "副業の進捗、家族への感謝、将来の収益化とブログ構想、経済的不安について。",
       "date": "2026-02-16"
-    },
-    {
-      "id": "タスク:TeamFlowImprovement",
-      "label": "改善タスク対応フローの構築",
-      "type": "タスク",
-      "detail": "チームに改善タスクが来た際、メンバー中心に動けるフローを策定する",
-      "status": "進行中",
-      "category": "エンジニア"
-    },
-    {
-      "id": "制約:育児中の眠気",
-      "label": "育児中の眠気",
-      "type": "制約",
-      "detail": "蒼馬は元気だが自分は眠気があり、遊びや安全確保に十分なエネルギーを割けない",
-      "constraint_type": "疲労",
-      "category": "父親"
-    },
-    {
-      "id": "知見:離乳食作りの大変さ",
-      "label": "離乳食（5倍がゆ）作りの労力",
-      "type": "知見",
-      "detail": "実際に作ってみることで、妻の日常的な苦労を実感した",
-      "category": "夫"
-    },
-    {
-      "id": "感情:Gratitude_Sayaka",
-      "label": "妻への感謝",
-      "type": "感情",
-      "sentiment": 0.8,
-      "detail": "離乳食作りなどの育児・家事を担ってくれていることへの感謝",
-      "category": "夫"
-    },
-    {
-      "id": "概念:住宅ローン控除",
-      "label": "住宅ローン控除",
-      "type": "概念",
-      "detail": "家を購入したことによる税金還付の可能性"
     },
     {
       "id": "人物:さやか",
       "label": "さやか",
       "type": "人物",
-      "detail": "同い年の妻。育児全般を担ってくれている"
+      "detail": "同い年の妻。育児や離乳食作りを担ってくれている。",
+      "category": "夫"
     },
     {
       "id": "人物:蒼馬",
       "label": "蒼馬",
       "type": "人物",
-      "detail": "9ヶ月の息子。元気に動きたがる時期"
+      "detail": "9ヶ月の息子。5倍がゆを食べ始めている。",
+      "category": "父親"
     },
     {
       "id": "人物:鈴木さん",
       "label": "鈴木さん",
       "type": "人物",
-      "detail": "Saiteki副社長。S級AIモデルのための資料作成を担当"
+      "detail": "Saiteki副社長。カスタムチューニング用の資料（S級AIモデル用）を作成。",
+      "category": "エンジニア"
     },
     {
       "id": "人物:開米さん",
       "label": "開米さん",
       "type": "人物",
-      "detail": "SaitekiのQAスペシャリスト。AI置き換え作業の資料を担当"
+      "detail": "SaitekiのQAスペシャリスト。AI置き換え作業の資料作成を担当。",
+      "category": "エンジニア"
     },
     {
-      "id": "概念:５倍がゆ",
-      "label": "５倍がゆ",
+      "id": "出来事:MadeGruel",
+      "label": "5倍がゆ作り",
+      "type": "出来事",
+      "detail": "蒼馬のために5倍がゆを作成し、その大変さを実感した。",
+      "status": "完了",
+      "date": "2026-02-16"
+    },
+    {
+      "id": "感情:家族への感謝",
+      "label": "家族への感謝",
+      "type": "感情",
+      "detail": "育児を担う妻への感謝の気持ち。",
+      "sentiment": 0.8
+    },
+    {
+      "id": "感情:経済的不安",
+      "label": "経済的不安",
+      "type": "感情",
+      "detail": "税金の支払いや所得税、確定申告に関する漠然とした不安。",
+      "sentiment": -0.6
+    },
+    {
+      "id": "概念:住宅ローン控除",
+      "label": "住宅ローン控除",
       "type": "概念",
-      "detail": "月齢9ヶ月の離乳食。作るのに手間がかかる"
+      "detail": "昨年家を購入したことに伴う減税措置。不安解消の可能性。"
+    },
+    {
+      "id": "制約:副業の着手タイミング",
+      "label": "副業の着手タイミング",
+      "type": "制約",
+      "detail": "メインの仕事が18時まであるため、副業はそのあとしか開始できない。",
+      "constraint_type": "時間不足"
+    },
+    {
+      "id": "タスク:Antigravity利用制限の確認",
+      "label": "Antigravityの利用制限確認",
+      "type": "タスク",
+      "detail": "アップグレードしたプランでどの程度の制限があるかを確認する。",
+      "status": "未着手",
+      "category": "エンジニア"
+    },
+    {
+      "id": "プロジェクト:AI活用術ブログ",
+      "label": "AI活用術ブログ",
+      "type": "プロジェクト",
+      "detail": "PomeraやAI活用、ガジェット、モンスター描画などをテーマにした発信活動。",
+      "tags": [
+        "収益化",
+        "Pomera",
+        "AI"
+      ]
+    },
+    {
+      "id": "概念:Gemini3.0flash",
+      "label": "Gemini 3.0 flash",
+      "type": "概念",
+      "detail": "カスタムチューニングの対象モデル。現在は10個のQ&Aペアが存在。"
     },
     {
       "id": "場所:StudyRoom",
-      "label": "書斎",
+      "label": "2階の書斎",
       "type": "場所",
-      "detail": "自宅の2階。集中して作業するための場所"
-    },
-    {
-      "id": "場所:リビング",
-      "label": "リビング",
-      "type": "場所",
-      "detail": "自宅の1階。家族が過ごす場所だが集中は難しい"
-    },
-    {
-      "id": "知見:AI_Blog_Automation",
-      "label": "AIによるブログ自動化の構想",
-      "type": "知見",
-      "detail": "ポメラ活用術やAI活用術をAIにブログ化させ、人気獲得と収益化を狙う"
-    },
-    {
-      "id": "制約:執筆への迷い",
-      "label": "文章執筆の挫折癖",
-      "type": "制約",
-      "detail": "文章を書くのに迷い、執筆が続かない過去のパターン",
-      "constraint_type": "感情的ブレーキ"
+      "detail": "仕事に集中するために籠もる場所。リビングと分離されている。"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T15:01:44.336900",
-      "last_seen": "2026-02-16T15:01:44.336902",
+      "first_seen": "2026-02-16T15:04:15.424846",
+      "last_seen": "2026-02-16T15:04:15.424848",
       "weight": 1
     }
   ],
   "edges": [
     {
       "source": "日記:2026-02-16",
-      "target": "タスク:Saiteki_CheckKaimai",
-      "type": "言及する",
-      "label": "進捗確認の必要性"
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "タスク:Saiteki_DocCreation",
-      "type": "言及する",
-      "label": "社員分析の利用案"
-    },
-    {
-      "source": "日記:2026-02-16",
       "target": "タスク:Saiteki_VertlexTrain",
       "type": "言及する",
-      "label": "明日の学習実行予定"
+      "label": "明日の学習実行について"
     },
     {
-      "source": "知見:離乳食作りの大変さ",
-      "target": "感情:Gratitude_Sayaka",
+      "source": "日記:2026-02-16",
+      "target": "タスク:Saiteki_CheckKaimai",
+      "type": "言及する",
+      "label": "今週木曜までの確認"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "タスク:TeamFlowImprovement",
+      "type": "言及する",
+      "label": "今日完了させる予定"
+    },
+    {
+      "source": "出来事:MadeGruel",
+      "target": "感情:家族への感謝",
       "type": "引き起こす",
-      "label": "実体験から感謝へ"
+      "label": "大変さを知り感謝が湧いた"
+    },
+    {
+      "source": "制約:副業の着手タイミング",
+      "target": "タスク:Saiteki_VertlexTrain",
+      "type": "阻害する",
+      "label": "18時以降しか開始できない"
+    },
+    {
+      "source": "場所:StudyRoom",
+      "target": "制約:リビングでの集中困難",
+      "type": "解決する",
+      "label": "物理的に遮断して集中を確保"
     },
     {
       "source": "概念:住宅ローン控除",
-      "target": "制約:税金への経済的不安",
+      "target": "感情:経済的不安",
       "type": "解決する",
-      "label": "還付による不安の緩和"
+      "label": "減税により不安が和らぐ可能性"
     },
     {
-      "source": "人物:さやか",
-      "target": "概念:５倍がゆ",
-      "type": "関連する",
-      "label": "調理を担当"
-    },
-    {
-      "source": "人物:蒼馬",
-      "target": "概念:５倍がゆ",
-      "type": "対象にする",
-      "label": "主食として摂取"
-    },
-    {
-      "source": "制約:育児中の眠気",
-      "target": "人物:蒼馬",
-      "type": "阻害する",
-      "label": "十分な遊び相手になれない"
-    },
-    {
-      "source": "場所:リビング",
-      "target": "制約:リビングでの集中困難",
-      "type": "関連する",
-      "label": "場所の特性"
-    },
-    {
-      "source": "知見:AI_Blog_Automation",
+      "source": "プロジェクト:AI活用術ブログ",
       "target": "目標:個人での収益化・人気獲得",
       "type": "一部である",
-      "label": "収益化の手段"
+      "label": "収益化の手段としてのブログ"
     },
     {
-      "source": "制約:執筆への迷い",
-      "target": "目標:個人での収益化・人気獲得",
-      "type": "阻害する",
-      "label": "継続を妨げる要因"
-    },
-    {
-      "source": "タスク:Saiteki_VertlexTrain",
-      "target": "人物:鈴木さん",
+      "source": "感情:家族への感謝",
+      "target": "人物:さやか",
       "type": "対象にする",
-      "label": "資料をもとに連絡"
+      "label": "妻への感謝"
     },
     {
-      "source": "タスク:Saiteki_CheckKaimai",
-      "target": "人物:開米さん",
-      "type": "対象にする",
-      "label": "作業状況を確認"
+      "source": "人物:鈴木さん",
+      "target": "タスク:Saiteki_VertlexTrain",
+      "type": "関連する",
+      "label": "鈴木さんの資料をもとに学習"
     },
     {
       "source": "日記:2026-02-16",
-      "target": "目標:体重79kg台への到達",
+      "target": "タスク:Antigravity利用制限の確認",
       "type": "言及する",
-      "label": "現状80.2kg"
+      "label": "プラン変更に伴う確認"
+    },
+    {
+      "source": "人物:開米さん",
+      "target": "タスク:Saiteki_CheckKaimai",
+      "type": "対象にする",
+      "label": "進捗確認の相手"
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-02-16",
       "type": "関連する",
       "label": "書いた",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "タスク:TeamFlowImprovement",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "制約:育児中の眠気",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "知見:離乳食作りの大変さ",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "感情:Gratitude_Sayaka",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "概念:住宅ローン控除",
-      "type": "言及する",
-      "label": "言及",
       "weight": 1
     },
     {
@@ -266,7 +221,49 @@
     },
     {
       "source": "日記:2026-02-16",
-      "target": "概念:５倍がゆ",
+      "target": "出来事:MadeGruel",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "感情:家族への感謝",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "感情:経済的不安",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "概念:住宅ローン控除",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:副業の着手タイミング",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "プロジェクト:AI活用術ブログ",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "概念:Gemini3.0flash",
       "type": "言及する",
       "label": "言及",
       "weight": 1
@@ -277,33 +274,12 @@
       "type": "言及する",
       "label": "言及",
       "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "場所:リビング",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "知見:AI_Blog_Automation",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "制約:執筆への迷い",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T15:01:44.336883",
+    "generated_at": "2026-02-16T15:04:15.424831",
     "source_file": "diary/20260216_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 15,
-    "edge_count": 14
+    "node_count": 14,
+    "edge_count": 12
   }
 }
