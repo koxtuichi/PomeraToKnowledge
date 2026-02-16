@@ -163,8 +163,40 @@ ANALYSIS_SYSTEM_PROMPT = """
       "sentiment": -1.0,
       "context": "その感情が生じた文脈"
     }
+  ],
+  "upcoming_schedule": [
+    {
+      "title": "予定名",
+      "date": "YYYY-MM-DD",
+      "time": "HH:MM（不明なら null）",
+      "category": "本業/副業/家族/個人"
+    }
+  ],
+  "family_digest": {
+    "highlights": [
+      {
+        "member": "家族メンバー名（ROLEtoKNOWLEDGEの役割定義を参照）",
+        "event": "出来事や成長の記録",
+        "emotion": "関連する感情"
+      }
+    ],
+    "family_todos": ["家族関連のやるべきこと"]
+  },
+  "blog_seeds": [
+    {
+      "title": "ブログ記事タイトル案",
+      "theme": "テーマ",
+      "source_insights": ["元になった知見や経験"],
+      "outline": "3行程度の構成案",
+      "readiness": "高/中/低"
+    }
   ]
 }
+
+# 重要な注意事項
+- 「upcoming_schedule」には日記やグラフで言及されている「確定している未来の予定」だけを含めてください。過去の予定は含めないでください。
+- 「family_digest」には ROLEtoKNOWLEDGE の役割定義に記載されている家族メンバーに関する情報を抽出してください。日記に家族の話題がなければ空で構いません。
+- 「blog_seeds」にはユーザーの知見や経験からブログ記事にできそうなネタを提案してください。readiness が「高」なものは、すぐに記事化できる十分な素材があるものです。
 
 言語: 日本語。
 JSON以外のテキストは一切含めないでください。
