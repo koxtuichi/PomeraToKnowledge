@@ -15,6 +15,8 @@ APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 LOCAL_DIARY_DIR = "diary"
 ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
 SUBJECT_KEYWORD = "POMERA" # Subject to filter by (all caps as requested)
+ROLE_KEYWORD = "ROLEtoKNOWLEDGE" # New keyword for role definition
+ROLE_DEF_FILE = "role_definition.txt"
 HISTORY_FILE = "sync_history.txt"
 
 def clean_filename(subject):
@@ -127,6 +129,7 @@ def check_emails(mail, save_dir):
         # Fetch subject
         status, msg_header = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
         subject_matched = False
+        is_role_definition = False
         subject = ""
         
         for response_part in msg_header:
@@ -135,41 +138,61 @@ def check_emails(mail, save_dir):
                 raw_subject = msg["Subject"]
                 if raw_subject:
                     subject = clean_filename(raw_subject)
+                    
+                    # Check for keywords
                     if SUBJECT_KEYWORD.lower() in subject.lower():
                         subject_matched = True
+                    elif ROLE_KEYWORD.lower() in subject.lower():
+                        subject_matched = True
+                        is_role_definition = True
         
         if not subject_matched:
             continue
 
-        print(f"👉 Processing Pomera Email: {subject}")
+        print(f"👉 Processing Email: {subject} (RoleDef: {is_role_definition})")
+        
         status, msg_data = mail.fetch(e_id, "(RFC822)")
         for response_part in msg_data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
                 
-                has_attachment = False
-                if msg.is_multipart():
-                    for part in msg.walk():
-                        if part.get_content_maintype() == 'multipart': continue
-                        if part.get('Content-Disposition') is None: continue
-                        
-                        filename = part.get_filename()
-                        if filename and filename.lower().endswith(".txt"):
-                            saved_path = save_attachment(part, save_dir)
-                            if saved_path:
-                                saved_files.append(saved_path)
-                                has_attachment = True
-                                print(f"      📎 Saved Attachment: {os.path.basename(saved_path)}")
-
-                if not has_attachment:
+                # --- ROLE DEFINITION HANDLING ---
+                if is_role_definition:
                     body = get_body_content(msg)
                     if body:
-                        filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
-                        filepath = os.path.join(save_dir, filename)
-                        with open(filepath, "w", encoding="utf-8") as f:
+                        with open(ROLE_DEF_FILE, "w", encoding="utf-8") as f:
                             f.write(body)
-                        saved_files.append(filepath)
-                        print(f"      📝 Saved Body: {filename}")
+                        print(f"      ✅ Role Definition Updated: {ROLE_DEF_FILE}")
+                    else:
+                        print("      ⚠️ Role definition email had no body.")
+                    # We don't add to saved_files because it's not a diary-to-analyze
+                    # But we add to history so we don't process it again
+                    
+                # --- POMERA DIARY HANDLING ---
+                else:
+                    has_attachment = False
+                    if msg.is_multipart():
+                        for part in msg.walk():
+                            if part.get_content_maintype() == 'multipart': continue
+                            if part.get('Content-Disposition') is None: continue
+                            
+                            filename = part.get_filename()
+                            if filename and filename.lower().endswith(".txt"):
+                                saved_path = save_attachment(part, save_dir)
+                                if saved_path:
+                                    saved_files.append(saved_path)
+                                    has_attachment = True
+                                    print(f"      📎 Saved Attachment: {os.path.basename(saved_path)}")
+
+                    if not has_attachment:
+                        body = get_body_content(msg)
+                        if body:
+                            filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
+                            filepath = os.path.join(save_dir, filename)
+                            with open(filepath, "w", encoding="utf-8") as f:
+                                f.write(body)
+                            saved_files.append(filepath)
+                            print(f"      📝 Saved Body: {filename}")
         
         new_history.append(uid)
 
@@ -199,9 +222,10 @@ def main():
     if not os.path.exists(LOCAL_DIARY_DIR):
         os.makedirs(LOCAL_DIARY_DIR)
 
-    print("📧 Pomera Email Sync Agent Started")
+    print("📧 Pomera & Role Email Sync Agent Started")
     print(f"   Account: {EMAIL_ACCOUNT}")
     print(f"   Target Dir: {LOCAL_DIARY_DIR}")
+    print(f"   Role Definition File: {ROLE_DEF_FILE}")
     print("   --------------------------------")
 
     while True:
@@ -213,7 +237,7 @@ def main():
                     run_analysis(new_files)
                 else:
                     if not args.watch:
-                        print("💤 新着のPomeraメールはありませんでした。")
+                        print("💤 新着の対象メールはありませんでした。")
                 
                 mail.logout()
             except Exception as e:

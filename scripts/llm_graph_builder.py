@@ -21,9 +21,144 @@ except ImportError:
 
 # ── 設定 ──
 # export GOOGLE_API_KEY="your-api-key"
+# Configuration
+IMAP_SERVER = "imap.gmail.com"
+EMAIL_ACCOUNT = os.getenv("GMAIL_ACCOUNT")
+APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
+LOCAL_DIARY_DIR = "diary"
+ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
+SUBJECT_KEYWORD = "POMERA" # Subject to filter by (all caps as requested)
+ROLE_KEYWORD = "ROLEtoKNOWLEDGE" # New keyword for role definition
+ROLE_DEF_FILE = "role_definition.txt"
+HISTORY_FILE = "sync_history.txt"
+
+# ... (Previous functions are unchanged by this specific patch, but we act on llm_graph_builder.py)
+# WAIT, I am editing the wrong file in my thought process? No, the tool call below targets llm_graph_builder.py.
+# The code content above looks like sync_email.py content. I must be careful.
+
+# Correct content for llm_graph_builder.py below:
+
+# ── 設定 (Merged) ──
+# export GOOGLE_API_KEY="your-api-key"
 API_KEY = os.getenv("GOOGLE_API_KEY")
 
-# ── プロンプト定義 ──
+# ... (Prompts) ...
+
+def get_role_definition() -> str:
+    """Reads the user-defined role/focus definition from file."""
+    if os.path.exists(ROLE_DEF_FILE):
+        try:
+            with open(ROLE_DEF_FILE, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+            if content:
+                return f"\n### User-Defined Focus & Roles (ROLEtoKNOWLEDGE)\n{content}\n"
+        except Exception as e:
+            print(f"⚠️ Failed to read role definition: {e}")
+    return ""
+
+# ... (call_gemini_api is unchanged) ...
+
+def extract_graph(text: str, context_str: str = "") -> Dict[str, Any]:
+    # Inject Role Definition into Context
+    role_def = get_role_definition()
+    full_context = f"{context_str}\n{role_def}"
+    
+    prompt = f"""
+    {EXTRACTION_SYSTEM_PROMPT}
+
+    {full_context}
+
+    ### User Diary Entry
+    {text}
+    """
+    print("🔄 Extracting graph...")
+    json_text = call_gemini_api(prompt, model="gemini-3-pro-preview", response_mime_type="application/json")
+    return json.loads(json_text)
+
+# ... (get_master_context is unchanged) ...
+
+def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict[str, Any]) -> str:
+    """Analyzes the FULL updated state of the user."""
+    
+    # ... (Context extraction logic) ...
+    # Simple re-impl of context gathering to inject role def
+    
+    # Extract relevant context (simplify to avoid token overflow)
+    # 1. Active Goals
+    active_goals = [n for n in master_graph.get("nodes", []) if n.get("type") == "goal" and n.get("status") == "Active"]
+    
+    # 2. Recent Insights (last 7 days?)
+    recent_insights = sorted(
+        [n for n in master_graph.get("nodes", []) if n.get("type") == "insight"],
+        key=lambda x: x.get("last_seen", ""), reverse=True
+    )[:10]
+    
+    # 3. Recent Scheduled Events
+    scheduled_events = [n for n in master_graph.get("nodes", []) if n.get("type") == "event" and n.get("status") == "Scheduled"]
+
+    # 4. Pending Tasks (New Logic)
+    # Extract tasks that are NOT completed
+    pending_tasks = [n for n in master_graph.get("nodes", []) if n.get("type") == "task" and n.get("status") != "Completed"]
+    
+    # 5. Recent Diary Context (Consolidated View)
+    # Find last 5 diary nodes
+    all_diary_nodes = sorted(
+        [n for n in master_graph.get("nodes", []) if n.get("type") == "diary"],
+        key=lambda x: x.get("date", ""), reverse=True
+    )[:5] # Last 5 entries including today
+
+    recent_diary_context = "### Recent Diary Flow (Consolidated)\n"
+    if not all_diary_nodes:
+        recent_diary_context += "No recent diary entries found.\n"
+    else:
+        for d_node in all_diary_nodes:
+            d_date = d_node.get("date", "Unknown")
+            d_id = d_node.get("id")
+            
+            # Find nodes mentioned by this diary
+            mentioned_nodes = []
+            for edge in master_graph.get("edges", []):
+                if edge.get("source") == d_id and edge.get("relationship") == "MENTIONS":
+                    target_id = edge.get("target")
+                    target_node = next((n for n in master_graph.get("nodes", []) if n["id"] == target_id), None)
+                    if target_node:
+                        mentioned_nodes.append(f"{target_node.get('label')} ({target_node.get('type')})")
+            
+            mentions_str = ", ".join(mentioned_nodes) if mentioned_nodes else "No specific mentions."
+            recent_diary_context += f"- **{d_date}**: {mentions_str}\n"
+
+    
+    context_summary = "### Current Life Context\n"
+    if active_goals:
+        context_summary += "**Active Goals:**\n" + "\n".join([f"- {n.get('label')}: {n.get('detail')}" for n in active_goals]) + "\n"
+    if recent_insights:
+        context_summary += "**Recent Insights:**\n" + "\n".join([f"- {n.get('label')}" for n in recent_insights]) + "\n"
+    if scheduled_events:
+        context_summary += "**Upcoming Events:**\n" + "\n".join([f"- {n.get('date')} {n.get('label')}" for n in scheduled_events]) + "\n"
+    if pending_tasks:
+        context_summary += "**Pending Tasks (To-Do):**\n" + "\n".join([f"- {n.get('label')}" for n in pending_tasks]) + "\n"
+        
+    # Inject Role Definition
+    role_def = get_role_definition()
+    
+    prompt = f"""
+    {ANALYSIS_SYSTEM_PROMPT}
+
+    {role_def}
+
+    {context_summary}
+
+    {recent_diary_context}
+
+    ### Today's New Entry Data
+    {json.dumps(current_diary_node, ensure_ascii=False, indent=2)}
+    
+    ### Task
+    Based on the "Recent Diary Flow" above (which includes today and previous days), provide a **SINGLE consolidated advice** that addresses the user's ongoing situation and trajectory. 
+    Do not analyze just today in isolation. Connect the dots across the recent days (e.g., 2/14 -> 2/15 -> 2/16).
+    """
+    print("🔄 Analyzing updated state (Consolidated)...")
+    return call_gemini_api(prompt, model="gemini-3-pro-preview")
 
 EXTRACTION_SYSTEM_PROMPT = """
 You are an expert Knowledge Graph Engineer and Psychologist.
@@ -134,7 +269,7 @@ Return the text in the format:
 Language: Japanese.
 """
 
-def call_gemini_api(prompt: str, model: str = "gemini-2.0-flash", response_mime_type: str = "text/plain") -> str:
+def call_gemini_api(prompt: str, model: str = "gemini-3-pro-preview", response_mime_type: str = "text/plain") -> str:
     if not API_KEY:
         raise ValueError("GOOGLE_API_KEY is not set.")
     
@@ -209,7 +344,7 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
     """
     
     try:
-        json_text = call_gemini_api(prompt, model="gemini-2.0-flash", response_mime_type="application/json")
+        json_text = call_gemini_api(prompt, model="gemini-3-pro-preview", response_mime_type="application/json")
         mapping = json.loads(json_text)
         
         if not mapping:
@@ -249,7 +384,7 @@ def extract_graph(text: str, context_str: str = "") -> Dict[str, Any]:
     {text}
     """
     print("🔄 Extracting graph...")
-    json_text = call_gemini_api(prompt, model="gemini-2.0-flash", response_mime_type="application/json")
+    json_text = call_gemini_api(prompt, model="gemini-3-pro-preview", response_mime_type="application/json")
     return json.loads(json_text)
 
 def get_master_context(master_graph: Dict[str, Any]) -> str:
@@ -361,7 +496,7 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     Do not analyze just today in isolation. Connect the dots across the recent days (e.g., 2/14 -> 2/15 -> 2/16).
     """
     print("🔄 Analyzing updated state (Consolidated)...")
-    return call_gemini_api(prompt, model="gemini-2.0-flash")
+    return call_gemini_api(prompt, model="gemini-3-pro-preview")
 
 def main():
     parser = argparse.ArgumentParser(description="Pomera Diary to Knowledge Graph & Analysis")
