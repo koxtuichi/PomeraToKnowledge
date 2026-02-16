@@ -818,6 +818,58 @@
     }
 
     /* --- Responsive --- */
+    /* --- モバイルボトムナビ --- */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 15, 28, 0.95);
+      border-top: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 6px 0;
+      padding-bottom: env(safe-area-inset-bottom, 6px);
+    }
+
+    .mobile-nav-inner {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      color: var(--text-dim);
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-nav-item .mobile-nav-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .mobile-nav-item.active {
+      color: var(--accent-primary);
+    }
+
+    .mobile-nav-item:active {
+      transform: scale(0.92);
+    }
+
     @media (max-width: 1100px) {
       .dashboard-grid {
         grid-template-columns: 1fr;
@@ -835,6 +887,11 @@
 
       main {
         padding: 16px 12px;
+        padding-bottom: 80px;
+      }
+
+      .mobile-nav {
+        display: block;
       }
 
       /* ヘッダー */
@@ -1080,6 +1137,26 @@
 </head>
 
 <body>
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <button class="mobile-nav-item active" onclick="mobileSwitch('advisor')">
+        <span class="mobile-nav-icon">🏠</span>
+        <span>ホーム</span>
+      </button>
+      <button class="mobile-nav-item" onclick="mobileSwitch('family')">
+        <span class="mobile-nav-icon">👨‍👩‍👦</span>
+        <span>ファミリー</span>
+      </button>
+      <button class="mobile-nav-item" onclick="mobileSwitch('graph')">
+        <span class="mobile-nav-icon">🕸️</span>
+        <span>グラフ</span>
+      </button>
+      <button class="mobile-nav-item" onclick="window.location.reload()">
+        <span class="mobile-nav-icon">🔄</span>
+        <span>更新</span>
+      </button>
+    </div>
+  </nav>
   <div id="app">
     <aside>
       <div class="logo">
@@ -4611,10 +4688,50 @@
       document.getElementById('graph-view').style.display = view === 'graph' ? 'block' : 'none';
 
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+      if (event && event.currentTarget) event.currentTarget.classList.add('active');
+
+      syncMobileNav(view);
 
       if (view === 'graph') renderGraph();
       if (view === 'family') renderFamilyView();
+
+      const main = document.querySelector('main');
+      if (main) main.scrollTop = 0;
+    }
+
+    function mobileSwitch(view) {
+      document.getElementById('advisor-view').style.display = view === 'advisor' ? 'block' : 'none';
+      document.getElementById('family-view').style.display = view === 'family' ? 'block' : 'none';
+      document.getElementById('graph-view').style.display = view === 'graph' ? 'block' : 'none';
+
+      syncMobileNav(view);
+      syncSidebarNav(view);
+
+      if (view === 'graph') renderGraph();
+      if (view === 'family') renderFamilyView();
+
+      const main = document.querySelector('main');
+      if (main) main.scrollTop = 0;
+    }
+
+    function syncMobileNav(view) {
+      document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
+      const viewMap = { 'advisor': 0, 'family': 1, 'graph': 2 };
+      const idx = viewMap[view];
+      if (idx !== undefined) {
+        const items = document.querySelectorAll('.mobile-nav-item');
+        if (items[idx]) items[idx].classList.add('active');
+      }
+    }
+
+    function syncSidebarNav(view) {
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      const viewMap = { 'advisor': 0, 'family': 1, 'graph': 2 };
+      const idx = viewMap[view];
+      if (idx !== undefined) {
+        const items = document.querySelectorAll('.nav-link');
+        if (items[idx]) items[idx].classList.add('active');
+      }
     }
 
     // ── 日付表示 ──
