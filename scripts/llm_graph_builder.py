@@ -207,7 +207,7 @@ def get_role_definition() -> str:
     return ""
 
 
-def call_gemini_api(prompt: str, model: str = "gemini-3-pro-preview", response_mime_type: str = "text/plain", max_retries: int = 3) -> str:
+def call_gemini_api(prompt: str, model: str = "gemini-3-flash-preview", response_mime_type: str = "text/plain", max_retries: int = 3) -> str:
     if not API_KEY:
         raise ValueError("GOOGLE_API_KEY is not set.")
 
@@ -261,7 +261,7 @@ def extract_graph(text: str, context_str: str = "") -> Dict[str, Any]:
     {text}
     """
     print("🔄 グラフを抽出中...")
-    json_text = call_gemini_api(prompt, model="gemini-3-pro-preview", response_mime_type="application/json")
+    json_text = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
     return json.loads(json_text)
 
 
@@ -339,7 +339,7 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
     """
 
     try:
-        json_text = call_gemini_api(prompt, model="gemini-3-pro-preview", response_mime_type="application/json")
+        json_text = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
         mapping = json.loads(json_text)
 
         if not mapping:
@@ -476,7 +476,7 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     単にタスクを列挙するだけでなく、「なぜそのタスクが進まないのか」「どうすれば重力を軽くできるか」を深く分析してください。
     """
     print("🔄 Antigravity分析を実行中...")
-    return call_gemini_api(prompt, model="gemini-3-pro-preview")
+    return call_gemini_api(prompt, model="gemini-3-flash-preview")
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
