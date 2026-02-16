@@ -4,37 +4,77 @@
       "id": "日記:2026-02-17",
       "label": "2026年2月17日の日記",
       "type": "日記",
-      "detail": "積読の整理、モンスター描画の進捗と課題、Saitekiオンライン飲み会への言及。",
+      "detail": "積読の整理、モンスター描画の進捗と課題、Saitekiオンライン飲み会の予定について",
       "date": "2026-02-17"
     },
     {
-      "id": "知見:読書リストの具体化",
-      "label": "積読リストの具体化",
-      "type": "知見",
-      "detail": "「質問力で人を動かす」「AI駆動開発チーム」など、優先的に読むべき7冊を特定した。",
-      "category": "エンジニア"
+      "id": "タスク:Book_Reading_Management",
+      "label": "読みたい本の整理と読書",
+      "type": "タスク",
+      "detail": "「質問力で人を動かす」「データのつながりを活かす技術」「できるリーダーの本」「AI駆動開発チーム」「AI X 哲学」「実践的パフォーマンス」「Giver人を動かす方程式」の7冊を整理する",
+      "status": "進行中",
+      "category": "エンジニア",
+      "tags": [
+        "積読",
+        "自己啓発",
+        "技術書"
+      ]
+    },
+    {
+      "id": "タスク:MonsterDrawing",
+      "label": "毎日のモンスター描画",
+      "type": "タスク",
+      "detail": "YouTubeショートへの投稿。現在23体目完了。目標100体。",
+      "status": "進行中",
+      "category": "副業",
+      "tags": [
+        "YouTube",
+        "100体チャレンジ"
+      ]
     },
     {
       "id": "知見:高品質なイラストの集客効果",
-      "label": "高品質な絵による登録者増",
+      "label": "高品質な描写によるファン獲得",
       "type": "知見",
-      "detail": "短時間（15分）の絵よりも、しっかり時間をかけて描いた絵の方がチャンネル登録者獲得（3人増）に繋がりやすい。",
-      "category": "クリエイター"
+      "detail": "鉛筆でしっかり描き込んだ動画を投稿したところ、チャンネル登録者が3人増加した。時短（15分）よりも質（5時間）が重要である可能性が高い。"
     },
     {
-      "id": "感情:登録者増加の喜び",
-      "label": "登録者増加の喜び",
+      "id": "感情:制作への意欲",
+      "label": "高品質制作への意欲",
       "type": "感情",
-      "sentiment": 0.7,
-      "detail": "鉛筆でしっかり描いた動画で登録者が増えたことへの手応えとモチベーション。"
+      "sentiment": 0.6,
+      "detail": "時間はかかるが、しっかり描くことの重要性を感じ、挑戦してみたいという前向きな気持ち。"
+    },
+    {
+      "id": "制約:CreativeTimeShortage",
+      "label": "制作時間の確保",
+      "type": "制約",
+      "detail": "5時間かけるような高品質な絵を描くためのまとまった時間を確保することが困難。",
+      "constraint_type": "時間不足",
+      "category": "副業"
+    },
+    {
+      "id": "出来事:Saiteki_OnlineDrinking",
+      "label": "Saitekiオンライン飲み会",
+      "type": "出来事",
+      "status": "予定",
+      "date": "2026-02-20",
+      "detail": "19:30開始。UberEatsのクーポン配布あり。妻の参加も検討中。"
+    },
+    {
+      "id": "人物:さやか",
+      "label": "妻",
+      "type": "人物",
+      "detail": "同い年の妻。オンライン飲み会への参加を検討中。",
+      "category": "夫"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T20:48:16.883914",
-      "last_seen": "2026-02-16T20:48:16.883915",
+      "first_seen": "2026-02-16T21:11:37.982141",
+      "last_seen": "2026-02-16T21:11:37.982142",
       "weight": 1
     }
   ],
@@ -43,68 +83,49 @@
       "source": "日記:2026-02-17",
       "target": "タスク:Book_Reading_Management",
       "type": "言及する",
-      "label": "読みたい本のリストアップ"
-    },
-    {
-      "source": "知見:読書リストの具体化",
-      "target": "タスク:Book_Reading_Management",
-      "type": "原動力になる",
-      "label": "対象の明確化"
+      "label": "本のリストを整理"
     },
     {
       "source": "日記:2026-02-17",
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
-      "label": "23体目の投稿報告"
+      "label": "23体目の完了を記録"
     },
     {
       "source": "日記:2026-02-17",
-      "target": "タスク:HighQuality_MonsterDrawing",
+      "target": "出来事:Saiteki_OnlineDrinking",
       "type": "言及する",
-      "label": "5時間かけた制作への意欲"
+      "label": "詳細の確認"
     },
     {
       "source": "知見:高品質なイラストの集客効果",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "原動力になる",
-      "label": "重要性の再認識"
+      "label": "質の向上が登録者増に繋がる"
     },
     {
-      "source": "感情:登録者増加の喜び",
+      "source": "感情:制作への意欲",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "原動力になる",
-      "label": "成功体験による意欲"
+      "label": "やってみたいという気持ち"
     },
     {
-      "source": "制約:制作時間の確保",
+      "source": "制約:CreativeTimeShortage",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "阻害する",
-      "label": "5時間の捻出が課題"
+      "label": "5時間の確保が壁"
     },
     {
-      "source": "日記:2026-02-17",
-      "target": "出来事:Saitekiオンライン飲み会",
-      "type": "言及する",
-      "label": "開催日時とクーポンの確認"
-    },
-    {
-      "source": "人物:妻",
-      "target": "出来事:Saitekiオンライン飲み会",
+      "source": "人物:さやか",
+      "target": "出来事:Saiteki_OnlineDrinking",
       "type": "参加する",
-      "label": "参加を検討中"
+      "label": "参加の可能性あり"
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-02-17",
       "type": "関連する",
       "label": "書いた",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "知見:読書リストの具体化",
-      "type": "言及する",
-      "label": "言及",
       "weight": 1
     },
     {
@@ -116,16 +137,30 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "感情:登録者増加の喜び",
+      "target": "感情:制作への意欲",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "制約:CreativeTimeShortage",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "人物:さやか",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T20:48:16.883899",
+    "generated_at": "2026-02-16T21:11:37.982126",
     "source_file": "diary/20260216_[POMERA]2026年2月17日.txt",
-    "node_count": 4,
-    "edge_count": 9
+    "node_count": 8,
+    "edge_count": 7
   }
 }
