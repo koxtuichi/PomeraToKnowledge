@@ -59,18 +59,20 @@ The output must be a single JSON object with "nodes" and "edges" arrays.
 3. **Sentiment**: Assign sentiment scores based on the emotional tone.
 4. **Knowledge Clusters**: Group related nodes into communities (e.g., Work=1, Family=2, Health=3).
 
-### Special Tag Parsing (User Constraints)
-The user utilizes specific tags in the text. You MUST parse them as follows:
-- `Task::Task Name` or `To-Do::Task Name` -> Create a Node of type `task` with status `Active`.
-    - If the text says "done", "completed", "finished" in context, set status to `Completed`.
-- `予定::YYYY/MM/DD Event Name` -> Create a Node of type `event` with status `Scheduled` and property `date`.
-    - Edge: `person:self` -> `PLANS` -> `event:node_id`
-- `目標::Goal Name` -> Create a Node of type `goal` with status `Active`.
-    - Edge: `person:self` -> `TARGETS` -> `goal:node_id`
-- **Other `Key::Value` Tags**:
-    - Treat `Key` as the relationship type (or a hint for it) and `Value` as the node content.
-    - Example: `気分::最高` -> Create `emotion` node "最高", Edge: `person:self` --[FEELING]--> `emotion:最高`.
-    - Example: `アイデア::アプリ案` -> Create `idea` (or `concept`) node "アプリ案", Edge: `person:self` --[DISCOVERS]--> `concept:アプリ案`.
+### User Constraints & Task Parsing
+The user utilizes specific tags, BUT you must also be flexible.
+1. **Explicit Tags (Priority)**:
+    - `Task::Task Name` or `To-Do::Task Name` -> Create `task` node (Active).
+    - `予定::YYYY/MM/DD Event Name` -> Create `event` node (Scheduled).
+    - `目標::Goal Name` -> Create `goal` node (Active).
+
+2. **Context-Aware Extraction (Flexible)**:
+    - **Existing Tasks**: Check the "Existing Active Tasks" list provided below. If the diary mentions progress on these, update their status (e.g., "Complete", "Dropped") or add details.
+    - **Implicit Tasks**: If the user clearly commits to doing something significant (e.g., "I must finish the report by tomorrow"), create a `task` node even without a tag.
+    - **Completion Detection**: If the user says "I finished X" or "X is done", and X matches an existing task, create a node with `id` matching the existing task (if possible) or same label, and set `status` to `Completed`.
+
+3. **Other `Key::Value` Tags**:
+    - Treat `Key` as the relationship or hint. `Value` is the content.
 
 ### Output Requirements
 **IMPORTANT: All "label" and "detail" fields in nodes and edges MUST be in Japanese.**
@@ -232,15 +234,17 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
         print(f"⚠️ Semantic resolution failed: {e}. Proceeding without resolution.")
         return daily_graph
 
-def extract_graph(text: str) -> Dict[str, Any]:
+def extract_graph(text: str, context_str: str = "") -> Dict[str, Any]:
     prompt = f"""
     {EXTRACTION_SYSTEM_PROMPT}
+
+    {context_str}
 
     ### User Diary Entry
     {text}
     """
     print("🔄 Extracting graph...")
-    json_text = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
+    json_text = call_gemini_api(prompt, model="gemini-2.0-flash", response_mime_type="application/json")
     return json.loads(json_text)
 
 def get_master_context(master_graph: Dict[str, Any]) -> str:
@@ -249,6 +253,7 @@ def get_master_context(master_graph: Dict[str, Any]) -> str:
     
     active_goals = [n for n in nodes if n.get("type") == "goal" and n.get("status") == "Active"]
     scheduled_events = [n for n in nodes if n.get("type") == "event" and n.get("status") == "Scheduled"]
+    active_tasks = [n for n in nodes if n.get("type") == "task" and n.get("status") != "Completed"]
     
     # Sort events by date (if available) - simplified for now
     context_str = "### Master Graph Context (Past State)\n"
@@ -263,9 +268,14 @@ def get_master_context(master_graph: Dict[str, Any]) -> str:
         for e in scheduled_events:
              date = e.get("date", "Unknown Date")
              context_str += f"- [{date}] {e.get('label')}: {e.get('detail')}\n"
-             
-    if not active_goals and not scheduled_events:
-        context_str += "No active goals or scheduled events found in history.\n"
+
+    if active_tasks:
+        context_str += "\n**Existing Active Tasks (To-Do):**\n"
+        for t in active_tasks:
+             context_str += f"- {t.get('label')}: {t.get('detail', '')}\n"
+
+    if not active_goals and not scheduled_events and not active_tasks:
+        context_str += "No active goals, tasks, or scheduled events found in history.\n"
         
     return context_str
 
@@ -389,7 +399,7 @@ def main():
         # Normalize to NFC to handle macOS filename differences
         args.input_file = unicodedata.normalize('NFC', args.input_file)
         
-        daily_graph = extract_graph(diary_text)
+        daily_graph = extract_graph(diary_text, master_context_str)
         
         # Meta data
         # Try to extract date from filename first, else use today
