@@ -4,6 +4,15 @@ on:
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
+    inputs:
+      force_reanalyze:
+        description: '全日記を再分析する'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 jobs:
   sync:
@@ -34,6 +43,18 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
           python scripts/sync_email.py
+
+      - name: Force Reanalyze All Diaries
+        if: ${{ github.event.inputs.force_reanalyze == 'true' }}
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          echo "🔄 全日記の強制再分析を開始..."
+          for f in diary/*.txt; do
+            echo "📝 分析中: $f"
+            python scripts/llm_graph_builder.py "$f" || echo "⚠️ 失敗: $f"
+            sleep 5
+          done
 
       - name: Commit and Push changes
         run: |
