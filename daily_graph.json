@@ -8,10 +8,10 @@
       "community": 1
     },
     {
-      "id": "event:review_suzuki_material",
-      "label": "鈴木さんの学習資料確認",
+      "id": "task:学習資料の作成",
+      "label": "学習資料の作成依頼",
       "type": "task",
-      "detail": "鈴木さんが作成したカスタムチューニングのための学習資料を確認する。",
+      "detail": "鈴木さんにカスタムチューニングのための質問回答形式の資料作成を依頼",
       "status": "Active",
       "community": 1
     },
@@ -23,18 +23,18 @@
       "community": 1
     },
     {
-      "id": "event:check_kaime_status",
-      "label": "開米さんの作業状況確認",
+      "id": "task:AI置き換え資料の作成",
+      "label": "AIに置き換えられる作業に関する資料作成",
       "type": "task",
-      "detail": "開米さんに任せている作業の状況を確認する。",
+      "detail": "開米さんに依頼している、AIに置き換えられる作業についての資料作成",
       "status": "Active",
       "community": 1
     },
     {
-      "id": "event:analysis_documentation",
+      "id": "task:社員分析資料の作成",
       "label": "社員分析資料の作成",
       "type": "task",
-      "detail": "社員分析したものの利用案を資料化する。",
+      "detail": "社員分析したものの利用案を資料化する作業",
       "status": "Active",
       "community": 1
     },
@@ -46,50 +46,51 @@
       "community": 1
     },
     {
-      "id": "event:side_work_start",
-      "label": "副業タスクの開始",
-      "type": "event",
-      "detail": "株式会社SaitekiでAI活用を考える副業。時間給で3000円。本業終了後の18時以降に連絡とタスク整理を開始する",
-      "date": "2026-02-16",
-      "status": "Scheduled",
-      "community": 1
-    },
-    {
       "id": "emotion:gratitude",
-      "label": "感謝の気持ち",
+      "label": "感謝",
       "type": "emotion",
-      "detail": "さやかへの感謝を忘れていることに気づき、申し訳なく思っている。",
-      "sentiment": -0.2,
-      "community": 2
-    },
-    {
-      "id": "concept:porridge_making",
-      "label": "５倍がゆ",
-      "type": "concept",
-      "detail": "蒼馬が月齢９ヶ月で食べている離乳食",
+      "detail": "さやかへの感謝を忘れていることに気づいた",
+      "sentiment": 0.5,
       "community": 2
     },
     {
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "蒼馬のご飯やらすべてをお願いしている",
+      "detail": "蒼馬の母親。いつもご飯を作ってくれている。",
+      "community": 2
+    },
+    {
+      "id": "concept:porridge_making",
+      "label": "５倍がゆ",
+      "type": "concept",
+      "detail": "蒼馬が月齢９ヶ月で食べている",
+      "community": 2
+    },
+    {
+      "id": "person:souma",
+      "label": "蒼馬",
+      "type": "person",
+      "detail": "月齢９ヶ月",
       "community": 2
     },
     {
       "id": "barrier:time_poverty",
       "label": "お金の心配",
       "type": "emotion",
-      "detail": "税金の支払いが大きすぎて、結構大変に感じてしまう。確定申告での所得税も不安",
+      "detail": "税金の支払いが大きすぎて、結構大変に感じてしまう。確定申告で所得税を払わないといけないかも",
       "sentiment": -0.6,
-      "community": 3
+      "tags": [
+        "Cognitive Distortion: Catastrophizing"
+      ],
+      "community": 4
     },
     {
       "id": "concept:savings",
       "label": "貯金",
       "type": "concept",
       "detail": "１１０万円程度",
-      "community": 3
+      "community": 4
     },
     {
       "id": "goal:improvement_flow",
@@ -100,25 +101,19 @@
       "community": 1
     },
     {
-      "id": "project:main_job",
+      "id": "concept:仕事",
       "label": "仕事",
       "type": "concept",
-      "detail": "日中の仕事はメインのほう。フロントエンドで2チーム8人のリーダーをしている",
+      "detail": "日中の仕事はメインのほう。",
       "community": 1
     },
     {
-      "id": "emotion:task_pressure",
+      "id": "emotion:悩み",
       "label": "悩み",
-      "type": "concept",
+      "type": "emotion",
       "detail": "タスクを毎朝考えてしまうこと",
-      "community": 4
-    },
-    {
-      "id": "person:souma",
-      "label": "蒼馬",
-      "type": "person",
-      "detail": "９ヶ月の子供。目覚めると動きたがる",
-      "community": 2
+      "sentiment": -0.3,
+      "community": 5
     },
     {
       "id": "place:home",
@@ -131,7 +126,7 @@
       "id": "event:mtg_naomichi",
       "label": "直道とのMTG",
       "type": "event",
-      "detail": "Saitekiの社長で、同い年で、友達の直道とのミーティング",
+      "detail": "Saitekiの社長で、同い年で、友達の直道との定期ミーティング",
       "date": "2026-02-20",
       "status": "Scheduled",
       "community": 1
@@ -149,8 +144,8 @@
       "type": "diary",
       "date": "2026-02-16",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-16T05:40:44.635332",
-      "last_seen": "2026-02-16T05:40:44.635333",
+      "first_seen": "2026-02-16T06:12:41.039353",
+      "last_seen": "2026-02-16T06:12:41.039355",
       "weight": 1
     },
     {
@@ -158,101 +153,47 @@
       "label": "自分",
       "type": "self",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T05:40:44.635339",
-      "last_seen": "2026-02-16T05:40:44.635340",
+      "first_seen": "2026-02-16T06:12:41.039360",
+      "last_seen": "2026-02-16T06:12:41.039361",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "event:review_suzuki_material",
+      "source": "task:学習資料の作成",
       "target": "person:suzuki",
-      "type": "ABOUT",
-      "label": "学習資料の作成者"
+      "type": "TARGETS",
+      "label": "資料作成を依頼"
     },
     {
-      "source": "event:check_kaime_status",
+      "source": "task:AI置き換え資料の作成",
       "target": "person:kaime",
-      "type": "ABOUT",
-      "label": "作業の担当者"
-    },
-    {
-      "source": "event:side_work_start",
-      "target": "project:saiteki",
-      "type": "PARTICIPATES",
-      "label": "副業先"
+      "type": "TARGETS",
+      "label": "資料作成を依頼"
     },
     {
       "source": "emotion:gratitude",
       "target": "person:sayaka",
-      "type": "ABOUT",
+      "type": "TARGETS",
       "label": "感謝の対象"
     },
     {
       "source": "person:souma",
       "target": "concept:porridge_making",
       "type": "ABOUT",
-      "label": "食べているもの"
+      "label": "食べている"
     },
     {
       "source": "barrier:time_poverty",
       "target": "concept:savings",
       "type": "ABOUT",
-      "label": "貯金額"
-    },
-    {
-      "source": "person:souma",
-      "target": "place:home",
-      "type": "AT",
-      "label": "住んでいる場所"
-    },
-    {
-      "source": "emotion:gratitude",
-      "target": "person:souma",
-      "type": "ABOUT",
-      "label": "子供"
+      "label": "貯金について"
     },
     {
       "source": "event:mtg_naomichi",
       "target": "person:naomichi",
       "type": "PARTICIPATES",
-      "label": "ミーティングの相手"
-    },
-    {
-      "source": "person:naomichi",
-      "target": "project:saiteki",
-      "type": "ABOUT",
-      "label": "社長"
-    },
-    {
-      "source": "event:review_suzuki_material",
-      "target": "project:saiteki",
-      "type": "PARTICIPATES",
-      "label": "副業"
-    },
-    {
-      "source": "event:check_kaime_status",
-      "target": "project:saiteki",
-      "type": "PARTICIPATES",
-      "label": "副業"
-    },
-    {
-      "source": "event:analysis_documentation",
-      "target": "project:saiteki",
-      "type": "PARTICIPATES",
-      "label": "副業"
-    },
-    {
-      "source": "event:学習資料の完成連絡",
-      "target": "event:review_suzuki_material",
-      "type": "TRIGGERED_BY",
-      "label": "引き金"
-    },
-    {
-      "source": "emotion:gratitude",
-      "target": "barrier:time_poverty",
-      "type": "CONFLICTS_WITH",
-      "label": "対立"
+      "label": "ミーティング参加者"
     },
     {
       "source": "person:self",
@@ -268,7 +209,7 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "event:review_suzuki_material",
+      "target": "task:学習資料の作成",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -280,13 +221,13 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "event:check_kaime_status",
+      "target": "task:AI置き換え資料の作成",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-16",
-      "target": "event:analysis_documentation",
+      "target": "task:社員分析資料の作成",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -298,13 +239,13 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "event:side_work_start",
+      "target": "emotion:gratitude",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-16",
-      "target": "emotion:gratitude",
+      "target": "person:sayaka",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -316,7 +257,7 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "person:sayaka",
+      "target": "person:souma",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -340,19 +281,13 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "project:main_job",
+      "target": "concept:仕事",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-16",
-      "target": "emotion:task_pressure",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-16",
-      "target": "person:souma",
+      "target": "emotion:悩み",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -376,9 +311,9 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T05:40:44.635314",
+    "generated_at": "2026-02-16T06:12:41.039337",
     "source_file": "diary/20260216_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 19,
-    "edge_count": 15
+    "node_count": 18,
+    "edge_count": 6
   }
 }
