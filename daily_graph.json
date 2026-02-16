@@ -4,19 +4,32 @@
       "id": "日記:2026-02-17",
       "label": "2026年2月17日の日記",
       "type": "日記",
-      "detail": "読みたい本の整理と、モンスター描画（23体目）のYouTube投稿、および動画制作の課題についての記録。",
-      "date": "2026-02-17"
+      "detail": "本の整理とモンスター描画の進捗、高品質な描画への意欲に関する記録",
+      "date": "2026-02-17",
+      "category": "エンジニア"
     },
     {
       "id": "タスク:Book_Reading_Management",
       "label": "読みたい本の整理と読書",
       "type": "タスク",
-      "detail": "「質問力で人を動かす」「データのつながりを活かす技術」「できるリーダーの本」「AI駆動開発チーム」「AI X 哲学」の読書と整理。",
-      "status": "未着手",
+      "detail": "既存のリストに加え「実践的パフォーマンス」「Giver人を動かす方程式」を追加して整理する",
+      "status": "進行中",
       "category": "エンジニア",
       "tags": [
         "読書",
-        "スキルアップ"
+        "自己研鑽"
+      ]
+    },
+    {
+      "id": "タスク:MonsterDrawing",
+      "label": "毎日のモンスター描画",
+      "type": "タスク",
+      "detail": "現在23体目。100体描くことを目標に継続中。Youtubeショートに投稿。",
+      "status": "進行中",
+      "category": "エンジニア",
+      "tags": [
+        "習慣",
+        "Youtube"
       ]
     },
     {
@@ -25,42 +38,35 @@
       "type": "タスク",
       "detail": "15分程度の短時間描画ではなく、5時間ほどかけてしっかり描き込んだ動画を制作し、反応を見る。",
       "status": "未着手",
-      "category": "個人開発",
-      "tags": [
-        "YouTube",
-        "イラスト"
-      ]
+      "category": "エンジニア"
+    },
+    {
+      "id": "知見:高品質なイラストの集客効果",
+      "label": "高品質な描画はファン獲得に直結する",
+      "type": "知見",
+      "detail": "鉛筆でしっかり描き込んだ動画を投稿した際、チャンネル登録者が3人増加した。丁寧な制作は人気獲得に重要である。"
+    },
+    {
+      "id": "感情:制作への意欲",
+      "label": "100体完遂への意欲",
+      "type": "感情",
+      "detail": "100体描くまで頑張ろうという前向きな気持ち。優先度は低いが重要性は認識している。",
+      "sentiment": 0.6
     },
     {
       "id": "制約:CreativeTimeShortage",
       "label": "まとまった制作時間の不足",
       "type": "制約",
       "detail": "5時間といった長時間の制作時間を確保することが困難。",
-      "constraint_type": "時間不足",
-      "category": "個人開発"
-    },
-    {
-      "id": "知見:高品質イラストの集客効果",
-      "label": "高品質な絵は登録者増加に寄与する",
-      "type": "知見",
-      "detail": "鉛筆でしっかり描いた絵の動画を投稿した際、チャンネル登録者が3人増加した。質の向上がファン獲得に重要である可能性。",
-      "category": "個人開発"
-    },
-    {
-      "id": "感情:YouTube成長への手応え",
-      "label": "YouTube成長への手応え",
-      "type": "感情",
-      "detail": "登録者が増えたことによる、制作への前向きな感情。",
-      "sentiment": 0.6,
-      "category": "個人開発"
+      "constraint_type": "時間不足"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T15:47:29.840720",
-      "last_seen": "2026-02-16T15:47:29.840721",
+      "first_seen": "2026-02-16T15:54:26.031622",
+      "last_seen": "2026-02-16T15:54:26.031624",
       "weight": 1
     }
   ],
@@ -69,49 +75,43 @@
       "source": "日記:2026-02-17",
       "target": "タスク:Book_Reading_Management",
       "type": "言及する",
-      "label": "読みたい本を整理"
+      "label": "読書リストの更新"
     },
     {
       "source": "日記:2026-02-17",
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
-      "label": "23体目を投稿"
+      "label": "進捗（23体目）の報告"
     },
     {
       "source": "日記:2026-02-17",
-      "target": "知見:高品質イラストの集客効果",
+      "target": "知見:高品質なイラストの集客効果",
       "type": "言及する",
-      "label": "登録者増加の分析"
+      "label": "登録者増の分析"
     },
     {
-      "source": "知見:高品質イラストの集客効果",
+      "source": "感情:制作への意欲",
+      "target": "タスク:MonsterDrawing",
+      "type": "原動力になる",
+      "label": "100体目標への推進力"
+    },
+    {
+      "source": "知見:高品質なイラストの集客効果",
+      "target": "目標:個人での収益化・人気獲得",
+      "type": "一部である",
+      "label": "人気獲得のための重要な要素"
+    },
+    {
+      "source": "知見:高品質なイラストの集客効果",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "原動力になる",
-      "label": "高品質制作の重要性を認識"
+      "label": "高品質制作への動機付け"
     },
     {
       "source": "制約:CreativeTimeShortage",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "阻害する",
-      "label": "5時間の確保が困難"
-    },
-    {
-      "source": "感情:YouTube成長への手応え",
-      "target": "タスク:MonsterDrawing",
-      "type": "原動力になる",
-      "label": "100体投稿へのモチベーション"
-    },
-    {
-      "source": "知見:高品質イラストの集客効果",
-      "target": "目標:個人での収益化・人気獲得",
-      "type": "一部である",
-      "label": "人気獲得のための戦略的気づき"
-    },
-    {
-      "source": "制約:クリエイティブな時間の不足",
-      "target": "タスク:HighQuality_MonsterDrawing",
-      "type": "阻害する",
-      "label": "既存の制約が新規タスクも阻害"
+      "label": "長時間の描き込みを困難にする"
     },
     {
       "source": "人物:自分",
@@ -129,23 +129,23 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "制約:CreativeTimeShortage",
+      "target": "感情:制作への意欲",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
       "source": "日記:2026-02-17",
-      "target": "感情:YouTube成長への手応え",
+      "target": "制約:CreativeTimeShortage",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T15:47:29.840704",
+    "generated_at": "2026-02-16T15:54:26.031592",
     "source_file": "diary/20260216_[POMERA]2026年2月17日.txt",
-    "node_count": 6,
-    "edge_count": 8
+    "node_count": 7,
+    "edge_count": 7
   }
 }
