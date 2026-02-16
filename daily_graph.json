@@ -4,19 +4,18 @@
       "id": "日記:2026-02-17",
       "label": "2026年2月17日の日記",
       "type": "日記",
-      "detail": "読書リストの整理、モンスター描画の進捗と手応え、Saitekiオンライン飲み会への妻の誘いについて。",
+      "detail": "読書リストの整理、モンスター描画の進捗と課題、Saitekiオンライン飲み会についての記録。",
       "date": "2026-02-17"
     },
     {
       "id": "タスク:Book_Reading_Management",
       "label": "読みたい本の整理と読書",
       "type": "タスク",
-      "detail": "「質問力で人を動かす」「データのつながりを活かす技術」「できるリーダーの本」「AI駆動開発チーム」「AI X 哲学」「実践的パフォーマンス」「Giver人を動かす方程式」の計7冊の読書。一度リストを整理した。",
+      "detail": "「質問力で人を動かす」など計7冊のリストを整理し、読書を進める。",
       "status": "進行中",
-      "category": "エンジニア",
       "tags": [
         "読書",
-        "スキルアップ"
+        "自己研鑽"
       ]
     },
     {
@@ -25,33 +24,41 @@
       "type": "タスク",
       "detail": "YouTubeショートへの投稿。現在23体目。100体投稿を目指す。",
       "status": "進行中",
-      "category": "エンジニア",
       "tags": [
         "YouTube",
-        "イラスト"
+        "創作"
       ]
     },
     {
-      "id": "知見:高品質イラストの集客効果",
-      "label": "時間をかけた描写による成果",
-      "type": "知見",
-      "detail": "鉛筆でしっかり描き込んだ動画を投稿した際、チャンネル登録者が3人増えた。クオリティの向上が成果に直結する可能性がある。",
-      "category": "エンジニア"
+      "id": "タスク:HighQuality_MonsterDrawing",
+      "label": "5時間かけた高品質なモンスター描画の制作",
+      "type": "タスク",
+      "detail": "15分ではなく5時間ほどかけて描き込んだ動画を制作する。登録者増への手応えを感じている。",
+      "status": "未着手",
+      "tags": [
+        "YouTube",
+        "創作"
+      ]
     },
     {
-      "id": "感情:YouTube成長への手応え",
-      "label": "制作への手応え",
+      "id": "知見:高品質なイラスト of 集客効果",
+      "label": "高品質な作画はファン獲得に直結する",
+      "type": "知見",
+      "detail": "鉛筆でしっかり描いた動画を上げた際、チャンネル登録者が3人増加した。短時間（15分）の量産より、時間をかけた質の方が重要である可能性。"
+    },
+    {
+      "id": "感情:制作への意欲",
+      "label": "作画への手応えと意欲",
       "type": "感情",
-      "detail": "しっかり描くことの重要性を感じ、今後の制作スタイルに期待を感じている。",
+      "detail": "登録者増により、時間をかけた制作の重要性を感じ、モチベーションが上がっている。",
       "sentiment": 0.6
     },
     {
       "id": "制約:CreativeTimeShortage",
-      "label": "5時間の制作時間確保が困難",
+      "label": "制作時間の確保",
       "type": "制約",
-      "detail": "高品質な描画（5時間程度）を行うための時間を確保することが困難。優先順位との兼ね合いが課題。",
-      "constraint_type": "時間不足",
-      "category": "エンジニア"
+      "detail": "高品質な描画（5時間程度）を行うための時間を確保することが困難。",
+      "constraint_type": "時間不足"
     },
     {
       "id": "出来事:Saiteki_OnlineDrinking",
@@ -63,17 +70,24 @@
     },
     {
       "id": "人物:さやか",
-      "label": "妻",
+      "label": "妻（さやか）",
       "type": "人物",
-      "detail": "同い年の妻。オンライン飲み会への参加を検討されている。"
+      "detail": "ユーザーの配偶者。オンライン飲み会への参加を検討中。",
+      "category": "夫"
+    },
+    {
+      "id": "概念:UberEatsクーポン",
+      "label": "UberEatsクーポン",
+      "type": "概念",
+      "detail": "オンライン飲み会で配布される予定の特典。"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T18:49:02.962289",
-      "last_seen": "2026-02-16T18:49:02.962290",
+      "first_seen": "2026-02-16T19:18:17.039940",
+      "last_seen": "2026-02-16T19:18:17.039941",
       "weight": 1
     }
   ],
@@ -82,43 +96,55 @@
       "source": "日記:2026-02-17",
       "target": "タスク:Book_Reading_Management",
       "type": "言及する",
-      "label": "読書リストを整理"
+      "label": "本を整理"
     },
     {
       "source": "日記:2026-02-17",
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
-      "label": "23体目の進捗報告"
+      "label": "23体目を投稿"
     },
     {
-      "source": "知見:高品質イラストの集客効果",
-      "target": "タスク:HighQuality_MonsterDrawing",
-      "type": "原動力になる",
-      "label": "高品質な描画の重要性を認識"
+      "source": "タスク:MonsterDrawing",
+      "target": "知見:高品質なイラスト of 集客効果",
+      "type": "引き起こす",
+      "label": "試行錯誤から発見"
     },
     {
-      "source": "感情:YouTube成長への手応え",
+      "source": "知見:高品質なイラスト of 集客効果",
+      "target": "感情:制作への意欲",
+      "type": "引き起こす",
+      "label": "自信に繋がる"
+    },
+    {
+      "source": "感情:制作への意欲",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "原動力になる",
-      "label": "登録者増がモチベーションになる"
+      "label": "質の高い絵を描きたい"
     },
     {
       "source": "制約:CreativeTimeShortage",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "阻害する",
-      "label": "描画時間の確保が課題"
+      "label": "時間の確保が課題"
     },
     {
       "source": "日記:2026-02-17",
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "言及する",
-      "label": "開催時間とクーポンの確認"
+      "label": "予定を確認"
     },
     {
       "source": "人物:さやか",
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "参加する",
       "label": "参加を検討"
+    },
+    {
+      "source": "出来事:Saiteki_OnlineDrinking",
+      "target": "概念:UberEatsクーポン",
+      "type": "関連する",
+      "label": "配布予定"
     },
     {
       "source": "人物:自分",
@@ -129,14 +155,21 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "知見:高品質イラストの集客効果",
+      "target": "タスク:HighQuality_MonsterDrawing",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
       "source": "日記:2026-02-17",
-      "target": "感情:YouTube成長への手応え",
+      "target": "知見:高品質なイラスト of 集客効果",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "感情:制作への意欲",
       "type": "言及する",
       "label": "言及",
       "weight": 1
@@ -154,12 +187,19 @@
       "type": "言及する",
       "label": "言及",
       "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "概念:UberEatsクーポン",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T18:49:02.962271",
+    "generated_at": "2026-02-16T19:18:17.039924",
     "source_file": "diary/20260216_[POMERA]2026年2月17日.txt",
-    "node_count": 8,
-    "edge_count": 7
+    "node_count": 10,
+    "edge_count": 9
   }
 }
