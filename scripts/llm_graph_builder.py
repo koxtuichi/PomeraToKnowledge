@@ -207,7 +207,7 @@ def get_role_definition() -> str:
     return ""
 
 
-def call_gemini_api(prompt: str, model: str = "gemini-3-pro-preview", response_mime_type: str = "text/plain") -> str:
+def call_gemini_api(prompt: str, model: str = "gemini-3-pro-preview", response_mime_type: str = "text/plain", max_retries: int = 3) -> str:
     if not API_KEY:
         raise ValueError("GOOGLE_API_KEY is not set.")
 
@@ -220,10 +220,18 @@ def call_gemini_api(prompt: str, model: str = "gemini-3-pro-preview", response_m
         "generationConfig": {"response_mime_type": response_mime_type}
     }
 
-    response = requests.post(url, headers=headers, json=data, params=params)
+    for attempt in range(max_retries + 1):
+        response = requests.post(url, headers=headers, json=data, params=params)
 
-    if response.status_code != 200:
-        raise Exception(f"API Error: {response.status_code} - {response.text}")
+        if response.status_code == 200:
+            break
+        elif response.status_code == 429 and attempt < max_retries:
+            wait_time = 30 * (2 ** attempt)  # 30秒, 60秒, 120秒
+            print(f"⏳ レートリミット到達。{wait_time}秒後にリトライします... ({attempt + 1}/{max_retries})")
+            import time
+            time.sleep(wait_time)
+        else:
+            raise Exception(f"API Error: {response.status_code} - {response.text}")
 
     result = response.json()
     try:

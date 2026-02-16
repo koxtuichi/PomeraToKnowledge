@@ -14,8 +14,8 @@ EMAIL_ACCOUNT = os.getenv("GMAIL_ACCOUNT")
 APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 LOCAL_DIARY_DIR = "diary"
 ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
-SUBJECT_KEYWORD = "POMERA" # Subject to filter by (all caps as requested)
-ROLE_KEYWORD = "ROLEtoKNOWLEDGE" # New keyword for role definition
+SUBJECT_KEYWORD = "POMERA" # POMERAまたはPOMERAtoKNOWLEDGEを含む件名
+ROLE_KEYWORD = "ROLEtoKNOWLEDGE" # 役割定義用キーワード
 ROLE_DEF_FILE = "role_definition.txt"
 HISTORY_FILE = "sync_history.txt"
 
@@ -139,12 +139,12 @@ def check_emails(mail, save_dir):
                 if raw_subject:
                     subject = clean_filename(raw_subject)
                     
-                    # Check for keywords
-                    if SUBJECT_KEYWORD.lower() in subject.lower():
-                        subject_matched = True
-                    elif ROLE_KEYWORD.lower() in subject.lower():
+                    # ROLEtoKNOWLEDGE を先に判定する
+                    if ROLE_KEYWORD.lower() in subject.lower():
                         subject_matched = True
                         is_role_definition = True
+                    elif SUBJECT_KEYWORD.lower() in subject.lower():
+                        subject_matched = True
         
         if not subject_matched:
             continue
@@ -201,16 +201,25 @@ def check_emails(mail, save_dir):
             for uid in new_history:
                 f.write(f"{uid}\n")
 
-    return saved_files
+    # 同じファイルパスに上書き保存された重複を除去
+    unique_files = list(dict.fromkeys(saved_files))
+    if len(unique_files) < len(saved_files):
+        print(f"⚠️ 重複ファイルを除去: {len(saved_files)} → {len(unique_files)} 件")
+    return unique_files
 
 def run_analysis(files):
     if not files: return
-    print(f"🚀 LLM分析を開始します (Triggering Analysis for {len(files)} files)...")
+    print(f"🚀 LLM分析を開始します ({len(files)} 件)...")
     
-    for file_path in files:
-        print(f"   Analyzing: {file_path}")
+    for i, file_path in enumerate(files, 1):
+        print(f"   [{i}/{len(files)}] Analyzing: {file_path}")
         cmd = ["python3", ANALYSIS_SCRIPT, file_path]
-        subprocess.run(cmd)
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            print(f"   ⚠️ 分析失敗: {file_path} (returncode={result.returncode})")
+        # API レートリミット対策: 連続呼び出しの間に少し待つ
+        if i < len(files):
+            time.sleep(5)
 
 def main():
     parser = argparse.ArgumentParser(description="Sync Pomera emails and trigger analysis.")
