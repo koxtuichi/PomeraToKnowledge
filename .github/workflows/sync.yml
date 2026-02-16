@@ -41,5 +41,12 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add diary/*.txt knowledge_graph.jsonld role_definition.txt daily_report.md index.html
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync Pomera diary [skip ci]" && git push)
+          # 存在しないファイルがあってもエラーにならないように個別にaddするか、|| trueをつける
+          git add diary/*.txt || true
+          git add knowledge_graph.jsonld || true
+          git add role_definition.txt || true
+          git add daily_report.md || true
+          git add index.html || true
+          
+          # 変更がある場合のみコミット
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync and Update Graph [skip ci]" && git push)
