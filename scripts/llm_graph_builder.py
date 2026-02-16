@@ -415,7 +415,8 @@ def main():
         # But user format is specific: YYYYMMDD_POMERA(Date)
         
         # Attempt to parse specific format "POMERAyyyy年m月d日"
-        match = re.search(r'POMERA(\d{4})年(\d{1,2})月(\d{1,2})日', args.input_file)
+        # Attempt to parse format like "20260215_[POMERAtoKNOWLEDGE]2026年2月15日.txt" or "POMERA2026年2月15日.txt"
+        match = re.search(r'(\d{4})年(\d{1,2})月(\d{1,2})日', args.input_file)
         if match:
             y, m, d = match.groups()
             current_date_str = f"{y}-{int(m):02d}-{int(d):02d}"
