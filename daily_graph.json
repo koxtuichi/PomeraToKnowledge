@@ -4,122 +4,139 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "フロントエンドのチームリーダーを勤めつつ、副業もこなす日記の著者",
-      "sentiment": -0.1,
+      "detail": "フロントエンドエンジニアであり、副業でAI活用も行っている二児（蒼馬）の父。",
+      "sentiment": 0.0,
       "community": 0
     },
     {
       "id": "project:saiteki",
       "label": "株式会社Saiteki",
       "type": "project",
-      "detail": "AI活用を考える副業先。時給3000円。",
-      "sentiment": 0.2,
-      "community": 1
+      "detail": "AI活用を推進する副業先。時給3000円。S級のAIモデル作成を目指している。",
+      "sentiment": 0.5,
+      "community": 2
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saitekiの副社長。S級AIモデル構築のための資料作成を担当。",
-      "community": 1
+      "detail": "Saitekiの副社長。カスタムチューニングのための質問回答形式資料を作成。",
+      "community": 2
     },
     {
       "id": "person:kaime",
       "label": "開米さん",
       "type": "person",
-      "detail": "SaitekiのQAスペシャリスト。AI置換作業の資料作成を担当。",
-      "community": 1
+      "detail": "SaitekiのQAスペシャリスト。AI置換作業の資料を作成中。2月中の完了が目標。",
+      "sentiment": -0.1,
+      "community": 2
     },
     {
       "id": "project:main_job",
       "label": "メインの仕事",
       "type": "project",
-      "detail": "フロントエンドの2チーム8人のリーダー職。",
-      "community": 2
+      "detail": "フロントエンド開発のリード業務。2チーム8人を統括。",
+      "community": 1
     },
     {
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "妻。育児を主に担当している。",
-      "sentiment": 0.5,
+      "detail": "妻。育児と家事を中心に担っており、現在は蒼馬の離乳食作りなどを行っている。",
+      "sentiment": 0.8,
       "community": 3
     },
     {
       "id": "person:souma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "息子。月齢9ヶ月。5倍がゆを食べている。",
-      "sentiment": 0.4,
+      "detail": "月齢9ヶ月の息子。活発に動きたがる時期。",
       "community": 3
     },
     {
-      "id": "emotion:anxiety_tax",
-      "label": "税金と家計への不安",
+      "id": "event:porridge_making",
+      "label": "5倍がゆ作り",
+      "type": "event",
+      "detail": "離乳食の調理。実際にやってみてその大変さを実感した。",
+      "status": "Completed",
+      "tags": [
+        "Growth",
+        "Empathy"
+      ],
+      "community": 3
+    },
+    {
+      "id": "barrier:time_poverty",
+      "label": "お金の心配",
       "type": "emotion",
-      "detail": "高額な税金支払いや確定申告、住宅ローン控除の不透明さによる不安。",
+      "detail": "税金（所得税）の支払いや将来の貯蓄に対する漠然とした不安。",
       "sentiment": -0.6,
       "tags": [
-        "Cognitive Distortion: Fortune Telling"
+        "Cognitive Distortion: Fortune-telling",
+        "Cognitive Distortion: Emotional Reasoning"
       ],
       "community": 4
     },
     {
-      "id": "insight:childcare_gratitude",
-      "label": "育児への感謝と内省",
+      "id": "emotion:gratitude",
+      "label": "さやかへの感謝",
       "type": "insight",
-      "detail": "離乳食作りの大変さを実感し、妻への感謝が不足していたことを反省。",
-      "sentiment": 0.6,
+      "detail": "離乳食作りの大変さを知り、妻への感謝の言葉が不足していたことを反省。",
+      "sentiment": 0.9,
       "tags": [
-        "Growth"
+        "Growth",
+        "Relationship"
       ],
       "community": 3
     },
     {
       "id": "goal:improvement_flow",
-      "label": "改善タスクフローの構築",
+      "label": "改善タスクのフロー作成",
       "type": "goal",
-      "detail": "メンバー中心に対応できるフローを今日中に完了させる。",
+      "detail": "チームに改善タスクが来た際、メンバー中心に対応できる仕組みを今日中に作る。",
       "status": "Active",
-      "community": 2
+      "community": 1
+    },
+    {
+      "id": "place:home",
+      "label": "自宅",
+      "type": "place",
+      "detail": "2階建ての一軒家。1階はリビング、2階に書斎がある。",
+      "community": 3
     },
     {
       "id": "event:mtg_naomichi",
       "label": "直道とのMTG",
       "type": "event",
-      "detail": "Saiteki社長の直道との定期ミーティング。",
+      "detail": "Saitekiの社長である直道との打ち合わせ。",
       "status": "Scheduled",
       "date": "2026-02-20",
-      "community": 1
+      "community": 2
     },
     {
       "id": "person:naomichi",
       "label": "直道",
       "type": "person",
-      "detail": "Saitekiの社長。同い年の友人。",
-      "community": 1
+      "detail": "Saitekiの社長。同い年の友人でもある。",
+      "community": 2
     },
     {
-      "id": "concept:savings",
-      "label": "貯金",
-      "type": "concept",
-      "detail": "現在110万円程度。毎月10-20万の貯金を目指しているが波がある。",
-      "community": 4
-    },
-    {
-      "id": "place:study_room",
-      "label": "2階の書斎",
-      "type": "place",
-      "detail": "仕事に集中するために籠もる場所。",
+      "id": "emotion:overwhelmed",
+      "label": "タスク管理の悩み",
+      "type": "emotion",
+      "detail": "毎朝タスクのことを考えてしまい、心理的負担になっている。",
+      "sentiment": -0.3,
+      "tags": [
+        "Cognitive Distortion: Should Statements"
+      ],
       "community": 0
     },
     {
-      "id": "goal:s_class_ai",
-      "label": "S級AIモデルの構築",
-      "type": "goal",
-      "detail": "鈴木さんと協力して進めているAI活用の目標。",
-      "status": "Active",
-      "community": 1
+      "id": "diary:20260216",
+      "label": "2026/02/16の日記",
+      "type": "diary",
+      "detail": "仕事の多忙さと家庭への感謝、将来の金銭的不安が混在する日の記録。",
+      "community": 0
     },
     {
       "id": "diary:2026-02-16",
@@ -127,8 +144,8 @@
       "type": "diary",
       "date": "2026-02-16",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-16T11:36:13.489138",
-      "last_seen": "2026-02-16T11:36:13.489139",
+      "first_seen": "2026-02-16T03:17:10.357005",
+      "last_seen": "2026-02-16T03:17:10.357006",
       "weight": 1
     }
   ],
@@ -143,73 +160,73 @@
       "source": "person:self",
       "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "リーダーとして勤務"
+      "label": "メインの仕事をリード"
     },
     {
-      "source": "person:suzuki",
-      "target": "project:saiteki",
+      "source": "project:saiteki",
+      "target": "person:suzuki",
       "type": "ABOUT",
-      "label": "副社長"
+      "label": "副社長として関与"
     },
     {
-      "source": "person:kaime",
-      "target": "project:saiteki",
+      "source": "project:saiteki",
+      "target": "person:kaime",
       "type": "ABOUT",
-      "label": "QA担当"
+      "label": "QA担当として関与"
     },
     {
       "source": "person:self",
-      "target": "insight:childcare_gratitude",
-      "type": "DISCOVERS",
-      "label": "妻の大変さを実感"
+      "target": "event:porridge_making",
+      "type": "PARTICIPATES",
+      "label": "調理を体験"
+    },
+    {
+      "source": "emotion:gratitude",
+      "target": "event:porridge_making",
+      "type": "TRIGGERED_BY",
+      "label": "調理の大変さを知って気づく"
     },
     {
       "source": "person:self",
-      "target": "emotion:anxiety_tax",
+      "target": "person:sayaka",
       "type": "FEELING",
-      "label": "将来のお金が不安"
+      "label": "感謝の念を抱く"
+    },
+    {
+      "source": "person:self",
+      "target": "barrier:time_poverty",
+      "type": "FEELING",
+      "label": "税金や貯金に不安を感じる"
     },
     {
       "source": "person:self",
       "target": "goal:improvement_flow",
       "type": "TARGETS",
-      "label": "今日の完了目標"
+      "label": "今日中に完了させる"
     },
     {
       "source": "person:self",
       "target": "event:mtg_naomichi",
       "type": "PLANS",
-      "label": "予定を把握"
+      "label": "2月20日に予定"
     },
     {
       "source": "event:mtg_naomichi",
       "target": "person:naomichi",
-      "type": "PARTICIPATES",
-      "label": "社長と会談"
+      "type": "MENTIONS",
+      "label": "社長と会う"
     },
     {
       "source": "person:self",
-      "target": "place:study_room",
+      "target": "place:home",
       "type": "AT",
-      "label": "仕事中に利用"
+      "label": "書斎で仕事をする"
     },
     {
       "source": "person:self",
-      "target": "goal:s_class_ai",
-      "type": "TARGETS",
-      "label": "副業の成果目標"
-    },
-    {
-      "source": "person:self",
-      "target": "person:souma",
-      "type": "CAUSAL",
-      "label": "朝の遊び相手で疲労"
-    },
-    {
-      "source": "concept:savings",
-      "target": "emotion:anxiety_tax",
-      "type": "TRIGGERED_BY",
-      "label": "納税による減少への懸念"
+      "target": "emotion:overwhelmed",
+      "type": "FEELING",
+      "label": "毎朝のタスク考案が悩み"
     },
     {
       "source": "person:self",
@@ -255,19 +272,31 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "emotion:anxiety_tax",
+      "target": "event:porridge_making",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-16",
-      "target": "insight:childcare_gratitude",
+      "target": "barrier:time_poverty",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "emotion:gratitude",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-16",
       "target": "goal:improvement_flow",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "place:home",
       "relationship": "MENTIONS",
       "weight": 1
     },
@@ -285,27 +314,21 @@
     },
     {
       "source": "diary:2026-02-16",
-      "target": "concept:savings",
+      "target": "emotion:overwhelmed",
       "relationship": "MENTIONS",
       "weight": 1
     },
     {
       "source": "diary:2026-02-16",
-      "target": "place:study_room",
-      "relationship": "MENTIONS",
-      "weight": 1
-    },
-    {
-      "source": "diary:2026-02-16",
-      "target": "goal:s_class_ai",
+      "target": "diary:20260216",
       "relationship": "MENTIONS",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T11:36:13.489129",
+    "generated_at": "2026-02-16T03:17:10.356991",
     "source_file": "diary/20260216_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 15,
+    "node_count": 16,
     "edge_count": 13
   }
 }
