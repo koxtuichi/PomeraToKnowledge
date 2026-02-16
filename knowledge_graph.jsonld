@@ -1,6 +1,790 @@
 {
-  "nodes": [],
-  "edges": [],
+  "nodes": [
+    {
+      "id": "日記:2026-02-16",
+      "label": "2026/02/16の日記",
+      "type": "日記",
+      "detail": "副業の多忙さ、家族への感謝、税金の不安、仕事の改善タスク、Antigravityのプラン変更、ダイエット、将来の夢について記述。",
+      "date": "2026-02-16",
+      "tags": [
+        "POMERAtoKNOWLEDGE"
+      ],
+      "first_seen": "2026-02-16T23:51:38.047195",
+      "last_seen": "2026-02-16T23:51:38.047195",
+      "weight": 1,
+      "analysis_content": "```json\n{\n  \"coach_comment\": \"二足のわらじに育児と、極限のバランスで走り続けていますね。妻への「申し訳なさ」と税金の「不安」が、実際の作業負荷以上に心の重力（メンタルコスト）を増大させています。今は「全てのタスクを完璧にこなす」のではなく、「集中できる環境」と「思考停止で動ける仕組み」を作ることで、この重力を分散させましょう。\",\n  \"gravity_map\": [\n    {\n      \"task\": \"Saiteki（副業）の分析・学習タスク\",\n      \"task_id\": \"SIDE-001\",\n      \"constraints\": [\n        {\n          \"name\": \"リビングでの集中困難\",\n          \"type\": \"物理的障害\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"本業後の疲労と時間不足\",\n          \"type\": \"時間不足/疲労\",\n          \"severity\": \"高\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"AI技術への探求心\",\n          \"type\": \"知見\"\n        },\n        {\n          \"name\": \"チーム（鈴木さん・開米さん）への責任感\",\n          \"type\": \"感情\"\n        }\n      ],\n      \"net_assessment\": \"環境要因による重力が大きく、やる気はあるが腰が重くなっている状態。\"\n    },\n    {\n      \"task\": \"個人ブログ収益化・発信\",\n      \"task_id\": \"PERSONAL-001\",\n      \"constraints\": [\n        {\n          \"name\": \"クリエイティブ時間の枯渇\",\n          \"type\": \"時間不足\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"ツールコスト増への焦り\",\n          \"type\": \"リソース不足\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"AIによるブログ自動化の知見\",\n          \"type\": \"知見\"\n        },\n        {\n          \"name\": \"月5万の収益目標\",\n          \"type\": \"目標\"\n        }\n      ],\n      \"net_assessment\": \"「時間がない」という重力を「AI自動化」というエネルギーで相殺できる可能性が高い。\"\n    },\n    {\n      \"task\": \"日々のタスク管理・実行\",\n      \"task_id\": \"DAILY-001\",\n      \"constraints\": [\n        {\n          \"name\": \"毎朝タスクを考えてしまう\",\n          \"type\": \"感情的ブレーキ\",\n          \"severity\": \"中\"\n        },\n        {\n          \"name\": \"朝の眠気\",\n          \"type\": \"疲労\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"改善への意欲\",\n          \"type\": \"感情\"\n        }\n      ],\n      \"net_assessment\": \"朝の決断疲れがスタートダッシュを遅らせている。\"\n    }\n  ],\n  \"antigravity_actions\": [\n    {\n      \"action\": \"「書斎利用」の明文化と交渉\",\n      \"target_task\": \"Saiteki（副業）の分析・学習タスク\",\n      \"effect\": \"「リビングで集中できない」という物理的重力を解除する。妻への申し訳なさは「その分、週末の朝は自分が担当する」などのトレードオフで解消する。\",\n      \"effort\": \"30分\"\n    },\n    {\n      \"action\": \"AI自動化プロンプトのテスト作成\",\n      \"target_task\": \"個人ブログ収益化・発信\",\n      \"effect\": \"「時間がなくて書けない」重力を軽減。ゼロから書くのではなく、Saitekiでの知見をそのまま素材にしてAIに構成案を作らせることで、着手ハードルを下げる。\",\n      \"effort\": \"30分\"\n    },\n    {\n      \"action\": \"「夜の思考、朝の作業」へのシフト\",\n      \"target_task\": \"日々のタスク管理・実行\",\n      \"effect\": \"朝の眠気の中でタスクを考える重力を排除。夜寝る前に翌日のTODOを3つだけ確定させ、朝は考える前に手を動かせるようにする。\",\n      \"effort\": \"5分\"\n    },\n    {\n      \"action\": \"税金試算の概算可視化\",\n      \"target_task\": \"税金への経済的不安\",\n      \"effect\": \"「いくら必要かわからない」という恐怖の重力を軽減。概算でも数字を出し、いつまでにいくら貯めればよいかを明確にすることで、漠然とした不安をタスクに変える。\",\n      \"effort\": \"1時間\"\n    }\n  ],\n  \"insights\": [\n    {\n      \"finding\": \"「妻への感謝と申し訳なさ」が強く記録されている\",\n      \"implication\": \"この感情はエネルギーにもなるが、過度になると「家でも仕事をしてはいけない」というブレーキ（重力）になり得る。役割分担を明確にすることが精神的負担軽減の鍵。\"\n    },\n    {\n      \"finding\": \"Antigravity等のツールコスト増加への懸念\",\n      \"implication\": \"コスト自体がストレス源になっている。このコストを「自分への投資」と割り切るか、ブログ収益化の「必要経費」として回収計画に組み込むことで心理的重力を軽くできる。\"\n    }\n  ],\n  \"emotion_flow\": [\n    {\n      \"emotion\": \"申し訳なさ\",\n      \"sentiment\": -0.5,\n      \"context\": \"妻に負担をかけていること、リビングでの居心地の悪さ\"\n    },\n    {\n      \"emotion\": \"不安\",\n      \"sentiment\": -0.8,\n      \"context\": \"税金の支払いと貯金の不安定さ\"\n    },\n    {\n      \"emotion\": \"希望・意欲\",\n      \"sentiment\": 0.6,\n      \"context\": \"AI自動化の可能性と、Saitekiでの研究進展\"\n    }\n  ]\n}\n```"
+    },
+    {
+      "id": "プロジェクト:Saiteki_副業",
+      "label": "株式会社Saiteki（副業）",
+      "type": "プロジェクト",
+      "detail": "AI活用を考える副業。時給3000円。創業間もない。",
+      "category": "エンジニア",
+      "status": "進行中",
+      "first_seen": "2026-02-16T23:51:38.047214",
+      "last_seen": "2026-02-16T23:51:38.047214",
+      "weight": 1
+    },
+    {
+      "id": "人物:鈴木さん",
+      "label": "鈴木さん",
+      "type": "人物",
+      "detail": "Saitekiの副社長。S級AIモデル作成を目指している。",
+      "category": "エンジニア",
+      "first_seen": "2026-02-16T23:51:38.047222",
+      "last_seen": "2026-02-16T23:51:38.047222",
+      "weight": 1
+    },
+    {
+      "id": "人物:開米さん",
+      "label": "開米さん",
+      "type": "人物",
+      "detail": "SaitekiのQAスペシャリスト。",
+      "category": "エンジニア",
+      "first_seen": "2026-02-16T23:51:38.047228",
+      "last_seen": "2026-02-16T23:51:38.047228",
+      "weight": 1
+    },
+    {
+      "id": "タスク:Saiteki_CheckKaimai",
+      "label": "開米さんの作業状況確認",
+      "type": "タスク",
+      "detail": "AI置き換え作業資料の進捗確認。今週木曜までに。",
+      "status": "未着手",
+      "category": "エンジニア",
+      "date": "2026-02-19",
+      "first_seen": "2026-02-16T23:51:38.047233",
+      "last_seen": "2026-02-16T23:51:38.047233",
+      "weight": 1
+    },
+    {
+      "id": "タスク:Saiteki_DocCreation",
+      "label": "社員分析の利用案資料化",
+      "type": "タスク",
+      "detail": "分析結果をどう利用するか資料にまとめる。",
+      "status": "未着手",
+      "category": "エンジニア",
+      "first_seen": "2026-02-16T23:51:38.047238",
+      "last_seen": "2026-02-16T23:51:38.047238",
+      "weight": 1
+    },
+    {
+      "id": "制約:時間不足_副業",
+      "label": "副業の時間確保が困難",
+      "type": "制約",
+      "detail": "やるべきことが溜まっているが時間が足りない。本業後に行う必要がある。",
+      "constraint_type": "時間不足",
+      "first_seen": "2026-02-16T23:51:38.047244",
+      "last_seen": "2026-02-16T23:51:38.047244",
+      "weight": 1
+    },
+    {
+      "id": "タスク:Saiteki_ReplySuzuki",
+      "label": "鈴木さんへの返信",
+      "type": "タスク",
+      "detail": "カスタムチューニング資料についての連絡への返信。",
+      "status": "完了",
+      "date": "2026-02-16",
+      "first_seen": "2026-02-16T23:51:38.047249",
+      "last_seen": "2026-02-16T23:51:38.047249",
+      "weight": 1
+    },
+    {
+      "id": "タスク:Saiteki_VertlexTrain",
+      "label": "Vertlexでの学習実行",
+      "type": "タスク",
+      "detail": "鈴木さんの資料をもとに学習させ、再度連絡する。",
+      "status": "未着手",
+      "date": "2026-02-17",
+      "first_seen": "2026-02-16T23:51:38.047255",
+      "last_seen": "2026-02-16T23:51:38.047255",
+      "weight": 1
+    },
+    {
+      "id": "概念:CustomTuning",
+      "label": "カスタムチューニング",
+      "type": "概念",
+      "detail": "Gemini3.0flashを使用。現在QAペアは10個。",
+      "category": "エンジニア",
+      "first_seen": "2026-02-16T23:51:38.047260",
+      "last_seen": "2026-02-16T23:51:38.047260",
+      "weight": 1
+    },
+    {
+      "id": "人物:さやか",
+      "label": "さやか（妻）",
+      "type": "人物",
+      "detail": "同い年の妻。家事育児を主に担当してくれている。",
+      "category": "夫",
+      "first_seen": "2026-02-16T23:51:38.047266",
+      "last_seen": "2026-02-16T23:51:38.047266",
+      "weight": 1
+    },
+    {
+      "id": "人物:蒼馬",
+      "label": "蒼馬（息子）",
+      "type": "人物",
+      "detail": "月齢9ヶ月の息子。",
+      "category": "父親",
+      "first_seen": "2026-02-16T23:51:38.047278",
+      "last_seen": "2026-02-16T23:51:38.047278",
+      "weight": 1
+    },
+    {
+      "id": "出来事:MadeGruel",
+      "label": "5倍がゆ作り",
+      "type": "出来事",
+      "detail": "離乳食を作成し大変さを実感した。",
+      "status": "完了",
+      "date": "2026-02-16",
+      "first_seen": "2026-02-16T23:51:38.047286",
+      "last_seen": "2026-02-16T23:51:38.047286",
+      "weight": 1
+    },
+    {
+      "id": "感情:Gratitude_Sayaka",
+      "label": "妻への感謝と申し訳なさ",
+      "type": "感情",
+      "detail": "大変な育児・家事をやってくれていることへの感謝。「ありがとう」と言えていない反省。",
+      "sentiment": 0.8,
+      "first_seen": "2026-02-16T23:51:38.047293",
+      "last_seen": "2026-02-16T23:51:38.047293",
+      "weight": 1
+    },
+    {
+      "id": "制約:TaxAnxiety",
+      "label": "税金への経済的不安",
+      "type": "制約",
+      "detail": "税金の支払いが大きく、貯金も難しいタイミングがある。確定申告への不安。",
+      "constraint_type": "リソース不足",
+      "first_seen": "2026-02-16T23:51:38.047300",
+      "last_seen": "2026-02-16T23:51:38.047300",
+      "weight": 1
+    },
+    {
+      "id": "目標:Savings",
+      "label": "毎月の貯金",
+      "type": "目標",
+      "detail": "月10〜20万の貯金を目指しているが現状不安定。総額110万程度。",
+      "status": "進行中",
+      "first_seen": "2026-02-16T23:51:38.047306",
+      "last_seen": "2026-02-16T23:51:38.047306",
+      "weight": 1
+    },
+    {
+      "id": "プロジェクト:Knowbe_Main",
+      "label": "Knowbe（本業）",
+      "type": "プロジェクト",
+      "detail": "フロントエンド2チームのリーダー。",
+      "category": "エンジニア",
+      "first_seen": "2026-02-16T23:51:38.047313",
+      "last_seen": "2026-02-16T23:51:38.047313",
+      "weight": 1
+    },
+    {
+      "id": "タスク:TeamFlowImprovement",
+      "label": "改善タスクフローの策定",
+      "type": "タスク",
+      "detail": "チームに改善タスクが来た際、メンバー中心に対応できるフローを考える。",
+      "status": "完了",
+      "category": "エンジニア",
+      "date": "2026-02-16",
+      "first_seen": "2026-02-16T23:51:38.047321",
+      "last_seen": "2026-02-16T23:51:38.047321",
+      "weight": 1
+    },
+    {
+      "id": "制約:MentalLoad_TaskThinking",
+      "label": "毎朝タスクを考えてしまう",
+      "type": "制約",
+      "detail": "常にタスクのことが頭にあり悩みになっている。",
+      "constraint_type": "感情的ブレーキ",
+      "first_seen": "2026-02-16T23:51:38.047328",
+      "last_seen": "2026-02-16T23:51:38.047328",
+      "weight": 1
+    },
+    {
+      "id": "制約:MorningFatigue",
+      "label": "朝の眠気",
+      "type": "制約",
+      "detail": "蒼馬は元気だが自分は眠気があり、相手をするのが大変。",
+      "constraint_type": "疲労",
+      "first_seen": "2026-02-16T23:51:38.047336",
+      "last_seen": "2026-02-16T23:51:38.047336",
+      "weight": 1
+    },
+    {
+      "id": "場所:StudyRoom",
+      "label": "書斎（2階）",
+      "type": "場所",
+      "detail": "仕事に集中するために籠もる場所。",
+      "first_seen": "2026-02-16T23:51:38.047343",
+      "last_seen": "2026-02-16T23:51:38.047343",
+      "weight": 1
+    },
+    {
+      "id": "制約:LivingRoomDistraction",
+      "label": "リビングでの集中困難",
+      "type": "制約",
+      "detail": "家族がいるリビングでは仕事に集中できない。",
+      "constraint_type": "物理的障害",
+      "first_seen": "2026-02-16T23:51:38.047352",
+      "last_seen": "2026-02-16T23:51:38.047352",
+      "weight": 1
+    },
+    {
+      "id": "人物:直道",
+      "label": "直道",
+      "type": "人物",
+      "detail": "Saiteki社長。同い年の友人。",
+      "first_seen": "2026-02-16T23:51:38.047361",
+      "last_seen": "2026-02-16T23:51:38.047361",
+      "weight": 1
+    },
+    {
+      "id": "出来事:MTG_Naomichi",
+      "label": "直道とのMTG",
+      "type": "出来事",
+      "detail": "副業に関する打ち合わせ。",
+      "status": "予定",
+      "date": "2026-02-20",
+      "first_seen": "2026-02-16T23:51:38.047370",
+      "last_seen": "2026-02-16T23:51:38.047370",
+      "weight": 1
+    },
+    {
+      "id": "概念:Antigravity",
+      "label": "Antigravity",
+      "type": "概念",
+      "detail": "AIサービス。制限がかかったためプランをアップグレードした。",
+      "first_seen": "2026-02-16T23:51:38.047379",
+      "last_seen": "2026-02-16T23:51:38.047379",
+      "weight": 1
+    },
+    {
+      "id": "制約:CostIncrease",
+      "label": "ツールコストの増加",
+      "type": "制約",
+      "detail": "月18,000円（3ヶ月後36,000円）への増額。利用制限への懸念。",
+      "constraint_type": "リソース不足",
+      "first_seen": "2026-02-16T23:51:38.047387",
+      "last_seen": "2026-02-16T23:51:38.047387",
+      "weight": 1
+    },
+    {
+      "id": "目標:Diet_79kg",
+      "label": "体重79kg台への到達",
+      "type": "目標",
+      "detail": "現在80.2kg。1日1食を実施中。",
+      "status": "進行中",
+      "first_seen": "2026-02-16T23:51:38.047396",
+      "last_seen": "2026-02-16T23:51:38.047396",
+      "weight": 1
+    },
+    {
+      "id": "制約:Hunger",
+      "label": "空腹感",
+      "type": "制約",
+      "detail": "夜になると強い空腹感がある。昨日の焼肉の塩分が影響か。",
+      "constraint_type": "物理的障害",
+      "first_seen": "2026-02-16T23:51:38.047405",
+      "last_seen": "2026-02-16T23:51:38.047405",
+      "weight": 1
+    },
+    {
+      "id": "目標:PersonalBranding",
+      "label": "個人での収益化・人気獲得",
+      "type": "目標",
+      "detail": "ブログ等で人にみてもらい、月5万円程度の収益を得たい。",
+      "status": "進行中",
+      "first_seen": "2026-02-16T23:51:38.047414",
+      "last_seen": "2026-02-16T23:51:38.047414",
+      "weight": 1
+    },
+    {
+      "id": "知見:AI_Blog_Automation",
+      "label": "AIによるブログ自動化",
+      "type": "知見",
+      "detail": "時間不足解消のため、AIに執筆や投稿を任せるアイデア。ポメラやGitHubフローなどを扱う。",
+      "tags": [
+        "AI活用"
+      ],
+      "first_seen": "2026-02-16T23:51:38.047424",
+      "last_seen": "2026-02-16T23:51:38.047424",
+      "weight": 1
+    },
+    {
+      "id": "制約:CreativeTimeShortage",
+      "label": "クリエイティブな時間の不足",
+      "type": "制約",
+      "detail": "本業・副業・絵を描くこと等で時間が埋まり、ブログ等に割く時間がない。",
+      "constraint_type": "時間不足",
+      "first_seen": "2026-02-16T23:51:38.047434",
+      "last_seen": "2026-02-16T23:51:38.047434",
+      "weight": 1
+    },
+    {
+      "id": "人物:自分",
+      "label": "自分",
+      "type": "人物",
+      "detail": "日記の作成者",
+      "first_seen": "2026-02-16T23:51:38.047444",
+      "last_seen": "2026-02-16T23:51:38.047444",
+      "weight": 1
+    }
+  ],
+  "edges": [
+    {
+      "source": "日記:2026-02-16",
+      "target": "プロジェクト:Saiteki_副業",
+      "type": "言及する",
+      "label": "進捗と言及",
+      "first_seen": "2026-02-16T23:51:38.047463",
+      "last_seen": "2026-02-16T23:51:38.047463",
+      "weight": 1
+    },
+    {
+      "source": "プロジェクト:Saiteki_副業",
+      "target": "タスク:Saiteki_CheckKaimai",
+      "type": "計画する",
+      "label": "タスク",
+      "first_seen": "2026-02-16T23:51:38.047470",
+      "last_seen": "2026-02-16T23:51:38.047470",
+      "weight": 1
+    },
+    {
+      "source": "プロジェクト:Saiteki_副業",
+      "target": "タスク:Saiteki_DocCreation",
+      "type": "計画する",
+      "label": "タスク",
+      "first_seen": "2026-02-16T23:51:38.047475",
+      "last_seen": "2026-02-16T23:51:38.047475",
+      "weight": 1
+    },
+    {
+      "source": "制約:時間不足_副業",
+      "target": "タスク:Saiteki_DocCreation",
+      "type": "阻害する",
+      "label": "着手できていない",
+      "first_seen": "2026-02-16T23:51:38.047480",
+      "last_seen": "2026-02-16T23:51:38.047480",
+      "weight": 1
+    },
+    {
+      "source": "人物:鈴木さん",
+      "target": "タスク:Saiteki_VertlexTrain",
+      "type": "関連する",
+      "label": "資料提供元",
+      "first_seen": "2026-02-16T23:51:38.047485",
+      "last_seen": "2026-02-16T23:51:38.047485",
+      "weight": 1
+    },
+    {
+      "source": "出来事:MadeGruel",
+      "target": "感情:Gratitude_Sayaka",
+      "type": "引き起こす",
+      "label": "大変さを実感し感謝",
+      "first_seen": "2026-02-16T23:51:38.047490",
+      "last_seen": "2026-02-16T23:51:38.047490",
+      "weight": 1
+    },
+    {
+      "source": "感情:Gratitude_Sayaka",
+      "target": "人物:さやか",
+      "type": "関連する",
+      "label": "対象",
+      "first_seen": "2026-02-16T23:51:38.047494",
+      "last_seen": "2026-02-16T23:51:38.047494",
+      "weight": 1
+    },
+    {
+      "source": "制約:TaxAnxiety",
+      "target": "目標:Savings",
+      "type": "阻害する",
+      "label": "貯金を難しくする",
+      "first_seen": "2026-02-16T23:51:38.047499",
+      "last_seen": "2026-02-16T23:51:38.047499",
+      "weight": 1
+    },
+    {
+      "source": "プロジェクト:Knowbe_Main",
+      "target": "タスク:TeamFlowImprovement",
+      "type": "計画する",
+      "label": "今日のタスク",
+      "first_seen": "2026-02-16T23:51:38.047504",
+      "last_seen": "2026-02-16T23:51:38.047504",
+      "weight": 1
+    },
+    {
+      "source": "制約:MentalLoad_TaskThinking",
+      "target": "プロジェクト:Knowbe_Main",
+      "type": "阻害する",
+      "label": "精神的負担",
+      "first_seen": "2026-02-16T23:51:38.047513",
+      "last_seen": "2026-02-16T23:51:38.047513",
+      "weight": 1
+    },
+    {
+      "source": "制約:MorningFatigue",
+      "target": "人物:蒼馬",
+      "type": "阻害する",
+      "label": "遊び相手をするのが辛い",
+      "first_seen": "2026-02-16T23:51:38.047518",
+      "last_seen": "2026-02-16T23:51:38.047518",
+      "weight": 1
+    },
+    {
+      "source": "制約:LivingRoomDistraction",
+      "target": "プロジェクト:Knowbe_Main",
+      "type": "阻害する",
+      "label": "集中できない",
+      "first_seen": "2026-02-16T23:51:38.047523",
+      "last_seen": "2026-02-16T23:51:38.047523",
+      "weight": 1
+    },
+    {
+      "source": "場所:StudyRoom",
+      "target": "制約:LivingRoomDistraction",
+      "type": "解決する",
+      "label": "環境を変えて集中",
+      "first_seen": "2026-02-16T23:51:38.047528",
+      "last_seen": "2026-02-16T23:51:38.047528",
+      "weight": 1
+    },
+    {
+      "source": "人物:直道",
+      "target": "出来事:MTG_Naomichi",
+      "type": "参加する",
+      "label": "MTG相手",
+      "first_seen": "2026-02-16T23:51:38.047532",
+      "last_seen": "2026-02-16T23:51:38.047532",
+      "weight": 1
+    },
+    {
+      "source": "概念:Antigravity",
+      "target": "制約:CostIncrease",
+      "type": "引き起こす",
+      "label": "プラン変更",
+      "first_seen": "2026-02-16T23:51:38.047537",
+      "last_seen": "2026-02-16T23:51:38.047537",
+      "weight": 1
+    },
+    {
+      "source": "制約:CostIncrease",
+      "target": "制約:TaxAnxiety",
+      "type": "関連する",
+      "label": "金銭的不安の増大",
+      "first_seen": "2026-02-16T23:51:38.047541",
+      "last_seen": "2026-02-16T23:51:38.047541",
+      "weight": 1
+    },
+    {
+      "source": "制約:Hunger",
+      "target": "目標:Diet_79kg",
+      "type": "阻害する",
+      "label": "辛さ",
+      "first_seen": "2026-02-16T23:51:38.047546",
+      "last_seen": "2026-02-16T23:51:38.047546",
+      "weight": 1
+    },
+    {
+      "source": "制約:CreativeTimeShortage",
+      "target": "目標:PersonalBranding",
+      "type": "阻害する",
+      "label": "時間がなくブログが書けない",
+      "first_seen": "2026-02-16T23:51:38.047550",
+      "last_seen": "2026-02-16T23:51:38.047550",
+      "weight": 1
+    },
+    {
+      "source": "知見:AI_Blog_Automation",
+      "target": "制約:CreativeTimeShortage",
+      "type": "解決する",
+      "label": "時間短縮の可能性",
+      "first_seen": "2026-02-16T23:51:38.047555",
+      "last_seen": "2026-02-16T23:51:38.047555",
+      "weight": 1
+    },
+    {
+      "source": "知見:AI_Blog_Automation",
+      "target": "目標:PersonalBranding",
+      "type": "原動力になる",
+      "label": "実現手段のアイデア",
+      "first_seen": "2026-02-16T23:51:38.047559",
+      "last_seen": "2026-02-16T23:51:38.047559",
+      "weight": 1
+    },
+    {
+      "source": "人物:自分",
+      "target": "日記:2026-02-16",
+      "type": "関連する",
+      "label": "書いた",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047564",
+      "last_seen": "2026-02-16T23:51:38.047564"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "人物:鈴木さん",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047568",
+      "last_seen": "2026-02-16T23:51:38.047568"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "人物:開米さん",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047574",
+      "last_seen": "2026-02-16T23:51:38.047574"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "タスク:Saiteki_CheckKaimai",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047579",
+      "last_seen": "2026-02-16T23:51:38.047579"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "タスク:Saiteki_DocCreation",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047583",
+      "last_seen": "2026-02-16T23:51:38.047583"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:時間不足_副業",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047589",
+      "last_seen": "2026-02-16T23:51:38.047589"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "タスク:Saiteki_ReplySuzuki",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047594",
+      "last_seen": "2026-02-16T23:51:38.047594"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "タスク:Saiteki_VertlexTrain",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047598",
+      "last_seen": "2026-02-16T23:51:38.047598"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "概念:CustomTuning",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047602",
+      "last_seen": "2026-02-16T23:51:38.047602"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "人物:さやか",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047607",
+      "last_seen": "2026-02-16T23:51:38.047607"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "人物:蒼馬",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047611",
+      "last_seen": "2026-02-16T23:51:38.047611"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "出来事:MadeGruel",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047616",
+      "last_seen": "2026-02-16T23:51:38.047616"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "感情:Gratitude_Sayaka",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047620",
+      "last_seen": "2026-02-16T23:51:38.047620"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:TaxAnxiety",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047625",
+      "last_seen": "2026-02-16T23:51:38.047625"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "目標:Savings",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047629",
+      "last_seen": "2026-02-16T23:51:38.047629"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "プロジェクト:Knowbe_Main",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047633",
+      "last_seen": "2026-02-16T23:51:38.047633"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "タスク:TeamFlowImprovement",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047642",
+      "last_seen": "2026-02-16T23:51:38.047642"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:MentalLoad_TaskThinking",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047648",
+      "last_seen": "2026-02-16T23:51:38.047648"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:MorningFatigue",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047653",
+      "last_seen": "2026-02-16T23:51:38.047653"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "場所:StudyRoom",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047657",
+      "last_seen": "2026-02-16T23:51:38.047657"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:LivingRoomDistraction",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047662",
+      "last_seen": "2026-02-16T23:51:38.047662"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "人物:直道",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047666",
+      "last_seen": "2026-02-16T23:51:38.047666"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "出来事:MTG_Naomichi",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047671",
+      "last_seen": "2026-02-16T23:51:38.047671"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "概念:Antigravity",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047678",
+      "last_seen": "2026-02-16T23:51:38.047678"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:CostIncrease",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047683",
+      "last_seen": "2026-02-16T23:51:38.047683"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "目標:Diet_79kg",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047687",
+      "last_seen": "2026-02-16T23:51:38.047687"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:Hunger",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047691",
+      "last_seen": "2026-02-16T23:51:38.047691"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "目標:PersonalBranding",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047709",
+      "last_seen": "2026-02-16T23:51:38.047709"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "知見:AI_Blog_Automation",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047715",
+      "last_seen": "2026-02-16T23:51:38.047715"
+    },
+    {
+      "source": "日記:2026-02-16",
+      "target": "制約:CreativeTimeShortage",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-16T23:51:38.047719",
+      "last_seen": "2026-02-16T23:51:38.047719"
+    }
+  ],
   "metadata": {
     "schema_version": "2.0-antigravity",
     "description": "タスクの重力モデルに基づく知識グラフ",
@@ -30,6 +814,9 @@
       "解決する",
       "関連する"
     ],
-    "created_at": "2026-02-16T23:32:00+09:00"
+    "created_at": "2026-02-16T23:32:00+09:00",
+    "last_updated": "2026-02-16T23:51:38.047725",
+    "node_count": 32,
+    "edge_count": 50
   }
 }
