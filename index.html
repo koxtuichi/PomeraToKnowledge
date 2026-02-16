@@ -630,7 +630,7 @@
     <!-- 右サイドバー -->
     <div id="right-sidebar">
       <div id="right-sidebar-header">
-        <h2>Future Goals & Events</h2>
+        <h2>Today's Focus & Active Goals</h2>
       </div>
       <div class="goal-list" id="goal-list">
         <!-- JS Populated -->
@@ -5683,13 +5683,28 @@
       if (!container) return;
       container.innerHTML = '';
 
-      // Filter for Goals and Events
-      // Exclude Completed events/goals
-      const goals = GRAPH_DATA.nodes.filter(n =>
-        (n.type === 'goal' && n.status === 'Active') ||
-        (n.type === 'event' && n.status === 'Scheduled') ||
-        (n.type === 'task' && n.status !== 'Completed' && n.status !== 'Dropped')
-      );
+      // Today's date for filtering
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Filter: Active Goals, Scheduled Events/Tasks (<= Today), or Undated Tasks
+      const goals = GRAPH_DATA.nodes.filter(n => {
+        if (n.status === 'Completed' || n.status === 'Dropped') return false;
+
+        const isFuture = (dateStr) => {
+          if (!dateStr) return false; // No date = show (undated task/goal)
+          const d = new Date(dateStr);
+          d.setHours(0, 0, 0, 0);
+          return d > today;
+        };
+
+        if (n.type === 'goal') return n.status === 'Active';
+        if (n.type === 'event' || n.type === 'task') {
+          // Show if active AND not in the future
+          return !isFuture(n.date);
+        }
+        return false;
+      });
 
       if (goals.length === 0) {
         container.innerHTML = '<div style="color:#64748b; font-size:12px; text-align:center; padding:20px;">No active goals or scheduled events.</div>';
