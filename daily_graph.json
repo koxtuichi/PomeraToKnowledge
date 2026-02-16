@@ -1,580 +1,494 @@
 {
   "nodes": [
     {
-      "id": "日記:2026-02-16",
-      "label": "2026/02/16の日記",
-      "type": "日記",
-      "detail": "副業の多忙さ、家族への感謝、税金の不安、仕事の改善タスク、Antigravityのプラン変更、ダイエット、将来の夢について記述。",
-      "date": "2026-02-16",
+      "id": "タスク:PetRoomCleaning",
+      "label": "ペット部屋の粘着剥がしと掃除",
+      "type": "タスク",
+      "detail": "フローリングに貼ってしまった粘着タイプの爪とぎカバーを剥がし、部屋をきれいにする。",
+      "status": "未着手",
+      "category": "エンジニア",
       "tags": [
-        "POMERAtoKNOWLEDGE"
+        "悩み",
+        "掃除の習慣化"
+      ],
+      "date": "2026-02-15"
+    },
+    {
+      "id": "制約:StickyResidue",
+      "label": "粘着汚れが頑固",
+      "type": "制約",
+      "detail": "爪とぎカバーの粘着部分がフローリングに残ってしまい、簡単には剥がせない。",
+      "constraint_type": "物理的障害",
+      "tags": [
+        "悩み"
       ]
     },
     {
-      "id": "プロジェクト:Saiteki_副業",
-      "label": "株式会社Saiteki（副業）",
+      "id": "制約:TimeLack_Cleaning",
+      "label": "掃除時間の不足",
+      "type": "制約",
+      "detail": "仕事の掛け持ちと育児により、掃除をする時間が作れていない。",
+      "constraint_type": "時間不足",
+      "tags": [
+        "掃除の習慣化"
+      ]
+    },
+    {
+      "id": "概念:WeightStatus",
+      "label": "現在の体重80.5kg",
+      "type": "概念",
+      "detail": "1ヶ月前から12kg減量したが、ここ2週間は停滞気味。",
+      "date": "2026-02-15",
+      "category": "エンジニア"
+    },
+    {
+      "id": "タスク:CheatDay",
+      "label": "チートデイの実施",
+      "type": "タスク",
+      "detail": "体に飢餓状態でないことを伝えるため、週1回普通の量を食べる。",
+      "status": "進行中",
+      "category": "エンジニア"
+    },
+    {
+      "id": "目標:WeightUnder75",
+      "label": "年内体重75kg切り",
+      "type": "目標",
+      "detail": "今年の目標として75kgを切ることを目指す。",
+      "status": "進行中",
+      "category": "エンジニア"
+    },
+    {
+      "id": "タスク:CalorieRestriction",
+      "label": "1日1食1200kcal制限",
+      "type": "タスク",
+      "detail": "減量のため、摂取カロリーを1200kcal程度に抑える。",
+      "status": "進行中",
+      "tags": [
+        "来週"
+      ]
+    },
+    {
+      "id": "プロジェクト:PomeraWorkflow",
+      "label": "PomeraとKGの連携ワークフロー",
       "type": "プロジェクト",
-      "detail": "AI活用を考える副業。時給3000円。創業間もない。",
+      "detail": "Pomeraで書いたテキストをGmail経由で自動取得し、LLM分析を経てナレッジグラフに反映する仕組み。",
       "category": "エンジニア",
       "status": "進行中"
     },
     {
-      "id": "人物:鈴木さん",
-      "label": "鈴木さん",
-      "type": "人物",
-      "detail": "Saitekiの副社長。S級AIモデル作成を目指している。",
-      "category": "エンジニア"
+      "id": "感情:PomeraFun",
+      "label": "開発の楽しさ",
+      "type": "感情",
+      "detail": "PomeraとAIをつなげる仕組みを考えることが楽しい。",
+      "sentiment": 0.8,
+      "tags": [
+        "感情"
+      ]
     },
     {
-      "id": "人物:開米さん",
-      "label": "開米さん",
-      "type": "人物",
-      "detail": "SaitekiのQAスペシャリスト。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "タスク:Saiteki_CheckKaimai",
-      "label": "開米さんの作業状況確認",
-      "type": "タスク",
-      "detail": "AI置き換え作業資料の進捗確認。今週木曜までに。",
-      "status": "未着手",
-      "category": "エンジニア",
-      "date": "2026-02-19"
-    },
-    {
-      "id": "タスク:Saiteki_DocCreation",
-      "label": "社員分析の利用案資料化",
-      "type": "タスク",
-      "detail": "分析結果をどう利用するか資料にまとめる。",
-      "status": "未着手",
-      "category": "エンジニア"
-    },
-    {
-      "id": "制約:時間不足_副業",
-      "label": "副業の時間確保が困難",
+      "id": "制約:YouTubeNight",
+      "label": "YouTubeによる夜更かし",
       "type": "制約",
-      "detail": "やるべきことが溜まっているが時間が足りない。本業後に行う必要がある。",
-      "constraint_type": "時間不足"
+      "detail": "Pomera関連の動画を寝る前に見てしまい、睡眠時間を圧迫している。",
+      "constraint_type": "時間不足",
+      "tags": [
+        "生活習慣"
+      ]
     },
     {
-      "id": "タスク:Saiteki_ReplySuzuki",
-      "label": "鈴木さんへの返信",
+      "id": "タスク:MonsterDrawing",
+      "label": "毎日のモンスター描画",
       "type": "タスク",
-      "detail": "カスタムチューニング資料についての連絡への返信。",
-      "status": "完了",
-      "date": "2026-02-16"
-    },
-    {
-      "id": "タスク:Saiteki_VertlexTrain",
-      "label": "Vertlexでの学習実行",
-      "type": "タスク",
-      "detail": "鈴木さんの資料をもとに学習させ、再度連絡する。",
-      "status": "未着手",
-      "date": "2026-02-17"
-    },
-    {
-      "id": "概念:CustomTuning",
-      "label": "カスタムチューニング",
-      "type": "概念",
-      "detail": "Gemini3.0flashを使用。現在QAペアは10個。",
+      "detail": "ほぼ毎日モンスターのデザイン画を描いている。",
+      "status": "進行中",
       "category": "エンジニア"
     },
     {
-      "id": "人物:さやか",
-      "label": "さやか（妻）",
-      "type": "人物",
-      "detail": "同い年の妻。家事育児を主に担当してくれている。",
-      "category": "夫"
+      "id": "目標:RealisticDesign",
+      "label": "リアリティのあるモンスターデザイン",
+      "type": "目標",
+      "detail": "Draw Sessionsのようなリアリティを感じる絵を描きたい。",
+      "status": "進行中",
+      "tags": [
+        "目標"
+      ]
     },
     {
-      "id": "人物:蒼馬",
-      "label": "蒼馬（息子）",
+      "id": "制約:DrawingSkill",
+      "label": "画力不足",
+      "type": "制約",
+      "detail": "陰影の付け方はわかってきたが、リアリティに欠け納得がいかない。",
+      "constraint_type": "技術的課題",
+      "category": "エンジニア"
+    },
+    {
+      "id": "イベント:WalkWithMugi",
+      "label": "むぎと散歩",
+      "type": "出来事",
+      "detail": "久しぶりに昼間にペットのむぎと散歩に行った。",
+      "status": "完了",
+      "date": "2026-02-15",
+      "category": "エンジニア"
+    },
+    {
+      "id": "人物:Mugi",
+      "label": "むぎ",
       "type": "人物",
-      "detail": "月齢9ヶ月の息子。",
+      "detail": "ボストンテリア。一昨年の10月頃から飼育。",
+      "tags": [
+        "むぎ"
+      ]
+    },
+    {
+      "id": "イベント:FamilyParkVisit",
+      "label": "城山公園へのお出かけ",
+      "type": "出来事",
+      "detail": "家族3人で城山公園へ行き、蒼馬とシーソーをした。",
+      "status": "完了",
+      "date": "2026-02-15",
       "category": "父親"
     },
     {
-      "id": "出来事:MadeGruel",
-      "label": "5倍がゆ作り",
-      "type": "出来事",
-      "detail": "離乳食を作成し大変さを実感した。",
-      "status": "完了",
-      "date": "2026-02-16"
+      "id": "目標:ParkPicnic",
+      "label": "城山公園でのピクニック",
+      "type": "目標",
+      "detail": "広い公園なので、次はピクニックをしたい。",
+      "status": "進行中",
+      "category": "父親"
     },
     {
-      "id": "感情:Gratitude_Sayaka",
-      "label": "妻への感謝と申し訳なさ",
+      "id": "イベント:AobaChoking",
+      "label": "蒼馬の誤嚥事故",
+      "type": "出来事",
+      "detail": "仕事中にクッキーをあげた際、喉に詰まらせてしまい緊急対応した。",
+      "status": "完了",
+      "date": "2026-02-15",
+      "category": "父親"
+    },
+    {
+      "id": "感情:ParentalRegret",
+      "label": "親としての後悔と焦り",
       "type": "感情",
-      "detail": "大変な育児・家事をやってくれていることへの感謝。「ありがとう」と言えていない反省。",
-      "sentiment": 0.8
-    },
-    {
-      "id": "制約:TaxAnxiety",
-      "label": "税金への経済的不安",
-      "type": "制約",
-      "detail": "税金の支払いが大きく、貯金も難しいタイミングがある。確定申告への不安。",
-      "constraint_type": "リソース不足"
-    },
-    {
-      "id": "目標:Savings",
-      "label": "毎月の貯金",
-      "type": "目標",
-      "detail": "月10〜20万の貯金を目指しているが現状不安定。総額110万程度。",
-      "status": "進行中"
-    },
-    {
-      "id": "プロジェクト:Knowbe_Main",
-      "label": "Knowbe（本業）",
-      "type": "プロジェクト",
-      "detail": "フロントエンド2チームのリーダー。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "タスク:TeamFlowImprovement",
-      "label": "改善タスクフローの策定",
-      "type": "タスク",
-      "detail": "チームに改善タスクが来た際、メンバー中心に対応できるフローを考える。",
-      "status": "完了",
-      "category": "エンジニア",
-      "date": "2026-02-16"
-    },
-    {
-      "id": "制約:MentalLoad_TaskThinking",
-      "label": "毎朝タスクを考えてしまう",
-      "type": "制約",
-      "detail": "常にタスクのことが頭にあり悩みになっている。",
-      "constraint_type": "感情的ブレーキ"
-    },
-    {
-      "id": "制約:MorningFatigue",
-      "label": "朝の眠気",
-      "type": "制約",
-      "detail": "蒼馬は元気だが自分は眠気があり、相手をするのが大変。",
-      "constraint_type": "疲労"
-    },
-    {
-      "id": "場所:StudyRoom",
-      "label": "書斎（2階）",
-      "type": "場所",
-      "detail": "仕事に集中するために籠もる場所。"
-    },
-    {
-      "id": "制約:LivingRoomDistraction",
-      "label": "リビングでの集中困難",
-      "type": "制約",
-      "detail": "家族がいるリビングでは仕事に集中できない。",
-      "constraint_type": "物理的障害"
-    },
-    {
-      "id": "人物:直道",
-      "label": "直道",
-      "type": "人物",
-      "detail": "Saiteki社長。同い年の友人。"
-    },
-    {
-      "id": "出来事:MTG_Naomichi",
-      "label": "直道とのMTG",
-      "type": "出来事",
-      "detail": "副業に関する打ち合わせ。",
-      "status": "予定",
-      "date": "2026-02-20"
-    },
-    {
-      "id": "概念:Antigravity",
-      "label": "Antigravity",
-      "type": "概念",
-      "detail": "AIサービス。制限がかかったためプランをアップグレードした。"
-    },
-    {
-      "id": "制約:CostIncrease",
-      "label": "ツールコストの増加",
-      "type": "制約",
-      "detail": "月18,000円（3ヶ月後36,000円）への増額。利用制限への懸念。",
-      "constraint_type": "リソース不足"
-    },
-    {
-      "id": "目標:Diet_79kg",
-      "label": "体重79kg台への到達",
-      "type": "目標",
-      "detail": "現在80.2kg。1日1食を実施中。",
-      "status": "進行中"
-    },
-    {
-      "id": "制約:Hunger",
-      "label": "空腹感",
-      "type": "制約",
-      "detail": "夜になると強い空腹感がある。昨日の焼肉の塩分が影響か。",
-      "constraint_type": "物理的障害"
-    },
-    {
-      "id": "目標:PersonalBranding",
-      "label": "個人での収益化・人気獲得",
-      "type": "目標",
-      "detail": "ブログ等で人にみてもらい、月5万円程度の収益を得たい。",
-      "status": "進行中"
-    },
-    {
-      "id": "知見:AI_Blog_Automation",
-      "label": "AIによるブログ自動化",
-      "type": "知見",
-      "detail": "時間不足解消のため、AIに執筆や投稿を任せるアイデア。ポメラやGitHubフローなどを扱う。",
+      "detail": "危機管理不足で子供を危険な目に合わせたことへの強い後悔と恐怖。",
+      "sentiment": -0.9,
       "tags": [
-        "AI活用"
+        "後悔"
       ]
     },
     {
-      "id": "制約:CreativeTimeShortage",
-      "label": "クリエイティブな時間の不足",
+      "id": "制約:MultitaskingDanger",
+      "label": "ながら育児の危険性",
       "type": "制約",
-      "detail": "本業・副業・絵を描くこと等で時間が埋まり、ブログ等に割く時間がない。",
-      "constraint_type": "時間不足"
+      "detail": "仕事をしながら子供に食事を与えることは、変化に気づくのが遅れるため危険。",
+      "constraint_type": "物理的障害",
+      "category": "父親"
+    },
+    {
+      "id": "知見:ChildFoodSafety",
+      "label": "子供の食事の危機管理",
+      "type": "知見",
+      "detail": "9ヶ月になったばかりで新しいおやつを与える際は、慎重な判断と監視が必要。",
+      "category": "父親"
+    },
+    {
+      "id": "目標:PomeraBook",
+      "label": "Pomera活用本の執筆",
+      "type": "目標",
+      "detail": "構築したPomera活用案をまとめて本にしたい。",
+      "status": "進行中",
+      "category": "エンジニア",
+      "tags": [
+        "希望"
+      ]
+    },
+    {
+      "id": "制約:GHAScheduling",
+      "label": "Github Actionsのスケジュール精度",
+      "type": "制約",
+      "detail": "定期実行を指定の時間にスケジューリングするのが難しい。",
+      "constraint_type": "技術的課題",
+      "tags": [
+        "懸念"
+      ]
+    },
+    {
+      "id": "日記:2026-02-15",
+      "label": "2026-02-15の日記",
+      "type": "日記",
+      "date": "2026-02-15",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-02-16T14:56:00.230010",
+      "last_seen": "2026-02-16T14:56:00.230012",
+      "weight": 1
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T23:51:38.043575",
-      "last_seen": "2026-02-16T23:51:38.043578",
+      "first_seen": "2026-02-16T14:56:00.230017",
+      "last_seen": "2026-02-16T14:56:00.230017",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "日記:2026-02-16",
-      "target": "プロジェクト:Saiteki_副業",
-      "type": "言及する",
-      "label": "進捗と言及"
-    },
-    {
-      "source": "プロジェクト:Saiteki_副業",
-      "target": "タスク:Saiteki_CheckKaimai",
-      "type": "計画する",
-      "label": "タスク"
-    },
-    {
-      "source": "プロジェクト:Saiteki_副業",
-      "target": "タスク:Saiteki_DocCreation",
-      "type": "計画する",
-      "label": "タスク"
-    },
-    {
-      "source": "制約:時間不足_副業",
-      "target": "タスク:Saiteki_DocCreation",
+      "source": "制約:StickyResidue",
+      "target": "タスク:PetRoomCleaning",
       "type": "阻害する",
-      "label": "着手できていない"
+      "label": "掃除を困難にする"
     },
     {
-      "source": "人物:鈴木さん",
-      "target": "タスク:Saiteki_VertlexTrain",
+      "source": "制約:TimeLack_Cleaning",
+      "target": "タスク:PetRoomCleaning",
+      "type": "阻害する",
+      "label": "実行頻度を下げる"
+    },
+    {
+      "source": "タスク:CheatDay",
+      "target": "タスク:CalorieRestriction",
       "type": "関連する",
-      "label": "資料提供元"
+      "label": "代謝維持のため併用"
     },
     {
-      "source": "出来事:MadeGruel",
-      "target": "感情:Gratitude_Sayaka",
-      "type": "引き起こす",
-      "label": "大変さを実感し感謝"
-    },
-    {
-      "source": "感情:Gratitude_Sayaka",
-      "target": "人物:さやか",
-      "type": "関連する",
-      "label": "対象"
-    },
-    {
-      "source": "制約:TaxAnxiety",
-      "target": "目標:Savings",
-      "type": "阻害する",
-      "label": "貯金を難しくする"
-    },
-    {
-      "source": "プロジェクト:Knowbe_Main",
-      "target": "タスク:TeamFlowImprovement",
-      "type": "計画する",
-      "label": "今日のタスク"
-    },
-    {
-      "source": "制約:MentalLoad_TaskThinking",
-      "target": "プロジェクト:Knowbe_Main",
-      "type": "阻害する",
-      "label": "精神的負担"
-    },
-    {
-      "source": "制約:MorningFatigue",
-      "target": "人物:蒼馬",
-      "type": "阻害する",
-      "label": "遊び相手をするのが辛い"
-    },
-    {
-      "source": "制約:LivingRoomDistraction",
-      "target": "プロジェクト:Knowbe_Main",
-      "type": "阻害する",
-      "label": "集中できない"
-    },
-    {
-      "source": "場所:StudyRoom",
-      "target": "制約:LivingRoomDistraction",
+      "source": "タスク:CalorieRestriction",
+      "target": "目標:WeightUnder75",
       "type": "解決する",
-      "label": "環境を変えて集中"
+      "label": "達成手段"
     },
     {
-      "source": "人物:直道",
-      "target": "出来事:MTG_Naomichi",
-      "type": "参加する",
-      "label": "MTG相手"
-    },
-    {
-      "source": "概念:Antigravity",
-      "target": "制約:CostIncrease",
-      "type": "引き起こす",
-      "label": "プラン変更"
-    },
-    {
-      "source": "制約:CostIncrease",
-      "target": "制約:TaxAnxiety",
-      "type": "関連する",
-      "label": "金銭的不安の増大"
-    },
-    {
-      "source": "制約:Hunger",
-      "target": "目標:Diet_79kg",
-      "type": "阻害する",
-      "label": "辛さ"
-    },
-    {
-      "source": "制約:CreativeTimeShortage",
-      "target": "目標:PersonalBranding",
-      "type": "阻害する",
-      "label": "時間がなくブログが書けない"
-    },
-    {
-      "source": "知見:AI_Blog_Automation",
-      "target": "制約:CreativeTimeShortage",
-      "type": "解決する",
-      "label": "時間短縮の可能性"
-    },
-    {
-      "source": "知見:AI_Blog_Automation",
-      "target": "目標:PersonalBranding",
+      "source": "感情:PomeraFun",
+      "target": "プロジェクト:PomeraWorkflow",
       "type": "原動力になる",
-      "label": "実現手段のアイデア"
+      "label": "開発モチベーション"
+    },
+    {
+      "source": "制約:YouTubeNight",
+      "target": "タスク:MonsterDrawing",
+      "type": "阻害する",
+      "label": "睡眠と活動時間の圧迫"
+    },
+    {
+      "source": "制約:DrawingSkill",
+      "target": "目標:RealisticDesign",
+      "type": "阻害する",
+      "label": "理想とのギャップ"
+    },
+    {
+      "source": "人物:Mugi",
+      "target": "イベント:WalkWithMugi",
+      "type": "参加する",
+      "label": "散歩のパートナー"
+    },
+    {
+      "source": "イベント:FamilyParkVisit",
+      "target": "目標:ParkPicnic",
+      "type": "引き起こす",
+      "label": "次の願望"
+    },
+    {
+      "source": "イベント:AobaChoking",
+      "target": "感情:ParentalRegret",
+      "type": "引き起こす",
+      "label": "強い恐怖と反省"
+    },
+    {
+      "source": "制約:MultitaskingDanger",
+      "target": "イベント:AobaChoking",
+      "type": "関連する",
+      "label": "事故の要因"
+    },
+    {
+      "source": "知見:ChildFoodSafety",
+      "target": "制約:MultitaskingDanger",
+      "type": "解決する",
+      "label": "再発防止の教訓"
+    },
+    {
+      "source": "プロジェクト:PomeraWorkflow",
+      "target": "目標:PomeraBook",
+      "type": "関連する",
+      "label": "書籍化のネタ"
+    },
+    {
+      "source": "制約:GHAScheduling",
+      "target": "プロジェクト:PomeraWorkflow",
+      "type": "阻害する",
+      "label": "完全自動化の課題"
     },
     {
       "source": "人物:自分",
-      "target": "日記:2026-02-16",
+      "target": "日記:2026-02-15",
       "type": "関連する",
       "label": "書いた",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "人物:鈴木さん",
+      "source": "日記:2026-02-15",
+      "target": "タスク:PetRoomCleaning",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "人物:開米さん",
+      "source": "日記:2026-02-15",
+      "target": "制約:StickyResidue",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "タスク:Saiteki_CheckKaimai",
+      "source": "日記:2026-02-15",
+      "target": "制約:TimeLack_Cleaning",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "タスク:Saiteki_DocCreation",
+      "source": "日記:2026-02-15",
+      "target": "概念:WeightStatus",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "制約:時間不足_副業",
+      "source": "日記:2026-02-15",
+      "target": "タスク:CheatDay",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "タスク:Saiteki_ReplySuzuki",
+      "source": "日記:2026-02-15",
+      "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "タスク:Saiteki_VertlexTrain",
+      "source": "日記:2026-02-15",
+      "target": "タスク:CalorieRestriction",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "概念:CustomTuning",
+      "source": "日記:2026-02-15",
+      "target": "プロジェクト:PomeraWorkflow",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "人物:さやか",
+      "source": "日記:2026-02-15",
+      "target": "感情:PomeraFun",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "人物:蒼馬",
+      "source": "日記:2026-02-15",
+      "target": "制約:YouTubeNight",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "出来事:MadeGruel",
+      "source": "日記:2026-02-15",
+      "target": "タスク:MonsterDrawing",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "感情:Gratitude_Sayaka",
+      "source": "日記:2026-02-15",
+      "target": "目標:RealisticDesign",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "制約:TaxAnxiety",
+      "source": "日記:2026-02-15",
+      "target": "制約:DrawingSkill",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "目標:Savings",
+      "source": "日記:2026-02-15",
+      "target": "イベント:WalkWithMugi",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "プロジェクト:Knowbe_Main",
+      "source": "日記:2026-02-15",
+      "target": "人物:Mugi",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "タスク:TeamFlowImprovement",
+      "source": "日記:2026-02-15",
+      "target": "イベント:FamilyParkVisit",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "制約:MentalLoad_TaskThinking",
+      "source": "日記:2026-02-15",
+      "target": "目標:ParkPicnic",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "制約:MorningFatigue",
+      "source": "日記:2026-02-15",
+      "target": "イベント:AobaChoking",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "場所:StudyRoom",
+      "source": "日記:2026-02-15",
+      "target": "感情:ParentalRegret",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "制約:LivingRoomDistraction",
+      "source": "日記:2026-02-15",
+      "target": "制約:MultitaskingDanger",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "人物:直道",
+      "source": "日記:2026-02-15",
+      "target": "知見:ChildFoodSafety",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "出来事:MTG_Naomichi",
+      "source": "日記:2026-02-15",
+      "target": "目標:PomeraBook",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-16",
-      "target": "概念:Antigravity",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "制約:CostIncrease",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "目標:Diet_79kg",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "制約:Hunger",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "目標:PersonalBranding",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "知見:AI_Blog_Automation",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-16",
-      "target": "制約:CreativeTimeShortage",
+      "source": "日記:2026-02-15",
+      "target": "制約:GHAScheduling",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T23:51:38.043537",
-    "source_file": "diary/20260216_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
-    "node_count": 31,
-    "edge_count": 20
+    "generated_at": "2026-02-16T14:56:00.229997",
+    "source_file": "diary/20260216_POMERA2026年2月15日.txt",
+    "node_count": 23,
+    "edge_count": 14
   }
 }
