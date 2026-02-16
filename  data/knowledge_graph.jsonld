@@ -1,0 +1,29 @@
+{
+    "@context": {
+        "kg": "http://example.org/antigravity-kg/",
+        "schema": "http://schema.org/",
+        "Task": "kg:Task",
+        "Constraint": "kg:Constraint",
+        "Emotion": "kg:Emotion",
+        "Insight": "kg:Insight",
+        "name": "schema:name",
+        "status": "schema:creativeWorkStatus",
+        "blockedBy": {
+            "@id": "kg:blockedBy",
+            "@type": "@id"
+        },
+        "motivatedBy": {
+            "@id": "kg:motivatedBy",
+            "@type": "@id"
+        },
+        "leadsTo": {
+            "@id": "kg:leadsTo",
+            "@type": "@id"
+        },
+        "partOf": {
+            "@id": "kg:partOf",
+            "@type": "schema:Project"
+        }
+    },
+    "@graph": []
+}

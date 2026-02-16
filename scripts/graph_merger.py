@@ -25,7 +25,7 @@ def merge_graphs(master, daily):
     # Map label+type to ID for duplicate detection
     # only for specific types where names should be unique identifiers
     label_map = {} 
-    mergeable_types = {'person', 'place', 'project', 'concept', 'goal', 'emotion', 'insight', 'task', 'event'}
+    mergeable_types = {'人物', '場所', 'プロジェクト', '概念', '目標', '感情', '知見', 'タスク', '出来事', '制約', 'person', 'place', 'project', 'concept', 'goal', 'emotion', 'insight', 'task', 'event'}
     
     # First, build a label_map from the MASTER
     for n in master.get('nodes', []):
@@ -102,7 +102,7 @@ def merge_graphs(master, daily):
             if 'sentiment' in node:
                 existing['sentiment'] = node['sentiment']
 
-            if existing.get('type') == 'diary':
+            if existing.get('type') in ('diary', '日記'):
                 existing['weight'] = 1
             else:
                 existing['weight'] = existing.get('weight', 1) + node.get('weight', 1)
@@ -145,8 +145,6 @@ def merge_graphs(master, daily):
             if source == target:
                 continue
             key = f"{source}|{target}|{edge.get('type', 'UNKNOWN')}"
-        except Exception:
-            continue
         except Exception:
             continue
 

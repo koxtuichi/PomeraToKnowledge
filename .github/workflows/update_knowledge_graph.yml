@@ -1,0 +1,32 @@
+name: Update Knowledge Graph
+on:
+  schedule:
+    - cron: '0 * * * *' # 1時間に1回実行
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          pip install google-generativeai
+      - name: Fetch Diary (Mock)
+        # ここにGmailから取得する fetch_gmail.py の実行を入れる
+        run: python scripts/fetch_gmail.py > diary_temp.txt
+      - name: Update Graph with Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/update_graph.py
+      - name: Commit and Push
+        run: |
+          git config user.name "Antigravity Bot"
+          git config user.email "bot@example.com"
+          git add data/knowledge_graph.jsonld
+          git commit -m "chore: update knowledge graph from diary" || echo "No changes to commit"
+          git push

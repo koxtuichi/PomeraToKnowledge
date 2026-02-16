@@ -1,0 +1,399 @@
+{
+  "nodes": [
+    {
+      "id": "diary:20260216",
+      "label": "2026/02/16の日記",
+      "type": "diary",
+      "detail": "副業のタスク整理、妻への感謝、金銭的不安、仕事の環境とフロー策定、次回の予定など。",
+      "date": "2026-02-16",
+      "category": "General",
+      "tags": [],
+      "community": 0
+    },
+    {
+      "id": "project:saiteki_side_job",
+      "label": "株式会社Saitekiでの副業",
+      "type": "project",
+      "detail": "AI活用を考える副業。時給3000円。",
+      "category": "エンジニア",
+      "tags": [
+        "AI",
+        "Side Job"
+      ],
+      "community": 1
+    },
+    {
+      "id": "task:contact_suzuki",
+      "label": "鈴木さんへの連絡",
+      "type": "task",
+      "detail": "カスタムチューニング学習資料に関する連絡。",
+      "status": "Active",
+      "category": "エンジニア",
+      "tags": [
+        "Communication"
+      ],
+      "community": 1
+    },
+    {
+      "id": "task:check_kaimai",
+      "label": "開米さんの進捗確認",
+      "type": "task",
+      "detail": "AI置き換え作業資料の作成状況を確認する。2月中のゴール。",
+      "status": "Active",
+      "category": "エンジニア",
+      "tags": [
+        "Management"
+      ],
+      "community": 1
+    },
+    {
+      "id": "task:document_analysis",
+      "label": "社員分析の資料化",
+      "type": "task",
+      "detail": "社員分析結果の利用案を資料にまとめる。",
+      "status": "Active",
+      "category": "エンジニア",
+      "tags": [
+        "Documentation"
+      ],
+      "community": 1
+    },
+    {
+      "id": "person:suzuki",
+      "label": "鈴木さん",
+      "type": "person",
+      "detail": "株式会社Saiteki副社長。S級のAIモデル作成を目指している。",
+      "category": "エンジニア",
+      "community": 1
+    },
+    {
+      "id": "person:kaimai",
+      "label": "開米さん",
+      "type": "person",
+      "detail": "Saiteki所属のQAスペシャリスト。AI活用資料を作成中。",
+      "category": "エンジニア",
+      "community": 1
+    },
+    {
+      "id": "person:sayaka",
+      "label": "さやか",
+      "type": "person",
+      "detail": "妻。家事・育児の大部分を担っている。",
+      "category": "夫",
+      "community": 2
+    },
+    {
+      "id": "person:soma",
+      "label": "蒼馬",
+      "type": "person",
+      "detail": "息子。月齢9ヶ月。離乳食（5倍がゆ）を開始。",
+      "category": "父親",
+      "community": 2
+    },
+    {
+      "id": "event:made_porridge",
+      "label": "5倍がゆの作成",
+      "type": "event",
+      "detail": "離乳食作りを体験し、その大変さを実感した。",
+      "status": "Completed",
+      "date": "2026-02-16",
+      "category": "父親",
+      "sentiment": 0.2,
+      "tags": [
+        "Parenting"
+      ],
+      "community": 2
+    },
+    {
+      "id": "insight:gratitude_realization",
+      "label": "妻への感謝の再認識",
+      "type": "insight",
+      "detail": "離乳食作りの経験を通じて、妻の日々の貢献に対する感謝と言葉不足を痛感した。",
+      "sentiment": 0.5,
+      "category": "夫",
+      "tags": [
+        "Growth",
+        "Gratitude"
+      ],
+      "community": 2
+    },
+    {
+      "id": "emotion:financial_anxiety",
+      "label": "金銭的な不安",
+      "type": "emotion",
+      "detail": "税金支払いや確定申告への不安。貯金はあるが支出が見えないことへの恐怖。",
+      "sentiment": -0.6,
+      "category": "General",
+      "tags": [
+        "Cognitive Distortion: Fortune Telling",
+        "Finance"
+      ],
+      "community": 3
+    },
+    {
+      "id": "concept:savings",
+      "label": "現在の貯金",
+      "type": "concept",
+      "detail": "約110万円。月10〜20万円の貯金ペース。",
+      "category": "General",
+      "community": 3
+    },
+    {
+      "id": "task:define_improvement_flow",
+      "label": "チーム改善タスクのフロー策定",
+      "type": "task",
+      "detail": "本業のチームにて、改善タスクをメンバーが自律的に処理できるフローを考える。本日完了目標。",
+      "status": "Active",
+      "category": "エンジニア",
+      "tags": [
+        "Process Improvement"
+      ],
+      "community": 1
+    },
+    {
+      "id": "place:study_room",
+      "label": "書斎（2階）",
+      "type": "place",
+      "detail": "仕事に集中するために利用する場所。リビングから移動した。",
+      "category": "エンジニア",
+      "community": 0
+    },
+    {
+      "id": "event:mtg_naomichi",
+      "label": "直道とのMTG",
+      "type": "event",
+      "detail": "Saiteki社長の直道とのミーティング。",
+      "status": "Scheduled",
+      "date": "2026-02-20",
+      "category": "エンジニア",
+      "community": 1
+    },
+    {
+      "id": "person:naomichi",
+      "label": "直道",
+      "type": "person",
+      "detail": "Saiteki社長。同い年の友人。",
+      "category": "エンジニア",
+      "community": 1
+    },
+    {
+      "id": "diary:2026-02-16",
+      "label": "2026-02-16の日記",
+      "type": "diary",
+      "date": "2026-02-16",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-02-16T19:41:20.713563",
+      "last_seen": "2026-02-16T19:41:20.713564",
+      "weight": 1
+    },
+    {
+      "id": "person:self",
+      "label": "自分",
+      "type": "self",
+      "detail": "日記の作成者",
+      "first_seen": "2026-02-16T19:41:20.713568",
+      "last_seen": "2026-02-16T19:41:20.713569",
+      "weight": 1
+    }
+  ],
+  "edges": [
+    {
+      "source": "diary:20260216",
+      "target": "project:saiteki_side_job",
+      "type": "MENTIONS",
+      "label": "進捗と思考"
+    },
+    {
+      "source": "project:saiteki_side_job",
+      "target": "task:contact_suzuki",
+      "type": "PLANS",
+      "label": "タスク発生"
+    },
+    {
+      "source": "project:saiteki_side_job",
+      "target": "task:check_kaimai",
+      "type": "PLANS",
+      "label": "タスク発生"
+    },
+    {
+      "source": "task:contact_suzuki",
+      "target": "person:suzuki",
+      "type": "TARGETS",
+      "label": "連絡先"
+    },
+    {
+      "source": "task:check_kaimai",
+      "target": "person:kaimai",
+      "type": "TARGETS",
+      "label": "確認先"
+    },
+    {
+      "source": "diary:20260216",
+      "target": "event:made_porridge",
+      "type": "PARTICIPATES",
+      "label": "実施"
+    },
+    {
+      "source": "event:made_porridge",
+      "target": "insight:gratitude_realization",
+      "type": "TRIGGERED_BY",
+      "label": "大変さを実感し気づく"
+    },
+    {
+      "source": "insight:gratitude_realization",
+      "target": "person:sayaka",
+      "type": "ABOUT",
+      "label": "感謝の対象"
+    },
+    {
+      "source": "diary:20260216",
+      "target": "emotion:financial_anxiety",
+      "type": "FEELING",
+      "label": "不安の吐露"
+    },
+    {
+      "source": "emotion:financial_anxiety",
+      "target": "concept:savings",
+      "type": "ABOUT",
+      "label": "現状の貯蓄額"
+    },
+    {
+      "source": "diary:20260216",
+      "target": "task:define_improvement_flow",
+      "type": "PLANS",
+      "label": "今日やること"
+    },
+    {
+      "source": "person:soma",
+      "target": "place:study_room",
+      "type": "BARRIER",
+      "label": "集中できないため分離"
+    },
+    {
+      "source": "diary:20260216",
+      "target": "event:mtg_naomichi",
+      "type": "PLANS",
+      "label": "予定"
+    },
+    {
+      "source": "event:mtg_naomichi",
+      "target": "person:naomichi",
+      "type": "PARTICIPATES",
+      "label": "参加者"
+    },
+    {
+      "source": "person:self",
+      "target": "diary:2026-02-16",
+      "relationship": "WROTE",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "diary:20260216",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "project:saiteki_side_job",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "task:contact_suzuki",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "task:check_kaimai",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "task:document_analysis",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:suzuki",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:kaimai",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:sayaka",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:soma",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:made_porridge",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "insight:gratitude_realization",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "emotion:financial_anxiety",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "concept:savings",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "task:define_improvement_flow",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "place:study_room",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:mtg_naomichi",
+      "relationship": "MENTIONS",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:naomichi",
+      "relationship": "MENTIONS",
+      "weight": 1
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-02-16T19:41:20.713540",
+    "source_file": "diary/20260216_[POMERAtoKNOWLEDGE]2026年2月16日.txt",
+    "node_count": 17,
+    "edge_count": 14
+  }
+}

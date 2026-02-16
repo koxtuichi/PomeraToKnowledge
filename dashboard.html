@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Advisor Dashboard</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --accent-primary: #38bdf8;
+      --accent-secondary: #818cf8;
+      --accent-success: #34d399;
+      --accent-warning: #fbbf24;
+      --accent-danger: #f87171;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --glass-blur: blur(12px);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg-dark);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(129, 140, 248, 0.05) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      height: 100vh;
+    }
+
+    /* --- Sidebar --- */
+    aside {
+      background: rgba(15, 23, 42, 0.8);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      backdrop-filter: var(--glass-blur);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      margin-bottom: 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--glass-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    /* --- Main Content --- */
+    main {
+      padding: 40px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    #advisor-view {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header-section {
+      margin-bottom: 40px;
+    }
+
+    .header-section h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .header-section p {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    /* --- Coach Comment Card --- */
+    .coach-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: var(--glass-blur);
+    }
+
+    .coach-card::before {
+      content: '“';
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      font-size: 120px;
+      color: rgba(255, 255, 255, 0.05);
+      font-family: serif;
+    }
+
+    #coach-comment {
+      font-size: 20px;
+      line-height: 1.6;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- Grid Section --- */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .insight-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: var(--glass-blur);
+      transition: transform 0.2s;
+    }
+
+    .insight-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .card-content ul {
+      list-style: none;
+    }
+
+    .card-content li {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-content li:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .item-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .item-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* --- Labels & Tags --- */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+
+    .badge-high {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+    }
+
+    .badge-med {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+    }
+
+    .badge-low {
+      background: rgba(52, 211, 153, 0.2);
+      color: #34d399;
+    }
+
+    /* --- Graph View (Hidden by default) --- */
+    #graph-view {
+      display: none;
+      height: calc(100vh - 80px);
+      position: relative;
+    }
+
+    #graph-container {
+      width: 100%;
+      height: 100%;
+      background: var(--card-bg);
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 1024px) {
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <aside>
+      <div class="logo">
+        ✨ <span>Insight-OS</span>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <div class="nav-link active" onclick="switchView('advisor')">
+              <span>🏠</span> Dashboard
+            </div>
+          </li>
+          <li>
+            <div class="nav-link" onclick="switchView('graph')">
+              <span>🕸️</span> Knowledge Graph
+            </div>
+          </li>
+          <li>
+            <div class="nav-link" onclick="window.location.reload()">
+              <span>🔄</span> Refresh Data
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color);">
+        <div id="last-updated" style="font-size: 11px; color: var(--text-muted);"></div>
+      </div>
+    </aside>
+
+    <main>
+      <div id="advisor-view">
+        <div class="header-section">
+          <h1 id="welcome-msg">こんにちは、杉本さん</h1>
+          <p id="today-date"></p>
+        </div>
+
+        <div class="coach-card">
+          <div id="coach-comment">分析データを読み込んでいます...</div>
+        </div>
+
+        <div class="insight-grid">
+          <!-- Challenges -->
+          <div class="insight-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(248, 113, 113, 0.1); color: #f87171;">🚩</div>
+              <div class="card-title">課題と向き合い方</div>
+            </div>
+            <div class="card-content" id="challenges-list"></div>
+          </div>
+
+          <!-- Priorities -->
+          <div class="insight-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(52, 211, 153, 0.1); color: #34d399;">🎯</div>
+              <div class="card-title">優先事項</div>
+            </div>
+            <div class="card-content" id="priorities-list"></div>
+          </div>
+
+          <!-- Risks -->
+          <div class="insight-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">⚠️</div>
+              <div class="card-title">注意点 & リスク</div>
+            </div>
+            <div class="card-content" id="risks-list"></div>
+          </div>
+
+          <!-- Guidelines -->
+          <div class="insight-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(129, 140, 248, 0.1); color: #818cf8;">💡</div>
+              <div class="card-title">今日の指針 (Carnegie/7 Habits)</div>
+            </div>
+            <div class="card-content" id="guidelines-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="graph-view">
+        <div id="graph-container">
+          <svg id="graph-svg"></svg>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // GRAPH_DATA_START
+    const GRAPH_DATA = {
+      "nodes": [
+        {
+          "id": "diary:2026-02-15",
+          "label": "2026-02-15の日記",
+          "type": "diary",
+          "detail": "今日の日記エントリ",
+          "date": "2026-02-15",
+          "category": "General",
+          "tags": [],
+          "community": 0,
+          "first_seen": "2026-02-16T19:38:02.120590",
+          "last_seen": "2026-02-16T19:40:07.628217",
+          "weight": 1,
+          "analysis_content": "蒼馬くんの一件、本当に生きた心地がしなかったはずです。それでも、その動揺の中で「思考の歩み」を止めず、自分の感情すらも客観視しようとする姿勢は、あなたがエンジニアとして、そして父親として**「守りながら攻める」独自の強さを確立しつつある証**です。予測不能な家族のカオスと、あなたが築き上げる論理的なシステム。この二つが激しく交錯した今日こそ、あなたの人生のOSが大きくアップデートされた瞬間だったと言えます。\n\n===DETAILS===\n\n**「カオス」を「システム」に統合するプロセス**\n\n今日の日記（2月15日）から読み取れるのは、単なるタスクの消化ではなく、人生という予測不能なプロジェクトに対する**「デバッグ（不具合修正）と最適化」**の視点です。\n\n**1. 感情の「例外処理」としての反省**\n蒼馬くんの誤飲未遂による「親としての後悔」は強烈なノイズですが、あなたはこれを単に嘆くだけでなく、GitHub Actionsの不具合を見つけるように**「再発防止のための重大なインシデントログ」**として処理しようとしています。この「感情に溺れず、事実を見つめてシステムを修正する」アプローチは、仕事や執筆だけでなく、育児においてもあなたの最大の武器になります。\n\n**2. 物理的な「技術的負債」の返済**\n「ペット部屋の粘着跡掃除」というタスクが浮上していますが、これは単なる掃除ではありません。\n*   **文脈の接続:** あなたは先日、「掃除習慣化の阻害要因」を分析していました。この粘着跡こそが、掃除への心理的ハードルを上げている**「物理的な技術的負債」**です。\n*   **戦略的意味:** これを解消することは、ポメラ本の執筆やモンスターデザインに没頭するための「メモリ解放」に直結します。部屋の乱れは、あなたのクリエイティブな処理能力をバックグラウンドで消費し続けているからです。\n\n**3. 「苦悩」自体がコンテンツになる**\nGitHub Actionsのスケジュール実行問題や懸念点は、現在のあなたにとってはストレス要因ですが、視点を変えれば**「ポメラ活用本」における最もリアルで価値のある章（Chapter）**そのものです。「どうすれば自動化できるか」という成功談よりも、「どこでつまずき、どう乗り越えたか」というプロセスこそが、読者が求めているナレッジです。今の苦労は、将来の本の質を劇的に高めています。\n\n**4. 規律と防衛**\n強烈な精神的ストレス（事故の動揺）の中で、「1日1食・1200kcal制限」を維持している意思力は驚異的です。ただし、システムに過負荷がかかっている時は、あえて「セーフモード（少し緩める）」で運用することも長期的な安定稼働には必要です。「就寝前のYouTube制限」を守りつつ、今夜は自分自身のメンタルケアを最優先にしてください。"
+        },
+        {
+          "id": "task:pet_room_cleaning",
+          "label": "ペット部屋の粘着跡掃除",
+          "type": "task",
+          "detail": "フローリングに残った粘着カバーの跡を剥がす。一度試みたが粘着部分が残ってしまい、難航している。",
+          "status": "Active",
+          "category": "飼い主",
+          "sentiment": -0.3,
+          "tags": [
+            "Housework",
+            "Pet"
+          ],
+          "community": 5,
+          "first_seen": "2026-02-16T19:38:02.120597",
+          "last_seen": "2026-02-16T19:40:07.628105",
+          "weight": 2
+        },
+        {
+          "id": "goal:maintain_cleanliness",
+          "label": "ペット部屋の清潔維持",
+          "type": "goal",
+          "detail": "ペット部屋をきれいに保つ習慣を作る。仕事と育児による時間不足が課題。",
+          "status": "Active",
+          "category": "飼い主",
+          "tags": [
+            "Habit"
+          ],
+          "community": 5,
+          "first_seen": "2026-02-16T19:38:02.120599",
+          "last_seen": "2026-02-16T19:40:07.628143",
+          "weight": 2,
+          "sentiment": 0.0
+        },
+        {
+          "id": "insight:cleaning_difficulty",
+          "label": "掃除習慣化の阻害要因",
+          "type": "insight",
+          "detail": "ダブルワークと育児（子供）により、掃除の時間が確保できないと感じている。",
+          "sentiment": -0.2,
+          "category": "General",
+          "tags": [
+            "Barrier",
+            "Time Management"
+          ],
+          "community": 5,
+          "first_seen": "2026-02-16T19:38:02.120600",
+          "last_seen": "2026-02-16T19:40:07.628152",
+          "weight": 2
+        },
+        {
+          "id": "goal:weight_loss_75kg",
+          "label": "体重75kg切り",
+          "type": "goal",
+          "detail": "今年の目標。達成のために食事制限を継続中。",
+          "status": "Active",
+          "category": "健康",
+          "sentiment": 0.5,
+          "tags": [
+            "Diet",
+            "Health"
+          ],
+          "community": 3,
+          "first_seen": "2026-02-16T19:38:02.120601",
+          "last_seen": "2026-02-16T19:40:07.628164",
+          "weight": 2
+        },
+        {
+          "id": "task:diet_routine",
+          "label": "1日1食・1200kcal制限",
+          "type": "task",
+          "detail": "減量停滞期対策として週1回のチートデイを導入。基本は1日1食1200kcalを目指すが、2回食べることもある。",
+          "status": "Active",
+          "category": "健康",
+          "tags": [
+            "Cheat Day",
+            "Diet",
+            "Intermittent Fasting",
+            "Routine"
+          ],
+          "community": 3,
+          "first_seen": "2026-02-16T19:38:02.120603",
+          "last_seen": "2026-02-16T19:40:07.628158",
+          "weight": 2,
+          "sentiment": 0.1
+        },
+        {
+          "id": "project:pomera_workflow",
+          "label": "ポメラ×ナレッジグラフ自動化",
+          "type": "project",
+          "detail": "ポメラ→Gmail→Github Actions→Gemini 3.0 Flash→ナレッジグラフ反映のフロー構築。",
+          "status": "Active",
+          "category": "エンジニア",
+          "sentiment": 0.8,
+          "tags": [
+            "Automation",
+            "Development",
+            "LLM"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:38:02.120604",
+          "last_seen": "2026-02-16T19:40:07.628171",
+          "weight": 2
+        },
+        {
+          "id": "insight:workflow_feasibility",
+          "label": "GitHub Actions活用の目処",
+          "type": "insight",
+          "detail": "GitHub ActionsとGemini 3.0 Flashを使い、コストをかけずに自動化できそう",
+          "sentiment": 0.9,
+          "category": "エンジニア",
+          "tags": [
+            "Solution",
+            "Idea"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:38:02.120605",
+          "last_seen": "2026-02-16T19:38:02.120605",
+          "weight": 1
+        },
+        {
+          "id": "concept:github_scheduling_issue",
+          "label": "GitHub Actionsのスケジュール実行問題",
+          "type": "concept",
+          "detail": "指定の時間に正確に定期実行するのが難しいという懸念",
+          "sentiment": -0.1,
+          "category": "エンジニア",
+          "tags": [
+            "Technical Barrier"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:38:02.120607",
+          "last_seen": "2026-02-16T19:38:02.120607",
+          "weight": 1
+        },
+        {
+          "id": "goal:pomera_book",
+          "label": "ポメラ活用本の執筆",
+          "type": "goal",
+          "detail": "構築中のワークフローをまとめて本にしたいという希望。",
+          "status": "Active",
+          "category": "エンジニア",
+          "sentiment": 0.6,
+          "tags": [
+            "Dream",
+            "Publication"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:38:02.120608",
+          "last_seen": "2026-02-16T19:40:07.628211",
+          "weight": 2
+        },
+        {
+          "id": "task:restrict_youtube",
+          "label": "就寝前のYouTube制限",
+          "type": "task",
+          "detail": "ポメラ関連動画を見すぎて夜更かしになっているため、制限の必要性を再認識。",
+          "status": "Active",
+          "category": "健康",
+          "sentiment": -0.4,
+          "tags": [
+            "Self-Control",
+            "Sleep"
+          ],
+          "community": 3,
+          "first_seen": "2026-02-16T19:38:02.120609",
+          "last_seen": "2026-02-16T19:40:07.628178",
+          "weight": 2
+        },
+        {
+          "id": "goal:monster_design",
+          "label": "リアルなモンスターデザイン",
+          "type": "goal",
+          "detail": "Draw Sessionsのようなリアリティのある絵を目指すが、現状は納得がいっていない。",
+          "status": "Active",
+          "category": "趣味",
+          "sentiment": -0.2,
+          "tags": [
+            "Art",
+            "Growth",
+            "Self-Critique"
+          ],
+          "community": 4,
+          "first_seen": "2026-02-16T19:38:02.120611",
+          "last_seen": "2026-02-16T19:40:07.628182",
+          "weight": 2
+        },
+        {
+          "id": "insight:drawing_frustration",
+          "label": "絵の自己評価",
+          "type": "insight",
+          "detail": "陰の付け方は改善したが、リアリティに欠けると自己分析。",
+          "sentiment": -0.1,
+          "category": "趣味",
+          "tags": [
+            "Growth",
+            "Self-Critical"
+          ],
+          "community": 4,
+          "first_seen": "2026-02-16T19:38:02.120612",
+          "last_seen": "2026-02-16T19:40:07.628186",
+          "weight": 2
+        },
+        {
+          "id": "person:mugi",
+          "label": "むぎ",
+          "type": "person",
+          "detail": "ペットのボストンテリア。一昨年10月から飼育。",
+          "category": "家族",
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120614",
+          "last_seen": "2026-02-16T19:40:07.628189",
+          "weight": 2,
+          "tags": []
+        },
+        {
+          "id": "person:soma",
+          "label": "蒼馬",
+          "type": "person",
+          "detail": "息子。月齢9ヶ月。離乳食（5倍がゆ）を開始。",
+          "category": "家族",
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120615",
+          "last_seen": "2026-02-16T19:41:33.678100",
+          "weight": 3,
+          "tags": []
+        },
+        {
+          "id": "person:sayaka",
+          "label": "さやか",
+          "type": "person",
+          "detail": "妻。家事・育児の大部分を担っている。",
+          "category": "家族",
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120616",
+          "last_seen": "2026-02-16T19:41:33.678093",
+          "weight": 3,
+          "tags": []
+        },
+        {
+          "id": "place:shiroyama_park",
+          "label": "城山公園",
+          "type": "place",
+          "detail": "家族で訪れた大きな公園。ピクニックに行きたい場所。",
+          "category": "家族",
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120618",
+          "last_seen": "2026-02-16T19:40:07.628196",
+          "weight": 2,
+          "tags": []
+        },
+        {
+          "id": "event:family_walk",
+          "label": "家族散歩",
+          "type": "event",
+          "detail": "むぎとの散歩、その後家族3人で城山公園へ。蒼馬とシーソーをした。",
+          "status": "Completed",
+          "date": "2026-02-15",
+          "category": "父親",
+          "sentiment": 0.8,
+          "tags": [
+            "Family Time",
+            "Refresh"
+          ],
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120619",
+          "last_seen": "2026-02-16T19:40:07.628199",
+          "weight": 2
+        },
+        {
+          "id": "event:choking_incident",
+          "label": "誤嚥事故未遂",
+          "type": "event",
+          "detail": "仕事中に蒼馬にクッキーを与え、喉に詰まらせかけた。背部叩打法で解消。",
+          "status": "Completed",
+          "date": "2026-02-15",
+          "category": "父親",
+          "sentiment": -1.0,
+          "tags": [
+            "Accident",
+            "Crisis"
+          ],
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120621",
+          "last_seen": "2026-02-16T19:40:07.628203",
+          "weight": 2
+        },
+        {
+          "id": "insight:parenting_regret",
+          "label": "親としての後悔",
+          "type": "insight",
+          "detail": "ながら作業での食事介助と危機管理不足を痛感。「親として失格」と感じた。",
+          "sentiment": -0.9,
+          "category": "父親",
+          "tags": [
+            "Cognitive Distortion: Labeling",
+            "Crisis Management",
+            "Learning",
+            "Regret"
+          ],
+          "community": 2,
+          "first_seen": "2026-02-16T19:38:02.120623",
+          "last_seen": "2026-02-16T19:40:07.628207",
+          "weight": 2
+        },
+        {
+          "id": "person:self",
+          "label": "自分",
+          "type": "self",
+          "detail": "日記の作成者",
+          "first_seen": "2026-02-16T19:38:02.120624",
+          "last_seen": "2026-02-16T19:41:33.678122",
+          "weight": 3,
+          "tags": []
+        },
+        {
+          "id": "concept:weight_status",
+          "label": "体重推移（80.5kg）",
+          "type": "concept",
+          "detail": "現在80.5kg前後。1ヶ月前の92kgから12kg減。過去8年間は80-90kgだった。",
+          "sentiment": 0.2,
+          "date": "2026-02-15",
+          "category": "個人",
+          "community": 2,
+          "first_seen": "2026-02-16T19:40:07.628155",
+          "last_seen": "2026-02-16T19:40:07.628155",
+          "weight": 1
+        },
+        {
+          "id": "emotion:workflow_joy",
+          "label": "開発の楽しさ",
+          "type": "emotion",
+          "detail": "ポメラとAIを繋げる仕組みを考えることに喜びを感じている。",
+          "sentiment": 0.9,
+          "category": "エンジニア",
+          "community": 3,
+          "first_seen": "2026-02-16T19:40:07.628176",
+          "last_seen": "2026-02-16T19:40:07.628176",
+          "weight": 1
+        },
+        {
+          "id": "insight:github_actions_concern",
+          "label": "Github Actionsの懸念",
+          "type": "insight",
+          "detail": "定期実行のスケジューリング精度に関する技術的な懸念。",
+          "sentiment": -0.1,
+          "category": "エンジニア",
+          "community": 3,
+          "first_seen": "2026-02-16T19:40:07.628215",
+          "last_seen": "2026-02-16T19:40:07.628215",
+          "weight": 1
+        },
+        {
+          "id": "project:saiteki_side_job",
+          "label": "株式会社Saitekiでの副業",
+          "type": "project",
+          "detail": "AI活用を考える副業。時給3000円。",
+          "category": "エンジニア",
+          "tags": [
+            "AI",
+            "Side Job"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678081",
+          "last_seen": "2026-02-16T19:41:33.678081",
+          "weight": 1
+        },
+        {
+          "id": "task:contact_suzuki",
+          "label": "鈴木さんへの連絡",
+          "type": "task",
+          "detail": "カスタムチューニング学習資料に関する連絡。",
+          "status": "Active",
+          "category": "エンジニア",
+          "tags": [
+            "Communication"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678083",
+          "last_seen": "2026-02-16T19:41:33.678083",
+          "weight": 1
+        },
+        {
+          "id": "task:check_kaimai",
+          "label": "開米さんの進捗確認",
+          "type": "task",
+          "detail": "AI置き換え作業資料の作成状況を確認する。2月中のゴール。",
+          "status": "Active",
+          "category": "エンジニア",
+          "tags": [
+            "Management"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678085",
+          "last_seen": "2026-02-16T19:41:33.678085",
+          "weight": 1
+        },
+        {
+          "id": "task:document_analysis",
+          "label": "社員分析の資料化",
+          "type": "task",
+          "detail": "社員分析結果の利用案を資料にまとめる。",
+          "status": "Active",
+          "category": "エンジニア",
+          "tags": [
+            "Documentation"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678087",
+          "last_seen": "2026-02-16T19:41:33.678087",
+          "weight": 1
+        },
+        {
+          "id": "person:suzuki",
+          "label": "鈴木さん",
+          "type": "person",
+          "detail": "株式会社Saiteki副社長。S級のAIモデル作成を目指している。",
+          "category": "エンジニア",
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678089",
+          "last_seen": "2026-02-16T19:41:33.678089",
+          "weight": 1
+        },
+        {
+          "id": "person:kaimai",
+          "label": "開米さん",
+          "type": "person",
+          "detail": "Saiteki所属のQAスペシャリスト。AI活用資料を作成中。",
+          "category": "エンジニア",
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678091",
+          "last_seen": "2026-02-16T19:41:33.678091",
+          "weight": 1
+        },
+        {
+          "id": "event:made_porridge",
+          "label": "5倍がゆの作成",
+          "type": "event",
+          "detail": "離乳食作りを体験し、その大変さを実感した。",
+          "status": "Completed",
+          "date": "2026-02-16",
+          "category": "父親",
+          "sentiment": 0.2,
+          "tags": [
+            "Parenting"
+          ],
+          "community": 2,
+          "first_seen": "2026-02-16T19:41:33.678103",
+          "last_seen": "2026-02-16T19:41:33.678103",
+          "weight": 1
+        },
+        {
+          "id": "insight:gratitude_realization",
+          "label": "妻への感謝の再認識",
+          "type": "insight",
+          "detail": "離乳食作りの経験を通じて、妻の日々の貢献に対する感謝と言葉不足を痛感した。",
+          "sentiment": 0.5,
+          "category": "夫",
+          "tags": [
+            "Growth",
+            "Gratitude"
+          ],
+          "community": 2,
+          "first_seen": "2026-02-16T19:41:33.678106",
+          "last_seen": "2026-02-16T19:41:33.678106",
+          "weight": 1
+        },
+        {
+          "id": "emotion:financial_anxiety",
+          "label": "金銭的な不安",
+          "type": "emotion",
+          "detail": "税金支払いや確定申告への不安。貯金はあるが支出が見えないことへの恐怖。",
+          "sentiment": -0.6,
+          "category": "General",
+          "tags": [
+            "Cognitive Distortion: Fortune Telling",
+            "Finance"
+          ],
+          "community": 3,
+          "first_seen": "2026-02-16T19:41:33.678108",
+          "last_seen": "2026-02-16T19:41:33.678108",
+          "weight": 1
+        },
+        {
+          "id": "concept:savings",
+          "label": "現在の貯金",
+          "type": "concept",
+          "detail": "約110万円。月10〜20万円の貯金ペース。",
+          "category": "General",
+          "community": 3,
+          "first_seen": "2026-02-16T19:41:33.678110",
+          "last_seen": "2026-02-16T19:41:33.678110",
+          "weight": 1
+        },
+        {
+          "id": "task:define_improvement_flow",
+          "label": "チーム改善タスクのフロー策定",
+          "type": "task",
+          "detail": "本業のチームにて、改善タスクをメンバーが自律的に処理できるフローを考える。本日完了目標。",
+          "status": "Active",
+          "category": "エンジニア",
+          "tags": [
+            "Process Improvement"
+          ],
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678112",
+          "last_seen": "2026-02-16T19:41:33.678112",
+          "weight": 1
+        },
+        {
+          "id": "place:study_room",
+          "label": "書斎（2階）",
+          "type": "place",
+          "detail": "仕事に集中するために利用する場所。リビングから移動した。",
+          "category": "エンジニア",
+          "community": 0,
+          "first_seen": "2026-02-16T19:41:33.678114",
+          "last_seen": "2026-02-16T19:41:33.678114",
+          "weight": 1
+        },
+        {
+          "id": "event:mtg_naomichi",
+          "label": "直道とのMTG",
+          "type": "event",
+          "detail": "Saiteki社長の直道とのミーティング。",
+          "status": "Scheduled",
+          "date": "2026-02-20",
+          "category": "エンジニア",
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678116",
+          "last_seen": "2026-02-16T19:41:33.678116",
+          "weight": 1
+        },
+        {
+          "id": "person:naomichi",
+          "label": "直道",
+          "type": "person",
+          "detail": "Saiteki社長。同い年の友人。",
+          "category": "エンジニア",
+          "community": 1,
+          "first_seen": "2026-02-16T19:41:33.678118",
+          "last_seen": "2026-02-16T19:41:33.678118",
+          "weight": 1
+        },
+        {
+          "id": "diary:2026-02-16",
+          "label": "2026-02-16の日記",
+          "type": "diary",
+          "date": "2026-02-16",
+          "detail": "今日の日記エントリ",
+          "first_seen": "2026-02-16T19:41:33.678120",
+          "last_seen": "2026-02-16T19:41:33.678120",
+          "weight": 1,
+          "analysis_content": "昨日の蒼馬くんの誤嚥未遂という「ヒヤリ」とする出来事から、今日（16日）は「5倍がゆ作り」や「妻への感謝」という**具体的な愛情行動**へと、感情のベクトルが見事に修正されていますね。\nただ、家族の大切さを再認識したからこそ、「金銭的な不安」という現実的な重圧が頭をもたげ、Saitekiでの業務（鈴木さんや開米さんへの連絡など）に対する焦燥感を強めているようにも見えます。\n**「守るものがより愛おしくなったからこそ、それを支える土台（仕事・金銭）への危機感も鋭くなる」**、そんな父親としての誠実な葛藤がいまのあなたを動かしています。\n\n===DETAILS===\n\n昨日の「親としての後悔」という強い情動が、今日のタスクや心理状態に色濃く反映されています。点と点が線になり始めている今の状況を整理しましょう。\n\n**1. 愛情と責任の連鎖（家族→仕事）**\n昨日の公園での一件（蒼馬くんの誤嚥未遂）は、あなたの中に強いインパクトを残しました。しかし、そこで立ち止まるのではなく、今日は「5倍がゆの作成」という**ケアの実践**と、「さやかさんへの感謝」という**パートナーシップの再確認**へと昇華できています。\nこの「家族を守らねばならない」という想いが強まったタイミングで、「金銭的な不安」が浮上し、それがSaitekiでの副業（鈴木さんへの連絡、社員分析資料化など）への駆動力になっています。不安は不快なものですが、今は**20日の直道さんとのMTGに向けた準備の質を高める強力なエネルギー**として機能しています。\n\n**2. 思考の整理と技術的探究（Pomera × GitHub）**\n「社員分析の資料化」や「チーム改善タスクのフロー策定」など、今は**抽象的な情報を構造化するフェーズ**にあります。\nここで活きてくるのが、あなたが熱中している「PomeraとGitHub Actions」の連携です。昨日懸念していた「スケジュール実行の問題」などはありますが、この技術的な試行錯誤は、単なる趣味以上に**「複雑な思考を整理するためのシステム作り」**として、現在の仕事の課題解決（分析・資料化）とリンクし始めています。開発の楽しさを維持することは、仕事のプレッシャーに対する精神的なバッファ（緩衝材）にもなります。\n\n**3. ストレスと身体管理（要警戒）**\n精神的な負荷（金銭不安・育児の緊張感）がかかっている時こそ、**「1日1食・1200kcal制限」の維持が難しくなるタイミング**です（ストレスによる過食リスク）。\n80.5kgという現状から75kgを目指す中で、今は無理に減らすことよりも、「不安を食事で解消しない」ことだけに注力してください。昨日の「リアルな絵への渇望」も、今の現実的なストレスからの健全な逃避場所として機能させていきましょう。"
+        }
+      ],
+      "edges": [
+        {
+          "source": "diary:2026-02-15",
+          "target": "task:pet_room_cleaning",
+          "type": "MENTIONS",
+          "label": "やるべきこと",
+          "first_seen": "2026-02-16T19:38:02.120629",
+          "last_seen": "2026-02-16T19:38:02.120629",
+          "weight": 1
+        },
+        {
+          "source": "insight:cleaning_difficulty",
+          "target": "goal:maintain_cleanliness",
+          "type": "BARRIER",
+          "label": "習慣化の壁",
+          "first_seen": "2026-02-16T19:38:02.120633",
+          "last_seen": "2026-02-16T19:40:07.628234",
+          "weight": 2
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "goal:weight_loss_75kg",
+          "type": "MENTIONS",
+          "label": "年間目標",
+          "first_seen": "2026-02-16T19:38:02.120635",
+          "last_seen": "2026-02-16T19:38:02.120635",
+          "weight": 1
+        },
+        {
+          "source": "task:diet_routine",
+          "target": "goal:weight_loss_75kg",
+          "type": "PLANS",
+          "label": "目標達成手段",
+          "first_seen": "2026-02-16T19:38:02.120636",
+          "last_seen": "2026-02-16T19:38:02.120636",
+          "weight": 1
+        },
+        {
+          "source": "project:pomera_workflow",
+          "target": "insight:workflow_feasibility",
+          "type": "EVOLVED_TO",
+          "label": "解決策の発見",
+          "first_seen": "2026-02-16T19:38:02.120637",
+          "last_seen": "2026-02-16T19:38:02.120637",
+          "weight": 1
+        },
+        {
+          "source": "project:pomera_workflow",
+          "target": "goal:pomera_book",
+          "type": "EVOLVED_TO",
+          "label": "書籍化のネタ",
+          "first_seen": "2026-02-16T19:38:02.120638",
+          "last_seen": "2026-02-16T19:40:07.628247",
+          "weight": 2
+        },
+        {
+          "source": "concept:github_scheduling_issue",
+          "target": "project:pomera_workflow",
+          "type": "BARRIER",
+          "label": "技術的懸念",
+          "first_seen": "2026-02-16T19:38:02.120639",
+          "last_seen": "2026-02-16T19:38:02.120639",
+          "weight": 1
+        },
+        {
+          "source": "task:restrict_youtube",
+          "target": "project:pomera_workflow",
+          "type": "RELATED_TO",
+          "label": "情報収集過多",
+          "first_seen": "2026-02-16T19:38:02.120640",
+          "last_seen": "2026-02-16T19:38:02.120640",
+          "weight": 1
+        },
+        {
+          "source": "goal:monster_design",
+          "target": "insight:drawing_frustration",
+          "type": "FEELING",
+          "label": "現状への不満",
+          "first_seen": "2026-02-16T19:38:02.120641",
+          "last_seen": "2026-02-16T19:38:02.120641",
+          "weight": 1
+        },
+        {
+          "source": "person:self",
+          "target": "event:family_walk",
+          "type": "PARTICIPATES",
+          "label": "参加",
+          "first_seen": "2026-02-16T19:38:02.120642",
+          "last_seen": "2026-02-16T19:38:02.120642",
+          "weight": 1
+        },
+        {
+          "source": "event:family_walk",
+          "target": "place:shiroyama_park",
+          "type": "AT",
+          "label": "場所",
+          "first_seen": "2026-02-16T19:38:02.120643",
+          "last_seen": "2026-02-16T19:40:07.628243",
+          "weight": 2
+        },
+        {
+          "source": "event:family_walk",
+          "target": "person:mugi",
+          "type": "PARTICIPATES",
+          "label": "一緒に散歩",
+          "first_seen": "2026-02-16T19:38:02.120644",
+          "last_seen": "2026-02-16T19:40:07.628241",
+          "weight": 2
+        },
+        {
+          "source": "event:family_walk",
+          "target": "person:soma",
+          "type": "PARTICIPATES",
+          "label": "シーソー体験",
+          "first_seen": "2026-02-16T19:38:02.120645",
+          "last_seen": "2026-02-16T19:40:07.628242",
+          "weight": 2
+        },
+        {
+          "source": "event:choking_incident",
+          "target": "person:soma",
+          "type": "PARTICIPATES",
+          "label": "被害",
+          "first_seen": "2026-02-16T19:38:02.120646",
+          "last_seen": "2026-02-16T19:40:07.628244",
+          "weight": 2
+        },
+        {
+          "source": "event:choking_incident",
+          "target": "insight:parenting_regret",
+          "type": "CAUSAL",
+          "label": "強い反省",
+          "first_seen": "2026-02-16T19:38:02.120647",
+          "last_seen": "2026-02-16T19:38:02.120647",
+          "weight": 1
+        },
+        {
+          "source": "insight:parenting_regret",
+          "target": "person:self",
+          "type": "FEELING",
+          "label": "自己嫌悪",
+          "first_seen": "2026-02-16T19:38:02.120648",
+          "last_seen": "2026-02-16T19:38:02.120648",
+          "weight": 1
+        },
+        {
+          "source": "person:self",
+          "target": "diary:2026-02-15",
+          "relationship": "WROTE",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120649",
+          "last_seen": "2026-02-16T19:40:07.628249",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "goal:maintain_cleanliness",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120650",
+          "last_seen": "2026-02-16T19:40:07.628251",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "insight:cleaning_difficulty",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120651",
+          "last_seen": "2026-02-16T19:40:07.628252",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "task:diet_routine",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120652",
+          "last_seen": "2026-02-16T19:40:07.628254",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "project:pomera_workflow",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120653",
+          "last_seen": "2026-02-16T19:40:07.628256",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "insight:workflow_feasibility",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:38:02.120654",
+          "last_seen": "2026-02-16T19:38:02.120654"
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "concept:github_scheduling_issue",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:38:02.120655",
+          "last_seen": "2026-02-16T19:38:02.120655"
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "goal:pomera_book",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120656",
+          "last_seen": "2026-02-16T19:40:07.628275",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "task:restrict_youtube",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120657",
+          "last_seen": "2026-02-16T19:40:07.628265",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "goal:monster_design",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120658",
+          "last_seen": "2026-02-16T19:40:07.628266",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "insight:drawing_frustration",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120659",
+          "last_seen": "2026-02-16T19:40:07.628267",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "person:mugi",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120660",
+          "last_seen": "2026-02-16T19:40:07.628268",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "person:soma",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120661",
+          "last_seen": "2026-02-16T19:40:07.628269",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "person:sayaka",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120662",
+          "last_seen": "2026-02-16T19:40:07.628270",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "place:shiroyama_park",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120663",
+          "last_seen": "2026-02-16T19:40:07.628271",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "event:family_walk",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120664",
+          "last_seen": "2026-02-16T19:40:07.628272",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "event:choking_incident",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120665",
+          "last_seen": "2026-02-16T19:40:07.628273",
+          "label": null
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "insight:parenting_regret",
+          "relationship": "MENTIONS",
+          "weight": 2,
+          "first_seen": "2026-02-16T19:38:02.120666",
+          "last_seen": "2026-02-16T19:40:07.628274",
+          "label": null
+        },
+        {
+          "source": "task:pet_room_cleaning",
+          "target": "goal:maintain_cleanliness",
+          "type": "TARGETS",
+          "label": "解決に向けて",
+          "first_seen": "2026-02-16T19:40:07.628232",
+          "last_seen": "2026-02-16T19:40:07.628232",
+          "weight": 1
+        },
+        {
+          "source": "concept:weight_status",
+          "target": "task:diet_routine",
+          "type": "TRIGGERED_BY",
+          "label": "停滞期によりチートデイ導入",
+          "first_seen": "2026-02-16T19:40:07.628235",
+          "last_seen": "2026-02-16T19:40:07.628235",
+          "weight": 1
+        },
+        {
+          "source": "task:diet_routine",
+          "target": "goal:weight_loss_75kg",
+          "type": "SOLVES",
+          "label": "目標達成手段",
+          "first_seen": "2026-02-16T19:40:07.628237",
+          "last_seen": "2026-02-16T19:40:07.628237",
+          "weight": 1
+        },
+        {
+          "source": "emotion:workflow_joy",
+          "target": "project:pomera_workflow",
+          "type": "FEELING",
+          "label": "楽しい",
+          "first_seen": "2026-02-16T19:40:07.628238",
+          "last_seen": "2026-02-16T19:40:07.628238",
+          "weight": 1
+        },
+        {
+          "source": "task:restrict_youtube",
+          "target": "project:pomera_workflow",
+          "type": "CONFLICTS_WITH",
+          "label": "情報収集過多による夜更かし",
+          "first_seen": "2026-02-16T19:40:07.628239",
+          "last_seen": "2026-02-16T19:40:07.628239",
+          "weight": 1
+        },
+        {
+          "source": "insight:drawing_frustration",
+          "target": "goal:monster_design",
+          "type": "ABOUT",
+          "label": "現状分析",
+          "first_seen": "2026-02-16T19:40:07.628240",
+          "last_seen": "2026-02-16T19:40:07.628240",
+          "weight": 1
+        },
+        {
+          "source": "insight:parenting_regret",
+          "target": "event:choking_incident",
+          "type": "TRIGGERED_BY",
+          "label": "事故による反省",
+          "first_seen": "2026-02-16T19:40:07.628245",
+          "last_seen": "2026-02-16T19:40:07.628245",
+          "weight": 1
+        },
+        {
+          "source": "insight:parenting_regret",
+          "target": "person:sayaka",
+          "type": "MENTIONS",
+          "label": "妻の救助への安堵",
+          "first_seen": "2026-02-16T19:40:07.628246",
+          "last_seen": "2026-02-16T19:40:07.628246",
+          "weight": 1
+        },
+        {
+          "source": "insight:github_actions_concern",
+          "target": "project:pomera_workflow",
+          "type": "ABOUT",
+          "label": "技術的課題",
+          "first_seen": "2026-02-16T19:40:07.628248",
+          "last_seen": "2026-02-16T19:40:07.628248",
+          "weight": 1
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "task:pet_room_cleaning",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:40:07.628250",
+          "last_seen": "2026-02-16T19:40:07.628250"
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "concept:weight_status",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:40:07.628253",
+          "last_seen": "2026-02-16T19:40:07.628253"
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "goal:weight_loss_75kg",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:40:07.628255",
+          "last_seen": "2026-02-16T19:40:07.628255"
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "emotion:workflow_joy",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:40:07.628257",
+          "last_seen": "2026-02-16T19:40:07.628257"
+        },
+        {
+          "source": "diary:2026-02-15",
+          "target": "insight:github_actions_concern",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:40:07.628275",
+          "last_seen": "2026-02-16T19:40:07.628275"
+        },
+        {
+          "source": "diary:20260216",
+          "target": "project:saiteki_side_job",
+          "type": "MENTIONS",
+          "label": "進捗と思考",
+          "first_seen": "2026-02-16T19:41:33.678140",
+          "last_seen": "2026-02-16T19:41:33.678140",
+          "weight": 1
+        },
+        {
+          "source": "project:saiteki_side_job",
+          "target": "task:contact_suzuki",
+          "type": "PLANS",
+          "label": "タスク発生",
+          "first_seen": "2026-02-16T19:41:33.678142",
+          "last_seen": "2026-02-16T19:41:33.678142",
+          "weight": 1
+        },
+        {
+          "source": "project:saiteki_side_job",
+          "target": "task:check_kaimai",
+          "type": "PLANS",
+          "label": "タスク発生",
+          "first_seen": "2026-02-16T19:41:33.678143",
+          "last_seen": "2026-02-16T19:41:33.678143",
+          "weight": 1
+        },
+        {
+          "source": "task:contact_suzuki",
+          "target": "person:suzuki",
+          "type": "TARGETS",
+          "label": "連絡先",
+          "first_seen": "2026-02-16T19:41:33.678144",
+          "last_seen": "2026-02-16T19:41:33.678144",
+          "weight": 1
+        },
+        {
+          "source": "task:check_kaimai",
+          "target": "person:kaimai",
+          "type": "TARGETS",
+          "label": "確認先",
+          "first_seen": "2026-02-16T19:41:33.678145",
+          "last_seen": "2026-02-16T19:41:33.678145",
+          "weight": 1
+        },
+        {
+          "source": "diary:20260216",
+          "target": "event:made_porridge",
+          "type": "PARTICIPATES",
+          "label": "実施",
+          "first_seen": "2026-02-16T19:41:33.678146",
+          "last_seen": "2026-02-16T19:41:33.678146",
+          "weight": 1
+        },
+        {
+          "source": "event:made_porridge",
+          "target": "insight:gratitude_realization",
+          "type": "TRIGGERED_BY",
+          "label": "大変さを実感し気づく",
+          "first_seen": "2026-02-16T19:41:33.678147",
+          "last_seen": "2026-02-16T19:41:33.678147",
+          "weight": 1
+        },
+        {
+          "source": "insight:gratitude_realization",
+          "target": "person:sayaka",
+          "type": "ABOUT",
+          "label": "感謝の対象",
+          "first_seen": "2026-02-16T19:41:33.678148",
+          "last_seen": "2026-02-16T19:41:33.678148",
+          "weight": 1
+        },
+        {
+          "source": "diary:20260216",
+          "target": "emotion:financial_anxiety",
+          "type": "FEELING",
+          "label": "不安の吐露",
+          "first_seen": "2026-02-16T19:41:33.678149",
+          "last_seen": "2026-02-16T19:41:33.678149",
+          "weight": 1
+        },
+        {
+          "source": "emotion:financial_anxiety",
+          "target": "concept:savings",
+          "type": "ABOUT",
+          "label": "現状の貯蓄額",
+          "first_seen": "2026-02-16T19:41:33.678150",
+          "last_seen": "2026-02-16T19:41:33.678150",
+          "weight": 1
+        },
+        {
+          "source": "diary:20260216",
+          "target": "task:define_improvement_flow",
+          "type": "PLANS",
+          "label": "今日やること",
+          "first_seen": "2026-02-16T19:41:33.678151",
+          "last_seen": "2026-02-16T19:41:33.678151",
+          "weight": 1
+        },
+        {
+          "source": "person:soma",
+          "target": "place:study_room",
+          "type": "BARRIER",
+          "label": "集中できないため分離",
+          "first_seen": "2026-02-16T19:41:33.678152",
+          "last_seen": "2026-02-16T19:41:33.678152",
+          "weight": 1
+        },
+        {
+          "source": "diary:20260216",
+          "target": "event:mtg_naomichi",
+          "type": "PLANS",
+          "label": "予定",
+          "first_seen": "2026-02-16T19:41:33.678153",
+          "last_seen": "2026-02-16T19:41:33.678153",
+          "weight": 1
+        },
+        {
+          "source": "event:mtg_naomichi",
+          "target": "person:naomichi",
+          "type": "PARTICIPATES",
+          "label": "参加者",
+          "first_seen": "2026-02-16T19:41:33.678154",
+          "last_seen": "2026-02-16T19:41:33.678154",
+          "weight": 1
+        },
+        {
+          "source": "person:self",
+          "target": "diary:2026-02-16",
+          "relationship": "WROTE",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678155",
+          "last_seen": "2026-02-16T19:41:33.678155"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "diary:20260216",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678156",
+          "last_seen": "2026-02-16T19:41:33.678156"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "project:saiteki_side_job",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678157",
+          "last_seen": "2026-02-16T19:41:33.678157"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "task:contact_suzuki",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678158",
+          "last_seen": "2026-02-16T19:41:33.678158"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "task:check_kaimai",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678159",
+          "last_seen": "2026-02-16T19:41:33.678159"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "task:document_analysis",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678160",
+          "last_seen": "2026-02-16T19:41:33.678160"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "person:suzuki",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678160",
+          "last_seen": "2026-02-16T19:41:33.678160"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "person:kaimai",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678161",
+          "last_seen": "2026-02-16T19:41:33.678161"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "person:sayaka",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678166",
+          "last_seen": "2026-02-16T19:41:33.678166"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "person:soma",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678167",
+          "last_seen": "2026-02-16T19:41:33.678167"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "event:made_porridge",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678168",
+          "last_seen": "2026-02-16T19:41:33.678168"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "insight:gratitude_realization",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678169",
+          "last_seen": "2026-02-16T19:41:33.678169"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "emotion:financial_anxiety",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678170",
+          "last_seen": "2026-02-16T19:41:33.678170"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "concept:savings",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678171",
+          "last_seen": "2026-02-16T19:41:33.678171"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "task:define_improvement_flow",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678171",
+          "last_seen": "2026-02-16T19:41:33.678171"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "place:study_room",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678172",
+          "last_seen": "2026-02-16T19:41:33.678172"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "event:mtg_naomichi",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678173",
+          "last_seen": "2026-02-16T19:41:33.678173"
+        },
+        {
+          "source": "diary:2026-02-16",
+          "target": "person:naomichi",
+          "relationship": "MENTIONS",
+          "weight": 1,
+          "first_seen": "2026-02-16T19:41:33.678174",
+          "last_seen": "2026-02-16T19:41:33.678174"
+        }
+      ],
+      "metadata": {
+        "last_updated": "2026-02-16T19:41:33.678176",
+        "node_count": 40,
+        "edge_count": 80
+      }
+    };
+    // GRAPH_DATA_END
+
+    let graphSimulation = null;
+    const VERSION = "v2.2.0";
+
+    function switchView(view) {
+      const advisor = document.getElementById('advisor-view');
+      const graph = document.getElementById('graph-view');
+      const links = document.querySelectorAll('.nav-link');
+
+      links.forEach(l => l.classList.remove('active'));
+
+      if (view === 'advisor') {
+        advisor.style.display = 'block';
+        graph.style.display = 'none';
+        links[0].classList.add('active');
+        console.log("[Insight-OS] Switched to Advisor");
+      } else {
+        advisor.style.display = 'none';
+        graph.style.display = 'block';
+        links[1].classList.add('active');
+        console.log("[Insight-OS] Switched to Graph");
+        
+        // Ensure graph is initialized and resized
+        setTimeout(() => {
+          if (!graphSimulation) {
+            initKnowledgeGraph();
+          } else {
+            const container = document.getElementById('graph-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            if (width > 0 && height > 0) {
+              graphSimulation.force("center", d3.forceCenter(width / 2, height / 2));
+              graphSimulation.alpha(0.3).restart();
+            }
+          }
+        }, 150);
+      }
+    }
+
+    function initDashboard() {
+      console.log(`[Insight-OS] Initializing Dashboard ${VERSION}`);
+      
+      // Set Date
+      const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+      const dateStr = new Date().toLocaleDateString('ja-JP', options);
+      const dateEl = document.getElementById('today-date');
+      if (dateEl) dateEl.innerText = dateStr;
+
+      if (typeof GRAPH_DATA === 'undefined' || !GRAPH_DATA.nodes || GRAPH_DATA.nodes.length === 0) {
+        const coachEl = document.getElementById('coach-comment');
+        if (coachEl) coachEl.innerText = "ナレッジグラフにデータがありません。日記をインポートしてください。";
+        return;
+      }
+
+      // Find latest diary entry with analysis
+      const diaryEntries = GRAPH_DATA.nodes
+        .filter(n => n.type === 'diary' && n.analysis_content)
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (diaryEntries.length > 0) {
+        const latest = diaryEntries[0];
+        console.log("[Insight-OS] Populating with data from:", latest.date);
+        populateAdvisorContent(latest.analysis_content);
+        
+        if (GRAPH_DATA.metadata && GRAPH_DATA.metadata.last_updated) {
+          const updateEl = document.getElementById('last-updated');
+          if (updateEl) {
+            const updateTime = new Date(GRAPH_DATA.metadata.last_updated).toLocaleString();
+            updateEl.innerText = `Last updated: ${updateTime}`;
+          }
+        }
+      } else {
+        const coachEl = document.getElementById('coach-comment');
+        if (coachEl) coachEl.innerText = "分析データが見つかりません。scripts/llm_graph_builder.py を実行してください。";
+      }
+    }
+
+    function populateAdvisorContent(content) {
+      if (!content) return;
+
+      const coachCommentEl = document.getElementById('coach-comment');
+      const renderList = (id, items, templateFn) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = items && items.length > 0 ? items.map(templateFn).join('') : '<li class="item-desc">データなし</li>';
+      };
+
+      try {
+        let data = null;
+        
+        // 1. Try JSON block
+        const jsonMatch = content.match(/```json\s?([\s\S]*?)```/);
+        const jsonStr = jsonMatch ? jsonMatch[1].trim() : (content.trim().startsWith('{') ? content.trim() : null);
+
+        if (jsonStr) {
+          try {
+            data = JSON.parse(jsonStr);
+          } catch (e) {
+            console.warn("[Insight-OS] JSON Fragment detected but parse failed. Falling back to text mode.", e);
+          }
+        }
+
+        if (data && data.coach_comment) {
+          // --- JSON Mode ---
+          coachCommentEl.innerText = data.coach_comment;
+
+          renderList('challenges-list', data.challenges, i => `
+            <li>
+              <strong class="item-title">${i.issue} <span class="badge badge-${(i.priority || 'low').toLowerCase()}">${i.priority || 'Normal'}</span></strong>
+              <p class="item-desc">${i.approach}</p>
+            </li>
+          `);
+          renderList('priorities-list', data.priorities, i => `
+            <li>
+              <strong class="item-title">${i.action}</strong>
+              <p class="item-desc">${i.reason}</p>
+            </li>
+          `);
+          renderList('risks-list', data.risks, i => `
+            <li>
+              <strong class="item-title">${i.prediction}</strong>
+              <p class="item-desc">${i.mitigation}</p>
+            </li>
+          `);
+          renderList('guidelines-list', data.daily_guidelines, i => `
+            <li>
+              <strong class="item-title">${i.title}</strong>
+              <p class="item-desc">${i.content}</p>
+              <div style="font-size: 10px; color: var(--accent-secondary); margin-top: 4px;">Source: ${i.source}</div>
+            </li>
+          `);
+        } else {
+          // --- Text Mode ---
+          console.log("[Insight-OS] Rendering in text fallback mode");
+          const parts = content.split('===DETAILS===');
+          
+          if (typeof marked !== 'undefined') {
+            coachCommentEl.innerHTML = `<div class="item-desc" style="color: var(--text-main); line-height: 1.6;">${marked.parse(parts[0].trim())}</div>`;
+          } else {
+            coachCommentEl.innerHTML = `<div style="white-space: pre-wrap; line-height: 1.6;">${parts[0].trim()}</div>`;
+          }
+          
+          if (parts.length > 1) {
+            const detailHtml = typeof marked !== 'undefined' ? marked.parse(parts[1].trim()) : `<div style="white-space: pre-wrap;">${parts[1].trim()}</div>`;
+            document.getElementById('challenges-list').innerHTML = `
+              <li>
+                <strong class="item-title">分析経過・詳細</strong>
+                <div class="item-desc" style="margin-top: 8px;">${detailHtml}</div>
+                <div style="margin-top: 15px; padding: 12px; background: rgba(56,189,248,0.05); border-radius: 8px; border: 1px dashed var(--accent-primary);">
+                  <p class="item-desc" style="color: var(--accent-primary); font-size: 11px;">
+                    💡 ヒント: カード形式の分析を有効にするには <code>scripts/llm_graph_builder.py</code> で再分析してください。
+                  </p>
+                </div>
+              </li>
+            `;
+          }
+          
+          ['priorities-list', 'risks-list', 'guidelines-list'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '<li><p class="item-desc" style="opacity: 0.4;">最新の構造化データがありません</p></li>';
+          });
+        }
+      } catch (err) {
+        console.error("[Insight-OS] Population Error:", err);
+        coachCommentEl.innerText = "データの表示中にエラーが発生しました。";
+      }
+    }
+
+    function initKnowledgeGraph() {
+      if (graphSimulation) return;
+
+      const svg = d3.select("#graph-svg");
+      const container = document.getElementById('graph-container');
+      if (!container) return;
+      
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      if (width === 0 || height === 0) {
+          console.warn("[Insight-OS] Container size is 0. Deferring graph init.");
+          return;
+      }
+
+      svg.attr("viewBox", [0, 0, width, height]);
+      const g = svg.append("g");
+
+      svg.call(d3.zoom()
+        .extent([[0, 0], [width, height]])
+        .scaleExtent([0.1, 4])
+        .on("zoom", ({ transform }) => g.attr("transform", transform)));
+
+      const nodes = GRAPH_DATA.nodes.map(d => ({ ...d }));
+      const links = GRAPH_DATA.edges.map(d => ({ ...d }));
+
+      graphSimulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+        .force("charge", d3.forceManyBody().strength(-200))
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+      const link = g.append("g")
+        .selectAll("line")
+        .data(links)
+        .join("line")
+        .attr("stroke", "var(--border-color)")
+        .attr("stroke-opacity", 0.6)
+        .attr("stroke-width", 1);
+
+      const node = g.append("g")
+        .selectAll("g")
+        .data(nodes)
+        .join("g")
+        .call(d3.drag()
+          .on("start", (e, d) => {
+            if (!e.active) graphSimulation.alphaTarget(0.3).restart();
+            d.fx = d.x; d.fy = d.y;
+          })
+          .on("drag", (e, d) => { d.fx = e.x; d.fy = e.y; })
+          .on("end", (e, d) => {
+            if (!e.active) graphSimulation.alphaTarget(0);
+            d.fx = null; d.fy = null;
+          }));
+
+      node.append("circle")
+        .attr("r", 7)
+        .attr("fill", d => {
+          if (d.type === 'diary') return 'var(--accent-primary)';
+          if (d.type === 'goal') return 'var(--accent-success)';
+          if (d.type === 'task') return 'var(--accent-danger)';
+          return 'var(--text-muted)';
+        })
+        .attr("stroke", "var(--bg-dark)")
+        .attr("stroke-width", 1.5);
+
+      node.append("text")
+        .attr("x", 12)
+        .attr("y", 4)
+        .text(d => d.label)
+        .attr("fill", "var(--text-muted)")
+        .attr("font-size", "10px")
+        .style("pointer-events", "none");
+
+      graphSimulation.on("tick", () => {
+        link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+        node.attr("transform", d => `translate(${d.x},${d.y})`);
+      });
+      console.log("[Insight-OS] Graph Initialized");
+    }
+
+    // Auto-init
+    document.addEventListener('DOMContentLoaded', initDashboard);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initDashboard();
+    }
+  </script>
+</body>
+
+</html>
