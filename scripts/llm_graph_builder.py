@@ -36,10 +36,10 @@ The output must be a single JSON object with "nodes" and "edges" arrays.
 {
   "id": "unique_id (e.g., person:name, event:name, insight:summary)",
   "label": "Display Name (Japanese)",
-  "type": "Select from: [self, person, event, place, project, emotion, insight, concept, goal, diary]",
+  "type": "Select from: [self, person, event, task, place, project, emotion, insight, concept, goal, diary]",
   "detail": "Brief description or context (Japanese)",
   "sentiment": "Float from -1.0 (Negative) to 1.0 (Positive). Optional.",
-  "status": "String. For Goals: [Active, Completed, Dropped]. For Events: [Scheduled, Completed, Skipped]. Default: None.",
+  "status": "String. For Tasks/Goals: [Active, Completed, Dropped]. For Events: [Scheduled, Completed, Skipped]. Default: None.",
   "date": "ISO8601 Date String (YYYY-MM-DD). Required for 'Scheduled' events.",
   "tags": ["Array of strings. e.g., 'Cognitive Distortion: All-or-Nothing', 'Growth', 'Conflict']",
   "community": "Integer (0-10) for clustering topics. Optional."
@@ -61,6 +61,8 @@ The output must be a single JSON object with "nodes" and "edges" arrays.
 
 ### Special Tag Parsing (User Constraints)
 The user utilizes specific tags in the text. You MUST parse them as follows:
+- `Task::Task Name` or `To-Do::Task Name` -> Create a Node of type `task` with status `Active`.
+    - If the text says "done", "completed", "finished" in context, set status to `Completed`.
 - `予定::YYYY/MM/DD Event Name` -> Create a Node of type `event` with status `Scheduled` and property `date`.
     - Edge: `person:self` -> `PLANS` -> `event:node_id`
 - `目標::Goal Name` -> Create a Node of type `goal` with status `Active`.
@@ -287,7 +289,11 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     # 3. Recent Scheduled Events
     scheduled_events = [n for n in master_graph.get("nodes", []) if n.get("type") == "event" and n.get("status") == "Scheduled"]
 
-    # 4. Recent Diary Context (Consolidated View)
+    # 4. Pending Tasks (New Logic)
+    # Extract tasks that are NOT completed
+    pending_tasks = [n for n in master_graph.get("nodes", []) if n.get("type") == "task" and n.get("status") != "Completed"]
+    
+    # 5. Recent Diary Context (Consolidated View)
     # Find last 5 diary nodes
     all_diary_nodes = sorted(
         [n for n in master_graph.get("nodes", []) if n.get("type") == "diary"],
@@ -322,6 +328,8 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
         context_summary += "**Recent Insights:**\n" + "\n".join([f"- {n.get('label')}" for n in recent_insights]) + "\n"
     if scheduled_events:
         context_summary += "**Upcoming Events:**\n" + "\n".join([f"- {n.get('date')} {n.get('label')}" for n in scheduled_events]) + "\n"
+    if pending_tasks:
+        context_summary += "**Pending Tasks (To-Do):**\n" + "\n".join([f"- {n.get('label')}" for n in pending_tasks]) + "\n"
         
     prompt = f"""
     {ANALYSIS_SYSTEM_PROMPT}

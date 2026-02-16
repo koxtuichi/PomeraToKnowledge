@@ -62,6 +62,16 @@ def merge_graphs(master, daily):
             existing['detail'] = node.get('detail', existing.get('detail'))
             existing['type'] = node.get('type', existing.get('type'))
             
+            # Key properties update: Status and Date
+            # If the new node has a status (e.g., Completed), overwrite the old one.
+            if 'status' in node:
+                print(f"   🔄 Updating status for {nid}: {existing.get('status')} -> {node['status']}")
+                existing['status'] = node['status']
+            
+            # Update date if provided (e.g., rescheduling)
+            if 'date' in node:
+                existing['date'] = node['date']
+            
             # Merge Analysis Content
             if 'analysis_content' in node:
                 existing['analysis_content'] = node['analysis_content']
