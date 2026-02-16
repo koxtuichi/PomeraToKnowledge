@@ -526,6 +526,187 @@
       text-align: right;
     }
 
+    /* --- 確定予定セクション --- */
+    .schedule-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 0 12px;
+      margin-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .schedule-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      white-space: nowrap;
+      font-size: 12px;
+      flex-shrink: 0;
+      transition: border-color 0.2s;
+    }
+
+    .schedule-chip:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .schedule-chip .chip-cat {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .chip-cat-work {
+      background: #60a5fa;
+    }
+
+    .chip-cat-side {
+      background: #a78bfa;
+    }
+
+    .chip-cat-family {
+      background: #f472b6;
+    }
+
+    .chip-cat-personal {
+      background: #34d399;
+    }
+
+    .schedule-chip .chip-date {
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .schedule-chip .chip-title {
+      color: var(--text-primary);
+    }
+
+    .schedule-none {
+      font-size: 12px;
+      color: var(--text-dim);
+      padding: 6px 0;
+    }
+
+    /* --- 家族ダッシュボードビュー --- */
+    #family-view {
+      display: none;
+    }
+
+    .family-header {
+      margin-bottom: 24px;
+    }
+
+    .family-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .family-member-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .family-member-card:hover {
+      border-color: #f472b6;
+    }
+
+    .family-member-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .family-event {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+
+    .family-emotion-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(244, 114, 182, 0.15);
+      color: #f472b6;
+      margin-top: 4px;
+    }
+
+    .family-todo-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .family-todo-item:last-child {
+      border-bottom: none;
+    }
+
+    /* --- ブログ素材提案 --- */
+    .blog-seed-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .blog-seed-item:last-child {
+      border-bottom: none;
+    }
+
+    .blog-seed-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .blog-seed-theme {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .blog-seed-outline {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .blog-seed-readiness {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .readiness-high {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .readiness-med {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+    }
+
+    .readiness-low {
+      background: rgba(148, 163, 184, 0.15);
+      color: #94a3b8;
+    }
+
     /* --- Graph View --- */
     #graph-view {
       display: none;
@@ -614,6 +795,11 @@
             </div>
           </li>
           <li>
+            <div class="nav-link" onclick="switchView('family')">
+              <span>👨‍👩‍👦</span> ファミリー
+            </div>
+          </li>
+          <li>
             <div class="nav-link" onclick="switchView('graph')">
               <span>🕸️</span> ナレッジグラフ
             </div>
@@ -635,6 +821,12 @@
         <div class="header-section">
           <h1 id="welcome-msg">こんにちは、杉本さん</h1>
           <p class="date-text" id="today-date"></p>
+        </div>
+
+        <!-- 確定予定ストリップ -->
+        <div id="schedule-section">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">📅 確定予定</div>
+          <div class="schedule-strip" id="schedule-strip"></div>
         </div>
 
         <div class="coach-card">
@@ -680,6 +872,32 @@
             </div>
             <div id="emotion-list"></div>
           </div>
+
+          <!-- ブログ素材提案 -->
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">✍️</div>
+              <div class="card-title">ブログ素材</div>
+              <div class="card-count" id="blog-count"></div>
+            </div>
+            <div id="blog-seeds-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 家族ダッシュボードビュー -->
+      <div id="family-view">
+        <div class="family-header">
+          <h2>👨‍👩‍👦 ファミリーダイジェスト</h2>
+          <p class="date-text" style="margin-top: 4px;">日記から家族に関する出来事を抽出しています</p>
+        </div>
+        <div id="family-highlights"></div>
+        <div class="dash-card" style="margin-top: 20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background: rgba(244, 114, 182, 0.1); color: #f472b6;">📝</div>
+            <div class="card-title">家族の TODO</div>
+          </div>
+          <div id="family-todos"></div>
         </div>
       </div>
 
@@ -3953,12 +4171,14 @@
     // ── ビュー切り替え ──
     function switchView(view) {
       document.getElementById('advisor-view').style.display = view === 'advisor' ? 'block' : 'none';
+      document.getElementById('family-view').style.display = view === 'family' ? 'block' : 'none';
       document.getElementById('graph-view').style.display = view === 'graph' ? 'block' : 'none';
 
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
       event.currentTarget.classList.add('active');
 
       if (view === 'graph') renderGraph();
+      if (view === 'family') renderFamilyView();
     }
 
     // ── 日付表示 ──
@@ -4029,6 +4249,12 @@
       // 感情の流れ
       renderEmotions(data.emotion_flow || []);
 
+      // 確定予定
+      renderSchedule(data.upcoming_schedule || []);
+
+      // ブログ素材
+      renderBlogSeeds(data.blog_seeds || []);
+
       // メタデータ
       if (GRAPH_DATA.metadata && GRAPH_DATA.metadata.last_updated) {
         const d = new Date(GRAPH_DATA.metadata.last_updated);
@@ -4037,13 +4263,14 @@
     }
 
     function renderEmptyStates() {
-      ['gravity-map-list', 'action-list', 'insights-list', 'emotion-list'].forEach(id => {
+      ['gravity-map-list', 'action-list', 'insights-list', 'emotion-list', 'blog-seeds-list'].forEach(id => {
         document.getElementById(id).innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📝</div>
             <div class="empty-state-text">データなし</div>
           </div>`;
       });
+      document.getElementById('schedule-strip').innerHTML = '<div class="schedule-none">確定予定なし</div>';
     }
 
     function renderGravityMap(items) {
@@ -4151,6 +4378,115 @@
               ${item.context ? `<div class="emotion-context">${item.context}</div>` : ''}
             </div>
             <div class="emotion-score" style="color: ${scoreColor}">${s > 0 ? '+' : ''}${s.toFixed(1)}</div>
+          </div>`;
+      }).join('');
+    }
+
+    // ── 確定予定 ──
+    function renderSchedule(items) {
+      const el = document.getElementById('schedule-strip');
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const futureItems = items.filter(item => {
+        const d = new Date(item.date);
+        return d >= today;
+      }).sort((a, b) => a.date.localeCompare(b.date));
+
+      if (!futureItems.length) {
+        el.innerHTML = '<div class="schedule-none">確定予定なし — のんびりモードです ☕</div>';
+        return;
+      }
+
+      const catMap = { '本業': 'work', '副業': 'side', '家族': 'family', '個人': 'personal' };
+
+      el.innerHTML = futureItems.map(item => {
+        const d = new Date(item.date);
+        const dateStr = `${d.getMonth() + 1}/${d.getDate()}`;
+        const timeStr = item.time && item.time !== 'null' ? ` ${item.time}` : '';
+        const catClass = `chip-cat-${catMap[item.category] || 'personal'}`;
+
+        return `
+          <div class="schedule-chip">
+            <div class="chip-cat ${catClass}"></div>
+            <span class="chip-date">${dateStr}${timeStr}</span>
+            <span class="chip-title">${item.title}</span>
+          </div>`;
+      }).join('');
+    }
+
+    // ── 家族ダッシュボード ──
+    function renderFamilyView() {
+      const data = getAnalysisData();
+      const digest = data ? (data.family_digest || {}) : {};
+      const highlights = digest.highlights || [];
+      const todos = digest.family_todos || [];
+
+      const highlightsEl = document.getElementById('family-highlights');
+      const todosEl = document.getElementById('family-todos');
+
+      if (!highlights.length) {
+        highlightsEl.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">👨‍👩‍👦</div>
+            <div class="empty-state-text">家族の出来事はまだ記録されていません。日記に家族の話題を書くと、ここに表示されます。</div>
+          </div>`;
+      } else {
+        const grouped = {};
+        highlights.forEach(h => {
+          if (!grouped[h.member]) grouped[h.member] = [];
+          grouped[h.member].push(h);
+        });
+
+        highlightsEl.innerHTML = Object.entries(grouped).map(([member, events]) => `
+          <div class="family-member-card">
+            <div class="family-member-name">👤 ${member}</div>
+            ${events.map(ev => `
+              <div class="family-event">${ev.event}</div>
+              ${ev.emotion ? `<span class="family-emotion-tag">${ev.emotion}</span>` : ''}
+            `).join('')}
+          </div>
+        `).join('');
+      }
+
+      if (!todos.length) {
+        todosEl.innerHTML = '<div class="empty-state"><div class="empty-state-text">家族TODOなし</div></div>';
+      } else {
+        todosEl.innerHTML = todos.map(t => `
+          <div class="family-todo-item">
+            <span>☐</span>
+            <span>${t}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ── ブログ素材提案 ──
+    function renderBlogSeeds(items) {
+      const el = document.getElementById('blog-seeds-list');
+      document.getElementById('blog-count').textContent = items.length ? `${items.length}件` : '';
+
+      if (!items.length) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✍️</div><div class="empty-state-text">ブログ素材なし</div></div>';
+        return;
+      }
+
+      const readinessMap = {
+        '高': { label: '🔥 すぐ書ける', cls: 'readiness-high' },
+        '中': { label: '📝 素材あり', cls: 'readiness-med' },
+        '低': { label: '💡 アイデア段階', cls: 'readiness-low' }
+      };
+
+      el.innerHTML = items.map(item => {
+        const r = readinessMap[item.readiness] || readinessMap['低'];
+        const outlineHtml = item.outline ? `<div class="blog-seed-outline">${item.outline.join(' → ')}</div>` : '';
+
+        return `
+          <div class="blog-seed-item">
+            <div class="blog-seed-title">${item.title}</div>
+            <div class="blog-seed-theme">${item.theme || ''}</div>
+            ${outlineHtml}
+            <span class="blog-seed-readiness ${r.cls}">${r.label}</span>
           </div>`;
       }).join('');
     }
