@@ -67,9 +67,9 @@ The user utilizes specific tags, BUT you must also be flexible.
     - `目標::Goal Name` -> Create `goal` node (Active).
 
 2. **Context-Aware Extraction (Flexible)**:
-    - **Existing Tasks**: Check the "Existing Active Tasks" list provided below. If the diary mentions progress on these, update their status (e.g., "Complete", "Dropped") or add details.
-    - **Implicit Tasks**: If the user clearly commits to doing something significant (e.g., "I must finish the report by tomorrow"), create a `task` node even without a tag.
-    - **Completion Detection**: If the user says "I finished X" or "X is done", and X matches an existing task, create a node with `id` matching the existing task (if possible) or same label, and set `status` to `Completed`.
+    - **Existing Tasks**: Check the "Existing Active Tasks" list provided below. If the diary mentions progress on these, update their status (e.g., "Complete", "Dropped") or add details. **NEVER create a new node for a task that already exists in the list; reuse the existing ID.**
+    - **Implicit Tasks**: If the user clearly commits to doing something significant (e.g., "I must finish the report by tomorrow"), create a `task` node even without a tag. **Check if a similar task already exists before creating a new one.**
+    - **Completion Detection**: If the user says "I finished X" or "X is done", and X matches an existing task, **you MUST use the existing task's ID** and set `status` to `Completed`.
 
 3. **Other `Key::Value` Tags**:
     - Treat `Key` as the relationship or hint. `Value` is the content.
@@ -178,7 +178,7 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
         return daily_graph
         
     # Optimization: Filter to mergeable types
-    mergeable_types = {'project', 'concept', 'goal', 'emotion', 'insight', 'event', 'person', 'place'}
+    mergeable_types = {'project', 'concept', 'goal', 'emotion', 'insight', 'event', 'person', 'place', 'task'}
     
     new_candidates = [n for n in daily_nodes if n.get('type') in mergeable_types]
     if not new_candidates:
