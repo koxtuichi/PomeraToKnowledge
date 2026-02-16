@@ -2,18 +2,17 @@
   "nodes": [
     {
       "id": "日記:2026-02-17",
-      "label": "日記 2026-02-17",
+      "label": "2026年2月17日の日記",
       "type": "日記",
-      "detail": "読書リストの整理、モンスター描画23体目の報告と高品質化への意欲、Saitekiオンライン飲み会の予定確認。",
+      "detail": "本の整理、モンスター描画の進捗と課題、Saitekiオンライン飲み会についての記録",
       "date": "2026-02-17"
     },
     {
       "id": "タスク:Book_Reading_Management",
       "label": "読みたい本の整理と読書",
       "type": "タスク",
-      "detail": "「AI駆動開発チーム」「AI X 哲学」「Giver人を動かす方程式」など7冊のリストを確認し整理を継続。",
+      "detail": "「質問力で人を動かす」「データのつながりを活かす技術」「できるリーダーの本」などのリストを整理し読書を進める",
       "status": "進行中",
-      "category": "エンジニア",
       "tags": [
         "読書",
         "自己研鑽"
@@ -23,53 +22,66 @@
       "id": "タスク:MonsterDrawing",
       "label": "毎日のモンスター描画",
       "type": "タスク",
-      "detail": "23体目完了。YouTubeショートへの投稿を継続。100体達成を目指す。",
+      "detail": "23体目完了。YouTubeショートへの投稿を継続し、100体達成を目指す",
       "status": "進行中",
-      "category": "収益化・人気獲得",
-      "tags": [
-        "YouTube",
-        "イラスト"
-      ]
+      "category": "副業"
     },
     {
-      "id": "知見:高品質なイラストの集客効果",
-      "label": "描き込み量とファン増加の関連性",
-      "type": "知見",
-      "detail": "短時間の描き殴りよりも、鉛筆等でしっかり描き込んだ動画の方がチャンネル登録者が増える傾向がある。",
-      "category": "収益化・人気獲得"
-    },
-    {
-      "id": "感情:YouTube成長への手応え",
-      "label": "登録者増加による手応え",
-      "type": "感情",
-      "detail": "高品質な絵に対してポジティブな反応（登録者増）があったことへの喜びと期待。",
-      "sentiment": 0.6,
-      "category": "収益化・人気獲得"
-    },
-    {
-      "id": "出来事:Saiteki_OnlineDrinking",
-      "label": "Saitekiオンライン飲み会",
-      "type": "出来事",
-      "detail": "19:30開始。UberEatsクーポン配布あり。妻の参加も検討中。",
-      "status": "予定",
-      "date": "2026-02-20",
-      "category": "エンジニア"
+      "id": "タスク:HighQuality_MonsterDrawing",
+      "label": "5時間かけた高品質なモンスター描画の制作",
+      "type": "タスク",
+      "detail": "15分ではなく5時間ほどかけて描き込んだ動画を制作し、登録者増を狙う",
+      "status": "未着手",
+      "category": "副業"
     },
     {
       "id": "制約:CreativeTimeShortage",
       "label": "制作時間の確保困難",
       "type": "制約",
-      "detail": "5時間かけるような高品質な描画を行うためのまとまった時間を確保することが難しい。",
-      "constraint_type": "時間不足",
-      "category": "収益化・人気獲得"
+      "detail": "5時間かけるような高品質な描画を行うためのまとまった時間を確保することが難しい",
+      "constraint_type": "時間不足"
+    },
+    {
+      "id": "知見:高品質イラストの集客効果",
+      "label": "高品質な描画は登録者増に繋がる",
+      "type": "知見",
+      "detail": "鉛筆でしっかり描いた動画を上げた際、チャンネル登録者が3人増えた経験から、質の重要性を認識"
+    },
+    {
+      "id": "感情:YouTube成長への手応え",
+      "label": "制作への前向きな手応え",
+      "type": "感情",
+      "detail": "質の高い絵が評価されることへの期待感と、挑戦への意欲",
+      "sentiment": 0.7
+    },
+    {
+      "id": "出来事:Saiteki_OnlineDrinking",
+      "label": "Saitekiオンライン飲み会",
+      "type": "出来事",
+      "detail": "19:30開始。UberEatsクーポン配布あり。妻の参加も検討中",
+      "status": "予定",
+      "date": "2026-02-20"
+    },
+    {
+      "id": "人物:さやか",
+      "label": "妻",
+      "type": "人物",
+      "detail": "同い年の妻。オンライン飲み会への参加を検討中",
+      "category": "夫"
+    },
+    {
+      "id": "概念:UberEatsクーポン",
+      "label": "UberEatsクーポン",
+      "type": "概念",
+      "detail": "オンライン飲み会で配布される福利厚生的なアイテム"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T23:12:13.642054",
-      "last_seen": "2026-02-16T23:12:13.642055",
+      "first_seen": "2026-02-16T23:28:23.522575",
+      "last_seen": "2026-02-16T23:28:23.522576",
       "weight": 1
     }
   ],
@@ -78,49 +90,55 @@
       "source": "日記:2026-02-17",
       "target": "タスク:Book_Reading_Management",
       "type": "言及する",
-      "label": "読書リストを整理"
+      "label": "本のリストを整理"
     },
     {
       "source": "日記:2026-02-17",
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
-      "label": "23体目の進捗報告"
+      "label": "23体目完了を報告"
     },
     {
       "source": "日記:2026-02-17",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "言及する",
-      "label": "5時間の描き込みへの課題感"
+      "label": "5時間制作の意欲"
     },
     {
       "source": "日記:2026-02-17",
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "言及する",
-      "label": "予定とクーポンの確認"
-    },
-    {
-      "source": "知見:高品質なイラストの集客効果",
-      "target": "タスク:HighQuality_MonsterDrawing",
-      "type": "原動力になる",
-      "label": "高品質化の重要性を認識"
-    },
-    {
-      "source": "感情:YouTube成長への手応え",
-      "target": "タスク:HighQuality_MonsterDrawing",
-      "type": "原動力になる",
-      "label": "モチベーションの向上"
+      "label": "開催時間の再確認"
     },
     {
       "source": "制約:CreativeTimeShortage",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "阻害する",
-      "label": "5時間の確保が課題"
+      "label": "まとまった時間が取れない"
     },
     {
-      "source": "人物:Sayaka",
+      "source": "知見:高品質イラストの集客効果",
+      "target": "タスク:HighQuality_MonsterDrawing",
+      "type": "原動力になる",
+      "label": "質の向上が成果に繋がると確信"
+    },
+    {
+      "source": "感情:YouTube成長への手応え",
+      "target": "タスク:HighQuality_MonsterDrawing",
+      "type": "原動力になる",
+      "label": "ポジティブな予測が行動を促す"
+    },
+    {
+      "source": "人物:さやか",
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "参加する",
       "label": "参加を検討中"
+    },
+    {
+      "source": "出来事:Saiteki_OnlineDrinking",
+      "target": "概念:UberEatsクーポン",
+      "type": "関連する",
+      "label": "クーポンが配布される"
     },
     {
       "source": "人物:自分",
@@ -131,7 +149,14 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "知見:高品質なイラストの集客効果",
+      "target": "制約:CreativeTimeShortage",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "知見:高品質イラストの集客効果",
       "type": "言及する",
       "label": "言及",
       "weight": 1
@@ -145,16 +170,23 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "制約:CreativeTimeShortage",
+      "target": "人物:さやか",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "概念:UberEatsクーポン",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T23:12:13.642040",
+    "generated_at": "2026-02-16T23:28:23.522559",
     "source_file": "diary/20260216_[POMERA]2026年2月17日.txt",
-    "node_count": 7,
-    "edge_count": 8
+    "node_count": 10,
+    "edge_count": 9
   }
 }
