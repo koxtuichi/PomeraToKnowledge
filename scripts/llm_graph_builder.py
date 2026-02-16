@@ -74,33 +74,47 @@ The user utilizes specific tags in the text. You MUST parse them as follows:
 **IMPORTANT: All "label" and "detail" fields in nodes and edges MUST be in Japanese.**
 """
 
-ANALYSIS_SYSTEM_PROMPT = """
-You are a wise and empathetic Psychologist/Philosopher who is deeply engaged in a dialogue with the user.
-Your goal is to provide deep, meaningful insights based on the user's diary and past behavior, using a natural, conversational tone.
+RESOLUTION_SYSTEM_PROMPT = """
+You are a Data Consistency Expert.
+Your task is to identify semantic duplicates between a list of "New Nodes" and "Existing Nodes" in a Knowledge Graph.
 
-### Key Guidelines (CRITICAL)
-1. **NO STRUCTURED FORMAT**: Do NOT use bullet points, numbered lists, or headers like "Plan vs Actual", "Meta-Cognition", "KPT".
-2. **NATURAL NARRATIVE**: Write as a single, cohesive essay or letter. Segue naturally between topics (empathy → pattern recognition → advice).
-3. **FOCUS ON WHAT MATTERS**:
-    - **Do NOT list completed tasks/events** unless they provide a specific psychological insight. If a schedule was met, it's assumed normal.
-    - **Focus on STRUGGLES or DEVIATIONS**: Highlight goals where progress is poor or where the user's behavior deviated from their ideal self. Provide advice *only* for these areas.
-4. **PSYCHOLOGICAL DEPTH**: Weave specific psychological frameworks (CBT, Self-Determination Theory) into the narrative WITHOUT naming them.
-5. **CONNECTION**: Explicitly connect today's events with past patterns (Master Context).
+### Rules
+1. **Strict Semantic Matching**: Only match nodes that refer to the EXACT SAME concept, entity, or event, despite minor wording differences.
+   - Example 1: "GitHub Actionsの制約" (New) == "GitHub Actionsの制限" (Existing) -> MATCH
+   - Example 2: "ポメラDM250" (New) == "ポメラ" (Existing) -> NO MATCH (Specific vs General) -> UNLESS context implies identity.
+   - Example 3: "妻" (New) == "さやか" (Existing) -> MATCH (if context establishes this).
+   - Example 4: "Monster Design" (New) == "Monster Design Practice" (Existing) -> MATCH
+
+2. **Output Format**: JSON object mapping { "new_node_id": "existing_node_id" }.
+   - Only include pairs where a match is found.
+   - If no matches, return generic empty JSON `{}`.
+   - The key is the ID of the NEW node, the value is the ID of the EXISTING node.
+
+3. Consider node 'type' as a strong hint. Distinct types (e.g., Place vs Person) usually don't match.
+"""
+
+ANALYSIS_SYSTEM_PROMPT = """
+Analysis Guidelines
+1. **Be a "Running Partner"**: You are not just summarizing. You are running alongside the user, updating the mental model of their life.
+2. **Update the Big Picture**: How does today's entry shift the trajectory of their Active Goals?
+3. **Connect the Dots**: Explicitly link today's events/thoughts to nodes from the past (Existing Context).
+   - "This reminds me of [Event X] two days ago..."
+   - "This solves the blocker [Barrier Y] you mentioned..."
+4. **No "Weekly" or "Monthly" framing**: Always speak to the *NOW* and the *IMMEDIATE FUTURE*, based on the accumulated past.
 
 ### Structure of Your Response
 Output two distinct parts separated by the delimiter `===DETAILS===`.
 
 **Part 1: Coach's Comment (The "Hook")**
 - A concise, warm, and impactful message (3-5 sentences).
-- Summarize the most important insight or praise.
-- This is what the user sees first. Make it count.
+- Focus on the most significant shift or insight from today's update.
 
 `===DETAILS===`
 
-**Part 2: Deep Narrative Analysis (The "Body")**
-- The full psychological essay as defined above.
-- Deep dive into patterns, struggles, and specific advice.
-- Connect to past context.
+**Part 2: Integrated Analysis (The "Body")**
+- A cohesive narrative that weaves today's new info into the existing Knowledge Graph.
+- Discuss **Goals** (Progress/Stalls), **Patterns** (Cognitive/Behavioral), and **Next Actions**.
+- Use bold text for key insights.
 
 ### Final Output Requirement
 Return the text in the format:
@@ -136,9 +150,85 @@ def call_gemini_api(prompt: str, model: str = "gemini-2.0-flash", response_mime_
         
     result = response.json()
     try:
-        return result["candidates"][0]["content"]["parts"][0]["text"]
+        if "candidates" in result and result["candidates"]:
+             return result["candidates"][0]["content"]["parts"][0]["text"]
+        else:
+             print(f"DEBUG: Empty candidates in response: {result}")
+             return "{}" # Return empty JSON string fallback
     except (KeyError, IndexError):
         raise Exception(f"Unexpected API response format: {result}")
+
+def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[str, Any]) -> Dict[str, Any]:
+    """Identifies and merges semantic duplicates using LLM."""
+    print("🔍 Checking for semantic duplicates with Master Graph...")
+    
+    daily_nodes = daily_graph.get("nodes", [])
+    master_nodes = master_graph.get("nodes", [])
+    
+    if not master_nodes or not daily_nodes:
+        return daily_graph
+        
+    # Optimization: Filter to mergeable types
+    mergeable_types = {'project', 'concept', 'goal', 'emotion', 'insight', 'event', 'person', 'place'}
+    
+    new_candidates = [n for n in daily_nodes if n.get('type') in mergeable_types]
+    if not new_candidates:
+        return daily_graph
+        
+    master_candidates = [n for n in master_nodes if n.get('type') in mergeable_types]
+    if not master_candidates:
+        return daily_graph
+        
+    # Create summarized lists for LLM (limit tokens)
+    # If master list is too huge, we might need vector search (future work).
+    # For now, we take unique labels.
+    
+    new_list_str = "\n".join([f"- {n['id']} ({n.get('type')}): {n.get('label')}" for n in new_candidates])
+    master_list_str = "\n".join([f"- {n['id']} ({n.get('type')}): {n.get('label')}" for n in master_candidates])
+    
+    # Send to LLM
+    prompt = f"""
+    {RESOLUTION_SYSTEM_PROMPT}
+
+    ### New Nodes (Daily)
+    {new_list_str}
+
+    ### Existing Nodes (Master)
+    {master_list_str}
+    
+    Return JSON mapping.
+    """
+    
+    try:
+        json_text = call_gemini_api(prompt, model="gemini-2.0-flash", response_mime_type="application/json")
+        mapping = json.loads(json_text)
+        
+        if not mapping:
+            print("✅ No duplicates found.")
+            return daily_graph
+            
+        print(f"🔄 Found {len(mapping)} semantic duplicates. Merging...")
+        for new_id, existing_id in mapping.items():
+            print(f"   - {new_id} -> {existing_id}")
+            
+            # Update Daily Graph IDs
+            # 1. Update Nodes
+            for n in daily_graph.get("nodes", []):
+                if n['id'] == new_id:
+                    n['id'] = existing_id
+                    # We keep the new label/detail? Let graph_merger handle property merge.
+                    # Ideally, we adopt the existing ID so graph_merger treats it as an UPDATE.
+                    
+            # 2. Update Edges
+            for e in daily_graph.get("edges", []):
+                if e['source'] == new_id: e['source'] = existing_id
+                if e['target'] == new_id: e['target'] = existing_id
+                
+        return daily_graph
+
+    except Exception as e:
+        print(f"⚠️ Semantic resolution failed: {e}. Proceeding without resolution.")
+        return daily_graph
 
 def extract_graph(text: str) -> Dict[str, Any]:
     prompt = f"""
@@ -178,16 +268,77 @@ def get_master_context(master_graph: Dict[str, Any]) -> str:
     return context_str
 
 def analyze_graph_with_context(daily_graph: Dict[str, Any], master_context: str) -> str:
+    # Deprecated: Using master graph directly now
+    pass
+
+def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict[str, Any]) -> str:
+    """Analyzes the FULL updated state of the user."""
+    
+    # Extract relevant context (simplify to avoid token overflow)
+    # 1. Active Goals
+    active_goals = [n for n in master_graph.get("nodes", []) if n.get("type") == "goal" and n.get("status") == "Active"]
+    
+    # 2. Recent Insights (last 7 days?)
+    recent_insights = sorted(
+        [n for n in master_graph.get("nodes", []) if n.get("type") == "insight"],
+        key=lambda x: x.get("last_seen", ""), reverse=True
+    )[:10]
+    
+    # 3. Recent Scheduled Events
+    scheduled_events = [n for n in master_graph.get("nodes", []) if n.get("type") == "event" and n.get("status") == "Scheduled"]
+
+    # 4. Recent Diary Context (Consolidated View)
+    # Find last 5 diary nodes
+    all_diary_nodes = sorted(
+        [n for n in master_graph.get("nodes", []) if n.get("type") == "diary"],
+        key=lambda x: x.get("date", ""), reverse=True
+    )[:5] # Last 5 entries including today
+
+    recent_diary_context = "### Recent Diary Flow (Consolidated)\n"
+    if not all_diary_nodes:
+        recent_diary_context += "No recent diary entries found.\n"
+    else:
+        for d_node in all_diary_nodes:
+            d_date = d_node.get("date", "Unknown")
+            d_id = d_node.get("id")
+            
+            # Find nodes mentioned by this diary
+            mentioned_nodes = []
+            for edge in master_graph.get("edges", []):
+                if edge.get("source") == d_id and edge.get("relationship") == "MENTIONS":
+                    target_id = edge.get("target")
+                    target_node = next((n for n in master_graph.get("nodes", []) if n["id"] == target_id), None)
+                    if target_node:
+                        mentioned_nodes.append(f"{target_node.get('label')} ({target_node.get('type')})")
+            
+            mentions_str = ", ".join(mentioned_nodes) if mentioned_nodes else "No specific mentions."
+            recent_diary_context += f"- **{d_date}**: {mentions_str}\n"
+
+    
+    context_summary = "### Current Life Context\n"
+    if active_goals:
+        context_summary += "**Active Goals:**\n" + "\n".join([f"- {n.get('label')}: {n.get('detail')}" for n in active_goals]) + "\n"
+    if recent_insights:
+        context_summary += "**Recent Insights:**\n" + "\n".join([f"- {n.get('label')}" for n in recent_insights]) + "\n"
+    if scheduled_events:
+        context_summary += "**Upcoming Events:**\n" + "\n".join([f"- {n.get('date')} {n.get('label')}" for n in scheduled_events]) + "\n"
+        
     prompt = f"""
     {ANALYSIS_SYSTEM_PROMPT}
 
-    {master_context}
+    {context_summary}
 
-    ### Today's Graph Data (JSON)
-    {json.dumps(daily_graph, ensure_ascii=False, indent=2)}
+    {recent_diary_context}
+
+    ### Today's New Entry Data
+    {json.dumps(current_diary_node, ensure_ascii=False, indent=2)}
+    
+    ### Task
+    Based on the "Recent Diary Flow" above (which includes today and previous days), provide a **SINGLE consolidated advice** that addresses the user's ongoing situation and trajectory. 
+    Do not analyze just today in isolation. Connect the dots across the recent days (e.g., 2/14 -> 2/15 -> 2/16).
     """
-    print("🔄 Analyzing graph with context...")
-    return call_gemini_api(prompt, model="gemini-3-flash-preview")
+    print("🔄 Analyzing updated state (Consolidated)...")
+    return call_gemini_api(prompt, model="gemini-2.0-flash")
 
 def main():
     parser = argparse.ArgumentParser(description="Pomera Diary to Knowledge Graph & Analysis")
@@ -318,6 +469,9 @@ def main():
                     "weight": 1
                 })
 
+        # --- NEW: Semantic Deduplication ---
+        daily_graph = resolve_semantic_duplicates(daily_graph, master_graph)
+
         # 4. Save Daily Graph JSON
         with open(args.output_graph, "w", encoding="utf-8") as f:
             json.dump(daily_graph, f, ensure_ascii=False, indent=2)
@@ -347,46 +501,33 @@ def main():
         updated_master = master_graph
 
 
-    # 5. Analyze with Context
+    # 5. Analyze with Context (Now using Updated Master)
     try:
-        analysis_text = analyze_graph_with_context(daily_graph, master_context_str)
+        # Identify the diary node we just added/updated
+        diary_node_id = f"diary:{current_date_str}"
+        current_diary_node = next((n for n in updated_master.get("nodes", []) if n["id"] == diary_node_id), None)
         
-        # Save Report
-        with open(args.output_report, "w", encoding="utf-8") as f:
-            f.write(f"# 日次分析レポート ({datetime.now().date()})\n\n")
-            f.write(f"**対象ファイル: {os.path.basename(args.input_file)}**\n\n")
-            f.write(analysis_text)
+        if current_diary_node:
+            analysis_text = analyze_updated_state(updated_master, current_diary_node)
             
-            # --- CUMULATIVE SUMMARY (If multiple entries today) ---
-            # Search master graph for nodes created today
-            today_entities = [n for n in updated_master.get("nodes", []) 
-                             if n.get("last_seen", "").startswith(datetime.now().strftime("%Y-%m-%d"))]
-            if len(today_entities) > 5: # Some reasonable threshold for "has context"
-                f.write("\n\n---\n## 本日の累積インサイト\n")
-                f.write("※本日複数の更新がありました。これまでの情報を統合した状況です。\n")
-                # Briefly list key interests found today
-                interests = [n.get("label") for n in today_entities if n.get("type") not in ["diary", "self"]]
-                f.write(f"- **主な関心事:** {', '.join(interests[:10])}\n")
-
-        print(f"✅ 分析レポートを保存しました: {args.output_report}")
-
-        # --- NEW: Inject Analysis into Graph Node and Re-save ---
-        if updated_master:
-            # current_date_str is already set from filename or today fallback
-            diary_node_id = f"diary:{current_date_str}"
+            # Save Report
+            with open(args.output_report, "w", encoding="utf-8") as f:
+                f.write(f"# 最新分析レポート ({datetime.now().date()})\n\n")
+                f.write(f"**分析対象:** {current_date_str} の更新および全期間のコンテキスト\n\n")
+                f.write(analysis_text)
+            print(f"✅ 分析レポートを保存しました: {args.output_report}")
             
-            # Find the diary node in master
-            for node in updated_master.get("nodes", []):
-                if node.get("id") == diary_node_id:
-                    node["analysis_content"] = analysis_text
-                    print(f"✅ グラフの {diary_node_id} に分析結果を統合しました")
-                    break
+            # Inject into graph
+            current_diary_node["analysis_content"] = analysis_text
             
-            # Re-save Master Graph with analysis content
+            # Re-save Master
             with open(args.master_graph, "w", encoding="utf-8") as f:
                 json.dump(updated_master, f, ensure_ascii=False, indent=2)
+            print(f"✅ グラフの {diary_node_id} に最新分析結果を統合しました")
+            
+        else:
+            print("⚠️ Diary node not found in updated master. Skipping analysis.")
 
-        
     except Exception as e:
         print(f"❌ 分析中にエラーが発生しました: {e}")
 

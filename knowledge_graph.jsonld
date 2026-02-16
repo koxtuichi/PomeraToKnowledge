@@ -15,13 +15,15 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "フロントエンドエンジニアであり、副業でAI活用を推進している。",
+      "detail": "フロントエンドのチームリーダーを勤めつつ、副業もこなす日記の著者",
       "sentiment": -0.1,
       "community": 0,
       "first_seen": "2026-02-15T18:28:14.833713",
-      "last_seen": "2026-02-16T02:12:05.655609",
-      "weight": 25,
-      "tags": []
+      "last_seen": "2026-02-16T11:36:15.197206",
+      "weight": 29,
+      "tags": [
+        "Cognitive Distortion: Should Statements"
+      ]
     },
     {
       "id": "event:pomera_arrival",
@@ -67,25 +69,25 @@
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "同い年（33歳）の妻。",
+      "detail": "妻。育児を主に担当している。",
       "community": 2,
       "first_seen": "2026-02-15T18:28:14.833722",
-      "last_seen": "2026-02-16T02:11:19.685322",
-      "weight": 9,
+      "last_seen": "2026-02-16T11:36:15.197298",
+      "weight": 11,
       "tags": [],
-      "sentiment": 0.8
+      "sentiment": 0.5
     },
     {
       "id": "person:souma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "5月9日生まれの0歳（9ヶ月）の息子。",
+      "detail": "息子。月齢9ヶ月。5倍がゆを食べている。",
       "community": 2,
       "first_seen": "2026-02-15T18:28:14.833724",
-      "last_seen": "2026-02-16T02:11:19.685318",
-      "weight": 9,
+      "last_seen": "2026-02-16T11:36:15.197307",
+      "weight": 11,
       "tags": [],
-      "sentiment": 0.9
+      "sentiment": 0.4
     },
     {
       "id": "person:sayaka_parents",
@@ -366,16 +368,19 @@
     },
     {
       "id": "barrier:time_poverty",
-      "label": "時間の不足",
-      "type": "concept",
-      "detail": "仕事の掛け持ちと育児により、掃除の習慣化に必要な時間が確保できない",
+      "label": "お金の心配",
+      "type": "emotion",
+      "detail": "税金の支払いや不透明な所得税・確定申告に対する不安。",
       "tags": [
+        "Cognitive Distortion: Catastrophizing",
+        "Cognitive Distortion: Fortune Telling",
         "Conflict"
       ],
       "community": 1,
       "first_seen": "2026-02-15T19:44:17.435348",
-      "last_seen": "2026-02-15T12:07:30.299698",
-      "weight": 13
+      "last_seen": "2026-02-16T09:55:59.265582",
+      "weight": 14,
+      "sentiment": -0.6
     },
     {
       "id": "goal:weight_loss_75kg",
@@ -612,17 +617,17 @@
     },
     {
       "id": "diary:2026-02-16",
-      "label": "2026/02/16の日記",
+      "label": "2026-02-16の日記",
       "type": "diary",
       "date": "2026-02-16",
-      "detail": "副業のタスクが溜まっている状況と、本業後の作業予定について。",
+      "detail": "今日の日記エントリ",
       "first_seen": "2026-02-16T00:26:33.487791",
-      "last_seen": "2026-02-16T02:12:05.655625",
+      "last_seen": "2026-02-16T11:36:15.197372",
       "weight": 1,
       "tags": [
         "Cognitive Distortion: Should Statements"
       ],
-      "analysis_content": "本業でのリーダーシップと副業での高度なAI開発、その両立を支えているあなたの責任感の強さがひしひしと伝わってきます。タスクが積み上がる中で感じるプレッシャーは、あなたがそれだけ周囲の期待に応えようとしている証でもありますが、今は少し自分を追い込みすぎているかもしれません。まずは、今日ここまで走り抜けてきた自分を労い、夜の作業に向けて「完璧」よりも「継続」を優先する心の余裕を持ってみてください。\n\n===DETAILS===\n\n二つのチームを率いるリーダーとしての本業を終えた後、18時から再び「別の顔」としてアクセルを踏み込む生活は、想像以上に精神的なエネルギーを消耗するものです。今日の日記から透けて見えるのは、「～しなければならない」という強い義務感と、まだ見ぬ結果に対する予期不安が、あなたの心のキャパシティを少しずつ圧迫している様子です。特に、鈴木さんや開米さんといったパートナーとの連携において、「相手がどう動いているか」「期限までに間に合うか」といった、自分では完全にはコントロールできない領域に対して思考が割かれている点は、今のあなたにとって大きな心理的負荷になっているのではないでしょうか。\n\n過去の記録を振り返ると、あなたはダイエットやペット部屋の掃除といったプライベートな習慣化においても、非常に高い理想を掲げ、それが崩れそうになるときに強いストレスを感じる傾向があります。実は、今感じている仕事のプレッシャーと、以前お寿司やチュロスを食べてしまった後のような「理想通りにいかない自分への葛藤」は、根っこでつながっています。それは、自分に対する「期待値」が常に最大化されているために、わずかな遅延や計画のズレが、必要以上の焦燥感を生んでしまうというパターンです。\n\n心理的な視点で見れば、今あなたに必要なのは、すべてのタスクを等しく全力で片付けることではなく、あえて「重要ではない部分で力を抜く」という選択です。例えば、開米さんの資料状況を案じたり、全社展開への不安を先取りしたりすることは、今この瞬間のあなたの作業効率を上げるどころか、むしろ「決断疲れ」を加速させてしまいます。副業のタスクが溜まっているときこそ、目の前の一つの作業にだけ意識を向けるマインドフルな姿勢が、結果としてあなたを最も遠くまで運んでくれるはずです。\n\nまた、ポメラを使ったワークフローの構築や、モンスターデザインといった創造的な目標は、あなたにとっての「自己実現」の源泉です。これらが仕事のプレッシャーによって「やらなければならない苦痛なタスク」へと変質してしまわないよう、注意深く自分を観察してください。もし掃除やダイエットが計画通りに進まない日があっても、それはあなたが仕事でそれだけのエネルギーを使い果たした結果であり、決して意志が弱いわけではありません。夜の作業を開始する前に、まずは深呼吸をして、ポメラを開くその瞬間だけでも「評価される自分」から解放され、純粋に思考を整理する楽しさを取り戻してみてください。今日を乗り切る鍵は、完璧な成果を出すことではなく、自分の心の火を消さずに、穏やかに一日を締めくくることにあります。",
+      "analysis_content": "プレッシャーを感じているあなたへ。完璧主義を手放し、小さな成功体験を積み重ねることで、タスクの山も乗り越えられるはずです。創造的な活動を取り入れ、心の余裕を保ちながら、一歩ずつ目標に近づきましょう。\n===DETAILS===\nタスクの蓄積感とプレッシャーが重なり、過去の成功体験（ポメラのワークフロー構築など）から遠ざかっているようです。特に、「〜しなければならない」という義務感から、ダイエットや掃除といった日々の習慣まで、停滞感を感じていることが伺えます。\n\n過去の記録から、あなたは技術的な探求心と創造性を活かすことで、モチベーションを維持できるタイプです。そこで、まずは「改善タスクフローの構築」を完了させ、チームメンバーにタスクを委譲することで、時間的余裕を作りましょう。そして、ポメラを使ったワークフロー構築や、モンスターデザインといった「創造的な活動」に時間を割くことをお勧めします。これは、仕事のプレッシャーから解放され、心のバランスを取り戻すための重要な要素となります。\n\nまた、「ペット部屋の掃除」や「体重75kg切り」といった目標については、完璧を求めすぎず、現状維持を目標にしても良いかもしれません。特に、過去の記録から、あなたは完璧主義に陥りやすく、それがストレスの原因となっている可能性があります。\n\n明日は鈴木さんの学習資料確認や副業タスクの開始など、多くの予定がありますが、まずは一つ一つのタスクに集中し、無理のないペースで進めることが重要です。特に、副業タスクは、本業のタスクと重なり、プレッシャーを感じやすい状況なので、計画的に進めるように心がけましょう。\n",
       "sentiment": -0.2
     },
     {
@@ -765,29 +770,31 @@
     },
     {
       "id": "project:side_job_saiteki",
-      "label": "株式会社Saiteki（副業）",
+      "label": "株式会社Saitekiでの副業",
       "type": "project",
       "detail": "AI活用を考える副業。時給3000円。",
-      "sentiment": 0.5,
+      "sentiment": 0.1,
       "community": 1,
       "tags": [
+        "AI",
+        "AI活用",
         "Growth",
-        "AI"
+        "副業"
       ],
       "first_seen": "2026-02-16T00:51:05.851273",
-      "last_seen": "2026-02-16T00:51:05.851273",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770458",
+      "weight": 3
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saitekiの副社長。カスタムチューニング用の質問回答形式資料を作成依頼中。",
+      "detail": "Saitekiの副社長。S級AIモデル構築のための資料作成を担当。",
       "community": 1,
       "first_seen": "2026-02-16T00:51:05.851277",
-      "last_seen": "2026-02-16T02:12:05.655633",
-      "weight": 2,
-      "sentiment": 0.3,
+      "last_seen": "2026-02-16T11:36:15.197257",
+      "weight": 6,
+      "sentiment": 0.2,
       "tags": []
     },
     {
@@ -797,9 +804,9 @@
       "detail": "SaitekiのQAスペシャリスト。AI置換作業の資料作成を担当。",
       "community": 1,
       "first_seen": "2026-02-16T00:51:05.851281",
-      "last_seen": "2026-02-16T02:12:05.655636",
-      "weight": 2,
-      "sentiment": 0.1,
+      "last_seen": "2026-02-16T11:36:15.197266",
+      "weight": 6,
+      "sentiment": 0.0,
       "tags": [
         "Cognitive Distortion: Fortune Telling"
       ]
@@ -808,11 +815,11 @@
       "id": "project:main_job",
       "label": "メインの仕事",
       "type": "project",
-      "detail": "フロントエンドで2チーム8人のリーダーを務める。",
+      "detail": "フロントエンドの2チーム8人のリーダー職。",
       "community": 2,
       "first_seen": "2026-02-16T00:51:05.851284",
-      "last_seen": "2026-02-16T02:12:05.655639",
-      "weight": 2,
+      "last_seen": "2026-02-16T11:36:15.197289",
+      "weight": 6,
       "sentiment": 0.0,
       "tags": []
     },
@@ -830,15 +837,16 @@
     },
     {
       "id": "event:check_kaime_status",
-      "label": "開米さんの進捗確認",
+      "label": "開米さんの作業状況確認",
       "type": "event",
       "status": "Scheduled",
       "date": "2026-02-16",
-      "detail": "全社員向けAI展開資料の作成状況を確認する。",
+      "detail": "2月中のゴールに向けて進捗を確認する必要がある。",
       "community": 1,
       "first_seen": "2026-02-16T00:51:05.851289",
-      "last_seen": "2026-02-16T00:51:05.851289",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770491",
+      "weight": 3,
+      "tags": []
     },
     {
       "id": "goal:employee_analysis_doc",
@@ -856,28 +864,28 @@
     },
     {
       "id": "emotion:overwhelmed",
-      "label": "タスク過多の焦燥感",
+      "label": "切迫感",
       "type": "emotion",
-      "detail": "「やらないといけないこと」が溜まっていることへのプレッシャー。",
-      "sentiment": -0.3,
+      "detail": "やるべきことが溜まってきている感覚。",
+      "sentiment": -0.4,
       "tags": [
         "Cognitive Distortion: Should Statement"
       ],
       "community": 0,
       "first_seen": "2026-02-16T00:51:05.851294",
-      "last_seen": "2026-02-16T00:51:05.851294",
-      "weight": 1
+      "last_seen": "2026-02-16T09:36:40.436760",
+      "weight": 2
     },
     {
       "id": "goal:s_class_ai",
-      "label": "S級のAIモデル作成",
+      "label": "S級AIモデルの構築",
       "type": "goal",
       "status": "Active",
-      "detail": "鈴木さんと協力して進めている、高品質なAIモデルの構築。",
+      "detail": "鈴木さんと協力して進めているAI活用の目標。",
       "community": 1,
       "first_seen": "2026-02-16T00:51:05.851296",
-      "last_seen": "2026-02-16T02:12:05.655644",
-      "weight": 2,
+      "last_seen": "2026-02-16T11:36:15.197364",
+      "weight": 5,
       "sentiment": 0.5,
       "tags": []
     },
@@ -1151,12 +1159,13 @@
       "id": "project:saiteki",
       "label": "株式会社Saiteki",
       "type": "project",
-      "detail": "AI活用を考える副業。時間給3000円。",
+      "detail": "AI活用を考える副業先。時給3000円。",
       "sentiment": 0.2,
       "community": 1,
       "first_seen": "2026-02-16T02:12:05.655630",
-      "last_seen": "2026-02-16T02:12:05.655630",
-      "weight": 1
+      "last_seen": "2026-02-16T11:36:15.197244",
+      "weight": 3,
+      "tags": []
     },
     {
       "id": "event:side_work_start",
@@ -1175,12 +1184,15 @@
       "label": "全社員向けAI展開",
       "type": "goal",
       "status": "Active",
-      "detail": "開米さんの資料を元にAI活用を全社に広める。期限は2月末。",
+      "detail": "QA作業をAIに置き換え、全社員に展開する計画。",
       "sentiment": 0.0,
       "community": 1,
       "first_seen": "2026-02-16T02:12:05.655654",
-      "last_seen": "2026-02-16T02:12:05.655654",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770483",
+      "weight": 2,
+      "tags": [
+        "Deadline: Feb"
+      ]
     },
     {
       "id": "concept:employee_analysis_proposal",
@@ -1195,13 +1207,225 @@
     },
     {
       "id": "emotion:task_pressure",
-      "label": "タスク蓄積へのプレッシャー",
+      "label": "タスクの蓄積感",
       "type": "emotion",
-      "detail": "やるべきことが溜まってきていることによる焦燥感。",
+      "detail": "副業でのやるべきことが溜まり、時間を確保しなければならないというプレッシャー。",
       "sentiment": -0.4,
       "community": 0,
       "first_seen": "2026-02-16T02:12:05.655659",
-      "last_seen": "2026-02-16T02:12:05.655659",
+      "last_seen": "2026-02-16T10:10:47.770499",
+      "weight": 2,
+      "tags": [
+        "Cognitive Distortion: Should Statements"
+      ]
+    },
+    {
+      "id": "event:check_material",
+      "label": "学習資料の完成連絡",
+      "type": "event",
+      "status": "Scheduled",
+      "date": "2026-02-16",
+      "detail": "カスタムチューニングのための質問回答形式の資料が完成したとの連絡。",
+      "community": 1,
+      "first_seen": "2026-02-16T09:36:40.436764",
+      "last_seen": "2026-02-16T10:10:47.770488",
+      "weight": 2,
+      "tags": []
+    },
+    {
+      "id": "event:analysis_documentation",
+      "label": "社員分析資料の作成",
+      "type": "event",
+      "status": "Scheduled",
+      "date": "2026-02-16",
+      "detail": "社員分析の利用案を資料化する作業。",
+      "community": 1,
+      "first_seen": "2026-02-16T09:36:40.436770",
+      "last_seen": "2026-02-16T10:10:47.770495",
+      "weight": 2,
+      "tags": []
+    },
+    {
+      "id": "goal:qa_replacement_rollout",
+      "label": "AI置き換え作業の全社展開",
+      "type": "goal",
+      "status": "Active",
+      "detail": "2月中を目標としているが、進捗は微妙な状況。",
+      "community": 1,
+      "first_seen": "2026-02-16T09:36:40.436776",
+      "last_seen": "2026-02-16T09:36:40.436776",
+      "weight": 1
+    },
+    {
+      "id": "insight:sequencing",
+      "label": "着手順序の決定",
+      "type": "insight",
+      "detail": "まずは連絡から開始するという判断。",
+      "sentiment": 0.5,
+      "tags": [
+        "Growth"
+      ],
+      "community": 0,
+      "first_seen": "2026-02-16T09:36:40.436779",
+      "last_seen": "2026-02-16T09:36:40.436779",
+      "weight": 1
+    },
+    {
+      "id": "goal:kaimei_task",
+      "label": "QA作業の資料展開",
+      "type": "goal",
+      "detail": "AIに置き換えられる作業について全社員向けに展開する。",
+      "status": "Active",
+      "date": "2026-02-28",
+      "community": 1,
+      "first_seen": "2026-02-16T09:55:59.265561",
+      "last_seen": "2026-02-16T09:55:59.265561",
+      "weight": 1
+    },
+    {
+      "id": "goal:improvement_flow",
+      "label": "改善タスクフローの構築",
+      "type": "goal",
+      "detail": "メンバー中心に対応できるフローを今日中に完了させる。",
+      "status": "Active",
+      "date": "2026-02-16",
+      "community": 2,
+      "first_seen": "2026-02-16T09:55:59.265567",
+      "last_seen": "2026-02-16T11:36:15.197329",
+      "weight": 2,
+      "tags": []
+    },
+    {
+      "id": "insight:morning_task_worry",
+      "label": "朝のタスク悩み",
+      "type": "insight",
+      "detail": "タスクを毎朝考えてしまうことへの悩み。",
+      "sentiment": -0.4,
+      "tags": [
+        "Cognitive Distortion: Emotional Reasoning"
+      ],
+      "community": 2,
+      "first_seen": "2026-02-16T09:55:59.265569",
+      "last_seen": "2026-02-16T09:55:59.265569",
+      "weight": 1
+    },
+    {
+      "id": "event:porridge_making",
+      "label": "5倍がゆ作り",
+      "type": "event",
+      "detail": "離乳食作りの大変さを体験した。",
+      "sentiment": -0.2,
+      "status": "Completed",
+      "date": "2026-02-16",
+      "community": 3,
+      "first_seen": "2026-02-16T09:55:59.265578",
+      "last_seen": "2026-02-16T09:55:59.265578",
+      "weight": 1
+    },
+    {
+      "id": "emotion:gratitude",
+      "label": "さやかへの感謝",
+      "type": "emotion",
+      "detail": "育児の大変さを実感したことによる感謝の気持ち。",
+      "sentiment": 0.9,
+      "tags": [
+        "Growth"
+      ],
+      "community": 3,
+      "first_seen": "2026-02-16T09:55:59.265580",
+      "last_seen": "2026-02-16T09:55:59.265580",
+      "weight": 1
+    },
+    {
+      "id": "concept:savings",
+      "label": "貯金",
+      "type": "concept",
+      "detail": "現在110万円程度。毎月10-20万の貯金を目指しているが波がある。",
+      "community": 4,
+      "first_seen": "2026-02-16T09:55:59.265587",
+      "last_seen": "2026-02-16T11:36:15.197350",
+      "weight": 2,
+      "tags": []
+    },
+    {
+      "id": "place:home",
+      "label": "家",
+      "type": "place",
+      "detail": "2階建ての一軒家。書斎とリビングで生活と仕事が分かれている。",
+      "community": 3,
+      "first_seen": "2026-02-16T09:55:59.265589",
+      "last_seen": "2026-02-16T09:55:59.265589",
+      "weight": 1
+    },
+    {
+      "id": "diary:20260216",
+      "label": "2026/02/16の日記",
+      "type": "diary",
+      "detail": "副業のタスク蓄積とメインの仕事との両立に関する記録",
+      "date": "2026-02-16",
+      "community": 0,
+      "first_seen": "2026-02-16T10:10:47.770455",
+      "last_seen": "2026-02-16T10:10:47.770455",
+      "weight": 1
+    },
+    {
+      "id": "emotion:anxiety_tax",
+      "label": "税金と家計への不安",
+      "type": "emotion",
+      "detail": "高額な税金支払いや確定申告、住宅ローン控除の不透明さによる不安。",
+      "sentiment": -0.6,
+      "tags": [
+        "Cognitive Distortion: Fortune Telling"
+      ],
+      "community": 4,
+      "first_seen": "2026-02-16T11:36:15.197316",
+      "last_seen": "2026-02-16T11:36:15.197316",
+      "weight": 1
+    },
+    {
+      "id": "insight:childcare_gratitude",
+      "label": "育児への感謝と内省",
+      "type": "insight",
+      "detail": "離乳食作りの大変さを実感し、妻への感謝が不足していたことを反省。",
+      "sentiment": 0.6,
+      "tags": [
+        "Growth"
+      ],
+      "community": 3,
+      "first_seen": "2026-02-16T11:36:15.197323",
+      "last_seen": "2026-02-16T11:36:15.197323",
+      "weight": 1
+    },
+    {
+      "id": "event:mtg_naomichi",
+      "label": "直道とのMTG",
+      "type": "event",
+      "detail": "Saiteki社長の直道との定期ミーティング。",
+      "status": "Scheduled",
+      "date": "2026-02-20",
+      "community": 1,
+      "first_seen": "2026-02-16T11:36:15.197339",
+      "last_seen": "2026-02-16T11:36:15.197339",
+      "weight": 1
+    },
+    {
+      "id": "person:naomichi",
+      "label": "直道",
+      "type": "person",
+      "detail": "Saitekiの社長。同い年の友人。",
+      "community": 1,
+      "first_seen": "2026-02-16T11:36:15.197344",
+      "last_seen": "2026-02-16T11:36:15.197344",
+      "weight": 1
+    },
+    {
+      "id": "place:study_room",
+      "label": "2階の書斎",
+      "type": "place",
+      "detail": "仕事に集中するために籠もる場所。",
+      "community": 0,
+      "first_seen": "2026-02-16T11:36:15.197358",
+      "last_seen": "2026-02-16T11:36:15.197358",
       "weight": 1
     }
   ],
@@ -1840,9 +2064,9 @@
       "source": "person:self",
       "target": "diary:2026-02-16",
       "relationship": "WROTE",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T00:26:33.487833",
-      "last_seen": "2026-02-16T02:12:05.655775",
+      "last_seen": "2026-02-16T11:36:15.197802",
       "label": null
     },
     {
@@ -1943,18 +2167,18 @@
       "source": "diary:2026-02-16",
       "target": "person:souma",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T00:26:33.487846",
-      "last_seen": "2026-02-16T00:39:23.912996",
+      "last_seen": "2026-02-16T11:36:15.197834",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:sayaka",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T00:26:33.487847",
-      "last_seen": "2026-02-16T00:39:23.912998",
+      "last_seen": "2026-02-16T11:36:15.197828",
       "label": null
     },
     {
@@ -2262,28 +2486,28 @@
       "source": "person:self",
       "target": "project:side_job_saiteki",
       "type": "PARTICIPATES",
-      "label": "AI活用アドバイザー",
+      "label": "副業として参画",
       "first_seen": "2026-02-16T00:51:05.851390",
-      "last_seen": "2026-02-16T00:51:05.851390",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770692",
+      "weight": 3
     },
     {
       "source": "person:self",
       "target": "project:main_job",
       "type": "PARTICIPATES",
-      "label": "チームリーダーとして勤務",
+      "label": "リーダーとして勤務",
       "first_seen": "2026-02-16T00:51:05.851393",
-      "last_seen": "2026-02-16T02:12:05.655759",
-      "weight": 2
+      "last_seen": "2026-02-16T11:36:15.197736",
+      "weight": 6
     },
     {
       "source": "person:self",
       "target": "emotion:overwhelmed",
       "type": "FEELING",
-      "label": "感じている",
+      "label": "タスクの蓄積を感じる",
       "first_seen": "2026-02-16T00:51:05.851396",
-      "last_seen": "2026-02-16T00:51:05.851396",
-      "weight": 1
+      "last_seen": "2026-02-16T09:36:40.436920",
+      "weight": 2
     },
     {
       "source": "person:suzuki",
@@ -2307,10 +2531,10 @@
       "source": "person:self",
       "target": "event:check_kaime_status",
       "type": "PLANS",
-      "label": "18時以降に実施予定",
+      "label": "18時以降に連絡予定",
       "first_seen": "2026-02-16T00:51:05.851404",
-      "last_seen": "2026-02-16T00:51:05.851404",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770710",
+      "weight": 3
     },
     {
       "source": "person:self",
@@ -2334,10 +2558,10 @@
       "source": "person:suzuki",
       "target": "goal:s_class_ai",
       "type": "TARGETS",
-      "label": "作成を目指す",
+      "label": "を目指している",
       "first_seen": "2026-02-16T00:51:05.851412",
-      "last_seen": "2026-02-16T02:12:05.655765",
-      "weight": 2
+      "last_seen": "2026-02-16T10:10:47.770703",
+      "weight": 4
     },
     {
       "source": "person:kaime",
@@ -2361,35 +2585,36 @@
       "source": "diary:2026-02-16",
       "target": "project:side_job_saiteki",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 3,
       "first_seen": "2026-02-16T00:51:05.851428",
-      "last_seen": "2026-02-16T00:51:05.851428"
+      "last_seen": "2026-02-16T10:10:47.770724",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:suzuki",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 6,
       "first_seen": "2026-02-16T00:51:05.851431",
-      "last_seen": "2026-02-16T02:12:05.655779",
+      "last_seen": "2026-02-16T11:36:15.197813",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:kaime",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 6,
       "first_seen": "2026-02-16T00:51:05.851433",
-      "last_seen": "2026-02-16T02:12:05.655780",
+      "last_seen": "2026-02-16T11:36:15.197818",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "project:main_job",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 6,
       "first_seen": "2026-02-16T00:51:05.851436",
-      "last_seen": "2026-02-16T02:12:05.655782",
+      "last_seen": "2026-02-16T11:36:15.197823",
       "label": null
     },
     {
@@ -2404,9 +2629,10 @@
       "source": "diary:2026-02-16",
       "target": "event:check_kaime_status",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 3,
       "first_seen": "2026-02-16T00:51:05.851457",
-      "last_seen": "2026-02-16T00:51:05.851457"
+      "last_seen": "2026-02-16T10:10:47.770739",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
@@ -2420,17 +2646,18 @@
       "source": "diary:2026-02-16",
       "target": "emotion:overwhelmed",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T00:51:05.851463",
-      "last_seen": "2026-02-16T00:51:05.851463"
+      "last_seen": "2026-02-16T09:36:40.436952",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "goal:s_class_ai",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 5,
       "first_seen": "2026-02-16T00:51:05.851465",
-      "last_seen": "2026-02-16T02:12:05.655785",
+      "last_seen": "2026-02-16T11:36:15.197884",
       "label": null
     },
     {
@@ -3169,10 +3396,10 @@
       "source": "person:self",
       "target": "diary:2026-02-16",
       "type": "ABOUT",
-      "label": "記録",
+      "label": "記述する",
       "first_seen": "2026-02-16T02:12:05.655753",
-      "last_seen": "2026-02-16T02:12:05.655753",
-      "weight": 1
+      "last_seen": "2026-02-16T09:36:40.436911",
+      "weight": 2
     },
     {
       "source": "person:self",
@@ -3180,8 +3407,8 @@
       "type": "PARTICIPATES",
       "label": "副業に従事",
       "first_seen": "2026-02-16T02:12:05.655757",
-      "last_seen": "2026-02-16T02:12:05.655757",
-      "weight": 1
+      "last_seen": "2026-02-16T11:36:15.197726",
+      "weight": 3
     },
     {
       "source": "person:self",
@@ -3196,19 +3423,19 @@
       "source": "person:self",
       "target": "emotion:task_pressure",
       "type": "FEELING",
-      "label": "タスクの溜まりに焦りを感じる",
+      "label": "を感じている",
       "first_seen": "2026-02-16T02:12:05.655763",
-      "last_seen": "2026-02-16T02:12:05.655763",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770714",
+      "weight": 2
     },
     {
       "source": "person:kaime",
       "target": "goal:ai_deployment",
       "type": "TARGETS",
-      "label": "全社展開を目標とする",
+      "label": "資料作成と展開を担当",
       "first_seen": "2026-02-16T02:12:05.655767",
-      "last_seen": "2026-02-16T02:12:05.655767",
-      "weight": 1
+      "last_seen": "2026-02-16T10:10:47.770708",
+      "weight": 2
     },
     {
       "source": "person:self",
@@ -3250,9 +3477,10 @@
       "source": "diary:2026-02-16",
       "target": "project:saiteki",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 3,
       "first_seen": "2026-02-16T02:12:05.655777",
-      "last_seen": "2026-02-16T02:12:05.655777"
+      "last_seen": "2026-02-16T11:36:15.197807",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
@@ -3266,9 +3494,10 @@
       "source": "diary:2026-02-16",
       "target": "goal:ai_deployment",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T02:12:05.655787",
-      "last_seen": "2026-02-16T02:12:05.655787"
+      "last_seen": "2026-02-16T10:10:47.770735",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
@@ -3282,15 +3511,434 @@
       "source": "diary:2026-02-16",
       "target": "emotion:task_pressure",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T02:12:05.655792",
-      "last_seen": "2026-02-16T02:12:05.655792"
+      "last_seen": "2026-02-16T10:10:47.770744",
+      "label": null
+    },
+    {
+      "source": "person:self",
+      "target": "event:check_material",
+      "type": "PLANS",
+      "label": "18時以降に予定",
+      "first_seen": "2026-02-16T09:36:40.436922",
+      "last_seen": "2026-02-16T09:36:40.436922",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "event:analysis_documentation",
+      "type": "PLANS",
+      "label": "資料化を予定",
+      "first_seen": "2026-02-16T09:36:40.436928",
+      "last_seen": "2026-02-16T10:10:47.770712",
+      "weight": 2
+    },
+    {
+      "source": "person:suzuki",
+      "target": "event:check_material",
+      "type": "CAUSAL",
+      "label": "資料完成の連絡",
+      "first_seen": "2026-02-16T09:36:40.436931",
+      "last_seen": "2026-02-16T09:36:40.436931",
+      "weight": 1
+    },
+    {
+      "source": "person:kaime",
+      "target": "goal:qa_replacement_rollout",
+      "type": "TARGETS",
+      "label": "担当目標",
+      "first_seen": "2026-02-16T09:36:40.436936",
+      "last_seen": "2026-02-16T09:36:40.436936",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "insight:sequencing",
+      "type": "DISCOVERS",
+      "label": "優先順位を明確化",
+      "first_seen": "2026-02-16T09:36:40.436938",
+      "last_seen": "2026-02-16T09:36:40.436938",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:check_material",
+      "relationship": "MENTIONS",
+      "weight": 2,
+      "first_seen": "2026-02-16T09:36:40.436954",
+      "last_seen": "2026-02-16T10:10:47.770737",
+      "label": null
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:analysis_documentation",
+      "relationship": "MENTIONS",
+      "weight": 2,
+      "first_seen": "2026-02-16T09:36:40.436959",
+      "last_seen": "2026-02-16T10:10:47.770742",
+      "label": null
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "goal:qa_replacement_rollout",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:36:40.436964",
+      "last_seen": "2026-02-16T09:36:40.436964"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "insight:sequencing",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:36:40.436966",
+      "last_seen": "2026-02-16T09:36:40.436966"
+    },
+    {
+      "source": "project:side_job_saiteki",
+      "target": "person:suzuki",
+      "type": "MENTIONS",
+      "label": "副社長として所属",
+      "first_seen": "2026-02-16T09:55:59.265984",
+      "last_seen": "2026-02-16T10:10:47.770698",
+      "weight": 2
+    },
+    {
+      "source": "project:side_job_saiteki",
+      "target": "person:kaime",
+      "type": "MENTIONS",
+      "label": "QA担当として所属",
+      "first_seen": "2026-02-16T09:55:59.265990",
+      "last_seen": "2026-02-16T10:10:47.770701",
+      "weight": 2
+    },
+    {
+      "source": "person:kaime",
+      "target": "goal:kaimei_task",
+      "type": "TARGETS",
+      "label": "2月末までの完了を目指す",
+      "first_seen": "2026-02-16T09:55:59.265993",
+      "last_seen": "2026-02-16T09:55:59.265993",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "goal:improvement_flow",
+      "type": "PLANS",
+      "label": "フロー構築を計画",
+      "first_seen": "2026-02-16T09:55:59.265998",
+      "last_seen": "2026-02-16T09:55:59.265998",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "insight:morning_task_worry",
+      "type": "FEELING",
+      "label": "タスク管理への悩み",
+      "first_seen": "2026-02-16T09:55:59.266001",
+      "last_seen": "2026-02-16T09:55:59.266001",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "person:sayaka",
+      "type": "FEELING",
+      "label": "感謝の再認識",
+      "first_seen": "2026-02-16T09:55:59.266003",
+      "last_seen": "2026-02-16T09:55:59.266003",
+      "weight": 1
+    },
+    {
+      "source": "event:porridge_making",
+      "target": "emotion:gratitude",
+      "type": "CAUSAL",
+      "label": "大変さを知って感謝が生まれる",
+      "first_seen": "2026-02-16T09:55:59.266005",
+      "last_seen": "2026-02-16T09:55:59.266005",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "barrier:time_poverty",
+      "type": "FEELING",
+      "label": "税金支払いに不安を感じる",
+      "first_seen": "2026-02-16T09:55:59.266008",
+      "last_seen": "2026-02-16T09:55:59.266008",
+      "weight": 1
+    },
+    {
+      "source": "barrier:time_poverty",
+      "target": "concept:savings",
+      "type": "ABOUT",
+      "label": "貯金額との兼ね合い",
+      "first_seen": "2026-02-16T09:55:59.266010",
+      "last_seen": "2026-02-16T09:55:59.266010",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "place:home",
+      "type": "AT",
+      "label": "在宅ワーク中",
+      "first_seen": "2026-02-16T09:55:59.266013",
+      "last_seen": "2026-02-16T09:55:59.266013",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "person:souma",
+      "type": "FEELING",
+      "label": "遊びたいが仕事に集中したい葛藤",
+      "first_seen": "2026-02-16T09:55:59.266015",
+      "last_seen": "2026-02-16T09:55:59.266015",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "goal:kaimei_task",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:55:59.266024",
+      "last_seen": "2026-02-16T09:55:59.266024"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "goal:improvement_flow",
+      "relationship": "MENTIONS",
+      "weight": 2,
+      "first_seen": "2026-02-16T09:55:59.266028",
+      "last_seen": "2026-02-16T11:36:15.197849",
+      "label": null
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "insight:morning_task_worry",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:55:59.266030",
+      "last_seen": "2026-02-16T09:55:59.266030"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:porridge_making",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:55:59.266036",
+      "last_seen": "2026-02-16T09:55:59.266036"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "emotion:gratitude",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:55:59.266038",
+      "last_seen": "2026-02-16T09:55:59.266038"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "barrier:time_poverty",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:55:59.266040",
+      "last_seen": "2026-02-16T09:55:59.266040"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "concept:savings",
+      "relationship": "MENTIONS",
+      "weight": 2,
+      "first_seen": "2026-02-16T09:55:59.266046",
+      "last_seen": "2026-02-16T11:36:15.197874",
+      "label": null
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "place:home",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:55:59.266048",
+      "last_seen": "2026-02-16T09:55:59.266048"
+    },
+    {
+      "source": "person:self",
+      "target": "diary:20260216",
+      "type": "ABOUT",
+      "label": "についての日記",
+      "first_seen": "2026-02-16T10:10:47.770687",
+      "last_seen": "2026-02-16T10:10:47.770687",
+      "weight": 1
+    },
+    {
+      "source": "person:suzuki",
+      "target": "event:check_material",
+      "type": "DISCOVERS",
+      "label": "資料を作成し連絡した",
+      "first_seen": "2026-02-16T10:10:47.770705",
+      "last_seen": "2026-02-16T10:10:47.770705",
+      "weight": 1
+    },
+    {
+      "source": "emotion:task_pressure",
+      "target": "project:side_job_saiteki",
+      "type": "TRIGGERED_BY",
+      "label": "副業タスクの増加が原因",
+      "first_seen": "2026-02-16T10:10:47.770717",
+      "last_seen": "2026-02-16T10:10:47.770717",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "diary:20260216",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T10:10:47.770721",
+      "last_seen": "2026-02-16T10:10:47.770721"
+    },
+    {
+      "source": "person:suzuki",
+      "target": "project:saiteki",
+      "type": "ABOUT",
+      "label": "副社長",
+      "first_seen": "2026-02-16T11:36:15.197742",
+      "last_seen": "2026-02-16T11:36:15.197742",
+      "weight": 1
+    },
+    {
+      "source": "person:kaime",
+      "target": "project:saiteki",
+      "type": "ABOUT",
+      "label": "QA担当",
+      "first_seen": "2026-02-16T11:36:15.197749",
+      "last_seen": "2026-02-16T11:36:15.197749",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "insight:childcare_gratitude",
+      "type": "DISCOVERS",
+      "label": "妻の大変さを実感",
+      "first_seen": "2026-02-16T11:36:15.197755",
+      "last_seen": "2026-02-16T11:36:15.197755",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "emotion:anxiety_tax",
+      "type": "FEELING",
+      "label": "将来のお金が不安",
+      "first_seen": "2026-02-16T11:36:15.197761",
+      "last_seen": "2026-02-16T11:36:15.197761",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "goal:improvement_flow",
+      "type": "TARGETS",
+      "label": "今日の完了目標",
+      "first_seen": "2026-02-16T11:36:15.197766",
+      "last_seen": "2026-02-16T11:36:15.197766",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "event:mtg_naomichi",
+      "type": "PLANS",
+      "label": "予定を把握",
+      "first_seen": "2026-02-16T11:36:15.197772",
+      "last_seen": "2026-02-16T11:36:15.197772",
+      "weight": 1
+    },
+    {
+      "source": "event:mtg_naomichi",
+      "target": "person:naomichi",
+      "type": "PARTICIPATES",
+      "label": "社長と会談",
+      "first_seen": "2026-02-16T11:36:15.197777",
+      "last_seen": "2026-02-16T11:36:15.197777",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "place:study_room",
+      "type": "AT",
+      "label": "仕事中に利用",
+      "first_seen": "2026-02-16T11:36:15.197782",
+      "last_seen": "2026-02-16T11:36:15.197782",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "goal:s_class_ai",
+      "type": "TARGETS",
+      "label": "副業の成果目標",
+      "first_seen": "2026-02-16T11:36:15.197787",
+      "last_seen": "2026-02-16T11:36:15.197787",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "person:souma",
+      "type": "CAUSAL",
+      "label": "朝の遊び相手で疲労",
+      "first_seen": "2026-02-16T11:36:15.197792",
+      "last_seen": "2026-02-16T11:36:15.197792",
+      "weight": 1
+    },
+    {
+      "source": "concept:savings",
+      "target": "emotion:anxiety_tax",
+      "type": "TRIGGERED_BY",
+      "label": "納税による減少への懸念",
+      "first_seen": "2026-02-16T11:36:15.197797",
+      "last_seen": "2026-02-16T11:36:15.197797",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "emotion:anxiety_tax",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T11:36:15.197839",
+      "last_seen": "2026-02-16T11:36:15.197839"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "insight:childcare_gratitude",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T11:36:15.197844",
+      "last_seen": "2026-02-16T11:36:15.197844"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "event:mtg_naomichi",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T11:36:15.197855",
+      "last_seen": "2026-02-16T11:36:15.197855"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:naomichi",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T11:36:15.197867",
+      "last_seen": "2026-02-16T11:36:15.197867"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "place:study_room",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T11:36:15.197879",
+      "last_seen": "2026-02-16T11:36:15.197879"
     }
   ],
   "metadata": {
     "created_at": "2026-02-15T18:27:41.189275",
-    "last_updated": "2026-02-16T02:12:05.655796",
-    "node_count": 94,
-    "edge_count": 241
+    "last_updated": "2026-02-16T11:36:15.197897",
+    "node_count": 106,
+    "edge_count": 285
   }
 }
