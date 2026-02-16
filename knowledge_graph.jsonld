@@ -4,8 +4,8 @@
       "id": "task:pet_room_cleaning",
       "label": "ペット部屋の掃除",
       "type": "task",
-      "detail": "フローリングの粘着跡除去に難航中。部屋を綺麗に保ちたいが、習慣化に苦戦。",
-      "sentiment": -0.4,
+      "detail": "フローリングの粘着跡除去に苦戦中。毎日掃除したいがダブルワークと育児で時間が確保できず。",
+      "sentiment": -0.3,
       "status": "Active",
       "tags": [
         "Barrier",
@@ -38,28 +38,30 @@
       ],
       "community": 1,
       "first_seen": "2026-02-16T16:29:58.913184",
-      "last_seen": "2026-02-16T12:21:24.037673",
-      "weight": 41,
+      "last_seen": "2026-02-16T12:52:13.906814",
+      "weight": 42,
       "date": "2026-02-15"
     },
     {
       "id": "barrier:adhesive_issue",
-      "label": "粘着剤の残留",
+      "label": "粘着跡の除去困難",
       "type": "insight",
-      "detail": "フローリングに貼った爪とぎカバーを剥がした際に残った粘着部分。",
-      "sentiment": -0.5,
+      "detail": "爪とぎカバーの粘着部分がフローリングに残ってしまい剥がせない。",
+      "sentiment": -0.4,
       "community": 1,
       "first_seen": "2026-02-16T16:29:58.913191",
-      "last_seen": "2026-02-16T11:21:59.087071",
-      "weight": 9,
-      "tags": [],
+      "last_seen": "2026-02-16T12:52:13.906840",
+      "weight": 10,
+      "tags": [
+        "Barrier"
+      ],
       "status": "None"
     },
     {
       "id": "goal:clean_habit",
       "label": "掃除の習慣化",
       "type": "goal",
-      "detail": "ダブルワークと育児で時間が確保できず困難を感じている。",
+      "detail": "部屋をきれいに保つことが目標だが、時間不足で困難。",
       "status": "Active",
       "tags": [
         "Barrier",
@@ -79,8 +81,8 @@
       ],
       "community": 1,
       "first_seen": "2026-02-16T16:29:58.913194",
-      "last_seen": "2026-02-16T12:21:24.037698",
-      "weight": 40,
+      "last_seen": "2026-02-16T12:52:13.906854",
+      "weight": 41,
       "sentiment": -0.3
     },
     {
@@ -105,7 +107,7 @@
       "id": "goal:weight_loss_75kg",
       "label": "年内75kg切り",
       "type": "goal",
-      "detail": "現在80.5kg前後。直近2週間は停滞気味。目標達成のため1日1食やカロリー制限を意識。",
+      "detail": "今年の減量目標。",
       "status": "Active",
       "tags": [
         "Diet",
@@ -118,21 +120,21 @@
       ],
       "community": 2,
       "first_seen": "2026-02-16T16:29:58.913226",
-      "last_seen": "2026-02-16T12:21:24.037716",
-      "weight": 41,
+      "last_seen": "2026-02-16T12:52:13.906901",
+      "weight": 42,
       "sentiment": 0.1
     },
     {
       "id": "task:diet_regimen",
       "label": "食事制限とチートデイ",
       "type": "task",
-      "detail": "停滞打破のため週1回のチートデイを実施。平日は1200kcal目標。",
+      "detail": "1日1食、1200kcal目標。週1回のチートデイを実施中。飢餓状態回避を意識。",
       "status": "Active",
       "date": "2026-02-15",
       "community": 2,
       "first_seen": "2026-02-16T16:29:58.913229",
-      "last_seen": "2026-02-16T12:21:24.037732",
-      "weight": 37,
+      "last_seen": "2026-02-16T12:52:13.906885",
+      "weight": 38,
       "sentiment": 0.2,
       "tags": [
         "Diet",
@@ -205,12 +207,12 @@
       "id": "barrier:github_scheduling",
       "label": "Github Actionsのスケジュール課題",
       "type": "task",
-      "detail": "定期実行の時間指定スケジューリングが難しい点が懸念。",
+      "detail": "定期実行の時間指定スケジューリングが難しいことが懸念点。",
       "status": "Active",
       "community": 3,
       "first_seen": "2026-02-16T16:29:58.913237",
-      "last_seen": "2026-02-16T12:21:24.037759",
-      "weight": 41,
+      "last_seen": "2026-02-16T12:52:13.907093",
+      "weight": 42,
       "sentiment": -0.2,
       "tags": [
         "Barrier",
@@ -234,13 +236,13 @@
       "id": "goal:publish_book",
       "label": "ポメラ活用本の執筆",
       "type": "goal",
-      "detail": "構築したワークフローを書籍化したいという希望。",
+      "detail": "構築したワークフローを書籍化したい。",
       "status": "Active",
       "sentiment": 0.7,
       "community": 3,
       "first_seen": "2026-02-16T16:29:58.913239",
-      "last_seen": "2026-02-16T12:21:24.037780",
-      "weight": 41,
+      "last_seen": "2026-02-16T12:52:13.907109",
+      "weight": 42,
       "tags": [
         "Ambition",
         "Dream",
@@ -314,12 +316,12 @@
       "id": "goal:picnic",
       "label": "城山公園でピクニック",
       "type": "goal",
-      "detail": "散歩での下見を経て、広い場所でピクニックしたい意欲が再確認された。",
+      "detail": "広い場所でピクニックしたい意欲が再確認された。",
       "status": "Active",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913249",
-      "last_seen": "2026-02-16T12:21:24.037864",
-      "weight": 39,
+      "last_seen": "2026-02-16T12:52:13.907006",
+      "weight": 40,
       "sentiment": 0.7,
       "tags": [
         "Family",
@@ -334,11 +336,11 @@
       "id": "person:mugi",
       "label": "むぎ",
       "type": "person",
-      "detail": "ボストンテリア。一昨年10月から飼育。",
+      "detail": "ボストンテリア。一昨年の10月から飼育。",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913252",
-      "last_seen": "2026-02-16T12:21:24.037878",
-      "weight": 41,
+      "last_seen": "2026-02-16T12:52:13.907021",
+      "weight": 42,
       "tags": [
         "Family",
         "Pet",
@@ -352,11 +354,11 @@
       "id": "person:soma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "息子。0歳9ヶ月（5月9日生まれ）。",
+      "detail": "息子（0歳・5月9日生まれ）。現在9ヶ月。",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913255",
-      "last_seen": "2026-02-16T12:21:24.037891",
-      "weight": 71,
+      "last_seen": "2026-02-16T12:52:13.907034",
+      "weight": 72,
       "tags": [
         "Child",
         "Family",
@@ -370,11 +372,11 @@
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "妻。33歳。",
+      "detail": "妻（33歳）。",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913257",
-      "last_seen": "2026-02-16T12:21:24.037904",
-      "weight": 71,
+      "last_seen": "2026-02-16T12:52:13.907046",
+      "weight": 72,
       "tags": [
         "Family",
         "Spouse",
@@ -388,8 +390,8 @@
       "id": "event:choking_incident",
       "label": "蒼馬の誤飲事故",
       "type": "event",
-      "detail": "仕事中にクッキーをあげて喉に詰まらせた。背中を叩いて吐き出させた。",
-      "sentiment": -0.9,
+      "detail": "初めてのクッキーを喉に詰まらせた。背中を叩いて吐き出させ事なきを得た。",
+      "sentiment": -1.0,
       "status": "Completed",
       "date": "2026-02-15",
       "tags": [
@@ -416,14 +418,14 @@
       ],
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913260",
-      "last_seen": "2026-02-16T12:20:17.483663",
-      "weight": 39
+      "last_seen": "2026-02-16T12:52:13.907059",
+      "weight": 40
     },
     {
       "id": "insight:parenting_regret",
-      "label": "親としての自責",
-      "type": "insight",
-      "detail": "「親として失格」「危機管理不足」と強く後悔。仕事の片手間に新しいおやつを与えたことを反省。",
+      "label": "親としての後悔",
+      "type": "emotion",
+      "detail": "仕事をしながら食事を与えた危機管理の甘さを痛感し猛省。",
       "sentiment": -0.9,
       "tags": [
         "Cognitive Distortion: Catastrophizing",
@@ -441,8 +443,8 @@
       ],
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913263",
-      "last_seen": "2026-02-16T11:50:37.031445",
-      "weight": 17,
+      "last_seen": "2026-02-16T12:52:13.907078",
+      "weight": 18,
       "status": "None"
     },
     {
@@ -452,7 +454,7 @@
       "date": "2026-02-15",
       "detail": "今日の日記エントリ",
       "first_seen": "2026-02-16T16:29:58.913266",
-      "last_seen": "2026-02-16T12:21:24.037954",
+      "last_seen": "2026-02-16T12:52:13.907123",
       "weight": 1,
       "analysis_content": "15日の「ヒヤリハット（蒼馬くんの件）」を、ただの反省や後悔で終わらせず、翌16日には「書斎への移動」と「離乳食作り」という**具体的な行動**で即座にリカバリーした修正力が流石です。感情にエネルギーを費やすのではなく、環境を変えて家族を守り、手を動かすことでパートナーへの感謝を深める。この「転んでもただでは起きない」姿勢こそが、20日のMTGや確定申告といったプレッシャーを乗り越える最大の武器になっていますよ。\n\n===DETAILS===\n\n**「罪悪感」を「システム」でハックする**\n15日の誤飲未遂による「親としての自信喪失」に対し、16日に即座に**「物理的な壁（書斎への隔離）」**を導入した判断は、エンジニアらしい見事なデバッグ（不具合修正）でした。\n感情論で「次はもっと気をつける」と誓うより、環境を変える方が事故率は確実に下がります。また、離乳食（5倍がゆ）作りを通じて「ケアする苦労」を体感したことで、15日のネガティブな感情が「妻への感謝」というポジティブなエネルギーに変換されました。**「手を動かすこと」が、今のあなたにとって一番の精神安定剤**になっています。\n\n**20日までは「防御」こそが最大の攻撃**\n直道さんとのMTG（20日）、確定申告、そして住宅ローンへの不安。今週は「やらなければならないこと（Have to）」の圧力がピークです。\nその中で体重が80.5kgで停滞していることに焦りを感じるかもしれませんが、今は**「攻め」の時ではありません。** ストレス下では体は防衛本能で痩せにくくなります。この状況で暴食に走らず、現状をキープできているだけで十分な成果です。\n今の唯一の脆弱性は、15日にも顔を出した「逃避行動としての夜更かしYouTube」です。これが睡眠を削り、翌日の判断力（＝事故防止やタスク処理能力）を鈍らせるバグの温床です。20日までは**「とにかく早く寝て、現状維持」**を戦略目標に据えましょう。\n\n**「心の聖域」としてのPomera開発**\n重圧がかかる中での「Pomera×AIワークフロー」の構築は、決して無駄な寄り道ではありません。\nそれは、コントロールできない外部要因（仕事や育児のハプニング）が多い日常の中で、あなたが**「自分にはコントロールできる世界がある」という感覚（自己効力感）を取り戻すための重要な儀式**です。この時間は「心のメンテナンス枠」として確保し続けてOKです。それが結果的に、本業や育児に向き合う余裕を生み出します。",
       "tags": [
@@ -484,10 +486,10 @@
       "id": "person:self",
       "label": "自分",
       "type": "self",
-      "detail": "日記の作成者",
+      "detail": "日記の筆者",
       "first_seen": "2026-02-16T16:29:58.913269",
-      "last_seen": "2026-02-16T12:21:24.037972",
-      "weight": 88,
+      "last_seen": "2026-02-16T12:52:13.906785",
+      "weight": 89,
       "tags": [
         "Father",
         "Frontend Lead",
@@ -864,13 +866,13 @@
       "id": "task:limit_youtube",
       "label": "寝る前のYoutube制限",
       "type": "task",
-      "detail": "ポメラ関連動画を見すぎて夜更かししているため制限が必要。",
+      "detail": "ポメラ関連動画を見すぎて夜更かししているため、制限が必要。",
       "sentiment": -0.3,
       "status": "Active",
       "community": 4,
       "first_seen": "2026-02-16T08:39:21.648258",
-      "last_seen": "2026-02-16T12:21:24.037795",
-      "weight": 39,
+      "last_seen": "2026-02-16T12:52:13.906931",
+      "weight": 40,
       "tags": [
         "Habit",
         "Health",
@@ -951,14 +953,16 @@
     },
     {
       "id": "insight:体重停滞期",
-      "label": "減量停滞期",
+      "label": "体重の停滞",
       "type": "insight",
-      "detail": "ここ2週間ほど体重が横ばい。80-90kgが過去8年間の基準値となっている。",
+      "detail": "現在80.5kg前後。12kg減量したが直近2週間は停滞気味。",
       "community": 2,
       "first_seen": "2026-02-16T08:43:07.029314",
-      "last_seen": "2026-02-16T11:31:14.466908",
-      "weight": 14,
-      "tags": [],
+      "last_seen": "2026-02-16T12:52:13.906871",
+      "weight": 15,
+      "tags": [
+        "Health"
+      ],
       "sentiment": -0.2
     },
     {
@@ -1170,14 +1174,14 @@
       "id": "event:散歩_むぎ",
       "label": "むぎとの散歩",
       "type": "event",
-      "detail": "久しぶりに昼間に愛犬と散歩。疲れていたが楽しめた様子。",
+      "detail": "久しぶりの昼間の散歩。むぎは疲れたが楽しそうだった。",
       "status": "Completed",
       "date": "2026-02-15",
       "sentiment": 0.6,
       "community": 1,
       "first_seen": "2026-02-16T09:03:09.535143",
-      "last_seen": "2026-02-16T12:21:24.037839",
-      "weight": 5,
+      "last_seen": "2026-02-16T12:52:13.906978",
+      "weight": 6,
       "tags": []
     },
     {
@@ -1336,7 +1340,7 @@
       "id": "goal:リアリティを感じるモンスターデザイン",
       "label": "リアリティのあるモンスター描画",
       "type": "goal",
-      "detail": "Draw Sessionsのような実在感を目指す。現状はリアリティに欠け納得がいっていない。",
+      "detail": "Draw Sessionsのような実在感のあるデザインを目指す。",
       "status": "Active",
       "tags": [
         "Art",
@@ -1348,8 +1352,8 @@
       ],
       "community": 4,
       "first_seen": "2026-02-16T09:25:18.041574",
-      "last_seen": "2026-02-16T12:21:24.037825",
-      "weight": 19,
+      "last_seen": "2026-02-16T12:52:13.906963",
+      "weight": 20,
       "sentiment": -0.2
     },
     {
@@ -1498,18 +1502,19 @@
       "id": "task:モンスターの絵を描く",
       "label": "モンスターの絵を描く",
       "type": "task",
-      "detail": "ほぼ毎日継続中。陰の付け方は理解しつつあるが、まだ納得がいかない。",
+      "detail": "ほぼ毎日継続中。陰の付け方は理解したが、リアリティ不足で納得がいっていない。",
       "status": "Active",
       "community": 4,
       "first_seen": "2026-02-16T09:59:02.660359",
-      "last_seen": "2026-02-16T12:21:24.037810",
-      "weight": 20,
-      "sentiment": 0.1,
+      "last_seen": "2026-02-16T12:52:13.906947",
+      "weight": 21,
+      "sentiment": -0.2,
       "tags": [
         "Art",
         "Cognitive Distortion: Disqualifying the Positive",
         "Growth",
         "Hobby",
+        "Skill",
         "イラスト",
         "継続中",
         "趣味"
@@ -1911,31 +1916,34 @@
       "id": "project:ポメラ自己分析ワークフロー",
       "label": "ポメラ自己分析ワークフロー",
       "type": "project",
-      "detail": "ポメラ→Gmail→Github Actions→Gemini→KG反映の自動化フロー構想。",
+      "detail": "ポメラ→Gmail→Github Actions→Gemini 3.0 Flash→ナレッジグラフの自動連携フロー構築。",
       "sentiment": 0.8,
       "status": "Active",
       "tags": [
-        "達成::ワークフローのゴール定義",
-        "感情::楽しい"
+        "Achievement",
+        "Automation",
+        "Tech",
+        "感情::楽しい",
+        "達成::ワークフローのゴール定義"
       ],
       "community": 2,
       "first_seen": "2026-02-16T12:21:24.037748",
-      "last_seen": "2026-02-16T12:21:24.037748",
-      "weight": 1
+      "last_seen": "2026-02-16T12:52:13.906916",
+      "weight": 2
     },
     {
       "id": "event:城山公園への家族散歩",
       "label": "城山公園への家族散歩",
       "type": "event",
-      "detail": "家族3人で訪問。蒼馬とシーソーをした。",
-      "sentiment": 0.8,
+      "detail": "家族3人で訪問。蒼馬と初めてのシーソー。",
+      "sentiment": 0.9,
       "status": "Completed",
       "date": "2026-02-15",
       "tags": [],
       "community": 3,
       "first_seen": "2026-02-16T12:21:24.037853",
-      "last_seen": "2026-02-16T12:21:24.037853",
-      "weight": 1
+      "last_seen": "2026-02-16T12:52:13.906993",
+      "weight": 2
     },
     {
       "id": "event:蒼馬の誤嚥事故",
@@ -1975,10 +1983,10 @@
       "source": "person:self",
       "target": "task:pet_room_cleaning",
       "type": "PLANS",
-      "label": "今日のタスク",
+      "label": "実施予定",
       "first_seen": "2026-02-16T16:29:58.913278",
-      "last_seen": "2026-02-16T12:21:24.038291",
-      "weight": 8
+      "last_seen": "2026-02-16T12:52:13.907460",
+      "weight": 9
     },
     {
       "source": "barrier:adhesive_issue",
@@ -1993,10 +2001,10 @@
       "source": "task:pet_room_cleaning",
       "target": "goal:clean_habit",
       "type": "TARGETS",
-      "label": "習慣化を目指す",
+      "label": "目標",
       "first_seen": "2026-02-16T16:29:58.913284",
-      "last_seen": "2026-02-16T12:21:24.038297",
-      "weight": 21
+      "last_seen": "2026-02-16T12:52:13.907466",
+      "weight": 22
     },
     {
       "source": "insight:weight_progress",
@@ -2137,9 +2145,9 @@
       "source": "person:self",
       "target": "diary:2026-02-15",
       "relationship": "WROTE",
-      "weight": 38,
+      "weight": 39,
       "first_seen": "2026-02-16T16:29:58.913376",
-      "last_seen": "2026-02-16T12:21:24.038346",
+      "last_seen": "2026-02-16T12:52:13.907510",
       "label": null
     },
     {
@@ -2155,27 +2163,27 @@
       "source": "diary:2026-02-15",
       "target": "task:pet_room_cleaning",
       "relationship": "MENTIONS",
-      "weight": 27,
+      "weight": 28,
       "first_seen": "2026-02-16T16:29:58.913380",
-      "last_seen": "2026-02-16T12:21:24.038350",
+      "last_seen": "2026-02-16T12:52:13.907512",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "barrier:adhesive_issue",
       "relationship": "MENTIONS",
-      "weight": 9,
+      "weight": 10,
       "first_seen": "2026-02-16T16:29:58.913382",
-      "last_seen": "2026-02-16T11:21:59.087710",
+      "last_seen": "2026-02-16T12:52:13.907514",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "goal:clean_habit",
       "relationship": "MENTIONS",
-      "weight": 40,
+      "weight": 41,
       "first_seen": "2026-02-16T16:29:58.913384",
-      "last_seen": "2026-02-16T12:21:24.038352",
+      "last_seen": "2026-02-16T12:52:13.907516",
       "label": null
     },
     {
@@ -2191,18 +2199,18 @@
       "source": "diary:2026-02-15",
       "target": "goal:weight_loss_75kg",
       "relationship": "MENTIONS",
-      "weight": 31,
+      "weight": 32,
       "first_seen": "2026-02-16T16:29:58.913388",
-      "last_seen": "2026-02-16T12:21:24.038354",
+      "last_seen": "2026-02-16T12:52:13.907521",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "task:diet_regimen",
       "relationship": "MENTIONS",
-      "weight": 33,
+      "weight": 34,
       "first_seen": "2026-02-16T16:29:58.913389",
-      "last_seen": "2026-02-16T12:21:24.038355",
+      "last_seen": "2026-02-16T12:52:13.907519",
       "label": null
     },
     {
@@ -2227,18 +2235,18 @@
       "source": "diary:2026-02-15",
       "target": "barrier:github_scheduling",
       "relationship": "MENTIONS",
-      "weight": 41,
+      "weight": 42,
       "first_seen": "2026-02-16T16:29:58.913395",
-      "last_seen": "2026-02-16T12:21:24.038359",
+      "last_seen": "2026-02-16T12:52:13.907546",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "goal:publish_book",
       "relationship": "MENTIONS",
-      "weight": 41,
+      "weight": 42,
       "first_seen": "2026-02-16T16:29:58.913396",
-      "last_seen": "2026-02-16T12:21:24.038361",
+      "last_seen": "2026-02-16T12:52:13.907548",
       "label": null
     },
     {
@@ -2271,54 +2279,54 @@
       "source": "diary:2026-02-15",
       "target": "goal:picnic",
       "relationship": "MENTIONS",
-      "weight": 39,
+      "weight": 40,
       "first_seen": "2026-02-16T16:29:58.913404",
-      "last_seen": "2026-02-16T12:21:24.038373",
+      "last_seen": "2026-02-16T12:52:13.907535",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:mugi",
       "relationship": "MENTIONS",
-      "weight": 40,
+      "weight": 41,
       "first_seen": "2026-02-16T16:29:58.913409",
-      "last_seen": "2026-02-16T12:21:24.038375",
+      "last_seen": "2026-02-16T12:52:13.907537",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:soma",
       "relationship": "MENTIONS",
-      "weight": 40,
+      "weight": 41,
       "first_seen": "2026-02-16T16:29:58.913411",
-      "last_seen": "2026-02-16T12:21:24.038377",
+      "last_seen": "2026-02-16T12:52:13.907539",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:sayaka",
       "relationship": "MENTIONS",
-      "weight": 41,
+      "weight": 42,
       "first_seen": "2026-02-16T16:29:58.913412",
-      "last_seen": "2026-02-16T12:21:24.038379",
+      "last_seen": "2026-02-16T12:52:13.907540",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "event:choking_incident",
       "relationship": "MENTIONS",
-      "weight": 28,
+      "weight": 29,
       "first_seen": "2026-02-16T16:29:58.913414",
-      "last_seen": "2026-02-16T12:20:17.484206",
+      "last_seen": "2026-02-16T12:52:13.907542",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "insight:parenting_regret",
       "relationship": "MENTIONS",
-      "weight": 17,
+      "weight": 18,
       "first_seen": "2026-02-16T16:29:58.913416",
-      "last_seen": "2026-02-16T11:50:37.031861",
+      "last_seen": "2026-02-16T12:52:13.907544",
       "label": null
     },
     {
@@ -2916,9 +2924,9 @@
       "source": "diary:2026-02-15",
       "target": "task:limit_youtube",
       "relationship": "MENTIONS",
-      "weight": 32,
+      "weight": 33,
       "first_seen": "2026-02-16T08:39:21.648492",
-      "last_seen": "2026-02-16T12:21:24.038363",
+      "last_seen": "2026-02-16T12:52:13.907525",
       "label": null
     },
     {
@@ -3078,10 +3086,10 @@
       "source": "task:pet_room_cleaning",
       "target": "barrier:adhesive_issue",
       "type": "BARRIER",
-      "label": "剥離困難",
+      "label": "障害要因",
       "first_seen": "2026-02-16T08:43:07.029549",
-      "last_seen": "2026-02-16T11:21:59.087654",
-      "weight": 8
+      "last_seen": "2026-02-16T12:52:13.907464",
+      "weight": 9
     },
     {
       "source": "goal:clean_habit",
@@ -3213,9 +3221,9 @@
       "source": "diary:2026-02-15",
       "target": "insight:体重停滞期",
       "relationship": "MENTIONS",
-      "weight": 14,
+      "weight": 15,
       "first_seen": "2026-02-16T08:43:07.029602",
-      "last_seen": "2026-02-16T11:31:14.467841",
+      "last_seen": "2026-02-16T12:52:13.907518",
       "label": null
     },
     {
@@ -3267,10 +3275,10 @@
       "source": "insight:体重停滞期",
       "target": "task:diet_regimen",
       "type": "TRIGGERED_BY",
-      "label": "チートデイの動機",
+      "label": "対策として継続",
       "first_seen": "2026-02-16T08:45:02.396644",
-      "last_seen": "2026-02-16T11:21:59.087664",
-      "weight": 8
+      "last_seen": "2026-02-16T12:52:13.907471",
+      "weight": 9
     },
     {
       "source": "task:implement_workflow",
@@ -3779,10 +3787,10 @@
       "source": "task:diet_regimen",
       "target": "goal:weight_loss_75kg",
       "type": "TARGETS",
-      "label": "減量手段",
+      "label": "達成手段",
       "first_seen": "2026-02-16T09:03:09.535350",
-      "last_seen": "2026-02-16T11:21:59.087662",
-      "weight": 16
+      "last_seen": "2026-02-16T12:52:13.907473",
+      "weight": 17
     },
     {
       "source": "diary:2026-02-15",
@@ -3914,10 +3922,10 @@
       "source": "person:self",
       "target": "event:散歩_むぎ",
       "type": "PARTICIPATES",
-      "label": "散歩した",
+      "label": "散歩",
       "first_seen": "2026-02-16T09:04:48.398708",
-      "last_seen": "2026-02-16T12:21:24.038318",
-      "weight": 2
+      "last_seen": "2026-02-16T12:52:13.907485",
+      "weight": 3
     },
     {
       "source": "person:mugi",
@@ -3976,9 +3984,9 @@
       "source": "diary:2026-02-15",
       "target": "event:散歩_むぎ",
       "relationship": "MENTIONS",
-      "weight": 4,
+      "weight": 5,
       "first_seen": "2026-02-16T09:04:48.398763",
-      "last_seen": "2026-02-16T12:21:24.038370",
+      "last_seen": "2026-02-16T12:52:13.907531",
       "label": null
     },
     {
@@ -4586,9 +4594,9 @@
       "source": "diary:2026-02-15",
       "target": "goal:リアリティを感じるモンスターデザイン",
       "relationship": "MENTIONS",
-      "weight": 18,
+      "weight": 19,
       "first_seen": "2026-02-16T09:25:18.041869",
-      "last_seen": "2026-02-16T12:21:24.038367",
+      "last_seen": "2026-02-16T12:52:13.907529",
       "label": null
     },
     {
@@ -4660,8 +4668,8 @@
       "type": "PARTICIPATES",
       "label": "当事者",
       "first_seen": "2026-02-16T09:27:14.386955",
-      "last_seen": "2026-02-16T11:48:52.383279",
-      "weight": 3
+      "last_seen": "2026-02-16T12:52:13.907498",
+      "weight": 4
     },
     {
       "source": "person:soma",
@@ -5428,9 +5436,9 @@
       "source": "diary:2026-02-15",
       "target": "task:モンスターの絵を描く",
       "relationship": "MENTIONS",
-      "weight": 16,
+      "weight": 17,
       "first_seen": "2026-02-16T09:59:02.660825",
-      "last_seen": "2026-02-16T12:21:24.038365",
+      "last_seen": "2026-02-16T12:52:13.907527",
       "label": null
     },
     {
@@ -5732,10 +5740,10 @@
       "source": "task:モンスターの絵を描く",
       "target": "goal:リアリティを感じるモンスターデザイン",
       "type": "TARGETS",
-      "label": "上達を目指す",
+      "label": "理想像",
       "first_seen": "2026-02-16T10:25:01.057523",
-      "last_seen": "2026-02-16T12:21:24.038316",
-      "weight": 13
+      "last_seen": "2026-02-16T12:52:13.907483",
+      "weight": 14
     },
     {
       "source": "insight:粘着剥がし困難",
@@ -6747,10 +6755,10 @@
       "source": "person:self",
       "target": "task:モンスターの絵を描く",
       "type": "PARTICIPATES",
-      "label": "趣味",
+      "label": "毎日実施",
       "first_seen": "2026-02-16T11:24:18.546685",
-      "last_seen": "2026-02-16T11:48:52.383267",
-      "weight": 2
+      "last_seen": "2026-02-16T12:52:13.907480",
+      "weight": 3
     },
     {
       "source": "person:self",
@@ -7689,19 +7697,19 @@
       "source": "person:self",
       "target": "event:城山公園への家族散歩",
       "type": "PARTICIPATES",
-      "label": "家族で外出",
+      "label": "訪問",
       "first_seen": "2026-02-16T12:21:24.038323",
-      "last_seen": "2026-02-16T12:21:24.038323",
-      "weight": 1
+      "last_seen": "2026-02-16T12:52:13.907489",
+      "weight": 2
     },
     {
       "source": "event:城山公園への家族散歩",
       "target": "goal:picnic",
       "type": "TRIGGERED_BY",
-      "label": "意欲向上",
+      "label": "意欲再燃",
       "first_seen": "2026-02-16T12:21:24.038325",
-      "last_seen": "2026-02-16T12:21:24.038325",
-      "weight": 1
+      "last_seen": "2026-02-16T12:52:13.907496",
+      "weight": 2
     },
     {
       "source": "person:soma",
@@ -7743,17 +7751,19 @@
       "source": "diary:2026-02-15",
       "target": "project:ポメラ自己分析ワークフロー",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T12:21:24.038357",
-      "last_seen": "2026-02-16T12:21:24.038357"
+      "last_seen": "2026-02-16T12:52:13.907523",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "event:城山公園への家族散歩",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T12:21:24.038372",
-      "last_seen": "2026-02-16T12:21:24.038372"
+      "last_seen": "2026-02-16T12:52:13.907533",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
@@ -7770,11 +7780,101 @@
       "weight": 1,
       "first_seen": "2026-02-16T12:21:24.038382",
       "last_seen": "2026-02-16T12:21:24.038382"
+    },
+    {
+      "source": "person:self",
+      "target": "insight:体重停滞期",
+      "type": "FEELING",
+      "label": "停滞を認識",
+      "first_seen": "2026-02-16T12:52:13.907468",
+      "last_seen": "2026-02-16T12:52:13.907468",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "project:ポメラ自己分析ワークフロー",
+      "type": "DISCOVERS",
+      "label": "仕組みを考案",
+      "first_seen": "2026-02-16T12:52:13.907476",
+      "last_seen": "2026-02-16T12:52:13.907476",
+      "weight": 1
+    },
+    {
+      "source": "task:limit_youtube",
+      "target": "project:ポメラ自己分析ワークフロー",
+      "type": "TRIGGERED_BY",
+      "label": "関連動画の視聴過多",
+      "first_seen": "2026-02-16T12:52:13.907478",
+      "last_seen": "2026-02-16T12:52:13.907478",
+      "weight": 1
+    },
+    {
+      "source": "event:散歩_むぎ",
+      "target": "person:mugi",
+      "type": "WITH",
+      "label": "同行",
+      "first_seen": "2026-02-16T12:52:13.907487",
+      "last_seen": "2026-02-16T12:52:13.907487",
+      "weight": 1
+    },
+    {
+      "source": "event:城山公園への家族散歩",
+      "target": "person:sayaka",
+      "type": "WITH",
+      "label": "同行",
+      "first_seen": "2026-02-16T12:52:13.907492",
+      "last_seen": "2026-02-16T12:52:13.907492",
+      "weight": 1
+    },
+    {
+      "source": "event:城山公園への家族散歩",
+      "target": "person:soma",
+      "type": "WITH",
+      "label": "同行",
+      "first_seen": "2026-02-16T12:52:13.907494",
+      "last_seen": "2026-02-16T12:52:13.907494",
+      "weight": 1
+    },
+    {
+      "source": "event:choking_incident",
+      "target": "person:soma",
+      "type": "HAPPENED_TO",
+      "label": "被害",
+      "first_seen": "2026-02-16T12:52:13.907500",
+      "last_seen": "2026-02-16T12:52:13.907500",
+      "weight": 1
+    },
+    {
+      "source": "event:choking_incident",
+      "target": "insight:parenting_regret",
+      "type": "TRIGGERED_BY",
+      "label": "原因",
+      "first_seen": "2026-02-16T12:52:13.907502",
+      "last_seen": "2026-02-16T12:52:13.907502",
+      "weight": 1
+    },
+    {
+      "source": "project:ポメラ自己分析ワークフロー",
+      "target": "barrier:github_scheduling",
+      "type": "CONFLICTS_WITH",
+      "label": "技術的懸念",
+      "first_seen": "2026-02-16T12:52:13.907506",
+      "last_seen": "2026-02-16T12:52:13.907506",
+      "weight": 1
+    },
+    {
+      "source": "project:ポメラ自己分析ワークフロー",
+      "target": "goal:publish_book",
+      "type": "SOLVES",
+      "label": "ネタになる",
+      "first_seen": "2026-02-16T12:52:13.907508",
+      "last_seen": "2026-02-16T12:52:13.907508",
+      "weight": 1
     }
   ],
   "metadata": {
-    "last_updated": "2026-02-16T12:21:24.038390",
+    "last_updated": "2026-02-16T12:52:13.907555",
     "node_count": 121,
-    "edge_count": 649
+    "edge_count": 659
   }
 }
