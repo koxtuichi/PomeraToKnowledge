@@ -4,51 +4,57 @@
       "id": "task:pet_room_cleaning",
       "label": "ペット部屋の掃除",
       "type": "task",
-      "detail": "粘着跡の除去に難航中。きれいな状態を保ちたいが、ダブルワークと育児で毎日の掃除が困難。",
+      "detail": "フローリングの粘着跡除去に難航中。剥がそうとしたら粘着部分が残ってしまった。",
       "sentiment": -0.3,
       "status": "Active",
       "tags": [
+        "Barrier: Adhesive",
+        "Cleaning",
         "Cognitive Distortion: Should Statements",
         "Housework",
+        "Problem",
         "Struggle",
         "家事",
         "掃除",
+        "清掃",
         "苦戦",
         "課題"
       ],
       "community": 1,
       "first_seen": "2026-02-16T16:29:58.913184",
-      "last_seen": "2026-02-16T08:45:02.396337",
-      "weight": 6
+      "last_seen": "2026-02-16T09:11:35.562180",
+      "weight": 11
     },
     {
       "id": "barrier:adhesive_issue",
-      "label": "粘着跡の除去困難",
-      "type": "insight",
-      "detail": "フローリングに貼った爪とぎカバーの粘着部分が剥がれない問題。",
-      "sentiment": -0.5,
+      "label": "粘着カバーの跡残り",
+      "type": "concept",
+      "detail": "剥がそうとして逆に粘着部分が残ってしまった問題",
+      "sentiment": -0.4,
       "community": 1,
       "first_seen": "2026-02-16T16:29:58.913191",
-      "last_seen": "2026-02-16T08:45:02.396350",
-      "weight": 3,
+      "last_seen": "2026-02-16T09:07:22.342943",
+      "weight": 5,
       "tags": []
     },
     {
       "id": "goal:clean_habit",
       "label": "掃除の習慣化",
       "type": "goal",
-      "detail": "毎日掃除することが理想だが、時間的制約が障壁となっている。",
+      "detail": "毎日掃除をしたいが、仕事の掛け持ちと育児で時間が確保できず苦戦。",
       "status": "Active",
       "tags": [
+        "Barrier: Time Management",
+        "Habit",
         "Habit Formation",
         "習慣",
         "課題"
       ],
       "community": 1,
       "first_seen": "2026-02-16T16:29:58.913194",
-      "last_seen": "2026-02-16T08:45:02.396375",
-      "weight": 6,
-      "sentiment": -0.3
+      "last_seen": "2026-02-16T09:11:35.562205",
+      "weight": 10,
+      "sentiment": -0.2
     },
     {
       "id": "insight:weight_progress",
@@ -69,34 +75,36 @@
       "id": "goal:weight_loss_75kg",
       "label": "年内75kg切り",
       "type": "goal",
-      "detail": "現在80.5kg前後。停滞期打破のためチートデイを導入。",
+      "detail": "現在80.5kg。目標達成のため1日1食や1200kcal制限を意識。",
       "status": "Active",
       "tags": [
         "Diet",
+        "Health",
         "健康",
         "減量"
       ],
       "community": 2,
       "first_seen": "2026-02-16T16:29:58.913226",
-      "last_seen": "2026-02-16T08:45:02.396385",
-      "weight": 6,
-      "sentiment": -0.2
+      "last_seen": "2026-02-16T09:11:35.562224",
+      "weight": 11,
+      "sentiment": 0.5
     },
     {
       "id": "task:diet_regimen",
       "label": "食事制限とチートデイ",
       "type": "task",
-      "detail": "週1回のチートデイを実施し、平時は1日1-2食1200kcalに抑える。",
+      "detail": "停滞打破のため週1回のチートデイを導入。飢餓状態回避が目的。",
       "status": "Active",
       "date": "2026-02-15",
       "community": 2,
       "first_seen": "2026-02-16T16:29:58.913229",
-      "last_seen": "2026-02-16T08:45:02.396395",
-      "weight": 6,
-      "sentiment": 0.0,
+      "last_seen": "2026-02-16T09:11:35.562243",
+      "weight": 11,
+      "sentiment": 0.2,
       "tags": [
         "Diet",
         "Health",
+        "Strategy",
         "健康",
         "習慣"
       ]
@@ -121,17 +129,20 @@
       "id": "task:implement_workflow",
       "label": "ワークフロー実装",
       "type": "task",
-      "detail": "ポメラからナレッジグラフへのゴール定義完了。物理接続不要の自動化フローが確立。",
+      "detail": "Github ActionsとGemini 3.0 Flashを用いた自動取得・分析の実装目処が立った。",
       "status": "Active",
       "community": 3,
       "first_seen": "2026-02-16T16:29:58.913234",
-      "last_seen": "2026-02-16T08:45:02.396417",
-      "weight": 6,
-      "sentiment": 0.8,
+      "last_seen": "2026-02-16T09:11:35.562266",
+      "weight": 11,
+      "sentiment": 0.9,
       "tags": [
         "AI",
+        "Achievement",
         "Automation",
         "Dev",
+        "Development",
+        "Tech",
         "技術",
         "自動化",
         "進捗あり",
@@ -143,16 +154,20 @@
       "id": "barrier:github_scheduling",
       "label": "Github Actionsのスケジュール課題",
       "type": "task",
-      "detail": "定期実行の時間指定が難しい点が懸念。",
+      "detail": "定期実行の時間指定が難しい点が懸念として残る。",
       "status": "Active",
       "community": 3,
       "first_seen": "2026-02-16T16:29:58.913237",
-      "last_seen": "2026-02-16T08:45:02.396436",
-      "weight": 6,
-      "sentiment": -0.3,
+      "last_seen": "2026-02-16T09:11:35.562399",
+      "weight": 11,
+      "sentiment": -0.1,
       "tags": [
+        "Barrier",
         "Dev",
         "Issue",
+        "Tech",
+        "Tech Barrier",
+        "Tech Issue",
         "懸念",
         "技術"
       ]
@@ -161,14 +176,16 @@
       "id": "goal:publish_book",
       "label": "ポメラ活用本の執筆",
       "type": "goal",
-      "detail": "ワークフローの確立に伴い、この活用案を本にしたいという希望。",
+      "detail": "確立しつつあるこのワークフローを本にまとめたい。",
       "status": "Active",
       "sentiment": 0.6,
       "community": 3,
       "first_seen": "2026-02-16T16:29:58.913239",
-      "last_seen": "2026-02-16T08:45:02.396445",
-      "weight": 6,
+      "last_seen": "2026-02-16T09:11:35.562410",
+      "weight": 11,
       "tags": [
+        "Ambition",
+        "Writing",
         "アウトプット",
         "夢"
       ]
@@ -192,34 +209,37 @@
       "id": "goal:monster_art",
       "label": "モンスターデザインの上達",
       "type": "goal",
-      "detail": "Draw Sessionsのようなリアリティを目指す。陰影の理解は進んだがまだ納得がいかない。",
-      "sentiment": -0.2,
+      "detail": "Draw Sessionsのような絵を目指すが、リアリティ不足で納得がいかない。",
+      "sentiment": -0.4,
       "status": "Active",
       "tags": [
+        "Art",
         "Cognitive Distortion: All-or-Nothing",
         "Cognitive Distortion: Perfectionism",
         "Hobby",
+        "Self-Critique",
+        "Skill",
         "スキルアップ",
         "不満",
         "趣味"
       ],
       "community": 4,
       "first_seen": "2026-02-16T16:29:58.913244",
-      "last_seen": "2026-02-16T08:45:02.396462",
-      "weight": 6
+      "last_seen": "2026-02-16T09:11:35.562297",
+      "weight": 11
     },
     {
       "id": "event:family_walk_park",
-      "label": "家族散歩",
+      "label": "家族で城山公園散歩",
       "type": "event",
-      "detail": "ペットのむぎ、その後家族3人で城山公園へ。",
-      "sentiment": 0.7,
+      "detail": "むぎとの散歩、その後家族3人で城山公園へ。シーソーをした。",
+      "sentiment": 0.8,
       "status": "Completed",
       "date": "2026-02-15",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913247",
-      "last_seen": "2026-02-16T08:45:02.396482",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:11:35.562343",
+      "weight": 9,
       "tags": [
         "リフレッシュ",
         "家族"
@@ -229,14 +249,16 @@
       "id": "goal:picnic",
       "label": "城山公園でピクニック",
       "type": "goal",
-      "detail": "家族でピクニックに行きたいという願望。",
+      "detail": "今回の散歩を経て、次はピクニックをしたいと強く思った。",
       "status": "Active",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913249",
-      "last_seen": "2026-02-16T08:45:02.396499",
-      "weight": 6,
+      "last_seen": "2026-02-16T09:11:35.562362",
+      "weight": 11,
       "sentiment": 0.7,
       "tags": [
+        "Family",
+        "Leisure",
         "レジャー",
         "家族"
       ]
@@ -245,12 +267,14 @@
       "id": "person:mugi",
       "label": "むぎ",
       "type": "person",
-      "detail": "ボストンテリア。一昨年の10月から飼育。",
+      "detail": "ペットのボストンテリア。一昨年10月から飼育。",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913252",
-      "last_seen": "2026-02-16T08:45:02.396508",
-      "weight": 6,
+      "last_seen": "2026-02-16T09:11:35.562316",
+      "weight": 11,
       "tags": [
+        "Family",
+        "Pet",
         "ペット",
         "家族"
       ]
@@ -259,12 +283,14 @@
       "id": "person:soma",
       "label": "蒼馬",
       "type": "person",
-      "detail": "息子（9ヶ月）。離乳食（5倍がゆ）を開始。",
+      "detail": "息子(9ヶ月)。5倍がゆを食べている。朝は活発。",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913255",
-      "last_seen": "2026-02-16T08:51:32.621272",
-      "weight": 11,
+      "last_seen": "2026-02-16T09:18:43.306515",
+      "weight": 20,
       "tags": [
+        "Child",
+        "Family",
         "子供",
         "家族"
       ]
@@ -273,12 +299,14 @@
       "id": "person:sayaka",
       "label": "さやか",
       "type": "person",
-      "detail": "妻。家事・育児（蒼馬の世話）を担っている。",
+      "detail": "妻・パートナー。蒼馬の世話や家事を一手に引き受けてくれている。",
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913257",
-      "last_seen": "2026-02-16T08:51:32.621264",
-      "weight": 11,
+      "last_seen": "2026-02-16T09:18:43.306504",
+      "weight": 20,
       "tags": [
+        "Family",
+        "Spouse",
         "妻",
         "家族"
       ],
@@ -288,8 +316,8 @@
       "id": "event:choking_incident",
       "label": "蒼馬の誤飲事故",
       "type": "event",
-      "detail": "仕事中にクッキーをあげて喉に詰まらせた事故。背中を叩いて吐き出させた。",
-      "sentiment": -1.0,
+      "detail": "仕事中にクッキーを与えたところ喉に詰まらせた。背中を叩いて吐き出させた。",
+      "sentiment": -0.9,
       "status": "Completed",
       "date": "2026-02-15",
       "tags": [
@@ -305,37 +333,45 @@
       ],
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913260",
-      "last_seen": "2026-02-16T08:45:02.396530",
-      "weight": 6
+      "last_seen": "2026-02-16T09:11:35.562372",
+      "weight": 11
     },
     {
       "id": "insight:parenting_regret",
-      "label": "育児への後悔",
+      "label": "親としての後悔",
       "type": "emotion",
-      "detail": "ながら育児による危機管理不足への強い自責の念。",
+      "detail": "危機管理不足への自責。親として失格だと感じた。",
       "sentiment": -1.0,
       "tags": [
+        "Cognitive Distortion: Catastrophizing",
         "Cognitive Distortion: Labeling",
+        "Cognitive Distortion: Labeling (Disqualified Parent)",
         "Cognitive Distortion: Should Statements",
+        "Guilt",
         "Learning",
         "反省"
       ],
       "community": 5,
       "first_seen": "2026-02-16T16:29:58.913263",
-      "last_seen": "2026-02-16T08:43:07.029439",
-      "weight": 4
+      "last_seen": "2026-02-16T09:07:22.343124",
+      "weight": 6
     },
     {
       "id": "diary:2026-02-15",
-      "label": "日記 2026/02/15",
+      "label": "2026-02-15の日記",
       "type": "diary",
       "date": "2026-02-15",
-      "detail": "ペット部屋の掃除、ダイエットの停滞とチートデイ、ポメラ連携ワークフローの設計、家族との散歩、息子の誤飲事故と反省。",
+      "detail": "今日の日記エントリ",
       "first_seen": "2026-02-16T16:29:58.913266",
-      "last_seen": "2026-02-16T08:45:02.396287",
+      "last_seen": "2026-02-16T09:11:35.562420",
       "weight": 1,
-      "analysis_content": "昨日の「家族の危機（誤飲）」による動揺が冷めやらぬまま、今日は「社会的な責任（仕事・税金）」の波が押し寄せてきましたね。この急激な **「感情の乱高下（Gの変化）」** は、あなたが自覚している以上に精神的なスタミナを削っています。今はYouTubeへの逃避衝動を「意志の弱さ」と責めるのではなく、「脳が休息を求めているサイン」と捉え直しましょう。ここ数日の荒波の中で、それでも「開発」という情熱の火を絶やさず、未来（直道さんとのMTGや執筆）を見据えている姿勢は、本当に粘り強いです。\n\n===DETAILS===\n\n**「不安」と「情熱」のエネルギー変換**\n15日の誤飲事故による「恐怖」と、16日の金銭・業務面での「プレッシャー」。これらが重なり、脳が**「過覚醒（不安）」と「逃避（YouTube）」の間で揺れ動くのは当然の防衛反応**です。\nしかし、あなたには「ポメラ×AIワークフロー構築」という強力な**回復リソース**があります。鈴木さんや開米さんへの連絡、確定申告といった「エネルギーを奪うタスク」をこなすための燃料として、この開発の楽しさを利用しましょう。「嫌なタスクを1つ終えたら、堂々と開発に没頭していい」というルール設定は、20日の直道さんとのMTGに向けた準備を加速させるだけでなく、メンタルヘルスの維持にも直結します。\n\n**停滞期は「守り」のフェーズ**\n体重が80.5kg付近で停滞していることや、掃除の習慣化が難しいこと。これらは現在、あなたの心身が**「非常事態モード（ストレス対抗）」**にあるため、現状維持を優先している結果かもしれません。\n特に誤飲事故の反省から「ながら育児」への警戒心が高まっている今、自分に課すハードルを上げすぎるのは危険です。ダイエットは「1200kcal制限を大枠で守る」程度に留め、**今は数字の結果よりも、生活のリズムを崩さないこと**を最優先の勝利条件としてください。\n\n**「逃避」から「意図的な休息」へ**\n「寝る前のYouTube制限」というタスクが浮上していますが、これは単なる禁止令にするのではなく、**「明日の家族の安全と、自分の開発時間を確保するための儀式」**と定義し直しましょう。無意識にダラダラ見るのではなく、「今日は疲れたから30分だけ見て寝る」と決めて見るならば、それは逃避ではなく立派なリセット時間になります。",
+      "analysis_content": "昨日の「息子の誤飲事故」による強烈な自己嫌悪から、今日の「お金と確定申告」という現実的な重圧へ。このハードな波状攻撃の中で、あなたが選んだのは「ふさぎ込むこと」ではなく、「5倍がゆを丁寧に作る」「書斎へ移動する」という**具体的なアクションによる反撃**でしたね。不安を頭の中で回し続けるのではなく、手を動かし、環境を物理的に変えることでメンタルを立て直すその姿勢。まさに**エンジニアらしい「人生のデバッグ（修正）能力」**の高さを見せつけられましたよ。\n\n===DETAILS===\n\n**「罪悪感」を「システム」でアップデートする**\n15日の誤飲事故で痛感した「ながら育児」のリスクと後悔。これに対して、あなたは翌16日に精神論ではなく、**「書斎への移動（環境による集中確保）」**という物理的な解決策を実装しました。\nこれは単に仕事効率のためだけでなく、「子供と向き合う時間」と「仕事の時間」を空間ごと切り分けることで、**15日の事故という「バグ」をシステムレベルで解消しようとする動き**です。この切り替えこそが、直近の課題である「掃除の習慣化」や「Youtubeダラダラ視聴」を防ぐ鍵にもなります。\n\n**「聖域」が精神的防波堤になる**\n現在、確定申告や資金繰り、鈴木さん・開米さんとの調整といった「重たい現実（Have to）」がのしかかっています。その中で、「ポメラ×AIワークフロー」の開発は、単なるタスク以上の**「心の聖域（Want to）」**として機能しています。\n20日の直道さんとのMTGに向けてプレッシャーもあるかと思いますが、この「聖域」での時間は、あなたの自尊心を保つためのエネルギー源です。忙しくても、ここだけは「自分を取り戻す時間」として死守しましょう。\n\n**非常時の減量戦略**\n体重が80.5kgで停滞していますが、ここ数日の「命の危機（息子の事故）」と「生活の危機（お金）」というダブルパンチのストレス下で、暴食に逃げずに踏みとどまっていること自体が素晴らしい成果です。\n今は無理に75kg切りを焦るよりも、**「このストレス下で現状維持できれば勝利」**と定義を書き換えてください。メンタルという土台が安定すれば、数字は必ず後からついてきます。",
       "tags": [
+        "Daily Log",
+        "Diet",
+        "Parenting",
+        "Reflection",
+        "Tech",
         "ダイエット",
         "トラブル",
         "危機管理",
@@ -345,7 +381,7 @@
         "進捗",
         "開発"
       ],
-      "sentiment": 0.1
+      "sentiment": -0.2
     },
     {
       "id": "person:self",
@@ -353,18 +389,18 @@
       "type": "self",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T16:29:58.913269",
-      "last_seen": "2026-02-16T08:51:32.621377",
-      "weight": 14,
+      "last_seen": "2026-02-16T09:18:43.306604",
+      "weight": 23,
       "tags": [],
       "sentiment": 0.1
     },
     {
       "id": "diary:2026-02-16",
-      "label": "日記: 2026/02/16",
+      "label": "2026-02-16の日記",
       "type": "diary",
-      "detail": "副業のタスク整理、妻への感謝と離乳食体験、金銭的な不安、仕事の集中環境、直道とのMTG予定についての記録。",
+      "detail": "今日の日記エントリ",
       "date": "2026-02-16",
-      "sentiment": -0.2,
+      "sentiment": 0.1,
       "tags": [
         "Daily Log",
         "Reflection",
@@ -376,90 +412,99 @@
       ],
       "community": 0,
       "first_seen": "2026-02-16T16:31:34.243701",
-      "last_seen": "2026-02-16T08:51:32.621163",
+      "last_seen": "2026-02-16T09:18:43.306593",
       "weight": 1,
-      "analysis_content": "昨日の「ヒヤリ」とした恐怖を、そのまま引きずらずに「生活の地盤固め」という具体的な行動力に変換できたのが素晴らしいです。後悔で止まるのではなく、仕事のフロー整備や離乳食作りといった**「今、目の前の家族と未来を守るアクション」**を選べていますね。その切り替えの早さが、あなたと家族の安心感を作る一番の武器になっていますよ。\n\n===DETAILS===\n\n**「守り」を固めることで、心の平穏を取り戻すプロセス**に入っています。昨日の出来事（危機）と今日の行動（基盤整備）は、一連の「回復の物語」として繋がっています。\n\n**1. 危機感が「環境構築」へ昇華された**\n昨日の誤飲事故で痛感した「ながら育児」への後悔が、今日は「書斎での集中環境確保」や「副業タスクの整理」といった、**物理的・精神的な「区切り」を作る行動**に直結しています。「YouTubeをただ禁止する」という精神論で終わらせず、仕事は仕事、家族は家族と向き合える**システムを作ろうとしている点**が非常に合理的で、再発防止策として最も効果的です。\n\n**2. 「お金の不安」の正体**\n今日感じた金銭的な不安や確定申告への意識は、単なる悩みというより、昨日の出来事でスイッチが入った**「家族を何があっても守り抜きたい」という防衛本能の表れ**だと捉えられます。5倍がゆを自ら食べてみたエピソードも、昨日見落としてしまったかもしれない「息子の成長」を、五感を使って確かめようとする**愛のあるリカバリー**です。\n\n**3. 次のピークへの助走**\n20日の直道さんとのMTGに向けて、今は「思考のノイズ」を減らす時期です。減量も停滞期ですが、ここでストレス食いに走らず1200kcal制限を維持できているのは、**「自分をコントロールできている」という自信**としてメンタルを支えています。このまま20日までは、新しいクリエイティブ（攻め）よりも、足元のタスク消化（守り）に徹することで、一番クリアな頭でMTGを迎えられるはずです。"
+      "analysis_content": "昨日の「ヒヤリ」とした恐怖体験を、ただのトラウマとして終わらせず、即座に**「生活と仕事の地盤固め」という具体的な行動**へ変換できたのが見事です。後悔で立ち止まるのではなく、自ら離乳食を食べて安全を確かめ、環境整備へと動いたその姿は、まさに**「守護者（プロバイダー）」としての本能**が覚醒した証拠。その**回復力（レジリエンス）の高さ**こそが、今、あなたと家族を支える最強の武器になっていますよ。\n\n===DETAILS===\n\n昨日の「危機（誤飲）」と今日の「整備（仕事・家事）」は、バラバラの出来事ではなく、**一連の「再生の物語」**として深く繋がっています。\n\n**1. 「後悔」を「システム」で解決した**\n15日に感じた「ながら育児」への強烈な後悔が、今日は精神論ではなく「書斎での環境確保」という**物理的な区切り**を作る行動に直結しました。恐怖を感じた翌日に、感情に流されず「仕事は仕事、家族は家族」と向き合えるシステムを構築し始めた点は、非常に合理的で愛情深いリアクションです。\n\n**2. 不安の正体は「防衛本能」**\n今日浮上した「お金の不安」や確定申告への意識は、単なる悩みというより、昨日の出来事でスイッチが入った**「何があってもこの子と家族を守り抜く」という生存戦略**の一部です。自ら5倍がゆを食べて安全を確かめた行動も、昨日見落としてしまったかもしれない息子の感覚を、自分の五感で取り戻そうとする**愛のあるリカバリー**と言えます。\n\n**3. 20日に向けた「思考の断捨離」**\n20日の直道さんとのMTGに向け、今は新しいことを広げるよりも、頭の中のメモリを食っている「未完了タスク（鈴木さんへの連絡など）」を潰すフェーズに入っています。減量も停滞期ですが、このストレス下で暴食に走らず1200kcal制限を守れている事実は、**「自分はコントロールできている」という静かな自信**になり、メンタル安定の錨（いかり）として機能しています。このまま「守り」を固めることで、万全の状態で20日を迎えましょう。"
     },
     {
       "id": "project:saiteki",
-      "label": "株式会社Saiteki (副業)",
+      "label": "副業 (Saiteki)",
       "type": "project",
-      "detail": "AI活用を考える副業。時給3000円。S級AIモデル作成を目指す。",
+      "detail": "株式会社SaitekiでのAI活用業務。時給3000円。やるべきことが溜まっている状態。",
       "status": "Active",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243725",
-      "last_seen": "2026-02-16T08:51:32.621187",
-      "weight": 5,
-      "tags": [],
-      "sentiment": 0.1
+      "last_seen": "2026-02-16T09:18:43.306401",
+      "weight": 9,
+      "tags": [
+        "AI",
+        "Side Job"
+      ],
+      "sentiment": -0.2
     },
     {
       "id": "person:suzuki",
       "label": "鈴木さん",
       "type": "person",
-      "detail": "Saiteki副社長。カスタムチューニング用資料を作成。",
+      "detail": "Saiteki副社長。S級AIモデル作成を目指している。",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243729",
-      "last_seen": "2026-02-16T08:51:32.621201",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306428",
+      "weight": 9,
       "tags": []
     },
     {
       "id": "person:kaimai",
       "label": "開米さん",
       "type": "person",
-      "detail": "Saiteki所属のQAスペシャリスト。AI置き換え作業資料を作成中。",
+      "detail": "Saiteki所属QAスペシャリスト。AI置換作業の資料作成を担当。",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243732",
-      "last_seen": "2026-02-16T08:51:32.621221",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306453",
+      "weight": 9,
       "tags": []
     },
     {
       "id": "task:saiteki_contact_suzuki",
       "label": "鈴木さんへの連絡",
       "type": "task",
-      "detail": "【優先】学習資料受領の連絡。副業開始時の最優先タスク。",
+      "detail": "カスタムチューニング学習資料完成の連絡あり。本業終了後(18時以降)に着手予定。",
       "status": "Active",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243735",
-      "last_seen": "2026-02-16T08:51:32.621210",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306440",
+      "weight": 9,
       "tags": [
         "Communication",
+        "Priority",
         "Priority: High",
-        "Side Job"
+        "Saiteki",
+        "Side Job",
+        "Urgent"
       ],
-      "sentiment": 0.0
+      "sentiment": 0.0,
+      "date": "2026-02-16"
     },
     {
       "id": "task:saiteki_check_kaimai",
       "label": "開米さんの作業状況確認",
       "type": "task",
-      "detail": "AI置き換え作業資料の進捗確認。2月中のゴール達成が懸念点。",
+      "detail": "資料作成の進捗確認。2月中のゴール達成可否を見極める必要がある。",
       "status": "Active",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243738",
-      "last_seen": "2026-02-16T08:51:32.621229",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306462",
+      "weight": 9,
       "tags": [
         "Management",
+        "Saiteki",
         "Side Job"
       ],
-      "sentiment": -0.2
+      "sentiment": -0.1
     },
     {
       "id": "task:saiteki_docs",
       "label": "社員分析利用案の資料化",
       "type": "task",
-      "detail": "考案済みの利用案を資料に落とし込む作業。",
+      "detail": "考案済みの社員分析利用案を資料に落とし込む作業。",
       "status": "Active",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243741",
-      "last_seen": "2026-02-16T08:51:32.621238",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306473",
+      "weight": 9,
       "tags": [
         "Documentation",
+        "Saiteki",
         "Side Job"
       ],
       "sentiment": 0.0
@@ -477,25 +522,26 @@
     {
       "id": "insight:gratitude_sayaka",
       "label": "さやかへの感謝と反省",
-      "type": "emotion",
-      "detail": "離乳食（5倍がゆ）作りの大変さを体験し、普段の感謝不足を痛感。",
-      "sentiment": 0.6,
+      "type": "insight",
+      "detail": "家事育児の大変さを体験し、感謝の言葉が不足していたと反省。",
+      "sentiment": 0.4,
       "tags": [
         "Awareness",
         "Family",
         "Gratitude",
-        "Growth"
+        "Growth",
+        "Relationship"
       ],
       "community": 2,
       "first_seen": "2026-02-16T16:31:34.243757",
-      "last_seen": "2026-02-16T08:49:48.076806",
-      "weight": 4
+      "last_seen": "2026-02-16T09:18:43.306535",
+      "weight": 6
     },
     {
       "id": "emotion:financial_anxiety",
-      "label": "お金の不安",
-      "type": "emotion",
-      "detail": "税金支払いや将来の支出に対する漠然とした不安。",
+      "label": "金銭的不安",
+      "type": "concept",
+      "detail": "税金支払いや将来への不安。毎月10-20万貯金できているが安心できない。",
       "sentiment": -0.6,
       "tags": [
         "Anxiety",
@@ -505,41 +551,46 @@
       ],
       "community": 3,
       "first_seen": "2026-02-16T16:31:34.243760",
-      "last_seen": "2026-02-16T08:51:32.621295",
-      "weight": 5
+      "last_seen": "2026-02-16T09:18:43.306546",
+      "weight": 7
     },
     {
       "id": "task:tax_return",
       "label": "確定申告",
       "type": "task",
-      "detail": "所得税支払いと住宅ローン減税の確認。金額不明による不安あり。",
+      "detail": "所得税支払いへの不安。住宅ローン減税の適用確認が必要。",
       "status": "Active",
       "community": 3,
       "first_seen": "2026-02-16T16:31:34.243763",
-      "last_seen": "2026-02-16T08:51:32.621305",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306555",
+      "weight": 9,
       "tags": [
+        "Anxiety",
+        "Cognitive Distortion: Magnification",
         "Finance",
-        "Legal"
+        "Legal",
+        "Tax"
       ],
-      "sentiment": -0.4
+      "sentiment": -0.5
     },
     {
       "id": "task:main_improvement_flow",
       "label": "改善タスク対応フローの策定",
       "type": "task",
-      "detail": "メンバー中心に対応できるフロー策定。本日(2/16)完了目標。",
+      "detail": "メンバー中心に対応できるフローを考える。本日(2/16)完了目標。",
       "status": "Active",
       "date": "2026-02-16",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243766",
-      "last_seen": "2026-02-16T08:51:32.621255",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306493",
+      "weight": 9,
       "tags": [
+        "Leadership",
         "Main Job",
+        "MainJob",
         "Process Improvement"
       ],
-      "sentiment": 0.2
+      "sentiment": 0.1
     },
     {
       "id": "place:study_room",
@@ -548,8 +599,8 @@
       "detail": "自宅2階。仕事に集中するために籠もる場所。",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243770",
-      "last_seen": "2026-02-16T08:51:32.621329",
-      "weight": 4,
+      "last_seen": "2026-02-16T09:18:43.306566",
+      "weight": 8,
       "tags": []
     },
     {
@@ -559,21 +610,21 @@
       "detail": "Saiteki社長。同い年の友人。",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243773",
-      "last_seen": "2026-02-16T08:51:32.621368",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306585",
+      "weight": 8,
       "tags": []
     },
     {
       "id": "event:mtg_naomichi",
       "label": "直道とのMTG",
       "type": "event",
-      "detail": "Saitekiに関する打ち合わせ。友人でもある社長と。",
+      "detail": "Saiteki社長との打ち合わせ。友人関係でもある。",
       "status": "Scheduled",
       "date": "2026-02-20",
       "community": 1,
       "first_seen": "2026-02-16T16:31:34.243776",
-      "last_seen": "2026-02-16T08:51:32.621343",
-      "weight": 5,
+      "last_seen": "2026-02-16T09:18:43.306575",
+      "weight": 9,
       "tags": [
         "Meeting",
         "Side Job"
@@ -624,37 +675,38 @@
       "id": "self",
       "label": "私",
       "type": "self",
-      "detail": "日記の筆者。メインの仕事（フロントエンドリーダー）とSaitekiでの副業を兼務。育児中。",
+      "detail": "フロントエンドのチームリーダー兼Saitekiでの副業を行う。育児と仕事の両立に奮闘中。",
       "community": 0,
       "first_seen": "2026-02-16T08:39:21.648150",
-      "last_seen": "2026-02-16T08:49:48.076687",
-      "weight": 3,
+      "last_seen": "2026-02-16T09:17:08.856662",
+      "weight": 7,
       "tags": [],
-      "sentiment": 0.1
+      "sentiment": 0.0
     },
     {
       "id": "goal:daily_1200kcal",
       "label": "1日1200kcal制限",
       "type": "goal",
-      "detail": "基本は1日1食、または2食で合計1200kcalに抑えることを来週も継続する。",
+      "detail": "1日1-2食で1200kcalに抑える生活を来週も継続。",
       "sentiment": 0.5,
       "status": "Active",
       "date": "2026-02-15",
       "community": 3,
       "first_seen": "2026-02-16T08:39:21.648224",
-      "last_seen": "2026-02-16T08:39:21.648224",
-      "weight": 1
+      "last_seen": "2026-02-16T09:04:48.398418",
+      "weight": 2,
+      "tags": []
     },
     {
       "id": "emotion:workflow_joy",
-      "label": "開発の楽しさ",
+      "label": "開発のワクワク感",
       "type": "emotion",
-      "detail": "ポメラとAIをつなげるワークフローを考える過程へのポジティブな感情。",
+      "detail": "ポメラとAIを繋げる仕組みを考えることへのポジティブな感情",
       "sentiment": 0.9,
       "community": 1,
       "first_seen": "2026-02-16T08:39:21.648238",
-      "last_seen": "2026-02-16T08:43:07.029335",
-      "weight": 2,
+      "last_seen": "2026-02-16T09:07:22.343030",
+      "weight": 4,
       "tags": []
     },
     {
@@ -672,14 +724,18 @@
       "id": "task:limit_youtube",
       "label": "寝る前のYoutube制限",
       "type": "task",
-      "detail": "ポメラ関連動画を見すぎて夜更かしにつながっているため制限が必要。",
+      "detail": "ポメラ関連動画を見すぎて夜更かしの原因になっているため制限する。",
       "sentiment": -0.2,
       "status": "Active",
       "community": 4,
       "first_seen": "2026-02-16T08:39:21.648258",
-      "last_seen": "2026-02-16T08:45:02.396453",
-      "weight": 4,
-      "tags": []
+      "last_seen": "2026-02-16T09:11:35.562287",
+      "weight": 9,
+      "tags": [
+        "Habit",
+        "Self-Control",
+        "Sleep Hygiene"
+      ]
     },
     {
       "id": "insight:crisis_management",
@@ -702,46 +758,51 @@
       "id": "emotion:楽しい",
       "label": "楽しい",
       "type": "emotion",
-      "detail": "ポメラとAIをつなげるワークフローを考えることへの高揚感。",
+      "detail": "ポメラとAIをつなげる仕組みを考えることへのポジティブな感情。",
       "sentiment": 0.9,
       "community": 1,
       "first_seen": "2026-02-16T08:41:17.474035",
-      "last_seen": "2026-02-16T08:41:17.474035",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562278",
+      "weight": 2,
+      "tags": []
     },
     {
       "id": "place:城山公園",
       "label": "城山公園",
       "type": "place",
-      "detail": "家族で散歩に行った場所。ピクニック候補地。",
+      "detail": "家族で散歩に行った大きな公園。",
       "community": 2,
       "first_seen": "2026-02-16T08:41:17.474096",
-      "last_seen": "2026-02-16T08:45:02.396492",
-      "weight": 2,
-      "tags": []
+      "last_seen": "2026-02-16T09:11:35.562353",
+      "weight": 7,
+      "tags": [
+        "Leisure",
+        "Location"
+      ]
     },
     {
       "id": "emotion:後悔",
-      "label": "後悔",
+      "label": "強い後悔と焦り",
       "type": "emotion",
-      "detail": "ながら作業でのおやつによる誤飲事故に対する強い反省。",
+      "detail": "ながら作業でお菓子を与えたこと、判断ミスへの強い自責の念。",
       "sentiment": -1.0,
       "community": 2,
       "first_seen": "2026-02-16T08:41:17.474118",
-      "last_seen": "2026-02-16T08:45:02.396539",
-      "weight": 2,
+      "last_seen": "2026-02-16T09:11:35.562383",
+      "weight": 3,
       "tags": []
     },
     {
       "id": "insight:体重停滞期",
-      "label": "減量停滞期",
+      "label": "減量の停滞",
       "type": "insight",
-      "detail": "ここ2週間体重が減っていない。体が飢餓状態と判断している可能性。",
+      "detail": "1ヶ月で12kg減ったが、最近2週間は体重が横ばい。",
       "community": 2,
       "first_seen": "2026-02-16T08:43:07.029314",
-      "last_seen": "2026-02-16T08:45:02.396404",
-      "weight": 2,
-      "tags": []
+      "last_seen": "2026-02-16T09:11:35.562234",
+      "weight": 4,
+      "tags": [],
+      "sentiment": -0.1
     },
     {
       "id": "tool:Gemini_3.0_Flash",
@@ -768,46 +829,54 @@
     },
     {
       "id": "insight:ながら育児の危険性",
-      "label": "ながら育児の危険性",
+      "label": "ながら育児のリスク",
       "type": "insight",
-      "detail": "仕事と育児を同時に行うことのリスクを痛感。新しいおやつへの慎重さが不足していた。",
+      "detail": "仕事をしながら新しいおやつを与えるべきではなかったという反省。",
       "community": 3,
       "first_seen": "2026-02-16T08:43:07.029450",
-      "last_seen": "2026-02-16T08:43:07.029450",
-      "weight": 1
+      "last_seen": "2026-02-16T09:04:48.398557",
+      "weight": 2,
+      "tags": [
+        "Cognitive Distortion: Should Statement"
+      ]
     },
     {
       "id": "project:自己分析ワークフロー",
-      "label": "自己分析ワークフロー",
+      "label": "自己分析ワークフロー構築",
       "type": "project",
-      "detail": "PomeraからGmail経由でGithub Actions、Gemini 3.0 Flashを用いてナレッジグラフへ自動反映する仕組み。",
+      "detail": "ポメラ→Gmail→Github Actions→Gemini→KGの自動化フロー。",
       "community": 3,
       "first_seen": "2026-02-16T08:45:02.396411",
-      "last_seen": "2026-02-16T08:45:02.396411",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562254",
+      "weight": 3,
+      "sentiment": 0.8,
+      "tags": [],
+      "status": "Active"
     },
     {
       "id": "project:メインの仕事",
-      "label": "メインの仕事 (フロントエンド)",
+      "label": "本業 (フロントエンド)",
       "type": "project",
-      "detail": "2チーム8人のリーダー業務。18時完了目標。",
+      "detail": "2チーム8人のリーダー業務。18時に完了予定。",
       "community": 2,
       "first_seen": "2026-02-16T08:46:43.066093",
-      "last_seen": "2026-02-16T08:51:32.621247",
-      "weight": 4,
-      "tags": []
+      "last_seen": "2026-02-16T09:18:43.306484",
+      "weight": 7,
+      "tags": [],
+      "sentiment": 0.1
     },
     {
       "id": "asset:貯金",
-      "label": "貯金",
+      "label": "現在の貯金",
       "type": "concept",
-      "detail": "現在約110万円。月10-20万ペースで貯蓄中",
+      "detail": "約110万円。月10-20万円ペースで貯金中だが波がある。",
       "community": 4,
       "first_seen": "2026-02-16T08:46:43.066214",
-      "last_seen": "2026-02-16T08:48:15.515564",
-      "weight": 2,
+      "last_seen": "2026-02-16T09:17:08.856837",
+      "weight": 4,
       "status": "None",
-      "tags": []
+      "tags": [],
+      "sentiment": 0.1
     },
     {
       "id": "place:自宅",
@@ -823,15 +892,18 @@
       "id": "task:5倍がゆ作成",
       "label": "5倍がゆ作り体験",
       "type": "event",
-      "detail": "離乳食作りを体験し、その大変さを実感した。",
+      "detail": "離乳食作りを実践し、大変さを実感した。",
       "status": "Completed",
       "date": "2026-02-16",
-      "sentiment": 0.5,
+      "sentiment": -0.1,
       "community": 2,
       "first_seen": "2026-02-16T08:48:15.515532",
-      "last_seen": "2026-02-16T08:51:32.621279",
-      "weight": 2,
-      "tags": []
+      "last_seen": "2026-02-16T09:18:43.306525",
+      "weight": 5,
+      "tags": [
+        "Parenting",
+        "Realization"
+      ]
     },
     {
       "id": "insight:morning_worry",
@@ -852,12 +924,13 @@
       "id": "emotion:感謝",
       "label": "感謝",
       "type": "emotion",
-      "detail": "妻の日々の家事育児に対する感謝。",
-      "sentiment": 0.9,
+      "detail": "さやかの日々の家事育児に対する感謝。",
+      "sentiment": 1.0,
       "community": 2,
       "first_seen": "2026-02-16T08:51:32.621289",
-      "last_seen": "2026-02-16T08:51:32.621289",
-      "weight": 1
+      "last_seen": "2026-02-16T09:15:22.292505",
+      "weight": 3,
+      "tags": []
     },
     {
       "id": "concept:住宅ローン減税",
@@ -883,6 +956,179 @@
       "first_seen": "2026-02-16T08:51:32.621336",
       "last_seen": "2026-02-16T08:51:32.621336",
       "weight": 1
+    },
+    {
+      "id": "barrier:粘着跡",
+      "label": "フローリングの粘着跡",
+      "type": "barrier",
+      "detail": "爪とぎカバーを剥がした後に残った粘着部分。簡単に剥がせず掃除の障害となっている。",
+      "sentiment": -0.5,
+      "community": 5,
+      "first_seen": "2026-02-16T09:03:09.535064",
+      "last_seen": "2026-02-16T09:03:09.535064",
+      "weight": 1
+    },
+    {
+      "id": "insight:時間不足の原因",
+      "label": "時間不足の要因",
+      "type": "insight",
+      "detail": "ダブルワークと育児の両立により、掃除のためのまとまった時間が取れない。",
+      "tags": [
+        "Work-Life Balance",
+        "Cognitive Distortion: All-or-Nothing"
+      ],
+      "community": 0,
+      "first_seen": "2026-02-16T09:03:09.535071",
+      "last_seen": "2026-02-16T09:03:09.535071",
+      "weight": 1
+    },
+    {
+      "id": "event:散歩_むぎ",
+      "label": "むぎとの散歩",
+      "type": "event",
+      "detail": "昼間に久しぶりにペットと散歩に行った。",
+      "status": "Completed",
+      "date": "2026-02-15",
+      "sentiment": 0.6,
+      "community": 1,
+      "first_seen": "2026-02-16T09:03:09.535143",
+      "last_seen": "2026-02-16T09:04:48.398502",
+      "weight": 2,
+      "tags": []
+    },
+    {
+      "id": "project:日々の描画",
+      "label": "毎日の絵の練習",
+      "type": "project",
+      "detail": "ほぼ毎日モンスターの絵を描いている。",
+      "status": "Active",
+      "community": 4,
+      "first_seen": "2026-02-16T09:04:48.398496",
+      "last_seen": "2026-02-16T09:04:48.398496",
+      "weight": 1
+    },
+    {
+      "id": "emotion:後悔と安堵",
+      "label": "後悔と安堵",
+      "type": "emotion",
+      "detail": "危機管理不足への後悔と、無事だったことへの安堵。",
+      "sentiment": -0.5,
+      "community": 1,
+      "first_seen": "2026-02-16T09:04:48.398551",
+      "last_seen": "2026-02-16T09:04:48.398551",
+      "weight": 1
+    },
+    {
+      "id": "concept:チートデイ",
+      "label": "チートデイ",
+      "type": "concept",
+      "detail": "飢餓状態を回避するために週1回導入",
+      "community": 2,
+      "first_seen": "2026-02-16T09:07:22.342987",
+      "last_seen": "2026-02-16T09:07:22.342987",
+      "weight": 1
+    },
+    {
+      "id": "emotion:後悔と恐怖",
+      "label": "後悔と恐怖",
+      "type": "emotion",
+      "detail": "親としての資格を疑うほどの焦りと、危機管理不足への猛省。",
+      "sentiment": -1.0,
+      "tags": [
+        "Cognitive Distortion: Labeling",
+        "Regret"
+      ],
+      "community": 3,
+      "first_seen": "2026-02-16T09:09:10.260119",
+      "last_seen": "2026-02-16T09:09:10.260119",
+      "weight": 1
+    },
+    {
+      "id": "insight:粘着剥がし困難",
+      "label": "粘着部分の除去困難",
+      "type": "insight",
+      "detail": "爪とぎカバーの粘着部分がフローリングに残り、簡単に剥がせない状態。",
+      "sentiment": -0.4,
+      "community": 1,
+      "first_seen": "2026-02-16T09:11:35.562197",
+      "last_seen": "2026-02-16T09:11:35.562197",
+      "weight": 1
+    },
+    {
+      "id": "insight:仕事と育児の壁",
+      "label": "時間確保の壁",
+      "type": "insight",
+      "detail": "仕事の掛け持ちと子供の世話により、習慣化に必要な時間が作れない。",
+      "sentiment": -0.2,
+      "tags": [
+        "Barrier"
+      ],
+      "community": 1,
+      "first_seen": "2026-02-16T09:11:35.562217",
+      "last_seen": "2026-02-16T09:11:35.562217",
+      "weight": 1
+    },
+    {
+      "id": "insight:リアリティ不足",
+      "label": "リアリティ不足",
+      "type": "insight",
+      "detail": "陰の付け方は改善したが、生物としてのリアリティに欠ける。",
+      "sentiment": -0.5,
+      "community": 4,
+      "first_seen": "2026-02-16T09:11:35.562309",
+      "last_seen": "2026-02-16T09:11:35.562309",
+      "weight": 1
+    },
+    {
+      "id": "insight:親としての失格感",
+      "label": "親としての失格感",
+      "type": "insight",
+      "detail": "危機管理不足により子供を危険な目に合わせたことへの自己否定。",
+      "sentiment": -0.8,
+      "tags": [
+        "Cognitive Distortion: Labeling",
+        "Guilt"
+      ],
+      "community": 1,
+      "first_seen": "2026-02-16T09:11:35.562392",
+      "last_seen": "2026-02-16T09:11:35.562392",
+      "weight": 1
+    },
+    {
+      "id": "project:フロントエンドチーム",
+      "label": "フロントエンドチーム",
+      "type": "project",
+      "detail": "本業。2チーム8人のリーダーを務める。",
+      "community": 1,
+      "first_seen": "2026-02-16T09:13:41.393396",
+      "last_seen": "2026-02-16T09:13:41.393396",
+      "weight": 1
+    },
+    {
+      "id": "insight:資産状況",
+      "label": "現在の貯金状況",
+      "type": "insight",
+      "detail": "約110万円。月10-20万貯金できているが税金支払いが不安。",
+      "sentiment": -0.3,
+      "community": 4,
+      "first_seen": "2026-02-16T09:13:41.393510",
+      "last_seen": "2026-02-16T09:13:41.393510",
+      "weight": 1
+    },
+    {
+      "id": "diary:20260216",
+      "label": "2026/02/16 日記",
+      "type": "diary",
+      "detail": "副業のタスク整理、家族への感謝、金銭面の不安、本業の改善タスクについての記録。",
+      "date": "2026-02-16",
+      "tags": [
+        "Work-Life Balance",
+        "Reflection"
+      ],
+      "community": 0,
+      "first_seen": "2026-02-16T09:15:22.292352",
+      "last_seen": "2026-02-16T09:15:22.292352",
+      "weight": 1
     }
   ],
   "edges": [
@@ -890,10 +1136,10 @@
       "source": "person:self",
       "target": "task:pet_room_cleaning",
       "type": "PLANS",
-      "label": "実施予定",
+      "label": "今日の予定",
       "first_seen": "2026-02-16T16:29:58.913278",
-      "last_seen": "2026-02-16T16:29:58.913278",
-      "weight": 1
+      "last_seen": "2026-02-16T09:04:48.398679",
+      "weight": 2
     },
     {
       "source": "barrier:adhesive_issue",
@@ -908,10 +1154,10 @@
       "source": "task:pet_room_cleaning",
       "target": "goal:clean_habit",
       "type": "TARGETS",
-      "label": "習慣化を目指す",
+      "label": "目標の一部",
       "first_seen": "2026-02-16T16:29:58.913284",
-      "last_seen": "2026-02-16T08:45:02.396639",
-      "weight": 4
+      "last_seen": "2026-02-16T09:09:10.260243",
+      "weight": 7
     },
     {
       "source": "insight:weight_progress",
@@ -962,10 +1208,10 @@
       "source": "barrier:github_scheduling",
       "target": "task:implement_workflow",
       "type": "BARRIER",
-      "label": "実装上の懸念",
+      "label": "技術的懸念",
       "first_seen": "2026-02-16T16:29:58.913357",
-      "last_seen": "2026-02-16T08:43:07.029569",
-      "weight": 2
+      "last_seen": "2026-02-16T09:09:10.260254",
+      "weight": 3
     },
     {
       "source": "event:youtube_excess",
@@ -1016,10 +1262,10 @@
       "source": "event:family_walk_park",
       "target": "goal:picnic",
       "type": "TRIGGERED_BY",
-      "label": "意欲喚起",
+      "label": "次回の願望",
       "first_seen": "2026-02-16T16:29:58.913369",
-      "last_seen": "2026-02-16T08:41:17.474240",
-      "weight": 3
+      "last_seen": "2026-02-16T09:11:35.562590",
+      "weight": 7
     },
     {
       "source": "event:choking_incident",
@@ -1027,17 +1273,17 @@
       "type": "ABOUT",
       "label": "当事者",
       "first_seen": "2026-02-16T16:29:58.913371",
-      "last_seen": "2026-02-16T08:45:02.396676",
-      "weight": 3
+      "last_seen": "2026-02-16T09:11:35.562592",
+      "weight": 5
     },
     {
       "source": "event:choking_incident",
       "target": "insight:parenting_regret",
       "type": "CAUSAL",
-      "label": "強い後悔を引き起こす",
+      "label": "原因",
       "first_seen": "2026-02-16T16:29:58.913372",
-      "last_seen": "2026-02-16T08:39:21.648459",
-      "weight": 2
+      "last_seen": "2026-02-16T09:07:22.343312",
+      "weight": 3
     },
     {
       "source": "insight:parenting_regret",
@@ -1052,44 +1298,45 @@
       "source": "person:self",
       "target": "diary:2026-02-15",
       "relationship": "WROTE",
-      "weight": 6,
+      "weight": 10,
       "first_seen": "2026-02-16T16:29:58.913376",
-      "last_seen": "2026-02-16T08:45:02.396682",
+      "last_seen": "2026-02-16T09:09:10.260276",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:self",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T16:29:58.913378",
-      "last_seen": "2026-02-16T16:29:58.913378"
+      "last_seen": "2026-02-16T09:04:48.398731",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "task:pet_room_cleaning",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T16:29:58.913380",
-      "last_seen": "2026-02-16T08:45:02.396684",
+      "last_seen": "2026-02-16T09:11:35.562604",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "barrier:adhesive_issue",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T16:29:58.913382",
-      "last_seen": "2026-02-16T08:45:02.396686",
+      "last_seen": "2026-02-16T09:07:22.343318",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "goal:clean_habit",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 10,
       "first_seen": "2026-02-16T16:29:58.913384",
-      "last_seen": "2026-02-16T08:45:02.396688",
+      "last_seen": "2026-02-16T09:11:35.562608",
       "label": null
     },
     {
@@ -1104,18 +1351,18 @@
       "source": "diary:2026-02-15",
       "target": "goal:weight_loss_75kg",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 6,
       "first_seen": "2026-02-16T16:29:58.913388",
-      "last_seen": "2026-02-16T08:45:02.396689",
+      "last_seen": "2026-02-16T09:11:35.562612",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "task:diet_regimen",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 10,
       "first_seen": "2026-02-16T16:29:58.913389",
-      "last_seen": "2026-02-16T08:45:02.396691",
+      "last_seen": "2026-02-16T09:11:35.562616",
       "label": null
     },
     {
@@ -1131,27 +1378,27 @@
       "source": "diary:2026-02-15",
       "target": "task:implement_workflow",
       "relationship": "MENTIONS",
-      "weight": 4,
+      "weight": 7,
       "first_seen": "2026-02-16T16:29:58.913393",
-      "last_seen": "2026-02-16T08:45:02.396698",
+      "last_seen": "2026-02-16T09:11:35.562620",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "barrier:github_scheduling",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 11,
       "first_seen": "2026-02-16T16:29:58.913395",
-      "last_seen": "2026-02-16T08:45:02.396702",
+      "last_seen": "2026-02-16T09:11:35.562645",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "goal:publish_book",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 11,
       "first_seen": "2026-02-16T16:29:58.913396",
-      "last_seen": "2026-02-16T08:45:02.396704",
+      "last_seen": "2026-02-16T09:11:35.562646",
       "label": null
     },
     {
@@ -1166,72 +1413,72 @@
       "source": "diary:2026-02-15",
       "target": "goal:monster_art",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T16:29:58.913400",
-      "last_seen": "2026-02-16T08:45:02.396708",
+      "last_seen": "2026-02-16T09:11:35.562625",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "event:family_walk_park",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T16:29:58.913402",
-      "last_seen": "2026-02-16T08:45:02.396711",
+      "last_seen": "2026-02-16T09:11:35.562634",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "goal:picnic",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 11,
       "first_seen": "2026-02-16T16:29:58.913404",
-      "last_seen": "2026-02-16T08:45:02.396715",
+      "last_seen": "2026-02-16T09:11:35.562637",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:mugi",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 11,
       "first_seen": "2026-02-16T16:29:58.913409",
-      "last_seen": "2026-02-16T08:45:02.396717",
+      "last_seen": "2026-02-16T09:11:35.562629",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:soma",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 11,
       "first_seen": "2026-02-16T16:29:58.913411",
-      "last_seen": "2026-02-16T08:45:02.396719",
+      "last_seen": "2026-02-16T09:11:35.562631",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "person:sayaka",
       "relationship": "MENTIONS",
-      "weight": 6,
+      "weight": 11,
       "first_seen": "2026-02-16T16:29:58.913412",
-      "last_seen": "2026-02-16T08:45:02.396720",
+      "last_seen": "2026-02-16T09:11:35.562632",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "event:choking_incident",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T16:29:58.913414",
-      "last_seen": "2026-02-16T08:45:02.396722",
+      "last_seen": "2026-02-16T09:11:35.562639",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "insight:parenting_regret",
       "relationship": "MENTIONS",
-      "weight": 4,
+      "weight": 6,
       "first_seen": "2026-02-16T16:29:58.913416",
-      "last_seen": "2026-02-16T08:43:07.029615",
+      "last_seen": "2026-02-16T09:07:22.343340",
       "label": null
     },
     {
@@ -1258,35 +1505,35 @@
       "type": "TARGETS",
       "label": "連絡先",
       "first_seen": "2026-02-16T16:31:34.243812",
-      "last_seen": "2026-02-16T08:51:32.621484",
-      "weight": 4
+      "last_seen": "2026-02-16T09:17:08.857036",
+      "weight": 6
     },
     {
       "source": "task:saiteki_contact_suzuki",
       "target": "project:saiteki",
       "type": "ABOUT",
-      "label": "関連プロジェクト",
+      "label": "関連業務",
       "first_seen": "2026-02-16T16:31:34.243814",
-      "last_seen": "2026-02-16T16:31:34.243814",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857039",
+      "weight": 3
     },
     {
       "source": "task:saiteki_check_kaimai",
       "target": "person:kaimai",
       "type": "TARGETS",
-      "label": "確認先",
+      "label": "確認対象",
       "first_seen": "2026-02-16T16:31:34.243817",
-      "last_seen": "2026-02-16T08:51:32.621487",
-      "weight": 3
+      "last_seen": "2026-02-16T09:17:08.857041",
+      "weight": 5
     },
     {
       "source": "task:saiteki_docs",
       "target": "project:saiteki",
       "type": "ABOUT",
-      "label": "関連プロジェクト",
+      "label": "関連業務",
       "first_seen": "2026-02-16T16:31:34.243819",
-      "last_seen": "2026-02-16T16:31:34.243819",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857043",
+      "weight": 2
     },
     {
       "source": "person:self",
@@ -1310,10 +1557,10 @@
       "source": "insight:gratitude_sayaka",
       "target": "person:sayaka",
       "type": "ABOUT",
-      "label": "対象",
+      "label": "感謝の対象",
       "first_seen": "2026-02-16T16:31:34.243824",
-      "last_seen": "2026-02-16T08:49:48.076994",
-      "weight": 3
+      "last_seen": "2026-02-16T09:18:43.306772",
+      "weight": 5
     },
     {
       "source": "person:self",
@@ -1328,10 +1575,10 @@
       "source": "emotion:financial_anxiety",
       "target": "task:tax_return",
       "type": "TRIGGERED_BY",
-      "label": "原因",
+      "label": "税金への懸念",
       "first_seen": "2026-02-16T16:31:34.243827",
-      "last_seen": "2026-02-16T08:49:48.077002",
-      "weight": 4
+      "last_seen": "2026-02-16T09:18:43.306774",
+      "weight": 5
     },
     {
       "source": "person:self",
@@ -1364,10 +1611,10 @@
       "source": "event:mtg_naomichi",
       "target": "person:naomichi",
       "type": "PARTICIPATES",
-      "label": "参加者",
+      "label": "相手",
       "first_seen": "2026-02-16T16:31:34.243833",
-      "last_seen": "2026-02-16T08:51:32.621515",
-      "weight": 4
+      "last_seen": "2026-02-16T09:18:43.306782",
+      "weight": 7
     },
     {
       "source": "person:self",
@@ -1382,9 +1629,9 @@
       "source": "person:self",
       "target": "diary:2026-02-16",
       "relationship": "WROTE",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243837",
-      "last_seen": "2026-02-16T08:51:32.621519",
+      "last_seen": "2026-02-16T09:18:43.306784",
       "label": null
     },
     {
@@ -1408,72 +1655,72 @@
       "source": "diary:2026-02-16",
       "target": "project:saiteki",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 7,
       "first_seen": "2026-02-16T16:31:34.243842",
-      "last_seen": "2026-02-16T08:49:48.077018",
+      "last_seen": "2026-02-16T09:18:43.306786",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:suzuki",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243843",
-      "last_seen": "2026-02-16T08:51:32.621521",
+      "last_seen": "2026-02-16T09:18:43.306788",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:kaimai",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243845",
-      "last_seen": "2026-02-16T08:51:32.621525",
+      "last_seen": "2026-02-16T09:18:43.306806",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "task:saiteki_contact_suzuki",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243847",
-      "last_seen": "2026-02-16T08:51:32.621523",
+      "last_seen": "2026-02-16T09:18:43.306790",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "task:saiteki_check_kaimai",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243848",
-      "last_seen": "2026-02-16T08:51:32.621526",
+      "last_seen": "2026-02-16T09:18:43.306808",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "task:saiteki_docs",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243850",
-      "last_seen": "2026-02-16T08:51:32.621528",
+      "last_seen": "2026-02-16T09:18:43.306810",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:sayaka",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 6,
       "first_seen": "2026-02-16T16:31:34.243851",
-      "last_seen": "2026-02-16T08:49:48.077029",
+      "last_seen": "2026-02-16T09:18:43.306815",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:soma",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 8,
       "first_seen": "2026-02-16T16:31:34.243853",
-      "last_seen": "2026-02-16T08:51:32.621534",
+      "last_seen": "2026-02-16T09:18:43.306817",
       "label": null
     },
     {
@@ -1488,73 +1735,73 @@
       "source": "diary:2026-02-16",
       "target": "insight:gratitude_sayaka",
       "relationship": "MENTIONS",
-      "weight": 4,
+      "weight": 6,
       "first_seen": "2026-02-16T16:31:34.243856",
-      "last_seen": "2026-02-16T08:49:48.077033",
+      "last_seen": "2026-02-16T09:18:43.306821",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "emotion:financial_anxiety",
       "relationship": "MENTIONS",
-      "weight": 4,
+      "weight": 6,
       "first_seen": "2026-02-16T16:31:34.243861",
-      "last_seen": "2026-02-16T08:51:32.621540",
+      "last_seen": "2026-02-16T09:18:43.306822",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "task:tax_return",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243863",
-      "last_seen": "2026-02-16T08:51:32.621542",
+      "last_seen": "2026-02-16T09:18:43.306824",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "task:main_improvement_flow",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243865",
-      "last_seen": "2026-02-16T08:51:32.621532",
+      "last_seen": "2026-02-16T09:18:43.306813",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "place:study_room",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 7,
       "first_seen": "2026-02-16T16:31:34.243866",
-      "last_seen": "2026-02-16T08:51:32.621546",
+      "last_seen": "2026-02-16T09:18:43.306826",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "person:naomichi",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 8,
       "first_seen": "2026-02-16T16:31:34.243868",
-      "last_seen": "2026-02-16T08:51:32.621551",
+      "last_seen": "2026-02-16T09:18:43.306829",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "event:mtg_naomichi",
       "relationship": "MENTIONS",
-      "weight": 5,
+      "weight": 9,
       "first_seen": "2026-02-16T16:31:34.243869",
-      "last_seen": "2026-02-16T08:51:32.621550",
+      "last_seen": "2026-02-16T09:18:43.306828",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "task:pet_room_cleaning",
       "type": "MENTIONS",
-      "label": "今日のタスク",
+      "label": "進捗記述",
       "first_seen": "2026-02-16T08:37:20.858273",
-      "last_seen": "2026-02-16T08:43:07.029546",
-      "weight": 3
+      "last_seen": "2026-02-16T09:09:10.260240",
+      "weight": 6
     },
     {
       "source": "barrier:時間不足",
@@ -1605,10 +1852,10 @@
       "source": "diary:2026-02-15",
       "target": "goal:monster_art",
       "type": "MENTIONS",
-      "label": "日々の実践",
+      "label": "日課の報告",
       "first_seen": "2026-02-16T08:37:20.858289",
-      "last_seen": "2026-02-16T08:43:07.029573",
-      "weight": 3
+      "last_seen": "2026-02-16T09:03:09.535357",
+      "weight": 4
     },
     {
       "source": "goal:monster_art",
@@ -1625,8 +1872,8 @@
       "type": "PARTICIPATES",
       "label": "参加",
       "first_seen": "2026-02-16T08:37:20.858293",
-      "last_seen": "2026-02-16T08:41:17.474229",
-      "weight": 2
+      "last_seen": "2026-02-16T09:07:22.343295",
+      "weight": 4
     },
     {
       "source": "event:family_walk_park",
@@ -1659,10 +1906,10 @@
       "source": "diary:2026-02-15",
       "target": "event:choking_incident",
       "type": "MENTIONS",
-      "label": "重大インシデント",
+      "label": "発生した事故",
       "first_seen": "2026-02-16T08:37:20.858304",
-      "last_seen": "2026-02-16T08:41:17.474242",
-      "weight": 2
+      "last_seen": "2026-02-16T09:09:10.260268",
+      "weight": 5
     },
     {
       "source": "event:choking_incident",
@@ -1677,10 +1924,10 @@
       "source": "event:choking_incident",
       "target": "insight:parenting_regret",
       "type": "FEELING",
-      "label": "引き起こした感情",
+      "label": "強い自責",
       "first_seen": "2026-02-16T08:37:20.858313",
-      "last_seen": "2026-02-16T08:43:07.029590",
-      "weight": 2
+      "last_seen": "2026-02-16T09:03:09.535374",
+      "weight": 3
     },
     {
       "source": "diary:2026-02-15",
@@ -1758,10 +2005,10 @@
       "source": "person:soma",
       "target": "event:family_walk_park",
       "type": "PARTICIPATES",
-      "label": "初めてのシーソー",
+      "label": "参加",
       "first_seen": "2026-02-16T08:39:21.648456",
-      "last_seen": "2026-02-16T08:39:21.648456",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562580",
+      "weight": 3
     },
     {
       "source": "self",
@@ -1794,25 +2041,27 @@
       "source": "diary:2026-02-15",
       "target": "self",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T08:39:21.648469",
-      "last_seen": "2026-02-16T08:39:21.648469"
+      "last_seen": "2026-02-16T09:07:22.343315",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "goal:daily_1200kcal",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T08:39:21.648481",
-      "last_seen": "2026-02-16T08:39:21.648481"
+      "last_seen": "2026-02-16T09:04:48.398747",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "emotion:workflow_joy",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 4,
       "first_seen": "2026-02-16T08:39:21.648487",
-      "last_seen": "2026-02-16T08:43:07.029606",
+      "last_seen": "2026-02-16T09:07:22.343329",
       "label": null
     },
     {
@@ -1827,9 +2076,9 @@
       "source": "diary:2026-02-15",
       "target": "task:limit_youtube",
       "relationship": "MENTIONS",
-      "weight": 3,
+      "weight": 5,
       "first_seen": "2026-02-16T08:39:21.648492",
-      "last_seen": "2026-02-16T08:45:02.396706",
+      "last_seen": "2026-02-16T09:11:35.562623",
       "label": null
     },
     {
@@ -1901,8 +2150,8 @@
       "type": "PARTICIPATES",
       "label": "同行",
       "first_seen": "2026-02-16T08:41:17.474231",
-      "last_seen": "2026-02-16T08:45:02.396669",
-      "weight": 2
+      "last_seen": "2026-02-16T09:07:22.343299",
+      "weight": 3
     },
     {
       "source": "event:family_walk_park",
@@ -1910,8 +2159,8 @@
       "type": "PARTICIPATES",
       "label": "同行",
       "first_seen": "2026-02-16T08:41:17.474233",
-      "last_seen": "2026-02-16T08:45:02.396671",
-      "weight": 2
+      "last_seen": "2026-02-16T09:07:22.343301",
+      "weight": 3
     },
     {
       "source": "event:family_walk_park",
@@ -1919,8 +2168,8 @@
       "type": "PARTICIPATES",
       "label": "同行",
       "first_seen": "2026-02-16T08:41:17.474237",
-      "last_seen": "2026-02-16T08:45:02.396673",
-      "weight": 2
+      "last_seen": "2026-02-16T09:07:22.343303",
+      "weight": 3
     },
     {
       "source": "event:family_walk_park",
@@ -1928,17 +2177,17 @@
       "type": "AT",
       "label": "場所",
       "first_seen": "2026-02-16T08:41:17.474239",
-      "last_seen": "2026-02-16T08:45:02.396667",
-      "weight": 2
+      "last_seen": "2026-02-16T09:11:35.562588",
+      "weight": 6
     },
     {
       "source": "event:choking_incident",
       "target": "person:sayaka",
       "type": "PARTICIPATES",
-      "label": "救助",
+      "label": "救助協力",
       "first_seen": "2026-02-16T08:41:17.474246",
-      "last_seen": "2026-02-16T08:41:17.474246",
-      "weight": 1
+      "last_seen": "2026-02-16T09:09:10.260272",
+      "weight": 3
     },
     {
       "source": "event:choking_incident",
@@ -1953,45 +2202,46 @@
       "source": "event:choking_incident",
       "target": "emotion:後悔",
       "type": "FEELING",
-      "label": "発生した感情",
+      "label": "強い後悔",
       "first_seen": "2026-02-16T08:41:17.474250",
-      "last_seen": "2026-02-16T08:41:17.474250",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562594",
+      "weight": 2
     },
     {
       "source": "diary:2026-02-15",
       "target": "emotion:楽しい",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T08:41:17.474261",
-      "last_seen": "2026-02-16T08:41:17.474261"
+      "last_seen": "2026-02-16T09:11:35.562622",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "place:城山公園",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 6,
       "first_seen": "2026-02-16T08:41:17.474272",
-      "last_seen": "2026-02-16T08:45:02.396713",
+      "last_seen": "2026-02-16T09:11:35.562636",
       "label": null
     },
     {
       "source": "diary:2026-02-15",
       "target": "emotion:後悔",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 3,
       "first_seen": "2026-02-16T08:41:17.474276",
-      "last_seen": "2026-02-16T08:45:02.396724",
+      "last_seen": "2026-02-16T09:11:35.562641",
       "label": null
     },
     {
       "source": "task:pet_room_cleaning",
       "target": "barrier:adhesive_issue",
       "type": "BARRIER",
-      "label": "作業の障壁",
+      "label": "障害",
       "first_seen": "2026-02-16T08:43:07.029549",
-      "last_seen": "2026-02-16T08:45:02.396636",
-      "weight": 2
+      "last_seen": "2026-02-16T09:07:22.343267",
+      "weight": 4
     },
     {
       "source": "goal:clean_habit",
@@ -2033,28 +2283,28 @@
       "source": "task:implement_workflow",
       "target": "emotion:workflow_joy",
       "type": "FEELING",
-      "label": "従事中の感情",
+      "label": "楽しいと感じる",
       "first_seen": "2026-02-16T08:43:07.029565",
-      "last_seen": "2026-02-16T08:43:07.029565",
-      "weight": 1
+      "last_seen": "2026-02-16T09:04:48.398698",
+      "weight": 2
     },
     {
       "source": "task:implement_workflow",
       "target": "goal:publish_book",
       "type": "EVOLVED_TO",
-      "label": "書籍化の意欲",
+      "label": "書籍化のネタ",
       "first_seen": "2026-02-16T08:43:07.029567",
-      "last_seen": "2026-02-16T08:45:02.396652",
-      "weight": 2
+      "last_seen": "2026-02-16T09:03:09.535378",
+      "weight": 3
     },
     {
       "source": "diary:2026-02-15",
       "target": "task:limit_youtube",
       "type": "MENTIONS",
-      "label": "反省",
+      "label": "課題認識",
       "first_seen": "2026-02-16T08:43:07.029571",
-      "last_seen": "2026-02-16T08:43:07.029571",
-      "weight": 1
+      "last_seen": "2026-02-16T09:09:10.260256",
+      "weight": 3
     },
     {
       "source": "diary:2026-02-15",
@@ -2123,9 +2373,9 @@
       "source": "diary:2026-02-15",
       "target": "insight:体重停滞期",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 4,
       "first_seen": "2026-02-16T08:43:07.029602",
-      "last_seen": "2026-02-16T08:45:02.396693",
+      "last_seen": "2026-02-16T09:11:35.562614",
       "label": null
     },
     {
@@ -2141,9 +2391,10 @@
       "source": "diary:2026-02-15",
       "target": "insight:ながら育児の危険性",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T08:43:07.029617",
-      "last_seen": "2026-02-16T08:43:07.029617"
+      "last_seen": "2026-02-16T09:04:48.398788",
+      "label": null
     },
     {
       "source": "diary:2026-02-15",
@@ -2158,10 +2409,10 @@
       "source": "self",
       "target": "task:pet_room_cleaning",
       "type": "PLANS",
-      "label": "今日の予定",
+      "label": "実行しようとした",
       "first_seen": "2026-02-16T08:45:02.396634",
-      "last_seen": "2026-02-16T08:45:02.396634",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562548",
+      "weight": 2
     },
     {
       "source": "self",
@@ -2169,17 +2420,17 @@
       "type": "TARGETS",
       "label": "今年の目標",
       "first_seen": "2026-02-16T08:45:02.396641",
-      "last_seen": "2026-02-16T08:45:02.396641",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562557",
+      "weight": 2
     },
     {
       "source": "insight:体重停滞期",
       "target": "task:diet_regimen",
       "type": "TRIGGERED_BY",
-      "label": "停滞打開策",
+      "label": "対策として実施",
       "first_seen": "2026-02-16T08:45:02.396644",
-      "last_seen": "2026-02-16T08:45:02.396644",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562559",
+      "weight": 3
     },
     {
       "source": "task:implement_workflow",
@@ -2221,19 +2472,19 @@
       "source": "self",
       "target": "goal:monster_art",
       "type": "TARGETS",
-      "label": "趣味の目標",
+      "label": "趣味・目標",
       "first_seen": "2026-02-16T08:45:02.396661",
-      "last_seen": "2026-02-16T08:45:02.396661",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562572",
+      "weight": 2
     },
     {
       "source": "self",
       "target": "event:family_walk_park",
       "type": "PARTICIPATES",
-      "label": "散歩に参加",
+      "label": "参加",
       "first_seen": "2026-02-16T08:45:02.396665",
-      "last_seen": "2026-02-16T08:45:02.396665",
-      "weight": 1
+      "last_seen": "2026-02-16T09:11:35.562576",
+      "weight": 2
     },
     {
       "source": "self",
@@ -2266,9 +2517,10 @@
       "source": "diary:2026-02-15",
       "target": "project:自己分析ワークフロー",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T08:45:02.396696",
-      "last_seen": "2026-02-16T08:45:02.396696"
+      "last_seen": "2026-02-16T09:11:35.562618",
+      "label": null
     },
     {
       "source": "project:saiteki",
@@ -2319,10 +2571,10 @@
       "source": "task:main_improvement_flow",
       "target": "project:メインの仕事",
       "type": "ABOUT",
-      "label": "業務改善",
+      "label": "チーム改善",
       "first_seen": "2026-02-16T08:46:43.066335",
-      "last_seen": "2026-02-16T08:49:48.077006",
-      "weight": 2
+      "last_seen": "2026-02-16T09:17:08.857055",
+      "weight": 4
     },
     {
       "source": "person:self",
@@ -2355,18 +2607,18 @@
       "source": "diary:2026-02-16",
       "target": "project:メインの仕事",
       "relationship": "MENTIONS",
-      "weight": 4,
+      "weight": 7,
       "first_seen": "2026-02-16T08:46:43.066376",
-      "last_seen": "2026-02-16T08:51:32.621530",
+      "last_seen": "2026-02-16T09:18:43.306811",
       "label": null
     },
     {
       "source": "diary:2026-02-16",
       "target": "asset:貯金",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 4,
       "first_seen": "2026-02-16T08:46:43.066401",
-      "last_seen": "2026-02-16T08:48:15.515755",
+      "last_seen": "2026-02-16T09:17:08.857090",
       "label": null
     },
     {
@@ -2390,10 +2642,10 @@
       "source": "diary:2026-02-16",
       "target": "person:sayaka",
       "type": "MENTIONS",
-      "label": "感謝",
+      "label": "言及",
       "first_seen": "2026-02-16T08:48:15.515710",
-      "last_seen": "2026-02-16T08:51:32.621491",
-      "weight": 2
+      "last_seen": "2026-02-16T09:13:41.393693",
+      "weight": 3
     },
     {
       "source": "diary:2026-02-16",
@@ -2410,8 +2662,8 @@
       "type": "TARGETS",
       "label": "離乳食",
       "first_seen": "2026-02-16T08:48:15.515723",
-      "last_seen": "2026-02-16T08:51:32.621493",
-      "weight": 2
+      "last_seen": "2026-02-16T09:18:43.306767",
+      "weight": 3
     },
     {
       "source": "task:5倍がゆ作成",
@@ -2453,9 +2705,9 @@
       "source": "diary:2026-02-16",
       "target": "task:5倍がゆ作成",
       "relationship": "MENTIONS",
-      "weight": 2,
+      "weight": 5,
       "first_seen": "2026-02-16T08:48:15.515749",
-      "last_seen": "2026-02-16T08:51:32.621536",
+      "last_seen": "2026-02-16T09:18:43.306819",
       "label": null
     },
     {
@@ -2470,10 +2722,10 @@
       "source": "self",
       "target": "project:saiteki",
       "type": "PARTICIPATES",
-      "label": "副業に従事",
+      "label": "副業として従事",
       "first_seen": "2026-02-16T08:49:48.076981",
-      "last_seen": "2026-02-16T08:49:48.076981",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857030",
+      "weight": 3
     },
     {
       "source": "project:saiteki",
@@ -2515,10 +2767,10 @@
       "source": "self",
       "target": "emotion:financial_anxiety",
       "type": "FEELING",
-      "label": "不安",
+      "label": "強い懸念",
       "first_seen": "2026-02-16T08:49:48.077000",
-      "last_seen": "2026-02-16T08:49:48.077000",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857049",
+      "weight": 2
     },
     {
       "source": "self",
@@ -2533,18 +2785,19 @@
       "source": "self",
       "target": "place:study_room",
       "type": "AT",
-      "label": "集中して作業",
+      "label": "執務場所",
       "first_seen": "2026-02-16T08:49:48.077008",
-      "last_seen": "2026-02-16T08:49:48.077008",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857057",
+      "weight": 3
     },
     {
       "source": "diary:2026-02-16",
       "target": "self",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 2,
       "first_seen": "2026-02-16T08:49:48.077016",
-      "last_seen": "2026-02-16T08:49:48.077016"
+      "last_seen": "2026-02-16T09:17:08.857065",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
@@ -2568,10 +2821,10 @@
       "source": "task:5倍がゆ作成",
       "target": "emotion:感謝",
       "type": "TRIGGERED_BY",
-      "label": "大変さを実感し感謝へ",
+      "label": "大変さを実感して",
       "first_seen": "2026-02-16T08:51:32.621495",
-      "last_seen": "2026-02-16T08:51:32.621495",
-      "weight": 1
+      "last_seen": "2026-02-16T09:15:22.292725",
+      "weight": 2
     },
     {
       "source": "emotion:感謝",
@@ -2586,10 +2839,10 @@
       "source": "task:tax_return",
       "target": "emotion:financial_anxiety",
       "type": "TRIGGERED_BY",
-      "label": "税金への不安",
+      "label": "不安の源泉",
       "first_seen": "2026-02-16T08:51:32.621505",
-      "last_seen": "2026-02-16T08:51:32.621505",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857051",
+      "weight": 2
     },
     {
       "source": "concept:住宅ローン減税",
@@ -2622,18 +2875,19 @@
       "source": "event:mtg_naomichi",
       "target": "project:saiteki",
       "type": "ABOUT",
-      "label": "MTG内容",
+      "label": "打ち合わせ",
       "first_seen": "2026-02-16T08:51:32.621517",
-      "last_seen": "2026-02-16T08:51:32.621517",
-      "weight": 1
+      "last_seen": "2026-02-16T09:17:08.857061",
+      "weight": 2
     },
     {
       "source": "diary:2026-02-16",
       "target": "emotion:感謝",
       "relationship": "MENTIONS",
-      "weight": 1,
+      "weight": 3,
       "first_seen": "2026-02-16T08:51:32.621538",
-      "last_seen": "2026-02-16T08:51:32.621538"
+      "last_seen": "2026-02-16T09:15:22.292771",
+      "label": null
     },
     {
       "source": "diary:2026-02-16",
@@ -2650,11 +2904,788 @@
       "weight": 1,
       "first_seen": "2026-02-16T08:51:32.621548",
       "last_seen": "2026-02-16T08:51:32.621548"
+    },
+    {
+      "source": "task:pet_room_cleaning",
+      "target": "barrier:粘着跡",
+      "type": "BARRIER",
+      "label": "除去困難",
+      "first_seen": "2026-02-16T09:03:09.535342",
+      "last_seen": "2026-02-16T09:03:09.535342",
+      "weight": 1
+    },
+    {
+      "source": "task:pet_room_cleaning",
+      "target": "insight:時間不足の原因",
+      "type": "CONFLICTS_WITH",
+      "label": "時間確保の壁",
+      "first_seen": "2026-02-16T09:03:09.535345",
+      "last_seen": "2026-02-16T09:03:09.535345",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "task:diet_regimen",
+      "type": "MENTIONS",
+      "label": "進捗報告",
+      "first_seen": "2026-02-16T09:03:09.535348",
+      "last_seen": "2026-02-16T09:03:09.535348",
+      "weight": 1
+    },
+    {
+      "source": "task:diet_regimen",
+      "target": "goal:weight_loss_75kg",
+      "type": "TARGETS",
+      "label": "減量目標",
+      "first_seen": "2026-02-16T09:03:09.535350",
+      "last_seen": "2026-02-16T09:04:48.398689",
+      "weight": 2
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "task:implement_workflow",
+      "type": "DISCOVERS",
+      "label": "解決策の確立",
+      "first_seen": "2026-02-16T09:03:09.535352",
+      "last_seen": "2026-02-16T09:03:09.535352",
+      "weight": 1
+    },
+    {
+      "source": "task:implement_workflow",
+      "target": "barrier:github_scheduling",
+      "type": "BARRIER",
+      "label": "技術的課題",
+      "first_seen": "2026-02-16T09:03:09.535353",
+      "last_seen": "2026-02-16T09:07:22.343288",
+      "weight": 3
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "task:limit_youtube",
+      "type": "TRIGGERED_BY",
+      "label": "夜更かしの懸念",
+      "first_seen": "2026-02-16T09:03:09.535355",
+      "last_seen": "2026-02-16T09:03:09.535355",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "event:散歩_むぎ",
+      "type": "PARTICIPATES",
+      "label": "実行",
+      "first_seen": "2026-02-16T09:03:09.535360",
+      "last_seen": "2026-02-16T09:03:09.535360",
+      "weight": 1
+    },
+    {
+      "source": "event:散歩_むぎ",
+      "target": "person:mugi",
+      "type": "PARTICIPATES",
+      "label": "同行",
+      "first_seen": "2026-02-16T09:03:09.535362",
+      "last_seen": "2026-02-16T09:03:09.535362",
+      "weight": 1
+    },
+    {
+      "source": "event:choking_incident",
+      "target": "person:soma",
+      "type": "PARTICIPATES",
+      "label": "被害",
+      "first_seen": "2026-02-16T09:03:09.535372",
+      "last_seen": "2026-02-16T09:09:10.260270",
+      "weight": 3
+    },
+    {
+      "source": "insight:parenting_regret",
+      "target": "person:sayaka",
+      "type": "SOLVES",
+      "label": "救助（妻への感謝）",
+      "first_seen": "2026-02-16T09:03:09.535376",
+      "last_seen": "2026-02-16T09:03:09.535376",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "barrier:粘着跡",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:03:09.535382",
+      "last_seen": "2026-02-16T09:03:09.535382"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:時間不足の原因",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:03:09.535386",
+      "last_seen": "2026-02-16T09:03:09.535386"
+    },
+    {
+      "source": "task:diet_regimen",
+      "target": "goal:daily_1200kcal",
+      "type": "TARGETS",
+      "label": "カロリー管理",
+      "first_seen": "2026-02-16T09:04:48.398691",
+      "last_seen": "2026-02-16T09:04:48.398691",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "task:implement_workflow",
+      "type": "PLANS",
+      "label": "設計中",
+      "first_seen": "2026-02-16T09:04:48.398693",
+      "last_seen": "2026-02-16T09:04:48.398693",
+      "weight": 1
+    },
+    {
+      "source": "task:implement_workflow",
+      "target": "goal:publish_book",
+      "type": "SOLVES",
+      "label": "執筆環境の改善",
+      "first_seen": "2026-02-16T09:04:48.398702",
+      "last_seen": "2026-02-16T09:11:35.562598",
+      "weight": 3
+    },
+    {
+      "source": "task:limit_youtube",
+      "target": "person:self",
+      "type": "TARGETS",
+      "label": "夜更かし防止",
+      "first_seen": "2026-02-16T09:04:48.398704",
+      "last_seen": "2026-02-16T09:04:48.398704",
+      "weight": 1
+    },
+    {
+      "source": "project:日々の描画",
+      "target": "goal:monster_art",
+      "type": "TARGETS",
+      "label": "上達のための練習",
+      "first_seen": "2026-02-16T09:04:48.398706",
+      "last_seen": "2026-02-16T09:04:48.398706",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "event:散歩_むぎ",
+      "type": "PARTICIPATES",
+      "label": "散歩した",
+      "first_seen": "2026-02-16T09:04:48.398708",
+      "last_seen": "2026-02-16T09:04:48.398708",
+      "weight": 1
+    },
+    {
+      "source": "person:mugi",
+      "target": "event:散歩_むぎ",
+      "type": "PARTICIPATES",
+      "label": "一緒に散歩",
+      "first_seen": "2026-02-16T09:04:48.398710",
+      "last_seen": "2026-02-16T09:04:48.398710",
+      "weight": 1
+    },
+    {
+      "source": "person:self",
+      "target": "event:family_walk_park",
+      "type": "PARTICIPATES",
+      "label": "家族と散歩",
+      "first_seen": "2026-02-16T09:04:48.398712",
+      "last_seen": "2026-02-16T09:04:48.398712",
+      "weight": 1
+    },
+    {
+      "source": "person:sayaka",
+      "target": "event:family_walk_park",
+      "type": "PARTICIPATES",
+      "label": "参加",
+      "first_seen": "2026-02-16T09:04:48.398716",
+      "last_seen": "2026-02-16T09:11:35.562578",
+      "weight": 2
+    },
+    {
+      "source": "event:choking_incident",
+      "target": "emotion:後悔と安堵",
+      "type": "FEELING",
+      "label": "強い感情",
+      "first_seen": "2026-02-16T09:04:48.398725",
+      "last_seen": "2026-02-16T09:04:48.398725",
+      "weight": 1
+    },
+    {
+      "source": "insight:ながら育児の危険性",
+      "target": "event:choking_incident",
+      "type": "CAUSAL",
+      "label": "事故の原因",
+      "first_seen": "2026-02-16T09:04:48.398728",
+      "last_seen": "2026-02-16T09:04:48.398728",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "project:日々の描画",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:04:48.398761",
+      "last_seen": "2026-02-16T09:04:48.398761"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "event:散歩_むぎ",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:04:48.398763",
+      "last_seen": "2026-02-16T09:04:48.398763"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "emotion:後悔と安堵",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:04:48.398786",
+      "last_seen": "2026-02-16T09:04:48.398786"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:weight_loss_75kg",
+      "type": "ABOUT",
+      "label": "体重記録",
+      "first_seen": "2026-02-16T09:07:22.343271",
+      "last_seen": "2026-02-16T09:09:10.260246",
+      "weight": 2
+    },
+    {
+      "source": "goal:weight_loss_75kg",
+      "target": "task:diet_regimen",
+      "type": "PLANS",
+      "label": "対策実施",
+      "first_seen": "2026-02-16T09:07:22.343274",
+      "last_seen": "2026-02-16T09:09:10.260248",
+      "weight": 2
+    },
+    {
+      "source": "task:diet_regimen",
+      "target": "concept:チートデイ",
+      "type": "ABOUT",
+      "label": "採用",
+      "first_seen": "2026-02-16T09:07:22.343276",
+      "last_seen": "2026-02-16T09:07:22.343276",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "project:自己分析ワークフロー",
+      "type": "ABOUT",
+      "label": "設計",
+      "first_seen": "2026-02-16T09:07:22.343279",
+      "last_seen": "2026-02-16T09:07:22.343279",
+      "weight": 1
+    },
+    {
+      "source": "project:自己分析ワークフロー",
+      "target": "task:implement_workflow",
+      "type": "PLANS",
+      "label": "タスク化",
+      "first_seen": "2026-02-16T09:07:22.343281",
+      "last_seen": "2026-02-16T09:07:22.343281",
+      "weight": 1
+    },
+    {
+      "source": "project:自己分析ワークフロー",
+      "target": "emotion:workflow_joy",
+      "type": "FEELING",
+      "label": "感情",
+      "first_seen": "2026-02-16T09:07:22.343282",
+      "last_seen": "2026-02-16T09:07:22.343282",
+      "weight": 1
+    },
+    {
+      "source": "project:自己分析ワークフロー",
+      "target": "goal:publish_book",
+      "type": "EVOLVED_TO",
+      "label": "将来の展望",
+      "first_seen": "2026-02-16T09:07:22.343286",
+      "last_seen": "2026-02-16T09:07:22.343286",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "goal:monster_art",
+      "type": "ABOUT",
+      "label": "日々の練習",
+      "first_seen": "2026-02-16T09:07:22.343293",
+      "last_seen": "2026-02-16T09:09:10.260260",
+      "weight": 2
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "concept:チートデイ",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:07:22.343323",
+      "last_seen": "2026-02-16T09:07:22.343323"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "task:implement_workflow",
+      "type": "ABOUT",
+      "label": "設計進捗",
+      "first_seen": "2026-02-16T09:09:10.260250",
+      "last_seen": "2026-02-16T09:09:10.260250",
+      "weight": 1
+    },
+    {
+      "source": "task:limit_youtube",
+      "target": "task:implement_workflow",
+      "type": "TRIGGERED_BY",
+      "label": "関連動画の視聴過多",
+      "first_seen": "2026-02-16T09:09:10.260258",
+      "last_seen": "2026-02-16T09:09:10.260258",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "place:城山公園",
+      "type": "AT",
+      "label": "家族散歩",
+      "first_seen": "2026-02-16T09:09:10.260262",
+      "last_seen": "2026-02-16T09:09:10.260262",
+      "weight": 1
+    },
+    {
+      "source": "place:城山公園",
+      "target": "person:soma",
+      "type": "PARTICIPATES",
+      "label": "シーソー初体験",
+      "first_seen": "2026-02-16T09:09:10.260265",
+      "last_seen": "2026-02-16T09:09:10.260265",
+      "weight": 1
+    },
+    {
+      "source": "place:城山公園",
+      "target": "goal:picnic",
+      "type": "TRIGGERED_BY",
+      "label": "次回の願望",
+      "first_seen": "2026-02-16T09:09:10.260267",
+      "last_seen": "2026-02-16T09:09:10.260267",
+      "weight": 1
+    },
+    {
+      "source": "event:choking_incident",
+      "target": "emotion:後悔と恐怖",
+      "type": "FEELING",
+      "label": "直後の感情",
+      "first_seen": "2026-02-16T09:09:10.260274",
+      "last_seen": "2026-02-16T09:09:10.260274",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "emotion:後悔と恐怖",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:09:10.260292",
+      "last_seen": "2026-02-16T09:09:10.260292"
+    },
+    {
+      "source": "task:pet_room_cleaning",
+      "target": "insight:粘着剥がし困難",
+      "type": "BARRIER",
+      "label": "問題発生",
+      "first_seen": "2026-02-16T09:11:35.562552",
+      "last_seen": "2026-02-16T09:11:35.562552",
+      "weight": 1
+    },
+    {
+      "source": "insight:仕事と育児の壁",
+      "target": "goal:clean_habit",
+      "type": "BARRIER",
+      "label": "習慣化を阻害",
+      "first_seen": "2026-02-16T09:11:35.562555",
+      "last_seen": "2026-02-16T09:11:35.562555",
+      "weight": 1
+    },
+    {
+      "source": "self",
+      "target": "project:自己分析ワークフロー",
+      "type": "PLANS",
+      "label": "構想中",
+      "first_seen": "2026-02-16T09:11:35.562562",
+      "last_seen": "2026-02-16T09:11:35.562562",
+      "weight": 1
+    },
+    {
+      "source": "project:自己分析ワークフロー",
+      "target": "task:implement_workflow",
+      "type": "EVOLVED_TO",
+      "label": "実装段階へ",
+      "first_seen": "2026-02-16T09:11:35.562564",
+      "last_seen": "2026-02-16T09:11:35.562564",
+      "weight": 1
+    },
+    {
+      "source": "project:自己分析ワークフロー",
+      "target": "emotion:楽しい",
+      "type": "FEELING",
+      "label": "思考する楽しみ",
+      "first_seen": "2026-02-16T09:11:35.562566",
+      "last_seen": "2026-02-16T09:11:35.562566",
+      "weight": 1
+    },
+    {
+      "source": "self",
+      "target": "task:limit_youtube",
+      "type": "PLANS",
+      "label": "制限の必要性",
+      "first_seen": "2026-02-16T09:11:35.562568",
+      "last_seen": "2026-02-16T09:11:35.562568",
+      "weight": 1
+    },
+    {
+      "source": "goal:monster_art",
+      "target": "insight:リアリティ不足",
+      "type": "BARRIER",
+      "label": "現在の課題",
+      "first_seen": "2026-02-16T09:11:35.562574",
+      "last_seen": "2026-02-16T09:11:35.562574",
+      "weight": 1
+    },
+    {
+      "source": "person:mugi",
+      "target": "event:family_walk_park",
+      "type": "PARTICIPATES",
+      "label": "参加（前半）",
+      "first_seen": "2026-02-16T09:11:35.562582",
+      "last_seen": "2026-02-16T09:11:35.562582",
+      "weight": 1
+    },
+    {
+      "source": "emotion:後悔",
+      "target": "insight:親としての失格感",
+      "type": "CAUSAL",
+      "label": "認知の歪み",
+      "first_seen": "2026-02-16T09:11:35.562596",
+      "last_seen": "2026-02-16T09:11:35.562596",
+      "weight": 1
+    },
+    {
+      "source": "task:implement_workflow",
+      "target": "barrier:github_scheduling",
+      "type": "CONFLICTS_WITH",
+      "label": "懸念点",
+      "first_seen": "2026-02-16T09:11:35.562600",
+      "last_seen": "2026-02-16T09:11:35.562600",
+      "weight": 1
+    },
+    {
+      "source": "self",
+      "target": "diary:2026-02-15",
+      "relationship": "WROTE",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:11:35.562602",
+      "last_seen": "2026-02-16T09:11:35.562602"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:粘着剥がし困難",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:11:35.562606",
+      "last_seen": "2026-02-16T09:11:35.562606"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:仕事と育児の壁",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:11:35.562610",
+      "last_seen": "2026-02-16T09:11:35.562610"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:リアリティ不足",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:11:35.562627",
+      "last_seen": "2026-02-16T09:11:35.562627"
+    },
+    {
+      "source": "diary:2026-02-15",
+      "target": "insight:親としての失格感",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:11:35.562643",
+      "last_seen": "2026-02-16T09:11:35.562643"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "self",
+      "type": "ABOUT",
+      "label": "筆者",
+      "first_seen": "2026-02-16T09:13:41.393672",
+      "last_seen": "2026-02-16T09:13:41.393672",
+      "weight": 1
+    },
+    {
+      "source": "self",
+      "target": "project:フロントエンドチーム",
+      "type": "PARTICIPATES",
+      "label": "本業リーダー",
+      "first_seen": "2026-02-16T09:13:41.393679",
+      "last_seen": "2026-02-16T09:13:41.393679",
+      "weight": 1
+    },
+    {
+      "source": "project:saiteki",
+      "target": "task:saiteki_contact_suzuki",
+      "type": "TARGETS",
+      "label": "タスク発生",
+      "first_seen": "2026-02-16T09:13:41.393681",
+      "last_seen": "2026-02-16T09:18:43.306750",
+      "weight": 2
+    },
+    {
+      "source": "project:saiteki",
+      "target": "task:saiteki_check_kaimai",
+      "type": "TARGETS",
+      "label": "タスク発生",
+      "first_seen": "2026-02-16T09:13:41.393683",
+      "last_seen": "2026-02-16T09:18:43.306753",
+      "weight": 2
+    },
+    {
+      "source": "project:saiteki",
+      "target": "task:saiteki_docs",
+      "type": "TARGETS",
+      "label": "タスク発生",
+      "first_seen": "2026-02-16T09:13:41.393685",
+      "last_seen": "2026-02-16T09:18:43.306756",
+      "weight": 2
+    },
+    {
+      "source": "task:saiteki_contact_suzuki",
+      "target": "person:suzuki",
+      "type": "MENTIONS",
+      "label": "連絡先",
+      "first_seen": "2026-02-16T09:13:41.393687",
+      "last_seen": "2026-02-16T09:18:43.306758",
+      "weight": 2
+    },
+    {
+      "source": "task:saiteki_check_kaimai",
+      "target": "person:kaimai",
+      "type": "MENTIONS",
+      "label": "確認対象",
+      "first_seen": "2026-02-16T09:13:41.393691",
+      "last_seen": "2026-02-16T09:18:43.306759",
+      "weight": 2
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "person:soma",
+      "type": "MENTIONS",
+      "label": "言及",
+      "first_seen": "2026-02-16T09:13:41.393695",
+      "last_seen": "2026-02-16T09:13:41.393695",
+      "weight": 1
+    },
+    {
+      "source": "self",
+      "target": "emotion:感謝",
+      "type": "FEELING",
+      "label": "実感",
+      "first_seen": "2026-02-16T09:13:41.393699",
+      "last_seen": "2026-02-16T09:13:41.393699",
+      "weight": 1
+    },
+    {
+      "source": "emotion:感謝",
+      "target": "person:sayaka",
+      "type": "ABOUT",
+      "label": "対象",
+      "first_seen": "2026-02-16T09:13:41.393701",
+      "last_seen": "2026-02-16T09:13:41.393701",
+      "weight": 1
+    },
+    {
+      "source": "task:tax_return",
+      "target": "insight:資産状況",
+      "type": "Triggered_By",
+      "label": "不安の要因",
+      "first_seen": "2026-02-16T09:13:41.393704",
+      "last_seen": "2026-02-16T09:13:41.393704",
+      "weight": 1
+    },
+    {
+      "source": "place:study_room",
+      "target": "project:フロントエンドチーム",
+      "type": "SOLVES",
+      "label": "集中環境の確保",
+      "first_seen": "2026-02-16T09:13:41.393707",
+      "last_seen": "2026-02-16T09:13:41.393707",
+      "weight": 1
+    },
+    {
+      "source": "project:フロントエンドチーム",
+      "target": "task:main_improvement_flow",
+      "type": "TARGETS",
+      "label": "本日完了目標",
+      "first_seen": "2026-02-16T09:13:41.393709",
+      "last_seen": "2026-02-16T09:13:41.393709",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "project:フロントエンドチーム",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:13:41.393717",
+      "last_seen": "2026-02-16T09:13:41.393717"
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "insight:資産状況",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:13:41.393734",
+      "last_seen": "2026-02-16T09:13:41.393734"
+    },
+    {
+      "source": "diary:20260216",
+      "target": "project:saiteki",
+      "type": "MENTIONS",
+      "label": "副業について記述",
+      "first_seen": "2026-02-16T09:15:22.292707",
+      "last_seen": "2026-02-16T09:15:22.292707",
+      "weight": 1
+    },
+    {
+      "source": "project:saiteki",
+      "target": "person:suzuki",
+      "type": "PARTICIPATES",
+      "label": "副社長",
+      "first_seen": "2026-02-16T09:15:22.292711",
+      "last_seen": "2026-02-16T09:15:22.292711",
+      "weight": 1
+    },
+    {
+      "source": "project:saiteki",
+      "target": "person:kaimai",
+      "type": "PARTICIPATES",
+      "label": "所属メンバー",
+      "first_seen": "2026-02-16T09:15:22.292713",
+      "last_seen": "2026-02-16T09:15:22.292713",
+      "weight": 1
+    },
+    {
+      "source": "emotion:感謝",
+      "target": "person:sayaka",
+      "type": "FEELING",
+      "label": "感謝の対象",
+      "first_seen": "2026-02-16T09:15:22.292727",
+      "last_seen": "2026-02-16T09:15:22.292727",
+      "weight": 1
+    },
+    {
+      "source": "person:sayaka",
+      "target": "person:soma",
+      "type": "PARTICIPATES",
+      "label": "世話を担当",
+      "first_seen": "2026-02-16T09:15:22.292730",
+      "last_seen": "2026-02-16T09:15:22.292730",
+      "weight": 1
+    },
+    {
+      "source": "task:tax_return",
+      "target": "asset:貯金",
+      "type": "ABOUT",
+      "label": "支払いへの影響懸念",
+      "first_seen": "2026-02-16T09:15:22.292733",
+      "last_seen": "2026-02-16T09:15:22.292733",
+      "weight": 1
+    },
+    {
+      "source": "diary:20260216",
+      "target": "place:study_room",
+      "type": "AT",
+      "label": "執務場所",
+      "first_seen": "2026-02-16T09:15:22.292737",
+      "last_seen": "2026-02-16T09:15:22.292737",
+      "weight": 1
+    },
+    {
+      "source": "diary:2026-02-16",
+      "target": "diary:20260216",
+      "relationship": "MENTIONS",
+      "weight": 1,
+      "first_seen": "2026-02-16T09:15:22.292741",
+      "last_seen": "2026-02-16T09:15:22.292741"
+    },
+    {
+      "source": "self",
+      "target": "project:メインの仕事",
+      "type": "PARTICIPATES",
+      "label": "リーダーとして従事",
+      "first_seen": "2026-02-16T09:17:08.857033",
+      "last_seen": "2026-02-16T09:17:08.857033",
+      "weight": 1
+    },
+    {
+      "source": "task:5倍がゆ作成",
+      "target": "insight:gratitude_sayaka",
+      "type": "CAUSAL",
+      "label": "大変さを痛感し気づく",
+      "first_seen": "2026-02-16T09:17:08.857045",
+      "last_seen": "2026-02-16T09:18:43.306769",
+      "weight": 2
+    },
+    {
+      "source": "asset:貯金",
+      "target": "emotion:financial_anxiety",
+      "type": "SOLVES",
+      "label": "安心材料(一部)",
+      "first_seen": "2026-02-16T09:17:08.857053",
+      "last_seen": "2026-02-16T09:17:08.857053",
+      "weight": 1
+    },
+    {
+      "source": "place:study_room",
+      "target": "person:sayaka",
+      "type": "CONFLICTS_WITH",
+      "label": "育児負担の偏り",
+      "first_seen": "2026-02-16T09:17:08.857059",
+      "last_seen": "2026-02-16T09:18:43.306780",
+      "weight": 2
+    },
+    {
+      "source": "task:saiteki_contact_suzuki",
+      "target": "project:メインの仕事",
+      "type": "PLANS",
+      "label": "本業終了後に実施",
+      "first_seen": "2026-02-16T09:18:43.306762",
+      "last_seen": "2026-02-16T09:18:43.306762",
+      "weight": 1
+    },
+    {
+      "source": "project:メインの仕事",
+      "target": "task:main_improvement_flow",
+      "type": "TARGETS",
+      "label": "主要タスク",
+      "first_seen": "2026-02-16T09:18:43.306765",
+      "last_seen": "2026-02-16T09:18:43.306765",
+      "weight": 1
+    },
+    {
+      "source": "place:study_room",
+      "target": "project:メインの仕事",
+      "type": "SOLVES",
+      "label": "集中環境の提供",
+      "first_seen": "2026-02-16T09:18:43.306776",
+      "last_seen": "2026-02-16T09:18:43.306776",
+      "weight": 1
     }
   ],
   "metadata": {
-    "last_updated": "2026-02-16T08:51:32.621555",
-    "node_count": 61,
-    "edge_count": 198
+    "last_updated": "2026-02-16T09:18:43.306834",
+    "node_count": 75,
+    "edge_count": 286
   }
 }
