@@ -834,7 +834,228 @@
       }
 
       main {
-        padding: 20px;
+        padding: 16px 12px;
+      }
+
+      /* ヘッダー */
+      .header-section h1 {
+        font-size: 20px;
+      }
+
+      .header-section .date-text {
+        font-size: 12px;
+      }
+
+      /* 確定予定チップ */
+      .schedule-strip {
+        flex-wrap: wrap;
+        gap: 6px;
+        overflow-x: visible;
+      }
+
+      .schedule-chip {
+        font-size: 11px;
+        padding: 6px 10px;
+        gap: 6px;
+      }
+
+      /* コーチカード */
+      .coach-card {
+        padding: 18px 16px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+      }
+
+      .coach-card::before {
+        font-size: 50px;
+      }
+
+      #coach-comment {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      /* カードグリッド */
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .dash-card {
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .card-header {
+        margin-bottom: 14px;
+      }
+
+      .card-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      .card-title {
+        font-size: 14px;
+      }
+
+      /* 重力マップ */
+      .gravity-task-name {
+        font-size: 13px;
+      }
+
+      .gravity-bar-text {
+        min-width: 60px;
+        font-size: 9px;
+      }
+
+      .tag {
+        font-size: 9px;
+        padding: 1px 6px;
+      }
+
+      /* アクション */
+      .action-item {
+        padding: 12px;
+      }
+
+      .action-text {
+        font-size: 12px;
+      }
+
+      .action-meta {
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 10px;
+      }
+
+      /* 知見 */
+      .insight-finding {
+        font-size: 12px;
+      }
+
+      .insight-implication {
+        font-size: 11px;
+      }
+
+      /* 感情の流れ */
+      .emotion-item {
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .emotion-name {
+        font-size: 12px;
+      }
+
+      .emotion-context {
+        font-size: 10px;
+      }
+
+      .emotion-score {
+        font-size: 11px;
+      }
+
+      /* ブログ素材 */
+      .blog-seed-item {
+        padding: 14px;
+      }
+
+      .blog-seed-header {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .blog-seed-title {
+        font-size: 13px;
+      }
+
+      .blog-seed-theme {
+        align-self: flex-start;
+      }
+
+      .blog-seed-outline {
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+
+      .blog-seed-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      /* ファミリー */
+      .family-header h2 {
+        font-size: 18px;
+      }
+
+      .family-member-card {
+        padding: 14px;
+        border-radius: 12px;
+      }
+
+      .family-member-name {
+        font-size: 14px;
+      }
+
+      .family-event {
+        font-size: 12px;
+      }
+
+      .family-todo-item {
+        font-size: 12px;
+      }
+
+      /* グラフビュー */
+      #graph-container {
+        height: 300px;
+      }
+
+      /* データ更新ビュー */
+      #data-update-view .dash-card {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 12px 8px;
+      }
+
+      .header-section h1 {
+        font-size: 18px;
+      }
+
+      .coach-card {
+        padding: 14px 12px;
+      }
+
+      #coach-comment {
+        font-size: 13px;
+      }
+
+      .schedule-chip {
+        font-size: 10px;
+        padding: 5px 8px;
+      }
+
+      .dash-card {
+        padding: 12px;
+      }
+
+      .gravity-bar-text {
+        display: none;
+      }
+
+      .blog-seed-outline-step {
+        font-size: 11px;
+      }
+
+      .blog-seed-source-tag {
+        font-size: 10px;
       }
     }
 
