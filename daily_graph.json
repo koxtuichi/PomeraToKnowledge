@@ -2,77 +2,89 @@
   "nodes": [
     {
       "id": "日記:2026-02-17",
-      "label": "2026年2月17日の日記",
+      "label": "日記 2026-02-17",
       "type": "日記",
-      "detail": "本の整理、モンスター描画の進捗と課題、Saitekiオンライン飲み会の予定について",
+      "detail": "読書リストの整理、モンスター描画の進捗と課題、Saitekiオンライン飲み会についての記録",
       "date": "2026-02-17"
     },
     {
-      "id": "知見:高品質イラストの集客効果",
-      "label": "高品質な描画による反響の大きさ",
+      "id": "知見:高品質なイラストの集客効果",
+      "label": "高品質描画によるファン獲得の兆し",
       "type": "知見",
-      "detail": "短時間（15分）の動画よりも、しっかり描き込んだ（鉛筆画など）動画の方がチャンネル登録者の増加に繋がりやすいという気づき。",
-      "category": "個人開発"
+      "detail": "時間をかけて鉛筆でしっかり描いた絵の動画を投稿したところ、チャンネル登録者が3人増加した。クオリティの重要性が示唆された。",
+      "category": "クリエイター"
     },
     {
       "id": "感情:制作への期待感",
-      "label": "制作への手応えと期待",
+      "label": "登録者増による喜びと期待",
       "type": "感情",
-      "detail": "登録者が増えたことで、時間をかけることの重要性を感じ、今後の制作にポジティブな期待を持っている。",
-      "sentiment": 0.6
+      "sentiment": 0.6,
+      "detail": "しっかり描くことの重要性を実感し、優先度は低いもののポジティブな手応えを感じている。",
+      "category": "クリエイター"
+    },
+    {
+      "id": "プロジェクト:モンスター100体チャレンジ",
+      "label": "モンスター描画100体チャレンジ",
+      "type": "プロジェクト",
+      "detail": "YouTubeショートでモンスターの絵を100体投稿する継続的な取り組み。",
+      "status": "進行中",
+      "category": "クリエイター"
+    },
+    {
+      "id": "人物:さやか",
+      "label": "Sayaka（妻）",
+      "type": "人物",
+      "detail": "同い年の妻。Saitekiのオンライン飲み会への参加を検討中。",
+      "category": "夫"
     },
     {
       "id": "タスク:Book_Reading_Management",
       "label": "読みたい本の整理と読書",
       "type": "タスク",
-      "detail": "「質問力で人を動かす」「データのつながりを活かす技術」など7冊の本を整理し、読書を進める。",
       "status": "進行中",
-      "category": "自己研鑽"
+      "detail": "「質問力で人を動かす」「データのつながりを活かす技術」など溜まっている本のリストを整理し、読書を進める。",
+      "category": "エンジニア"
     },
     {
       "id": "タスク:MonsterDrawing",
       "label": "毎日のモンスター描画",
       "type": "タスク",
-      "detail": "YouTubeショートへの投稿。現在23体目完了。目標100体。",
       "status": "進行中",
-      "category": "個人開発"
+      "detail": "YouTubeショートへの投稿。現在23体目。100体を目指す。",
+      "category": "クリエイター"
     },
     {
       "id": "タスク:HighQuality_MonsterDrawing",
       "label": "5時間かけた高品質なモンスター描画の制作",
       "type": "タスク",
-      "detail": "15分ではなく5時間ほどかけて描き込んだ動画を制作し、登録者増を狙う。",
       "status": "未着手",
-      "category": "個人開発"
+      "detail": "15分ではなく5時間ほどかけて描き込んだ動画を制作し、登録者増を狙う。",
+      "category": "クリエイター"
     },
     {
       "id": "制約:CreativeTimeShortage",
-      "label": "高品質制作のためのまとまった時間不足",
+      "label": "制作時間の確保困難",
       "type": "制約",
-      "detail": "5時間かけるような高品質な制作のための時間を確保することが難しい。",
-      "constraint_type": "時間不足"
+      "constraint_type": "時間不足",
+      "detail": "5時間を要する高品質な描画のためのまとまった時間を確保することが難しい。",
+      "category": "クリエイター"
     },
     {
       "id": "出来事:Saiteki_OnlineDrinking",
       "label": "Saitekiオンライン飲み会",
       "type": "出来事",
-      "detail": "19:30開始。UberEatsのクーポン配布あり。妻の参加も検討中。",
       "status": "予定",
-      "date": "2026-02-20"
-    },
-    {
-      "id": "人物:さやか",
-      "label": "妻",
-      "type": "人物",
-      "detail": "同い年の妻。オンライン飲み会への参加を検討されている。"
+      "date": "2026-02-20",
+      "detail": "19:30開始。UberEatsのクーポン配布あり。妻の参加も検討中。",
+      "category": "エンジニア"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-16T21:45:08.561252",
-      "last_seen": "2026-02-16T21:45:08.561254",
+      "first_seen": "2026-02-16T21:58:15.079368",
+      "last_seen": "2026-02-16T21:58:15.079370",
       "weight": 1
     }
   ],
@@ -81,55 +93,55 @@
       "source": "日記:2026-02-17",
       "target": "タスク:Book_Reading_Management",
       "type": "言及する",
-      "label": "本の整理について記述"
+      "label": "読書リストを整理"
     },
     {
       "source": "日記:2026-02-17",
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
-      "label": "23体目の完了を記録"
+      "label": "23体目の完了を報告"
     },
     {
       "source": "日記:2026-02-17",
-      "target": "タスク:HighQuality_MonsterDrawing",
+      "target": "出来事:Saiteki_OnlineDrinking",
       "type": "言及する",
-      "label": "制作の意欲と時間の課題を記述"
+      "label": "開催日時とクーポンの件を確認"
     },
     {
-      "source": "知見:高品質イラストの集客効果",
+      "source": "知見:高品質なイラストの集客効果",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "原動力になる",
-      "label": "高品質制作の重要性を裏付ける"
-    },
-    {
-      "source": "知見:高品質イラストの集客効果",
-      "target": "感情:制作への期待感",
-      "type": "引き起こす",
-      "label": "登録者増の事実が手応えに繋がる"
+      "label": "登録者増の結果が意欲を底上げ"
     },
     {
       "source": "感情:制作への期待感",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "原動力になる",
-      "label": "モチベーションの向上"
+      "label": "ポジティブな感情が制作意欲へ"
     },
     {
       "source": "制約:CreativeTimeShortage",
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "阻害する",
-      "label": "実行の最大のハードル"
+      "label": "5時間の確保が課題"
     },
     {
-      "source": "日記:2026-02-17",
-      "target": "出来事:Saiteki_OnlineDrinking",
-      "type": "言及する",
-      "label": "予定の再確認"
+      "source": "タスク:MonsterDrawing",
+      "target": "プロジェクト:モンスター100体チャレンジ",
+      "type": "関連する",
+      "label": "100体までの通過点"
     },
     {
       "source": "人物:さやか",
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "参加する",
-      "label": "参加を検討中"
+      "label": "参加の可能性を検討"
+    },
+    {
+      "source": "知見:高品質なイラストの集客効果",
+      "target": "プロジェクト:モンスター100体チャレンジ",
+      "type": "一部である",
+      "label": "戦略の修正に寄与"
     },
     {
       "source": "人物:自分",
@@ -140,7 +152,7 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "知見:高品質イラストの集客効果",
+      "target": "知見:高品質なイラストの集客効果",
       "type": "言及する",
       "label": "言及",
       "weight": 1
@@ -154,7 +166,7 @@
     },
     {
       "source": "日記:2026-02-17",
-      "target": "制約:CreativeTimeShortage",
+      "target": "プロジェクト:モンスター100体チャレンジ",
       "type": "言及する",
       "label": "言及",
       "weight": 1
@@ -165,12 +177,26 @@
       "type": "言及する",
       "label": "言及",
       "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "タスク:HighQuality_MonsterDrawing",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-17",
+      "target": "制約:CreativeTimeShortage",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-16T21:45:08.561238",
+    "generated_at": "2026-02-16T21:58:15.079353",
     "source_file": "diary/20260216_[POMERA]2026年2月17日.txt",
-    "node_count": 9,
+    "node_count": 10,
     "edge_count": 9
   }
 }
