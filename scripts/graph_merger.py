@@ -27,102 +27,105 @@ def merge_graphs(master, daily):
     label_map = {} 
     mergeable_types = {'person', 'place', 'project', 'concept', 'goal', 'emotion', 'insight', 'task', 'event'}
     
+    # First, build a label_map from the MASTER
     for n in master.get('nodes', []):
-        if n.get('type') in mergeable_types and n.get('label'):
-            key = f"{n['type']}:{n['label']}"
-            label_map[key] = n['id']
-
+        if n.get('label'):
+            l_key = n.get('label')
+            if l_key not in label_map or n.get('type') in mergeable_types:
+                label_map[l_key] = n['id']
     new_node_count = 0
     updated_node_count = 0
-    id_remap = {} # Remap dictionary for merged nodes
+    id_remap = {} 
 
+    # Pass 1: Global Label Normalization
+    # Goal: Ensure every label maps to exactly ONE canonical ID (preferring Master IDs if available)
+    for node in daily.get('nodes', []):
+        raw_id = node['id']
+        nlabel = node.get('label')
+        
+        if nlabel:
+            if nlabel in label_map:
+                # This label already exists (either in Master or established earlier in this Daily batch)
+                target_id = label_map[nlabel]
+                if raw_id != target_id:
+                    print(f"🔄 Remapping node: {raw_id} -> {target_id} (Label: '{nlabel}')")
+                    id_remap[raw_id] = target_id
+                    node['id'] = target_id
+            else:
+                # New label: establish this raw_id as the canonical ID for this label
+                label_map[nlabel] = raw_id
+
+    # Pass 2: Property Merging with Normalized IDs
+    # Now that all nodes in 'daily' have their IDs normalized to either a Master ID or a Canonical Daily ID,
+    # we can safely merge them.
     for node in daily.get('nodes', []):
         nid = node['id']
         ntype = node.get('type')
-        nlabel = node.get('label')
         current_time = datetime.now().isoformat()
-        
-        # Check for duplicate by Label
-        if nid not in master_nodes and ntype in mergeable_types and nlabel:
-            key = f"{ntype}:{nlabel}"
-            if key in label_map:
-                existing_id = label_map[key]
-                print(f"🔄 Merging duplicate node: {nid} -> {existing_id} (Label: {nlabel})")
-                id_remap[nid] = existing_id
-                nid = existing_id # Use existing ID
-        
+
+        # REMOVAL LOGIC: If this node was remapped, we need to check if the OLD raw ID
+        # is still lingering in master_nodes (this is how duplicates stay alive)
+        # However, because we iterate over 'daily', we handle the 'raw_id -> target_id' transition.
+        # Let's ensure ANY node with this label that isn't the current 'nid' gets cleared.
+        label = node.get('label')
+        if label:
+            canonical_id = label_map.get(label)
+            # Find any other nodes in master that have this label but different ID and purge them
+            to_delete = [old_id for old_id, old_node in master_nodes.items() 
+                         if old_node.get('label') == label and old_id != canonical_id]
+            for old_id in to_delete:
+                print(f"🗑️  Removing duplicate node from Master: {old_id} (Label: '{label}')")
+                del master_nodes[old_id]
+
         if nid in master_nodes:
-            # Update existing node
+            # Update existing node in master
             existing = master_nodes[nid]
             
-            # Key properties: Overwrite with latest or merge?
-            # Strategy: Overwrite label/detail/type to keep it current.
-            # But keep a history if needed? For now, simple overwrite.
+            # Simple overwrite with latest data from daily
             existing['label'] = node.get('label', existing.get('label'))
             existing['detail'] = node.get('detail', existing.get('detail'))
-            existing['type'] = node.get('type', existing.get('type'))
             
-            # Key properties update: Status and Date
-            # If the new node has a status (e.g., Completed), overwrite the old one.
+            # Type update (prefer mergeable_types)
+            if ntype in mergeable_types:
+                existing['type'] = ntype
+            
             if 'status' in node:
                 print(f"   🔄 Updating status for {nid}: {existing.get('status')} -> {node['status']}")
                 existing['status'] = node['status']
             
-            # Update date if provided (e.g., rescheduling)
             if 'date' in node:
                 existing['date'] = node['date']
             
-            # Merge Analysis Content
             if 'analysis_content' in node:
                 existing['analysis_content'] = node['analysis_content']
             
-            # Merge Sentiment (Average? or Latest?) -> Let's take Weighted Average or just Latest
-            # For simplicity & responsiveness: take Latest.
             if 'sentiment' in node:
                 existing['sentiment'] = node['sentiment']
 
-            # Update numericals
-            # Weight: Add the new weight (importance accumulation)
-            # EXCEPTION: For 'diary' nodes, weight should always be 1 (don't accumulate on re-runs)
             if existing.get('type') == 'diary':
                 existing['weight'] = 1
             else:
                 existing['weight'] = existing.get('weight', 1) + node.get('weight', 1)
             
-            # Merge tags
             existing_tags = set(existing.get('tags', []))
             new_tags = set(node.get('tags', []))
-            combined_tags = list(existing_tags.union(new_tags))
-            existing['tags'] = sorted(combined_tags) # Sort for consistency
+            existing['tags'] = sorted(list(existing_tags.union(new_tags)))
             
-            # Metadata
             existing['last_seen'] = current_time
-            if 'first_seen' not in existing:
-                existing['first_seen'] = current_time # Should exist, but safety check
-            
             updated_node_count += 1
         else:
-            # Add new node
-            # Update ID if it was remapped (though logic above handles it, explicit safety)
-            # If it was a NEW node that didn't match anything, it falls here.
+            # This is a truly new node (new unique label)
             node['first_seen'] = current_time
             node['last_seen'] = current_time
             node['weight'] = node.get('weight', 1)
             master_nodes[nid] = node
-            
-            # Add to label map for future dupes in same batch
-            if ntype in mergeable_types and nlabel:
-                key = f"{ntype}:{nlabel}"
-                label_map[key] = nid
-                
             new_node_count += 1
 
-    # Reconstruct master nodes list
+    # Finalize master nodes list
     master['nodes'] = list(master_nodes.values())
 
     # --- 2. Merge Edges ---
     master_edges = {}
-    # Use a composite key to identify unique edges
     for e in master.get('edges', []):
         try:
             key = f"{e.get('source', '')}|{e.get('target', '')}|{e.get('type', 'UNKNOWN')}"
@@ -134,12 +137,16 @@ def merge_graphs(master, daily):
     updated_edge_count = 0
         
     for edge in daily.get('edges', []):
-        # Remap IDs if needed
+        # Apply remapping for edges too
         source = id_remap.get(edge['source'], edge['source'])
         target = id_remap.get(edge['target'], edge['target'])
         
         try:
+            if source == target:
+                continue
             key = f"{source}|{target}|{edge.get('type', 'UNKNOWN')}"
+        except Exception:
+            continue
         except Exception:
             continue
 
