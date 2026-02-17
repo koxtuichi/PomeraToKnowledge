@@ -77,8 +77,7 @@ def connect_imap():
         return None
     
     try:
-        imaplib.IMAP4_SSL.timeout = 30  # 30秒タイムアウト
-        mail = imaplib.IMAP4_SSL(IMAP_SERVER, timeout=30)
+        mail = imaplib.IMAP4_SSL(IMAP_SERVER)
         mail.login(EMAIL_ACCOUNT, APP_PASSWORD)
         return mail
     except Exception as e:
@@ -96,21 +95,18 @@ def check_emails(mail, save_dir):
     status, count = mail.select("inbox")
     if status != "OK" or not count[0]:
         return [], []
+
+    # 3日前以降のメールのみを検索
+    from datetime import timedelta
+    since_date = (datetime.now() - timedelta(days=3)).strftime("%d-%b-%Y")
+    print(f"📅 {since_date} 以降のメールを検索中...")
+    status, data = mail.search(None, f'(SINCE {since_date})')
+    if status != "OK" or not data[0]:
+        print("💤 対象期間のメールはありません。")
+        return [], []
         
-    total_emails = int(count[0])
-    print(f"📬 受信トレイのメール総数: {total_emails}")
+    email_ids = data[0].split()
     
-    # まず未読メールのみを対象にする
-    status, data = mail.search(None, 'UNSEEN')
-    if status == "OK" and data[0]:
-        email_ids = data[0].split()
-        print(f"📩 未読メール {len(email_ids)} 件を処理")
-    else:
-        # 未読メールがなければ、直近50件をFETCHで取得
-        print("📭 未読メールなし。直近50件をhistoryベースで確認")
-        start_id = max(1, total_emails - 50 + 1)
-        email_ids = [str(i).encode() for i in range(start_id, total_emails + 1)]
-        
     saved_files = []
     blog_files = []
     new_history = []
