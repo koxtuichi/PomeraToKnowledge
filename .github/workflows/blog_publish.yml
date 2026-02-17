@@ -51,9 +51,12 @@ jobs:
         run: |
           # blog_drafts/ 内の未処理ファイルを処理
           if [ -d "blog_drafts" ] && [ "$(ls -A blog_drafts/*.txt 2>/dev/null)" ]; then
+            mkdir -p blog_drafts/processed
             for f in blog_drafts/*.txt; do
               echo "📝 Processing: $f"
               python scripts/blog_writer.py "$f" || echo "⚠️ 失敗: $f"
+              # 処理済みの草案を移動して再処理を防止
+              mv "$f" blog_drafts/processed/ 2>/dev/null || true
               sleep 5
             done
           else
@@ -67,5 +70,6 @@ jobs:
           git add blog_drafts/ || true
           git add blog_ready/ || true
           git add blog_published/ || true
+          git add sync_history.txt || true
 
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-blog: Essay generated and published [skip ci]" && git push)

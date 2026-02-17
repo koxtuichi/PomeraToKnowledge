@@ -98,11 +98,14 @@ def check_emails(mail, save_dir):
         
     total_emails = int(count[0])
     
-    # Process the last 50 emails
-    start_id = max(1, total_emails - 50 + 1)
-    status, data = mail.search(None, f"{start_id}:{total_emails}")
+    # BLOG処理の場合は未読メールのみを対象にする
+    status, data = mail.search(None, 'UNSEEN')
     if status != "OK" or not data[0]:
-        return []
+        # 未読メールがなければ、直近50件からhistoryベースで未処理を探す
+        start_id = max(1, total_emails - 50 + 1)
+        status, data = mail.search(None, f"{start_id}:{total_emails}")
+        if status != "OK" or not data[0]:
+            return [], []
         
     email_ids = data[0].split()
     
@@ -111,7 +114,7 @@ def check_emails(mail, save_dir):
     new_history = []
 
     if not email_ids:
-        return []
+        return [], []
 
     print(f"📩 最新の {len(email_ids)} 件をチェック中...")
 
@@ -188,6 +191,8 @@ def check_emails(mail, save_dir):
                             f.write(body)
                         blog_files.append(filepath)
                         print(f"      📝 Saved Blog Draft: {filename}")
+                        # 処理済みメールを既読にする
+                        mail.store(e_id, '+FLAGS', '\\Seen')
                     else:
                         print("      ⚠️ Blog draft email had no body.")
                     
