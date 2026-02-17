@@ -13,9 +13,12 @@ IMAP_SERVER = "imap.gmail.com"
 EMAIL_ACCOUNT = os.getenv("GMAIL_ACCOUNT")
 APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 LOCAL_DIARY_DIR = "diary"
+BLOG_DRAFTS_DIR = "blog_drafts"
 ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
+BLOG_WRITER_SCRIPT = "scripts/blog_writer.py"
 SUBJECT_KEYWORD = "POMERA" # POMERAまたはPOMERAtoKNOWLEDGEを含む件名
 ROLE_KEYWORD = "ROLEtoKNOWLEDGE" # 役割定義用キーワード
+BLOG_KEYWORD = "BLOG"  # ブログ草案用キーワード
 ROLE_DEF_FILE = "role_definition.txt"
 HISTORY_FILE = "sync_history.txt"
 
@@ -104,6 +107,7 @@ def check_emails(mail, save_dir):
     email_ids = data[0].split()
     
     saved_files = []
+    blog_files = []
     new_history = []
 
     if not email_ids:
@@ -130,6 +134,7 @@ def check_emails(mail, save_dir):
         status, msg_header = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
         subject_matched = False
         is_role_definition = False
+        is_blog_draft = False
         subject = ""
         
         for response_part in msg_header:
@@ -143,13 +148,17 @@ def check_emails(mail, save_dir):
                     if ROLE_KEYWORD.lower() in subject.lower():
                         subject_matched = True
                         is_role_definition = True
+                    # BLOG を判定（POMERAより優先）
+                    elif BLOG_KEYWORD.lower() in subject.lower():
+                        subject_matched = True
+                        is_blog_draft = True
                     elif SUBJECT_KEYWORD.lower() in subject.lower():
                         subject_matched = True
         
         if not subject_matched:
             continue
 
-        print(f"👉 Processing Email: {subject} (RoleDef: {is_role_definition})")
+        print(f"👉 Processing Email: {subject} (RoleDef: {is_role_definition}, Blog: {is_blog_draft})")
         
         status, msg_data = mail.fetch(e_id, "(RFC822)")
         for response_part in msg_data:
@@ -165,8 +174,22 @@ def check_emails(mail, save_dir):
                         print(f"      ✅ Role Definition Updated: {ROLE_DEF_FILE}")
                     else:
                         print("      ⚠️ Role definition email had no body.")
-                    # We don't add to saved_files because it's not a diary-to-analyze
-                    # But we add to history so we don't process it again
+                
+                # --- BLOG DRAFT HANDLING ---
+                elif is_blog_draft:
+                    body = get_body_content(msg)
+                    if body:
+                        blog_dir = BLOG_DRAFTS_DIR
+                        if not os.path.exists(blog_dir):
+                            os.makedirs(blog_dir)
+                        filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
+                        filepath = os.path.join(blog_dir, filename)
+                        with open(filepath, "w", encoding="utf-8") as f:
+                            f.write(body)
+                        blog_files.append(filepath)
+                        print(f"      📝 Saved Blog Draft: {filename}")
+                    else:
+                        print("      ⚠️ Blog draft email had no body.")
                     
                 # --- POMERA DIARY HANDLING ---
                 else:
@@ -205,7 +228,8 @@ def check_emails(mail, save_dir):
     unique_files = list(dict.fromkeys(saved_files))
     if len(unique_files) < len(saved_files):
         print(f"⚠️ 重複ファイルを除去: {len(saved_files)} → {len(unique_files)} 件")
-    return unique_files
+    unique_blog_files = list(dict.fromkeys(blog_files))
+    return unique_files, unique_blog_files
 
 def run_analysis(files):
     if not files: return
@@ -221,32 +245,64 @@ def run_analysis(files):
         if i < len(files):
             time.sleep(5)
 
+
+def run_blog_pipeline(blog_files):
+    """ブログ草案ファイルからブログ記事を生成し、はてなブログに投稿する。"""
+    if not blog_files: return
+    print(f"📝 ブログパイプラインを開始します ({len(blog_files)} 件)...")
+    
+    for i, file_path in enumerate(blog_files, 1):
+        print(f"   [{i}/{len(blog_files)}] Processing Blog Draft: {file_path}")
+        cmd = ["python3", BLOG_WRITER_SCRIPT, file_path]
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            print(f"   ⚠️ ブログ記事生成失敗: {file_path} (returncode={result.returncode})")
+        if i < len(blog_files):
+            time.sleep(5)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Sync Pomera emails and trigger analysis.")
     parser.add_argument("--watch", action="store_true", help="Keep watching for new emails.")
     parser.add_argument("--interval", type=int, default=300, help="Check interval in seconds (default: 300s/5min).")
+    parser.add_argument("--blog-only", action="store_true", help="Process only BLOG emails.")
     
     args = parser.parse_args()
 
     if not os.path.exists(LOCAL_DIARY_DIR):
         os.makedirs(LOCAL_DIARY_DIR)
+    if not os.path.exists(BLOG_DRAFTS_DIR):
+        os.makedirs(BLOG_DRAFTS_DIR)
 
-    print("📧 Pomera & Role Email Sync Agent Started")
+    print("📧 Pomera & Role & Blog Email Sync Agent Started")
     print(f"   Account: {EMAIL_ACCOUNT}")
     print(f"   Target Dir: {LOCAL_DIARY_DIR}")
+    print(f"   Blog Drafts Dir: {BLOG_DRAFTS_DIR}")
     print(f"   Role Definition File: {ROLE_DEF_FILE}")
+    print(f"   Blog Only Mode: {args.blog_only}")
     print("   --------------------------------")
 
     while True:
         mail = connect_imap()
         if mail:
             try:
-                new_files = check_emails(mail, LOCAL_DIARY_DIR)
-                if new_files:
-                    run_analysis(new_files)
+                new_files, blog_files = check_emails(mail, LOCAL_DIARY_DIR)
+                
+                if args.blog_only:
+                    # BLOGモード: ブログパイプラインのみ実行
+                    if blog_files:
+                        run_blog_pipeline(blog_files)
+                    else:
+                        print("💤 新着のBLOGメールはありませんでした。")
                 else:
-                    if not args.watch:
-                        print("💤 新着の対象メールはありませんでした。")
+                    # 通常モード: 日記分析 + ブログパイプライン
+                    if new_files:
+                        run_analysis(new_files)
+                    if blog_files:
+                        run_blog_pipeline(blog_files)
+                    if not new_files and not blog_files:
+                        if not args.watch:
+                            print("💤 新着の対象メールはありませんでした。")
                 
                 mail.logout()
             except Exception as e:

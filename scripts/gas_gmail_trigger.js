@@ -92,6 +92,81 @@ function triggerGitHubActions(token, subject) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// BLOG メール検知 — トリガーから1分間隔で呼び出される
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+const BLOG_CONFIG = {
+    EVENT_TYPE: 'pomera-blog',
+    GMAIL_QUERY: 'subject:BLOG is:unread newer_than:1h -subject:POMERA'
+};
+
+function checkBlogMail() {
+    const threads = GmailApp.search(BLOG_CONFIG.GMAIL_QUERY);
+
+    if (threads.length === 0) {
+        return; // 未読のBLOGメールなし
+    }
+
+    console.log(`📝 ${threads.length} 件のBLOGメールを検出`);
+
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        return;
+    }
+
+    const subject = threads[0].getFirstMessageSubject();
+    const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE);
+
+    if (success) {
+        threads.forEach(thread => thread.markRead());
+        console.log('✅ Blog GitHub Actions をトリガーし、メールを既読にしました');
+    }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// GitHub repository_dispatch API（イベントタイプ指定版）
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+function triggerGitHubActionsWithEvent(token, subject, eventType) {
+    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/dispatches`;
+
+    const options = {
+        method: 'post',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+        },
+        contentType: 'application/json',
+        payload: JSON.stringify({
+            event_type: eventType,
+            client_payload: {
+                subject: subject,
+                triggered_at: new Date().toISOString()
+            }
+        }),
+        muteHttpExceptions: true
+    };
+
+    try {
+        const response = UrlFetchApp.fetch(url, options);
+        const code = response.getResponseCode();
+
+        if (code === 204) {
+            console.log(`🚀 repository_dispatch 成功 (event: ${eventType})`);
+            return true;
+        } else {
+            console.error(`❌ GitHub API エラー: ${code} - ${response.getContentText()}`);
+            return false;
+        }
+    } catch (e) {
+        console.error(`❌ リクエスト失敗: ${e.message}`);
+        return false;
+    }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 手動テスト用
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -103,4 +178,14 @@ function testTrigger() {
     }
     const success = triggerGitHubActions(token, '[TEST] POMERAテスト送信');
     console.log(success ? '✅ テスト成功！' : '❌ テスト失敗');
+}
+
+function testBlogTrigger() {
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN が未設定です');
+        return;
+    }
+    const success = triggerGitHubActionsWithEvent(token, '[TEST] BLOGテスト送信', BLOG_CONFIG.EVENT_TYPE);
+    console.log(success ? '✅ ブログテスト成功！' : '❌ ブログテスト失敗');
 }
