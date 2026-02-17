@@ -194,6 +194,8 @@ ANALYSIS_SYSTEM_PROMPT = """
 }
 
 # 重要な注意事項
+- 「antigravity_actions」では、日記の本文で「買った」「注文した」「完了した」「やった」「済んだ」「実行した」など完了を示す記述があるアクションは提案しないでください。完了済みのアクションを除外し、代わりに新しい重力軽減アクションを提案してください。
+  - 前回出力したアクションリストがコンテキストに含まれている場合、日記で完了が確認できたものは除外し、まだ実行されていないものは引き続き提案してください。
 - 「upcoming_schedule」には日記やグラフで言及されている「確定している未来の予定」だけを含めてください。過去の予定は含めないでください。
   - 日記中に「予定::2026/02/20 18:00-19:00」のように `予定::` メタデータで日時が記載されている場合は、そこから date と time を正確に抽出してください。
   - time は「18:00-19:00」「18:00」のような形式で記載します。時間が不明な場合のみ null にしてください。
@@ -439,14 +441,18 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     blocking_edges = [e for e in edges if e.get("type") == "阻害する"]
     motivating_edges = [e for e in edges if e.get("type") == "原動力になる"]
 
-    # 9. 前回の分析結果からスケジュールを引き継ぐ
+    # 9. 前回の分析結果からスケジュールとアクションを引き継ぐ
     prev_schedule = []
+    prev_actions = []
     for d_node in all_diary_nodes:
         if d_node.get("analysis_content"):
             try:
                 prev_analysis = json.loads(d_node["analysis_content"])
-                if prev_analysis.get("upcoming_schedule"):
+                if prev_analysis.get("upcoming_schedule") and not prev_schedule:
                     prev_schedule = prev_analysis["upcoming_schedule"]
+                if prev_analysis.get("antigravity_actions") and not prev_actions:
+                    prev_actions = prev_analysis["antigravity_actions"]
+                if prev_schedule and prev_actions:
                     break
             except (json.JSONDecodeError, TypeError):
                 pass
@@ -485,6 +491,10 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     if prev_schedule:
         context_summary += "\n**前回出力したスケジュール（時間情報を引き継いでください）:**\n"
         context_summary += json.dumps(prev_schedule, ensure_ascii=False, indent=2) + "\n"
+
+    if prev_actions:
+        context_summary += "\n**前回出力した重力軽減アクション（日記で完了が確認できたものは除外し、新しいアクションに入れ替えてください）:**\n"
+        context_summary += json.dumps(prev_actions, ensure_ascii=False, indent=2) + "\n"
 
     # 日記の流れ
     recent_diary_context = "\n### 最近の日記の流れ\n"
