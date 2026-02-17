@@ -94,18 +94,22 @@ def check_emails(mail, save_dir):
     # Fetch the latest IDs from the inbox directly
     status, count = mail.select("inbox")
     if status != "OK" or not count[0]:
-        return []
+        return [], []
         
     total_emails = int(count[0])
     
-    # BLOG処理の場合は未読メールのみを対象にする
+    # まず未読メールのみを対象にする
     status, data = mail.search(None, 'UNSEEN')
     if status != "OK" or not data[0]:
         # 未読メールがなければ、直近50件からhistoryベースで未処理を探す
         start_id = max(1, total_emails - 50 + 1)
-        status, data = mail.search(None, f"{start_id}:{total_emails}")
+        id_range = ",".join(str(i) for i in range(start_id, total_emails + 1))
+        status, data = mail.search(None, 'ALL')
         if status != "OK" or not data[0]:
             return [], []
+        # 直近50件に絞る
+        all_ids = data[0].split()
+        data = [b" ".join(all_ids[-50:])]
         
     email_ids = data[0].split()
     
