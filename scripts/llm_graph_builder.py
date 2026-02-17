@@ -439,6 +439,18 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     blocking_edges = [e for e in edges if e.get("type") == "阻害する"]
     motivating_edges = [e for e in edges if e.get("type") == "原動力になる"]
 
+    # 9. 前回の分析結果からスケジュールを引き継ぐ
+    prev_schedule = []
+    for d_node in all_diary_nodes:
+        if d_node.get("analysis_content"):
+            try:
+                prev_analysis = json.loads(d_node["analysis_content"])
+                if prev_analysis.get("upcoming_schedule"):
+                    prev_schedule = prev_analysis["upcoming_schedule"]
+                    break
+            except (json.JSONDecodeError, TypeError):
+                pass
+
     # コンテキスト構築
     context_summary = "### 現在の状況\n"
 
@@ -468,7 +480,11 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
         context_summary += "\n**最近の知見:**\n" + "\n".join([f"- {n.get('label')}" for n in recent_insights]) + "\n"
 
     if scheduled_events:
-        context_summary += "\n**今後の予定:**\n" + "\n".join([f"- {n.get('date')} {n.get('label')}" for n in scheduled_events]) + "\n"
+        context_summary += "\n**今後の予定:**\n" + "\n".join([f"- {n.get('date')} {n.get('label')}: {n.get('detail', '')}" for n in scheduled_events]) + "\n"
+
+    if prev_schedule:
+        context_summary += "\n**前回出力したスケジュール（時間情報を引き継いでください）:**\n"
+        context_summary += json.dumps(prev_schedule, ensure_ascii=False, indent=2) + "\n"
 
     # 日記の流れ
     recent_diary_context = "\n### 最近の日記の流れ\n"
