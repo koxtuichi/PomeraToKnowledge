@@ -77,8 +77,12 @@ def connect_imap():
         return None
     
     try:
-        mail = imaplib.IMAP4_SSL(IMAP_SERVER)
+        print("🔌 IMAP接続中...")
+        import socket
+        socket.setdefaulttimeout(30)
+        mail = imaplib.IMAP4_SSL(IMAP_SERVER, timeout=30)
         mail.login(EMAIL_ACCOUNT, APP_PASSWORD)
+        print("✅ IMAP接続成功")
         return mail
     except Exception as e:
         print(f"❌ Connection Error: {e}")
@@ -90,78 +94,99 @@ def check_emails(mail, save_dir):
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r") as f:
             history = set(line.strip() for line in f if line.strip())
+    print(f"📋 処理済みUID: {len(history)} 件")
 
-    # Fetch the latest IDs from the inbox directly
     status, count = mail.select("inbox")
     if status != "OK" or not count[0]:
+        print("❌ inbox選択に失敗")
         return [], []
 
-    # 3日前以降のメールのみを検索
+    # 3日前以降の対象メールをIMAPレベルで絞り込む
     from datetime import timedelta
     since_date = (datetime.now() - timedelta(days=3)).strftime("%d-%b-%Y")
-    print(f"📅 {since_date} 以降のメールを検索中...")
-    status, data = mail.search(None, f'(SINCE {since_date})')
-    if status != "OK" or not data[0]:
-        print("💤 対象期間のメールはありません。")
-        return [], []
-        
-    email_ids = data[0].split()
-    
+
     saved_files = []
     blog_files = []
     new_history = []
 
-    if not email_ids:
+    # 各キーワードで個別に検索して対象メールだけ取得
+    search_targets = [
+        (SUBJECT_KEYWORD, False, False),   # POMERA
+        (BLOG_KEYWORD, False, True),        # BLOG
+        (ROLE_KEYWORD, True, False),         # ROLEtoKNOWLEDGE
+    ]
+
+    all_target_ids = []
+    id_metadata = {}  # e_id -> (is_role, is_blog)
+
+    for keyword, is_role, is_blog in search_targets:
+        print(f"🔍 検索中: SUBJECT '{keyword}' SINCE {since_date}")
+        try:
+            status, data = mail.search(None, f'(SINCE {since_date} SUBJECT "{keyword}")')
+            if status == "OK" and data[0]:
+                ids = data[0].split()
+                print(f"   → {len(ids)} 件ヒット")
+                for eid in ids:
+                    eid_str = eid.decode()
+                    if eid_str not in id_metadata:
+                        all_target_ids.append(eid)
+                        id_metadata[eid_str] = (is_role, is_blog)
+            else:
+                print(f"   → 0 件")
+        except Exception as e:
+            print(f"   ❌ 検索エラー: {e}")
+
+    if not all_target_ids:
+        print("💤 対象メールはありません。")
         return [], []
 
-    print(f"📩 最新の {len(email_ids)} 件をチェック中...")
+    print(f"📩 対象メール {len(all_target_ids)} 件を処理中...")
 
-    for e_id_bytes in email_ids:
+    for e_id_bytes in all_target_ids:
         e_id = e_id_bytes.decode()
+        is_role_definition, is_blog_draft = id_metadata[e_id]
         
         # Get UID for persistent tracking
-        status, data = mail.fetch(e_id, "(UID)")
-        if not data or not data[0]: continue
-        
-        uid_match = re.search(r'UID (\d+)', data[0].decode())
-        if not uid_match:
-            continue
-        uid = uid_match.group(1)
-        
-        if uid in history:
-            continue
-
-        # Fetch subject
-        status, msg_header = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
-        subject_matched = False
-        is_role_definition = False
-        is_blog_draft = False
-        subject = ""
-        
-        for response_part in msg_header:
-            if isinstance(response_part, tuple):
-                msg = email.message_from_bytes(response_part[1])
-                raw_subject = msg["Subject"]
-                if raw_subject:
-                    subject = clean_filename(raw_subject)
-                    
-                    # ROLEtoKNOWLEDGE を先に判定する
-                    if ROLE_KEYWORD.lower() in subject.lower():
-                        subject_matched = True
-                        is_role_definition = True
-                    # BLOG を判定（POMERAより優先）
-                    elif BLOG_KEYWORD.lower() in subject.lower():
-                        subject_matched = True
-                        is_blog_draft = True
-                    elif SUBJECT_KEYWORD.lower() in subject.lower():
-                        subject_matched = True
-        
-        if not subject_matched:
+        try:
+            status, data = mail.fetch(e_id, "(UID)")
+            if not data or not data[0]: continue
+            
+            uid_match = re.search(r'UID (\d+)', data[0].decode())
+            if not uid_match:
+                continue
+            uid = uid_match.group(1)
+            
+            if uid in history:
+                continue
+        except Exception as e:
+            print(f"   ⚠️ UID取得エラー: {e}")
             continue
 
-        print(f"👉 Processing Email: {subject} (RoleDef: {is_role_definition}, Blog: {is_blog_draft})")
+        # Fetch subject for filename
+        try:
+            status, msg_header = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+            subject = ""
+            for response_part in msg_header:
+                if isinstance(response_part, tuple):
+                    msg = email.message_from_bytes(response_part[1])
+                    raw_subject = msg["Subject"]
+                    if raw_subject:
+                        subject = clean_filename(raw_subject)
+        except Exception as e:
+            print(f"   ⚠️ Subject取得エラー: {e}")
+            continue
+
+        if not subject:
+            continue
+
+        print(f"👉 Processing: {subject} (Role:{is_role_definition}, Blog:{is_blog_draft})")
         
-        status, msg_data = mail.fetch(e_id, "(RFC822)")
+        try:
+            status, msg_data = mail.fetch(e_id, "(RFC822)")
+        except Exception as e:
+            print(f"   ❌ メール本文取得エラー: {e}")
+            continue
+
         for response_part in msg_data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_bytes(response_part[1])
@@ -226,12 +251,11 @@ def check_emails(mail, save_dir):
         with open(HISTORY_FILE, "a") as f:
             for uid in new_history:
                 f.write(f"{uid}\n")
+        print(f"📝 {len(new_history)} 件のUIDをhistoryに追加")
 
-    # 同じファイルパスに上書き保存された重複を除去
     unique_files = list(dict.fromkeys(saved_files))
-    if len(unique_files) < len(saved_files):
-        print(f"⚠️ 重複ファイルを除去: {len(saved_files)} → {len(unique_files)} 件")
     unique_blog_files = list(dict.fromkeys(blog_files))
+    print(f"✅ 完了: 日記 {len(unique_files)} 件, ブログ {len(unique_blog_files)} 件")
     return unique_files, unique_blog_files
 
 def run_analysis(files):
