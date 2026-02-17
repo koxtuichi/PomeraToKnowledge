@@ -101,9 +101,11 @@ def check_emails(mail, save_dir):
         print("❌ inbox選択に失敗")
         return [], []
 
-    # 3日前以降の対象メールをIMAPレベルで絞り込む
+    # 今日の日付でIMAPクエリし、Python側で10分以内にフィルタ
     from datetime import timedelta
-    since_date = (datetime.now() - timedelta(days=3)).strftime("%d-%b-%Y")
+    today_date = datetime.utcnow().strftime("%d-%b-%Y")
+    cutoff_time = datetime.utcnow() - timedelta(minutes=10)
+    print(f"📅 検索: SINCE {today_date}, 10分以内のメールのみ処理 (UTC cutoff: {cutoff_time.strftime('%H:%M:%S')})")
 
     saved_files = []
     blog_files = []
@@ -120,9 +122,9 @@ def check_emails(mail, save_dir):
     id_metadata = {}  # e_id -> (is_role, is_blog)
 
     for keyword, is_role, is_blog in search_targets:
-        print(f"🔍 検索中: SUBJECT '{keyword}' SINCE {since_date}")
+        print(f"🔍 検索中: SUBJECT '{keyword}' SINCE {today_date}")
         try:
-            status, data = mail.search(None, f'(SINCE {since_date} SUBJECT "{keyword}")')
+            status, data = mail.search(None, f'(SINCE {today_date} SUBJECT "{keyword}")')
             if status == "OK" and data[0]:
                 ids = data[0].split()
                 print(f"   → {len(ids)} 件ヒット")
@@ -140,26 +142,50 @@ def check_emails(mail, save_dir):
         print("💤 対象メールはありません。")
         return [], []
 
-    print(f"📩 対象メール {len(all_target_ids)} 件を処理中...")
+    print(f"📩 IMAP検索ヒット: {len(all_target_ids)} 件 → 10分以内+未処理をフィルタ中...")
 
     for e_id_bytes in all_target_ids:
         e_id = e_id_bytes.decode()
         is_role_definition, is_blog_draft = id_metadata[e_id]
         
-        # Get UID for persistent tracking
+        # UID と INTERNALDATE を同時に取得
         try:
-            status, data = mail.fetch(e_id, "(UID)")
+            status, data = mail.fetch(e_id, "(UID INTERNALDATE)")
             if not data or not data[0]: continue
             
-            uid_match = re.search(r'UID (\d+)', data[0].decode())
+            resp = data[0].decode() if isinstance(data[0], bytes) else str(data[0])
+            
+            uid_match = re.search(r'UID (\d+)', resp)
             if not uid_match:
                 continue
             uid = uid_match.group(1)
             
             if uid in history:
                 continue
+            
+            # INTERNALDATE で10分以内かチェック
+            date_match = re.search(r'INTERNALDATE "([^"]+)"', resp)
+            if date_match:
+                date_str = date_match.group(1)
+                try:
+                    # "17-Feb-2026 15:30:00 +0900" 形式をパース
+                    mail_time = datetime.strptime(date_str[:20], "%d-%b-%Y %H:%M:%S")
+                    # タイムゾーンオフセットを手動で適用してUTCに変換
+                    tz_str = date_str[21:].strip()
+                    if tz_str:
+                        tz_sign = 1 if tz_str[0] == '+' else -1
+                        tz_hours = int(tz_str[1:3])
+                        tz_mins = int(tz_str[3:5])
+                        mail_time_utc = mail_time - timedelta(hours=tz_sign*tz_hours, minutes=tz_sign*tz_mins)
+                    else:
+                        mail_time_utc = mail_time
+                    
+                    if mail_time_utc < cutoff_time:
+                        continue
+                except Exception:
+                    pass  # パース失敗時はフィルタしない
         except Exception as e:
-            print(f"   ⚠️ UID取得エラー: {e}")
+            print(f"   ⚠️ UID/日時取得エラー: {e}")
             continue
 
         # Fetch subject for filename
