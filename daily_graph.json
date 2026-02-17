@@ -1,259 +1,101 @@
 {
   "nodes": [
     {
-      "id": "日記:2026-02-17",
-      "label": "2026年2月17日の日記",
+      "id": "日記:2026-02-18",
+      "label": "2026年2月18日の日記",
       "type": "日記",
-      "detail": "ポメラでの執筆環境構築、モンスター描画の課題、妻の体調、仕事の悩みについての記録",
-      "date": "2026-02-17"
+      "detail": "深夜にSaitekiのGitHub PAT更新の必要性に気づいた記録。",
+      "date": "2026-02-18"
     },
     {
-      "id": "感情:頭のもやもや",
-      "label": "頭のもやもや",
-      "type": "感情",
-      "detail": "今日やるべきことが明確でない、生活リズムの乱れからくる不鮮明な感覚",
-      "sentiment": -0.4,
+      "id": "プロジェクト:Saiteki_ReadingCycle",
+      "label": "Saiteki読書サイクルシステム",
+      "type": "プロジェクト",
+      "detail": "GitHub ActionsとGemini APIを活用して構築されたRAGベースの読書管理・知識化システム。",
+      "category": "エンジニア",
+      "tags": [
+        "GitHubActions",
+        "GeminiAPI",
+        "RAG"
+      ]
+    },
+    {
+      "id": "タスク:Saiteki_PAT_Update",
+      "label": "GitHub PATの更新",
+      "type": "タスク",
+      "detail": "GitHub Actionsで使用しているPersonal access tokens (classic)が2026年2月22日に期限切れになるため、新しいトークンを生成しSecretを更新する。",
+      "status": "未着手",
+      "date": "2026-02-22",
       "category": "エンジニア"
     },
     {
-      "id": "感情:ポメラへの所有欲充足",
-      "label": "所有欲の充足",
-      "type": "感情",
-      "detail": "ポメラDM250スケルトンモデルを眺めることで得られる満足感",
-      "sentiment": 0.8
-    },
-    {
-      "id": "感情:リーダー定例への憂鬱",
-      "label": "憂鬱（リーダー定例）",
-      "type": "感情",
-      "detail": "具体的な課題提示を求められる定例会議に対する心理的重圧",
-      "sentiment": -0.6,
+      "id": "制約:PAT有効期限の到来",
+      "label": "GitHub PATの有効期限切れリスク",
+      "type": "制約",
+      "detail": "2026年2月22日にトークンの期限が切れると、読書サイクルの自動ワークフローが停止してしまう。",
+      "constraint_type": "その他",
       "category": "エンジニア"
-    },
-    {
-      "id": "知見:高品質なイラスト of 集客効果",
-      "label": "高品質な絵によるファン獲得",
-      "type": "知見",
-      "detail": "時間をかけて描き込んだ絵の動画は、チャンネル登録者増に直結する可能性がある",
-      "category": "副業"
-    },
-    {
-      "id": "知見:自動化による集中環境",
-      "label": "ポメラ執筆エコシステムの完成",
-      "type": "知見",
-      "detail": "Gmail, GAS, GitHub Actionsを組み合わせることで、ポメラからブログ投稿までの集中環境が構築できる",
-      "category": "エンジニア"
-    },
-    {
-      "id": "知見:AI小説におけるテーマの重要性",
-      "label": "AI小説におけるテーマ設定の重要性",
-      "type": "知見",
-      "detail": "文章を整えることよりも、核となるテーマ設定自体がAI活用の肝である",
-      "category": "副業"
-    },
-    {
-      "id": "出来事:ブログ初投稿",
-      "label": "「5倍粥の宇宙」の投稿",
-      "type": "出来事",
-      "detail": "エンジニア概念と育児を掛け合わせた小説をブログに投稿",
-      "status": "完了",
-      "date": "2026-02-17"
-    },
-    {
-      "id": "人物:沙也香",
-      "label": "沙也香",
-      "type": "人物",
-      "detail": "妻。最近子宮付近の痛みがあるが、受診を怖がっている"
-    },
-    {
-      "id": "概念:Pomera DM250 スケルトン",
-      "label": "Pomera DM250 スケルトン",
-      "type": "概念",
-      "detail": "お気に入りの執筆端末。黄色いスケルトンタイプ"
-    },
-    {
-      "id": "出来事:Saiteki_OnlineDrinking",
-      "label": "Saitekiオンライン飲み会",
-      "type": "出来事",
-      "detail": "UberEatsクーポン配布あり。2月20日19:30開始",
-      "status": "予定",
-      "date": "2026-02-20"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-17T15:52:24.280733",
-      "last_seen": "2026-02-17T15:52:24.280734",
+      "first_seen": "2026-02-17T16:01:18.574121",
+      "last_seen": "2026-02-17T16:01:18.574122",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "日記:2026-02-17",
-      "target": "感情:頭のもやもや",
+      "source": "日記:2026-02-18",
+      "target": "プロジェクト:Saiteki_ReadingCycle",
       "type": "言及する",
-      "label": "気分の記録"
+      "label": "読書サイクルシステムの構成に触れる"
     },
     {
-      "source": "制約:生活リズムの乱れ",
-      "target": "感情:頭のもやもや",
-      "type": "引き起こす",
-      "label": "2時寝9時半起きの影響"
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "タスク:MonsterDrawing",
+      "source": "日記:2026-02-18",
+      "target": "タスク:Saiteki_PAT_Update",
       "type": "言及する",
-      "label": "23体目の進捗確認"
+      "label": "期限切れに伴う更新の必要性を記録"
     },
     {
-      "source": "知見:高品質なイラスト of 集客効果",
-      "target": "タスク:HighQuality_MonsterDrawing",
-      "type": "原動力になる",
-      "label": "登録者増の期待"
+      "source": "プロジェクト:Saiteki_ReadingCycle",
+      "target": "タスク:Saiteki_PAT_Update",
+      "type": "計画する",
+      "label": "システムのメンテナンス"
     },
     {
-      "source": "制約:制作時間の確保困難",
-      "target": "タスク:HighQuality_MonsterDrawing",
+      "source": "制約:PAT有効期限の到来",
+      "target": "タスク:Saiteki_PAT_Update",
       "type": "阻害する",
-      "label": "5時間の確保が課題"
+      "label": "期限切れによるシステム停止の圧力"
     },
     {
-      "source": "知見:自動化による集中環境",
-      "target": "タスク:PomeraWorkflowConstruction",
+      "source": "タスク:Saiteki_PAT_Update",
+      "target": "制約:PAT有効期限の到来",
       "type": "解決する",
-      "label": "Gmail経由のフロー構築"
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "出来事:Saiteki_OnlineDrinking",
-      "type": "言及する",
-      "label": "予定の再確認"
-    },
-    {
-      "source": "人物:沙也香",
-      "target": "出来事:Saiteki_OnlineDrinking",
-      "type": "参加する",
-      "label": "参加を検討中"
-    },
-    {
-      "source": "感情:リーダー定例への憂鬱",
-      "target": "出来事:Knowbeリーダー定例",
-      "type": "関連する",
-      "label": "心理的負担"
-    },
-    {
-      "source": "制約:具体的な課題提示の困難さ",
-      "target": "出来事:Knowbeリーダー定例",
-      "type": "阻害する",
-      "label": "会議での発言を難しくする"
-    },
-    {
-      "source": "知見:自動化による集中環境",
-      "target": "プロジェクト:ポメラエコシステムのアプリ化",
-      "type": "一部である",
-      "label": "アプリ化の構想へ繋がる"
-    },
-    {
-      "source": "制約:専門用語と育児テーマの両立困難",
-      "target": "出来事:ブログ初投稿",
-      "type": "阻害する",
-      "label": "文章バランスの調整に苦戦"
-    },
-    {
-      "source": "知見:AI小説におけるテーマの重要性",
-      "target": "タスク:Blog_AI_Automation",
-      "type": "一部である",
-      "label": "自動化の核となる考え方"
-    },
-    {
-      "source": "人物:沙也香",
-      "target": "タスク:SayakaHealthMonitor",
-      "type": "対象にする",
-      "label": "体調の経過観察"
-    },
-    {
-      "source": "概念:Pomera DM250 スケルトン",
-      "target": "感情:ポメラへの所有欲充足",
-      "type": "引き起こす",
-      "label": "視覚的満足感"
-    },
-    {
-      "source": "制約:マルチタスクによるメリハリの欠如",
-      "target": "タスク:清掃後の美化習慣の策定",
-      "type": "阻害する",
-      "label": "ながら作業による習慣化の遅れ"
+      "label": "トークン更新により停止リスクを解消"
     },
     {
       "source": "人物:自分",
-      "target": "日記:2026-02-17",
+      "target": "日記:2026-02-18",
       "type": "関連する",
       "label": "書いた",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-17",
-      "target": "感情:ポメラへの所有欲充足",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "感情:リーダー定例への憂鬱",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "知見:高品質なイラスト of 集客効果",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "知見:自動化による集中環境",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "知見:AI小説におけるテーマの重要性",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "出来事:ブログ初投稿",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "人物:沙也香",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-17",
-      "target": "概念:Pomera DM250 スケルトン",
+      "source": "日記:2026-02-18",
+      "target": "制約:PAT有効期限の到来",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-17T15:52:24.280716",
-    "source_file": "diary/20260217_[POMERA]2026年2月17日.txt",
-    "node_count": 11,
-    "edge_count": 16
+    "generated_at": "2026-02-17T16:01:18.574105",
+    "source_file": "diary/20260217_[POMERA]2026年2月18日.txt",
+    "node_count": 4,
+    "edge_count": 5
   }
 }
