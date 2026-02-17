@@ -1,8 +1,8 @@
 name: Antigravity Knowledge Graph Sync
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
+  repository_dispatch:
+    types: [pomera-diary]
   workflow_dispatch:
     inputs:
       force_reanalyze:
