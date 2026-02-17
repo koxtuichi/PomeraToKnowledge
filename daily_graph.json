@@ -4,14 +4,14 @@
       "id": "日記:2026-02-18",
       "label": "2026年2月18日の日記",
       "type": "日記",
-      "detail": "SaitekiのGitHub PAT更新と、構築した読書サイクルシステムの構成についての記録。",
+      "detail": "PATの更新対応と、AIを活用した小説投稿に関する記録",
       "date": "2026-02-18"
     },
     {
       "id": "タスク:Saiteki_PAT_Update",
       "label": "GitHub PATの更新",
       "type": "タスク",
-      "detail": "GitHub Actionsで使用しているPersonal access tokens (classic)を更新し、コードとGitHub設定へ反映済み。次回の期限は2027年2月18日。",
+      "detail": "Saitekiの読書サイクルシステムで使用しているGitHub Personal Access Tokenを更新し、コードと設定を修正する",
       "status": "完了",
       "category": "エンジニア",
       "tags": [
@@ -20,34 +20,46 @@
       ]
     },
     {
-      "id": "プロジェクト:Saiteki_ReadingCycle",
-      "label": "Saiteki 読書サイクル",
-      "type": "プロジェクト",
-      "detail": "GitHub Actionsの中でGemini APIを使ったRAG（検索拡張生成）を構築しているシステム。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "知見:RAG_GitHubActions_Gemini",
-      "label": "GitHub ActionsとGeminiによるRAG構築",
-      "type": "知見",
-      "detail": "GitHub ActionsをインフラとしてGemini APIを用いたRAGシステムを構築し、読書サイクルを自動化する構成案。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "制約:GitHub PATの有効期限切れリスク",
+      "id": "制約:PAT_有効期限の到来",
       "label": "GitHub PATの有効期限切れリスク",
       "type": "制約",
-      "detail": "2026年2月22日にトークンの期限が切れることでワークフローが停止するリスク。",
-      "status": "解消",
+      "detail": "2026年2月22日にトークンの期限が切れることでワークフローが停止するリスク",
+      "status": "解決済み",
       "constraint_type": "その他"
+    },
+    {
+      "id": "タスク:Novel_Writing_Sticker",
+      "label": "シール跡小説の投稿",
+      "type": "タスク",
+      "detail": "シール跡の日記を元に、AIを駆使して執筆した小説を投稿する",
+      "status": "完了",
+      "category": "副業",
+      "tags": [
+        "小説",
+        "AI活用"
+      ]
+    },
+    {
+      "id": "知見:AI_Prompt_Engineering_Novel",
+      "label": "AI小説執筆の最適化手法",
+      "type": "知見",
+      "detail": "単に生成させるのではなく、プロンプトの調整や書きたい内容を詳細に言語化することで、AIからの出力を劇的に改善できる",
+      "category": "エンジニア"
+    },
+    {
+      "id": "感情:成果への手応え",
+      "label": "小説の仕上がりへの満足感",
+      "type": "感情",
+      "detail": "AIとの協力により納得のいく品質の小説が書けたことへの手応え",
+      "sentiment": 0.8
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-17T16:22:03.715742",
-      "last_seen": "2026-02-17T16:22:03.715743",
+      "first_seen": "2026-02-17T16:34:12.994108",
+      "last_seen": "2026-02-17T16:34:12.994109",
       "weight": 1
     }
   ],
@@ -56,31 +68,43 @@
       "source": "日記:2026-02-18",
       "target": "タスク:Saiteki_PAT_Update",
       "type": "言及する",
-      "label": "実行と完了を記録"
+      "label": "更新作業について記述"
     },
     {
       "source": "日記:2026-02-18",
-      "target": "プロジェクト:Saiteki_ReadingCycle",
+      "target": "タスク:Novel_Writing_Sticker",
       "type": "言及する",
-      "label": "システム構成に言及"
+      "label": "小説投稿について記述"
     },
     {
       "source": "タスク:Saiteki_PAT_Update",
-      "target": "制約:GitHub PATの有効期限切れリスク",
+      "target": "制約:PAT_有効期限の到来",
       "type": "解決する",
-      "label": "トークン更新により停止リスクを解消"
+      "label": "期限切れ前に更新完了"
     },
     {
-      "source": "知見:RAG_GitHubActions_Gemini",
-      "target": "プロジェクト:Saiteki_ReadingCycle",
-      "type": "一部である",
-      "label": "システムの核となる技術構成"
+      "source": "タスク:Novel_Writing_Sticker",
+      "target": "知見:AI_Prompt_Engineering_Novel",
+      "type": "引き起こす",
+      "label": "試行錯誤から得られた"
     },
     {
-      "source": "プロジェクト:Saiteki_ReadingCycle",
-      "target": "タスク:Saiteki_PAT_Update",
-      "type": "計画する",
-      "label": "システムの維持に必要なメンテナンス"
+      "source": "知見:AI_Prompt_Engineering_Novel",
+      "target": "感情:成果への手応え",
+      "type": "原動力になる",
+      "label": "納得のいく成果に繋がった"
+    },
+    {
+      "source": "知見:AI_Prompt_Engineering_Novel",
+      "target": "タスク:Blog_AI_Automation",
+      "type": "原動力になる",
+      "label": "AI執筆の自動化に活用可能"
+    },
+    {
+      "source": "タスク:Novel_Writing_Sticker",
+      "target": "目標:個人での収益化・人気獲得",
+      "type": "関連する",
+      "label": "コンテンツ投稿による積み上げ"
     },
     {
       "source": "人物:自分",
@@ -91,23 +115,30 @@
     },
     {
       "source": "日記:2026-02-18",
-      "target": "知見:RAG_GitHubActions_Gemini",
+      "target": "制約:PAT_有効期限の到来",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
       "source": "日記:2026-02-18",
-      "target": "制約:GitHub PATの有効期限切れリスク",
+      "target": "知見:AI_Prompt_Engineering_Novel",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-18",
+      "target": "感情:成果への手応え",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-17T16:22:03.715727",
+    "generated_at": "2026-02-17T16:34:12.994093",
     "source_file": "diary/20260217_[POMERA]2026年2月18日.txt",
-    "node_count": 5,
-    "edge_count": 5
+    "node_count": 6,
+    "edge_count": 7
   }
 }
