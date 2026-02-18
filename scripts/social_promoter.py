@@ -1,21 +1,29 @@
 """
 social_promoter.py — ブログ記事の自動拡散
 
-はてなブログに投稿された記事を、にほんブログ村へ自動でping送信する。
-GitHub Actionsパイプラインの一部として、記事投稿後に自動実行される。
+はてなブログのRSSフィードを監視し、新しく公開された記事を検出して
+にほんブログ村へ自動でping送信する。
+
+使い方:
+  python social_promoter.py              # RSSから新着記事を検出してping送信
+  python social_promoter.py --dry-run    # 実際の送信はせずプレビュー
+  python social_promoter.py --url URL    # 特定の記事URLを指定してping送信
 """
 
 import os
 import json
 import argparse
 import xmlrpc.client
+import urllib.request
 import datetime
+import xml.etree.ElementTree as ET
 from typing import Optional
 
 
 # 設定
 BLOG_NAME = "１話完結型ショートストーリー"
 BLOG_URL = "https://kakikukekoichi.hatenablog.com"
+BLOG_FEED_URL = f"{BLOG_URL}/feed"
 BLOGMURA_PING_URL = os.getenv(
     "BLOGMURA_PING_URL",
     "https://ping.blogmura.com/xmlrpc/7d5erbtdg9mu/"
@@ -25,18 +33,70 @@ PROMOTION_HISTORY_FILE = os.path.join(BLOG_PUBLISHED_DIR, "promotion_history.jso
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# RSS フィード監視
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def fetch_rss_entries(feed_url: str, max_entries: int = 10) -> list:
+    """はてなブログのAtomフィードから最新記事を取得する。"""
+    try:
+        req = urllib.request.Request(feed_url, headers={
+            "User-Agent": "PomeraToKnowledge-Promoter/1.0"
+        })
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            xml_text = resp.read().decode("utf-8")
+
+        root = ET.fromstring(xml_text)
+
+        # Atom名前空間
+        ns = {"atom": "http://www.w3.org/2005/Atom"}
+        entries = []
+
+        for entry in root.findall("atom:entry", ns)[:max_entries]:
+            title_el = entry.find("atom:title", ns)
+            title = title_el.text if title_el is not None else "無題"
+
+            # 記事URLを取得
+            # はてなブログのAtomフィードではrelが省略されることがある
+            url = ""
+            for link in entry.findall("atom:link", ns):
+                rel = link.get("rel")
+                link_type = link.get("type")
+                href = link.get("href", "")
+                # alternate、またはrel/type未指定で記事URLらしいもの
+                if rel == "alternate" or (rel is None and link_type is None and href):
+                    url = href
+                    break
+
+            published_el = entry.find("atom:published", ns)
+            published = published_el.text if published_el is not None else ""
+
+            entries.append({
+                "title": title,
+                "url": url,
+                "published": published
+            })
+
+        print(f"📡 RSSフィードから{len(entries)}件の記事を取得")
+        return entries
+
+    except Exception as e:
+        print(f"❌ RSSフィードの取得に失敗: {e}")
+        return []
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # にほんブログ村 ping送信
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-def send_blogmura_ping(blog_name: str, blog_url: str, article_url: str = "", dry_run: bool = False) -> bool:
+def send_blogmura_ping(article_url: str = "", dry_run: bool = False) -> bool:
     """にほんブログ村にXML-RPC pingを送信する。"""
     ping_url = BLOGMURA_PING_URL
 
     if dry_run:
         print(f"🔍 ドライラン: にほんブログ村へのping送信をシミュレート")
         print(f"   送信先: {ping_url}")
-        print(f"   ブログ名: {blog_name}")
-        print(f"   ブログURL: {blog_url}")
+        print(f"   ブログ名: {BLOG_NAME}")
+        print(f"   ブログURL: {BLOG_URL}")
         if article_url:
             print(f"   記事URL: {article_url}")
         return True
@@ -47,13 +107,13 @@ def send_blogmura_ping(blog_name: str, blog_url: str, article_url: str = "", dry
         # 拡張ping: 記事URLも送信
         if article_url:
             result = server.weblogUpdates.extendedPing(
-                blog_name,
-                blog_url,
+                BLOG_NAME,
+                BLOG_URL,
                 article_url,
-                f"{blog_url}/feed"
+                BLOG_FEED_URL
             )
         else:
-            result = server.weblogUpdates.ping(blog_name, blog_url)
+            result = server.weblogUpdates.ping(BLOG_NAME, BLOG_URL)
 
         # レスポンス解析
         if hasattr(result, "get"):
@@ -121,19 +181,12 @@ def record_promotion(article_url: str, title: str, results: dict):
 # メインフロー
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-def promote_from_publish_history(dry_run: bool = False, force: bool = False) -> int:
-    """publish_history.jsonから未拡散の記事を自動で拡散する。"""
-    publish_history_path = os.path.join(BLOG_PUBLISHED_DIR, "publish_history.json")
+def promote_from_rss(dry_run: bool = False, force: bool = False) -> int:
+    """RSSフィードから新着記事を検出してpingを送信する。"""
+    entries = fetch_rss_entries(BLOG_FEED_URL)
 
-    if not os.path.exists(publish_history_path):
-        print("💤 投稿履歴がありません")
-        return 0
-
-    try:
-        with open(publish_history_path, "r", encoding="utf-8") as f:
-            entries = json.load(f)
-    except Exception as e:
-        print(f"❌ 投稿履歴の読み込みに失敗: {e}")
+    if not entries:
+        print("💤 RSSフィードに記事がありません")
         return 0
 
     promoted_count = 0
@@ -143,28 +196,22 @@ def promote_from_publish_history(dry_run: bool = False, force: bool = False) -> 
         title = entry.get("title", "無題")
 
         if not article_url:
-            print(f"⚠️ URLが空の記事をスキップ: {title}")
             continue
 
         if not force and is_already_promoted(article_url):
-            print(f"⏭️ 拡散済みの記事をスキップ: {title}")
             continue
 
-        print(f"\n📢 拡散開始: {title}")
+        print(f"\n📢 新着記事を検出: {title}")
         print(f"   URL: {article_url}")
 
         results = {}
 
-        # にほんブログ村へping送信
         blogmura_ok = send_blogmura_ping(
-            BLOG_NAME,
-            BLOG_URL,
-            article_url,
+            article_url=article_url,
             dry_run=dry_run
         )
         results["blogmura"] = "success" if blogmura_ok else "failed"
 
-        # 履歴記録
         if not dry_run:
             record_promotion(article_url, title, results)
 
@@ -184,9 +231,7 @@ def promote_single(article_url: str, title: str = "", dry_run: bool = False) -> 
     results = {}
 
     blogmura_ok = send_blogmura_ping(
-        BLOG_NAME,
-        BLOG_URL,
-        article_url,
+        article_url=article_url,
         dry_run=dry_run
     )
     results["blogmura"] = "success" if blogmura_ok else "failed"
@@ -199,11 +244,11 @@ def promote_single(article_url: str, title: str = "", dry_run: bool = False) -> 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="ブログ記事をSNS/コミュニティに自動拡散する"
+        description="ブログ記事をにほんブログ村に自動拡散する"
     )
     parser.add_argument(
         "--url",
-        help="拡散する記事のURL。省略時はpublish_history.jsonから自動検出"
+        help="拡散する記事のURL。省略時はRSSフィードから新着を自動検出"
     )
     parser.add_argument(
         "--title",
@@ -231,7 +276,6 @@ def main():
         print("🔍 ドライランモード: 実際の送信は行いません\n")
 
     if args.url:
-        # 単一記事の拡散
         success = promote_single(
             args.url,
             title=args.title,
@@ -242,15 +286,14 @@ def main():
         else:
             print("\n❌ 拡散に失敗しました")
     else:
-        # publish_history.jsonから自動拡散
-        count = promote_from_publish_history(
+        count = promote_from_rss(
             dry_run=args.dry_run,
             force=args.force
         )
         if count > 0:
             print(f"\n✅ {count}件の記事を拡散しました！")
         else:
-            print("\n💤 拡散対象の記事がありませんでした")
+            print("\n💤 新たに拡散する記事はありませんでした")
 
 
 if __name__ == "__main__":

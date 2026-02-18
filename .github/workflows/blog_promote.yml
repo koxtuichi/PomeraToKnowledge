@@ -1,0 +1,51 @@
+name: Blog Promotion - RSS Monitor
+
+on:
+  schedule:
+    # 30分おきに実行
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '拡散済みの記事も再拡散する'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Check RSS and Promote New Articles
+        env:
+          BLOGMURA_PING_URL: ${{ secrets.BLOGMURA_PING_URL }}
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then
+            python scripts/social_promoter.py --force
+          else
+            python scripts/social_promoter.py
+          fi
+
+      - name: Commit Promotion History
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Antigravity Blog Bot"
+          git add blog_published/promotion_history.json || true
+
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-promote: ping sent to blog communities [skip ci]" && git push)
