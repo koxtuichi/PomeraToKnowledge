@@ -63,6 +63,12 @@ jobs:
             echo "💤 処理対象のブログ草案がありません"
           fi
 
+      - name: Promote to Blog Communities
+        env:
+          BLOGMURA_PING_URL: ${{ secrets.BLOGMURA_PING_URL }}
+        run: |
+          python scripts/social_promoter.py
+
       - name: Commit and Push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
