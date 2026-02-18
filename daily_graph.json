@@ -4,107 +4,152 @@
       "id": "日記:2026-02-18",
       "label": "2026年2月18日の日記",
       "type": "日記",
-      "detail": "PATの更新対応と、AIを活用した小説投稿に関する記録",
+      "detail": "PAT更新、AI小説投稿、ポメラブログ執筆、妻との摩擦についての記録",
       "date": "2026-02-18"
     },
     {
-      "id": "タスク:Saiteki_PAT_Update",
-      "label": "GitHub PATの更新",
-      "type": "タスク",
-      "detail": "Saitekiの読書サイクルシステムで使用しているGitHub Personal Access Tokenを更新し、コードと設定を修正する",
+      "id": "出来事:PAT更新作業_20260218",
+      "label": "GitHub PATの更新完了",
+      "type": "出来事",
+      "detail": "読書サイクルシステムのGitHub Personal Access Tokenを更新し、次期限を2027年2月18日に設定した",
       "status": "完了",
-      "category": "エンジニア",
-      "tags": [
-        "Saiteki",
-        "GitHubActions"
-      ]
-    },
-    {
-      "id": "制約:PAT_有効期限の到来",
-      "label": "GitHub PATの有効期限切れリスク",
-      "type": "制約",
-      "detail": "2026年2月22日にトークンの期限が切れることでワークフローが停止するリスク",
-      "status": "解決済み",
-      "constraint_type": "その他"
-    },
-    {
-      "id": "タスク:Novel_Writing_Sticker",
-      "label": "シール跡小説の投稿",
-      "type": "タスク",
-      "detail": "シール跡の日記を元に、AIを駆使して執筆した小説を投稿する",
-      "status": "完了",
-      "category": "副業",
-      "tags": [
-        "小説",
-        "AI活用"
-      ]
-    },
-    {
-      "id": "知見:AI_Prompt_Engineering_Novel",
-      "label": "AI小説執筆の最適化手法",
-      "type": "知見",
-      "detail": "単に生成させるのではなく、プロンプトの調整や書きたい内容を詳細に言語化することで、AIからの出力を劇的に改善できる",
+      "date": "2026-02-18",
       "category": "エンジニア"
     },
     {
-      "id": "感情:成果への手応え",
-      "label": "小説の仕上がりへの満足感",
+      "id": "出来事:AI小説の連続投稿",
+      "label": "AI小説の連続投稿",
+      "type": "出来事",
+      "detail": "シール跡や仮想現実をテーマにした小説を、プロンプト調整したAIを用いて投稿",
+      "status": "完了",
+      "date": "2026-02-18",
+      "category": "エンジニア"
+    },
+    {
+      "id": "出来事:ポメラAIブログの執筆",
+      "label": "ポメラとAIワークフローのブログ公開",
+      "type": "出来事",
+      "detail": "ポメラの集中力向上とテキスト出口の課題を解消するワークフローについての記事を執筆",
+      "status": "完了",
+      "date": "2026-02-18",
+      "category": "エンジニア"
+    },
+    {
+      "id": "出来事:妻への不適切な問い詰め",
+      "label": "妻への不適切な問い詰め",
+      "type": "出来事",
+      "detail": "蒼馬に対して怒る沙也香の心情を慮らず、理由を問い詰めてしまった",
+      "date": "2026-02-18",
+      "category": "夫"
+    },
+    {
+      "id": "知見:AIプロンプトの具体化技術",
+      "label": "AIプロンプトの具体化技術",
+      "type": "知見",
+      "detail": "テーマや大筋を詳しく書き、プロンプトを調整することでAIから一発で高品質な出力を得る手法",
+      "category": "エンジニア"
+    },
+    {
+      "id": "知見:ポメラ活用の核心的パラドックス解消",
+      "label": "ポメラ活用の核心的パラドックス解消",
+      "type": "知見",
+      "detail": "「集中力の最大化」と「テキスト出口の狭さの最小化」を同時に実現することがポメラ活用の鍵である",
+      "category": "エンジニア"
+    },
+    {
+      "id": "感情:夫としての自責の念",
+      "label": "夫としての自責の念",
       "type": "感情",
-      "detail": "AIとの協力により納得のいく品質の小説が書けたことへの手応え",
-      "sentiment": 0.8
+      "detail": "妻を支えるべき時に追い詰めてしまったことへの強い後悔と失格感",
+      "sentiment": -0.8,
+      "category": "夫"
+    },
+    {
+      "id": "制約:感情的配慮の不足",
+      "label": "感情切配慮の不足",
+      "type": "制約",
+      "detail": "相手の疲労や背景を想像する余裕がなく、正論で問い詰めてしまう心理的傾向",
+      "constraint_type": "感情的ブレーキ",
+      "category": "夫"
+    },
+    {
+      "id": "目標:AI小説の量産体制",
+      "label": "AI小説の量産体制",
+      "type": "目標",
+      "detail": "洗練されたプロンプトを活用し、1日10件程度の小説投稿を目指す",
+      "status": "進行中",
+      "category": "エンジニア"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-17T16:34:12.994108",
-      "last_seen": "2026-02-17T16:34:12.994109",
+      "first_seen": "2026-02-18T08:23:54.833025",
+      "last_seen": "2026-02-18T08:23:54.833026",
       "weight": 1
     }
   ],
   "edges": [
     {
       "source": "日記:2026-02-18",
-      "target": "タスク:Saiteki_PAT_Update",
+      "target": "出来事:PAT更新作業_20260218",
       "type": "言及する",
-      "label": "更新作業について記述"
+      "label": "更新作業を記録"
+    },
+    {
+      "source": "出来事:PAT更新作業_20260218",
+      "target": "制約:GitHub PATの有効期限切れリスク",
+      "type": "解決する",
+      "label": "トークンの更新によりリスクを解消"
+    },
+    {
+      "source": "知見:AIプロンプトの具体化技術",
+      "target": "出来事:AI小説の連続投稿",
+      "type": "原動力になる",
+      "label": "高品質な小説生成を可能にした"
+    },
+    {
+      "source": "知見:AIプロンプトの具体化技術",
+      "target": "目標:AI小説の量産体制",
+      "type": "原動力になる",
+      "label": "量産化の技術的基盤"
+    },
+    {
+      "source": "知見:AIプロンプトの具体化技術",
+      "target": "タスク:Blog_AI_Automation",
+      "type": "原動力になる",
+      "label": "ブログ自動化の精度向上に寄与"
+    },
+    {
+      "source": "知見:ポメラ活用の核心的パラドックス解消",
+      "target": "プロジェクト:ポメラエコシステムのアプリ化",
+      "type": "一部である",
+      "label": "アプリ設計の思想的根幹"
+    },
+    {
+      "source": "出来事:妻への不適切な問い詰め",
+      "target": "感情:夫としての自責の念",
+      "type": "引き起こす",
+      "label": "失言による後悔"
+    },
+    {
+      "source": "制約:感情的配慮の不足",
+      "target": "タスク:SayakaGratitude",
+      "type": "阻害する",
+      "label": "感謝を伝えるべき場面で問い詰めてしまった"
+    },
+    {
+      "source": "感情:夫としての自責の念",
+      "target": "タスク:SayakaGratitude",
+      "type": "関連する",
+      "label": "反省を感謝の言葉に変える必要がある"
     },
     {
       "source": "日記:2026-02-18",
-      "target": "タスク:Novel_Writing_Sticker",
+      "target": "出来事:ポメラAIブログの執筆",
       "type": "言及する",
-      "label": "小説投稿について記述"
-    },
-    {
-      "source": "タスク:Saiteki_PAT_Update",
-      "target": "制約:PAT_有効期限の到来",
-      "type": "解決する",
-      "label": "期限切れ前に更新完了"
-    },
-    {
-      "source": "タスク:Novel_Writing_Sticker",
-      "target": "知見:AI_Prompt_Engineering_Novel",
-      "type": "引き起こす",
-      "label": "試行錯誤から得られた"
-    },
-    {
-      "source": "知見:AI_Prompt_Engineering_Novel",
-      "target": "感情:成果への手応え",
-      "type": "原動力になる",
-      "label": "納得のいく成果に繋がった"
-    },
-    {
-      "source": "知見:AI_Prompt_Engineering_Novel",
-      "target": "タスク:Blog_AI_Automation",
-      "type": "原動力になる",
-      "label": "AI執筆の自動化に活用可能"
-    },
-    {
-      "source": "タスク:Novel_Writing_Sticker",
-      "target": "目標:個人での収益化・人気獲得",
-      "type": "関連する",
-      "label": "コンテンツ投稿による積み上げ"
+      "label": "執筆完了を記録"
     },
     {
       "source": "人物:自分",
@@ -115,30 +160,58 @@
     },
     {
       "source": "日記:2026-02-18",
-      "target": "制約:PAT_有効期限の到来",
+      "target": "出来事:AI小説の連続投稿",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
       "source": "日記:2026-02-18",
-      "target": "知見:AI_Prompt_Engineering_Novel",
+      "target": "出来事:妻への不適切な問い詰め",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
       "source": "日記:2026-02-18",
-      "target": "感情:成果への手応え",
+      "target": "知見:AIプロンプトの具体化技術",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-18",
+      "target": "知見:ポメラ活用の核心的パラドックス解消",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-18",
+      "target": "感情:夫としての自責の念",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-18",
+      "target": "制約:感情的配慮の不足",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-18",
+      "target": "目標:AI小説の量産体制",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-17T16:34:12.994093",
-    "source_file": "diary/20260217_[POMERA]2026年2月18日.txt",
-    "node_count": 6,
-    "edge_count": 7
+    "generated_at": "2026-02-18T08:23:54.833008",
+    "source_file": "diary/20260218_[POMERA]2026年2月18日.txt",
+    "node_count": 10,
+    "edge_count": 10
   }
 }
