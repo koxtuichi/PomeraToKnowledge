@@ -429,7 +429,7 @@ def save_article(article_data: Dict[str, Any], source_file: str) -> tuple:
 
 def publish_to_hatena(md_path: str, meta_path: str):
     """はてなブログに下書き投稿する。"""
-    cmd = ["python3", HATENA_PUBLISHER_SCRIPT, md_path, "--meta", meta_path]
+    cmd = ["python3", HATENA_PUBLISHER_SCRIPT, md_path, "--meta", meta_path, "--force"]
     print("🚀 はてなブログへの投稿を開始...")
     result = subprocess.run(cmd)
     if result.returncode != 0:
