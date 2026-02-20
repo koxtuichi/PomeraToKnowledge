@@ -189,3 +189,46 @@ function testBlogTrigger() {
     const success = triggerGitHubActionsWithEvent(token, '[TEST] BLOGテスト送信', BLOG_CONFIG.EVENT_TYPE);
     console.log(success ? '✅ ブログテスト成功！' : '❌ ブログテスト失敗');
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// STORY メール検知 — トリガーから1分間隔で呼び出される
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+const STORY_CONFIG = {
+    EVENT_TYPE: 'pomera-story',
+    GMAIL_QUERY: 'subject:STORY is:unread newer_than:1h -subject:POMERA -subject:BLOG'
+};
+
+function checkStoryMail() {
+    const threads = GmailApp.search(STORY_CONFIG.GMAIL_QUERY);
+
+    if (threads.length === 0) {
+        return; // 未読のSTORYメールなし
+    }
+
+    console.log(`📖 ${threads.length} 件のSTORYメールを検出`);
+
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        return;
+    }
+
+    const subject = threads[0].getFirstMessageSubject();
+    const success = triggerGitHubActionsWithEvent(token, subject, STORY_CONFIG.EVENT_TYPE);
+
+    if (success) {
+        threads.forEach(thread => thread.markRead());
+        console.log('✅ Story GitHub Actions をトリガーし、メールを既読にしました');
+    }
+}
+
+function testStoryTrigger() {
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN が未設定です');
+        return;
+    }
+    const success = triggerGitHubActionsWithEvent(token, '[TEST] STORYテスト送信', STORY_CONFIG.EVENT_TYPE);
+    console.log(success ? '✅ 小説テスト成功！' : '❌ 小説テスト失敗');
+}

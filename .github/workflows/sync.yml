@@ -65,5 +65,6 @@ jobs:
           git add role_definition.txt || true
           git add index.html || true
           git add daily_graph.json || true
+          git add story_drafts/ || true
 
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync: Antigravity Graph Update [skip ci]" && git push)
