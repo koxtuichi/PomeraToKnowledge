@@ -171,6 +171,26 @@ def merge_graphs(master, daily):
             
     master['edges'] = list(master_edges.values())
     
+    # --- 2.5 言及エッジで参照されたノードの last_seen を更新 ---
+    # 日記ノードから「言及する」エッジで繋がっているノードは、
+    # デイリーグラフに直接ノードとして抽出されなくても、言及があった事実を
+    # last_seen に反映する。これにより目標の進捗追跡が正確になる。
+    mention_updated = 0
+    current_time_mention = datetime.now().isoformat()
+    master_nodes_dict = {n['id']: n for n in master['nodes']}
+    
+    for edge in daily.get('edges', []):
+        if edge.get('type') == '言及する':
+            target_id = id_remap.get(edge['target'], edge['target'])
+            if target_id in master_nodes_dict:
+                master_nodes_dict[target_id]['last_seen'] = current_time_mention
+                mention_updated += 1
+    
+    master['nodes'] = list(master_nodes_dict.values())
+    
+    if mention_updated:
+        print(f"   🔗 言及エッジ経由で {mention_updated} ノードの last_seen を更新しました。")
+
     # --- 3. Update Metadata ---
     if 'metadata' not in master:
         master['metadata'] = {}
