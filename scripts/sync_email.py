@@ -104,11 +104,11 @@ def check_emails(mail, save_dir):
         print("❌ inbox選択に失敗")
         return [], []
 
-    # 今日の日付でIMAPクエリし、Python側で10分以内にフィルタ
+    # 今日の日付でIMAPクエリし、Python側で1時間以内にフィルタ
     from datetime import timedelta
     today_date = datetime.utcnow().strftime("%d-%b-%Y")
-    cutoff_time = datetime.utcnow() - timedelta(minutes=10)
-    print(f"📅 検索: SINCE {today_date}, 10分以内のメールのみ処理 (UTC cutoff: {cutoff_time.strftime('%H:%M:%S')})")
+    cutoff_time = datetime.utcnow() - timedelta(hours=1)
+    print(f"📅 検索: SINCE {today_date}, 1時間以内のメールのみ処理 (UTC cutoff: {cutoff_time.strftime('%H:%M:%S')})")
 
     saved_files = []
     blog_files = []
