@@ -1,4 +1,5 @@
-{
+// GRAPH_DATA_START
+const GRAPH_DATA = {
   "nodes": [
     {
       "id": "日記:2026-02-16",
@@ -9089,4 +9090,5 @@
     "node_count": 237,
     "edge_count": 700
   }
-}
+};
+// GRAPH_DATA_END

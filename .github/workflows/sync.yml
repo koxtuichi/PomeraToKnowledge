@@ -56,6 +56,9 @@ jobs:
             sleep 5
           done
 
+      - name: HTML の整合性チェック
+        run: python3 scripts/validate_html.py graph_data.js
+
       - name: Commit and Push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -63,8 +66,9 @@ jobs:
           git add diary/*.txt || true
           git add knowledge_graph.jsonld || true
           git add role_definition.txt || true
-          git add index.html || true
+          git add graph_data.js || true
           git add daily_graph.json || true
           git add story_drafts/ || true
 
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync: Antigravity Graph Update [skip ci]" && git push)
+

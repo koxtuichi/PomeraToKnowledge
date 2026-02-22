@@ -180,7 +180,15 @@ ANALYSIS_SYSTEM_PROMPT = """
         "emotion": "関連する感情"
       }
     ],
-    "family_todos": ["家族関連のやるべきこと"]
+    "family_todos": ["家族関連のやるべきこと"],
+    "shopping_list": [
+      {
+        "item": "商品名（例: おむつ、牛乳、シールはがし液）",
+        "category": "食料品/日用品/育児用品/医薬品/その他",
+        "urgency": "急ぎ/今週中/いつか",
+        "note": "補足メモ（任意、例: Mサイズ、Amazonで注文）"
+      }
+    ]
   },
   "blog_seeds": [
     {
@@ -202,6 +210,11 @@ ANALYSIS_SYSTEM_PROMPT = """
   - 日記中に「予定::2026/02/20 18:00-19:00」のように `予定::` メタデータで日時が記載されている場合は、そこから date と time を正確に抽出してください。
   - time は「18:00-19:00」「18:00」のような形式で記載します。時間が不明な場合のみ null にしてください。
   - 日記本文中に「〇時から」「〇〇時」などの時間記述がある場合も、それを time に含めてください。
+- 「family_digest.shopping_list」には日記やグラフから「買う必要があるもの」を抽出してください。
+  - 「〇〇を買う」「〇〇が切れた/なくなった」「〇〇を注文する」「〇〇が必要」などの記述から品目を抽出します。
+  - urgency は文脈から判断してください。「急いで」「今日中に」は「急ぎ」、それ以外は「今週中」か「いつか」とします。
+  - すでに「買った」「届いた」「注文済み」など完了している品目は shopping_list に含めないでください。
+  - 家族全員に共通する日用品・食料品も含めてください。日記に言及がなければ空配列で構いません。
 - 「family_digest」には ROLEtoKNOWLEDGE の役割定義に記載されている家族メンバーに関する情報を抽出してください。日記に家族の話題がなければ空で構いません。
 - 「blog_seeds」にはユーザーの日記から1話完結のフィクション短編小説の着想を提案してください。星新一のショートショートのような、匿名的で寓話的な物語です。ユーザーの体験をそのまま書くのではなく、テーマや感情を抽出して架空の物語にする前提です。readiness が「高」なものは、感情やエピソードが十分に濃く、すぐに執筆できるものです。
 
@@ -546,30 +559,63 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
 # HTML可視化の更新
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-def update_html_visualization(html_path: str, graph_data: Dict[str, Any]):
-    """index.htmlのGRAPH_DATAを更新する。"""
+def _validate_graph_data(graph_data: Dict[str, Any]) -> None:
+    """GRAPH_DATA の整合性を検証する。失敗した場合は RuntimeError を送出。"""
+    if not isinstance(graph_data, dict):
+        raise RuntimeError("GRAPH_DATA がオブジェクトではありません")
+    if "nodes" not in graph_data or not isinstance(graph_data["nodes"], list):
+        raise RuntimeError("GRAPH_DATA.nodes が見つからないか、リストではありません")
+    if "edges" not in graph_data or not isinstance(graph_data["edges"], list):
+        raise RuntimeError("GRAPH_DATA.edges が見つからないか、リストではありません")
+    # JSON としてシリアライズ・デシリアライズできるか確認
     try:
-        with open(html_path, "r", encoding="utf-8") as f:
-            html_content = f.read()
-
-        start_marker = "// GRAPH_DATA_START"
-        end_marker = "// GRAPH_DATA_END"
-
-        start_idx = html_content.find(start_marker)
-        end_idx = html_content.find(end_marker)
-
-        if start_idx != -1 and end_idx != -1:
-            new_block = f"{start_marker}\n    const GRAPH_DATA = {json.dumps(graph_data, ensure_ascii=False, indent=2)};\n    "
-            new_html = html_content[:start_idx] + new_block + html_content[end_idx:]
-
-            with open(html_path, "w", encoding="utf-8") as f:
-                f.write(new_html)
-            print(f"✅ 可視化画面を更新しました: {html_path}")
-        else:
-            print(f"⚠️ マーカーが見つかりません: {html_path}")
-
+        roundtripped = json.loads(json.dumps(graph_data, ensure_ascii=False))
+        assert len(roundtripped["nodes"]) == len(graph_data["nodes"])
     except Exception as e:
-        print(f"❌ HTML更新エラー: {e}")
+        raise RuntimeError(f"GRAPH_DATA の JSON シリアライズ検証に失敗: {e}")
+
+
+def update_html_visualization(html_path: str, graph_data: Dict[str, Any]):
+    """graph_data.js の GRAPH_DATA を更新する。
+
+    index.html 本体ではなく、同じディレクトリの graph_data.js を書き換えることで
+    index.html が破損するリスクを根本的に排除する。
+    """
+    import os
+    js_path = os.path.join(os.path.dirname(os.path.abspath(html_path)), "graph_data.js")
+    try:
+        # ─── 書き込み前に整合性を検証 ─────────────────────────────────
+        _validate_graph_data(graph_data)
+
+        # graph_data.js の内容を生成
+        new_content = (
+            "// GRAPH_DATA_START\n"
+            f"const GRAPH_DATA = {json.dumps(graph_data, ensure_ascii=False, indent=2)};\n"
+            "// GRAPH_DATA_END\n"
+        )
+
+        with open(js_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+
+        # ─── 書き込み後に再読み込みして検証 ───────────────────────────
+        with open(js_path, "r", encoding="utf-8") as f:
+            written = f.read()
+        # const GRAPH_DATA = ... ; の JSON 部分を抽出して検証
+        import re
+        m = re.search(r"const GRAPH_DATA = (\{.*\});", written, re.DOTALL)
+        if not m:
+            raise RuntimeError("書き込み後の graph_data.js から GRAPH_DATA を抽出できません")
+        json.loads(m.group(1))  # パースできるか確認
+
+        node_count = len(graph_data["nodes"])
+        edge_count = len(graph_data["edges"])
+        print(f"✅ graph_data.js を更新しました: {node_count} nodes, {edge_count} edges")
+
+    except RuntimeError as e:
+        print(f"❌ GRAPH_DATA 検証エラー: {e}")
+        raise
+    except Exception as e:
+        print(f"❌ graph_data.js 更新エラー: {e}")
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

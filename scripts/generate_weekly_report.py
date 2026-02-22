@@ -140,32 +140,38 @@ def generate_report(context):
         return f"Error generating report: {e}"
 
 def update_html_visualization(html_path: str, graph_data: Dict[str, Any]):
-    """Injects the graph data into the GRAPH_DATA variable in index.html using markers"""
-    try:
-        with open(html_path, "r", encoding="utf-8") as f:
-            html_content = f.read()
-        
-        start_marker = "// GRAPH_DATA_START"
-        end_marker = "// GRAPH_DATA_END"
-        
-        start_idx = html_content.find(start_marker)
-        end_idx = html_content.find(end_marker)
-        
-        if start_idx != -1 and end_idx != -1:
-            # Create the new data block
-            new_block = f"{start_marker}\n    const GRAPH_DATA = {json.dumps(graph_data, ensure_ascii=False, indent=2)};\n    "
-            
-            # Replace content between start_idx and end_idx (keeping the end marker)
-            new_html = html_content[:start_idx] + new_block + html_content[end_idx:]
-            
-            with open(html_path, "w", encoding="utf-8") as f:
-                f.write(new_html)
-            print(f"✅ Visualization updated: {html_path}")
-        else:
-            print(f"⚠️ Markers not found in {html_path}")
+    """graph_data.js の GRAPH_DATA を更新する。
 
+    index.html 本体ではなく、同じディレクトリの graph_data.js を書き換える。
+    """
+    import re as _re
+    js_path = os.path.join(os.path.dirname(os.path.abspath(html_path)), "graph_data.js")
+    try:
+        # 書き込み前に基本的な整合性を確認
+        if not isinstance(graph_data.get("nodes"), list):
+            raise ValueError("graph_data.nodes がリストではありません")
+
+        new_content = (
+            "// GRAPH_DATA_START\n"
+            f"const GRAPH_DATA = {json.dumps(graph_data, ensure_ascii=False, indent=2)};\n"
+            "// GRAPH_DATA_END\n"
+        )
+
+        with open(js_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+
+        # 書き込み後に再読みして JSON パースを確認
+        with open(js_path, "r", encoding="utf-8") as f:
+            written = f.read()
+        m = _re.search(r"const GRAPH_DATA = (\{.*\});", written, _re.DOTALL)
+        if not m:
+            raise ValueError("書き込み後の graph_data.js から GRAPH_DATA を抽出できません")
+        json.loads(m.group(1))
+
+        print(f"✅ graph_data.js を更新しました: {len(graph_data['nodes'])} nodes")
     except Exception as e:
-        print(f"❌ Error updating HTML: {e}")
+        print(f"❌ graph_data.js 更新エラー: {e}")
+
 
 def save_to_graph_and_visualize(report_text, target_date_str, daily_nodes, full_graph):
     # 1. Create Weekly Review Node
