@@ -1278,6 +1278,18 @@
           <div id="coach-comment">分析データを読み込んでいます...</div>
         </div>
 
+        <!-- 停滞目標チェックイン: 2日以上更新なしの進行中目標 -->
+        <div class="dash-card" id="stalled-goals-card"
+          style="display:none; margin-bottom: 8px; border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.05);">
+          <div class="card-header">
+            <div class="card-icon" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24;">🎯</div>
+            <div class="card-title">追いかけ中の目標</div>
+            <div class="card-count" id="stalled-goals-count"></div>
+          </div>
+          <div style="font-size: 12px; color: var(--muted); margin-bottom: 14px;">最近日記に登場していない目標です。進捗はどうですか？</div>
+          <div id="stalled-goals-list"></div>
+        </div>
+
         <div class="dashboard-grid">
           <!-- 重力マップ -->
           <div class="dash-card">
@@ -1505,11 +1517,75 @@
       // ブログ素材
       renderBlogSeeds(data.blog_seeds || []);
 
+      // 停滞目標チェックイン
+      renderStalledGoals();
+
       // メタデータ
       if (GRAPH_DATA.metadata && GRAPH_DATA.metadata.last_updated) {
         const d = new Date(GRAPH_DATA.metadata.last_updated);
         document.getElementById('last-updated').textContent = `最終更新: ${d.toLocaleDateString('ja-JP')} ${d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}`;
       }
+    }
+
+    // ── 停滞目標チェックイン ──
+    function getStalledGoals(thresholdDays = 2) {
+      const now = new Date();
+      const nodes = (GRAPH_DATA && GRAPH_DATA.nodes) ? GRAPH_DATA.nodes : [];
+      return nodes
+        .filter(n => {
+          if (n.type !== '目標') return false;
+          if (n.status === '達成') return false;
+          const lastSeen = new Date(n.last_seen || n.first_seen);
+          if (isNaN(lastSeen)) return false;
+          const dayDiff = (now - lastSeen) / (1000 * 60 * 60 * 24);
+          return dayDiff >= thresholdDays;
+        })
+        .sort((a, b) => new Date(a.last_seen) - new Date(b.last_seen));
+    }
+
+    function renderStalledGoals() {
+      const goals = getStalledGoals();
+      const card = document.getElementById('stalled-goals-card');
+      const list = document.getElementById('stalled-goals-list');
+      const countEl = document.getElementById('stalled-goals-count');
+
+      if (!goals.length) {
+        card.style.display = 'none';
+        return;
+      }
+
+      card.style.display = 'block';
+      countEl.textContent = `${goals.length}件`;
+
+      list.innerHTML = goals.map(g => {
+        const lastSeen = new Date(g.last_seen || g.first_seen);
+        const now = new Date();
+        const dayDiff = Math.floor((now - lastSeen) / (1000 * 60 * 60 * 24));
+        const statusLabel = g.status || '進行中';
+        const statusColor = g.status === '達成' ? '#22c55e' : g.status === '中止' ? '#ef4444' : '#fbbf24';
+
+        return `
+          <div style="
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(251,191,36,0.2);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+          ">
+            <div style="font-size: 22px; padding-top: 2px;">🎯</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+                <span style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${g.label}</span>
+                <span style="font-size: 11px; background: rgba(251,191,36,0.15); color: ${statusColor}; border-radius: 4px; padding: 2px 6px;">${statusLabel}</span>
+                <span style="font-size: 11px; color: var(--muted);">⏱ ${dayDiff}日前に言及</span>
+              </div>
+              ${g.detail ? `<div style="font-size: 12px; color: var(--muted); line-height: 1.6;">${g.detail}</div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
     }
 
     function renderEmptyStates() {
