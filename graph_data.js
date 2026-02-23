@@ -377,11 +377,7 @@ const GRAPH_DATA = {
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T07:23:14.339430",
-=======
-      "last_seen": "2026-02-23T16:25:56.642374",
->>>>>>> Stashed changes
       "weight": 99,
       "tags": []
     },
@@ -1893,11 +1889,7 @@ const GRAPH_DATA = {
       "status": "未着手",
       "detail": "ポメラで書いた日記をAIで分析するフローをアプリケーションとして構築する",
       "first_seen": "2026-02-17T09:07:31.677810",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T07:23:14.339817",
-=======
-      "last_seen": "2026-02-23T16:25:56.642885",
->>>>>>> Stashed changes
       "weight": 2.9,
       "tags": [
         "3連休目標"
@@ -2229,22 +2221,17 @@ const GRAPH_DATA = {
     },
     {
       "id": "知見:Pomera_Workflow_Core",
-      "label": "ポメラの本質は考える時間を作ること",
+      "label": "ポメラ活用の核心",
       "type": "知見",
-      "detail": "ポメラの使い方の真髄は、あらゆる課題に対して「考える時間」を強制的に確保するHowとして機能させることにある。",
+      "detail": "ポメラ使用のメリットを最大化するには「集中力の向上」と「テキスト出口の狭さの解消」の両立が必須である。",
       "category": "エンジニア",
       "tags": [
         "ポメラ",
         "思考整理"
       ],
       "first_seen": "2026-02-18T17:25:26.823316",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-18T17:25:26.823316",
       "weight": 0.6
-=======
-      "last_seen": "2026-02-23T16:25:56.642885",
-      "weight": 1.8
->>>>>>> Stashed changes
     },
     {
       "id": "出来事:Conflict_With_Sayaka",
@@ -2851,17 +2838,10 @@ const GRAPH_DATA = {
       "id": "日記:20260223",
       "label": "日記 2026-02-23",
       "type": "日記",
-<<<<<<< Updated upstream
       "detail": "ポメラ購入から1週間が経過。ブログの指針や自動化パイプラインの成果について整理。",
       "date": "2026-02-23",
       "first_seen": "2026-02-23T11:05:47.171697",
       "last_seen": "2026-02-23T07:23:14.339817",
-=======
-      "detail": "ポメラのパイプライン構築の成果実感と、ブログ運営の目的・ゴール（ポメラユーザーを一人増やす）の定義。",
-      "date": "2026-02-23",
-      "first_seen": "2026-02-23T11:05:47.171697",
-      "last_seen": "2026-02-23T16:25:56.642885",
->>>>>>> Stashed changes
       "weight": 1,
       "tags": []
     },
@@ -2878,37 +2858,22 @@ const GRAPH_DATA = {
       "id": "タスク:Blog_Workflow_Establishment",
       "label": "ブログ執筆フローと管理ルールの策定",
       "type": "タスク",
-      "detail": "「次はこれ」と迷わず書けるフローの構築。アイデアレベルでの投稿許容や、蓄積ルールの検討を含む。",
-      "status": "進行中",
+      "detail": "何を書くか迷う時間を減らすため、次に書く話題を明確にするフローとアイデアを溜めるルールを決める。",
+      "status": "未着手",
       "category": "エンジニア",
       "first_seen": "2026-02-23T11:05:47.171818",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T07:23:14.339817",
       "weight": 0.95
-=======
-      "last_seen": "2026-02-23T16:25:56.642885",
-      "weight": 2,
-      "tags": [
-        "ブログ",
-        "ポメラ"
-      ]
->>>>>>> Stashed changes
     },
     {
       "id": "制約:ブログ執筆における完璧主義",
       "label": "ブログ内容への完璧主義",
       "type": "制約",
-      "detail": "完成した内容でなければならないという思い込み。日記にて「アイデア段階でも良い」と認識を崩し始めている。",
+      "detail": "完成した内容でなければならないという認識が、執筆の着手を遅らせている。",
       "constraint_type": "感情的ブレーキ",
       "first_seen": "2026-02-23T11:05:47.171844",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T11:05:47.172766",
       "weight": 0.95
-=======
-      "last_seen": "2026-02-23T16:25:56.642885",
-      "weight": 2,
-      "tags": []
->>>>>>> Stashed changes
     },
     {
       "id": "制約:アイデア管理ルールの欠如",
@@ -2936,7 +2901,6 @@ const GRAPH_DATA = {
       "date": "2026-02-23",
       "detail": "今日の日記エントリ",
       "first_seen": "2026-02-23T11:05:47.171921",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T07:23:14.339408",
       "weight": 1,
       "analysis_content": "{\n  \"coach_comment\": \"ポメラ自動反映フローの構築、本当にお疲れ様です。自分の「分身」をデジタル空間に構築する作業は、まさに重力を振り切るための強力な推進力になりますね。完璧主義という強い重力に対しては、まずは『自動化されたシステムが動く快感』を優先し、粗削りなアイデアをそのまま流し込む練習から始めていきましょう。\",\n  \"gravity_map\": [\n    {\n      \"task\": \"ブログ執筆・大量投稿\",\n      \"task_id\": \"blog_posting\",\n      \"constraints\": [\n        {\n          \"name\": \"ブログ内容への完璧主義\",\n          \"type\": \"感情的ブレーキ\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"執筆のための深い集中力の確保困難\",\n          \"type\": \"時間不足\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"Pomera自動反映フローの構築\",\n          \"type\": \"知見\"\n        },\n        {\n          \"name\": \"ブログはアイデアレベルでも価値があるという確信\",\n          \"type\": \"目標\"\n        }\n      ],\n      \"net_assessment\": \"自動化により物理的ハードルは下がったが、心理的な『完成度』へのこだわりが依然として強い重力となっている。\"\n    },\n    {\n      \"task\": \"希望給与条件の整理と提示\",\n      \"task_id\": \"salary_negotiation\",\n      \"constraints\": [\n        {\n          \"name\": \"所得税支払いの不確実性\",\n          \"type\": \"リソース不足\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"社員か役員かの選択の迷い\",\n          \"type\": \"感情적ブレーキ\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"国保料金の現状把握\",\n          \"type\": \"知見\"\n        }\n      ],\n      \"net_assessment\": \"将来の支出不安が足かせになっているが、現状のコスト構造が見えてきたことで交渉の土台は整いつつある。\"\n    },\n    {\n      \"task\": \"年内体重75kg切り\",\n      \"task_id\": \"weight_loss\",\n      \"constraints\": [\n        {\n          \"name\": \"塩分過多による水分保持\",\n          \"type\": \"物理的障害\",\n          \"severity\": \"高\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"79kg台到達の成功体験\",\n          \"type\": \"感情\"\n        },\n        {\n          \"name\": \"スープ完飲の影響への冷静な分析\",\n          \"type\": \"知見\"\n        }\n      ],\n      \"net_assessment\": \"食生活による一時的な重力増（水分）が発生しているが、原因を特定できているためリカバリーは容易。\"\n    }\n  ],\n  \"antigravity_actions\": [\n    {\n      \"action\": \"ポメラで『一言だけの呟き』をあえてブログ下書きに飛ばしてみる\",\n      \"target_task\": \"ブログ執筆フローと管理ルールの策定\",\n      \"effect\": \"文章を完成させなければならないという重力を、システムを動かすテストという名目で軽減する\",\n      \"effort\": \"5分\"\n    },\n    {\n      \"action\": \"昨年の確定申告書を元に、AIを使って今年の納税予測額の『最悪のケース』を算出させる\",\n      \"target_task\": \"希望給与条件の整理と提示\",\n      \"effect\": \"不確実性からくる恐怖を、具体的な『数字』という制御可能な情報に置き換える\",\n      \"effort\": \"30分\"\n    },\n    {\n      \"action\": \"書斎で集中する際、あえて『今から20分は育児を妻に完全に任せる』と宣言し、ノイズキャンセリングヘッドホンを装着する\",\n      \"target_task\": \"執筆のための深い集中力の確保\",\n      \"effect\": \"子供の泣き声への反応という感情的ブレーキを物理的に遮断し、心理的安全圏を確保する\",\n      \"effort\": \"30分\"\n    }\n  ],\n  \"insights\": [\n    {\n      \"finding\": \"自動化への投資が精神の安定に寄与している\",\n      \"implication\": \"エンジニアリングによって生活の『運用負荷』を下げるアプローチが、今のユーザーにとって最も効果的な反重力装置になっている。\"\n    },\n    {\n      \"finding\": \"失敗を物理現象として分析できている\",\n      \"implication\": \"体重増加を「自分の意志の弱さ」ではなく「塩分による水分保持」と捉える視点は、不要な自責の念（重力）を消去している。\"\n    }\n  ],\n  \"emotion_flow\": [\n    {\n      \"emotion\": \"開発の楽しさ\",\n      \"sentiment\": 0.8,\n      \"context\": \"Pomera自動反映フローが完成し、自分の分身が動いている感覚を得たことによる高揚感。\"\n    },\n    {\n      \"emotion\": \"完璧主義への気づき\",\n      \"sentiment\": 0.5,\n      \"context\": \"アイデアレベルでも価値があるというパラダイムシフトによる、執筆に対する前向きな変化。\"\n    },\n    {\n      \"emotion\": \"体重増加への分析的懸念\",\n      \"sentiment\": -0.2,\n      \"context\": \"ラーメン摂取後の体重増を冷静に分析しつつも、目標への停滞に対する微かな焦り。\"\n    }\n  ],\n  \"upcoming_schedule\": [\n    {\n      \"title\": \"城山公園ピクニック（当日）\",\n      \"date\": \"2026-02-23\",\n      \"time\": null,\n      \"category\": \"家族\"\n    }\n  ],\n  \"family_digest\": {\n    \"highlights\": [\n      {\n        \"member\": \"蒼馬\",\n        \"event\": \"3時間の散歩を一緒に楽しみ、健やかに成長している\",\n        \"emotion\": \"幸福感\"\n      },\n      {\n        \"member\": \"沙也香\",\n        \"event\": \"ピクニックや散歩など家族の時間を共有できている\",\n        \"emotion\": \"感謝\"\n      }\n    ],\n    \"family_todos\": [\n      \"沙也香の体調経過観察と、病院受診への心理的ケア\",\n      \"義父との庭いじりに関する役割分担の対話（善意への感謝を伝えつつ境界線を引く）\"\n    ],\n    \"shopping_list\": [\n      {\n        \"item\": \"猫の餌\",\n        \"category\": \"日用品\",\n        \"urgency\": \"急ぎ\",\n        \"note\": \"AOKI薬局で購入予定\"\n      },\n      {\n        \"item\": \"犬のシーツ\",\n        \"category\": \"日用品\",\n        \"urgency\": \"急ぎ\",\n        \"note\": \"AOKI薬局で購入予定\"\n      },\n      {\n        \"item\": \"バナナ\",\n        \"category\": \"食料品\",\n        \"urgency\": \"今週中\",\n        \"note\": \"塩分排出（カリウム摂取）のため\"\n      }\n    ]\n  },\n  \"blog_seeds\": [\n    {\n      \"title\": \"下書きの森の管理人\",\n      \"genre\": \"ファンタジー\",\n      \"tone\": \"哲学的\",\n      \"story_seed\": \"ある男のPCの中に、未完成の下書きだけが住まう森がある。管理人のロボットは、男が『完璧じゃないから』と捨てた言葉たちを拾い集め、それらを組み合わせて美しい星座を作っている。ある日、男がその森を覗き込むと……。\",\n      \"core_message\": \"断片的な思考こそが、後に大きな光を放つ材料になる。\",\n      \"reader_feeling\": \"未完成な自分を許せるような温かい気持ち\",\n      \"readiness\": \"高\"\n    }\n  ],\n  \"blog_ideas\": []\n}",
@@ -2961,49 +2925,12 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-23T07:23:14.339315",
       "last_seen": "2026-02-23T07:23:14.339817",
-=======
-      "last_seen": "2026-02-23T16:25:56.642348",
-      "weight": 1,
-      "analysis_content": "```json\n{\n  \"coach_comment\": \"自分自身の『分身』となる自動化フローの完成、本当におめでとうございます。完璧主義という重力に対して「アイデア段階でも価値がある」という反重力を手に入れたのは大きな前進です。ラーメンの塩分による一時的な停滞も、仕組み化の楽しさで軽やかに乗り越えていきましょう。\",\n  \"gravity_map\": [\n    {\n      \"task\": \"ブログ執筆・大量投稿\",\n      \"task_id\": \"blog_mass_posting\",\n      \"constraints\": [\n        {\n          \"name\": \"ブログ内容への完璧主義\",\n          \"type\": \"感情的ブレーキ\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"執筆のための深い集中力の確保困難\",\n          \"type\": \"時間不足\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"Pomera自動反映フローの構築\",\n          \"type\": \"知見\"\n        },\n        {\n          \"name\": \"ブログはアイデアレベルでも価値があるという確信\",\n          \"type\": \"目標\"\n        }\n      ],\n      \"net_assessment\": \"自動化により投稿の物理的重力は消滅したが、心理的な「完成度」へのこだわりをどう逃がすかが鍵となる。\"\n    },\n    {\n      \"task\": \"年内体重75kg切り\",\n      \"task_id\": \"weight_loss\",\n      \"constraints\": [\n        {\n          \"name\": \"塩分過多による水分保持\",\n          \"type\": \"物理的障害\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"YouTubeによる夜更かし\",\n          \"type\": \"疲労\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"スープ完飲の影響への冷静な分析\",\n          \"type\": \"知見\"\n        },\n        {\n          \"name\": \"79kg台到達の成功体験\",\n          \"type\": \"感情\"\n        }\n      ],\n      \"net_assessment\": \"身体的な重力が一時的に増しているが、原因が明確なため、排出（反重力）のアクションで容易に相殺可能。\"\n    },\n    {\n      \"task\": \"Knowbeでの自信回復と業務遂行\",\n      \"task_id\": \"knowbe_confidence\",\n      \"constraints\": [\n        {\n          \"name\": \"Knowbeにおける心理的安全性の欠如\",\n          \"type\": \"感情적ブレーキ\",\n          \"severity\": \"高\"\n        },\n        {\n          \"name\": \"具体的な課題提示の困難さ\",\n          \"type\": \"感情的ブレーキ\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"ポメラ→AI分析による思考の客観視\",\n          \"type\": \"知見\"\n        }\n      ],\n      \"net_assessment\": \"対人関係の重力が強いが、自作のAIパイプラインを「思考の盾」として活用することで負担を軽減できる。\"\n    }\n  ],\n  \"antigravity_actions\": [\n    {\n      \"action\": \"ポメラで『まだ公開できないレベルのボツネタ』をあえて1つ、自動フローで下書き送信する\",\n      \"target_task\": \"ブログ執筆フローと管理ルールの策定\",\n      \"effect\": \"完璧主義を破壊し、自動化されたシステムの便利さを体感することで投稿の心理的障壁を下げる\",\n      \"effort\": \"5分\"\n    },\n    {\n      \"action\": \"コップ2杯の多めの水とバナナを摂取し、軽めのストレッチを行う\",\n      \"target_task\": \"年内体重75kg切り\",\n      \"effect\": \"カリウム摂取と水分循環により、ラーメンの塩分によるむくみ（水分保持）を物理的に排出する\",\n      \"effort\": \"10分\"\n    },\n    {\n      \"action\": \"Knowbeの課題について、ポメラで『独り言』として書き出し、AI分析にかけて「3つの論点」に要約させる\",\n      \"target_task\": \"Knowbe MTG前の思考整理\",\n      \"effect\": \"混沌とした不安をAIというフィルターに通すことで、会議での発言に対する心理的ハードルを下げる\",\n      \"effort\": \"15分\"\n    },\n    {\n      \"action\": \"義父の庭いじり提案への回答を『感謝・現状・希望』の3ステップでポメラに下書きする\",\n      \"target_task\": \"清掃後の美化習慣の策定\",\n      \"effect\": \"善意の介入への対応負荷（心理的重力）を、言語化によって整理し、納得感のある対話につなげる\",\n      \"effort\": \"10分\"\n    }\n  ],\n  \"insights\": [\n    {\n      \"finding\": \"自動化が「自信」の源泉になっている\",\n      \"implication\": \"エンジニアリングによって自分を助けるという成功体験が、他の不確実なタスク（減量、給与交渉）への前向きな姿勢を支えている。\"\n    },\n    {\n      \"finding\": \"執筆の重力は「量」ではなく「質の呪縛」にある\",\n      \"implication\": \"「書けない」のではなく「完成させたい」というエネルギーが逆にブレーキになっているため、あえて『崩す』プロセスが必要。\"\n    }\n  ],\n  \"emotion_flow\": [\n    {\n      \"emotion\": \"開発の高揚感\",\n      \"sentiment\": 0.9,\n      \"context\": \"Pomera自動反映フローが完成し、自分の知性が外部化されたことへの満足感。\"\n    },\n    {\n      \"emotion\": \"分析的な冷静さ\",\n      \"sentiment\": 0.4,\n      \"context\": \"体重増の原因を塩分と特定し、感情的にならずに対策を考えられている。\"\n    },\n    {\n      \"emotion\": \"家族への幸福感\",\n      \"sentiment\": 0.8,\n      \"context\": \"3時間の散歩や城山公園でのピクニック予定など、家族との時間がエネルギーになっている。\"\n    }\n  ],\n  \"upcoming_schedule\": [\n    {\n      \"title\": \"城山公園ピクニック\",\n      \"date\": \"2026-02-23\",\n      \"time\": null,\n      \"category\": \"家族\"\n    }\n  ],\n  \"family_digest\": {\n    \"highlights\": [\n      {\n        \"member\": \"蒼馬\",\n        \"event\": \"3時間の散歩に付き合えるほど体力がつき、元気に成長している\",\n        \"emotion\": \"幸福感\"\n      },\n      {\n        \"member\": \"沙也香\",\n        \"event\": \"家族でのピクニックを楽しみにしており、良好な関係が続いている\",\n        \"emotion\": \"感謝\"\n      }\n    ],\n    \"family_todos\": [\n      \"沙也香の体調経過観察と、病院受診に関する優しい声掛け\",\n      \"義父への庭いじりに関する丁寧な意思表示\"\n    ],\n    \"shopping_list\": [\n      {\n        \"item\": \"猫の餌\",\n        \"category\": \"日用品\",\n        \"urgency\": \"急ぎ\",\n        \"note\": \"AOKI薬局\"\n      },\n      {\n        \"item\": \"犬のシーツ\",\n        \"category\": \"日用品\",\n        \"urgency\": \"急ぎ\",\n        \"note\": \"AOKI薬局\"\n      },\n      {\n        \"item\": \"バナナ\",\n        \"category\": \"食料品\",\n        \"urgency\": \"急ぎ\",\n        \"note\": \"塩分排出（カリウム）のため\"\n      }\n    ]\n  },\n  \"blog_seeds\": [\n    {\n      \"title\": \"未完成を愛する機械\",\n      \"genre\": \"日常\",\n      \"tone\": \"哲学的\",\n      \"story_seed\": \"ある男が、ポメラの中に『自分の欠点や悩み』を書き込むと、それを『美しい星』に変えて空に放つAIを作る。最初は星の輝きに満足していたが、ある日、星にならなかった『泥臭い生の思考』の中にこそ、自分が本当に求めていた答えがあったことに気づく。\",\n      \"core_message\": \"完成された成果物よりも、そこに至るまでの汚い思考プロセスにこそ人間の魂が宿る。\",\n      \"reader_feeling\": \"ありのままの自分を肯定したくなるような温かさ\",\n      \"readiness\": \"高\"\n    }\n  ],\n  \"blog_ideas\": []\n}\n```",
-      "tags": []
-    },
-    {
-      "id": "出来事:PomeraPipelineCompletion",
-      "label": "ポメラ分析パイプラインの完成",
-      "type": "出来事",
-      "status": "完了",
-      "detail": "ポメラ→Gmail→GAS→GitHub Actions→AI分析という一連の自動フローが整い、課題解決に寄与し始めた。",
-      "date": "2026-02-23",
-      "first_seen": "2026-02-23T16:25:56.642072",
-      "last_seen": "2026-02-23T16:25:56.642885",
-      "weight": 1
-    },
-    {
-      "id": "感情:ConfidenceInSystem",
-      "label": "システム構築への手応え",
-      "type": "感情",
-      "sentiment": 0.8,
-      "detail": "構築したパイプラインが生活の課題解決に良い影響を与えていることへの満足感と期待感。",
-      "first_seen": "2026-02-23T16:25:56.642153",
-      "last_seen": "2026-02-23T16:25:56.642885",
-      "weight": 1
-    },
-    {
-      "id": "目標:PomeraUserAcquisition",
-      "label": "ブログきっかけのポメラユーザー獲得",
-      "type": "目標",
-      "status": "進行中",
-      "detail": "ブログを通じてポメラを使いたいと思う人を一人見つけること。ポメラ界隈の活性化。",
-      "first_seen": "2026-02-23T16:25:56.642210",
-      "last_seen": "2026-02-23T16:25:56.642885",
->>>>>>> Stashed changes
       "weight": 1
     },
     {
       "id": "概念:ポメラ駆動",
       "label": "ポメラ駆動",
       "type": "概念",
-<<<<<<< Updated upstream
       "detail": "日常の課題に対してポメラで「考える時間」を作ることをHow（手段）として、課題解決を図るスタイル。",
       "tags": [
         "ポメラ駆動"
@@ -3042,11 +2969,6 @@ const GRAPH_DATA = {
       "sentiment": 0.8,
       "first_seen": "2026-02-23T07:23:14.339390",
       "last_seen": "2026-02-23T07:23:14.339817",
-=======
-      "detail": "ポメラを生活や思考の中心に据え、そこからアウトプットや改善を回していくスタイル。",
-      "first_seen": "2026-02-23T16:25:56.642262",
-      "last_seen": "2026-02-23T16:25:56.642885",
->>>>>>> Stashed changes
       "weight": 1
     }
   ],
@@ -8131,15 +8053,10 @@ const GRAPH_DATA = {
       "source": "知見:Pomera_Workflow_Core",
       "target": "目標:Pomera活用本の執筆",
       "type": "一部である",
-      "label": "本の核心的なメッセージとなる",
+      "label": "本の核となるコンセプト",
       "first_seen": "2026-02-18T17:25:26.824362",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-18T17:25:26.824362",
       "weight": 0.6
-=======
-      "last_seen": "2026-02-23T16:25:56.642849",
-      "weight": 1.8
->>>>>>> Stashed changes
     },
     {
       "source": "出来事:Conflict_With_Sayaka",
@@ -9648,15 +9565,9 @@ const GRAPH_DATA = {
       "source": "日記:20260223",
       "target": "目標:ポメラエコシステムのアプリ化",
       "type": "言及する",
-<<<<<<< Updated upstream
       "label": "パイプライン構築の進捗に言及",
       "first_seen": "2026-02-23T11:05:47.172715",
       "last_seen": "2026-02-23T07:23:14.339764",
-=======
-      "label": "パイプライン構築の成功について言及",
-      "first_seen": "2026-02-23T11:05:47.172715",
-      "last_seen": "2026-02-23T16:25:56.642823",
->>>>>>> Stashed changes
       "weight": 2
     },
     {
@@ -9729,11 +9640,7 @@ const GRAPH_DATA = {
       "label": "書いた",
       "weight": 2,
       "first_seen": "2026-02-23T11:05:47.172739",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T07:23:14.339792"
-=======
-      "last_seen": "2026-02-23T16:25:56.642858"
->>>>>>> Stashed changes
     },
     {
       "source": "日記:2026-02-23",
@@ -9742,11 +9649,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "weight": 2,
       "first_seen": "2026-02-23T11:05:47.172741",
-<<<<<<< Updated upstream
       "last_seen": "2026-02-23T07:23:14.339795"
-=======
-      "last_seen": "2026-02-23T16:25:56.642861"
->>>>>>> Stashed changes
     },
     {
       "source": "日記:2026-02-23",
@@ -9771,26 +9674,18 @@ const GRAPH_DATA = {
       "target": "タスク:Blog_Workflow_Establishment",
       "type": "言及する",
       "label": "言及",
-<<<<<<< Updated upstream
       "weight": 0.95,
-=======
-      "weight": 2,
->>>>>>> Stashed changes
       "first_seen": "2026-02-23T11:05:47.172748",
-      "last_seen": "2026-02-23T16:25:56.642875"
+      "last_seen": "2026-02-23T11:05:47.172748"
     },
     {
       "source": "日記:2026-02-23",
       "target": "制約:ブログ執筆における完璧主義",
       "type": "言及する",
       "label": "言及",
-<<<<<<< Updated upstream
       "weight": 0.95,
-=======
-      "weight": 1.95,
->>>>>>> Stashed changes
       "first_seen": "2026-02-23T11:05:47.172750",
-      "last_seen": "2026-02-23T16:25:56.642873"
+      "last_seen": "2026-02-23T11:05:47.172750"
     },
     {
       "source": "日記:2026-02-23",
@@ -9812,7 +9707,6 @@ const GRAPH_DATA = {
     },
     {
       "source": "日記:20260223",
-<<<<<<< Updated upstream
       "target": "タスク:Blog_Workflow_Establishment",
       "type": "言及する",
       "label": "執筆フローの課題について整理",
@@ -9908,90 +9802,10 @@ const GRAPH_DATA = {
       "label": "アイデアを溜める決め事がないことを確認",
       "first_seen": "2026-02-23T07:23:14.339791",
       "last_seen": "2026-02-23T07:23:14.339791",
-=======
-      "target": "目標:Pomera活用本の執筆",
-      "type": "言及する",
-      "label": "本のテーマとブログの整合性について検討",
-      "first_seen": "2026-02-23T16:25:56.642830",
-      "last_seen": "2026-02-23T16:25:56.642830",
-      "weight": 1
-    },
-    {
-      "source": "日記:20260223",
-      "target": "タスク:Blog_Workflow_Establishment",
-      "type": "言及する",
-      "label": "現状の課題と新フローの指針を整理",
-      "first_seen": "2026-02-23T16:25:56.642837",
-      "last_seen": "2026-02-23T16:25:56.642837",
-      "weight": 1
-    },
-    {
-      "source": "出来事:PomeraPipelineCompletion",
-      "target": "感情:ConfidenceInSystem",
-      "type": "引き起こす",
-      "label": "生活改善への実感が自信に繋がる",
-      "first_seen": "2026-02-23T16:25:56.642840",
-      "last_seen": "2026-02-23T16:25:56.642840",
-      "weight": 1
-    },
-    {
-      "source": "出来事:PomeraPipelineCompletion",
-      "target": "制約:ポメラ活用の未確立",
-      "type": "解決する",
-      "label": "技術的なアウトプットフローが確立された",
-      "first_seen": "2026-02-23T16:25:56.642842",
-      "last_seen": "2026-02-23T16:25:56.642842",
-      "weight": 1
-    },
-    {
-      "source": "出来事:PomeraPipelineCompletion",
-      "target": "制約:毎朝のタスク思考",
-      "type": "解決する",
-      "label": "AI分析が課題解決に寄与し脳の負荷が減る",
-      "first_seen": "2026-02-23T16:25:56.642844",
-      "last_seen": "2026-02-23T16:25:56.642844",
-      "weight": 1
-    },
-    {
-      "source": "知見:Pomera_Workflow_Core",
-      "target": "目標:PomeraUserAcquisition",
-      "type": "原動力になる",
-      "label": "ポメラの価値を再定義しブログの指針とする",
-      "first_seen": "2026-02-23T16:25:56.642847",
-      "last_seen": "2026-02-23T16:25:56.642847",
-      "weight": 1
-    },
-    {
-      "source": "感情:ConfidenceInSystem",
-      "target": "タスク:Blog_Workflow_Establishment",
-      "type": "原動力になる",
-      "label": "システム化の成功体験がフロー構築を促す",
-      "first_seen": "2026-02-23T16:25:56.642852",
-      "last_seen": "2026-02-23T16:25:56.642852",
-      "weight": 1
-    },
-    {
-      "source": "タスク:Blog_Workflow_Establishment",
-      "target": "制約:ブログ執筆における完璧主義",
-      "type": "解決する",
-      "label": "未完成の状態を許容するルール作り",
-      "first_seen": "2026-02-23T16:25:56.642854",
-      "last_seen": "2026-02-23T16:25:56.642854",
-      "weight": 0.95
-    },
-    {
-      "source": "目標:PomeraUserAcquisition",
-      "target": "概念:ポメラ駆動",
-      "type": "関連する",
-      "label": "ポメラ駆動のゴールとして設定",
-      "first_seen": "2026-02-23T16:25:56.642856",
-      "last_seen": "2026-02-23T16:25:56.642856",
->>>>>>> Stashed changes
       "weight": 1
     },
     {
       "source": "日記:2026-02-23",
-<<<<<<< Updated upstream
       "target": "出来事:ポメラ導入1週間",
       "type": "言及する",
       "label": "言及",
@@ -10007,41 +9821,6 @@ const GRAPH_DATA = {
       "weight": 1,
       "first_seen": "2026-02-23T07:23:14.339799",
       "last_seen": "2026-02-23T07:23:14.339799"
-=======
-      "target": "出来事:PomeraPipelineCompletion",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1,
-      "first_seen": "2026-02-23T16:25:56.642863",
-      "last_seen": "2026-02-23T16:25:56.642863"
-    },
-    {
-      "source": "日記:2026-02-23",
-      "target": "感情:ConfidenceInSystem",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1,
-      "first_seen": "2026-02-23T16:25:56.642865",
-      "last_seen": "2026-02-23T16:25:56.642865"
-    },
-    {
-      "source": "日記:2026-02-23",
-      "target": "目標:PomeraUserAcquisition",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1,
-      "first_seen": "2026-02-23T16:25:56.642867",
-      "last_seen": "2026-02-23T16:25:56.642867"
-    },
-    {
-      "source": "日記:2026-02-23",
-      "target": "知見:Pomera_Workflow_Core",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1,
-      "first_seen": "2026-02-23T16:25:56.642869",
-      "last_seen": "2026-02-23T16:25:56.642869"
->>>>>>> Stashed changes
     },
     {
       "source": "日記:2026-02-23",
@@ -10049,7 +9828,6 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-<<<<<<< Updated upstream
       "first_seen": "2026-02-23T07:23:14.339801",
       "last_seen": "2026-02-23T07:23:14.339801"
     },
@@ -10079,10 +9857,6 @@ const GRAPH_DATA = {
       "weight": 1,
       "first_seen": "2026-02-23T07:23:14.339808",
       "last_seen": "2026-02-23T07:23:14.339808"
-=======
-      "first_seen": "2026-02-23T16:25:56.642871",
-      "last_seen": "2026-02-23T16:25:56.642871"
->>>>>>> Stashed changes
     }
   ],
   "metadata": {
@@ -10115,15 +9889,9 @@ const GRAPH_DATA = {
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
-<<<<<<< Updated upstream
     "last_updated": "2026-02-23T07:23:14.339852",
     "node_count": 257,
     "edge_count": 765
-=======
-    "last_updated": "2026-02-23T16:25:56.642929",
-    "node_count": 255,
-    "edge_count": 762
->>>>>>> Stashed changes
   }
 };
 // GRAPH_DATA_END
