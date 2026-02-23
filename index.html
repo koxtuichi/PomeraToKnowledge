@@ -1336,7 +1336,21 @@
               <div class="card-title">ブログ素材</div>
               <div class="card-count" id="blog-count"></div>
             </div>
-            <div id="blog-seeds-list"></div>
+            <!-- タブ -->
+            <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+              <button id="tab-blog-ideas" onclick="switchBlogTab('ideas')" style="
+                flex: 1; padding: 6px 0; border-radius: 8px; border: 1px solid rgba(251,191,36,0.4);
+                background: rgba(251,191,36,0.15); color: #fbbf24; font-size: 12px;
+                font-weight: 600; cursor: pointer; transition: all 0.2s;
+              ">📝 ブログネタ</button>
+              <button id="tab-blog-seeds" onclick="switchBlogTab('seeds')" style="
+                flex: 1; padding: 6px 0; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+                background: transparent; color: var(--muted); font-size: 12px;
+                font-weight: 600; cursor: pointer; transition: all 0.2s;
+              ">📚 小説のタネ</button>
+            </div>
+            <div id="blog-ideas-list"></div>
+            <div id="blog-seeds-list" style="display:none;"></div>
           </div>
         </div>
       </div>
@@ -1516,6 +1530,7 @@
 
       // ブログ素材
       renderBlogSeeds(data.blog_seeds || []);
+      renderBlogIdeas(data.blog_ideas || []);
 
       // 停滞目標チェックイン
       renderStalledGoals();
@@ -1589,7 +1604,7 @@
     }
 
     function renderEmptyStates() {
-      ['gravity-map-list', 'action-list', 'insights-list', 'emotion-list', 'blog-seeds-list'].forEach(id => {
+      ['gravity-map-list', 'action-list', 'insights-list', 'emotion-list', 'blog-ideas-list', 'blog-seeds-list'].forEach(id => {
         document.getElementById(id).innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📝</div>
@@ -1814,6 +1829,86 @@
       }
     }
 
+    // ブログタブ切り替え
+    function switchBlogTab(tab) {
+      const ideasList = document.getElementById('blog-ideas-list');
+      const seedsList = document.getElementById('blog-seeds-list');
+      const tabIdeas = document.getElementById('tab-blog-ideas');
+      const tabSeeds = document.getElementById('tab-blog-seeds');
+      if (tab === 'ideas') {
+        ideasList.style.display = 'block';
+        seedsList.style.display = 'none';
+        tabIdeas.style.background = 'rgba(251,191,36,0.15)';
+        tabIdeas.style.color = '#fbbf24';
+        tabIdeas.style.borderColor = 'rgba(251,191,36,0.4)';
+        tabSeeds.style.background = 'transparent';
+        tabSeeds.style.color = 'var(--muted)';
+        tabSeeds.style.borderColor = 'rgba(255,255,255,0.1)';
+      } else {
+        ideasList.style.display = 'none';
+        seedsList.style.display = 'block';
+        tabIdeas.style.background = 'transparent';
+        tabIdeas.style.color = 'var(--muted)';
+        tabIdeas.style.borderColor = 'rgba(255,255,255,0.1)';
+        tabSeeds.style.background = 'rgba(251,191,36,0.15)';
+        tabSeeds.style.color = '#fbbf24';
+        tabSeeds.style.borderColor = 'rgba(251,191,36,0.4)';
+      }
+    }
+
+    // ブログネタ（ブログアイディア::タグ由来）
+    function renderBlogIdeas(items) {
+      const el = document.getElementById('blog-ideas-list');
+      const countEl = document.getElementById('blog-count');
+
+      // blog_count はネタ数で更新
+      countEl.textContent = items.length ? `${items.length}件` : '';
+
+      if (!items.length) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <div class="empty-state-text">日記に「ブログアイディア::」と書いてみよう</div>
+          </div>`;
+        return;
+      }
+
+      const readinessMap = {
+        '高': { label: '🔥 すぐ書ける', cls: 'readiness-high' },
+        '中': { label: '📝 素材あり', cls: 'readiness-med' },
+        '低': { label: '💡 アイディア段階', cls: 'readiness-low' }
+      };
+
+      el.innerHTML = items.map(item => {
+        const r = readinessMap[item.readiness] || readinessMap['低'];
+        const goalHtml = item.goal ? `
+          <div class="blog-seed-outline">
+            <div class="blog-seed-outline-step">
+              <span class="blog-seed-step-num">🎯</span>
+              <span>ゴール: ${item.goal}</span>
+            </div>
+          </div>` : '';
+        const memoHtml = item.memo ? `
+          <div class="blog-seed-outline">
+            <div class="blog-seed-outline-step">
+              <span class="blog-seed-step-num">📌</span>
+              <span>${item.memo}</span>
+            </div>
+          </div>` : '';
+        return `
+          <div class="blog-seed-item" style="border-left: 3px solid rgba(251,191,36,0.5);">
+            <div class="blog-seed-header">
+              <div class="blog-seed-title">${item.title}</div>
+            </div>
+            ${goalHtml}
+            ${memoHtml}
+            <div class="blog-seed-footer">
+              <span class="blog-seed-readiness ${r.cls}">${r.label}</span>
+              <span class="blog-seed-action">→ 件名「BLOG」で送信して執筆しよう</span>
+            </div>
+          </div>`;
+      }).join('');
+    }
 
     // ── ブログ素材提案 ──
     function renderBlogSeeds(items) {
