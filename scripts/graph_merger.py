@@ -1,7 +1,7 @@
 import json
 import os
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 
 def load_graph(filepath):
     """Loads a graph JSON file. Returns an empty structure if file doesn't exist."""
@@ -15,6 +15,70 @@ def load_graph(filepath):
     except json.JSONDecodeError:
         print(f"⚠️  Error decoding JSON from {filepath}. Returning empty graph.")
         return {"nodes": [], "edges": [], "metadata": {}}
+
+def _days_since(last_seen_str: str) -> int:
+    """last_seen文字列から今日までの経過日数を返す。パース失敗時は0。"""
+    try:
+        dt = datetime.fromisoformat(last_seen_str)
+        # タイムゾーンが付いていない場合はローカル扱い
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        now = datetime.now(tz=timezone.utc)
+        return max(0, (now - dt).days)
+    except Exception:
+        return 0
+
+
+def _make_edge_key_set(graph: dict) -> set:
+    """グラフ内のエッジを source|target|type 形式のキーセットに変換する。"""
+    keys = set()
+    for e in graph.get('edges', []):
+        key = f"{e.get('source', '')}|{e.get('target', '')}|{e.get('type', 'UNKNOWN')}"
+        keys.add(key)
+    return keys
+
+
+def apply_weight_decay(master: dict, daily_node_ids: set, daily_edge_keys: set) -> None:
+    """今回のマージで登場しなかったノードとエッジのweightを、
+    last_seenからの経過日数に応じて小刻みに減衰させる。
+
+    - 減衰量: 0.05 / 日 (マージ未登場1回につき)
+    - 下限  : 0.1
+    - 日記型ノードは対象外
+    """
+    DECAY_PER_DAY = 0.05
+    MIN_WEIGHT = 0.1
+    DIARY_TYPES = {'日記', 'diary'}
+
+    # --- ノード ---
+    for node in master.get('nodes', []):
+        if node.get('type') in DIARY_TYPES:
+            continue
+        if node['id'] in daily_node_ids:
+            # 今回登場したノードは減衰しない
+            continue
+
+        missed_days = _days_since(node.get('last_seen', '')) if node.get('last_seen') else 1
+        # 少なくとも今回のマージ分1回は減衰させる
+        missed_days = max(1, missed_days)
+        decay = DECAY_PER_DAY * missed_days
+        node['weight'] = max(MIN_WEIGHT, round(node.get('weight', 1) - decay, 4))
+
+    # --- エッジ ---
+    for edge in master.get('edges', []):
+        key = f"{edge.get('source', '')}|{edge.get('target', '')}|{edge.get('type', 'UNKNOWN')}"
+        if key in daily_edge_keys:
+            continue
+
+        missed_days = _days_since(edge.get('last_seen', '')) if edge.get('last_seen') else 1
+        missed_days = max(1, missed_days)
+        decay = DECAY_PER_DAY * missed_days
+        edge['weight'] = max(MIN_WEIGHT, round(edge.get('weight', 1) - decay, 4))
+
+    # ログ
+    decayed_nodes = [n for n in master.get('nodes', []) if n['id'] not in daily_node_ids and n.get('type') not in DIARY_TYPES]
+    print(f"⏳ Weight decay applied: {len(decayed_nodes)} nodes / {len(master.get('edges', [])) - len(daily_edge_keys)} edges")
+
 
 def merge_graphs(master, daily):
     """Merges a daily graph into the master graph."""
@@ -202,6 +266,9 @@ def merge_graphs(master, daily):
     print(f"✅ Merge Complete!")
     print(f"   Nodes: {new_node_count} new, {updated_node_count} updated.")
     print(f"   Edges: {new_edge_count} new, {updated_edge_count} updated.")
+
+    # --- 4. Weight時間減衰 ---
+    apply_weight_decay(master, set(n['id'] for n in daily.get('nodes', [])), _make_edge_key_set(daily))
 
     return master
 
