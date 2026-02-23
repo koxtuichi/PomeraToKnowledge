@@ -4,11 +4,16 @@
       "id": "日記:20260223",
       "label": "日記 2026-02-23",
       "type": "日記",
+<<<<<<< Updated upstream
       "detail": "ポメラ購入から1週間が経過。ブログの指針や自動化パイプラインの成果について整理。",
+=======
+      "detail": "ポメラのパイプライン構築の成果実感と、ブログ運営の目的・ゴール（ポメラユーザーを一人増やす）の定義。",
+>>>>>>> Stashed changes
       "date": "2026-02-23",
       "category": "エンジニア"
     },
     {
+<<<<<<< Updated upstream
       "id": "出来事:ポメラ導入1週間",
       "label": "ポメラ導入1週間",
       "type": "出来事",
@@ -22,11 +27,40 @@
       "type": "知見",
       "detail": "ポメラ→Gmail→GAS→GitHub Actions→AI分析のフローが整い、生活課題の解決に良い影響を与えている。",
       "category": "エンジニア"
+=======
+      "id": "出来事:PomeraPipelineCompletion",
+      "label": "ポメラ分析パイプラインの完成",
+      "type": "出来事",
+      "status": "完了",
+      "detail": "ポメラ→Gmail→GAS→GitHub Actions→AI分析という一連の自動フローが整い、課題解決に寄与し始めた。",
+      "date": "2026-02-23"
+    },
+    {
+      "id": "感情:ConfidenceInSystem",
+      "label": "システム構築への手応え",
+      "type": "感情",
+      "sentiment": 0.8,
+      "detail": "構築したパイプラインが生活の課題解決に良い影響を与えていることへの満足感と期待感。"
+    },
+    {
+      "id": "目標:PomeraUserAcquisition",
+      "label": "ブログきっかけのポメラユーザー獲得",
+      "type": "目標",
+      "status": "進行中",
+      "detail": "ブログを通じてポメラを使いたいと思う人を一人見つけること。ポメラ界隈の活性化。"
+    },
+    {
+      "id": "知見:Pomera_Workflow_Core",
+      "label": "ポメラの本質は考える時間を作ること",
+      "type": "知見",
+      "detail": "ポメラの使い方の真髄は、あらゆる課題に対して「考える時間」を強制的に確保するHowとして機能させることにある。"
+>>>>>>> Stashed changes
     },
     {
       "id": "概念:ポメラ駆動",
       "label": "ポメラ駆動",
       "type": "概念",
+<<<<<<< Updated upstream
       "detail": "日常の課題に対してポメラで「考える時間」を作ることをHow（手段）として、課題解決を図るスタイル。",
       "tags": [
         "ポメラ駆動"
@@ -54,6 +88,27 @@
       "type": "感情",
       "detail": "パイプラインが整い、生活に良い影響が出始めていることへのポジティブな実感。",
       "sentiment": 0.8
+=======
+      "detail": "ポメラを生活や思考の中心に据え、そこからアウトプットや改善を回していくスタイル。"
+    },
+    {
+      "id": "制約:ブログ内容への完璧主義",
+      "label": "ブログ内容への完璧主義",
+      "type": "制約",
+      "constraint_type": "感情的ブレーキ",
+      "detail": "完成した内容でなければならないという思い込み。日記にて「アイデア段階でも良い」と認識を崩し始めている。"
+    },
+    {
+      "id": "タスク:Blog_Workflow_Establishment",
+      "label": "ブログ執筆フローと管理ルールの策定",
+      "type": "タスク",
+      "status": "進行中",
+      "detail": "「次はこれ」と迷わず書けるフローの構築。アイデアレベルでの投稿許容や、蓄積ルールの検討を含む。",
+      "tags": [
+        "ブログ",
+        "ポメラ"
+      ]
+>>>>>>> Stashed changes
     },
     {
       "id": "日記:2026-02-23",
@@ -61,8 +116,13 @@
       "type": "日記",
       "date": "2026-02-23",
       "detail": "今日の日記エントリ",
+<<<<<<< Updated upstream
       "first_seen": "2026-02-23T07:22:55.528095",
       "last_seen": "2026-02-23T07:22:55.528097",
+=======
+      "first_seen": "2026-02-23T16:25:24.763556",
+      "last_seen": "2026-02-23T16:25:24.763560",
+>>>>>>> Stashed changes
       "weight": 1
     },
     {
@@ -70,8 +130,13 @@
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
+<<<<<<< Updated upstream
       "first_seen": "2026-02-23T07:22:55.528100",
       "last_seen": "2026-02-23T07:22:55.528101",
+=======
+      "first_seen": "2026-02-23T16:25:24.763571",
+      "last_seen": "2026-02-23T16:25:24.763574",
+>>>>>>> Stashed changes
       "weight": 1
     }
   ],
@@ -80,6 +145,7 @@
       "source": "日記:20260223",
       "target": "目標:ポメラエコシステムのアプリ化",
       "type": "言及する",
+<<<<<<< Updated upstream
       "label": "パイプライン構築の進捗に言及"
     },
     {
@@ -147,6 +213,69 @@
       "target": "制約:アイデア蓄積ルールの欠如",
       "type": "言及する",
       "label": "アイデアを溜める決め事がないことを確認"
+=======
+      "label": "パイプライン構築の成功について言及"
+    },
+    {
+      "source": "日記:20260223",
+      "target": "目標:Pomera活用本の執筆",
+      "type": "言及する",
+      "label": "本のテーマとブログの整合性について検討"
+    },
+    {
+      "source": "日記:20260223",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "言及する",
+      "label": "現状の課題と新フローの指針を整理"
+    },
+    {
+      "source": "出来事:PomeraPipelineCompletion",
+      "target": "感情:ConfidenceInSystem",
+      "type": "引き起こす",
+      "label": "生活改善への実感が自信に繋がる"
+    },
+    {
+      "source": "出来事:PomeraPipelineCompletion",
+      "target": "制約:ポメラ活用の未確立",
+      "type": "解決する",
+      "label": "技術的なアウトプットフローが確立された"
+    },
+    {
+      "source": "出来事:PomeraPipelineCompletion",
+      "target": "制約:毎朝のタスク思考",
+      "type": "解決する",
+      "label": "AI分析が課題解決に寄与し脳の負荷が減る"
+    },
+    {
+      "source": "知見:Pomera_Workflow_Core",
+      "target": "目標:PomeraUserAcquisition",
+      "type": "原動力になる",
+      "label": "ポメラの価値を再定義しブログの指針とする"
+    },
+    {
+      "source": "知見:Pomera_Workflow_Core",
+      "target": "目標:Pomera活用本の執筆",
+      "type": "一部である",
+      "label": "本の核心的なメッセージとなる"
+    },
+    {
+      "source": "感情:ConfidenceInSystem",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "原動力になる",
+      "label": "システム化の成功体験がフロー構築を促す"
+    },
+    {
+      "source": "タスク:Blog_Workflow_Establishment",
+      "target": "制約:ブログ内容への完璧主義",
+      "type": "解決する",
+      "label": "未完成の状態を許容するルール作り"
+    },
+    {
+      "source": "目標:PomeraUserAcquisition",
+      "target": "概念:ポメラ駆動",
+      "type": "関連する",
+      "label": "ポメラ駆動のゴールとして設定"
+>>>>>>> Stashed changes
     },
     {
       "source": "人物:自分",
@@ -164,14 +293,35 @@
     },
     {
       "source": "日記:2026-02-23",
+<<<<<<< Updated upstream
       "target": "出来事:ポメラ導入1週間",
+=======
+      "target": "出来事:PomeraPipelineCompletion",
+>>>>>>> Stashed changes
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
       "source": "日記:2026-02-23",
+<<<<<<< Updated upstream
       "target": "知見:ポメラ分析パイプラインの有効性",
+=======
+      "target": "感情:ConfidenceInSystem",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-23",
+      "target": "目標:PomeraUserAcquisition",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-23",
+      "target": "知見:Pomera_Workflow_Core",
       "type": "言及する",
       "label": "言及",
       "weight": 1
@@ -182,6 +332,22 @@
       "type": "言及する",
       "label": "言及",
       "weight": 1
+    },
+    {
+      "source": "日記:2026-02-23",
+      "target": "制約:ブログ内容への完璧主義",
+>>>>>>> Stashed changes
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-23",
+      "target": "概念:ポメラ駆動",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+<<<<<<< Updated upstream
     },
     {
       "source": "日記:2026-02-23",
@@ -210,5 +376,14 @@
     "source_file": "diary/20260223_[POMERA]2026年2月23日.txt",
     "node_count": 7,
     "edge_count": 12
+=======
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-02-23T16:25:24.763508",
+    "source_file": "diary/20260223_[POMERA]2026年2月23日.txt",
+    "node_count": 8,
+    "edge_count": 11
+>>>>>>> Stashed changes
   }
 }
