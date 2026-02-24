@@ -68,12 +68,20 @@ jobs:
           git add role_definition.txt || true
           git add graph_data.js || true
           git add daily_graph.json || true
+          git add daily_report.md || true
           git add story_drafts/ || true
+          git add sync_history.txt || true
 
-          git diff --quiet && git diff --staged --quiet || (
-            git commit -m "Auto-sync: Antigravity Graph Update [skip ci]" &&
-            git pull --rebase origin main &&
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "変更なし。スキップします。"
+          else
+            git commit -m "Auto-sync: Antigravity Graph Update [skip ci]"
+            git stash || true
+            git pull --rebase origin main
+            git stash pop || true
             git push
-          )
+          fi
+
+
 
 
