@@ -433,7 +433,7 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
 # 分析
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict[str, Any]) -> str:
+def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict[str, Any], diary_text: str = "") -> str:
     """更新後のグラフ全体を分析し、Antigravityアドバイスを生成する。"""
 
     # 1. 進行中の目標
@@ -555,7 +555,13 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
 
     {recent_diary_context}
 
-    ### 今日の新しいエントリ
+    ### 今日の日記（生テキスト）
+    以下が今日の日記の全文です。「ブログアイディア::」「ブログゴール::」などのタグは必ずここから抽出してください。
+    ---
+    {diary_text}
+    ---
+
+    ### 今日の新しいエントリ（グラフノード情報）
     {json.dumps(current_diary_node, ensure_ascii=False, indent=2)}
 
     ### 指示
@@ -781,7 +787,7 @@ def main():
         current_diary_node = next((n for n in updated_master.get("nodes", []) if n["id"] == diary_node_id), None)
 
         if current_diary_node:
-            analysis_text = analyze_updated_state(updated_master, current_diary_node)
+            analysis_text = analyze_updated_state(updated_master, current_diary_node, diary_text)
 
             with open(args.output_report, "w", encoding="utf-8") as f:
                 f.write(f"# Antigravity分析レポート ({datetime.now().date()})\n\n")
