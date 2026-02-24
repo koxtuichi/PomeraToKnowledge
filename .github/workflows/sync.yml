@@ -70,5 +70,10 @@ jobs:
           git add daily_graph.json || true
           git add story_drafts/ || true
 
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync: Antigravity Graph Update [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (
+            git commit -m "Auto-sync: Antigravity Graph Update [skip ci]" &&
+            git pull --rebase origin main &&
+            git push
+          )
+
 
