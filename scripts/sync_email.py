@@ -40,7 +40,30 @@ def clean_filename(subject):
     safe_name = re.sub(r'[\\/*?:"<>|]', "", subject_str)
     return safe_name.strip()
 
-def get_body_content(msg):
+def extract_date_from_subject(subject: str) -> str:
+    """件名またはファイル名から日記の日付を抽出して YYYYMMDD 形式で返す。
+    
+    対応形式:
+      - 2026年2月24日  -> 20260224
+      - 2026/02/24      -> 20260224
+    抽出できない場合はメール受信日（現在日）を返す。
+    """
+    # 形式: 「2026年2月24日」
+    m = re.search(r'(\d{4})年(\d{1,2})月(\d{1,2})日', subject)
+    if m:
+        return f"{m.group(1)}{int(m.group(2)):02d}{int(m.group(3)):02d}"
+    # 形式: 「2026/02/24」
+    m = re.search(r'(\d{4})/(\d{2})/(\d{2})', subject)
+    if m:
+        return f"{m.group(1)}{m.group(2)}{m.group(3)}"
+    # 形式: 「20260224」など数字8桁の日付
+    m = re.search(r'(\d{8})', subject)
+    if m:
+        return m.group(1)
+    # 抽出失敗→メール受信日でfallback
+    return datetime.now().strftime('%Y%m%d')
+
+
     """Extracts text content from email body."""
     if msg.is_multipart():
         for part in msg.walk():
@@ -240,7 +263,7 @@ def check_emails(mail, save_dir):
                         blog_dir = BLOG_DRAFTS_DIR
                         if not os.path.exists(blog_dir):
                             os.makedirs(blog_dir)
-                        filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
+                        filename = f"{extract_date_from_subject(subject)}_{subject}.txt"
                         filepath = os.path.join(blog_dir, filename)
                         with open(filepath, "w", encoding="utf-8") as f:
                             f.write(body)
@@ -258,7 +281,7 @@ def check_emails(mail, save_dir):
                         story_dir = STORY_DRAFTS_DIR
                         if not os.path.exists(story_dir):
                             os.makedirs(story_dir)
-                        filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
+                        filename = f"{extract_date_from_subject(subject)}_{subject}.txt"
                         filepath = os.path.join(story_dir, filename)
                         with open(filepath, "w", encoding="utf-8") as f:
                             f.write(body)
@@ -287,7 +310,7 @@ def check_emails(mail, save_dir):
                     if not has_attachment:
                         body = get_body_content(msg)
                         if body:
-                            filename = f"{datetime.now().strftime('%Y%m%d')}_{subject}.txt"
+                            filename = f"{extract_date_from_subject(subject)}_{subject}.txt"
                             filepath = os.path.join(save_dir, filename)
                             with open(filepath, "w", encoding="utf-8") as f:
                                 f.write(body)
