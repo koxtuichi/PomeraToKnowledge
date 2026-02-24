@@ -1,243 +1,125 @@
 {
   "nodes": [
     {
-      "id": "日記:2026-02-24",
-      "label": "日記 2026/02/24",
+      "id": "日記:2026-02-25",
+      "label": "2026年2月25日の日記",
       "type": "日記",
-      "detail": "朝9時半起床。Knowbe、Saiteki、ブログ、ダイエット、家計管理について多岐にわたる思考整理。",
-      "date": "2026-02-24",
-      "context": "shared"
+      "detail": "ブログの構成案とポメラを通じた課題解決の在り方についての思考整理。",
+      "date": "2026-02-25",
+      "context": "private"
     },
     {
-      "id": "制約:前日の過剰摂取",
-      "label": "前日の食事の残存感",
-      "type": "制約",
-      "detail": "モスバーガー、鍋、中華麺などの摂取による消化不良感と強い満腹感。体重80.0kg。",
-      "status": "進行中",
-      "category": "健康",
-      "context": "private",
-      "constraint_type": "物理的障害"
-    },
-    {
-      "id": "制約:浪費傾向",
-      "label": "趣味への浪費",
-      "type": "制約",
-      "detail": "漫画や革製品の購入による支出増。貯金目標達成を阻害している。",
-      "status": "進行中",
-      "category": "夫",
-      "context": "private",
-      "constraint_type": "その他"
-    },
-    {
-      "id": "感情:思考の明瞭化",
-      "label": "思考の明瞭化（すっきり）",
-      "type": "感情",
-      "detail": "「AI駆動開発チームの作り方・育て方」を読了し、自分の考えに自信と確信を得た状態。",
-      "sentiment": 0.8,
-      "category": "エンジニア",
-      "context": "shared"
-    },
-    {
-      "id": "知見:AIツールのマルチユース原則",
-      "label": "AIツールのマルチユース原則",
+      "id": "知見:Blog_ProblemSolution_Structure",
+      "label": "課題提示から始めるブログ構成案",
       "type": "知見",
-      "detail": "特定のツールに依存せず、アップデートの速さに対応できるよう切り替え可能な体制を維持すべきという教訓。",
-      "category": "エンジニア",
-      "context": "saiteki"
+      "detail": "読者が共感する「生きる上での課題」をまず提示し、その解決手段としてポメラの具体的な活用方法や思考プロセスを提示する記事構成のアイデア。",
+      "context": "private",
+      "category": "エンジニア"
     },
     {
-      "id": "タスク:不要な買い物の禁止",
-      "label": "不要な買い物の禁止（服・時計・小物）",
-      "type": "タスク",
-      "status": "未着手",
-      "detail": "出費を抑えるため、ポメラ以外の身の回りのものを新調しない。少額でも迷う習慣をつける。",
-      "category": "夫",
-      "context": "private"
-    },
-    {
-      "id": "タスク:はてなブログProへの加入",
-      "label": "はてなブログProへの加入",
-      "type": "タスク",
-      "status": "完了",
-      "detail": "閲覧数向上のためPro版に移行。ポメラ駆動ブログの基盤強化。",
-      "category": "エンジニア",
-      "context": "private"
-    },
-    {
-      "id": "概念:ストックオプション",
-      "label": "ストックオプション(3%)",
+      "id": "知見:ポメラ分析パイプラインの有効性",
+      "label": "ポメラによる課題解決",
       "type": "概念",
-      "detail": "将来的な資産形成の夢。Saitekiでの社員化を検討する上での最重要モチベーター。",
-      "context": "saiteki"
+      "detail": "ポメラを単なる入力デバイスではなく、人生の課題に向き合い解決するためのツールとして定義する考え方。",
+      "context": "private"
+    },
+    {
+      "id": "目標:ポメラユーザーの創出",
+      "label": "ポメラユーザーを1人創出する",
+      "type": "目標",
+      "detail": "ブログの具体的なゴール。読者に「ポメラを使いたい」と思わせる。指標として活用方法の確立を目指す。",
+      "status": "進行中",
+      "context": "private"
+    },
+    {
+      "id": "タスク:Blog_Workflow_Establishment",
+      "label": "ブログ執筆フローと管理ルールの策定",
+      "type": "タスク",
+      "detail": "何を書くか迷う時間を減らすため、次に書く話題を明確にするフローとアイデアを溜めるルールを決める。",
+      "status": "進行中",
+      "context": "private"
+    },
+    {
+      "id": "制約:執筆テーマの迷い",
+      "label": "執筆テーマの迷い",
+      "type": "制約",
+      "detail": "ブログを書く前に、次に何を書くべきかスムーズに決まらない状態。",
+      "constraint_type": "感情的ブレーキ",
+      "context": "private"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-24T15:09:02.519558",
-      "last_seen": "2026-02-24T15:09:02.519559",
+      "first_seen": "2026-02-24T15:19:55.764181",
+      "last_seen": "2026-02-24T15:19:55.764183",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "日記:2026-02-24",
-      "target": "タスク:CalorieRestriction",
+      "source": "日記:2026-02-25",
+      "target": "目標:ポメラユーザーの創出",
       "type": "言及する",
-      "label": "体重と食事内容への言及"
+      "label": "ブログの方向性を検討"
     },
     {
-      "source": "日記:2026-02-24",
-      "target": "タスク:Knowbe_TeamStatusGrasp",
+      "source": "日記:2026-02-25",
+      "target": "タスク:Blog_Workflow_Establishment",
       "type": "言及する",
-      "label": "2チームの進捗把握の重要性を再確認"
+      "label": "執筆フローの具体化"
     },
     {
-      "source": "日記:2026-02-24",
-      "target": "タスク:Knowbe_DefineAlertCriteria",
+      "source": "日記:2026-02-25",
+      "target": "知見:Blog_ProblemSolution_Structure",
       "type": "言及する",
-      "label": "アラート基準策定の必要性"
+      "label": "新しい構成案を考案"
     },
     {
-      "source": "日記:2026-02-24",
-      "target": "タスク:Knowbe_ConsultationFlowEstablishment",
-      "type": "言及する",
-      "label": "相談プロセスの欠如を指摘"
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "タスク:Book_Reading_Management",
-      "type": "言及する",
-      "label": "読書不足への焦りと読了報告"
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "タスク:Saiteki_SlackReview",
-      "type": "言及する",
-      "label": "AI駆動開発チーム本の感想投稿を完了"
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "タスク:Saiteki_AIToolAgilityPreparation",
-      "type": "言及する",
-      "label": "受託開発に向けた準備の具体化"
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "タスク:希望給与条件の整理と提示",
-      "type": "言及する",
-      "label": "手取り70万円と福利厚生の検討"
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "目標:毎月の貯金",
-      "type": "言及する",
-      "label": "3月は20万円貯金を目指す"
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "目標:Pomera活用本の執筆",
-      "type": "言及する",
-      "label": "ブログから本へまとめる戦略"
-    },
-    {
-      "source": "制約:前日の過剰摂取",
-      "target": "タスク:CalorieRestriction",
-      "type": "阻害する",
-      "label": "満腹感による体調の重さ"
-    },
-    {
-      "source": "知見:AIツールのマルチユース原則",
-      "target": "タスク:Saiteki_AIToolAgilityPreparation",
-      "type": "原動力になる",
-      "label": "方針の正しさを確信し推進"
-    },
-    {
-      "source": "感情:思考の明瞭化",
-      "target": "タスク:Knowbe_TeamStatusGrasp",
-      "type": "原動力になる",
-      "label": "メンタル回復により業務遂行能力が向上"
-    },
-    {
-      "source": "制約:浪費傾向",
-      "target": "目標:毎月の貯金",
-      "type": "阻害する",
-      "label": "余計な支出による貯金難"
-    },
-    {
-      "source": "タスク:不要な買い物の禁止",
-      "target": "制約:浪費傾向",
+      "source": "知見:Blog_ProblemSolution_Structure",
+      "target": "制約:執筆テーマの迷い",
       "type": "解決する",
-      "label": "購入制限による支出抑制"
+      "label": "記事の型を決めることで迷いを解消する"
     },
     {
-      "source": "概念:ストックオプション",
-      "target": "タスク:希望給与条件の整理と提示",
-      "type": "関連する",
-      "label": "社員化判断の重要要素"
+      "source": "知見:Blog_ProblemSolution_Structure",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "原動力になる",
+      "label": "具体的な執筆イメージが湧く"
+    },
+    {
+      "source": "タスク:Blog_Workflow_Establishment",
+      "target": "知見:ポメラ分析パイプラインの有効性",
+      "type": "対象にする",
+      "label": "ポメラでの解決策を記事にする"
     },
     {
       "source": "人物:自分",
-      "target": "日記:2026-02-24",
+      "target": "日記:2026-02-25",
       "type": "関連する",
       "label": "書いた",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-24",
-      "target": "制約:前日の過剰摂取",
+      "source": "日記:2026-02-25",
+      "target": "知見:ポメラ分析パイプラインの有効性",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-24",
-      "target": "制約:浪費傾向",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "感情:思考の明瞭化",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "知見:AIツールのマルチユース原則",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "タスク:不要な買い物の禁止",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "タスク:はてなブログProへの加入",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-24",
-      "target": "概念:ストックオプション",
+      "source": "日記:2026-02-25",
+      "target": "制約:執筆テーマの迷い",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-24T15:09:02.519540",
-    "source_file": "diary/20260224_[POMERA]2026年2月24日.txt",
-    "node_count": 8,
-    "edge_count": 16
+    "generated_at": "2026-02-24T15:19:55.764166",
+    "source_file": "diary/20260224_[POMERA]2026年2月25日.txt",
+    "node_count": 6,
+    "edge_count": 6
   }
 }

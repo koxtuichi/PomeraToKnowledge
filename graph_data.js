@@ -24,7 +24,7 @@ const GRAPH_DATA = {
       "status": "進行中",
       "first_seen": "2026-02-16T23:51:38.047214",
       "last_seen": "2026-02-18T01:03:46.881226",
-      "weight": 3.4,
+      "weight": 3.1,
       "tags": [
         "AI",
         "Saiteki",
@@ -39,7 +39,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T23:51:38.047222",
       "last_seen": "2026-02-17T09:06:35.720988",
-      "weight": 26.25,
+      "weight": 25.9,
       "tags": []
     },
     {
@@ -50,7 +50,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T23:51:38.047228",
       "last_seen": "2026-02-17T09:06:35.721001",
-      "weight": 24.25,
+      "weight": 23.9,
       "tags": []
     },
     {
@@ -63,7 +63,7 @@ const GRAPH_DATA = {
       "date": "2026-02-19",
       "first_seen": "2026-02-16T23:51:38.047233",
       "last_seen": "2026-02-17T09:06:35.720924",
-      "weight": 10.25,
+      "weight": 9.9,
       "tags": [
         "Saiteki",
         "副業"
@@ -78,7 +78,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T23:51:38.047238",
       "last_seen": "2026-02-20T08:31:06.380272",
-      "weight": 9.1,
+      "weight": 8.9,
       "tags": [
         "Saiteki",
         "副業"
@@ -114,7 +114,7 @@ const GRAPH_DATA = {
       "date": "2026-02-17",
       "first_seen": "2026-02-16T23:51:38.047255",
       "last_seen": "2026-02-17T09:06:35.720973",
-      "weight": 17.25,
+      "weight": 16.9,
       "tags": [
         "AI",
         "Gemini",
@@ -131,7 +131,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T23:51:38.047260",
       "last_seen": "2026-02-16T23:11:32.101754",
-      "weight": 5.1,
+      "weight": 4.75,
       "tags": []
     },
     {
@@ -142,7 +142,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-16T23:51:38.047266",
       "last_seen": "2026-02-17T08:19:45.890601",
-      "weight": 39.2,
+      "weight": 38.85,
       "tags": []
     },
     {
@@ -153,7 +153,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T23:51:38.047278",
       "last_seen": "2026-02-18T00:53:20.558156",
-      "weight": 19.4,
+      "weight": 19.1,
       "tags": []
     },
     {
@@ -165,7 +165,7 @@ const GRAPH_DATA = {
       "date": "2026-02-16",
       "first_seen": "2026-02-16T23:51:38.047286",
       "last_seen": "2026-02-17T09:06:35.721027",
-      "weight": 14.25,
+      "weight": 13.9,
       "tags": []
     },
     {
@@ -176,7 +176,7 @@ const GRAPH_DATA = {
       "sentiment": 0.8,
       "first_seen": "2026-02-16T23:51:38.047293",
       "last_seen": "2026-02-17T08:19:45.890630",
-      "weight": 9.2,
+      "weight": 8.85,
       "tags": []
     },
     {
@@ -187,7 +187,7 @@ const GRAPH_DATA = {
       "constraint_type": "リソース不足",
       "first_seen": "2026-02-16T23:51:38.047300",
       "last_seen": "2026-02-17T09:06:35.721041",
-      "weight": 3.25,
+      "weight": 2.9,
       "tags": []
     },
     {
@@ -209,7 +209,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T23:51:38.047313",
       "last_seen": "2026-02-17T08:20:38.808647",
-      "weight": 0.2,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -222,7 +222,7 @@ const GRAPH_DATA = {
       "date": "2026-02-16",
       "first_seen": "2026-02-16T23:51:38.047321",
       "last_seen": "2026-02-16T16:48:43.801651",
-      "weight": 4.1,
+      "weight": 3.75,
       "tags": [
         "Knowbe",
         "メイン",
@@ -257,7 +257,7 @@ const GRAPH_DATA = {
       "detail": "2階にある仕事に集中するためのスペース。リビングの騒音や育児から離れるために活用。",
       "first_seen": "2026-02-16T23:51:38.047343",
       "last_seen": "2026-02-17T00:48:08.432027",
-      "weight": 15.1,
+      "weight": 14.75,
       "tags": []
     },
     {
@@ -268,7 +268,7 @@ const GRAPH_DATA = {
       "constraint_type": "物理的障害",
       "first_seen": "2026-02-16T23:51:38.047352",
       "last_seen": "2026-02-16T22:27:58.161888",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -278,7 +278,7 @@ const GRAPH_DATA = {
       "detail": "Saitekiの社長。ユーザーの友人で、ダイエットの変化に気づいてくれた。",
       "first_seen": "2026-02-16T23:51:38.047361",
       "last_seen": "2026-02-21T03:31:20.783273",
-      "weight": 26.35,
+      "weight": 26.2,
       "tags": []
     },
     {
@@ -290,7 +290,7 @@ const GRAPH_DATA = {
       "date": "2026-02-20",
       "first_seen": "2026-02-16T23:51:38.047370",
       "last_seen": "2026-02-20T08:31:06.380298",
-      "weight": 11.1,
+      "weight": 10.9,
       "tags": []
     },
     {
@@ -300,7 +300,7 @@ const GRAPH_DATA = {
       "detail": "タスクに対する阻害要因（重力）と推進要因（反重力）を分析する手法",
       "first_seen": "2026-02-16T23:51:38.047379",
       "last_seen": "2026-02-22T00:56:28.725362",
-      "weight": 1.6,
+      "weight": 1.5,
       "tags": []
     },
     {
@@ -321,7 +321,7 @@ const GRAPH_DATA = {
       "status": "達成",
       "first_seen": "2026-02-16T23:51:38.047396",
       "last_seen": "2026-02-21T02:27:22.618484",
-      "weight": 2.35,
+      "weight": 2.2,
       "tags": []
     },
     {
@@ -332,7 +332,7 @@ const GRAPH_DATA = {
       "constraint_type": "物理的障害",
       "first_seen": "2026-02-16T23:51:38.047405",
       "last_seen": "2026-02-16T23:27:41.812964",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -358,7 +358,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T23:51:38.047424",
       "last_seen": "2026-02-17T00:48:08.432052",
-      "weight": 3.1
+      "weight": 2.75
     },
     {
       "id": "制約:CreativeTimeShortage",
@@ -368,7 +368,7 @@ const GRAPH_DATA = {
       "constraint_type": "時間不足",
       "first_seen": "2026-02-16T23:51:38.047434",
       "last_seen": "2026-02-17T00:49:10.716675",
-      "weight": 22.1,
+      "weight": 21.75,
       "tags": []
     },
     {
@@ -377,8 +377,8 @@ const GRAPH_DATA = {
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
-      "last_seen": "2026-02-24T15:09:15.938648",
-      "weight": 103,
+      "last_seen": "2026-02-24T15:20:51.862171",
+      "weight": 104,
       "tags": []
     },
     {
@@ -395,7 +395,7 @@ const GRAPH_DATA = {
       "date": "2026-02-15",
       "first_seen": "2026-02-16T14:56:00.317207",
       "last_seen": "2026-02-22T00:35:49.872595",
-      "weight": 4.6
+      "weight": 4.5
     },
     {
       "id": "制約:StickyResidue",
@@ -443,7 +443,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317232",
       "last_seen": "2026-02-23T21:41:12.703365",
-      "weight": 2.25,
+      "weight": 2.2,
       "tags": []
     },
     {
@@ -455,7 +455,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317236",
       "last_seen": "2026-02-24T09:03:18.186252",
-      "weight": 7.75,
+      "weight": 7.7,
       "tags": []
     },
     {
@@ -470,7 +470,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T14:56:00.317241",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 4.0
+      "weight": 3.95
     },
     {
       "id": "プロジェクト:PomeraWorkflow",
@@ -518,7 +518,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317260",
       "last_seen": "2026-02-17T00:49:10.716644",
-      "weight": 20.1,
+      "weight": 19.75,
       "tags": [
         "100体チャレンジ",
         "Monster",
@@ -541,7 +541,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T14:56:00.317266",
       "last_seen": "2026-02-22T12:41:18+09:00",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "id": "制約:DrawingSkill",
@@ -577,7 +577,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T14:56:00.317280",
       "last_seen": "2026-02-16T15:52:45.866901",
-      "weight": 4.1
+      "weight": 3.75
     },
     {
       "id": "イベント:FamilyParkVisit",
@@ -601,7 +601,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T14:56:00.317290",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 2.75,
+      "weight": 2.7,
       "tags": [],
       "date": "2026-03-01"
     },
@@ -628,7 +628,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T14:56:00.317300",
       "last_seen": "2026-02-16T15:52:45.866949",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "id": "制約:MultitaskingDanger",
@@ -639,7 +639,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T14:56:00.317305",
       "last_seen": "2026-02-16T15:52:45.866959",
-      "weight": 2.1,
+      "weight": 1.75,
       "tags": []
     },
     {
@@ -650,7 +650,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T14:56:00.317313",
       "last_seen": "2026-02-16T15:52:45.866968",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -665,7 +665,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T14:56:00.317319",
       "last_seen": "2026-02-22T12:41:18+09:00",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "id": "制約:GHAScheduling",
@@ -713,7 +713,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T15:00:58.390363",
       "last_seen": "2026-02-16T15:52:45.866829",
-      "weight": 3.1,
+      "weight": 2.75,
       "tags": []
     },
     {
@@ -748,7 +748,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T15:00:58.390382",
       "last_seen": "2026-02-16T15:30:12.374726",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -769,7 +769,7 @@ const GRAPH_DATA = {
       "date": "2026-02-21",
       "first_seen": "2026-02-16T15:00:58.390421",
       "last_seen": "2026-02-22T01:03:19.177273",
-      "weight": 3.6,
+      "weight": 3.5,
       "tags": []
     },
     {
@@ -781,7 +781,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T15:02:03.441105",
       "last_seen": "2026-02-16T19:56:54.932499",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -792,7 +792,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-16T15:02:03.441112",
       "last_seen": "2026-02-17T09:06:35.721014",
-      "weight": 14.25,
+      "weight": 13.9,
       "tags": []
     },
     {
@@ -802,7 +802,7 @@ const GRAPH_DATA = {
       "detail": "昨年購入した家のローン控除。確定申告での還付が期待される。",
       "first_seen": "2026-02-16T15:02:03.441127",
       "last_seen": "2026-02-16T15:46:47.956560",
-      "weight": 2.1,
+      "weight": 1.75,
       "tags": []
     },
     {
@@ -812,7 +812,7 @@ const GRAPH_DATA = {
       "detail": "9ヶ月の息子が食べる離乳食。作るのに手間がかかる。",
       "first_seen": "2026-02-16T15:02:03.441179",
       "last_seen": "2026-02-16T23:11:32.101766",
-      "weight": 9.1,
+      "weight": 8.75,
       "tags": []
     },
     {
@@ -822,7 +822,7 @@ const GRAPH_DATA = {
       "detail": "家族が過ごす場所。仕事をするには集中が難しい環境",
       "first_seen": "2026-02-16T15:02:03.441204",
       "last_seen": "2026-02-17T08:19:45.890683",
-      "weight": 14.2,
+      "weight": 13.85,
       "tags": []
     },
     {
@@ -833,7 +833,7 @@ const GRAPH_DATA = {
       "constraint_type": "感情的ブレーキ",
       "first_seen": "2026-02-16T15:02:03.441227",
       "last_seen": "2026-02-16T20:12:16.303178",
-      "weight": 4.1,
+      "weight": 3.75,
       "tags": []
     },
     {
@@ -851,7 +851,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T15:03:34.868320",
       "last_seen": "2026-02-23T11:05:47.172766",
-      "weight": 2.75
+      "weight": 2.7
     },
     {
       "id": "知見:陰影の付け方の理解",
@@ -881,7 +881,7 @@ const GRAPH_DATA = {
       "sentiment": -0.6,
       "first_seen": "2026-02-16T15:04:30.041968",
       "last_seen": "2026-02-16T23:11:32.101808",
-      "weight": 7.1,
+      "weight": 6.75,
       "tags": []
     },
     {
@@ -892,7 +892,7 @@ const GRAPH_DATA = {
       "constraint_type": "時間不足",
       "first_seen": "2026-02-16T15:04:30.041985",
       "last_seen": "2026-02-17T09:06:35.721134",
-      "weight": 11.25,
+      "weight": 10.9,
       "tags": []
     },
     {
@@ -904,7 +904,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T15:04:30.041993",
       "last_seen": "2026-02-16T19:56:54.932619",
-      "weight": 2.1,
+      "weight": 1.75,
       "tags": []
     },
     {
@@ -921,7 +921,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T15:04:30.042000",
       "last_seen": "2026-02-16T15:46:47.956589",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "id": "概念:Gemini3.0flash",
@@ -930,7 +930,7 @@ const GRAPH_DATA = {
       "detail": "カスタムチューニングに使用しているAIモデル。",
       "first_seen": "2026-02-16T15:04:30.042008",
       "last_seen": "2026-02-16T21:44:29.695157",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -965,7 +965,7 @@ const GRAPH_DATA = {
       "date": "2026-02-15",
       "first_seen": "2026-02-16T15:30:12.374710",
       "last_seen": "2026-02-16T15:52:45.866938",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -994,7 +994,7 @@ const GRAPH_DATA = {
       "detail": "80.5kg前後で2週間停滞している。8年間の生活習慣による引力。",
       "first_seen": "2026-02-16T15:30:12.374749",
       "last_seen": "2026-02-16T15:52:45.866796",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -1026,7 +1026,7 @@ const GRAPH_DATA = {
       "detail": "ピクニックの候補地。すぐには行かないが将来的な候補。",
       "first_seen": "2026-02-16T15:45:52.539475",
       "last_seen": "2026-02-22T12:40:49.561860",
-      "weight": 2.65,
+      "weight": 2.55,
       "tags": []
     },
     {
@@ -1087,7 +1087,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T15:48:16.120698",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 21.2
+      "weight": 21.15
     },
     {
       "id": "タスク:HighQuality_MonsterDrawing",
@@ -1103,7 +1103,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T15:48:16.120707",
       "last_seen": "2026-02-16T23:58:36.139819",
-      "weight": 14.1
+      "weight": 13.75
     },
     {
       "id": "知見:高品質イラストの集客効果",
@@ -1113,7 +1113,7 @@ const GRAPH_DATA = {
       "category": "個人開発",
       "first_seen": "2026-02-16T15:48:16.120729",
       "last_seen": "2026-02-16T23:28:46.457451",
-      "weight": 7.1,
+      "weight": 6.75,
       "tags": []
     },
     {
@@ -1125,7 +1125,7 @@ const GRAPH_DATA = {
       "category": "個人開発",
       "first_seen": "2026-02-16T15:48:16.120737",
       "last_seen": "2026-02-16T23:28:46.457466",
-      "weight": 11.1,
+      "weight": 10.75,
       "tags": []
     },
     {
@@ -1146,7 +1146,7 @@ const GRAPH_DATA = {
       "constraint_type": "物理的障害",
       "first_seen": "2026-02-16T15:53:48.330556",
       "last_seen": "2026-02-17T06:40:33.482368",
-      "weight": 0.15,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1156,7 +1156,7 @@ const GRAPH_DATA = {
       "detail": "短時間の描き殴りよりも、鉛筆等でしっかり描き込んだ動画の方がチャンネル登録者が増える傾向がある。",
       "first_seen": "2026-02-16T15:54:33.865481",
       "last_seen": "2026-02-16T23:12:28.140213",
-      "weight": 12.1,
+      "weight": 11.75,
       "tags": [
         "YouTube運営",
         "分析"
@@ -1170,7 +1170,7 @@ const GRAPH_DATA = {
       "sentiment": 0.7,
       "first_seen": "2026-02-16T15:54:33.865489",
       "last_seen": "2026-02-16T22:28:56.075167",
-      "weight": 5.1,
+      "weight": 4.75,
       "tags": []
     },
     {
@@ -1182,7 +1182,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-16T16:05:27.259291",
       "last_seen": "2026-02-17T06:40:33.482338",
-      "weight": 8.15,
+      "weight": 7.8,
       "tags": []
     },
     {
@@ -1205,7 +1205,7 @@ const GRAPH_DATA = {
       "status": "完了",
       "first_seen": "2026-02-16T16:06:26.261236",
       "last_seen": "2026-02-22T01:03:19.177156",
-      "weight": 24.6,
+      "weight": 24.5,
       "tags": [],
       "sentiment": 0.8
     },
@@ -1224,7 +1224,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T17:19:37.853804",
       "last_seen": "2026-02-24T09:03:18.186252",
-      "weight": 5.8
+      "weight": 5.75
     },
     {
       "id": "タスク:Blog_AI_Automation",
@@ -1243,7 +1243,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T17:19:37.853814",
       "last_seen": "2026-02-23T11:05:47.172766",
-      "weight": 8.7
+      "weight": 8.65
     },
     {
       "id": "出来事:AntigravityUpgrade",
@@ -1254,7 +1254,7 @@ const GRAPH_DATA = {
       "date": "2026-02-16",
       "first_seen": "2026-02-16T17:19:37.853837",
       "last_seen": "2026-02-16T23:44:39.918806",
-      "weight": 2.1,
+      "weight": 1.75,
       "tags": []
     },
     {
@@ -1265,7 +1265,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-16T17:19:37.853846",
       "last_seen": "2026-02-17T00:48:08.432000",
-      "weight": 6.1,
+      "weight": 5.75,
       "tags": []
     },
     {
@@ -1276,7 +1276,7 @@ const GRAPH_DATA = {
       "sentiment": -0.6,
       "first_seen": "2026-02-16T17:19:37.853855",
       "last_seen": "2026-02-17T00:48:08.432014",
-      "weight": 10.1,
+      "weight": 9.75,
       "tags": []
     },
     {
@@ -1286,7 +1286,7 @@ const GRAPH_DATA = {
       "detail": "仕事に集中するために籠もる2階のスペース。",
       "first_seen": "2026-02-16T17:19:37.853886",
       "last_seen": "2026-02-17T03:23:12.354172",
-      "weight": 1.15,
+      "weight": 0.8,
       "tags": []
     },
     {
@@ -1296,7 +1296,7 @@ const GRAPH_DATA = {
       "detail": "オンライン飲み会で配布される福利厚生的なアイテム",
       "first_seen": "2026-02-16T17:20:33.941704",
       "last_seen": "2026-02-16T23:28:46.457506",
-      "weight": 3.1,
+      "weight": 2.75,
       "tags": []
     },
     {
@@ -1308,7 +1308,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T17:47:26.010424",
       "last_seen": "2026-02-17T08:19:45.890786",
-      "weight": 0.2,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1329,7 +1329,7 @@ const GRAPH_DATA = {
       "detail": "Gemini 3.0 flashをベースにカスタムチューニングで構築を目指す高品質モデル",
       "first_seen": "2026-02-16T18:48:27.311506",
       "last_seen": "2026-02-16T23:57:32.452547",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -1340,7 +1340,7 @@ const GRAPH_DATA = {
       "detail": "確定申告による所得税の支払額が不明確であることによる、継続的な精神的負荷。",
       "first_seen": "2026-02-16T19:17:33.757291",
       "last_seen": "2026-02-16T23:27:41.812836",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -1352,7 +1352,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T19:17:33.757301",
       "last_seen": "2026-02-17T00:48:08.432107",
-      "weight": 11.1,
+      "weight": 10.75,
       "tags": [
         "Knowbe",
         "リーダー業務"
@@ -1365,7 +1365,7 @@ const GRAPH_DATA = {
       "detail": "注文住宅でこだわった、フルリモートワークのための集中空間",
       "first_seen": "2026-02-16T19:17:33.757310",
       "last_seen": "2026-02-18T18:00:48.854792",
-      "weight": 11.7,
+      "weight": 11.45,
       "tags": []
     },
     {
@@ -1395,7 +1395,7 @@ const GRAPH_DATA = {
       "detail": "ポメラからGitHubへの自動反映フローなど、自身のAI活用術をガジェットと交えて発信することで人気獲得と収益化を狙うアイデア。",
       "first_seen": "2026-02-16T19:44:05.916929",
       "last_seen": "2026-02-17T03:23:12.354098",
-      "weight": 0.15,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1406,7 +1406,7 @@ const GRAPH_DATA = {
       "detail": "しっかり描くことの重要性を実感し、優先度は低いもののポジティブな手応えを感じている。",
       "first_seen": "2026-02-16T19:57:50.387081",
       "last_seen": "2026-02-16T21:58:29.888270",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -1447,7 +1447,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-16T21:10:59.987553",
       "last_seen": "2026-02-17T09:06:35.721146",
-      "weight": 0.25,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1458,7 +1458,7 @@ const GRAPH_DATA = {
       "detail": "文章を書く際に迷いが生じ、継続を阻害する。小学生からのトラウマ的パターン",
       "first_seen": "2026-02-16T21:27:39.053825",
       "last_seen": "2026-02-17T09:06:35.721121",
-      "weight": 2.25,
+      "weight": 1.9,
       "tags": []
     },
     {
@@ -1501,7 +1501,7 @@ const GRAPH_DATA = {
       "date": "2026-02-16",
       "first_seen": "2026-02-16T22:11:54.661000",
       "last_seen": "2026-02-17T06:40:33.482463",
-      "weight": 2.15,
+      "weight": 1.8,
       "tags": []
     },
     {
@@ -1572,7 +1572,7 @@ const GRAPH_DATA = {
       "detail": "鉛筆でしっかり描き込んだ動画を投稿した際、チャンネル登録者が3人増加した。時短より質が重要である可能性。",
       "first_seen": "2026-02-16T23:45:29.453492",
       "last_seen": "2026-02-18T00:53:20.557888",
-      "weight": 10.4,
+      "weight": 10.1,
       "tags": [
         "YouTube",
         "モンスターデザイン"
@@ -1586,7 +1586,7 @@ const GRAPH_DATA = {
       "detail": "登録者増を受けて、時間をかけた描画の重要性を感じ、挑戦したいという前向きな意欲。",
       "first_seen": "2026-02-16T23:45:29.453504",
       "last_seen": "2026-02-17T00:49:10.716612",
-      "weight": 1.1,
+      "weight": 0.75,
       "tags": []
     },
     {
@@ -1609,7 +1609,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-17T11:01:05.250025",
       "last_seen": "2026-02-18T00:45:30.407115",
-      "weight": 4.4,
+      "weight": 4.1,
       "tags": [
         "メンタルヘルス",
         "停滞感",
@@ -1626,7 +1626,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-17T11:01:05.250060",
       "last_seen": "2026-02-18T00:45:30.407249",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1637,7 +1637,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-17T11:01:05.250129",
       "last_seen": "2026-02-17T06:41:29.423816",
-      "weight": 2.15,
+      "weight": 1.8,
       "tags": []
     },
     {
@@ -1669,7 +1669,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-17T11:31:07.494639",
       "last_seen": "2026-02-17T10:32:26.558757",
-      "weight": 1.25,
+      "weight": 0.9,
       "tags": []
     },
     {
@@ -1680,7 +1680,7 @@ const GRAPH_DATA = {
       "sentiment": -0.6,
       "first_seen": "2026-02-17T03:23:12.354111",
       "last_seen": "2026-02-17T08:19:45.890644",
-      "weight": 1.2,
+      "weight": 0.85,
       "tags": []
     },
     {
@@ -1715,7 +1715,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-17T03:24:11.254195",
       "last_seen": "2026-02-17T08:20:38.808662",
-      "weight": 0.2
+      "weight": 0.1
     },
     {
       "id": "知見:朝の雑談のリラックス効果",
@@ -1763,7 +1763,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-17T08:20:38.808607",
       "last_seen": "2026-02-18T00:53:20.557935",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": [
         "生産性",
         "自動化"
@@ -1823,7 +1823,7 @@ const GRAPH_DATA = {
       "detail": "課題を提示しなければならないが、適切な課題が見つからない、または曖昧な状態であることへの不安。",
       "first_seen": "2026-02-17T09:07:31.677707",
       "last_seen": "2026-02-18T00:53:20.558021",
-      "weight": 3.4,
+      "weight": 3.1,
       "tags": [
         "メンタル",
         "仕事"
@@ -1856,7 +1856,7 @@ const GRAPH_DATA = {
       "detail": "スケルトンモデルを眺めるだけで満たされ、いつでも持ち歩きたいと感じるポジティブな感情。",
       "first_seen": "2026-02-17T09:07:31.677767",
       "last_seen": "2026-02-18T00:53:20.558065",
-      "weight": 2.4,
+      "weight": 2.1,
       "tags": [
         "ガジェット",
         "ツール"
@@ -1869,7 +1869,7 @@ const GRAPH_DATA = {
       "detail": "ポメラの集中力（入口）と、テキスト書き出し（出口）の不便さをシステムで解消することが重要",
       "first_seen": "2026-02-17T09:07:31.677787",
       "last_seen": "2026-02-18T18:00:48.854738",
-      "weight": 0.7,
+      "weight": 0.45,
       "tags": []
     },
     {
@@ -1879,7 +1879,7 @@ const GRAPH_DATA = {
       "detail": "ポメラを活用し、個人を特定しない形で感動を伝える小説や記事を投稿する",
       "first_seen": "2026-02-17T09:07:31.677799",
       "last_seen": "2026-02-18T00:35:24.294867",
-      "weight": 1.4,
+      "weight": 1.1,
       "status": "進行中",
       "tags": []
     },
@@ -1891,7 +1891,7 @@ const GRAPH_DATA = {
       "detail": "ポメラで書いた日記をAIで分析するフローをアプリケーションとして構築する",
       "first_seen": "2026-02-17T09:07:31.677810",
       "last_seen": "2026-02-23T21:41:12.703365",
-      "weight": 2.7,
+      "weight": 2.65,
       "tags": [
         "3連休目標"
       ]
@@ -1905,7 +1905,7 @@ const GRAPH_DATA = {
       "date": "2026-02-17",
       "first_seen": "2026-02-17T10:32:26.558809",
       "last_seen": "2026-02-18T00:53:20.558109",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1916,7 +1916,7 @@ const GRAPH_DATA = {
       "category": "クリエイター",
       "first_seen": "2026-02-17T10:32:26.558822",
       "last_seen": "2026-02-18T00:53:20.557979",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": [
         "AI",
         "ブログ"
@@ -1940,7 +1940,7 @@ const GRAPH_DATA = {
       "sentiment": -0.3,
       "first_seen": "2026-02-18T00:35:24.294715",
       "last_seen": "2026-02-18T00:53:20.557838",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": [
         "体調",
         "生活リズム"
@@ -1963,7 +1963,7 @@ const GRAPH_DATA = {
       "detail": "ポメラからブログ投稿までの自動フロー構築により、執筆そのものに集中できる",
       "first_seen": "2026-02-18T00:35:24.294763",
       "last_seen": "2026-02-18T00:45:30.407195",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1983,7 +1983,7 @@ const GRAPH_DATA = {
       "constraint_type": "技術的課題",
       "first_seen": "2026-02-18T00:35:24.294816",
       "last_seen": "2026-02-18T00:45:30.407230",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -1994,7 +1994,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-18T00:35:24.294836",
       "last_seen": "2026-02-18T00:53:20.558199",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -2030,7 +2030,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-18T00:45:30.407267",
       "last_seen": "2026-02-21T02:27:22.618406",
-      "weight": 1.35
+      "weight": 1.2
     },
     {
       "id": "タスク:Blog_Posting_Automation_Completed",
@@ -2089,7 +2089,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-18T01:03:46.881109",
       "last_seen": "2026-02-18T17:25:26.823149",
-      "weight": 3.7
+      "weight": 3.45
     },
     {
       "id": "制約:GitHub_PATの期限切れ",
@@ -2100,7 +2100,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-18T01:03:46.881139",
       "last_seen": "2026-02-18T01:25:42.761423",
-      "weight": 1.4,
+      "weight": 1.1,
       "tags": [],
       "status": "解決"
     },
@@ -2122,7 +2122,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-18T01:03:46.881197",
       "last_seen": "2026-02-18T01:25:42.761462",
-      "weight": 1.4,
+      "weight": 1.1,
       "tags": [],
       "date": "2027-02-18"
     },
@@ -2134,7 +2134,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-18T01:20:39.828347",
       "last_seen": "2026-02-18T01:25:42.761346",
-      "weight": 0.4,
+      "weight": 0.1,
       "tags": [
         "GeminiAPI",
         "GitHubActions",
@@ -2176,7 +2176,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-18T01:35:59.874971",
       "last_seen": "2026-02-18T18:00:48.854701",
-      "weight": 0.7,
+      "weight": 0.45,
       "tags": []
     },
     {
@@ -2258,7 +2258,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-18T17:25:26.823414",
       "last_seen": "2026-02-18T18:00:48.854756",
-      "weight": 0.7,
+      "weight": 0.45,
       "tags": []
     },
     {
@@ -2270,7 +2270,7 @@ const GRAPH_DATA = {
       "category": "個人開発",
       "first_seen": "2026-02-18T18:00:48.854721",
       "last_seen": "2026-02-22T12:40:49.562060",
-      "weight": 6.65,
+      "weight": 6.55,
       "tags": [
         "3連休計画",
         "ブログ"
@@ -2393,7 +2393,7 @@ const GRAPH_DATA = {
       "detail": "頑固な粘着汚れも、適切な除去剤を使用し数分待つことで劇的に清掃が容易になる。",
       "first_seen": "2026-02-21T02:27:22.618391",
       "last_seen": "2026-02-22T01:03:19.177134",
-      "weight": 4.6,
+      "weight": 4.5,
       "tags": []
     },
     {
@@ -2404,7 +2404,7 @@ const GRAPH_DATA = {
       "detail": "オンライン飲み会を通じて得られた、他者と表情を見て話すことの重要性の再認識",
       "first_seen": "2026-02-21T02:27:22.618425",
       "last_seen": "2026-02-21T11:16:31.359656",
-      "weight": 2.45,
+      "weight": 2.3,
       "tags": []
     },
     {
@@ -2414,7 +2414,7 @@ const GRAPH_DATA = {
       "detail": "オンラインでも顔を見て話すことで、テキスト以上に相手の感情やコンテキストを把握できる。",
       "first_seen": "2026-02-21T02:27:22.618440",
       "last_seen": "2026-02-22T01:03:19.177180",
-      "weight": 4.6,
+      "weight": 4.5,
       "tags": []
     },
     {
@@ -2426,7 +2426,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-21T02:27:22.618455",
       "last_seen": "2026-02-22T00:35:49.872697",
-      "weight": 3.6,
+      "weight": 3.5,
       "tags": [
         "3連休目標"
       ]
@@ -2439,7 +2439,7 @@ const GRAPH_DATA = {
       "constraint_type": "感情적ブレーキ",
       "first_seen": "2026-02-21T02:27:22.618469",
       "last_seen": "2026-02-22T00:35:49.872716",
-      "weight": 1.6,
+      "weight": 1.5,
       "tags": []
     },
     {
@@ -2450,7 +2450,7 @@ const GRAPH_DATA = {
       "detail": "12kgの減量が他者（直道）に気づかれるレベルになり、大きな自信と喜びを感じている。",
       "first_seen": "2026-02-21T02:27:22.618503",
       "last_seen": "2026-02-22T01:03:19.177199",
-      "weight": 2.6,
+      "weight": 2.5,
       "tags": []
     },
     {
@@ -2461,7 +2461,7 @@ const GRAPH_DATA = {
       "constraint_type": "リソース不足",
       "first_seen": "2026-02-21T02:27:22.618534",
       "last_seen": "2026-02-21T02:27:22.618534",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "id": "知見:AI分析の透明性確保",
@@ -2470,7 +2470,7 @@ const GRAPH_DATA = {
       "detail": "社員情報を分析する場合、その目的を明確に伝えないと心理的抵抗（不快感）を招く恐れがある。",
       "first_seen": "2026-02-21T03:31:20.783239",
       "last_seen": "2026-02-21T03:31:20.783239",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "id": "感情:努力の承認による喜び",
@@ -2480,7 +2480,7 @@ const GRAPH_DATA = {
       "sentiment": 0.9,
       "first_seen": "2026-02-21T03:31:20.783290",
       "last_seen": "2026-02-21T03:31:20.783290",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "id": "知見:言語化による概念理解の深化",
@@ -2489,7 +2489,7 @@ const GRAPH_DATA = {
       "detail": "重力・反重力の視点についてブログを書くことで、曖昧だった自分の理解が補完された。",
       "first_seen": "2026-02-21T11:16:31.359705",
       "last_seen": "2026-02-22T00:35:49.872735",
-      "weight": 1.6,
+      "weight": 1.5,
       "tags": []
     },
     {
@@ -2500,7 +2500,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-21T11:16:31.359724",
       "last_seen": "2026-02-21T11:16:31.359724",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "id": "制約:執筆のための深い集中力の確保困難",
@@ -2510,7 +2510,7 @@ const GRAPH_DATA = {
       "constraint_type": "感情的ブレーキ",
       "first_seen": "2026-02-21T11:16:31.359742",
       "last_seen": "2026-02-21T11:16:31.359742",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "id": "プロジェクト:Tapo-Gemini連携システム",
@@ -2520,7 +2520,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-21T11:16:31.359803",
       "last_seen": "2026-02-21T11:16:31.359803",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "id": "概念:分身ロボット",
@@ -2530,7 +2530,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-21T11:16:31.359821",
       "last_seen": "2026-02-21T11:16:31.359821",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "id": "プロジェクト:分身ロボット開発",
@@ -2539,7 +2539,7 @@ const GRAPH_DATA = {
       "detail": "ポメラの日記（ナレッジグラフ）を学習させ、自分の思考を模倣するAIロボットを作る。蒼馬の遊び相手にすることも視野。",
       "first_seen": "2026-02-22T00:35:49.872752",
       "last_seen": "2026-02-22T01:03:19.177238",
-      "weight": 2.6,
+      "weight": 2.5,
       "tags": []
     },
     {
@@ -2549,7 +2549,7 @@ const GRAPH_DATA = {
       "detail": "善意で庭に砂利を置こうとするなど、干渉が断りづらい存在。",
       "first_seen": "2026-02-22T00:35:49.872787",
       "last_seen": "2026-02-22T01:03:19.177295",
-      "weight": 2.6,
+      "weight": 2.5,
       "tags": []
     },
     {
@@ -2560,7 +2560,7 @@ const GRAPH_DATA = {
       "detail": "義父の善意による庭いじり提案を断ることに心理的な難易度を感じる。",
       "first_seen": "2026-02-22T00:35:49.872807",
       "last_seen": "2026-02-22T00:35:49.872807",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "タスク:日曜の買い出し_20260223",
@@ -2572,7 +2572,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-22T00:35:49.872824",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 2.75,
+      "weight": 2.7,
       "tags": []
     },
     {
@@ -2582,7 +2582,7 @@ const GRAPH_DATA = {
       "detail": "日曜日にポイント還元率が高くなる、日用品の購入拠点。",
       "first_seen": "2026-02-22T00:35:49.872840",
       "last_seen": "2026-02-22T00:35:49.872840",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "出来事:ペットの部屋の清掃完了",
@@ -2593,7 +2593,7 @@ const GRAPH_DATA = {
       "date": "2026-02-21",
       "first_seen": "2026-02-22T00:56:28.725186",
       "last_seen": "2026-02-22T00:56:28.725186",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "感情:交流による充足感",
@@ -2603,7 +2603,7 @@ const GRAPH_DATA = {
       "sentiment": 0.9,
       "first_seen": "2026-02-22T00:56:28.725229",
       "last_seen": "2026-02-22T00:56:28.725229",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "知見:言語化のコストと集中力",
@@ -2612,7 +2612,7 @@ const GRAPH_DATA = {
       "detail": "ブログや日記は「なんとなく」を言語化する必要があり、開発以上に深い集中力と想像力、そして専用の時間を必要とする。",
       "first_seen": "2026-02-22T00:56:28.725266",
       "last_seen": "2026-02-22T01:03:19.177218",
-      "weight": 1.6,
+      "weight": 1.5,
       "tags": []
     },
     {
@@ -2623,7 +2623,7 @@ const GRAPH_DATA = {
       "sentiment": 0.8,
       "first_seen": "2026-02-22T00:56:28.725304",
       "last_seen": "2026-02-22T00:56:28.725304",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "制約:肉体的疲労",
@@ -2633,7 +2633,7 @@ const GRAPH_DATA = {
       "constraint_type": "疲労",
       "first_seen": "2026-02-22T00:56:28.725325",
       "last_seen": "2026-02-22T00:56:28.725325",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "出来事:義父との庭に関するやり取り",
@@ -2644,7 +2644,7 @@ const GRAPH_DATA = {
       "date": "2026-02-21",
       "first_seen": "2026-02-22T00:56:28.725399",
       "last_seen": "2026-02-22T00:56:28.725399",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "出来事:ラーメンの摂取_20260221",
@@ -2655,7 +2655,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-22T00:57:23.126371",
       "last_seen": "2026-02-22T10:55:47.068818",
-      "weight": 2.65,
+      "weight": 2.55,
       "tags": [],
       "date": "2026-02-21"
     },
@@ -2668,7 +2668,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-22T00:57:23.126417",
       "last_seen": "2026-02-22T11:15:44.747523",
-      "weight": 2.65,
+      "weight": 2.55,
       "tags": []
     },
     {
@@ -2678,7 +2678,7 @@ const GRAPH_DATA = {
       "detail": "スープを飲み干すと塩分過多により水分を溜め込み、翌日の体重が増える。",
       "first_seen": "2026-02-22T00:57:23.126449",
       "last_seen": "2026-02-22T12:40:49.561596",
-      "weight": 1.65,
+      "weight": 1.55,
       "tags": []
     },
     {
@@ -2702,7 +2702,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T01:03:19.177257",
       "last_seen": "2026-02-22T01:03:19.177257",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "出来事:ボーリング",
@@ -2713,7 +2713,7 @@ const GRAPH_DATA = {
       "detail": "家族や親戚との交流イベント。",
       "first_seen": "2026-02-22T01:03:19.177313",
       "last_seen": "2026-02-22T01:03:19.177313",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "id": "知見:短期大量投稿の形骸化",
@@ -2723,7 +2723,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T01:04:18.711202",
       "last_seen": "2026-02-22T10:55:47.068872",
-      "weight": 1.65,
+      "weight": 1.55,
       "tags": []
     },
     {
@@ -2735,7 +2735,7 @@ const GRAPH_DATA = {
       "date": "2026-02-21",
       "first_seen": "2026-02-22T11:15:44.747271",
       "last_seen": "2026-02-22T12:40:49.561523",
-      "weight": 2.65,
+      "weight": 2.55,
       "tags": []
     },
     {
@@ -2745,7 +2745,7 @@ const GRAPH_DATA = {
       "detail": "3連休での13件投稿は意味が薄いと判断。価値の低い大量投稿を避ける。",
       "first_seen": "2026-02-22T11:15:44.747333",
       "last_seen": "2026-02-22T12:40:49.561664",
-      "weight": 2.65,
+      "weight": 2.55,
       "tags": []
     },
     {
@@ -2757,7 +2757,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-22T11:15:44.747393",
       "last_seen": "2026-02-23T21:41:12.703365",
-      "weight": 1.75,
+      "weight": 1.7,
       "tags": []
     },
     {
@@ -2780,7 +2780,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-22T12:01:09.016657",
       "last_seen": "2026-02-22T12:01:09.016657",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "id": "プロジェクト:Saitekiキャリアパス検討",
@@ -2790,7 +2790,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T12:01:09.016790",
       "last_seen": "2026-02-22T12:40:49.561729",
-      "weight": 1.65,
+      "weight": 1.55,
       "tags": []
     },
     {
@@ -2802,7 +2802,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T12:01:09.016851",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 0.7
+      "weight": 0.65
     },
     {
       "id": "概念:社会保険料の負担差",
@@ -2812,7 +2812,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T12:01:09.016913",
       "last_seen": "2026-02-22T12:40:49.561795",
-      "weight": 1.65,
+      "weight": 1.55,
       "tags": []
     },
     {
@@ -2824,7 +2824,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T12:40:49.561925",
       "last_seen": "2026-02-22T12:40:49.561925",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "id": "知見:ブログを本のプロトタイプにする",
@@ -2834,7 +2834,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-22T12:40:49.561996",
       "last_seen": "2026-02-22T12:40:49.561996",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "id": "日記:20260223",
@@ -2854,18 +2854,19 @@ const GRAPH_DATA = {
       "detail": "日記をAI分析するパイプラインが整ったことで、生活上の課題解決にポジティブな影響が出ている。",
       "first_seen": "2026-02-23T11:05:47.171792",
       "last_seen": "2026-02-23T11:05:47.172766",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "id": "タスク:Blog_Workflow_Establishment",
       "label": "ブログ執筆フローと管理ルールの策定",
       "type": "タスク",
       "detail": "何を書くか迷う時間を減らすため、次に書く話題を明確にするフローとアイデアを溜めるルールを決める。",
-      "status": "未着手",
+      "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-23T11:05:47.171818",
-      "last_seen": "2026-02-23T21:41:12.703365",
-      "weight": 0.75
+      "last_seen": "2026-02-24T15:20:51.862552",
+      "weight": 1.75,
+      "tags": []
     },
     {
       "id": "制約:ブログ執筆における完璧主義",
@@ -2875,7 +2876,7 @@ const GRAPH_DATA = {
       "constraint_type": "感情的ブレーキ",
       "first_seen": "2026-02-23T11:05:47.171844",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 1.8,
+      "weight": 1.75,
       "status": "緩和中",
       "tags": []
     },
@@ -2887,7 +2888,7 @@ const GRAPH_DATA = {
       "constraint_type": "その他",
       "first_seen": "2026-02-23T11:05:47.171870",
       "last_seen": "2026-02-23T11:05:47.172766",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "id": "知見:ブログのアイデアレベル公開の許容",
@@ -2896,7 +2897,7 @@ const GRAPH_DATA = {
       "detail": "完成された内容でなくても、自分の考えをまとめたアイデアレベルの投稿でも価値があるという認識の転換。",
       "first_seen": "2026-02-23T11:05:47.171896",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 2.85,
+      "weight": 2.8,
       "tags": []
     },
     {
@@ -2920,17 +2921,17 @@ const GRAPH_DATA = {
       "date": "2026-02-23",
       "first_seen": "2026-02-23T07:23:14.339294",
       "last_seen": "2026-02-23T07:23:14.339817",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "id": "知見:ポメラ分析パイプラインの有効性",
-      "label": "ポメラ分析パイプラインによる課題解決",
-      "type": "知見",
-      "detail": "ポメラ→Gmail→GAS→GitHub Actions→AIという一連の流れが整ったことで、生活の課題解決に良い影響を与えている。",
+      "label": "ポメラによる課題解決",
+      "type": "概念",
+      "detail": "ポメラを単なる入力デバイスではなく、人生の課題に向き合い解決するためのツールとして定義する考え方。",
       "category": "エンジニア",
       "first_seen": "2026-02-23T07:23:14.339315",
-      "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 2.9,
+      "last_seen": "2026-02-24T15:20:51.862552",
+      "weight": 3.9,
       "tags": []
     },
     {
@@ -2943,7 +2944,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-23T07:23:14.339336",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 1.85
+      "weight": 1.8
     },
     {
       "id": "目標:ポメラユーザーの創出",
@@ -2953,8 +2954,8 @@ const GRAPH_DATA = {
       "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-23T07:23:14.339354",
-      "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 1.85,
+      "last_seen": "2026-02-24T15:20:51.862552",
+      "weight": 2.85,
       "tags": []
     },
     {
@@ -2965,8 +2966,9 @@ const GRAPH_DATA = {
       "constraint_type": "感情的ブレーキ",
       "category": "エンジニア",
       "first_seen": "2026-02-23T07:23:14.339371",
-      "last_seen": "2026-02-23T07:23:14.339817",
-      "weight": 0.8
+      "last_seen": "2026-02-24T15:20:51.862552",
+      "weight": 1.8,
+      "tags": []
     },
     {
       "id": "感情:ポメラ活用の手応え",
@@ -2976,7 +2978,7 @@ const GRAPH_DATA = {
       "sentiment": 0.8,
       "first_seen": "2026-02-23T07:23:14.339390",
       "last_seen": "2026-02-23T07:23:14.339817",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "id": "知見:ポメラは思考の時間を作るためのもの",
@@ -2986,7 +2988,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-23T21:41:12.701564",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 1.9,
+      "weight": 1.85,
       "tags": []
     },
     {
@@ -2998,7 +3000,7 @@ const GRAPH_DATA = {
       "date": "2026-02-23",
       "first_seen": "2026-02-23T21:41:12.701709",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 1.9,
+      "weight": 1.85,
       "tags": []
     },
     {
@@ -3011,7 +3013,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-23T21:41:12.701774",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "id": "感情:パイプライン完成への手応え",
@@ -3022,7 +3024,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-23T21:45:53.296071",
       "last_seen": "2026-02-23T21:45:53.297801",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "id": "日記:20260224",
@@ -3045,7 +3047,7 @@ const GRAPH_DATA = {
       "context": "knowbe",
       "first_seen": "2026-02-24T09:03:18.185589",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "タスク:Knowbe_DefineAlertCriteria",
@@ -3057,7 +3059,7 @@ const GRAPH_DATA = {
       "context": "knowbe",
       "first_seen": "2026-02-24T09:03:18.185607",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "タスク:Knowbe_ConsultationFlowEstablishment",
@@ -3069,7 +3071,7 @@ const GRAPH_DATA = {
       "context": "knowbe",
       "first_seen": "2026-02-24T09:03:18.185625",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "制約:読書不足",
@@ -3080,7 +3082,7 @@ const GRAPH_DATA = {
       "context": "shared",
       "first_seen": "2026-02-24T09:03:18.185643",
       "last_seen": "2026-02-24T09:03:18.186252",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "出来事:AI駆動開発チームの読了",
@@ -3092,7 +3094,7 @@ const GRAPH_DATA = {
       "context": "saiteki",
       "first_seen": "2026-02-24T09:03:18.185661",
       "last_seen": "2026-02-24T09:03:18.186252",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "知見:AIツール非依存の重要性",
@@ -3102,7 +3104,7 @@ const GRAPH_DATA = {
       "context": "saiteki",
       "first_seen": "2026-02-24T09:03:18.185679",
       "last_seen": "2026-02-24T09:03:18.186252",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "タスク:Saiteki_SlackReview",
@@ -3114,7 +3116,7 @@ const GRAPH_DATA = {
       "context": "saiteki",
       "first_seen": "2026-02-24T09:03:18.185698",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "タスク:Saiteki_AIToolAgilityPreparation",
@@ -3126,7 +3128,7 @@ const GRAPH_DATA = {
       "context": "saiteki",
       "first_seen": "2026-02-24T09:03:18.185716",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "制約:前日の過剰摂取",
@@ -3137,7 +3139,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-02-24T09:03:18.185735",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 2,
+      "weight": 1.95,
       "status": "進行中",
       "tags": []
     },
@@ -3150,7 +3152,7 @@ const GRAPH_DATA = {
       "context": "knowbe",
       "first_seen": "2026-02-24T09:03:18.185753",
       "last_seen": "2026-02-24T09:03:18.186252",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "日記:2026-02-24",
@@ -3175,7 +3177,7 @@ const GRAPH_DATA = {
       "constraint_type": "その他",
       "first_seen": "2026-02-24T15:09:15.938530",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "感情:思考の明瞭化",
@@ -3187,7 +3189,7 @@ const GRAPH_DATA = {
       "context": "shared",
       "first_seen": "2026-02-24T15:09:15.938551",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "知見:AIツールのマルチユース原則",
@@ -3198,7 +3200,7 @@ const GRAPH_DATA = {
       "context": "saiteki",
       "first_seen": "2026-02-24T15:09:15.938571",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "タスク:不要な買い物の禁止",
@@ -3210,7 +3212,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-02-24T15:09:15.938590",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "タスク:はてなブログProへの加入",
@@ -3222,7 +3224,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-02-24T15:09:15.938609",
       "last_seen": "2026-02-24T15:09:15.939094",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "概念:ストックオプション",
@@ -3232,6 +3234,29 @@ const GRAPH_DATA = {
       "context": "saiteki",
       "first_seen": "2026-02-24T15:09:15.938628",
       "last_seen": "2026-02-24T15:09:15.939094",
+      "weight": 0.95
+    },
+    {
+      "id": "日記:2026-02-25",
+      "label": "2026年2月25日の日記",
+      "type": "日記",
+      "detail": "ブログの構成案とポメラを通じた課題解決の在り方についての思考整理。",
+      "date": "2026-02-25",
+      "context": "private",
+      "first_seen": "2026-02-24T15:20:51.862022",
+      "last_seen": "2026-02-24T15:20:51.862022",
+      "weight": 1,
+      "analysis_content": "{\n  \"coach_comment\": \"ブログの構成に「課題提示からポメラで解決」という独自の『型』を見出せたのは素晴らしい進歩です。深夜の静寂の中で生まれたその直感は、執筆を阻んでいた迷いという重力を確実に軽減してくれます。今は完璧を目指さず、その発見したフレームワークに思考を乗せてみるだけで十分ですよ。\",\n  \"gravity_map\": [\n    {\n      \"task\": \"ブログ執筆フローと管理ルールの策定\",\n      \"task_id\": \"blog_flow_rule\",\n      \"constraints\": [\n        {\n          \"name\": \"執筆テーマの迷い\",\n          \"type\": \"感情적ブレーキ\",\n          \"severity\": \"中\"\n        },\n        {\n          \"name\": \"ブログ内容への完璧主義\",\n          \"type\": \"感情的ブレーキ\",\n          \"severity\": \"中\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"課題解決の構成案の発見\",\n          \"type\": \"知見\"\n        },\n        {\n          \"name\": \"ポメラ駆動による思考整理\",\n          \"type\": \"目標\"\n        }\n      ],\n      \"net_assessment\": \"構成の型が見えたことで「何を書くか」の迷いが減り、執筆への浮力が発生しています。\"\n    },\n    {\n      \"task\": \"希望給与条件の整理と提示\",\n      \"task_id\": \"salary_negotiation\",\n      \"constraints\": [\n        {\n          \"name\": \"所得税・社保の不確実性\",\n          \"type\": \"リソース不足\",\n          \"severity\": \"高\"\n        }\n      ],\n      \"energy_sources\": [\n        {\n          \"name\": \"家族の安定と貯金目標\",\n          \"type\": \"目標\"\n        }\n      ],\n      \"net_assessment\": \"金銭的な不安が重力として強く残っており、具体的な試算による視覚化が必要です。\"\n    }\n  ],\n  \"antigravity_actions\": [\n    {\n      \"action\": \"ポメラの定型文に『課題：/解決：/工夫：』というブログ骨子テンプレートを登録する\",\n      \"target_task\": \"ブログ執筆フローと管理ルールの策定\",\n      \"effect\": \"日記で思いついた構成案を即座に形にできる状態にし、書き出しの心理的障壁を下げる\",\n      \"effort\": \"5分\"\n    },\n    {\n      \"action\": \"Geminiに『フリーランス(扶養内) vs 正社員(手取り70万)』のシミュレーションをさせる\",\n      \"target_task\": \"希望給与条件の整理と提示\",\n      \"effect\": \"不透明な税金コストを可視化し、交渉の際の迷いという重力を取り除く\",\n      \"effort\": \"15分\"\n    },\n    {\n      \"action\": \"ポメラに『これが出たら黄色信号』というアラート基準を3つだけ箇条書きにする\",\n      \"target_task\": \"アラート基準の策定\",\n      \"effect\": \"「全把握」という重圧を「基準への合致確認」という作業に変換し、心理的負担を軽減する\",\n      \"effort\": \"10分\"\n    },\n    {\n      \"action\": \"『欲しいものリスト』をポメラで作成し、購入前に必ず3日間寝かせるルールをメモする\",\n      \"target_task\": \"不要な買い物の禁止\",\n      \"effect\": \"衝動買いという突発的な重力を「時間」というクッションで制御する\",\n      \"effort\": \"5分\"\n    }\n  ],\n  \"insights\": [\n    {\n      \"finding\": \"「毎回同じ解決方法（ポメラ）でも、課題への考え方を織り交ぜれば記事になる」という確信。\",\n      \"implication\": \"独自性（オリジナリティ）をポメラそのものではなく、そこに至るまでの『悩みと思考の過程』に見出したことで、量産への道が開けた。\"\n    }\n  ],\n  \"emotion_flow\": [\n    {\n      \"emotion\": \"思考の明瞭化\",\n      \"sentiment\": 0.8,\n      \"context\": \"ブログの構成案を思いついた深夜の思考整理。\"\n    }\n  ],\n  \"upcoming_schedule\": [\n    {\n      \"title\": \"確定申告の準備\",\n      \"date\": \"2026-03-15\",\n      \"time\": null,\n      \"category\": \"個人\"\n    }\n  ],\n  \"family_digest\": {\n    \"highlights\": [\n      {\n        \"member\": \"蒼馬\",\n        \"event\": \"2/23に実家で交流し、公園ピクニックを楽しんだ（前日の文脈）\",\n        \"emotion\": \"喜び\"\n      },\n      {\n        \"member\": \"沙也香\",\n        \"event\": \"家事や育児の合間に、夫のブログ活動を支える環境を作っている\",\n        \"emotion\": \"感謝\"\n      }\n    ],\n    \"family_todos\": [\n      \"住宅ローン減税の確認\",\n      \"妻の体調経過観察と受診勧奨\"\n    ],\n    \"shopping_list\": [\n      {\n        \"item\": \"バナナ\",\n        \"category\": \"食料品\",\n        \"urgency\": \"今週中\",\n        \"note\": \"カリウム摂取とダイエット継続のため\"\n      }\n    ]\n  },\n  \"blog_seeds\": [\n    {\n      \"title\": \"万能の処方箋と、ただの一枚の板\",\n      \"genre\": \"哲学的\",\n      \"tone\": \"シリアス\",\n      \"story_seed\": \"どんな悩みも解決できるという伝説の石版を手に入れた男。しかし石版は常に『ただ書け』としか答えない。男が悩み、書き続けるうちに、石版の正体がただの黒いプラスチックの板だと気づくが、その頃には彼の悩みは全て消えていた。\",\n      \"core_message\": \"道具が解決するのではなく、道具を通じて自分と向き合う時間が解決する。\",\n      \"reader_feeling\": \"静かな納得感\",\n      \"readiness\": \"高\"\n    }\n  ],\n  \"blog_ideas\": [\n    {\n      \"title\": \"『いつも結論がポメラ』でいい。課題から逆算するブログ構成術\",\n      \"theme\": \"ブログ構成術・ポメラ活用\",\n      \"hook\": \"「またポメラの話？」と言われることを恐れていた僕が、あえて『ポメラで解決』をテンプレートにした理由。\",\n      \"readiness\": \"高\"\n    },\n    {\n      \"title\": \"深夜0時の脳内会議：ポメラが僕の『生きる課題』の相談役になるまで\",\n      \"theme\": \"メンタルケア・思考整理\",\n      \"hook\": \"エンジニアが深夜に直面する『正体不明のもやもや』を、ポメラという物理キーボードで解体する方法。\",\n      \"readiness\": \"中\"\n    },\n    {\n      \"title\": \"完璧主義を捨てるための『ポメラ先行・AI後追い』執筆フロー\",\n      \"theme\": \"生産性・AI活用\",\n      \"hook\": \"「最初から完成形を書こうとするから手が止まる」。アイデアレベルでポメラに叩き込み、AIを壁打ち相手にする今の僕の最適解。\",\n      \"readiness\": \"中\"\n    }\n  ]\n}"
+    },
+    {
+      "id": "知見:Blog_ProblemSolution_Structure",
+      "label": "課題提示から始めるブログ構成案",
+      "type": "知見",
+      "detail": "読者が共感する「生きる上での課題」をまず提示し、その解決手段としてポメラの具体的な活用方法や思考プロセスを提示する記事構成のアイデア。",
+      "context": "private",
+      "category": "エンジニア",
+      "first_seen": "2026-02-24T15:20:51.862051",
+      "last_seen": "2026-02-24T15:20:51.862552",
       "weight": 1
     }
   ],
@@ -3243,7 +3268,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T23:51:38.047463",
       "last_seen": "2026-02-16T23:11:32.102057",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "プロジェクト:Saiteki_副業",
@@ -3279,7 +3304,7 @@ const GRAPH_DATA = {
       "label": "資料作成と連絡のやり取り",
       "first_seen": "2026-02-16T23:51:38.047485",
       "last_seen": "2026-02-17T06:40:33.482695",
-      "weight": 6.15
+      "weight": 5.8
     },
     {
       "source": "出来事:MadeGruel",
@@ -3288,7 +3313,7 @@ const GRAPH_DATA = {
       "label": "大変さを実感して感謝が芽生える",
       "first_seen": "2026-02-16T23:51:38.047490",
       "last_seen": "2026-02-17T08:19:45.891027",
-      "weight": 1.2
+      "weight": 0.85
     },
     {
       "source": "感情:Gratitude_Sayaka",
@@ -3360,7 +3385,7 @@ const GRAPH_DATA = {
       "label": "MTGの相手",
       "first_seen": "2026-02-16T23:51:38.047532",
       "last_seen": "2026-02-16T23:44:39.919172",
-      "weight": 5.1
+      "weight": 4.75
     },
     {
       "source": "概念:Antigravity",
@@ -3421,7 +3446,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-16",
       "type": "関連する",
       "label": "書いた",
-      "weight": 33.25,
+      "weight": 32.9,
       "first_seen": "2026-02-16T23:51:38.047564",
       "last_seen": "2026-02-17T09:06:35.721422"
     },
@@ -3430,7 +3455,7 @@ const GRAPH_DATA = {
       "target": "人物:鈴木さん",
       "type": "言及する",
       "label": "言及",
-      "weight": 26.25,
+      "weight": 25.9,
       "first_seen": "2026-02-16T23:51:38.047568",
       "last_seen": "2026-02-17T09:06:35.721429"
     },
@@ -3439,7 +3464,7 @@ const GRAPH_DATA = {
       "target": "人物:開米さん",
       "type": "言及する",
       "label": "言及",
-      "weight": 24.25,
+      "weight": 23.9,
       "first_seen": "2026-02-16T23:51:38.047574",
       "last_seen": "2026-02-17T09:06:35.721431"
     },
@@ -3493,7 +3518,7 @@ const GRAPH_DATA = {
       "target": "概念:CustomTuning",
       "type": "言及する",
       "label": "言及",
-      "weight": 5.1,
+      "weight": 4.75,
       "first_seen": "2026-02-16T23:51:38.047602",
       "last_seen": "2026-02-16T23:11:32.102059"
     },
@@ -3502,7 +3527,7 @@ const GRAPH_DATA = {
       "target": "人物:さやか",
       "type": "言及する",
       "label": "言及",
-      "weight": 13.2,
+      "weight": 12.85,
       "first_seen": "2026-02-16T23:51:38.047607",
       "last_seen": "2026-02-17T08:19:45.891060"
     },
@@ -3511,7 +3536,7 @@ const GRAPH_DATA = {
       "target": "人物:蒼馬",
       "type": "言及する",
       "label": "言及",
-      "weight": 13.2,
+      "weight": 12.85,
       "first_seen": "2026-02-16T23:51:38.047611",
       "last_seen": "2026-02-17T08:19:45.891058"
     },
@@ -3520,7 +3545,7 @@ const GRAPH_DATA = {
       "target": "出来事:MadeGruel",
       "type": "言及する",
       "label": "言及",
-      "weight": 14.25,
+      "weight": 13.9,
       "first_seen": "2026-02-16T23:51:38.047616",
       "last_seen": "2026-02-17T09:06:35.721435"
     },
@@ -3529,7 +3554,7 @@ const GRAPH_DATA = {
       "target": "感情:Gratitude_Sayaka",
       "type": "言及する",
       "label": "言及",
-      "weight": 9.2,
+      "weight": 8.85,
       "first_seen": "2026-02-16T23:51:38.047620",
       "last_seen": "2026-02-17T08:19:45.891064"
     },
@@ -3538,7 +3563,7 @@ const GRAPH_DATA = {
       "target": "制約:TaxAnxiety",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.25,
+      "weight": 2.9,
       "first_seen": "2026-02-16T23:51:38.047625",
       "last_seen": "2026-02-17T09:06:35.721436"
     },
@@ -3565,7 +3590,7 @@ const GRAPH_DATA = {
       "target": "タスク:TeamFlowImprovement",
       "type": "言及する",
       "label": "本日完了させる目標として記載",
-      "weight": 7.1,
+      "weight": 6.75,
       "first_seen": "2026-02-16T23:51:38.047642",
       "last_seen": "2026-02-16T16:48:43.801819"
     },
@@ -3592,7 +3617,7 @@ const GRAPH_DATA = {
       "target": "場所:StudyRoom",
       "type": "言及する",
       "label": "言及",
-      "weight": 15.1,
+      "weight": 14.75,
       "first_seen": "2026-02-16T23:51:38.047657",
       "last_seen": "2026-02-17T00:48:08.432362"
     },
@@ -3601,7 +3626,7 @@ const GRAPH_DATA = {
       "target": "制約:LivingRoomDistraction",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T23:51:38.047662",
       "last_seen": "2026-02-16T22:27:58.162188"
     },
@@ -3610,7 +3635,7 @@ const GRAPH_DATA = {
       "target": "人物:直道",
       "type": "言及する",
       "label": "言及",
-      "weight": 23.2,
+      "weight": 22.85,
       "first_seen": "2026-02-16T23:51:38.047666",
       "last_seen": "2026-02-17T08:19:45.891056"
     },
@@ -3619,7 +3644,7 @@ const GRAPH_DATA = {
       "target": "出来事:MTG_Naomichi",
       "type": "言及する",
       "label": "言及",
-      "weight": 9.25,
+      "weight": 8.9,
       "first_seen": "2026-02-16T23:51:38.047671",
       "last_seen": "2026-02-17T09:06:35.721442"
     },
@@ -3655,7 +3680,7 @@ const GRAPH_DATA = {
       "target": "制約:Hunger",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T23:51:38.047691",
       "last_seen": "2026-02-16T23:27:41.813215"
     },
@@ -3673,7 +3698,7 @@ const GRAPH_DATA = {
       "target": "知見:AI_Blog_Automation",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.1,
+      "weight": 2.75,
       "first_seen": "2026-02-16T23:51:38.047715",
       "last_seen": "2026-02-17T00:48:08.432366"
     },
@@ -3817,7 +3842,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-15",
       "type": "関連する",
       "label": "書いた",
-      "weight": 4.1,
+      "weight": 3.75,
       "first_seen": "2026-02-16T14:56:00.317404",
       "last_seen": "2026-02-16T15:52:45.867114"
     },
@@ -3826,7 +3851,7 @@ const GRAPH_DATA = {
       "target": "タスク:PetRoomCleaning",
       "type": "言及する",
       "label": "掃除について記述",
-      "weight": 4.1,
+      "weight": 3.75,
       "first_seen": "2026-02-16T14:56:00.317407",
       "last_seen": "2026-02-16T15:52:45.867083"
     },
@@ -3862,7 +3887,7 @@ const GRAPH_DATA = {
       "target": "タスク:CheatDay",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.1,
+      "weight": 1.75,
       "first_seen": "2026-02-16T14:56:00.317417",
       "last_seen": "2026-02-16T15:52:45.867123"
     },
@@ -3952,7 +3977,7 @@ const GRAPH_DATA = {
       "target": "人物:Mugi",
       "type": "言及する",
       "label": "言及",
-      "weight": 4.1,
+      "weight": 3.75,
       "first_seen": "2026-02-16T14:56:00.317436",
       "last_seen": "2026-02-16T15:52:45.867147"
     },
@@ -3988,7 +4013,7 @@ const GRAPH_DATA = {
       "target": "感情:ParentalRegret",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T14:56:00.317445",
       "last_seen": "2026-02-16T15:52:45.867156"
     },
@@ -3997,7 +4022,7 @@ const GRAPH_DATA = {
       "target": "制約:MultitaskingDanger",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.1,
+      "weight": 1.75,
       "first_seen": "2026-02-16T14:56:00.317447",
       "last_seen": "2026-02-16T15:52:45.867158"
     },
@@ -4006,7 +4031,7 @@ const GRAPH_DATA = {
       "target": "知見:ChildFoodSafety",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T14:56:00.317449",
       "last_seen": "2026-02-16T15:52:45.867160"
     },
@@ -4035,7 +4060,7 @@ const GRAPH_DATA = {
       "label": "剥がすのが困難",
       "first_seen": "2026-02-16T15:00:58.390479",
       "last_seen": "2026-02-16T15:45:52.539654",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "制約:掃除時間の不足",
@@ -4044,7 +4069,7 @@ const GRAPH_DATA = {
       "label": "掛け持ち仕事と育児で時間が取れない",
       "first_seen": "2026-02-16T15:00:58.390483",
       "last_seen": "2026-02-16T15:45:52.539656",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "知見:体重の停滞期",
@@ -4159,7 +4184,7 @@ const GRAPH_DATA = {
       "target": "感情:ワークフロー構築の楽しさ",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.1,
+      "weight": 2.75,
       "first_seen": "2026-02-16T15:00:58.390512",
       "last_seen": "2026-02-16T15:52:45.867134"
     },
@@ -4186,7 +4211,7 @@ const GRAPH_DATA = {
       "target": "感情:親としての失格感",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T15:00:58.390518",
       "last_seen": "2026-02-16T15:30:12.374885"
     },
@@ -4204,7 +4229,7 @@ const GRAPH_DATA = {
       "target": "人物:蒼馬",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.1,
+      "weight": 2.75,
       "first_seen": "2026-02-16T15:00:58.390523",
       "last_seen": "2026-02-16T15:52:45.867151"
     },
@@ -4213,7 +4238,7 @@ const GRAPH_DATA = {
       "target": "人物:さやか",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.1,
+      "weight": 2.75,
       "first_seen": "2026-02-16T15:00:58.390525",
       "last_seen": "2026-02-16T15:52:45.867149"
     },
@@ -4233,7 +4258,7 @@ const GRAPH_DATA = {
       "label": "実体験から感謝が深まる",
       "first_seen": "2026-02-16T15:02:03.441306",
       "last_seen": "2026-02-16T22:27:58.162150",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "概念:住宅ローン控除",
@@ -4242,7 +4267,7 @@ const GRAPH_DATA = {
       "label": "支払負担を軽減する可能性",
       "first_seen": "2026-02-16T15:02:03.441311",
       "last_seen": "2026-02-16T15:46:47.956721",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "人物:さやか",
@@ -4296,7 +4321,7 @@ const GRAPH_DATA = {
       "label": "ブログ継続を困難にする過去のパターン",
       "first_seen": "2026-02-16T15:02:03.441322",
       "last_seen": "2026-02-16T16:18:26.827067",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "タスク:Saiteki_VertlexTrain",
@@ -4305,7 +4330,7 @@ const GRAPH_DATA = {
       "label": "鈴木さんへの連絡と学習報告",
       "first_seen": "2026-02-16T15:02:03.441324",
       "last_seen": "2026-02-17T03:23:12.354411",
-      "weight": 1.15
+      "weight": 0.8
     },
     {
       "source": "タスク:Saiteki_CheckKaimai",
@@ -4314,7 +4339,7 @@ const GRAPH_DATA = {
       "label": "今週木曜日までの進捗確認",
       "first_seen": "2026-02-16T15:02:03.441328",
       "last_seen": "2026-02-17T03:23:12.354412",
-      "weight": 1.15
+      "weight": 0.8
     },
     {
       "source": "日記:2026-02-16",
@@ -4323,14 +4348,14 @@ const GRAPH_DATA = {
       "label": "現在の体重80.2kgを確認",
       "first_seen": "2026-02-16T15:02:03.441332",
       "last_seen": "2026-02-16T22:47:10.412378",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "日記:2026-02-16",
       "target": "制約:育児中の眠気",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T15:02:03.441338",
       "last_seen": "2026-02-16T19:56:54.932890"
     },
@@ -4348,7 +4373,7 @@ const GRAPH_DATA = {
       "target": "概念:住宅ローン控除",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.1,
+      "weight": 1.75,
       "first_seen": "2026-02-16T15:02:03.441344",
       "last_seen": "2026-02-16T15:46:47.956755"
     },
@@ -4357,7 +4382,7 @@ const GRAPH_DATA = {
       "target": "概念:５倍がゆ",
       "type": "言及する",
       "label": "言及",
-      "weight": 9.1,
+      "weight": 8.75,
       "first_seen": "2026-02-16T15:02:03.441353",
       "last_seen": "2026-02-16T23:11:32.102061"
     },
@@ -4366,7 +4391,7 @@ const GRAPH_DATA = {
       "target": "場所:リビング",
       "type": "言及する",
       "label": "言及",
-      "weight": 14.2,
+      "weight": 13.85,
       "first_seen": "2026-02-16T15:02:03.441359",
       "last_seen": "2026-02-17T08:19:45.891070"
     },
@@ -4375,7 +4400,7 @@ const GRAPH_DATA = {
       "target": "制約:執筆への迷い",
       "type": "言及する",
       "label": "言及",
-      "weight": 4.1,
+      "weight": 3.75,
       "first_seen": "2026-02-16T15:02:03.441363",
       "last_seen": "2026-02-16T20:12:16.303432"
     },
@@ -4386,7 +4411,7 @@ const GRAPH_DATA = {
       "label": "構築を推進する",
       "first_seen": "2026-02-16T15:03:34.868452",
       "last_seen": "2026-02-16T15:52:45.867095",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "タスク:PomeraWorkflowConstruction",
@@ -4521,7 +4546,7 @@ const GRAPH_DATA = {
       "label": "着手が夜になる",
       "first_seen": "2026-02-16T15:04:30.042105",
       "last_seen": "2026-02-17T08:19:45.891032",
-      "weight": 3.2
+      "weight": 2.85
     },
     {
       "source": "場所:StudyRoom",
@@ -4530,7 +4555,7 @@ const GRAPH_DATA = {
       "label": "物理的に隔離して集中を確保",
       "first_seen": "2026-02-16T15:04:30.042107",
       "last_seen": "2026-02-16T17:47:26.010656",
-      "weight": 4.1
+      "weight": 3.75
     },
     {
       "source": "概念:住宅ローン控除",
@@ -4548,7 +4573,7 @@ const GRAPH_DATA = {
       "label": "月5万円の収益化手段",
       "first_seen": "2026-02-16T15:04:30.042111",
       "last_seen": "2026-02-16T15:46:47.956730",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "感情:家族への感謝",
@@ -4566,7 +4591,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T15:04:30.042121",
       "last_seen": "2026-02-16T19:56:54.932903",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "人物:開米さん",
@@ -4575,7 +4600,7 @@ const GRAPH_DATA = {
       "label": "作業状況の確認対象",
       "first_seen": "2026-02-16T15:04:30.042123",
       "last_seen": "2026-02-17T06:40:33.482697",
-      "weight": 9.15
+      "weight": 8.8
     },
     {
       "source": "日記:2026-02-16",
@@ -4591,7 +4616,7 @@ const GRAPH_DATA = {
       "target": "感情:経済的不安",
       "type": "言及する",
       "label": "言及",
-      "weight": 7.1,
+      "weight": 6.75,
       "first_seen": "2026-02-16T15:04:30.042141",
       "last_seen": "2026-02-16T23:11:32.102067"
     },
@@ -4600,7 +4625,7 @@ const GRAPH_DATA = {
       "target": "制約:副業の着手タイミング",
       "type": "言及する",
       "label": "言及",
-      "weight": 11.25,
+      "weight": 10.9,
       "first_seen": "2026-02-16T15:04:30.042145",
       "last_seen": "2026-02-17T09:06:35.721449"
     },
@@ -4609,7 +4634,7 @@ const GRAPH_DATA = {
       "target": "プロジェクト:AI活用術ブログ",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T15:04:30.042147",
       "last_seen": "2026-02-16T15:46:47.956761"
     },
@@ -4618,7 +4643,7 @@ const GRAPH_DATA = {
       "target": "概念:Gemini3.0flash",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T15:04:30.042149",
       "last_seen": "2026-02-16T21:44:29.695376"
     },
@@ -4735,7 +4760,7 @@ const GRAPH_DATA = {
       "target": "出来事:蒼馬の誤飲危機_2026-02-15",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T15:30:12.374881",
       "last_seen": "2026-02-16T15:52:45.867154"
     },
@@ -4762,7 +4787,7 @@ const GRAPH_DATA = {
       "target": "制約:ダイエットの停滞期",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T15:30:12.374890",
       "last_seen": "2026-02-16T15:52:45.867126"
     },
@@ -4773,7 +4798,7 @@ const GRAPH_DATA = {
       "label": "実体験から気づきを得る",
       "first_seen": "2026-02-16T15:31:14.208855",
       "last_seen": "2026-02-17T09:06:35.721398",
-      "weight": 2.25
+      "weight": 1.9
     },
     {
       "source": "知見:離乳食作りの大変さ",
@@ -4962,7 +4987,7 @@ const GRAPH_DATA = {
       "label": "着手が夜になる",
       "first_seen": "2026-02-16T15:46:47.956714",
       "last_seen": "2026-02-17T08:19:45.891034",
-      "weight": 6.2
+      "weight": 5.85
     },
     {
       "source": "出来事:MadeGruel",
@@ -4989,7 +5014,7 @@ const GRAPH_DATA = {
       "label": "貯金の維持にプレッシャーを与える",
       "first_seen": "2026-02-16T15:46:47.956734",
       "last_seen": "2026-02-16T23:11:32.102032",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "日記:2026-02-16",
@@ -5016,7 +5041,7 @@ const GRAPH_DATA = {
       "label": "積読リストの整理に言及",
       "first_seen": "2026-02-16T15:48:16.120854",
       "last_seen": "2026-02-18T00:53:20.558915",
-      "weight": 33.4
+      "weight": 33.1
     },
     {
       "source": "日記:2026-02-17",
@@ -5025,7 +5050,7 @@ const GRAPH_DATA = {
       "label": "23体目の完了を報告",
       "first_seen": "2026-02-16T15:48:16.120857",
       "last_seen": "2026-02-18T00:35:24.295193",
-      "weight": 31.4
+      "weight": 31.1
     },
     {
       "source": "日記:2026-02-17",
@@ -5034,7 +5059,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T15:48:16.120860",
       "last_seen": "2026-02-16T23:28:46.457746",
-      "weight": 7.1
+      "weight": 6.75
     },
     {
       "source": "知見:高品質イラストの集客効果",
@@ -5043,7 +5068,7 @@ const GRAPH_DATA = {
       "label": "質の向上が成果に繋がると確信",
       "first_seen": "2026-02-16T15:48:16.120861",
       "last_seen": "2026-02-16T23:28:46.457734",
-      "weight": 7.1
+      "weight": 6.75
     },
     {
       "source": "制約:CreativeTimeShortage",
@@ -5052,7 +5077,7 @@ const GRAPH_DATA = {
       "label": "5時間の確保が課題",
       "first_seen": "2026-02-16T15:48:16.120863",
       "last_seen": "2026-02-17T00:49:10.716894",
-      "weight": 21.1
+      "weight": 20.75
     },
     {
       "source": "感情:YouTube成長への手応え",
@@ -5061,7 +5086,7 @@ const GRAPH_DATA = {
       "label": "ポジティブな反応が継続の糧になる",
       "first_seen": "2026-02-16T15:48:16.120865",
       "last_seen": "2026-02-16T21:28:29.782490",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "知見:高品質イラストの集客効果",
@@ -5070,7 +5095,7 @@ const GRAPH_DATA = {
       "label": "人気獲得の戦略",
       "first_seen": "2026-02-16T15:48:16.120867",
       "last_seen": "2026-02-16T22:28:56.075458",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "制約:クリエイティブな時間の不足",
@@ -5086,7 +5111,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-17",
       "type": "関連する",
       "label": "書いた",
-      "weight": 35.4,
+      "weight": 35.1,
       "first_seen": "2026-02-16T15:48:16.120871",
       "last_seen": "2026-02-18T00:53:20.558991"
     },
@@ -5095,7 +5120,7 @@ const GRAPH_DATA = {
       "target": "タスク:HighQuality_MonsterDrawing",
       "type": "言及する",
       "label": "言及",
-      "weight": 20.1,
+      "weight": 19.75,
       "first_seen": "2026-02-16T15:48:16.120875",
       "last_seen": "2026-02-16T23:58:36.140129"
     },
@@ -5104,7 +5129,7 @@ const GRAPH_DATA = {
       "target": "制約:CreativeTimeShortage",
       "type": "言及する",
       "label": "言及",
-      "weight": 21.1,
+      "weight": 20.75,
       "first_seen": "2026-02-16T15:48:16.120881",
       "last_seen": "2026-02-17T00:49:10.716909"
     },
@@ -5113,7 +5138,7 @@ const GRAPH_DATA = {
       "target": "感情:YouTube成長への手応え",
       "type": "言及する",
       "label": "言及",
-      "weight": 11.1,
+      "weight": 10.75,
       "first_seen": "2026-02-16T15:48:16.120891",
       "last_seen": "2026-02-16T23:28:46.457748"
     },
@@ -5232,7 +5257,7 @@ const GRAPH_DATA = {
       "label": "強い空腹による食事制限の困難",
       "first_seen": "2026-02-16T15:53:48.330725",
       "last_seen": "2026-02-17T08:19:45.891050",
-      "weight": 2.2
+      "weight": 1.85
     },
     {
       "source": "知見:AI_Blog_Automation",
@@ -5266,7 +5291,7 @@ const GRAPH_DATA = {
       "target": "制約:焼肉の塩分による強い空腹",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.15,
+      "weight": 0.1,
       "first_seen": "2026-02-16T15:53:48.330757",
       "last_seen": "2026-02-17T06:40:33.482704"
     },
@@ -5277,7 +5302,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T15:54:33.865647",
       "last_seen": "2026-02-16T23:12:28.140465",
-      "weight": 11.1
+      "weight": 10.75
     },
     {
       "source": "感情:制作への意欲",
@@ -5304,14 +5329,14 @@ const GRAPH_DATA = {
       "label": "高品質化の重要性を認識",
       "first_seen": "2026-02-16T15:54:33.865656",
       "last_seen": "2026-02-16T23:12:28.140455",
-      "weight": 12.1
+      "weight": 11.75
     },
     {
       "source": "日記:2026-02-17",
       "target": "感情:制作への意欲",
       "type": "言及する",
       "label": "言及",
-      "weight": 5.1,
+      "weight": 4.75,
       "first_seen": "2026-02-16T15:54:33.865664",
       "last_seen": "2026-02-16T22:28:56.075474"
     },
@@ -5322,7 +5347,7 @@ const GRAPH_DATA = {
       "label": "感謝を伝える動機になる",
       "first_seen": "2026-02-16T16:05:27.259559",
       "last_seen": "2026-02-17T09:06:35.721400",
-      "weight": 11.25
+      "weight": 10.9
     },
     {
       "source": "制約:所得税支払いの不確実性",
@@ -5365,7 +5390,7 @@ const GRAPH_DATA = {
       "target": "タスク:SayakaGratitude",
       "type": "言及する",
       "label": "言及",
-      "weight": 12.15,
+      "weight": 11.8,
       "first_seen": "2026-02-16T16:05:27.259580",
       "last_seen": "2026-02-17T06:40:33.482701"
     },
@@ -5376,7 +5401,7 @@ const GRAPH_DATA = {
       "label": "開催時間と内容の確認",
       "first_seen": "2026-02-16T16:06:26.261373",
       "last_seen": "2026-02-17T00:49:10.716887",
-      "weight": 18.1
+      "weight": 17.75
     },
     {
       "source": "感情:YouTube成長への手応え",
@@ -5385,7 +5410,7 @@ const GRAPH_DATA = {
       "label": "ポジティブな予測が行動を促す",
       "first_seen": "2026-02-16T16:06:26.261378",
       "last_seen": "2026-02-16T23:28:46.457736",
-      "weight": 7.1
+      "weight": 6.75
     },
     {
       "source": "人物:さやか",
@@ -5394,7 +5419,7 @@ const GRAPH_DATA = {
       "label": "参加を検討中",
       "first_seen": "2026-02-16T16:06:26.261382",
       "last_seen": "2026-02-16T23:28:46.457738",
-      "weight": 13.1
+      "weight": 12.75
     },
     {
       "source": "知見:高品質イラストの集客効果",
@@ -5410,7 +5435,7 @@ const GRAPH_DATA = {
       "target": "人物:さやか",
       "type": "言及する",
       "label": "言及",
-      "weight": 19.15,
+      "weight": 18.8,
       "first_seen": "2026-02-16T16:06:26.261396",
       "last_seen": "2026-02-17T03:24:11.254461"
     },
@@ -5421,7 +5446,7 @@ const GRAPH_DATA = {
       "label": "資料化の時間確保を困難にする",
       "first_seen": "2026-02-16T16:18:26.827058",
       "last_seen": "2026-02-17T09:06:35.721402",
-      "weight": 4.25
+      "weight": 3.9
     },
     {
       "source": "感情:経済的不安",
@@ -5457,7 +5482,7 @@ const GRAPH_DATA = {
       "label": "登録者増がモチベーション",
       "first_seen": "2026-02-16T16:19:23.309641",
       "last_seen": "2026-02-16T22:28:56.075460",
-      "weight": 4.1
+      "weight": 3.75
     },
     {
       "source": "出来事:Saiteki_OnlineDrinking",
@@ -5493,7 +5518,7 @@ const GRAPH_DATA = {
       "label": "学習資料の提供者",
       "first_seen": "2026-02-16T16:48:43.801849",
       "last_seen": "2026-02-17T00:48:08.432348",
-      "weight": 6.1
+      "weight": 5.75
     },
     {
       "source": "知見:離乳食作りの大変さ",
@@ -5529,7 +5554,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T17:19:37.854016",
       "last_seen": "2026-02-17T09:06:35.721438",
-      "weight": 6.25
+      "weight": 5.9
     },
     {
       "source": "出来事:MadeGruel",
@@ -5538,7 +5563,7 @@ const GRAPH_DATA = {
       "label": "体験から大変さを理解",
       "first_seen": "2026-02-16T17:19:37.854026",
       "last_seen": "2026-02-16T21:57:30.981798",
-      "weight": 3.1
+      "weight": 2.75
     },
     {
       "source": "知見:SayakaHardWork",
@@ -5547,7 +5572,7 @@ const GRAPH_DATA = {
       "label": "感謝の必要性を実感",
       "first_seen": "2026-02-16T17:19:37.854029",
       "last_seen": "2026-02-17T00:48:08.432334",
-      "weight": 5.1
+      "weight": 4.75
     },
     {
       "source": "制約:育児中の眠気",
@@ -5583,7 +5608,7 @@ const GRAPH_DATA = {
       "label": "貯金計画への心理的影響",
       "first_seen": "2026-02-16T17:19:37.854037",
       "last_seen": "2026-02-17T00:48:08.432337",
-      "weight": 5.1
+      "weight": 4.75
     },
     {
       "source": "制約:文章執筆の挫折パターン",
@@ -5592,7 +5617,7 @@ const GRAPH_DATA = {
       "label": "過去の執筆迷いが心理的壁に",
       "first_seen": "2026-02-16T17:19:37.854041",
       "last_seen": "2026-02-16T19:44:05.917157",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "タスク:Blog_AI_Automation",
@@ -5617,7 +5642,7 @@ const GRAPH_DATA = {
       "target": "タスク:Blog_AI_Automation",
       "type": "言及する",
       "label": "言及",
-      "weight": 8.25,
+      "weight": 7.9,
       "first_seen": "2026-02-16T17:19:37.854049",
       "last_seen": "2026-02-17T09:06:35.721446"
     },
@@ -5626,7 +5651,7 @@ const GRAPH_DATA = {
       "target": "出来事:AntigravityUpgrade",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.1,
+      "weight": 1.75,
       "first_seen": "2026-02-16T17:19:37.854053",
       "last_seen": "2026-02-16T23:44:39.919192"
     },
@@ -5635,7 +5660,7 @@ const GRAPH_DATA = {
       "target": "知見:SayakaHardWork",
       "type": "言及する",
       "label": "言及",
-      "weight": 6.1,
+      "weight": 5.75,
       "first_seen": "2026-02-16T17:19:37.854055",
       "last_seen": "2026-02-17T00:48:08.432358"
     },
@@ -5653,7 +5678,7 @@ const GRAPH_DATA = {
       "target": "場所:Shozai",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.15,
+      "weight": 0.8,
       "first_seen": "2026-02-16T17:19:37.854063",
       "last_seen": "2026-02-17T03:23:12.354429"
     },
@@ -5664,14 +5689,14 @@ const GRAPH_DATA = {
       "label": "クーポンが配布される",
       "first_seen": "2026-02-16T17:20:33.941878",
       "last_seen": "2026-02-16T23:28:46.457740",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "日記:2026-02-17",
       "target": "概念:UberEatsクーポン",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.1,
+      "weight": 2.75,
       "first_seen": "2026-02-16T17:20:33.941892",
       "last_seen": "2026-02-16T23:28:46.457751"
     },
@@ -5718,14 +5743,14 @@ const GRAPH_DATA = {
       "label": "継続を困難にする",
       "first_seen": "2026-02-16T17:47:26.010662",
       "last_seen": "2026-02-17T09:06:35.721416",
-      "weight": 7.25
+      "weight": 6.9
     },
     {
       "source": "日記:2026-02-16",
       "target": "制約:子供の怪我リスク",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.2,
+      "weight": 0.1,
       "first_seen": "2026-02-16T17:47:26.010668",
       "last_seen": "2026-02-17T08:19:45.891083"
     },
@@ -5745,7 +5770,7 @@ const GRAPH_DATA = {
       "label": "日時の再確認と妻の参加検討",
       "first_seen": "2026-02-16T17:48:11.146097",
       "last_seen": "2026-02-17T10:32:26.559138",
-      "weight": 5.25
+      "weight": 4.9
     },
     {
       "source": "人物:さやか",
@@ -5754,7 +5779,7 @@ const GRAPH_DATA = {
       "label": "参加を検討中",
       "first_seen": "2026-02-16T17:48:11.146099",
       "last_seen": "2026-02-16T21:28:29.782494",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "出来事:Saitekiオンライン飲み会",
@@ -5799,7 +5824,7 @@ const GRAPH_DATA = {
       "label": "継続への懸念",
       "first_seen": "2026-02-16T18:16:44.469043",
       "last_seen": "2026-02-16T20:12:16.303408",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "知見:読書リストの具体化",
@@ -5869,7 +5894,7 @@ const GRAPH_DATA = {
       "target": "概念:S級のAIモデル",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T18:48:27.311734",
       "last_seen": "2026-02-16T23:57:32.452877"
     },
@@ -5898,7 +5923,7 @@ const GRAPH_DATA = {
       "label": "集中して作業を行う場所",
       "first_seen": "2026-02-16T19:17:33.757523",
       "last_seen": "2026-02-16T23:11:32.102034",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "人物:直道",
@@ -5932,7 +5957,7 @@ const GRAPH_DATA = {
       "target": "感情:所得税支払いの不安",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T19:17:33.757551",
       "last_seen": "2026-02-16T23:27:41.813195"
     },
@@ -5950,7 +5975,7 @@ const GRAPH_DATA = {
       "target": "場所:書斎",
       "type": "言及する",
       "label": "言及",
-      "weight": 10.25,
+      "weight": 9.9,
       "first_seen": "2026-02-16T19:17:33.757555",
       "last_seen": "2026-02-17T09:06:35.721440"
     },
@@ -6006,7 +6031,7 @@ const GRAPH_DATA = {
       "label": "社長との定例MTG",
       "first_seen": "2026-02-16T19:44:05.917151",
       "last_seen": "2026-02-16T21:57:30.981823",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "知見:AIブログの方向性",
@@ -6015,14 +6040,14 @@ const GRAPH_DATA = {
       "label": "自動執筆の具体的なテーマ案",
       "first_seen": "2026-02-16T19:44:05.917153",
       "last_seen": "2026-02-17T03:23:12.354405",
-      "weight": 0.15
+      "weight": 0.1
     },
     {
       "source": "日記:2026-02-16",
       "target": "知見:AIブログの方向性",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.15,
+      "weight": 0.1,
       "first_seen": "2026-02-16T19:44:05.917177",
       "last_seen": "2026-02-17T03:23:12.354418"
     },
@@ -6051,7 +6076,7 @@ const GRAPH_DATA = {
       "label": "感謝を伝えたいという動機",
       "first_seen": "2026-02-16T19:56:54.932860",
       "last_seen": "2026-02-16T22:47:10.412364",
-      "weight": 3.1
+      "weight": 2.75
     },
     {
       "source": "制約:LivingRoomDistraction",
@@ -6087,14 +6112,14 @@ const GRAPH_DATA = {
       "label": "ポジティブな感情が制作意欲へ",
       "first_seen": "2026-02-16T19:57:50.387281",
       "last_seen": "2026-02-16T21:58:29.888558",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "日記:2026-02-17",
       "target": "感情:制作への期待感",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T19:57:50.387293",
       "last_seen": "2026-02-16T21:58:29.888575"
     },
@@ -6204,7 +6229,7 @@ const GRAPH_DATA = {
       "label": "過去の挫折経験による執筆ブレーキ",
       "first_seen": "2026-02-16T20:47:41.091651",
       "last_seen": "2026-02-16T23:44:39.919176",
-      "weight": 2.1
+      "weight": 1.75
     },
     {
       "source": "タスク:Blog_AI_Automation",
@@ -6285,7 +6310,7 @@ const GRAPH_DATA = {
       "label": "集中できる環境で実施",
       "first_seen": "2026-02-16T21:10:59.987871",
       "last_seen": "2026-02-16T23:44:39.919170",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "感情:将来への不安",
@@ -6301,7 +6326,7 @@ const GRAPH_DATA = {
       "target": "感情:将来への不安",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.25,
+      "weight": 0.1,
       "first_seen": "2026-02-16T21:10:59.987892",
       "last_seen": "2026-02-17T09:06:35.721451"
     },
@@ -6312,14 +6337,14 @@ const GRAPH_DATA = {
       "label": "執筆の継続を妨げる",
       "first_seen": "2026-02-16T21:27:39.054128",
       "last_seen": "2026-02-17T09:06:35.721418",
-      "weight": 4.25
+      "weight": 3.9
     },
     {
       "source": "日記:2026-02-16",
       "target": "日記:2026-02-16",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T21:27:39.054142",
       "last_seen": "2026-02-16T23:57:32.452863"
     },
@@ -6328,7 +6353,7 @@ const GRAPH_DATA = {
       "target": "制約:文章作成の迷い",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.25,
+      "weight": 1.9,
       "first_seen": "2026-02-16T21:27:39.054158",
       "last_seen": "2026-02-17T09:06:35.721448"
     },
@@ -6375,7 +6400,7 @@ const GRAPH_DATA = {
       "label": "眠気の中での育児対応",
       "first_seen": "2026-02-16T21:44:29.695358",
       "last_seen": "2026-02-17T08:19:45.891038",
-      "weight": 0.2
+      "weight": 0.1
     },
     {
       "source": "知見:高品質イラストの集客効果",
@@ -6429,7 +6454,7 @@ const GRAPH_DATA = {
       "label": "クリエイティブな活動に割く時間が枯渇",
       "first_seen": "2026-02-16T21:57:30.981821",
       "last_seen": "2026-02-17T03:23:12.354407",
-      "weight": 0.15
+      "weight": 0.1
     },
     {
       "source": "日記:2026-02-16",
@@ -6663,7 +6688,7 @@ const GRAPH_DATA = {
       "label": "MTGの相手",
       "first_seen": "2026-02-16T23:11:32.102038",
       "last_seen": "2026-02-17T08:19:45.891042",
-      "weight": 0.2
+      "weight": 0.1
     },
     {
       "source": "概念:５倍がゆ",
@@ -6717,7 +6742,7 @@ const GRAPH_DATA = {
       "label": "集中できる環境を確保",
       "first_seen": "2026-02-16T23:27:41.813174",
       "last_seen": "2026-02-17T06:40:33.482693",
-      "weight": 1.15
+      "weight": 0.8
     },
     {
       "source": "出来事:直道との副業MTG",
@@ -6816,7 +6841,7 @@ const GRAPH_DATA = {
       "label": "全く描けていない現状",
       "first_seen": "2026-02-16T23:45:29.453715",
       "last_seen": "2026-02-22T12:40:49.563235",
-      "weight": 3.65
+      "weight": 3.55
     },
     {
       "source": "知見:高品質な制作と登録者数の相関",
@@ -6825,7 +6850,7 @@ const GRAPH_DATA = {
       "label": "質の向上が登録者増に繋がる確信",
       "first_seen": "2026-02-16T23:45:29.453717",
       "last_seen": "2026-02-18T00:53:20.558924",
-      "weight": 9.4
+      "weight": 9.1
     },
     {
       "source": "感情:制作への手応え",
@@ -6834,7 +6859,7 @@ const GRAPH_DATA = {
       "label": "挑戦したいというポジティブな感情",
       "first_seen": "2026-02-16T23:45:29.453719",
       "last_seen": "2026-02-17T00:49:10.716892",
-      "weight": 1.1
+      "weight": 0.75
     },
     {
       "source": "人物:Sayaka",
@@ -6868,7 +6893,7 @@ const GRAPH_DATA = {
       "target": "知見:高品質な制作と登録者数の相関",
       "type": "言及する",
       "label": "言及",
-      "weight": 10.4,
+      "weight": 10.1,
       "first_seen": "2026-02-16T23:45:29.453730",
       "last_seen": "2026-02-18T00:53:20.559001"
     },
@@ -6877,7 +6902,7 @@ const GRAPH_DATA = {
       "target": "感情:制作への手応え",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.1,
+      "weight": 0.75,
       "first_seen": "2026-02-16T23:45:29.453734",
       "last_seen": "2026-02-17T00:49:10.716907"
     },
@@ -6906,7 +6931,7 @@ const GRAPH_DATA = {
       "label": "貯金計画への不安要素",
       "first_seen": "2026-02-16T23:57:32.452847",
       "last_seen": "2026-02-17T09:06:35.721404",
-      "weight": 1.25
+      "weight": 0.9
     },
     {
       "source": "タスク:Saiteki_VertlexTrain",
@@ -6996,7 +7021,7 @@ const GRAPH_DATA = {
       "label": "開催時間の再確認",
       "first_seen": "2026-02-17T11:01:05.250771",
       "last_seen": "2026-02-17T06:41:29.424079",
-      "weight": 1.15
+      "weight": 0.8
     },
     {
       "source": "タスク:PomeraWorkflowConstruction",
@@ -7005,7 +7030,7 @@ const GRAPH_DATA = {
       "label": "夜更かしによる構築作業がリズムを崩した",
       "first_seen": "2026-02-17T11:01:05.250776",
       "last_seen": "2026-02-17T10:32:26.559117",
-      "weight": 3.25
+      "weight": 2.9
     },
     {
       "source": "制約:生活リズムの乱れ",
@@ -7014,7 +7039,7 @@ const GRAPH_DATA = {
       "label": "リズムの乱れが頭の不鮮明さを生む",
       "first_seen": "2026-02-17T11:01:05.250781",
       "last_seen": "2026-02-18T00:45:30.407841",
-      "weight": 4.4
+      "weight": 4.1
     },
     {
       "source": "感情:思考の不鮮明さ",
@@ -7057,7 +7082,7 @@ const GRAPH_DATA = {
       "target": "感情:思考の不鮮明さ",
       "type": "言及する",
       "label": "言及",
-      "weight": 4.4,
+      "weight": 4.1,
       "first_seen": "2026-02-17T11:01:05.250809",
       "last_seen": "2026-02-18T00:45:30.407877"
     },
@@ -7066,7 +7091,7 @@ const GRAPH_DATA = {
       "target": "制約:生活リズムの乱れ",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-17T11:01:05.250814",
       "last_seen": "2026-02-18T00:45:30.407903"
     },
@@ -7075,7 +7100,7 @@ const GRAPH_DATA = {
       "target": "知見:MTGは自己成長の機会",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.15,
+      "weight": 1.8,
       "first_seen": "2026-02-17T11:01:05.250824",
       "last_seen": "2026-02-17T06:41:29.424106"
     },
@@ -7104,7 +7129,7 @@ const GRAPH_DATA = {
       "label": "夜更かしして構築作業を行っている",
       "first_seen": "2026-02-17T11:31:07.495375",
       "last_seen": "2026-02-17T03:24:11.254428",
-      "weight": 0.15
+      "weight": 0.1
     },
     {
       "source": "知見:自動化による自己分析の高度化",
@@ -7131,7 +7156,7 @@ const GRAPH_DATA = {
       "label": "大容量シールはがしを購入",
       "first_seen": "2026-02-17T11:31:07.495391",
       "last_seen": "2026-02-17T03:24:11.254431",
-      "weight": 0.15
+      "weight": 0.1
     },
     {
       "source": "制約:マルチタスクによるメリハリの欠如",
@@ -7140,7 +7165,7 @@ const GRAPH_DATA = {
       "label": "ながら作業による質の低下",
       "first_seen": "2026-02-17T11:31:07.495396",
       "last_seen": "2026-02-17T06:41:29.424091",
-      "weight": 0.15
+      "weight": 0.1
     },
     {
       "source": "日記:2026-02-17",
@@ -7156,7 +7181,7 @@ const GRAPH_DATA = {
       "target": "知見:自動化による自己分析の高度化",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.25,
+      "weight": 0.9,
       "first_seen": "2026-02-17T11:31:07.495420",
       "last_seen": "2026-02-17T10:32:26.559147"
     },
@@ -7165,7 +7190,7 @@ const GRAPH_DATA = {
       "target": "タスク:PetRoomCleaning",
       "type": "言及する",
       "label": "大容量シールはがしの購入",
-      "weight": 1.4,
+      "weight": 1.1,
       "first_seen": "2026-02-17T11:31:07.495430",
       "last_seen": "2026-02-18T00:45:30.407868"
     },
@@ -7176,7 +7201,7 @@ const GRAPH_DATA = {
       "label": "貯金へのモチベーションと不安",
       "first_seen": "2026-02-17T03:23:12.354397",
       "last_seen": "2026-02-17T08:19:45.891048",
-      "weight": 0.2
+      "weight": 0.1
     },
     {
       "source": "制約:リビングの集中困難",
@@ -7185,7 +7210,7 @@ const GRAPH_DATA = {
       "label": "仕事の効率を下げる",
       "first_seen": "2026-02-17T03:23:12.354400",
       "last_seen": "2026-02-17T08:19:45.891036",
-      "weight": 0.2
+      "weight": 0.1
     },
     {
       "source": "制約:執筆における心理的ブレーキ",
@@ -7210,7 +7235,7 @@ const GRAPH_DATA = {
       "target": "感情:金銭적将来不安",
       "type": "言及する",
       "label": "将来への不安を吐露",
-      "weight": 1.2,
+      "weight": 0.85,
       "first_seen": "2026-02-17T03:23:12.354420",
       "last_seen": "2026-02-17T08:19:45.891025"
     },
@@ -7273,7 +7298,7 @@ const GRAPH_DATA = {
       "target": "概念:生活のメリハリ",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.2,
+      "weight": 0.1,
       "first_seen": "2026-02-17T03:24:11.254459",
       "last_seen": "2026-02-17T08:20:38.808932"
     },
@@ -7392,7 +7417,7 @@ const GRAPH_DATA = {
       "label": "深夜作業による不鮮明さ",
       "first_seen": "2026-02-17T08:20:38.808906",
       "last_seen": "2026-02-18T00:35:24.295199",
-      "weight": 0.4
+      "weight": 0.1
     },
     {
       "source": "タスク:Knowbe_ThinkingOrganization",
@@ -7444,7 +7469,7 @@ const GRAPH_DATA = {
       "target": "知見:ブログ執筆パイプラインの効果",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-17T08:20:38.808925",
       "last_seen": "2026-02-18T00:53:20.559006"
     },
@@ -7606,7 +7631,7 @@ const GRAPH_DATA = {
       "target": "感情:リーダー定例への憂鬱",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.4,
+      "weight": 3.1,
       "first_seen": "2026-02-17T09:07:31.678073",
       "last_seen": "2026-02-18T00:53:20.559016"
     },
@@ -7633,7 +7658,7 @@ const GRAPH_DATA = {
       "target": "感情:ポメラへの所有欲充足",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.4,
+      "weight": 2.1,
       "first_seen": "2026-02-17T09:07:31.678078",
       "last_seen": "2026-02-18T00:53:20.559021"
     },
@@ -7651,7 +7676,7 @@ const GRAPH_DATA = {
       "target": "プロジェクト:はてなブログ運営",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.4,
+      "weight": 1.1,
       "first_seen": "2026-02-17T09:07:31.678081",
       "last_seen": "2026-02-18T00:35:24.295243"
     },
@@ -7723,7 +7748,7 @@ const GRAPH_DATA = {
       "target": "出来事:ブログ初投稿",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-17T10:32:26.559153",
       "last_seen": "2026-02-18T00:53:20.559026"
     },
@@ -7732,7 +7757,7 @@ const GRAPH_DATA = {
       "target": "知見:小説執筆におけるテーマ設定の重要性",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-17T10:32:26.559155",
       "last_seen": "2026-02-18T00:53:20.559011"
     },
@@ -7840,7 +7865,7 @@ const GRAPH_DATA = {
       "target": "感情:頭のもやもや",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-18T00:35:24.295226",
       "last_seen": "2026-02-18T00:53:20.558997"
     },
@@ -7849,7 +7874,7 @@ const GRAPH_DATA = {
       "target": "知見:自動化による集中環境",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-18T00:35:24.295234",
       "last_seen": "2026-02-18T00:45:30.407892"
     },
@@ -7867,7 +7892,7 @@ const GRAPH_DATA = {
       "target": "制約:文章バランスの難しさ",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.4,
+      "weight": 0.1,
       "first_seen": "2026-02-18T00:35:24.295238",
       "last_seen": "2026-02-18T00:45:30.407899"
     },
@@ -7876,7 +7901,7 @@ const GRAPH_DATA = {
       "target": "人物:沙也香",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.4,
+      "weight": 1.1,
       "first_seen": "2026-02-18T00:35:24.295240",
       "last_seen": "2026-02-18T00:53:20.559035"
     },
@@ -7932,7 +7957,7 @@ const GRAPH_DATA = {
       "label": "愛着とメリットの共有欲求",
       "first_seen": "2026-02-18T00:45:30.407857",
       "last_seen": "2026-02-18T00:53:20.558957",
-      "weight": 0.4
+      "weight": 0.1
     },
     {
       "source": "制約:文章バランスの難しさ",
@@ -8076,7 +8101,7 @@ const GRAPH_DATA = {
       "label": "PAT更新の完了を記録",
       "first_seen": "2026-02-18T01:03:46.882384",
       "last_seen": "2026-02-18T17:25:26.824326",
-      "weight": 3.7
+      "weight": 3.45
     },
     {
       "source": "日記:2026-02-18",
@@ -8103,7 +8128,7 @@ const GRAPH_DATA = {
       "label": "トークンを更新し期限切れを回避",
       "first_seen": "2026-02-18T01:03:46.882414",
       "last_seen": "2026-02-18T01:25:42.762050",
-      "weight": 1.4
+      "weight": 1.1
     },
     {
       "source": "概念:読書サイクル",
@@ -8137,7 +8162,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-18",
       "type": "関連する",
       "label": "書いた",
-      "weight": 4.7,
+      "weight": 4.45,
       "first_seen": "2026-02-18T01:03:46.882429",
       "last_seen": "2026-02-18T18:00:48.855606"
     },
@@ -8146,7 +8171,7 @@ const GRAPH_DATA = {
       "target": "制約:GitHub_PATの期限切れ",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.4,
+      "weight": 1.1,
       "first_seen": "2026-02-18T01:03:46.882433",
       "last_seen": "2026-02-18T01:25:42.762065"
     },
@@ -8155,7 +8180,7 @@ const GRAPH_DATA = {
       "target": "知見:GitHub_PATの管理",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.4,
+      "weight": 1.1,
       "first_seen": "2026-02-18T01:03:46.882437",
       "last_seen": "2026-02-18T01:25:42.762068"
     },
@@ -8175,7 +8200,7 @@ const GRAPH_DATA = {
       "label": "システムの構成に言及",
       "first_seen": "2026-02-18T01:20:39.828784",
       "last_seen": "2026-02-18T01:25:42.762046",
-      "weight": 0.4
+      "weight": 0.1
     },
     {
       "source": "タスク:Saiteki_Update_GitHub_PAT",
@@ -8184,7 +8209,7 @@ const GRAPH_DATA = {
       "label": "次回のメンテナンス予定を確定",
       "first_seen": "2026-02-18T01:20:39.828791",
       "last_seen": "2026-02-18T01:25:42.762058",
-      "weight": 0.4
+      "weight": 0.1
     },
     {
       "source": "プロジェクト:Saiteki_ReadingCycle",
@@ -8193,7 +8218,7 @@ const GRAPH_DATA = {
       "label": "システムの保守作業",
       "first_seen": "2026-02-18T01:20:39.828793",
       "last_seen": "2026-02-18T01:25:42.762054",
-      "weight": 0.4
+      "weight": 0.1
     },
     {
       "source": "知見:GitHub_PATの管理",
@@ -8220,7 +8245,7 @@ const GRAPH_DATA = {
       "label": "期限切れリスクを解消",
       "first_seen": "2026-02-18T01:35:59.875625",
       "last_seen": "2026-02-18T17:25:26.824335",
-      "weight": 0.7
+      "weight": 0.45
     },
     {
       "source": "制約:AI生成の低品質",
@@ -8272,7 +8297,7 @@ const GRAPH_DATA = {
       "target": "知見:AI詳細プロンプトの効果",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.7,
+      "weight": 0.45,
       "first_seen": "2026-02-18T01:35:59.875652",
       "last_seen": "2026-02-18T18:00:48.855614"
     },
@@ -8337,7 +8362,7 @@ const GRAPH_DATA = {
       "label": "妻の負担を軽減し、感謝を伝える動機になる",
       "first_seen": "2026-02-18T17:25:26.824384",
       "last_seen": "2026-02-18T18:00:48.855561",
-      "weight": 0.7
+      "weight": 0.45
     },
     {
       "source": "日記:2026-02-18",
@@ -8380,7 +8405,7 @@ const GRAPH_DATA = {
       "target": "感情:Remorse_For_Sayaka",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.7,
+      "weight": 0.45,
       "first_seen": "2026-02-18T17:25:26.824417",
       "last_seen": "2026-02-18T18:00:48.855629"
     },
@@ -8661,7 +8686,7 @@ const GRAPH_DATA = {
       "label": "",
       "first_seen": "2026-02-21T02:27:22.618841",
       "last_seen": "2026-02-22T00:35:49.873152",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "知見:シールはがしスプレーの即効性",
@@ -8670,7 +8695,7 @@ const GRAPH_DATA = {
       "label": "効率的な除去",
       "first_seen": "2026-02-21T02:27:22.618845",
       "last_seen": "2026-02-22T00:35:49.873155",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "日記:2026-02-21",
@@ -8679,7 +8704,7 @@ const GRAPH_DATA = {
       "label": "感想を記載",
       "first_seen": "2026-02-21T02:27:22.618847",
       "last_seen": "2026-02-21T02:27:22.618847",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "タスク:Saiteki_OnlineDrinking",
@@ -8688,7 +8713,7 @@ const GRAPH_DATA = {
       "label": "楽しさを感じた",
       "first_seen": "2026-02-21T02:27:22.618850",
       "last_seen": "2026-02-21T02:27:22.618850",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "感情:交流による充実感",
@@ -8697,7 +8722,7 @@ const GRAPH_DATA = {
       "label": "対話の価値を再認識",
       "first_seen": "2026-02-21T02:27:22.618852",
       "last_seen": "2026-02-21T02:27:22.618852",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "制約:分析対象者の心理的抵抗",
@@ -8706,7 +8731,7 @@ const GRAPH_DATA = {
       "label": "共有時の懸念点",
       "first_seen": "2026-02-21T02:27:22.618853",
       "last_seen": "2026-02-22T00:35:49.873162",
-      "weight": 2.6
+      "weight": 2.5
     },
     {
       "source": "人物:直道",
@@ -8715,7 +8740,7 @@ const GRAPH_DATA = {
       "label": "変化に気づいてくれた",
       "first_seen": "2026-02-21T02:27:22.618855",
       "last_seen": "2026-02-21T02:27:22.618855",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "感情:ダイエットの成功実感",
@@ -8724,7 +8749,7 @@ const GRAPH_DATA = {
       "label": "達成の喜び",
       "first_seen": "2026-02-21T02:27:22.618857",
       "last_seen": "2026-02-21T02:27:22.618857",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "制約:外食による塩分過多",
@@ -8733,14 +8758,14 @@ const GRAPH_DATA = {
       "label": "マクドナルドの連食",
       "first_seen": "2026-02-21T02:27:22.618859",
       "last_seen": "2026-02-22T00:35:49.873174",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-02-21",
       "type": "関連する",
       "label": "書いた",
-      "weight": 5.6,
+      "weight": 5.5,
       "first_seen": "2026-02-21T02:27:22.618862",
       "last_seen": "2026-02-22T01:03:19.177730"
     },
@@ -8749,7 +8774,7 @@ const GRAPH_DATA = {
       "target": "知見:シールはがしスプレーの即効性",
       "type": "言及する",
       "label": "清掃の成果に言及",
-      "weight": 4.6,
+      "weight": 4.5,
       "first_seen": "2026-02-21T02:27:22.618864",
       "last_seen": "2026-02-22T01:03:19.177699"
     },
@@ -8758,7 +8783,7 @@ const GRAPH_DATA = {
       "target": "感情:交流による充実感",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.45,
+      "weight": 2.3,
       "first_seen": "2026-02-21T02:27:22.618866",
       "last_seen": "2026-02-21T11:16:31.360173"
     },
@@ -8767,7 +8792,7 @@ const GRAPH_DATA = {
       "target": "知見:対面コミュニケーションの重要性",
       "type": "言及する",
       "label": "言及",
-      "weight": 4.6,
+      "weight": 4.5,
       "first_seen": "2026-02-21T02:27:22.618868",
       "last_seen": "2026-02-22T01:03:19.177736"
     },
@@ -8776,7 +8801,7 @@ const GRAPH_DATA = {
       "target": "タスク:Saiteki_AI研究成果の共有",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.6,
+      "weight": 3.5,
       "first_seen": "2026-02-21T02:27:22.618870",
       "last_seen": "2026-02-22T00:35:49.873188"
     },
@@ -8785,7 +8810,7 @@ const GRAPH_DATA = {
       "target": "制約:分析対象者の心理的抵抗",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.6,
+      "weight": 1.5,
       "first_seen": "2026-02-21T02:27:22.618872",
       "last_seen": "2026-02-22T00:35:49.873189"
     },
@@ -8794,7 +8819,7 @@ const GRAPH_DATA = {
       "target": "目標:Diet_79kg",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.35,
+      "weight": 0.2,
       "first_seen": "2026-02-21T02:27:22.618875",
       "last_seen": "2026-02-21T02:27:22.618875"
     },
@@ -8803,7 +8828,7 @@ const GRAPH_DATA = {
       "target": "感情:ダイエットの成功実感",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.6,
+      "weight": 2.5,
       "first_seen": "2026-02-21T02:27:22.618878",
       "last_seen": "2026-02-22T01:03:19.177738"
     },
@@ -8812,7 +8837,7 @@ const GRAPH_DATA = {
       "target": "人物:直道",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.35,
+      "weight": 1.2,
       "first_seen": "2026-02-21T02:27:22.618881",
       "last_seen": "2026-02-21T03:31:20.783667"
     },
@@ -8821,7 +8846,7 @@ const GRAPH_DATA = {
       "target": "制約:外食による塩分過多",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.35,
+      "weight": 0.2,
       "first_seen": "2026-02-21T02:27:22.618883",
       "last_seen": "2026-02-21T02:27:22.618883"
     },
@@ -8832,7 +8857,7 @@ const GRAPH_DATA = {
       "label": "汚れの除去に成功",
       "first_seen": "2026-02-21T03:31:20.783630",
       "last_seen": "2026-02-22T01:03:19.177705",
-      "weight": 2.6
+      "weight": 2.5
     },
     {
       "source": "出来事:Saiteki_OnlineDrinking",
@@ -8841,7 +8866,7 @@ const GRAPH_DATA = {
       "label": "表情を見ることの重要性を実感",
       "first_seen": "2026-02-21T03:31:20.783633",
       "last_seen": "2026-02-21T11:16:31.360148",
-      "weight": 1.45
+      "weight": 1.3
     },
     {
       "source": "出来事:Saiteki_OnlineDrinking",
@@ -8850,7 +8875,7 @@ const GRAPH_DATA = {
       "label": "対話から得た気づき",
       "first_seen": "2026-02-21T03:31:20.783635",
       "last_seen": "2026-02-22T01:03:19.177707",
-      "weight": 3.6
+      "weight": 3.5
     },
     {
       "source": "人物:直道",
@@ -8859,7 +8884,7 @@ const GRAPH_DATA = {
       "label": "飲み会とMTGで対話",
       "first_seen": "2026-02-21T03:31:20.783637",
       "last_seen": "2026-02-21T03:31:20.783637",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "知見:AI分析の透明性確保",
@@ -8868,7 +8893,7 @@ const GRAPH_DATA = {
       "label": "目的の明確化により不安を解消する",
       "first_seen": "2026-02-21T03:31:20.783641",
       "last_seen": "2026-02-21T03:31:20.783641",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "人物:直道",
@@ -8877,7 +8902,7 @@ const GRAPH_DATA = {
       "label": "変化に気づいてくれた",
       "first_seen": "2026-02-21T03:31:20.783643",
       "last_seen": "2026-02-21T03:31:20.783643",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "感情:努力の承認による喜び",
@@ -8886,7 +8911,7 @@ const GRAPH_DATA = {
       "label": "承認がダイエットの励みになる",
       "first_seen": "2026-02-21T03:31:20.783644",
       "last_seen": "2026-02-21T03:31:20.783644",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "日記:2026-02-21",
@@ -8895,7 +8920,7 @@ const GRAPH_DATA = {
       "label": "2記事投稿完了を報告",
       "first_seen": "2026-02-21T03:31:20.783646",
       "last_seen": "2026-02-22T01:03:19.177724",
-      "weight": 2.6
+      "weight": 2.5
     },
     {
       "source": "日記:2026-02-21",
@@ -8904,7 +8929,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-21T03:31:20.783648",
       "last_seen": "2026-02-21T11:16:31.360181",
-      "weight": 1.45
+      "weight": 1.3
     },
     {
       "source": "知見:AI分析の透明性確保",
@@ -8913,14 +8938,14 @@ const GRAPH_DATA = {
       "label": "共有時の留意事項",
       "first_seen": "2026-02-21T03:31:20.783650",
       "last_seen": "2026-02-21T03:31:20.783650",
-      "weight": 0.35
+      "weight": 0.2
     },
     {
       "source": "日記:2026-02-21",
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "言及する",
       "label": "言及",
-      "weight": 4.6,
+      "weight": 4.5,
       "first_seen": "2026-02-21T03:31:20.783655",
       "last_seen": "2026-02-22T01:03:19.177734"
     },
@@ -8929,7 +8954,7 @@ const GRAPH_DATA = {
       "target": "知見:AI分析の透明性確保",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.35,
+      "weight": 0.2,
       "first_seen": "2026-02-21T03:31:20.783663",
       "last_seen": "2026-02-21T03:31:20.783663"
     },
@@ -8938,7 +8963,7 @@ const GRAPH_DATA = {
       "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.35,
+      "weight": 0.2,
       "first_seen": "2026-02-21T03:31:20.783665",
       "last_seen": "2026-02-21T03:31:20.783665"
     },
@@ -8947,7 +8972,7 @@ const GRAPH_DATA = {
       "target": "感情:努力の承認による喜び",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.35,
+      "weight": 0.2,
       "first_seen": "2026-02-21T03:31:20.783669",
       "last_seen": "2026-02-21T03:31:20.783669"
     },
@@ -8958,7 +8983,7 @@ const GRAPH_DATA = {
       "label": "痩せたことに気づいてくれたことがモチベーションになる",
       "first_seen": "2026-02-21T11:16:31.360153",
       "last_seen": "2026-02-22T00:56:28.725713",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "知見:言語化による概念理解の深化",
@@ -8967,7 +8992,7 @@ const GRAPH_DATA = {
       "label": "理解が深まり書きやすくなる",
       "first_seen": "2026-02-21T11:16:31.360155",
       "last_seen": "2026-02-22T00:35:49.873164",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "制約:執筆のための深い集中力の確保困難",
@@ -8976,7 +9001,7 @@ const GRAPH_DATA = {
       "label": "言語化に必要な集中力の欠如",
       "first_seen": "2026-02-21T11:16:31.360157",
       "last_seen": "2026-02-22T00:35:49.873176",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "制約:執筆のための深い集中力の確保困難",
@@ -8985,7 +9010,7 @@ const GRAPH_DATA = {
       "label": "日記を書く時間の捻出を難しくしている",
       "first_seen": "2026-02-21T11:16:31.360161",
       "last_seen": "2026-02-21T11:16:31.360161",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "source": "知見:執筆における深型集中力の必要性",
@@ -8994,7 +9019,7 @@ const GRAPH_DATA = {
       "label": "運用のための重要な気づき",
       "first_seen": "2026-02-21T11:16:31.360163",
       "last_seen": "2026-02-21T11:16:31.360163",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "source": "プロジェクト:Tapo-Gemini連携システム",
@@ -9003,14 +9028,14 @@ const GRAPH_DATA = {
       "label": "将来的に蒼馬の遊び相手や自分の分身へ",
       "first_seen": "2026-02-21T11:16:31.360165",
       "last_seen": "2026-02-21T11:16:31.360165",
-      "weight": 0.45
+      "weight": 0.3
     },
     {
       "source": "日記:2026-02-21",
       "target": "知見:言語化による概念理解の深化",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.6,
+      "weight": 1.5,
       "first_seen": "2026-02-21T11:16:31.360177",
       "last_seen": "2026-02-22T00:35:49.873191"
     },
@@ -9019,7 +9044,7 @@ const GRAPH_DATA = {
       "target": "知見:執筆における深型集中力の必要性",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.45,
+      "weight": 0.3,
       "first_seen": "2026-02-21T11:16:31.360179",
       "last_seen": "2026-02-21T11:16:31.360179"
     },
@@ -9028,7 +9053,7 @@ const GRAPH_DATA = {
       "target": "プロジェクト:Tapo-Gemini連携システム",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.45,
+      "weight": 0.3,
       "first_seen": "2026-02-21T11:16:31.360185",
       "last_seen": "2026-02-21T11:16:31.360185"
     },
@@ -9037,7 +9062,7 @@ const GRAPH_DATA = {
       "target": "概念:分身ロボット",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.45,
+      "weight": 0.3,
       "first_seen": "2026-02-21T11:16:31.360187",
       "last_seen": "2026-02-21T11:16:31.360187"
     },
@@ -9048,7 +9073,7 @@ const GRAPH_DATA = {
       "label": "ダイエットの継続意欲向上",
       "first_seen": "2026-02-22T00:35:49.873160",
       "last_seen": "2026-02-22T01:03:19.177712",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "日記:2026-02-21",
@@ -9057,7 +9082,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T00:35:49.873166",
       "last_seen": "2026-02-22T01:03:19.177743",
-      "weight": 2.6
+      "weight": 2.5
     },
     {
       "source": "人物:妻の父",
@@ -9066,7 +9091,7 @@ const GRAPH_DATA = {
       "label": "途中で遭遇",
       "first_seen": "2026-02-22T00:35:49.873168",
       "last_seen": "2026-02-22T00:35:49.873168",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "制約:義父への断りづらさ",
@@ -9075,7 +9100,7 @@ const GRAPH_DATA = {
       "label": "庭の管理方針の衝突",
       "first_seen": "2026-02-22T00:35:49.873170",
       "last_seen": "2026-02-22T00:35:49.873170",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "タスク:日曜の買い出し_20260223",
@@ -9084,14 +9109,14 @@ const GRAPH_DATA = {
       "label": "",
       "first_seen": "2026-02-22T00:35:49.873172",
       "last_seen": "2026-02-22T00:35:49.873172",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "日記:2026-02-21",
       "target": "出来事:家族での散歩",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.6,
+      "weight": 2.5,
       "first_seen": "2026-02-22T00:35:49.873193",
       "last_seen": "2026-02-22T01:03:19.177747"
     },
@@ -9100,7 +9125,7 @@ const GRAPH_DATA = {
       "target": "人物:妻の父",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.6,
+      "weight": 2.5,
       "first_seen": "2026-02-22T00:35:49.873195",
       "last_seen": "2026-02-22T01:03:19.177749"
     },
@@ -9109,7 +9134,7 @@ const GRAPH_DATA = {
       "target": "制約:義父への断りづらさ",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:35:49.873197",
       "last_seen": "2026-02-22T00:35:49.873197"
     },
@@ -9118,7 +9143,7 @@ const GRAPH_DATA = {
       "target": "タスク:日曜の買い出し_20260223",
       "type": "言及する",
       "label": "購入リストの再確認",
-      "weight": 1.6,
+      "weight": 1.5,
       "first_seen": "2026-02-22T00:35:49.873199",
       "last_seen": "2026-02-22T01:03:19.177726"
     },
@@ -9127,7 +9152,7 @@ const GRAPH_DATA = {
       "target": "場所:AOKI薬局",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:35:49.873200",
       "last_seen": "2026-02-22T00:35:49.873200"
     },
@@ -9138,7 +9163,7 @@ const GRAPH_DATA = {
       "label": "清掃の成果について記述",
       "first_seen": "2026-02-22T00:56:28.725702",
       "last_seen": "2026-02-22T00:56:28.725702",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "出来事:ペットの部屋の清掃完了",
@@ -9147,7 +9172,7 @@ const GRAPH_DATA = {
       "label": "スプレーにより汚れを完全に除去",
       "first_seen": "2026-02-22T00:56:28.725706",
       "last_seen": "2026-02-22T00:56:28.725706",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "出来事:Saiteki_OnlineDrinking",
@@ -9156,7 +9181,7 @@ const GRAPH_DATA = {
       "label": "楽しさが充足感を生んだ",
       "first_seen": "2026-02-22T00:56:28.725708",
       "last_seen": "2026-02-22T00:56:28.725708",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "知見:言語化のコストと集中力",
@@ -9165,7 +9190,7 @@ const GRAPH_DATA = {
       "label": "課題の背景にある理論的気づき",
       "first_seen": "2026-02-22T00:56:28.725715",
       "last_seen": "2026-02-22T00:56:28.725715",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "出来事:家族での散歩",
@@ -9174,7 +9199,7 @@ const GRAPH_DATA = {
       "label": "有意義な時間として感じられた",
       "first_seen": "2026-02-22T00:56:28.725720",
       "last_seen": "2026-02-22T00:56:28.725720",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "出来事:家族での散歩",
@@ -9183,7 +9208,7 @@ const GRAPH_DATA = {
       "label": "長時間の歩行による疲労",
       "first_seen": "2026-02-22T00:56:28.725721",
       "last_seen": "2026-02-22T01:03:19.177718",
-      "weight": 1.6
+      "weight": 1.5
     },
     {
       "source": "概念:Antigravity",
@@ -9192,7 +9217,7 @@ const GRAPH_DATA = {
       "label": "ブログのテーマとして執筆",
       "first_seen": "2026-02-22T00:56:28.725723",
       "last_seen": "2026-02-22T00:56:28.725723",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "目標:ポメラエコシステムのアプリ化",
@@ -9201,7 +9226,7 @@ const GRAPH_DATA = {
       "label": "ナレッジグラフ活用の発展形",
       "first_seen": "2026-02-22T00:56:28.725725",
       "last_seen": "2026-02-22T00:56:28.725725",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "出来事:義父との庭に関するやり取り",
@@ -9210,7 +9235,7 @@ const GRAPH_DATA = {
       "label": "善意を断る難しさを再実感",
       "first_seen": "2026-02-22T00:56:28.725729",
       "last_seen": "2026-02-22T00:56:28.725729",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "人物:妻の父",
@@ -9219,14 +9244,14 @@ const GRAPH_DATA = {
       "label": "庭への砂利設置を提案",
       "first_seen": "2026-02-22T00:56:28.725731",
       "last_seen": "2026-02-22T00:56:28.725731",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "日記:2026-02-21",
       "target": "感情:交流による充足感",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:56:28.725737",
       "last_seen": "2026-02-22T00:56:28.725737"
     },
@@ -9235,7 +9260,7 @@ const GRAPH_DATA = {
       "target": "知見:言語化のコストと集中力",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.6,
+      "weight": 1.5,
       "first_seen": "2026-02-22T00:56:28.725741",
       "last_seen": "2026-02-22T01:03:19.177740"
     },
@@ -9244,7 +9269,7 @@ const GRAPH_DATA = {
       "target": "感情:家族時間の幸福感",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:56:28.725747",
       "last_seen": "2026-02-22T00:56:28.725747"
     },
@@ -9253,7 +9278,7 @@ const GRAPH_DATA = {
       "target": "制約:肉体的疲労",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:56:28.725748",
       "last_seen": "2026-02-22T00:56:28.725748"
     },
@@ -9262,7 +9287,7 @@ const GRAPH_DATA = {
       "target": "概念:Antigravity",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:56:28.725752",
       "last_seen": "2026-02-22T00:56:28.725752"
     },
@@ -9271,7 +9296,7 @@ const GRAPH_DATA = {
       "target": "出来事:義父との庭に関するやり取り",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:56:28.725756",
       "last_seen": "2026-02-22T00:56:28.725756"
     },
@@ -9282,14 +9307,14 @@ const GRAPH_DATA = {
       "label": "進捗（79.9kg）に言及",
       "first_seen": "2026-02-22T00:57:23.126793",
       "last_seen": "2026-02-22T00:57:23.126793",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "日記:2026-02-22",
       "target": "出来事:ラーメンの摂取_20260221",
       "type": "言及する",
       "label": "体重変化の理由として言及",
-      "weight": 2.65,
+      "weight": 2.55,
       "first_seen": "2026-02-22T00:57:23.126820",
       "last_seen": "2026-02-22T10:55:47.069700"
     },
@@ -9300,7 +9325,7 @@ const GRAPH_DATA = {
       "label": "スープ完飲による過剰な塩分摂取",
       "first_seen": "2026-02-22T00:57:23.126799",
       "last_seen": "2026-02-22T10:55:47.069717",
-      "weight": 2.65
+      "weight": 2.55
     },
     {
       "source": "制約:塩分過多による水分保持",
@@ -9309,7 +9334,7 @@ const GRAPH_DATA = {
       "label": "数値的な進捗を阻害",
       "first_seen": "2026-02-22T00:57:23.126801",
       "last_seen": "2026-02-22T00:57:23.126801",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "知見:スープ完飲と体重測定の相関",
@@ -9318,14 +9343,14 @@ const GRAPH_DATA = {
       "label": "原因を特定し対策へ繋げる",
       "first_seen": "2026-02-22T00:57:23.126803",
       "last_seen": "2026-02-22T00:57:23.126803",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "日記:2026-02-22",
       "target": "知見:スープ完飲と体重測定の相関",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:57:23.126823",
       "last_seen": "2026-02-22T00:57:23.126823"
     },
@@ -9334,7 +9359,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-22",
       "type": "関連する",
       "label": "書いた",
-      "weight": 4.65,
+      "weight": 4.55,
       "first_seen": "2026-02-22T00:57:23.126814",
       "last_seen": "2026-02-22T12:01:09.018340"
     },
@@ -9343,7 +9368,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-22",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T00:57:23.126816",
       "last_seen": "2026-02-22T00:57:23.126816"
     },
@@ -9352,7 +9377,7 @@ const GRAPH_DATA = {
       "target": "制約:塩分過多による水分保持",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.65,
+      "weight": 2.55,
       "first_seen": "2026-02-22T00:57:23.126821",
       "last_seen": "2026-02-22T11:15:44.748912"
     },
@@ -9363,7 +9388,7 @@ const GRAPH_DATA = {
       "label": "外見の変化を指摘される",
       "first_seen": "2026-02-22T01:03:19.177710",
       "last_seen": "2026-02-22T01:03:19.177710",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "知見:言語化のコストと集中力",
@@ -9372,7 +9397,7 @@ const GRAPH_DATA = {
       "label": "課題の構造を明確化",
       "first_seen": "2026-02-22T01:03:19.177714",
       "last_seen": "2026-02-22T01:03:19.177714",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "タスク:TapoカメラとGeminiの連携実験",
@@ -9381,7 +9406,7 @@ const GRAPH_DATA = {
       "label": "視覚情報のAI連携",
       "first_seen": "2026-02-22T01:03:19.177716",
       "last_seen": "2026-02-22T01:03:19.177716",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "人物:妻の父",
@@ -9390,7 +9415,7 @@ const GRAPH_DATA = {
       "label": "断りづらい提案による心理的負荷",
       "first_seen": "2026-02-22T01:03:19.177720",
       "last_seen": "2026-02-22T01:03:19.177720",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "知見:言語化のコストと集中力",
@@ -9399,14 +9424,14 @@ const GRAPH_DATA = {
       "label": "高い集中力が必要なため着手が難しい",
       "first_seen": "2026-02-22T01:03:19.177729",
       "last_seen": "2026-02-22T01:03:19.177729",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "日記:2026-02-21",
       "target": "タスク:TapoカメラとGeminiの連携実験",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T01:03:19.177745",
       "last_seen": "2026-02-22T01:03:19.177745"
     },
@@ -9415,7 +9440,7 @@ const GRAPH_DATA = {
       "target": "出来事:ボーリング",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.6,
+      "weight": 0.5,
       "first_seen": "2026-02-22T01:03:19.177751",
       "last_seen": "2026-02-22T01:03:19.177751"
     },
@@ -9426,7 +9451,7 @@ const GRAPH_DATA = {
       "label": "一時的な体重増を招く",
       "first_seen": "2026-02-22T01:04:18.711606",
       "last_seen": "2026-02-22T12:01:09.018295",
-      "weight": 3.65
+      "weight": 3.55
     },
     {
       "source": "日記:2026-02-22",
@@ -9435,7 +9460,7 @@ const GRAPH_DATA = {
       "label": "ブログ方針の転換",
       "first_seen": "2026-02-22T01:04:18.711609",
       "last_seen": "2026-02-22T10:55:47.069713",
-      "weight": 1.65
+      "weight": 1.55
     },
     {
       "source": "知見:短期大量投稿の形骸化",
@@ -9444,7 +9469,7 @@ const GRAPH_DATA = {
       "label": "実行の意義を喪失",
       "first_seen": "2026-02-22T01:04:18.711613",
       "last_seen": "2026-02-22T01:04:18.711613",
-      "weight": 0.6
+      "weight": 0.5
     },
     {
       "source": "日記:2026-02-22",
@@ -9453,14 +9478,14 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T01:04:18.711615",
       "last_seen": "2026-02-22T12:01:09.018392",
-      "weight": 3.65
+      "weight": 3.55
     },
     {
       "source": "日記:2026-02-22",
       "target": "タスク:小説の継続投稿",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.65,
+      "weight": 3.55,
       "first_seen": "2026-02-22T01:04:18.711619",
       "last_seen": "2026-02-22T12:01:09.018398"
     },
@@ -9471,7 +9496,7 @@ const GRAPH_DATA = {
       "label": "中止の論理的根拠",
       "first_seen": "2026-02-22T10:55:47.069723",
       "last_seen": "2026-02-22T10:55:47.069723",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:2026-02-22",
@@ -9480,7 +9505,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T11:15:44.748845",
       "last_seen": "2026-02-22T12:01:09.018352",
-      "weight": 2.65
+      "weight": 2.55
     },
     {
       "source": "出来事:ラーメンのスープ完飲",
@@ -9489,7 +9514,7 @@ const GRAPH_DATA = {
       "label": "スープ完飲が水分保持を招く",
       "first_seen": "2026-02-22T11:15:44.748856",
       "last_seen": "2026-02-22T12:01:09.018288",
-      "weight": 1.65
+      "weight": 1.55
     },
     {
       "source": "日記:2026-02-22",
@@ -9498,7 +9523,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T11:15:44.748868",
       "last_seen": "2026-02-22T12:01:09.018363",
-      "weight": 2.65
+      "weight": 2.55
     },
     {
       "source": "知見:ブログ量産の無意味さ",
@@ -9507,7 +9532,7 @@ const GRAPH_DATA = {
       "label": "迷いを解消し中止を決定",
       "first_seen": "2026-02-22T11:15:44.748873",
       "last_seen": "2026-02-22T11:15:44.748873",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:2026-02-22",
@@ -9516,7 +9541,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T11:15:44.748877",
       "last_seen": "2026-02-22T11:15:44.748902",
-      "weight": 1.65
+      "weight": 1.55
     },
     {
       "source": "タスク:ペット用品の購入",
@@ -9525,14 +9550,14 @@ const GRAPH_DATA = {
       "label": "日曜の買い物リストに追加",
       "first_seen": "2026-02-22T11:15:44.748882",
       "last_seen": "2026-02-22T11:15:44.748882",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:2026-02-22",
       "target": "タスク:日曜の買い出し_20260223",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T11:15:44.748924",
       "last_seen": "2026-02-22T11:15:44.748924"
     },
@@ -9543,7 +9568,7 @@ const GRAPH_DATA = {
       "label": "昨夜の食事に言及",
       "first_seen": "2026-02-22T12:01:09.018276",
       "last_seen": "2026-02-22T12:40:49.563164",
-      "weight": 1.65
+      "weight": 1.55
     },
     {
       "source": "日記:20260222",
@@ -9552,7 +9577,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T12:01:09.018301",
       "last_seen": "2026-02-22T12:40:49.563270",
-      "weight": 1.65
+      "weight": 1.55
     },
     {
       "source": "知見:ブログ量産の無意味さ",
@@ -9561,7 +9586,7 @@ const GRAPH_DATA = {
       "label": "価値がないと判断し中止を決定",
       "first_seen": "2026-02-22T12:01:09.018307",
       "last_seen": "2026-02-22T12:01:09.018307",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9570,7 +9595,7 @@ const GRAPH_DATA = {
       "label": "猫の餌と犬のシーツが必要",
       "first_seen": "2026-02-22T12:01:09.018313",
       "last_seen": "2026-02-22T12:01:09.018313",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9579,7 +9604,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-22T12:01:09.018318",
       "last_seen": "2026-02-22T12:40:49.563275",
-      "weight": 1.65
+      "weight": 1.55
     },
     {
       "source": "タスク:希望給与条件の整理と提示",
@@ -9588,7 +9613,7 @@ const GRAPH_DATA = {
       "label": "キャリア検討のための具体的アクション",
       "first_seen": "2026-02-22T12:01:09.018323",
       "last_seen": "2026-02-22T12:01:09.018323",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "概念:社会保険料の負担差",
@@ -9597,7 +9622,7 @@ const GRAPH_DATA = {
       "label": "算出の考慮材料",
       "first_seen": "2026-02-22T12:01:09.018329",
       "last_seen": "2026-02-22T12:01:09.018329",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9606,14 +9631,14 @@ const GRAPH_DATA = {
       "label": "優先度の再確認",
       "first_seen": "2026-02-22T12:01:09.018335",
       "last_seen": "2026-02-22T12:01:09.018335",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:2026-02-22",
       "target": "日記:20260222",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:01:09.018346",
       "last_seen": "2026-02-22T12:01:09.018346"
     },
@@ -9622,7 +9647,7 @@ const GRAPH_DATA = {
       "target": "感情:体重増加への分析的懸念",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:01:09.018357",
       "last_seen": "2026-02-22T12:01:09.018357"
     },
@@ -9631,7 +9656,7 @@ const GRAPH_DATA = {
       "target": "プロジェクト:Saitekiキャリアパス検討",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:01:09.018368",
       "last_seen": "2026-02-22T12:01:09.018368"
     },
@@ -9640,7 +9665,7 @@ const GRAPH_DATA = {
       "target": "タスク:希望給与条件の整理と提示",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:01:09.018381",
       "last_seen": "2026-02-22T12:01:09.018381"
     },
@@ -9649,7 +9674,7 @@ const GRAPH_DATA = {
       "target": "概念:社会保険料の負担差",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:01:09.018387",
       "last_seen": "2026-02-22T12:01:09.018387"
     },
@@ -9658,7 +9683,7 @@ const GRAPH_DATA = {
       "target": "目標:ParkPicnic",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:01:09.018403",
       "last_seen": "2026-02-22T12:01:09.018403"
     },
@@ -9669,7 +9694,7 @@ const GRAPH_DATA = {
       "label": "水分保持の原因",
       "first_seen": "2026-02-22T12:40:49.563175",
       "last_seen": "2026-02-22T12:40:49.563175",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "知見:スープ完飲と体重測定の相関",
@@ -9678,7 +9703,7 @@ const GRAPH_DATA = {
       "label": "一時的な増量として認識",
       "first_seen": "2026-02-22T12:40:49.563184",
       "last_seen": "2026-02-22T12:40:49.563184",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9687,7 +9712,7 @@ const GRAPH_DATA = {
       "label": "計画の中止を判断",
       "first_seen": "2026-02-22T12:40:49.563190",
       "last_seen": "2026-02-22T12:40:49.563190",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9696,7 +9721,7 @@ const GRAPH_DATA = {
       "label": "必要物品の再確認",
       "first_seen": "2026-02-22T12:40:49.563195",
       "last_seen": "2026-02-22T12:40:49.563195",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9705,7 +9730,7 @@ const GRAPH_DATA = {
       "label": "条件検討の状況",
       "first_seen": "2026-02-22T12:40:49.563201",
       "last_seen": "2026-02-22T12:40:49.563201",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "概念:社会保険料の負担差",
@@ -9714,7 +9739,7 @@ const GRAPH_DATA = {
       "label": "提示条件の算出材料",
       "first_seen": "2026-02-22T12:40:49.563206",
       "last_seen": "2026-02-22T12:40:49.563206",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "プロジェクト:Saitekiキャリアパス検討",
@@ -9723,7 +9748,7 @@ const GRAPH_DATA = {
       "label": "役割の不透明さが条件に影響",
       "first_seen": "2026-02-22T12:40:49.563212",
       "last_seen": "2026-02-22T12:40:49.563212",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9732,7 +9757,7 @@ const GRAPH_DATA = {
       "label": "将来のピクニック候補",
       "first_seen": "2026-02-22T12:40:49.563217",
       "last_seen": "2026-02-22T12:40:49.563217",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "日記:20260222",
@@ -9741,7 +9766,7 @@ const GRAPH_DATA = {
       "label": "着手への意思",
       "first_seen": "2026-02-22T12:40:49.563223",
       "last_seen": "2026-02-22T12:40:49.563223",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "制約:ポメラ活用の未確立",
@@ -9750,7 +9775,7 @@ const GRAPH_DATA = {
       "label": "執筆前の土台作りが必要",
       "first_seen": "2026-02-22T12:40:49.563242",
       "last_seen": "2026-02-22T12:40:49.563242",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "知見:ブログを本のプロトタイプにする",
@@ -9759,7 +9784,7 @@ const GRAPH_DATA = {
       "label": "段階的な執筆フローの確立",
       "first_seen": "2026-02-22T12:40:49.563248",
       "last_seen": "2026-02-22T12:40:49.563248",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "知見:ブログを本のプロトタイプにする",
@@ -9768,14 +9793,14 @@ const GRAPH_DATA = {
       "label": "小出しにして見極める",
       "first_seen": "2026-02-22T12:40:49.563253",
       "last_seen": "2026-02-22T12:40:49.563253",
-      "weight": 0.65
+      "weight": 0.55
     },
     {
       "source": "人物:自分",
       "target": "日記:20260222",
       "type": "関連する",
       "label": "書いた",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:40:49.563258",
       "last_seen": "2026-02-22T12:40:49.563258"
     },
@@ -9784,7 +9809,7 @@ const GRAPH_DATA = {
       "target": "知見:スープ完飲と体重測定の相関",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:40:49.563264",
       "last_seen": "2026-02-22T12:40:49.563264"
     },
@@ -9793,7 +9818,7 @@ const GRAPH_DATA = {
       "target": "概念:社会保険料の負担差",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:40:49.563281",
       "last_seen": "2026-02-22T12:40:49.563281"
     },
@@ -9802,7 +9827,7 @@ const GRAPH_DATA = {
       "target": "制約:ポメラ活用の未確立",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:40:49.563286",
       "last_seen": "2026-02-22T12:40:49.563286"
     },
@@ -9811,7 +9836,7 @@ const GRAPH_DATA = {
       "target": "知見:ブログを本のプロトタイプにする",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.65,
+      "weight": 0.55,
       "first_seen": "2026-02-22T12:40:49.563291",
       "last_seen": "2026-02-22T12:40:49.563291"
     },
@@ -9822,7 +9847,7 @@ const GRAPH_DATA = {
       "label": "構築完了を報告",
       "first_seen": "2026-02-23T11:05:47.172708",
       "last_seen": "2026-02-23T11:05:47.172708",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "日記:20260223",
@@ -9831,7 +9856,7 @@ const GRAPH_DATA = {
       "label": "パイプラインの完成に触れる",
       "first_seen": "2026-02-23T11:05:47.172715",
       "last_seen": "2026-02-23T21:41:12.703242",
-      "weight": 2.85
+      "weight": 2.8
     },
     {
       "source": "日記:20260223",
@@ -9840,7 +9865,7 @@ const GRAPH_DATA = {
       "label": "ブログ執筆のフローについて思考",
       "first_seen": "2026-02-23T11:05:47.172718",
       "last_seen": "2026-02-23T11:05:47.172718",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "タスク:PomeraWorkflowConstruction",
@@ -9849,7 +9874,7 @@ const GRAPH_DATA = {
       "label": "課題解決の効率化",
       "first_seen": "2026-02-23T11:05:47.172721",
       "last_seen": "2026-02-23T11:05:47.172721",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "知見:自動化パイプラインによる生活改善",
@@ -9858,7 +9883,7 @@ const GRAPH_DATA = {
       "label": "アプリ化への手応え",
       "first_seen": "2026-02-23T11:05:47.172723",
       "last_seen": "2026-02-23T11:05:47.172723",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "制約:ブログ執筆における完璧主義",
@@ -9867,7 +9892,7 @@ const GRAPH_DATA = {
       "label": "着手の遅れ",
       "first_seen": "2026-02-23T11:05:47.172726",
       "last_seen": "2026-02-23T11:05:47.172726",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "制約:アイデア管理ルールの欠如",
@@ -9876,7 +9901,7 @@ const GRAPH_DATA = {
       "label": "ネタ選びの迷い",
       "first_seen": "2026-02-23T11:05:47.172728",
       "last_seen": "2026-02-23T11:05:47.172728",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "知見:ブログのアイデアレベル公開の許容",
@@ -9885,7 +9910,7 @@ const GRAPH_DATA = {
       "label": "アイデアレベルでの投稿を許容",
       "first_seen": "2026-02-23T11:05:47.172734",
       "last_seen": "2026-02-23T21:45:53.297690",
-      "weight": 1.8
+      "weight": 1.75
     },
     {
       "source": "タスク:Blog_Workflow_Establishment",
@@ -9894,14 +9919,14 @@ const GRAPH_DATA = {
       "label": "仕組みによる解消",
       "first_seen": "2026-02-23T11:05:47.172736",
       "last_seen": "2026-02-23T11:05:47.172736",
-      "weight": 0.75
+      "weight": 0.7
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-02-23",
       "type": "関連する",
       "label": "書いた",
-      "weight": 3.9,
+      "weight": 3.85,
       "first_seen": "2026-02-23T11:05:47.172739",
       "last_seen": "2026-02-23T21:45:53.297714"
     },
@@ -9910,7 +9935,7 @@ const GRAPH_DATA = {
       "target": "日記:20260223",
       "type": "言及する",
       "label": "言及",
-      "weight": 3.9,
+      "weight": 3.85,
       "first_seen": "2026-02-23T11:05:47.172741",
       "last_seen": "2026-02-23T21:45:53.297720"
     },
@@ -9919,7 +9944,7 @@ const GRAPH_DATA = {
       "target": "タスク:PomeraWorkflowConstruction",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.75,
+      "weight": 0.7,
       "first_seen": "2026-02-23T11:05:47.172743",
       "last_seen": "2026-02-23T11:05:47.172743"
     },
@@ -9928,7 +9953,7 @@ const GRAPH_DATA = {
       "target": "知見:自動化パイプラインによる生活改善",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.75,
+      "weight": 0.7,
       "first_seen": "2026-02-23T11:05:47.172745",
       "last_seen": "2026-02-23T11:05:47.172745"
     },
@@ -9937,7 +9962,7 @@ const GRAPH_DATA = {
       "target": "タスク:Blog_Workflow_Establishment",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.75,
+      "weight": 0.7,
       "first_seen": "2026-02-23T11:05:47.172748",
       "last_seen": "2026-02-23T11:05:47.172748"
     },
@@ -9946,7 +9971,7 @@ const GRAPH_DATA = {
       "target": "制約:ブログ執筆における完璧主義",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.8,
+      "weight": 1.75,
       "first_seen": "2026-02-23T11:05:47.172750",
       "last_seen": "2026-02-23T21:45:53.297780"
     },
@@ -9955,7 +9980,7 @@ const GRAPH_DATA = {
       "target": "制約:アイデア管理ルールの欠如",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.75,
+      "weight": 0.7,
       "first_seen": "2026-02-23T11:05:47.172752",
       "last_seen": "2026-02-23T11:05:47.172752"
     },
@@ -9964,7 +9989,7 @@ const GRAPH_DATA = {
       "target": "知見:ブログのアイデアレベル公開の許容",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.85,
+      "weight": 2.8,
       "first_seen": "2026-02-23T11:05:47.172754",
       "last_seen": "2026-02-23T21:45:53.297732"
     },
@@ -9975,7 +10000,7 @@ const GRAPH_DATA = {
       "label": "ブログ執筆フローの課題について整理",
       "first_seen": "2026-02-23T07:23:14.339767",
       "last_seen": "2026-02-23T21:41:12.703269",
-      "weight": 1.85
+      "weight": 1.8
     },
     {
       "source": "日記:20260223",
@@ -9984,7 +10009,7 @@ const GRAPH_DATA = {
       "label": "本の執筆に向けたブログ指針を検討",
       "first_seen": "2026-02-23T07:23:14.339770",
       "last_seen": "2026-02-23T07:23:14.339770",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "出来事:ポメラ導入1週間",
@@ -9993,7 +10018,7 @@ const GRAPH_DATA = {
       "label": "活用が進んだことで手応えを感じる",
       "first_seen": "2026-02-23T07:23:14.339772",
       "last_seen": "2026-02-23T07:23:14.339772",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "知見:ポメラ分析パイプラインの有効性",
@@ -10002,7 +10027,7 @@ const GRAPH_DATA = {
       "label": "基盤となるパイプラインの確立",
       "first_seen": "2026-02-23T07:23:14.339774",
       "last_seen": "2026-02-23T21:45:53.297685",
-      "weight": 2.9
+      "weight": 2.85
     },
     {
       "source": "知見:ポメラ分析パイプラインの有効性",
@@ -10011,7 +10036,7 @@ const GRAPH_DATA = {
       "label": "AI分析フローが課題解決を助け精神的負荷を減らす",
       "first_seen": "2026-02-23T07:23:14.339778",
       "last_seen": "2026-02-23T07:23:14.339778",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "感情:ポメラ活用の手応え",
@@ -10020,7 +10045,7 @@ const GRAPH_DATA = {
       "label": "良い実感があるからこそ他人に勧めたい",
       "first_seen": "2026-02-23T07:23:14.339780",
       "last_seen": "2026-02-23T07:23:14.339780",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "制約:執筆テーマの迷い",
@@ -10029,7 +10054,7 @@ const GRAPH_DATA = {
       "label": "テーマが定まらないことが執筆フローの停滞を招く",
       "first_seen": "2026-02-23T07:23:14.339782",
       "last_seen": "2026-02-23T07:23:14.339782",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "目標:ポメラユーザーの創出",
@@ -10038,7 +10063,7 @@ const GRAPH_DATA = {
       "label": "ポメラを通じたファン作りが収益化の土台になる",
       "first_seen": "2026-02-23T07:23:14.339785",
       "last_seen": "2026-02-23T07:23:14.339785",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "概念:ポメラ駆動",
@@ -10047,7 +10072,7 @@ const GRAPH_DATA = {
       "label": "本の核心となるコンセプト",
       "first_seen": "2026-02-23T07:23:14.339787",
       "last_seen": "2026-02-23T07:23:14.339787",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "日記:20260223",
@@ -10056,7 +10081,7 @@ const GRAPH_DATA = {
       "label": "完成度への拘りを崩すべきだと自覚",
       "first_seen": "2026-02-23T07:23:14.339789",
       "last_seen": "2026-02-23T07:23:14.339789",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "日記:20260223",
@@ -10065,14 +10090,14 @@ const GRAPH_DATA = {
       "label": "アイデアを溜める決め事がないことを確認",
       "first_seen": "2026-02-23T07:23:14.339791",
       "last_seen": "2026-02-23T07:23:14.339791",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "日記:2026-02-23",
       "target": "出来事:ポメラ導入1週間",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-02-23T07:23:14.339797",
       "last_seen": "2026-02-23T07:23:14.339797"
     },
@@ -10081,7 +10106,7 @@ const GRAPH_DATA = {
       "target": "知見:ポメラ分析パイプラインの有効性",
       "type": "言及する",
       "label": "言及",
-      "weight": 2.9,
+      "weight": 2.85,
       "first_seen": "2026-02-23T07:23:14.339799",
       "last_seen": "2026-02-23T21:45:53.297726"
     },
@@ -10090,7 +10115,7 @@ const GRAPH_DATA = {
       "target": "概念:ポメラ駆動",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.85,
+      "weight": 1.8,
       "first_seen": "2026-02-23T07:23:14.339801",
       "last_seen": "2026-02-23T21:45:53.297760"
     },
@@ -10099,7 +10124,7 @@ const GRAPH_DATA = {
       "target": "目標:ポメラユーザーの創出",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.8,
+      "weight": 1.75,
       "first_seen": "2026-02-23T07:23:14.339803",
       "last_seen": "2026-02-23T21:45:53.297775"
     },
@@ -10108,7 +10133,7 @@ const GRAPH_DATA = {
       "target": "制約:執筆テーマの迷い",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-02-23T07:23:14.339804",
       "last_seen": "2026-02-23T07:23:14.339804"
     },
@@ -10117,7 +10142,7 @@ const GRAPH_DATA = {
       "target": "感情:ポメラ活用の手応え",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-02-23T07:23:14.339808",
       "last_seen": "2026-02-23T07:23:14.339808"
     },
@@ -10128,7 +10153,7 @@ const GRAPH_DATA = {
       "label": "ブログの具体的なゴールを再定義",
       "first_seen": "2026-02-23T21:41:12.703255",
       "last_seen": "2026-02-23T21:41:12.703255",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "日記:20260223",
@@ -10137,7 +10162,7 @@ const GRAPH_DATA = {
       "label": "79.4kgへの進捗を確認",
       "first_seen": "2026-02-23T21:41:12.703263",
       "last_seen": "2026-02-23T21:41:12.703263",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "日記:20260223",
@@ -10146,7 +10171,7 @@ const GRAPH_DATA = {
       "label": "明日からの消化計画",
       "first_seen": "2026-02-23T21:41:12.703274",
       "last_seen": "2026-02-23T21:45:53.297673",
-      "weight": 1.9
+      "weight": 1.85
     },
     {
       "source": "知見:ブログのアイデアレベル公開の許容",
@@ -10155,7 +10180,7 @@ const GRAPH_DATA = {
       "label": "完璧主義を崩す新しい方針",
       "first_seen": "2026-02-23T21:41:12.703284",
       "last_seen": "2026-02-23T21:41:12.703284",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "出来事:妻の実家での夕食",
@@ -10164,7 +10189,7 @@ const GRAPH_DATA = {
       "label": "夕食がチートデイの内容",
       "first_seen": "2026-02-23T21:41:12.703289",
       "last_seen": "2026-02-23T21:41:12.703289",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "知見:ポメラは思考の時間を作るためのもの",
@@ -10173,14 +10198,14 @@ const GRAPH_DATA = {
       "label": "ブログで伝えるべき核心的価値",
       "first_seen": "2026-02-23T21:41:12.703294",
       "last_seen": "2026-02-23T21:41:12.703294",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "日記:2026-02-23",
       "target": "知見:ポメラは思考の時間を作るためのもの",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.9,
+      "weight": 1.85,
       "first_seen": "2026-02-23T21:41:12.703315",
       "last_seen": "2026-02-23T21:45:53.297739"
     },
@@ -10189,7 +10214,7 @@ const GRAPH_DATA = {
       "target": "出来事:妻の実家での夕食",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.9,
+      "weight": 1.85,
       "first_seen": "2026-02-23T21:41:12.703326",
       "last_seen": "2026-02-23T21:45:53.297755"
     },
@@ -10198,7 +10223,7 @@ const GRAPH_DATA = {
       "target": "タスク:バナナの購入",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-02-23T21:41:12.703331",
       "last_seen": "2026-02-23T21:41:12.703331"
     },
@@ -10207,7 +10232,7 @@ const GRAPH_DATA = {
       "target": "目標:ParkPicnic",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-02-23T21:41:12.703335",
       "last_seen": "2026-02-23T21:41:12.703335"
     },
@@ -10216,7 +10241,7 @@ const GRAPH_DATA = {
       "target": "タスク:CheatDay",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-02-23T21:41:12.703340",
       "last_seen": "2026-02-23T21:41:12.703340"
     },
@@ -10225,7 +10250,7 @@ const GRAPH_DATA = {
       "target": "タスク:ペット用品の購入",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-02-23T21:41:12.703344",
       "last_seen": "2026-02-23T21:41:12.703344"
     },
@@ -10236,7 +10261,7 @@ const GRAPH_DATA = {
       "label": "ブログのゴールを再定義",
       "first_seen": "2026-02-23T21:45:53.297652",
       "last_seen": "2026-02-23T21:45:53.297652",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "日記:20260223",
@@ -10245,7 +10270,7 @@ const GRAPH_DATA = {
       "label": "3月実施を再確認",
       "first_seen": "2026-02-23T21:45:53.297662",
       "last_seen": "2026-02-23T21:45:53.297662",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "日記:20260223",
@@ -10254,7 +10279,7 @@ const GRAPH_DATA = {
       "label": "体重推移とチートデイの報告",
       "first_seen": "2026-02-23T21:45:53.297668",
       "last_seen": "2026-02-23T21:45:53.297668",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "日記:20260223",
@@ -10263,7 +10288,7 @@ const GRAPH_DATA = {
       "label": "明日購入予定と記載",
       "first_seen": "2026-02-23T21:45:53.297679",
       "last_seen": "2026-02-23T21:45:53.297679",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "知見:ポメラは思考の時間を作るためのもの",
@@ -10272,7 +10297,7 @@ const GRAPH_DATA = {
       "label": "「考える時間」の確保をフローに組み込む",
       "first_seen": "2026-02-23T21:45:53.297695",
       "last_seen": "2026-02-23T21:45:53.297695",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "感情:パイプライン完成への手応え",
@@ -10281,7 +10306,7 @@ const GRAPH_DATA = {
       "label": "開発へのモチベーション向上",
       "first_seen": "2026-02-23T21:45:53.297700",
       "last_seen": "2026-02-23T21:45:53.297700",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "出来事:妻の実家での夕食",
@@ -10290,7 +10315,7 @@ const GRAPH_DATA = {
       "label": "チートデイとして計上",
       "first_seen": "2026-02-23T21:45:53.297704",
       "last_seen": "2026-02-23T21:45:53.297704",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "知見:ポメラは思考の時間を作るためのもの",
@@ -10299,14 +10324,14 @@ const GRAPH_DATA = {
       "label": "思考整理の手段としての定義",
       "first_seen": "2026-02-23T21:45:53.297710",
       "last_seen": "2026-02-23T21:45:53.297710",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "日記:2026-02-23",
       "target": "感情:パイプライン完成への手応え",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-02-23T21:45:53.297744",
       "last_seen": "2026-02-23T21:45:53.297744"
     },
@@ -10315,7 +10340,7 @@ const GRAPH_DATA = {
       "target": "タスク:CalorieRestriction",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-02-23T21:45:53.297765",
       "last_seen": "2026-02-23T21:45:53.297765"
     },
@@ -10324,7 +10349,7 @@ const GRAPH_DATA = {
       "target": "タスク:日曜の買い出し_20260223",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-02-23T21:45:53.297770",
       "last_seen": "2026-02-23T21:45:53.297770"
     },
@@ -10335,7 +10360,7 @@ const GRAPH_DATA = {
       "label": "現在の体重80.0kgを記録",
       "first_seen": "2026-02-24T09:03:18.186194",
       "last_seen": "2026-02-24T09:03:18.186194",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260224",
@@ -10344,7 +10369,7 @@ const GRAPH_DATA = {
       "label": "今日は控えめにする方針",
       "first_seen": "2026-02-24T09:03:18.186198",
       "last_seen": "2026-02-24T09:03:18.186198",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260224",
@@ -10353,7 +10378,7 @@ const GRAPH_DATA = {
       "label": "成すべきことの再確認",
       "first_seen": "2026-02-24T09:03:18.186200",
       "last_seen": "2026-02-24T09:03:18.186200",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260224",
@@ -10362,7 +10387,7 @@ const GRAPH_DATA = {
       "label": "未読10冊を順番に読む決意",
       "first_seen": "2026-02-24T09:03:18.186202",
       "last_seen": "2026-02-24T09:03:18.186202",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260224",
@@ -10371,7 +10396,7 @@ const GRAPH_DATA = {
       "label": "相談プロセスの欠如に言及",
       "first_seen": "2026-02-24T09:03:18.186204",
       "last_seen": "2026-02-24T09:03:18.186204",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "制約:前日の過剰摂取",
@@ -10380,7 +10405,7 @@ const GRAPH_DATA = {
       "label": "昨日の食事がお腹に残っている",
       "first_seen": "2026-02-24T09:03:18.186206",
       "last_seen": "2026-02-24T09:03:18.186206",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "制約:読書不足",
@@ -10389,7 +10414,7 @@ const GRAPH_DATA = {
       "label": "悩み解消のヒントが得られない",
       "first_seen": "2026-02-24T09:03:18.186207",
       "last_seen": "2026-02-24T09:03:18.186207",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "出来事:AI駆動開発チームの読了",
@@ -10398,7 +10423,7 @@ const GRAPH_DATA = {
       "label": "本の教訓から気づきを得た",
       "first_seen": "2026-02-24T09:03:18.186210",
       "last_seen": "2026-02-24T09:03:18.186210",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "知見:AIツール非依存の重要性",
@@ -10407,7 +10432,7 @@ const GRAPH_DATA = {
       "label": "ツールを切り替えられる準備の重要性",
       "first_seen": "2026-02-24T09:03:18.186212",
       "last_seen": "2026-02-24T09:03:18.186212",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "タスク:Knowbe_ConsultationFlowEstablishment",
@@ -10416,14 +10441,14 @@ const GRAPH_DATA = {
       "label": "改善フロー構築の重要な要素",
       "first_seen": "2026-02-24T09:03:18.186214",
       "last_seen": "2026-02-24T09:03:18.186214",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-02-24",
       "type": "関連する",
       "label": "書いた",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186216",
       "last_seen": "2026-02-24T15:09:15.939072"
     },
@@ -10432,7 +10457,7 @@ const GRAPH_DATA = {
       "target": "日記:20260224",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-02-24T09:03:18.186219",
       "last_seen": "2026-02-24T09:03:18.186219"
     },
@@ -10441,7 +10466,7 @@ const GRAPH_DATA = {
       "target": "タスク:Knowbe_TeamStatusGrasp",
       "type": "言及する",
       "label": "2チームの進捗把握の重要性を再確認",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186221",
       "last_seen": "2026-02-24T15:09:15.939039"
     },
@@ -10450,7 +10475,7 @@ const GRAPH_DATA = {
       "target": "タスク:Knowbe_DefineAlertCriteria",
       "type": "言及する",
       "label": "アラート基準策定の必要性",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186223",
       "last_seen": "2026-02-24T15:09:15.939042"
     },
@@ -10459,7 +10484,7 @@ const GRAPH_DATA = {
       "target": "タスク:Knowbe_ConsultationFlowEstablishment",
       "type": "言及する",
       "label": "相談プロセスの欠如を指摘",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186225",
       "last_seen": "2026-02-24T15:09:15.939044"
     },
@@ -10468,7 +10493,7 @@ const GRAPH_DATA = {
       "target": "制約:読書不足",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-02-24T09:03:18.186228",
       "last_seen": "2026-02-24T09:03:18.186228"
     },
@@ -10477,7 +10502,7 @@ const GRAPH_DATA = {
       "target": "出来事:AI駆動開発チームの読了",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-02-24T09:03:18.186231",
       "last_seen": "2026-02-24T09:03:18.186231"
     },
@@ -10486,7 +10511,7 @@ const GRAPH_DATA = {
       "target": "知見:AIツール非依存の重要性",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-02-24T09:03:18.186232",
       "last_seen": "2026-02-24T09:03:18.186232"
     },
@@ -10495,7 +10520,7 @@ const GRAPH_DATA = {
       "target": "タスク:Saiteki_SlackReview",
       "type": "言及する",
       "label": "AI駆動開発チーム本の感想投稿を完了",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186234",
       "last_seen": "2026-02-24T15:09:15.939048"
     },
@@ -10504,7 +10529,7 @@ const GRAPH_DATA = {
       "target": "タスク:Saiteki_AIToolAgilityPreparation",
       "type": "言及する",
       "label": "受託開発に向けた準備の具体化",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186236",
       "last_seen": "2026-02-24T15:09:15.939050"
     },
@@ -10513,7 +10538,7 @@ const GRAPH_DATA = {
       "target": "制約:前日の過剰摂取",
       "type": "言及する",
       "label": "言及",
-      "weight": 2,
+      "weight": 1.95,
       "first_seen": "2026-02-24T09:03:18.186242",
       "last_seen": "2026-02-24T15:09:15.939074"
     },
@@ -10522,7 +10547,7 @@ const GRAPH_DATA = {
       "target": "感情:仕事の悩み",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-02-24T09:03:18.186243",
       "last_seen": "2026-02-24T09:03:18.186243"
     },
@@ -10531,7 +10556,7 @@ const GRAPH_DATA = {
       "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-02-24T09:03:18.186245",
       "last_seen": "2026-02-24T09:03:18.186245"
     },
@@ -10542,7 +10567,7 @@ const GRAPH_DATA = {
       "label": "体重と食事内容への言及",
       "first_seen": "2026-02-24T15:09:15.939033",
       "last_seen": "2026-02-24T15:09:15.939033",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:2026-02-24",
@@ -10551,7 +10576,7 @@ const GRAPH_DATA = {
       "label": "読書不足への焦りと読了報告",
       "first_seen": "2026-02-24T15:09:15.939046",
       "last_seen": "2026-02-24T15:09:15.939046",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:2026-02-24",
@@ -10560,7 +10585,7 @@ const GRAPH_DATA = {
       "label": "手取り70万円と福利厚生の検討",
       "first_seen": "2026-02-24T15:09:15.939052",
       "last_seen": "2026-02-24T15:09:15.939052",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:2026-02-24",
@@ -10569,7 +10594,7 @@ const GRAPH_DATA = {
       "label": "3月は20万円貯金を目指す",
       "first_seen": "2026-02-24T15:09:15.939056",
       "last_seen": "2026-02-24T15:09:15.939056",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:2026-02-24",
@@ -10578,7 +10603,7 @@ const GRAPH_DATA = {
       "label": "ブログから本へまとめる戦略",
       "first_seen": "2026-02-24T15:09:15.939057",
       "last_seen": "2026-02-24T15:09:15.939057",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "制約:前日の過剰摂取",
@@ -10587,7 +10612,7 @@ const GRAPH_DATA = {
       "label": "満腹感による体調の重さ",
       "first_seen": "2026-02-24T15:09:15.939059",
       "last_seen": "2026-02-24T15:09:15.939059",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "知見:AIツールのマルチユース原則",
@@ -10596,7 +10621,7 @@ const GRAPH_DATA = {
       "label": "方針の正しさを確信し推進",
       "first_seen": "2026-02-24T15:09:15.939061",
       "last_seen": "2026-02-24T15:09:15.939061",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "感情:思考の明瞭化",
@@ -10605,7 +10630,7 @@ const GRAPH_DATA = {
       "label": "メンタル回復により業務遂行能力が向上",
       "first_seen": "2026-02-24T15:09:15.939063",
       "last_seen": "2026-02-24T15:09:15.939063",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "制約:浪費傾向",
@@ -10614,7 +10639,7 @@ const GRAPH_DATA = {
       "label": "余計な支出による貯金難",
       "first_seen": "2026-02-24T15:09:15.939065",
       "last_seen": "2026-02-24T15:09:15.939065",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "タスク:不要な買い物の禁止",
@@ -10623,7 +10648,7 @@ const GRAPH_DATA = {
       "label": "購入制限による支出抑制",
       "first_seen": "2026-02-24T15:09:15.939066",
       "last_seen": "2026-02-24T15:09:15.939066",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "概念:ストックオプション",
@@ -10632,14 +10657,14 @@ const GRAPH_DATA = {
       "label": "社員化判断の重要要素",
       "first_seen": "2026-02-24T15:09:15.939068",
       "last_seen": "2026-02-24T15:09:15.939068",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:2026-02-24",
       "target": "制約:浪費傾向",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-02-24T15:09:15.939076",
       "last_seen": "2026-02-24T15:09:15.939076"
     },
@@ -10648,7 +10673,7 @@ const GRAPH_DATA = {
       "target": "感情:思考の明瞭化",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-02-24T15:09:15.939078",
       "last_seen": "2026-02-24T15:09:15.939078"
     },
@@ -10657,7 +10682,7 @@ const GRAPH_DATA = {
       "target": "知見:AIツールのマルチユース原則",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-02-24T15:09:15.939080",
       "last_seen": "2026-02-24T15:09:15.939080"
     },
@@ -10666,7 +10691,7 @@ const GRAPH_DATA = {
       "target": "タスク:不要な買い物の禁止",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-02-24T15:09:15.939082",
       "last_seen": "2026-02-24T15:09:15.939082"
     },
@@ -10675,7 +10700,7 @@ const GRAPH_DATA = {
       "target": "タスク:はてなブログProへの加入",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-02-24T15:09:15.939083",
       "last_seen": "2026-02-24T15:09:15.939083"
     },
@@ -10684,9 +10709,90 @@ const GRAPH_DATA = {
       "target": "概念:ストックオプション",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-02-24T15:09:15.939085",
       "last_seen": "2026-02-24T15:09:15.939085"
+    },
+    {
+      "source": "日記:2026-02-25",
+      "target": "目標:ポメラユーザーの創出",
+      "type": "言及する",
+      "label": "ブログの方向性を検討",
+      "first_seen": "2026-02-24T15:20:51.862522",
+      "last_seen": "2026-02-24T15:20:51.862522",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-25",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "言及する",
+      "label": "執筆フローの具体化",
+      "first_seen": "2026-02-24T15:20:51.862526",
+      "last_seen": "2026-02-24T15:20:51.862526",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-25",
+      "target": "知見:Blog_ProblemSolution_Structure",
+      "type": "言及する",
+      "label": "新しい構成案を考案",
+      "first_seen": "2026-02-24T15:20:51.862528",
+      "last_seen": "2026-02-24T15:20:51.862528",
+      "weight": 1
+    },
+    {
+      "source": "知見:Blog_ProblemSolution_Structure",
+      "target": "制約:執筆テーマの迷い",
+      "type": "解決する",
+      "label": "記事の型を決めることで迷いを解消する",
+      "first_seen": "2026-02-24T15:20:51.862530",
+      "last_seen": "2026-02-24T15:20:51.862530",
+      "weight": 1
+    },
+    {
+      "source": "知見:Blog_ProblemSolution_Structure",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "原動力になる",
+      "label": "具体的な執筆イメージが湧く",
+      "first_seen": "2026-02-24T15:20:51.862534",
+      "last_seen": "2026-02-24T15:20:51.862534",
+      "weight": 1
+    },
+    {
+      "source": "タスク:Blog_Workflow_Establishment",
+      "target": "知見:ポメラ分析パイプラインの有効性",
+      "type": "対象にする",
+      "label": "ポメラでの解決策を記事にする",
+      "first_seen": "2026-02-24T15:20:51.862536",
+      "last_seen": "2026-02-24T15:20:51.862536",
+      "weight": 1
+    },
+    {
+      "source": "人物:自分",
+      "target": "日記:2026-02-25",
+      "type": "関連する",
+      "label": "書いた",
+      "weight": 1,
+      "first_seen": "2026-02-24T15:20:51.862540",
+      "last_seen": "2026-02-24T15:20:51.862540"
+    },
+    {
+      "source": "日記:2026-02-25",
+      "target": "知見:ポメラ分析パイプラインの有効性",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-24T15:20:51.862541",
+      "last_seen": "2026-02-24T15:20:51.862541"
+    },
+    {
+      "source": "日記:2026-02-25",
+      "target": "制約:執筆テーマの迷い",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-02-24T15:20:51.862543",
+      "last_seen": "2026-02-24T15:20:51.862543"
     }
   ],
   "metadata": {
@@ -10719,9 +10825,9 @@ const GRAPH_DATA = {
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
-    "last_updated": "2026-02-24T15:09:15.939129",
-    "node_count": 279,
-    "edge_count": 828
+    "last_updated": "2026-02-24T15:20:51.862582",
+    "node_count": 281,
+    "edge_count": 837
   }
 };
 // GRAPH_DATA_END
