@@ -1211,17 +1211,21 @@
         <span class="mobile-nav-icon">🏠</span>
         <span>ホーム</span>
       </button>
+      <button class="mobile-nav-item" onclick="mobileSwitch('knowbe')">
+        <span class="mobile-nav-icon">💼</span>
+        <span>Knowbe</span>
+      </button>
+      <button class="mobile-nav-item" onclick="mobileSwitch('saiteki')">
+        <span class="mobile-nav-icon">🤖</span>
+        <span>Saiteki</span>
+      </button>
       <button class="mobile-nav-item" onclick="mobileSwitch('family')">
         <span class="mobile-nav-icon">👨‍👩‍👦</span>
-        <span>ファミリー</span>
+        <span>家族</span>
       </button>
       <button class="mobile-nav-item" onclick="mobileSwitch('graph')">
         <span class="mobile-nav-icon">🕸️</span>
         <span>グラフ</span>
-      </button>
-      <button class="mobile-nav-item" onclick="window.location.reload()">
-        <span class="mobile-nav-icon">🔄</span>
-        <span>更新</span>
       </button>
     </div>
   </nav>
@@ -1237,6 +1241,26 @@
             <div class="nav-link active" onclick="switchView('advisor')">
               <span>🏠</span> ダッシュボード
             </div>
+          </li>
+          <li style="margin-top: 12px;">
+            <div
+              style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 0 16px; margin-bottom: 4px;">
+              仕事</div>
+          </li>
+          <li>
+            <div class="nav-link" onclick="switchView('knowbe')">
+              <span>💼</span> Knowbe
+            </div>
+          </li>
+          <li>
+            <div class="nav-link" onclick="switchView('saiteki')">
+              <span>🤖</span> Saiteki
+            </div>
+          </li>
+          <li style="margin-top: 12px;">
+            <div
+              style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 0 16px; margin-bottom: 4px;">
+              その他</div>
           </li>
           <li>
             <div class="nav-link" onclick="switchView('family')">
@@ -1378,6 +1402,74 @@
         </div>
       </div>
 
+      <!-- Knowbeビュー -->
+      <div id="knowbe-view" style="display:none;" class="dashboard-container">
+        <div class="header-section">
+          <h1>💼 Knowbe — 重力場</h1>
+          <p class="date-text">フロントエンドチームリーダーとしての制約と原動力</p>
+        </div>
+        <div id="knowbe-node-summary" style="margin-bottom: 24px;"></div>
+        <div class="dashboard-grid">
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(96,165,250,0.1); color: #60a5fa;">🪨</div>
+              <div class="card-title">Knowbe の制約</div>
+              <div class="card-count" id="knowbe-constraint-count"></div>
+            </div>
+            <div id="knowbe-constraints"></div>
+          </div>
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(96,165,250,0.1); color: #60a5fa;">🎯</div>
+              <div class="card-title">Knowbe の目標・タスク</div>
+              <div class="card-count" id="knowbe-task-count"></div>
+            </div>
+            <div id="knowbe-tasks"></div>
+          </div>
+          <div class="dash-card full-width">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(96,165,250,0.1); color: #60a5fa;">💡</div>
+              <div class="card-title">Knowbe の知見</div>
+            </div>
+            <div id="knowbe-insights"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saitekiビュー -->
+      <div id="saiteki-view" style="display:none;" class="dashboard-container">
+        <div class="header-section">
+          <h1>🤖 Saiteki — 重力場</h1>
+          <p class="date-text">AI研究・副業としての制約と原動力</p>
+        </div>
+        <div id="saiteki-node-summary" style="margin-bottom: 24px;"></div>
+        <div class="dashboard-grid">
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">🪨</div>
+              <div class="card-title">Saiteki の制約</div>
+              <div class="card-count" id="saiteki-constraint-count"></div>
+            </div>
+            <div id="saiteki-constraints"></div>
+          </div>
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">🎯</div>
+              <div class="card-title">Saiteki の目標・タスク</div>
+              <div class="card-count" id="saiteki-task-count"></div>
+            </div>
+            <div id="saiteki-tasks"></div>
+          </div>
+          <div class="dash-card full-width">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">💡</div>
+              <div class="card-title">Saiteki の知見</div>
+            </div>
+            <div id="saiteki-insights"></div>
+          </div>
+        </div>
+      </div>
+
       <div id="graph-view">
         <div id="graph-container">
           <svg id="graph-svg"></svg>
@@ -1394,10 +1486,13 @@
 
 
     // ── ビュー切り替え ──
+    const ALL_VIEWS = ['advisor', 'knowbe', 'saiteki', 'family', 'graph'];
+
     function switchView(view) {
-      document.getElementById('advisor-view').style.display = view === 'advisor' ? 'block' : 'none';
-      document.getElementById('family-view').style.display = view === 'family' ? 'block' : 'none';
-      document.getElementById('graph-view').style.display = view === 'graph' ? 'block' : 'none';
+      ALL_VIEWS.forEach(v => {
+        const el = document.getElementById(v + '-view');
+        if (el) el.style.display = (v === view) ? 'block' : 'none';
+      });
 
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
       if (event && event.currentTarget) event.currentTarget.classList.add('active');
@@ -1406,21 +1501,26 @@
 
       if (view === 'graph') renderGraph();
       if (view === 'family') renderFamilyView();
+      if (view === 'knowbe') renderWorkView('knowbe');
+      if (view === 'saiteki') renderWorkView('saiteki');
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
     }
 
     function mobileSwitch(view) {
-      document.getElementById('advisor-view').style.display = view === 'advisor' ? 'block' : 'none';
-      document.getElementById('family-view').style.display = view === 'family' ? 'block' : 'none';
-      document.getElementById('graph-view').style.display = view === 'graph' ? 'block' : 'none';
+      ALL_VIEWS.forEach(v => {
+        const el = document.getElementById(v + '-view');
+        if (el) el.style.display = (v === view) ? 'block' : 'none';
+      });
 
       syncMobileNav(view);
       syncSidebarNav(view);
 
       if (view === 'graph') renderGraph();
       if (view === 'family') renderFamilyView();
+      if (view === 'knowbe') renderWorkView('knowbe');
+      if (view === 'saiteki') renderWorkView('saiteki');
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
@@ -1428,7 +1528,7 @@
 
     function syncMobileNav(view) {
       document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
-      const viewMap = { 'advisor': 0, 'family': 1, 'graph': 2 };
+      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'family': 3, 'graph': 4 };
       const idx = viewMap[view];
       if (idx !== undefined) {
         const items = document.querySelectorAll('.mobile-nav-item');
@@ -1438,12 +1538,11 @@
 
     function syncSidebarNav(view) {
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-      const viewMap = { 'advisor': 0, 'family': 1, 'graph': 2 };
+      // データ更新ボタン以外のnav-linkに対してインデックスマッピング
+      const navLinks = document.querySelectorAll('.nav-link');
+      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'family': 3, 'graph': 4 };
       const idx = viewMap[view];
-      if (idx !== undefined) {
-        const items = document.querySelectorAll('.nav-link');
-        if (items[idx]) items[idx].classList.add('active');
-      }
+      if (idx !== undefined && navLinks[idx]) navLinks[idx].classList.add('active');
     }
 
     // ── 日付表示 ──
@@ -2157,6 +2256,105 @@
           .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
         node.attr('transform', d => `translate(${d.x},${d.y})`);
       });
+    }
+
+    // ── 仕事ビュー描画 ──
+    function renderWorkView(contextKey) {
+      const nodes = (GRAPH_DATA && GRAPH_DATA.nodes) ? GRAPH_DATA.nodes : [];
+
+      // contextKey または shared にマッチするノードを抽出。
+      // context フィールドがない古いノードは shared 扱いにしない（表示しない）。
+      const filtered = nodes.filter(n => {
+        const c = n.context || '';
+        return c === contextKey || c === 'shared';
+      });
+
+      const accentColor = contextKey === 'knowbe' ? '#60a5fa' : '#a78bfa';
+      const prefix = contextKey;
+
+      // サマリー
+      const summaryEl = document.getElementById(prefix + '-node-summary');
+      if (summaryEl) {
+        const total = filtered.length;
+        const constraintCount = filtered.filter(n => n.type === '制約').length;
+        const taskCount = filtered.filter(n => n.type === 'タスク' || n.type === '目標').length;
+        const insightCount = filtered.filter(n => n.type === '知見').length;
+        summaryEl.innerHTML = `
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
+              <div style="font-size:22px; font-weight:700; color:${accentColor}">${total}</div>
+              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">関連ノード</div>
+            </div>
+            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
+              <div style="font-size:22px; font-weight:700; color:#ef4444">${constraintCount}</div>
+              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">制約（重力）</div>
+            </div>
+            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
+              <div style="font-size:22px; font-weight:700; color:#38bdf8">${taskCount}</div>
+              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">タスク・目標</div>
+            </div>
+            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
+              <div style="font-size:22px; font-weight:700; color:#818cf8">${insightCount}</div>
+              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">知見</div>
+            </div>
+          </div>`;
+      }
+
+      // 制約
+      const constraints = filtered.filter(n => n.type === '制約').sort((a, b) => (b.weight || 1) - (a.weight || 1));
+      const constraintEl = document.getElementById(prefix + '-constraints');
+      const constraintCountEl = document.getElementById(prefix + '-constraint-count');
+      if (constraintCountEl) constraintCountEl.textContent = `${constraints.length}件`;
+      if (constraintEl) {
+        if (!constraints.length) {
+          constraintEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✨</div><div class="empty-state-text">制約なし</div></div>';
+        } else {
+          constraintEl.innerHTML = constraints.map(n => `
+            <div class="action-item" style="border-left: 3px solid #ef4444;">
+              <div class="action-text">🪨 ${n.label}</div>
+              ${n.detail ? `<div class="action-meta"><span class="action-effect">${n.detail}</span></div>` : ''}
+              ${n.constraint_type ? `<div style="margin-top:6px;"><span class="tag tag-gravity">${n.constraint_type}</span></div>` : ''}
+            </div>`).join('');
+        }
+      }
+
+      // タスク・目標
+      const tasks = filtered.filter(n => n.type === 'タスク' || n.type === '目標').sort((a, b) => (b.weight || 1) - (a.weight || 1));
+      const taskEl = document.getElementById(prefix + '-tasks');
+      const taskCountEl = document.getElementById(prefix + '-task-count');
+      if (taskCountEl) taskCountEl.textContent = `${tasks.length}件`;
+      if (taskEl) {
+        if (!tasks.length) {
+          taskEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-text">タスク・目標なし</div></div>';
+        } else {
+          taskEl.innerHTML = tasks.map(n => {
+            const statusColor = n.status === '完了' ? '#22c55e' : n.status === '進行中' ? accentColor : '#fbbf24';
+            return `
+              <div class="action-item">
+                <div class="action-text">📋 ${n.label}</div>
+                <div class="action-meta">
+                  ${n.status ? `<span class="action-effort" style="background:${statusColor}20; color:${statusColor}">${n.status}</span>` : ''}
+                  ${n.detail ? `<span class="action-effect">${n.detail}</span>` : ''}
+                </div>
+              </div>`;
+          }).join('');
+        }
+      }
+
+      // 知見
+      const insights = filtered.filter(n => n.type === '知見').sort((a, b) => (b.weight || 1) - (a.weight || 1));
+      const insightEl = document.getElementById(prefix + '-insights');
+      if (insightEl) {
+        if (!insights.length) {
+          insightEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💡</div><div class="empty-state-text">まだ知見がありません。日記を続けると蓄積されていきます。</div></div>';
+        } else {
+          insightEl.innerHTML = insights.map(n => `
+            <div class="insight-item">
+              <div class="insight-finding">🔍 ${n.label}</div>
+              ${n.detail ? `<div class="insight-implication">${n.detail}</div>` : ''}
+            </div>`).join('');
+        }
+      }
     }
 
     // ── 初期化 ──
