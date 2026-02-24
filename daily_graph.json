@@ -1,96 +1,114 @@
 {
   "nodes": [
     {
-      "id": "日記:20260223",
-      "label": "2026年2月23日の日記",
+      "id": "日記:20260224",
+      "label": "2026年2月24日の日記",
       "type": "日記",
-      "detail": "ポメラのパイプライン構築の成果、ブログのゴール設定、妻の実家での会食、今後の読書計画について。",
-      "date": "2026-02-23"
+      "detail": "体重の推移、Knowbeでのチームマネジメントの課題、SaitekiでのAI駆動開発本の読書感想について。",
+      "date": "2026-02-24",
+      "context": "shared"
     },
     {
-      "id": "知見:ポメラ分析パイプラインの有効性",
-      "label": "ポメラ分析パイプラインによる課題解決",
-      "type": "知見",
-      "detail": "ポメラ→Gmail→GAS→GitHub Actions→AIという一連の流れが整ったことで、生活の課題解決に良い影響を与えている。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "知見:ブログのアイデアレベル公開の許容",
-      "label": "ブログはアイデアレベルでも良い",
-      "type": "知見",
-      "detail": "完成された内容でなくても、自分の考えをまとめたアイデアレベルの投稿でも価値があるという認識の転換。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "知見:ポメラは思考の時間を作るためのもの",
-      "label": "ポメラは「考える時間」を作る道具",
-      "type": "知見",
-      "detail": "ポメラの最大の利点は、あらゆる課題に対して有効な「考える時間」を確保し、それを形にできることにある。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "感情:パイプライン完成への手応え",
-      "label": "システム構築による効力感",
-      "type": "感情",
-      "sentiment": 0.8,
-      "detail": "構築したパイプラインが実用フェーズに入り、課題解決に寄与していることへの満足感。",
-      "category": "エンジニア"
-    },
-    {
-      "id": "出来事:妻の実家での夕食",
-      "label": "妻の実家でキムチ鍋",
-      "type": "出来事",
-      "status": "完了",
-      "date": "2026-02-23",
-      "detail": "キムチ鍋、ご飯、中華麺を大量に摂取。週に一度のチートデイとして楽しんだ。"
-    },
-    {
-      "id": "概念:ポメラ駆動",
-      "label": "ポメラ駆動",
-      "type": "概念",
-      "detail": "ポメラを生活や思考の起点（How）として、日常の課題を解決していくスタイル。"
-    },
-    {
-      "id": "タスク:CalorieRestriction",
-      "label": "1日1食1200kcal制限",
+      "id": "タスク:Knowbe_TeamStatusGrasp",
+      "label": "2チームの進捗把握状態の構築",
       "type": "タスク",
+      "detail": "2つのチームの進捗を常に把握し、アラートを出せる状態を維持する",
       "status": "進行中",
-      "detail": "2/23朝の体重は79.4kg。順調に減少中。妻の実家での食事はチートデイとして扱う。",
-      "tags": [
-        "ダイエット"
-      ]
+      "category": "エンジニア",
+      "context": "knowbe"
     },
     {
-      "id": "タスク:日曜の買い出し_20260223",
-      "label": "AOKI薬局での買い出し",
+      "id": "タスク:Knowbe_DefineAlertCriteria",
+      "label": "アラート基準の策定",
       "type": "タスク",
-      "status": "完了",
-      "detail": "猫の餌、ペットシーツの購入は2/22に完了。バナナは明日購入予定。"
+      "detail": "どのような状況になったらアラートを出すべきかの基準を明確にする",
+      "status": "未着手",
+      "category": "エンジニア",
+      "context": "knowbe"
     },
     {
-      "id": "目標:ポメラユーザーを1人創出する",
-      "label": "ポメラユーザーを1人創出する",
+      "id": "タスク:Knowbe_ConsultationFlowEstablishment",
+      "label": "チーム内相談プロセスの構築",
+      "type": "タスク",
+      "detail": "誰が何を決定するのかを明確にし、相談のフローを定義する",
+      "status": "未着手",
+      "category": "エンジニア",
+      "context": "knowbe"
+    },
+    {
+      "id": "制約:読書不足",
+      "label": "読書不足",
+      "type": "制約",
+      "detail": "最近本が読めていないことにより、仕事の悩みに対する解決のヒントが不足している",
+      "constraint_type": "リソース不足",
+      "context": "shared"
+    },
+    {
+      "id": "出来事:AI駆動開発チームの読了",
+      "label": "「AI駆動開発チーム」の読了",
+      "type": "出来事",
+      "detail": "本を読み、AI導入後のマネジメント体制やツールの考え方について深く共感した",
+      "status": "完了",
+      "date": "2026-02-24",
+      "context": "saiteki"
+    },
+    {
+      "id": "知見:AIツール非依存の重要性",
+      "label": "AIツール非依存の重要性",
+      "type": "知見",
+      "detail": "特定の一つに絞らず、ツールやIDEが切り替わっても対処できるよう準備しておくべき",
+      "context": "saiteki"
+    },
+    {
+      "id": "タスク:Saiteki_SlackReview",
+      "label": "AI駆動開発チームの感想投稿",
+      "type": "タスク",
+      "detail": "SaitekiのSlackに本のレビューと感想を投稿し共有する",
+      "status": "未着手",
+      "category": "エンジニア",
+      "context": "saiteki"
+    },
+    {
+      "id": "タスク:Saiteki_AIToolAgilityPreparation",
+      "label": "AIツール横断運用の準備",
+      "type": "タスク",
+      "detail": "4月以降の受託開発を見据え、複数のAIツールを横断して利用できる準備を整える",
+      "status": "進行中",
+      "category": "エンジニア",
+      "context": "saiteki"
+    },
+    {
+      "id": "制約:前日の過剰摂取",
+      "label": "前日の食事の残存感",
+      "type": "制約",
+      "detail": "モスバーガー、鍋、ご飯、麺などの摂取による消化不良感と満腹感",
+      "constraint_type": "その他",
+      "context": "private"
+    },
+    {
+      "id": "感情:仕事の悩み",
+      "label": "仕事への不安・悩み",
+      "type": "感情",
+      "detail": "マネジメントのフロー未整備や読書不足からくる停滞感",
+      "sentiment": -0.3,
+      "context": "knowbe"
+    },
+    {
+      "id": "目標:WeightUnder75",
+      "label": "年内体重75kg切り",
       "type": "目標",
       "status": "進行中",
-      "detail": "ブログの具体的なゴール。読者に「ポメラを使いたい」と思わせる。指標として活用方法の確立を目指す。",
-      "category": "エンジニア"
+      "detail": "現在の80.0kgから75kgを目指す",
+      "context": "private"
     },
     {
-      "id": "制約:ブログ執筆における完璧主義",
-      "label": "ブログ内容への完璧主義",
-      "type": "制約",
-      "constraint_type": "感情目ブレーキ",
-      "detail": "完成した内容でなければならないという認識が、執筆の着手を遅らせている。",
-      "status": "緩和中"
-    },
-    {
-      "id": "日記:2026-02-23",
-      "label": "2026-02-23の日記",
+      "id": "日記:2026-02-24",
+      "label": "2026-02-24の日記",
       "type": "日記",
-      "date": "2026-02-23",
+      "date": "2026-02-24",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-23T21:45:36.440410",
-      "last_seen": "2026-02-23T21:45:36.440415",
+      "first_seen": "2026-02-24T09:03:10.073199",
+      "last_seen": "2026-02-24T09:03:10.073200",
       "weight": 1
     },
     {
@@ -98,167 +116,168 @@
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-23T21:45:36.440426",
-      "last_seen": "2026-02-23T21:45:36.440429",
+      "first_seen": "2026-02-24T09:03:10.073205",
+      "last_seen": "2026-02-24T09:03:10.073205",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "日記:20260223",
-      "target": "目標:ポメラユーザーを1人創出する",
+      "source": "日記:20260224",
+      "target": "目標:WeightUnder75",
       "type": "言及する",
-      "label": "ブログのゴールを再定義"
+      "label": "現在の体重80.0kgを記録"
     },
     {
-      "source": "日記:20260223",
-      "target": "目標:ParkPicnic",
-      "type": "言及する",
-      "label": "3月実施を再確認"
-    },
-    {
-      "source": "日記:20260223",
+      "source": "日記:20260224",
       "target": "タスク:CalorieRestriction",
       "type": "言及する",
-      "label": "体重推移とチートデイの報告"
+      "label": "今日は控えめにする方針"
     },
     {
-      "source": "日記:20260223",
+      "source": "日記:20260224",
+      "target": "タスク:Knowbe_ThinkingOrganization",
+      "type": "言及する",
+      "label": "成すべきことの再確認"
+    },
+    {
+      "source": "日記:20260224",
       "target": "タスク:Book_Reading_Management",
       "type": "言及する",
-      "label": "明日からの消化計画"
+      "label": "未読10冊を順番に読む決意"
     },
     {
-      "source": "日記:20260223",
-      "target": "タスク:バナナの購入",
+      "source": "日記:20260224",
+      "target": "タスク:ImprovementTaskFlow",
       "type": "言及する",
-      "label": "明日購入予定と記載"
+      "label": "相談プロセスの欠如に言及"
     },
     {
-      "source": "知見:ポメラ分析パイプラインの有効性",
-      "target": "目標:ポメラエコシステムのアプリ化",
-      "type": "一部である",
-      "label": "基盤となるパイプラインの確立"
+      "source": "制約:前日の過剰摂取",
+      "target": "目標:WeightUnder75",
+      "type": "阻害する",
+      "label": "昨日の食事がお腹に残っている"
     },
     {
-      "source": "知見:ブログのアイデアレベル公開の許容",
-      "target": "制約:ブログ執筆における完璧主義",
-      "type": "解決する",
-      "label": "アイデアレベルでの投稿を許容"
+      "source": "制約:読書不足",
+      "target": "感情:仕事の悩み",
+      "type": "引き起こす",
+      "label": "悩み解消のヒントが得られない"
     },
     {
-      "source": "知見:ポメラは思考の時間を作るためのもの",
-      "target": "タスク:Blog_Workflow_Establishment",
+      "source": "出来事:AI駆動開発チームの読了",
+      "target": "知見:AIツール非依存の重要性",
+      "type": "引き起こす",
+      "label": "本の教訓から気づきを得た"
+    },
+    {
+      "source": "知見:AIツール非依存の重要性",
+      "target": "タスク:Saiteki_AIToolAgilityPreparation",
       "type": "原動力になる",
-      "label": "「考える時間」の確保をフローに組み込む"
+      "label": "ツールを切り替えられる準備の重要性"
     },
     {
-      "source": "感情:パイプライン完成への手応え",
-      "target": "目標:ポメラエコシステムのアプリ化",
-      "type": "原動力になる",
-      "label": "開発へのモチベーション向上"
-    },
-    {
-      "source": "出来事:妻の実家での夕食",
-      "target": "タスク:CalorieRestriction",
-      "type": "関連する",
-      "label": "チートデイとして計上"
-    },
-    {
-      "source": "知見:ポメラは思考の時間を作るためのもの",
-      "target": "概念:ポメラ駆動",
+      "source": "タスク:Knowbe_ConsultationFlowEstablishment",
+      "target": "タスク:ImprovementTaskFlow",
       "type": "一部である",
-      "label": "思考整理の手段としての定義"
+      "label": "改善フロー構築の重要な要素"
     },
     {
       "source": "人物:自分",
-      "target": "日記:2026-02-23",
+      "target": "日記:2026-02-24",
       "type": "関連する",
       "label": "書いた",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "日記:20260223",
+      "source": "日記:2026-02-24",
+      "target": "日記:20260224",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "知見:ポメラ分析パイプラインの有効性",
+      "source": "日記:2026-02-24",
+      "target": "タスク:Knowbe_TeamStatusGrasp",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "知見:ブログのアイデアレベル公開の許容",
+      "source": "日記:2026-02-24",
+      "target": "タスク:Knowbe_DefineAlertCriteria",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "知見:ポメラは思考の時間を作るためのもの",
+      "source": "日記:2026-02-24",
+      "target": "タスク:Knowbe_ConsultationFlowEstablishment",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "感情:パイプライン完成への手応え",
+      "source": "日記:2026-02-24",
+      "target": "制約:読書不足",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "出来事:妻の実家での夕食",
+      "source": "日記:2026-02-24",
+      "target": "出来事:AI駆動開発チームの読了",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "概念:ポメラ駆動",
+      "source": "日記:2026-02-24",
+      "target": "知見:AIツール非依存の重要性",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "タスク:CalorieRestriction",
+      "source": "日記:2026-02-24",
+      "target": "タスク:Saiteki_SlackReview",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "タスク:日曜の買い出し_20260223",
+      "source": "日記:2026-02-24",
+      "target": "タスク:Saiteki_AIToolAgilityPreparation",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "目標:ポメラユーザーを1人創出する",
+      "source": "日記:2026-02-24",
+      "target": "制約:前日の過剰摂取",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-23",
-      "target": "制約:ブログ執筆における完璧主義",
+      "source": "日記:2026-02-24",
+      "target": "感情:仕事の悩み",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-02-24",
+      "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-23T21:45:36.440374",
-    "source_file": "diary/20260223_[POMERA]2026年2月23日.txt",
-    "node_count": 11,
-    "edge_count": 11
+    "generated_at": "2026-02-24T09:03:10.073184",
+    "source_file": "diary/20260224_[POMERA]2026年2月24日.txt",
+    "node_count": 12,
+    "edge_count": 10
   }
 }
