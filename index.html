@@ -1585,10 +1585,16 @@
       if (targetNode && targetNode.analysis_content) {
         const raw = targetNode.analysis_content;
         try {
-          return JSON.parse(raw);
+          let parsed = JSON.parse(raw);
+          // 1回目のparseで文字列が返ってきた場合（二重エンコード）は再度パース
+          if (typeof parsed === 'string') {
+            parsed = JSON.parse(parsed);
+          }
+          return parsed;
         } catch (e) {
-          // JSONパースに失敗した場合、テキストとして表示
-          return { coach_comment: raw };
+          // JSONパースに完全に失敗した場合はそのまま表示しない
+          console.warn('analysis_content のパースに失敗しました:', e);
+          return null;
         }
       }
 
