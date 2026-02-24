@@ -4,20 +4,15 @@
       "id": "日記:20260225",
       "label": "2026年2月25日の日記",
       "type": "日記",
-      "detail": "ブログの執筆構成（課題提示からポメラでの解決へ繋げるフロー）についての思案。",
+      "detail": "ポメラでのブログ執筆構成や、課題解決のアプローチについて思考した記録。",
       "date": "2026-02-25",
-      "category": "エンジニア",
-      "context": "private",
-      "tags": [
-        "POMERA",
-        "ブログ"
-      ]
+      "context": "private"
     },
     {
       "id": "知見:BlogProblemSolutionFramework",
-      "label": "課題解決型ブログ執筆フレームワーク",
+      "label": "課題提示型のブログ構成案",
       "type": "知見",
-      "detail": "日常の課題提示から入り、ポメラを用いた具体的な解決策や思考プロセスを提示する記事構成のアイデア。",
+      "detail": "読者が共感する「生きる上での課題」の提示から始め、ポメラによる解決、その中での具体的工夫へと繋げる執筆の型。",
       "category": "エンジニア",
       "context": "private",
       "tags": [
@@ -27,31 +22,16 @@
       ]
     },
     {
-      "id": "目標:ポメラユーザーの創出",
-      "label": "ポメラユーザーを1人創出する",
-      "type": "目標",
-      "detail": "ブログの具体的なゴール。読者に「ポメラを使いたい」と思わせる。指標として活用方法の確立を目指す。",
-      "status": "進行中",
+      "id": "知見:ポメラ活用の具体的工夫の言語化",
+      "label": "ポメラ活用の具体的工夫の言語化",
+      "type": "知見",
+      "detail": "ポメラという共通の解決策を提示しつつも、個別の問題に対する独自の考え方や工夫を織り交ぜることで記事の価値を高める手法。",
       "category": "エンジニア",
-      "context": "private"
-    },
-    {
-      "id": "タスク:Blog_Workflow_Establishment",
-      "label": "ブログ執筆フローと管理ルールの策定",
-      "type": "タスク",
-      "detail": "何を書くか迷う時間を減らすため、次に書く話題を明確にするフローとアイデアを溜めるルールを決める。",
-      "status": "進行中",
-      "category": "エンジニア",
-      "context": "private"
-    },
-    {
-      "id": "制約:執筆テーマの迷い",
-      "label": "執筆テーマの迷い",
-      "type": "制約",
-      "detail": "ブログを書く前に、次に何を書べきかスムーズに決まらない状態。",
-      "constraint_type": "感情的ブレーキ",
-      "category": "エンジニア",
-      "context": "private"
+      "context": "private",
+      "tags": [
+        "ポメラ",
+        "コンテンツ制作"
+      ]
     },
     {
       "id": "日記:2026-02-25",
@@ -59,8 +39,8 @@
       "type": "日記",
       "date": "2026-02-25",
       "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-25T00:20:21.091294",
-      "last_seen": "2026-02-25T00:20:21.091296",
+      "first_seen": "2026-02-24T15:49:59.632866",
+      "last_seen": "2026-02-24T15:49:59.632868",
       "weight": 1
     },
     {
@@ -68,8 +48,8 @@
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-25T00:20:21.091302",
-      "last_seen": "2026-02-25T00:20:21.091304",
+      "first_seen": "2026-02-24T15:49:59.632871",
+      "last_seen": "2026-02-24T15:49:59.632872",
       "weight": 1
     }
   ],
@@ -78,37 +58,37 @@
       "source": "日記:20260225",
       "target": "知見:BlogProblemSolutionFramework",
       "type": "言及する",
-      "label": "執筆フレームワークを考案"
-    },
-    {
-      "source": "日記:20260225",
-      "target": "目標:ポメラユーザーの創出",
-      "type": "言及する",
-      "label": "目標達成のための手段を検討"
-    },
-    {
-      "source": "日記:20260225",
-      "target": "タスク:Blog_Workflow_Establishment",
-      "type": "言及する",
-      "label": "執筆フローの具体化"
-    },
-    {
-      "source": "知見:BlogProblemSolutionFramework",
-      "target": "制約:執筆テーマの迷い",
-      "type": "解決する",
-      "label": "構成をパターン化することで迷いを減らす"
+      "label": "執筆構成のアイデアを記録"
     },
     {
       "source": "知見:BlogProblemSolutionFramework",
       "target": "タスク:Blog_Workflow_Establishment",
       "type": "原動力になる",
-      "label": "具体的な書き方が見えたことでフロー構築が進む"
+      "label": "執筆フローの具体化を助ける"
     },
     {
       "source": "知見:BlogProblemSolutionFramework",
-      "target": "目標:ポメラユーザーの創出",
+      "target": "制約:執筆テーマの迷い",
+      "type": "解決する",
+      "label": "何を書くべきかの型を定義することで迷いを減らす"
+    },
+    {
+      "source": "知見:ポメラ活用の具体的工夫の言語化",
+      "target": "目標:Pomera活用本の執筆",
       "type": "一部である",
-      "label": "共感と解決を提示するスタイルが目標に寄与する"
+      "label": "本の内容を構成する重要な要素"
+    },
+    {
+      "source": "日記:20260225",
+      "target": "目標:ポメラユーザーを1人創出する",
+      "type": "言及する",
+      "label": "ブログを通じたユーザー創出戦略を再考"
+    },
+    {
+      "source": "日記:20260225",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "言及する",
+      "label": "ブログ執筆のルール作りに関する思考"
     },
     {
       "source": "人物:自分",
@@ -133,30 +113,16 @@
     },
     {
       "source": "日記:2026-02-25",
-      "target": "目標:ポメラユーザーの創出",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "タスク:Blog_Workflow_Establishment",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "制約:執筆テーマの迷い",
+      "target": "知見:ポメラ活用の具体的工夫の言語化",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-25T00:20:21.091273",
+    "generated_at": "2026-02-24T15:49:59.632853",
     "source_file": "diary/20260225_[POMERA]2026年2月25日.txt",
-    "node_count": 5,
+    "node_count": 3,
     "edge_count": 6
   }
 }
