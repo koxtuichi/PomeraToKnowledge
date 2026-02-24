@@ -468,9 +468,10 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     blocking_edges = [e for e in edges if e.get("type") == "阻害する"]
     motivating_edges = [e for e in edges if e.get("type") == "原動力になる"]
 
-    # 9. 前回の分析結果からスケジュールとアクションを引き継ぐ
+    # 9. 前回の分析結果からスケジュールとアクション、買い物リストを引き継ぐ
     prev_schedule = []
     prev_actions = []
+    prev_shopping_list = []
     for d_node in all_diary_nodes:
         if d_node.get("analysis_content"):
             try:
@@ -479,7 +480,9 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
                     prev_schedule = prev_analysis["upcoming_schedule"]
                 if prev_analysis.get("antigravity_actions") and not prev_actions:
                     prev_actions = prev_analysis["antigravity_actions"]
-                if prev_schedule and prev_actions:
+                if prev_analysis.get("family_digest", {}).get("shopping_list") and not prev_shopping_list:
+                    prev_shopping_list = prev_analysis["family_digest"]["shopping_list"]
+                if prev_schedule and prev_actions and prev_shopping_list:
                     break
             except (json.JSONDecodeError, TypeError):
                 pass
@@ -522,6 +525,10 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     if prev_actions:
         context_summary += "\n**前回出力した重力軽減アクション（日記で完了が確認できたものは除外し、新しいアクションに入れ替えてください）:**\n"
         context_summary += json.dumps(prev_actions, ensure_ascii=False, indent=2) + "\n"
+
+    if prev_shopping_list:
+        context_summary += "\n**前回出力した買い物リスト（今日の日記で『買った』『届いた』『注文済み』などの完了表現があるものは必ず除外してください。周期的な消耗品でも、今日の日記で購入したと明示されている場合は絶対に含めないでください）:**\n"
+        context_summary += json.dumps(prev_shopping_list, ensure_ascii=False, indent=2) + "\n"
 
     # 日記の流れ
     recent_diary_context = "\n### 最近の日記の流れ\n"
