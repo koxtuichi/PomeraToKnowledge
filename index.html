@@ -1975,7 +1975,7 @@
         el.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📝</div>
-            <div class="empty-state-text">日記に「ブログアイディア::」と書いてみよう</div>
+            <div class="empty-state-text">日記を送信するとブログネタが自動提案されます</div>
           </div>`;
         return;
       }
@@ -1988,27 +1988,21 @@
 
       el.innerHTML = items.map(item => {
         const r = readinessMap[item.readiness] || readinessMap['低'];
-        const goalHtml = item.goal ? `
-          <div class="blog-seed-outline">
-            <div class="blog-seed-outline-step">
-              <span class="blog-seed-step-num">🎯</span>
-              <span>ゴール: ${item.goal}</span>
-            </div>
+        const themeHtml = item.theme ? `
+          <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">
+            🏷 ${item.theme}
           </div>` : '';
-        const memoHtml = item.memo ? `
-          <div class="blog-seed-outline">
-            <div class="blog-seed-outline-step">
-              <span class="blog-seed-step-num">📌</span>
-              <span>${item.memo}</span>
-            </div>
+        const hookHtml = item.hook ? `
+          <div style="font-size: 13px; color: var(--text-secondary); font-style: italic; border-left: 2px solid rgba(251,191,36,0.4); padding-left: 10px; margin-bottom: 8px; line-height: 1.6;">
+            "${item.hook}"
           </div>` : '';
         return `
           <div class="blog-seed-item" style="border-left: 3px solid rgba(251,191,36,0.5);">
             <div class="blog-seed-header">
               <div class="blog-seed-title">${item.title}</div>
             </div>
-            ${goalHtml}
-            ${memoHtml}
+            ${themeHtml}
+            ${hookHtml}
             <div class="blog-seed-footer">
               <span class="blog-seed-readiness ${r.cls}">${r.label}</span>
               <span class="blog-seed-action">→ 件名「BLOG」で送信して執筆しよう</span>
