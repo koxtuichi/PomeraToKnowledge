@@ -1583,7 +1583,9 @@
       const targetNode = diaryNodes.find(n => n.analysis_content) || diaryNodes[0];
 
       if (targetNode && targetNode.analysis_content) {
-        const raw = targetNode.analysis_content;
+        let raw = targetNode.analysis_content;
+        // Markdownのコードブロック記法を除去: ```json ... ``` または ``` ... ```
+        raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
         try {
           let parsed = JSON.parse(raw);
           // 1回目のparseで文字列が返ってきた場合（二重エンコード）は再度パース
