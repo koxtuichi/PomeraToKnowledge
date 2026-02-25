@@ -494,7 +494,14 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     for d_node in all_diary_nodes:
         if d_node.get("analysis_content"):
             try:
-                prev_analysis = json.loads(d_node["analysis_content"])
+                raw_ac = d_node["analysis_content"]
+                # Markdownコードブロック除去
+                cleaned_ac = raw_ac.strip()
+                if cleaned_ac.startswith("```"):
+                    cleaned_ac = re.sub(r'^```(?:json)?\s*', '', cleaned_ac)
+                    cleaned_ac = re.sub(r'```\s*$', '', cleaned_ac).strip()
+                prev_analysis = json.loads(cleaned_ac)
+
                 if prev_analysis.get("upcoming_schedule") and not prev_schedule:
                     prev_schedule = prev_analysis["upcoming_schedule"]
                 if prev_analysis.get("antigravity_actions") and not prev_actions:
@@ -596,7 +603,14 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     単にタスクを列挙するだけでなく、「なぜそのタスクが進まないのか」「どうすれば重力を軽くできるか」を深く分析してください。
     """
     print("🔄 Antigravity分析を実行中...")
-    return call_gemini_api(prompt, model="gemini-3-flash-preview")
+    raw = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
+    # Markdownコードブロックが混入した場合に備えてクリーニング
+    cleaned = raw.strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r'^```(?:json)?\s*', '', cleaned)
+        cleaned = re.sub(r'```\s*$', '', cleaned).strip()
+    return cleaned
+
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
