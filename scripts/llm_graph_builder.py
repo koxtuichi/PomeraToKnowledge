@@ -544,7 +544,7 @@ def build_diary_history(master_graph: Dict[str, Any], max_days: int = 30) -> str
     return "\n".join(lines)
 
 
-_DEFAULT_SECTION_MODEL = "gemini-2.0-flash-lite"
+_DEFAULT_SECTION_MODEL = "gemini-2.0-flash"
 
 def call_section_llm(section_name: str, prompt: str, expect_json: bool = True) -> Any:
     """セクション別の独立したLLM呼び出し。JSON配列またはオブジェクトを返す。
