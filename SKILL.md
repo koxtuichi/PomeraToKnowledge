@@ -179,3 +179,66 @@ with open(filepath, mode, encoding="utf-8") as f:
 3. Actions の `Run Sync and Analysis` のログで「No changes to commit」なら
    LLMが同じ内容と判断→日記に新情報が含まれていないか確認
 4. `force_reanalyze = true` インプットでワークフローを手動実行すると全日記を再解析できる
+
+---
+
+## gh CLI — GitHub Actions のデバッグに使う
+
+**GitHub の調査はブラウザより gh CLI を優先して使うこと。**
+ブラウザはログが見づらく、認証が必要な取得もできない。
+
+### インストール
+
+```bash
+brew install gh
+```
+
+### 認証
+
+```bash
+gh auth login
+# → GitHub.com → HTTPS → トークンで認証 → GHトークンをペースト
+```
+
+または環境変数で渡す:
+
+```bash
+export GH_TOKEN=ghp_xxxxxxxxxxxx
+```
+
+### よく使うコマンド
+
+```bash
+# 最新のActionsを一覧表示
+gh run list --limit 10 -R koxtuichi/PomeraToKnowledge
+
+# 特定のrunの詳細（失敗ステップを探す）
+gh run view <run_id> -R koxtuichi/PomeraToKnowledge
+
+# 特定のrunのログをリアルタイムで見る
+gh run view <run_id> --log -R koxtuichi/PomeraToKnowledge
+
+# 失敗したジョブのログだけ見る
+gh run view <run_id> --log-failed -R koxtuichi/PomeraToKnowledge
+
+# ワークフローを手動トリガー
+gh workflow run sync.yml -R koxtuichi/PomeraToKnowledge
+
+# Secretsの一覧（値は見えないがキー名は確認できる）
+gh secret list -R koxtuichi/PomeraToKnowledge
+```
+
+### GitHub APIをcurlで叩く（認証なしでも使えるもの）
+
+```bash
+# Actionsの実行一覧（最近10件）
+curl -s "https://api.github.com/repos/koxtuichi/PomeraToKnowledge/actions/runs?per_page=10" \
+  | python3 -c "import sys,json; [print(r['id'], r['name'], r['conclusion']) for r in json.load(sys.stdin)['workflow_runs']]"
+
+# 特定のrunのジョブとステップ一覧
+curl -s "https://api.github.com/repos/koxtuichi/PomeraToKnowledge/actions/runs/<run_id>/jobs" \
+  | python3 -c "import sys,json; [print(j['name'], j['conclusion'], [s['name'] for s in j['steps']]) for j in json.load(sys.stdin)['jobs']]"
+
+# ジョブログはAPIでは認証必須 → gh run view --log を使う
+```
+

@@ -33,15 +33,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Fetch Blog Draft from Gmail
+      - name: Save Blog Draft from Payload
         if: ${{ github.event_name == 'repository_dispatch' }}
         env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GMAIL_ACCOUNT: ${{ secrets.GMAIL_ACCOUNT }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          BLOG_BODY: ${{ github.event.client_payload.body }}
+          BLOG_SUBJECT: ${{ github.event.client_payload.subject }}
         run: |
-          echo "📬 Gmailからブログ草案を取得中..."
-          python scripts/sync_email.py --blog-only
+          echo "📬 payloadからブログ草案を取得中..."
+          mkdir -p blog_drafts
+          # サブジェクトからファイル名を生成（unsafe文字除去）
+          SAFE_SUBJECT=$(echo "$BLOG_SUBJECT" | sed 's/[\/\*\?\:\"\<\>\|\\]//g' | cut -c1-50)
+          DATE_PREFIX=$(date +%Y%m%d)
+          DRAFT_FILE="blog_drafts/${DATE_PREFIX}_${SAFE_SUBJECT}.txt"
+          # bodyをファイルに保存
+          if [ -n "$BLOG_BODY" ]; then
+            echo "$BLOG_BODY" > "$DRAFT_FILE"
+            echo "✅ 草案を保存しました: $DRAFT_FILE"
+            echo "   文字数: $(wc -c < "$DRAFT_FILE") bytes"
+          else
+            echo "⚠️ BLOG_BODYが空です。GASのcheckBlogMailでbodyを送信しているか確認してください。"
+          fi
           echo "📂 blog_drafts/ の内容:"
           ls -la blog_drafts/*.txt 2>/dev/null || echo "  TXTファイルなし"
 

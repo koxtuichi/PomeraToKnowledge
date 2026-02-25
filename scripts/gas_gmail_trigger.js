@@ -115,8 +115,11 @@ function checkBlogMail() {
         return;
     }
 
+    const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
     const subject = threads[0].getFirstMessageSubject();
-    const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE);
+    // メール本文をpayloadに含める（FINCTXと同じ方式）
+    const body = msg.getPlainBody();
+    const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE, body);
 
     if (success) {
         threads.forEach(thread => thread.markRead());
@@ -128,8 +131,15 @@ function checkBlogMail() {
 // GitHub repository_dispatch API（イベントタイプ指定版）
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-function triggerGitHubActionsWithEvent(token, subject, eventType) {
+function triggerGitHubActionsWithEvent(token, subject, eventType, body = null) {
     const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/dispatches`;
+
+    const clientPayload = {
+        subject: subject,
+        triggered_at: new Date().toISOString()
+    };
+    // bodyがある場合はpayloadに含める（BLOG/FINCTXで使用）
+    if (body) clientPayload.body = body;
 
     const options = {
         method: 'post',
@@ -141,10 +151,7 @@ function triggerGitHubActionsWithEvent(token, subject, eventType) {
         contentType: 'application/json',
         payload: JSON.stringify({
             event_type: eventType,
-            client_payload: {
-                subject: subject,
-                triggered_at: new Date().toISOString()
-            }
+            client_payload: clientPayload
         }),
         muteHttpExceptions: true
     };
