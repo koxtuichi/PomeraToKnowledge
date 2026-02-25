@@ -766,7 +766,161 @@ JSON配列のみを出力してください（それ以外のテキスト禁止�
     else:
         print("   ⚠️ セクション別LLMからantigravity_actionsが取得できなかったため元の結果を維持します")
 
+    # ── family_digest サブセクション別LLM呼び出し ────────────────────────
+    family_graph_ctx = build_graph_context(master_graph, category_filter="家族")
+    diary_short = diary_text[:1200]
+
+    family_highlights_prompt = f"""あなたは家族の記録係です。今日の日記から家族メンバーの出来事・成長・感情を抽出してください。
+
+{family_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+日記に家族の話題がなければ空配列を返してください。
+JSON配列のみ出力（他のテキスト禁止）:
+[{{"member": "メンバー名（妻・長女など）", "event": "出来事", "emotion": "関連感情"}}]
+"""
+    family_todos_prompt = f"""今日の日記と家族のナレッジグラフから「家族全員でやるべきこと」を抽出してください。
+
+{family_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+日記に家族のToDo情報がなければ空配列を返してください。
+JSON配列のみ出力:
+["家族ToDoのテキスト"]
+"""
+    shopping_prompt = f"""今日の日記と家族のナレッジグラフから「買い物リスト」を抽出してください。
+
+{family_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+ルール:
+- 「買った」「届いた」「注文済み」など完了しているものは含めないこと
+- statusが「購入済み」「注文済み」「完了」のノードに関する品目は含めないこと
+- 消耗品（おむつ・牛乳など）も含めてよい
+
+JSON配列のみ出力:
+[{{"item": "商品名", "category": "食料品/日用品/育児用品", "urgency": "急ぎ/今週中/いつか", "note": "補足"}}]
+"""
+    new_highlights = call_section_llm("family_highlights", family_highlights_prompt)
+    new_family_todos = call_section_llm("family_todos", family_todos_prompt)
+    new_shopping = call_section_llm("shopping_list", shopping_prompt)
+
+    # ── knowbe サブセクション別LLM呼び出し ──────────────────────────────
+    knowbe_graph_ctx = build_graph_context(master_graph, category_filter="knowbe")
+    knowbe_constraints_prompt = f"""あなたはKnowbe業務の分析者です。今日の日記からKnowbeの業務に関する「重力（制約・障害）」を3件以内で抽出してください。
+
+{knowbe_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+Knowbeに関する記述がなければ空配列を返してください。
+JSON配列のみ出力:
+[{{"label": "制約名", "detail": "詳細", "constraint_type": "組織/感情/環境/時間"}}]
+"""
+    knowbe_tasks_prompt = f"""今日の日記とKnowbeのナレッジグラフから、Knowbe業務の「進行中・未完了タスク」を抽出してください。
+
+{knowbe_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+Knowbeに関するタスク情報がなければ空配列を返してください。
+JSON配列のみ出力:
+[{{"label": "タスク名", "detail": "詳細", "status": "進行中"}}]
+"""
+    knowbe_insights_prompt = f"""今日の日記とKnowbeのナレッジグラフから、Knowbe業務に関する「知見・学び」を抽出してください。
+
+{knowbe_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+Knowbeに関する知見がなければ空配列を返してください。
+JSON配列のみ出力:
+[{{"finding": "気づき", "implication": "それが意味すること"}}]
+"""
+    new_knowbe_constraints = call_section_llm("knowbe_constraints", knowbe_constraints_prompt)
+    new_knowbe_tasks = call_section_llm("knowbe_tasks", knowbe_tasks_prompt)
+    new_knowbe_insights = call_section_llm("knowbe_insights", knowbe_insights_prompt)
+
+    # ── saiteki サブセクション別LLM呼び出し ─────────────────────────────
+    saiteki_graph_ctx = build_graph_context(master_graph, category_filter="saiteki")
+    saiteki_constraints_prompt = f"""あなたはSaiteki業務の分析者です。今日の日記からSaitekiの業務に関する「重力（制約・障害）」を3件以内で抽出してください。
+
+{saiteki_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+Saitekiに関する記述がなければ空配列を返してください。
+JSON配列のみ出力:
+[{{"label": "制約名", "detail": "詳細", "constraint_type": "組織/感情/環境/時間"}}]
+"""
+    saiteki_tasks_prompt = f"""今日の日記とSaitekiのナレッジグラフから、Saiteki業務の「進行中・未完了タスク」を抽出してください。
+
+{saiteki_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+Saitekiに関するタスク情報がなければ空配列を返してください。
+JSON配列のみ出力:
+[{{"label": "タスク名", "detail": "詳細", "status": "進行中"}}]
+"""
+    saiteki_insights_prompt = f"""今日の日記とSaitekiのナレッジグラフから、Saiteki業務に関する「知見・学び」を抽出してください。
+
+{saiteki_graph_ctx}
+
+### 今日の日記
+{diary_short}
+
+Saitekiに関する知見がなければ空配列を返してください。
+JSON配列のみ出力:
+[{{"finding": "気づき", "implication": "それが意味すること"}}]
+"""
+    new_saiteki_constraints = call_section_llm("saiteki_constraints", saiteki_constraints_prompt)
+    new_saiteki_tasks = call_section_llm("saiteki_tasks", saiteki_tasks_prompt)
+    new_saiteki_insights = call_section_llm("saiteki_insights", saiteki_insights_prompt)
+
+    # ── 全セクションをJSONに統合 ─────────────────────────────────────────
+    try:
+        base_obj = json.loads(cleaned)
+
+        # family_digest を上書き
+        base_obj["family_digest"] = {
+            "highlights": new_highlights if isinstance(new_highlights, list) else [],
+            "family_todos": new_family_todos if isinstance(new_family_todos, list) else [],
+            "shopping_list": new_shopping if isinstance(new_shopping, list) else [],
+        }
+
+        # knowbe セクションを追加
+        base_obj["knowbe"] = {
+            "constraints": new_knowbe_constraints if isinstance(new_knowbe_constraints, list) else [],
+            "tasks": new_knowbe_tasks if isinstance(new_knowbe_tasks, list) else [],
+            "insights": new_knowbe_insights if isinstance(new_knowbe_insights, list) else [],
+        }
+
+        # saiteki セクションを追加
+        base_obj["saiteki"] = {
+            "constraints": new_saiteki_constraints if isinstance(new_saiteki_constraints, list) else [],
+            "tasks": new_saiteki_tasks if isinstance(new_saiteki_tasks, list) else [],
+            "insights": new_saiteki_insights if isinstance(new_saiteki_insights, list) else [],
+        }
+
+        cleaned = json.dumps(base_obj, ensure_ascii=False)
+        print("   ✅ family/knowbe/saiteki のセクション別LLM結果を統合しました")
+    except Exception as e:
+        print(f"   ⚠️ セクション統合に失敗（元の結果を維持）: {e}")
+
     return cleaned
+
 
 
 
