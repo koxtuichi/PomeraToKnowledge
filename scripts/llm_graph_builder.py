@@ -3,7 +3,7 @@ import json
 import argparse
 from datetime import datetime
 import requests
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 try:
     import graph_merger
@@ -460,6 +460,88 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# セクション別LLM呼び出し基盤
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def build_graph_context(master_graph: Dict[str, Any], category_filter: Optional[str] = None) -> str:
+    """ナレッジグラフのノードをLLM向けのテキストコンテキストに変換する。
+
+    Args:
+        master_graph: knowledge_graph.jsonld 全体
+        category_filter: 'knowbe' / 'saiteki' / '家族' / '個人' などでフィルタ。Noneなら全件。
+    """
+    nodes = master_graph.get("nodes", [])
+    if category_filter:
+        nodes = [n for n in nodes if n.get("category") == category_filter or category_filter in (n.get("tags") or [])]
+
+    lines = ["### ナレッジグラフ: 現在の状態"]
+
+    # タスクノード（status付き）
+    tasks = [n for n in nodes if n.get("type") == "タスク"]
+    if tasks:
+        lines.append("\n**タスク一覧（statusは必ず参照してください）:**")
+        for t in tasks:
+            status = t.get("status", "進行中")
+            detail = t.get("detail", "")
+            lines.append(f"- [{status}] {t.get('label', '')}: {detail[:100]}")
+
+    # 目標ノード
+    goals = [n for n in nodes if n.get("type") == "目標"]
+    if goals:
+        lines.append("\n**目標一覧:**")
+        for g in goals:
+            status = f"[{g['status']}] " if g.get("status") else ""
+            lines.append(f"- {status}{g.get('label', '')}: {g.get('detail', '')[:100]}")
+
+    # 欲しいもの / 買い物
+    wants = [n for n in nodes if n.get("type") in ["欲しいもの", "買い物", "購入希望"]]
+    if wants:
+        lines.append("\n**欲しいもの / 買い物（status付き）:**")
+        for w in wants:
+            status = w.get("status", "未購入")
+            lines.append(f"- [{status}] {w.get('label', '')}: {w.get('detail', '')[:80]}")
+
+    # 制約ノード（category_filter指定時は特に重要）
+    constraints = [n for n in nodes if n.get("type") == "制約"]
+    if constraints:
+        lines.append("\n**制約（重力）:**")
+        for c in constraints:
+            lines.append(f"- {c.get('label', '')}: {c.get('detail', '')[:100]}")
+
+    return "\n".join(lines)
+
+
+_DEFAULT_SECTION_MODEL = "gemini-2.0-flash-lite"
+
+def call_section_llm(section_name: str, prompt: str, expect_json: bool = True) -> Any:
+    """セクション別の独立したLLM呼び出し。JSON配列またはオブジェクトを返す。
+
+    Args:
+        section_name: ログ表示用のセクション名
+        prompt: 完全なプロンプト文字列
+        expect_json: Trueならapplication/jsonで呼び出す
+    Returns:
+        パースされたPythonオブジェクト（リストまたは辞書）。失敗時は空リスト。
+    """
+    print(f"   🤖 [{section_name}] LLM呼び出し中...")
+    try:
+        mime = "application/json" if expect_json else "text/plain"
+        raw = call_gemini_api(prompt, model=_DEFAULT_SECTION_MODEL, response_mime_type=mime)
+        if not expect_json:
+            return raw.strip()
+        cleaned = raw.strip()
+        if cleaned.startswith("```"):
+            cleaned = re.sub(r'^```(?:json)?\s*', '', cleaned)
+            cleaned = re.sub(r'```\s*$', '', cleaned).strip()
+        parsed = json.loads(cleaned)
+        print(f"   ✅ [{section_name}] 取得完了")
+        return parsed
+    except Exception as e:
+        print(f"   ⚠️ [{section_name}] LLM呼び出し失敗: {e}")
+        return [] if expect_json else ""
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 分析
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -523,94 +605,6 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
                     break
             except (json.JSONDecodeError, TypeError):
                 pass
-
-    # ── Pythonレベルの完了フィルタ ─────────────────────────────────────────
-    # 最近の日記本文を結合して「完了しているかどうか」をキーワードマッチで判定する。
-    # LLMによる判定の前段として確実に除外できるものを除く。
-    COMPLETION_PATTERNS = [
-        "買った", "注文した", "購入した", "届いた", "入手した",
-        "完了した", "やった", "やりました", "済んだ", "終わった", "終わりました",
-        "実行した", "解決した", "達成した", "クリアした",
-        "注文済み", "購入済み", "完了済み",
-    ]
-
-    # 直近5件の日記本文を全て結合して照合
-    all_recent_diary_text = " ".join(
-        (d.get("detail") or "") for d in all_diary_nodes
-    )
-
-    def _is_completed_in_diary(action: dict, diary_text: str) -> bool:
-        """アクションのactionテキストに含まれるキーワードが、日記で完了表現とセットで出現するか判定。"""
-        action_text = (action.get("action") or "") + " " + (action.get("constraint") or "")
-        # アクション名から名詞的なフレーズを抽出（2文字以上の語）
-        words = [w for w in action_text.replace("・", " ").replace("　", " ").split() if len(w) >= 2]
-        for word in words:
-            if word in diary_text:
-                # そのキーワードが完了表現の近くに出てくるか確認（前後50文字）
-                idx = diary_text.find(word)
-                while idx != -1:
-                    surrounding = diary_text[max(0, idx - 50): idx + len(word) + 50]
-                    if any(pat in surrounding for pat in COMPLETION_PATTERNS):
-                        return True
-                    idx = diary_text.find(word, idx + 1)
-        return False
-
-    if prev_actions and all_recent_diary_text:
-        filtered_count = 0
-        filtered_actions = []
-        for action in prev_actions:
-            if _is_completed_in_diary(action, all_recent_diary_text):
-                print(f"   ✅ [完了フィルタ/日記] 除外: {action.get('action', '')[:40]}")
-                filtered_count += 1
-            else:
-                filtered_actions.append(action)
-        if filtered_count > 0:
-            print(f"   → {filtered_count} 件のアクションを完了済みとして除外しました")
-        prev_actions = filtered_actions
-
-    # ── knowledge_graph.jsonld の status:完了 ノードとの照合フィルタ ───────
-    # 日記テキスト照合では拾えない完了済みアイテムを、グラフのstatus属性から確実に除外する
-    completed_node_labels = set()
-    graph_nodes_all = master_graph.get("nodes", [])
-    for node in graph_nodes_all:
-        if node.get("status") in ["完了", "done", "completed", "購入済み", "注文済み"]:
-            label = node.get("label", "")
-            if label:
-                completed_node_labels.add(label)
-                # 詳細テキストのキーワードも追加
-                detail = node.get("detail", "")
-                if detail and len(detail) > 5:
-                    # 詳細から重要な名詞句を抽出（5文字以上）
-                    for chunk in detail.replace("。", " ").replace("、", " ").split():
-                        if len(chunk) >= 5:
-                            completed_node_labels.add(chunk)
-
-    if completed_node_labels and prev_actions:
-        pre_count = len(prev_actions)
-        def _is_completed_in_graph(action: dict) -> bool:
-            action_text = (action.get("action") or "") + " " + (action.get("target_task") or "")
-            return any(label in action_text for label in completed_node_labels if len(label) >= 3)
-
-        prev_actions = [a for a in prev_actions if not _is_completed_in_graph(a)]
-        removed = pre_count - len(prev_actions)
-        if removed > 0:
-            print(f"   ✅ [完了フィルタ/グラフ] {removed} 件のアクションをstatus:完了ノードとの照合で除外しました")
-
-    if prev_shopping_list and all_recent_diary_text:
-        filtered_shopping = []
-        for item in prev_shopping_list:
-            # is_recurring:true の消耗品は「買った」と書かれても除外しない
-            if isinstance(item, dict) and item.get("is_recurring"):
-                filtered_shopping.append(item)
-                continue
-            item_name = item.get("item") if isinstance(item, dict) else (item if isinstance(item, str) else "")
-            if item_name and any(
-                (item_name in all_recent_diary_text and any(pat in all_recent_diary_text[max(0, all_recent_diary_text.find(item_name)-30): all_recent_diary_text.find(item_name)+len(item_name)+30] for pat in COMPLETION_PATTERNS))
-            ):
-                print(f"   🛒 [買い物フィルタ] 除外: {item_name}")
-            else:
-                filtered_shopping.append(item)
-        prev_shopping_list = filtered_shopping
 
     # コンテキスト構築
     context_summary = "### 現在の状況\n"
@@ -713,13 +707,67 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     単にタスクを列挙するだけでなく、「なぜそのタスクが進まないのか」「どうすれば重力を軽くできるか」を深く分析してください。
     """
     print("🔄 Antigravity分析を実行中...")
-    raw = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
+    raw = call_gemini_api(prompt, model=_DEFAULT_SECTION_MODEL, response_mime_type="application/json")
     # Markdownコードブロックが混入した場合に備えてクリーニング
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         cleaned = re.sub(r'^```(?:json)?\s*', '', cleaned)
         cleaned = re.sub(r'```\s*$', '', cleaned).strip()
+
+    # ── antigravity_actions を独立したLLM呼び出しで上書き ──────────────────
+    # ナレッジグラフのstatus付きノードをコンテキストに渡してLLMに完了判定させる
+    graph_ctx = build_graph_context(master_graph)
+
+    # メインプロンプトが返した前回のアクションを参考として提供
+    prev_actions_for_section = []
+    try:
+        base_parsed = json.loads(cleaned)
+        prev_actions_for_section = base_parsed.get("antigravity_actions", [])
+    except Exception:
+        pass
+    # さらに以前のアクション（前回ループから継承したもの）も参考にする
+    if prev_actions and not prev_actions_for_section:
+        prev_actions_for_section = prev_actions
+
+    # 前回アクションをJSON文字列化（参考として渡す）
+    prev_actions_str = json.dumps(prev_actions_for_section, ensure_ascii=False, indent=2) if prev_actions_for_section else "なし"
+
+    actions_prompt = f"""あなたは「反重力コーチ」です。ユーザーの今日の日記と、ナレッジグラフの現在の状態（各ノードのstatusが付いています）を読んでください。
+
+{graph_ctx}
+
+### 今日の日記
+{diary_text[:1500]}
+
+### 前回の重力軽減アクション（参考）
+{prev_actions_str}
+
+以下のルールに従って「重力軽減アクション」を3〜5件提案してください。
+
+ルール:
+1. ナレッジグラフで status が「完了」「購入済み」「注文済み」「done」「completed」のノードに関するアクションは【絶対に提案しないこと】
+2. 前回のアクション一覧の中で、日記または最新のノードから「実行済み」「完了」と読み取れるものは除外すること
+3. 今日の日記に書かれた悩みや停滞感、重力を解消する新しいアクションを提案すること
+4. effort は「5分」「30分」「1時間」のいずれかにすること
+
+JSON配列のみを出力してください（それ以外のテキスト禁止）:
+[{{"action": "具体的なアクション", "target_task": "対象タスク名", "effect": "このアクションで軽減される重力の説明", "effort": "5分"}}]
+"""
+    new_actions = call_section_llm("antigravity_actions", actions_prompt)
+    if isinstance(new_actions, list) and new_actions:
+        # メイン結果のJSONにantigravity_actionsを上書き
+        try:
+            base_obj = json.loads(cleaned)
+            base_obj["antigravity_actions"] = new_actions
+            cleaned = json.dumps(base_obj, ensure_ascii=False)
+            print(f"   ✅ antigravity_actions を {len(new_actions)} 件にセクション別LLMで更新しました")
+        except Exception as e:
+            print(f"   ⚠️ antigravity_actions 上書きに失敗（元の結果を維持）: {e}")
+    else:
+        print("   ⚠️ セクション別LLMからantigravity_actionsが取得できなかったため元の結果を維持します")
+
     return cleaned
+
 
 
 
