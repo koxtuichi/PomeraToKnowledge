@@ -62,9 +62,9 @@ def extract_date_from_subject(subject: str) -> str:
         return m.group(1)
     # 抽出失敗→メール受信日でfallback
     return datetime.now().strftime('%Y%m%d')
-
-
+def get_body_content(msg):
     """Extracts text content from email body."""
+
     if msg.is_multipart():
         for part in msg.walk():
             content_type = part.get_content_type()
