@@ -568,7 +568,8 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
         context_summary += json.dumps(prev_shopping_list, ensure_ascii=False, indent=2) + "\n"
 
     # 日記の流れ
-    recent_diary_context = "\n### 最近の日記の流れ\n"
+    recent_diary_context = "\n### 最近の日記の流れ（完了判定に使用してください）\n"
+    recent_diary_context += "※ 日記の本文に「買った」「注文した」「完了した」「やった」「済んだ」などの表現があるアクションは、前回のアクションリストから必ず除外してください。\n"
     if not all_diary_nodes:
         recent_diary_context += "最近の日記エントリはありません。\n"
     else:
@@ -585,7 +586,17 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
                         mentioned_nodes.append(f"{target_node.get('label')} ({target_node.get('type')})")
 
             mentions_str = ", ".join(mentioned_nodes) if mentioned_nodes else "特定の言及なし"
-            recent_diary_context += f"- **{d_date}**: {mentions_str}\n"
+
+            # 日記本文（detail）を含める — 完了判定のため最重要
+            diary_body = d_node.get("detail", "").strip()
+            if diary_body:
+                # 長すぎる場合は先頭800文字に制限してトークンを節約
+                if len(diary_body) > 800:
+                    diary_body = diary_body[:800] + "…（省略）"
+                recent_diary_context += f"\n#### {d_date} の日記\n**言及ノード:** {mentions_str}\n**本文:**\n{diary_body}\n"
+            else:
+                recent_diary_context += f"- **{d_date}**: {mentions_str}\n"
+
 
     # 役割定義
     role_def = get_role_definition()
