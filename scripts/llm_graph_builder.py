@@ -511,6 +511,39 @@ def build_graph_context(master_graph: Dict[str, Any], category_filter: Optional[
     return "\n".join(lines)
 
 
+def build_diary_history(master_graph: Dict[str, Any], max_days: int = 30) -> str:
+    """日記ノードを日付昇順で並べてテキスト化する。shopping_list判定など時系列確認用。
+
+    ノードの type=='日記' またはラベルが '日記:YYYY-MM-DD' 形式のものを収集する。
+    最大 max_days 件に絞る（新しいものほど重要なため降順でmax_days件、その後昇順表示）。
+    """
+    import re as _re
+    nodes = master_graph.get("nodes", [])
+    diary_entries = []
+    for n in nodes:
+        label = n.get("label", "")
+        # 'type' が日記 または ラベルが日記:YYYY-MM-DD 形式
+        if n.get("type") == "日記" or _re.match(r"日記:\d{4}-\d{2}-\d{2}", label):
+            date_str = n.get("date") or _re.search(r"(\d{4}-\d{2}-\d{2})", label)
+            if hasattr(date_str, "group"):
+                date_str = date_str.group(1)
+            if date_str:
+                content = n.get("analysis_content") or n.get("content") or n.get("detail") or ""
+                diary_entries.append((date_str, content[:600]))
+    # 日付昇順でソートして最新 max_days 件を昇順表示
+    diary_entries.sort(key=lambda x: x[0])
+    diary_entries = diary_entries[-max_days:]
+
+    if not diary_entries:
+        return "（過去の日記ノードが見つかりませんでした）"
+
+    lines = ["### 過去の日記（時系列順・最新30件）"]
+    for date_str, content in diary_entries:
+        lines.append(f"\n**{date_str}の日記:**")
+        lines.append(content[:500] if content else "（内容なし）")
+    return "\n".join(lines)
+
+
 _DEFAULT_SECTION_MODEL = "gemini-2.0-flash-lite"
 
 def call_section_llm(section_name: str, prompt: str, expect_json: bool = True) -> Any:
@@ -792,20 +825,27 @@ JSON配列のみ出力（他のテキスト禁止）:
 JSON配列のみ出力:
 ["家族ToDoのテキスト"]
 """
-    shopping_prompt = f"""今日の日記と家族のナレッジグラフから「買い物リスト」を抽出してください。
+    # 時系列日記を取得（shopping_list の時系列確認用）
+    diary_history_ctx = build_diary_history(master_graph, max_days=30)
+
+    shopping_prompt = f"""以下の「過去の日記（時系列順）」を読み、現在も買う必要があるものを判断して買い物リストを作成してください。
+
+**重要なルール: 時系列で最新の記述を優先する**
+例：
+- 2/1「おむつが必要」→ 2/2「おむつを購入」→ 2/14「おむつが足りなくなった」→ リストに含める
+- 2/1「おむつが必要」→ 2/2「おむつを購入」→ 最新の購入後に必要という記述なし → リストから除外
+- 「買った」「届いた」「注文した」「購入した」という記述が最後にある品目は除外
+- 消耗品は定期的に補充が必要なので、必要と書かれた日付が最近であればリストに含める
+
+{diary_history_ctx}
 
 {family_graph_ctx}
 
 ### 今日の日記
 {diary_short}
 
-ルール:
-- 「買った」「届いた」「注文済み」など完了しているものは含めないこと
-- statusが「購入済み」「注文済み」「完了」のノードに関する品目は含めないこと
-- 消耗品（おむつ・牛乳など）も含めてよい
-
 JSON配列のみ出力:
-[{{"item": "商品名", "category": "食料品/日用品/育児用品", "urgency": "急ぎ/今週中/いつか", "note": "補足"}}]
+[{{"item": "商品名", "category": "食料品/日用品/育児用品", "urgency": "急ぎ/今週中/いつか", "note": "最後に必要と書かれた日付"}}]
 """
     new_highlights = call_section_llm("family_highlights", family_highlights_prompt)
     new_family_todos = call_section_llm("family_todos", family_todos_prompt)
