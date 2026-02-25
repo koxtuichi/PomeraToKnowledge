@@ -205,6 +205,83 @@ def load_wishlist_from_graph(graph_file: str) -> list:
     return wishlist
 
 
+def load_monthly_charges_from_graph(graph_file: str) -> dict:
+    """ナレッジグラフから最新月の月次クレカ請求ノードを収集する。
+    
+    Returns:
+        {カード名: 請求額} の辞書。最新月のデータのみ。
+    """
+    if not os.path.exists(graph_file):
+        return {}
+
+    with open(graph_file, "r", encoding="utf-8") as f:
+        graph = json.load(f)
+
+    nodes = graph.get("nodes", [])
+    # 月次クレカ請求ノードを収集
+    charge_nodes = [n for n in nodes if n.get("type") == "月次クレカ請求"]
+    if not charge_nodes:
+        return {}
+
+    # 最新月のみ使う
+    months = [n.get("month", "") for n in charge_nodes if n.get("month")]
+    if not months:
+        return {}
+    latest_month = max(months)
+
+    charges = {}
+    for n in charge_nodes:
+        if n.get("month") == latest_month:
+            card_name = n.get("card_name") or n.get("label", "")
+            try:
+                amount = int(n.get("amount", 0))
+            except (ValueError, TypeError):
+                amount = 0
+            if card_name:
+                charges[card_name] = amount
+
+    print(f"   📊 月次クレカ請求（{latest_month}）: {len(charges)}枚分 グラフから取得")
+    return charges
+
+
+def load_monthly_income_from_graph(graph_file: str) -> dict:
+    """ナレッジグラフから最新月の月次収入ノードを収集する。
+    
+    Returns:
+        {"sources": {収入源: 金額}, "total": 合計, "month": 月} の辞書。
+    """
+    if not os.path.exists(graph_file):
+        return {}
+
+    with open(graph_file, "r", encoding="utf-8") as f:
+        graph = json.load(f)
+
+    nodes = graph.get("nodes", [])
+    income_nodes = [n for n in nodes if n.get("type") == "月次収入"]
+    if not income_nodes:
+        return {}
+
+    months = [n.get("month", "") for n in income_nodes if n.get("month")]
+    if not months:
+        return {}
+    latest_month = max(months)
+
+    sources = {}
+    for n in income_nodes:
+        if n.get("month") == latest_month:
+            src = n.get("source") or n.get("label", "")
+            try:
+                amount = int(n.get("amount", 0))
+            except (ValueError, TypeError):
+                amount = 0
+            if src:
+                sources[src] = amount
+
+    total = sum(sources.values())
+    print(f"   💰 月次収入（{latest_month}）: {total:,}円 グラフから取得")
+    return {"sources": sources, "total": total, "month": latest_month}
+
+
 def build_credit_card_calendar(credit_cards: list) -> list:
     """クレカの引落日をカレンダー形式でまとめる。月次請求額も引き継ぐ。"""
     calendar = {}
@@ -249,13 +326,27 @@ def analyze(ctx: dict, graph_file: str = DEFAULT_GRAPH_FILE) -> dict:
     # 欲しいものはナレッジグラフから取得
     wishlist = load_wishlist_from_graph(graph_file)
 
+    # 月次クレカ請求をグラフから取得（日記から抽出されたもの）
+    graph_charges = load_monthly_charges_from_graph(graph_file)
+
+    # 月次収入をグラフから取得（日記から抽出されたもの）
+    graph_income = load_monthly_income_from_graph(graph_file)
+    if graph_income.get("total", 0) > 0:
+        monthly_income = graph_income["total"]
+        income_month = graph_income.get("month", "")
+        print(f"   ✅ 収入を日記データで上書き: {monthly_income:,}円 ({income_month})")
+
     # 教育費タイムライン
     edu_timeline = calc_education_timeline(children, education_scenario, current_year)
     monthly_edu_saving = calc_total_monthly_saving_needed(edu_timeline, current_year)
 
-    # 変動費の目安（月収 - 固定費 - 貯蓄余力）を暫定推定
-    # 実際のクレカ利用額が分かれば差し替え
-    monthly_variable_estimate = DEFAULT_MONTHLY_VARIABLE_COST
+    # 変動費：グラフにクレカ請求の実績があればその合計を使う
+    if graph_charges:
+        monthly_variable_estimate = sum(graph_charges.values())
+        variable_note = "クレカ実績合計（日記から取得）"
+    else:
+        monthly_variable_estimate = DEFAULT_MONTHLY_VARIABLE_COST
+        variable_note = "変動費は暫定値です"
 
     # 緊急予備費の目標（固定費+変動費の3ヶ月分）
     monthly_total = monthly_fixed + monthly_variable_estimate
@@ -275,7 +366,15 @@ def analyze(ctx: dict, graph_file: str = DEFAULT_GRAPH_FILE) -> dict:
         emergency_fund_target,
     )
 
-    # クレカカレンダー
+    # クレカカレンダー（グラフの請求額でmonthly_chargeを補完）
+    for card in credit_cards:
+        card_name = card.get("name", "")
+        if not card.get("monthly_charge") and graph_charges:
+            # 名前の部分一致でマッピング
+            for gname, amount in graph_charges.items():
+                if gname in card_name or card_name in gname:
+                    card["monthly_charge"] = amount
+                    break
     cc_calendar = build_credit_card_calendar(credit_cards)
 
     # 次の教育費マイルストーン（直近3件）
@@ -291,7 +390,9 @@ def analyze(ctx: dict, graph_file: str = DEFAULT_GRAPH_FILE) -> dict:
             "monthly_surplus": monthly_surplus,
             "savings_rate_pct": savings_rate,
             "emergency_fund_target": emergency_fund_target,
-            "note": "変動費は暫定値です。実際のクレカ合計と差し替えてください。"
+            "note": variable_note,
+            "income_from_diary": bool(graph_income.get("total")),
+            "charges_from_diary": bool(graph_charges),
         },
         "wishlist_risk": risk_assessed,
         "credit_card_calendar": cc_calendar,
