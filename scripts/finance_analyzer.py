@@ -313,7 +313,9 @@ def main():
     print(f"   教育費積立 必要額/月: {report['monthly_education_saving_needed']:,}円")
     print(f"\n  欲しいもの リスク評価:")
     for item in report["wishlist_risk"]:
-        print(f"   {item['risk_label']} {item['item']} ({item['cost']:,}円) — {', '.join(item['reasons'])}")
+        cost_str = f"{item['cost']:,}円" if item['cost'] is not None else "金額不明"
+        print(f"   {item['risk_label']} {item['item']} ({cost_str}) — {', '.join(item['reasons'])}")
+
 
 
 if __name__ == "__main__":
