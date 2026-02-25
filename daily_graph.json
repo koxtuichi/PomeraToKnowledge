@@ -1,146 +1,86 @@
 {
   "nodes": [
     {
-      "id": "日記:20260225",
-      "label": "2026年2月25日の日記",
+      "id": "日記:2026-02-25",
+      "label": "日記 2026/02/25",
       "type": "日記",
-      "detail": "ブログの執筆構成や課題提示のあり方について思考した記録。",
+      "detail": "ブログの構成案について、ポメラを解決手段とした課題提示型のライティングを検討した記録。",
       "date": "2026-02-25",
       "context": "private"
     },
     {
-      "id": "知見:課題解決型ブログ構成案",
-      "label": "課題提示型ブログ構成フレームワーク",
-      "detail": "読者への課題提示から始め、ポメラによる解決策と独自の思考を織り交ぜる執筆パターン。",
+      "id": "知見:BlogProblemSolutionFramework",
+      "label": "共感と課題提示によるライティング構成",
       "type": "知見",
+      "detail": "「読者の課題への共感」から始め、「ポメラによる解決」と「そこに至る思考プロセスの工夫」を織り交ぜる記事構成の型。",
       "context": "private",
       "tags": [
         "ブログ",
         "ポメラ",
-        "言語化"
+        "ライティング"
       ]
     },
     {
-      "id": "目標:PersonalBranding",
-      "label": "個人での収益化・人気獲得",
-      "type": "目標",
-      "detail": "ブログ等で人にみてもらい、月5万円程度の収益を得たい。",
-      "status": "進行中",
+      "id": "感情:執筆構成の着想による前向きな模索",
+      "label": "執筆構成の着想による前向きな模索",
+      "type": "感情",
+      "sentiment": 0.6,
+      "emotion_category": "その他",
+      "trigger": "ブログで書く内容の型（課題提示からポメラでの解決へ繋げる流れ）が見えてきたこと。",
       "context": "private"
-    },
-    {
-      "id": "目標:PomeraBook",
-      "label": "Pomera活用本の執筆",
-      "type": "目標",
-      "detail": "構築したPomera活用案をまとめて本にしたい。",
-      "status": "進行中",
-      "context": "private"
-    },
-    {
-      "id": "目標:ポメラユーザーの創出",
-      "label": "ポメラユーザーを1人創出する",
-      "type": "目標",
-      "detail": "ブログを通じて読者に「ポメラを使いたい」と思わせる。",
-      "status": "進行中",
-      "context": "private"
-    },
-    {
-      "id": "タスク:Blog_Workflow_Establishment",
-      "label": "ブログ執筆フローと管理ルールの策定",
-      "type": "タスク",
-      "detail": "アイディアを溜めるルールや、次に書く話題をスムーズに決めるフローを考案する。",
-      "status": "進行中",
-      "context": "private"
-    },
-    {
-      "id": "制約:執筆テーマの迷い",
-      "label": "執筆テーマの迷い",
-      "type": "制約",
-      "detail": "ブログを書く前に、次に何を書くべきかスムーズに決まらない状態。",
-      "constraint_type": "感情的ブレーキ",
-      "context": "private"
-    },
-    {
-      "id": "概念:ポメラによる課題解決",
-      "label": "ポメラによる課題解決",
-      "type": "概念",
-      "detail": "生活上の課題に対してポメラを思考ツールとして使い、解決を導き出すアプローチ。",
-      "context": "shared"
-    },
-    {
-      "id": "日記:2026-02-25",
-      "label": "2026-02-25の日記",
-      "type": "日記",
-      "date": "2026-02-25",
-      "detail": "今日の日記エントリ",
-      "first_seen": "2026-02-25T08:45:48.691566",
-      "last_seen": "2026-02-25T08:45:48.691568",
-      "weight": 1
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-25T08:45:48.691572",
-      "last_seen": "2026-02-25T08:45:48.691573",
+      "first_seen": "2026-02-25T13:38:34.372120",
+      "last_seen": "2026-02-25T13:38:34.372122",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "日記:20260225",
-      "target": "目標:PersonalBranding",
+      "source": "日記:2026-02-25",
+      "target": "目標:Pomera活用本の執筆",
       "type": "言及する",
-      "label": "ブログの方向性を検討"
+      "label": "執筆内容の検討"
     },
     {
-      "source": "日記:20260225",
-      "target": "目標:PomeraBook",
-      "type": "言及する",
-      "label": "活用案の言語化を検討"
-    },
-    {
-      "source": "日記:20260225",
-      "target": "目標:ポメラユーザーの創出",
-      "type": "言及する",
-      "label": "ポメラの価値を伝える構成案"
-    },
-    {
-      "source": "日記:20260225",
+      "source": "日記:2026-02-25",
       "target": "タスク:Blog_Workflow_Establishment",
       "type": "言及する",
-      "label": "執筆構成の具体化"
+      "label": "執筆フローと内容の具体化"
     },
     {
-      "source": "日記:20260225",
+      "source": "日記:2026-02-25",
       "target": "制約:執筆テーマの迷い",
       "type": "言及する",
-      "label": "何を書くべきか再考"
+      "label": "迷いの中での思考"
     },
     {
-      "source": "知見:課題解決型ブログ構成案",
+      "source": "知見:BlogProblemSolutionFramework",
       "target": "制約:執筆テーマの迷い",
       "type": "解決する",
-      "label": "構成をパターン化し迷いを減らす"
+      "label": "構成の型による迷いの解消"
     },
     {
-      "source": "知見:課題解決型ブログ構成案",
+      "source": "知見:BlogProblemSolutionFramework",
+      "target": "タスク:Blog_Workflow_Establishment",
+      "type": "一部である",
+      "label": "ブログ管理ルールの一部"
+    },
+    {
+      "source": "感情:執筆構成の着想による前向きな模索",
       "target": "タスク:Blog_Workflow_Establishment",
       "type": "原動力になる",
-      "label": "執筆フローの具体的指針"
+      "label": "具体的な構成案が執筆意欲を高める"
     },
     {
-      "source": "知見:課題解決型ブログ構成案",
-      "target": "目標:ポメラユーザーの創出",
-      "type": "一部である",
-      "label": "読者の共感を生むための工夫"
-    },
-    {
-      "source": "タスク:Blog_Workflow_Establishment",
-      "target": "概念:ポメラによる課題解決",
-      "type": "対象にする",
-      "label": "ポメラでの解決をテーマにする"
+      "source": "日記:2026-02-25",
+      "target": "知見:BlogProblemSolutionFramework",
+      "type": "言及する",
+      "label": "構成案の言語化"
     },
     {
       "source": "人物:自分",
@@ -151,66 +91,16 @@
     },
     {
       "source": "日記:2026-02-25",
-      "target": "日記:20260225",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "知見:課題解決型ブログ構成案",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "目標:PersonalBranding",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "目標:PomeraBook",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "目標:ポメラユーザーの創出",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "タスク:Blog_Workflow_Establishment",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "制約:執筆テーマの迷い",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-25",
-      "target": "概念:ポメラによる課題解決",
+      "target": "感情:執筆構成の着想による前向きな模索",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-25T08:45:48.691552",
+    "generated_at": "2026-02-25T13:38:34.372105",
     "source_file": "diary/20260225_[POMERA]2026年2月25日.txt",
-    "node_count": 8,
-    "edge_count": 9
-  },
-  "antigravity_actions": []
+    "node_count": 3,
+    "edge_count": 7
+  }
 }
