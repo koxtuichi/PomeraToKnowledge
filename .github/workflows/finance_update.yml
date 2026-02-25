@@ -21,9 +21,13 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Install Dependencies
+        run: pip install requests
+
       - name: Parse FIN Context
         env:
           FINCTX_BODY: ${{ github.event.client_payload.body }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/finance_parser.py --output finance_context.json
 
