@@ -176,7 +176,7 @@ def call_gemini_api(prompt: str, max_retries: int = 3) -> str:
     if not API_KEY:
         raise ValueError("GOOGLE_API_KEY is not set.")
 
-    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent"
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
     params = {"key": API_KEY}
     headers = {"Content-Type": "application/json"}
 
