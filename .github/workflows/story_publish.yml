@@ -68,7 +68,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "Antigravity Story Bot"
           git add story_drafts/ || true
-          git add blog_ready/ || true
+          git add story_ready/ || true
           git add blog_published/ || true
           git add sync_history.txt || true
 

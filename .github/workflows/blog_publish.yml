@@ -40,7 +40,10 @@ jobs:
           GMAIL_ACCOUNT: ${{ secrets.GMAIL_ACCOUNT }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
+          echo "📬 Gmailからブログ草案を取得中..."
           python scripts/sync_email.py --blog-only
+          echo "📂 blog_drafts/ の内容:"
+          ls -la blog_drafts/*.txt 2>/dev/null || echo "  TXTファイルなし"
 
       - name: Generate Essay and Publish
         env:
@@ -49,19 +52,33 @@ jobs:
           HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}
           HATENA_API_KEY: ${{ secrets.HATENA_API_KEY }}
         run: |
+          echo "🔑 環境変数チェック:"
+          echo "  GOOGLE_API_KEY: $([ -n '${{ secrets.GOOGLE_API_KEY }}' ] && echo 'セット済み' || echo '未設定')"
+          echo "  HATENA_ID: ${{ secrets.HATENA_ID }}"
+          echo "  HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}"
+          echo "  HATENA_API_KEY: $([ -n '${{ secrets.HATENA_API_KEY }}' ] && echo 'セット済み' || echo '未設定 ← 投稿できない原因の可能性')"
+
           # blog_drafts/ 内の未処理ファイルを処理
           if [ -d "blog_drafts" ] && [ "$(ls -A blog_drafts/*.txt 2>/dev/null)" ]; then
-            mkdir -p blog_drafts/processed
+            mkdir -p blog_drafts/processed blog_ready
             for f in blog_drafts/*.txt; do
               echo "📝 Processing: $f"
-              python scripts/blog_article_writer.py "$f" || echo "⚠️ 失敗: $f"
-              # 処理済みの草案を移動して再処理を防止
+              python scripts/blog_article_writer.py "$f"
+              EXIT_CODE=$?
+              if [ $EXIT_CODE -ne 0 ]; then
+                echo "⚠️ 失敗 (exit=$EXIT_CODE): $f"
+              else
+                echo "✅ 完了: $f"
+              fi
               mv "$f" blog_drafts/processed/ 2>/dev/null || true
               sleep 5
             done
           else
             echo "💤 処理対象のブログ草案がありません"
           fi
+
+          echo "📂 blog_ready/ の生成結果:"
+          ls -la blog_ready/*.md 2>/dev/null | tail -5 || echo "  なし"
 
       - name: Commit and Push changes
         run: |

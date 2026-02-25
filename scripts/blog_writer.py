@@ -19,7 +19,7 @@ from typing import Dict, Any, Optional, Tuple
 # 設定
 API_KEY = os.getenv("GOOGLE_API_KEY")
 MASTER_GRAPH_PATH = "knowledge_graph.jsonld"
-BLOG_READY_DIR = "blog_ready"
+BLOG_READY_DIR = "story_ready"
 HATENA_PUBLISHER_SCRIPT = "scripts/hatena_publisher.py"
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
