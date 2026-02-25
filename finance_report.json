@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-02-25T11:22:38.811637",
+  "generated_at": "2026-02-25T15:31:58.831911",
   "summary": {
-    "monthly_income": 0,
-    "monthly_fixed_costs": 0,
+    "monthly_income": 870000,
+    "monthly_fixed_costs": 160000,
     "monthly_variable_estimate": 500000,
-    "monthly_education_saving": 0,
-    "monthly_surplus": -500000,
-    "savings_rate_pct": 0,
-    "emergency_fund_target": 1500000,
+    "monthly_education_saving": 31495,
+    "monthly_surplus": 178505,
+    "savings_rate_pct": 20.5,
+    "emergency_fund_target": 1980000,
     "note": "変動費は暫定値です。実際のクレカ合計と差し替えてください。"
   },
   "wishlist_risk": [
@@ -56,7 +56,29 @@
       "months_to_save": null
     },
     {
+      "item": "蒼馬のオムツと粉ミルク",
+      "cost": null,
+      "priority": "高",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
+    },
+    {
       "item": "豆乳イソフラボン顔用スプレー",
+      "cost": null,
+      "priority": "中",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
+    },
+    {
+      "item": "豆乳イソフラボン スプレー",
       "cost": null,
       "priority": "中",
       "risk": "中",
@@ -67,10 +89,174 @@
       "months_to_save": null
     }
   ],
-  "credit_card_calendar": [],
-  "education_timeline": [],
-  "upcoming_milestones": [],
-  "monthly_education_saving_needed": 0,
+  "credit_card_calendar": [
+    {
+      "day": 2,
+      "cards": [
+        {
+          "name": "ファミマカード",
+          "bank": "あおぞら銀行"
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "cards": [
+        {
+          "name": "セゾンゴールド",
+          "bank": "あおぞら銀行"
+        },
+        {
+          "name": "セゾンアメックス",
+          "bank": "あおぞら銀行"
+        },
+        {
+          "name": "セゾンシネマズ",
+          "bank": "あおぞら銀行"
+        },
+        {
+          "name": "三井セゾン",
+          "bank": "あおぞら銀行"
+        },
+        {
+          "name": "Ｖｉｅｗカード",
+          "bank": "あおぞら銀行"
+        }
+      ]
+    },
+    {
+      "day": 26,
+      "cards": [
+        {
+          "name": "Ａｍａｚｏｎカード",
+          "bank": "あおぞら銀行"
+        },
+        {
+          "name": "エポスカード",
+          "bank": "あおぞら銀行"
+        }
+      ]
+    },
+    {
+      "day": 28,
+      "cards": [
+        {
+          "name": "メルカード",
+          "bank": ""
+        }
+      ]
+    }
+  ],
+  "education_timeline": [
+    {
+      "child": "蒼馬",
+      "age": 3,
+      "year": 2028,
+      "years_until": 2,
+      "event": "保育園・幼稚園入園準備",
+      "cost": 100000,
+      "monthly_saving_needed": 4166
+    },
+    {
+      "child": "蒼馬",
+      "age": 6,
+      "year": 2031,
+      "years_until": 5,
+      "event": "小学校入学準備",
+      "cost": 300000,
+      "monthly_saving_needed": 5000
+    },
+    {
+      "child": "蒼馬",
+      "age": 12,
+      "year": 2037,
+      "years_until": 11,
+      "event": "中学校入学準備",
+      "cost": 200000,
+      "monthly_saving_needed": 1515
+    },
+    {
+      "child": "蒼馬",
+      "age": 15,
+      "year": 2040,
+      "years_until": 14,
+      "event": "高校入学準備",
+      "cost": 300000,
+      "monthly_saving_needed": 1785
+    },
+    {
+      "child": "蒼馬",
+      "age": 18,
+      "year": 2043,
+      "years_until": 17,
+      "event": "大学入学初年度費用",
+      "cost": 2000000,
+      "monthly_saving_needed": 9803
+    },
+    {
+      "child": "蒼馬",
+      "age": 19,
+      "year": 2044,
+      "years_until": 18,
+      "event": "大学2年",
+      "cost": 700000,
+      "monthly_saving_needed": 3240
+    },
+    {
+      "child": "蒼馬",
+      "age": 20,
+      "year": 2045,
+      "years_until": 19,
+      "event": "大学3年",
+      "cost": 700000,
+      "monthly_saving_needed": 3070
+    },
+    {
+      "child": "蒼馬",
+      "age": 21,
+      "year": 2046,
+      "years_until": 20,
+      "event": "大学4年",
+      "cost": 700000,
+      "monthly_saving_needed": 2916
+    }
+  ],
+  "upcoming_milestones": [
+    {
+      "child": "蒼馬",
+      "age": 3,
+      "year": 2028,
+      "years_until": 2,
+      "event": "保育園・幼稚園入園準備",
+      "cost": 100000,
+      "monthly_saving_needed": 4166
+    },
+    {
+      "child": "蒼馬",
+      "age": 6,
+      "year": 2031,
+      "years_until": 5,
+      "event": "小学校入学準備",
+      "cost": 300000,
+      "monthly_saving_needed": 5000
+    },
+    {
+      "child": "蒼馬",
+      "age": 12,
+      "year": 2037,
+      "years_until": 11,
+      "event": "中学校入学準備",
+      "cost": 200000,
+      "monthly_saving_needed": 1515
+    }
+  ],
+  "monthly_education_saving_needed": 31495,
   "education_scenario": "public",
-  "children": []
+  "children": [
+    {
+      "name": "蒼馬",
+      "birth_year": 2025,
+      "birth_month": 5
+    }
+  ]
 }
