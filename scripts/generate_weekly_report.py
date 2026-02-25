@@ -132,7 +132,7 @@ def get_weekly_context(graph, target_date_str, days=7):
     return context, daily_nodes
 
 def generate_report(context):
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    model = genai.GenerativeModel('gemini-3-flash-preview')
     try:
         response = model.generate_content(SYSTEM_PROMPT + "\n\n" + context)
         return response.text
