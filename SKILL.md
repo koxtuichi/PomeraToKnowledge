@@ -146,3 +146,36 @@ python3 scripts/validate_html.py graph_data.js
 
 - `SETUP_GAS_TRIGGER.md` — GAS設定手順
 - `SETUP_BLOG_PIPELINE.md` — ブログ生成パイプライン設定
+
+---
+
+## sync_email.py — 日記メール処理の注意点
+
+### 同日に複数回日記を送信した場合
+
+同日に何度もポメラ日記をメールで送ると、**後のメールが前の内容を上書きしていた**。
+修正: 同じファイル名が存在する場合は `"w"` ではなく `"a"` 追記モードで保存するよう変更済み。
+区切り行 `---` を挿入して複数回送信分をまとめて1ファイルに保管する。
+
+```python
+mode = "a" if os.path.exists(filepath) else "w"
+with open(filepath, mode, encoding="utf-8") as f:
+    if mode == "a":
+        f.write("\n\n---\n")
+    f.write(body)
+```
+
+### メールのスキップ条件
+
+`sync_email.py` は以下の条件でメールをスキップする:
+
+1. `uid in history` — `sync_history.txt` に記録済みのUIDは処理しない
+2. `mail_time_utc < cutoff_time` — 24時間以内のメールのみ処理（夜0時を過ぎると当日の件数がリセット）
+
+### 日記がナレッジグラフに反映されない場合のチェックリスト
+
+1. `diary/` ディレクトリにファイルが存在するか確認
+2. `sync_history.txt` に該当UIDが記録されているか確認
+3. Actions の `Run Sync and Analysis` のログで「No changes to commit」なら
+   LLMが同じ内容と判断→日記に新情報が含まれていないか確認
+4. `force_reanalyze = true` インプットでワークフローを手動実行すると全日記を再解析できる
