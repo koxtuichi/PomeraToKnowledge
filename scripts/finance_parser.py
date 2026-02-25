@@ -12,7 +12,7 @@ import requests
 from datetime import datetime
 
 GEMINI_API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-DEFAULT_MODEL = "gemini-2.0-flash"
+DEFAULT_MODEL = "gemini-3-flash-preview"
 
 
 def call_gemini(prompt: str) -> str:
