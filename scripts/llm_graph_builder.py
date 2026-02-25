@@ -571,7 +571,11 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     if prev_shopping_list and all_recent_diary_text:
         filtered_shopping = []
         for item in prev_shopping_list:
-            item_name = item.get("item") or item if isinstance(item, str) else ""
+            # is_recurring:true の消耗品は「買った」と書かれても除外しない
+            if isinstance(item, dict) and item.get("is_recurring"):
+                filtered_shopping.append(item)
+                continue
+            item_name = item.get("item") if isinstance(item, dict) else (item if isinstance(item, str) else "")
             if item_name and any(
                 (item_name in all_recent_diary_text and any(pat in all_recent_diary_text[max(0, all_recent_diary_text.find(item_name)-30): all_recent_diary_text.find(item_name)+len(item_name)+30] for pat in COMPLETION_PATTERNS))
             ):

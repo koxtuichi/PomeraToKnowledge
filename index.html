@@ -1227,7 +1227,7 @@
         <span class="mobile-nav-icon">🕸️</span>
         <span>グラフ</span>
       </button>
-      <button class="mobile-nav-item" onclick="window.location.href='finance.html'">
+      <button class="mobile-nav-item" onclick="mobileSwitch('finance')">
         <span class="mobile-nav-icon">💴</span>
         <span>家計</span>
       </button>
@@ -1277,7 +1277,7 @@
             </div>
           </li>
           <li>
-            <div class="nav-link" onclick="window.location.href='finance.html'">
+            <div class="nav-link" onclick="switchView('finance')">
               <span>💴</span> 家計
             </div>
           </li>
@@ -1411,6 +1411,43 @@
         </div>
       </div>
 
+      <!-- 家計ダッシュボードビュー -->
+      <div id="finance-view" style="display:none;">
+        <div class="family-header">
+          <h2>💴 家計ダッシュボード</h2>
+          <p class="date-text" style="margin-top: 4px;" id="finance-updated-at">finance_report.json を読み込み中...</p>
+        </div>
+        <!-- KPIサマリー -->
+        <div id="finance-kpi-row"
+          style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px;">
+        </div>
+        <!-- 欲しいものリスク -->
+        <div class="dash-card" style="margin-top:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(248,113,113,0.1);color:#f87171;">🛒</div>
+            <div class="card-title">欲しいもの・購入リスク評価</div>
+          </div>
+          <p style="font-size:12px;color:var(--text-dim);margin:0 0 10px;">日記から自動抽出されます。</p>
+          <div id="finance-wishlist"></div>
+        </div>
+        <!-- 収支内訳 -->
+        <div class="dash-card" style="margin-top:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(96,165,250,0.1);color:#60a5fa;">📊</div>
+            <div class="card-title">月次収支内訳</div>
+          </div>
+          <div id="finance-breakdown"></div>
+        </div>
+        <!-- クレカ引き落とし -->
+        <div class="dash-card" style="margin-top:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24;">💳</div>
+            <div class="card-title">クレカ引き落とし</div>
+          </div>
+          <div id="finance-credit"></div>
+        </div>
+      </div>
+
       <!-- Knowbeビュー -->
       <div id="knowbe-view" style="display:none;" class="dashboard-container">
         <div class="header-section">
@@ -1495,7 +1532,7 @@
 
 
     // ── ビュー切り替え ──
-    const ALL_VIEWS = ['advisor', 'knowbe', 'saiteki', 'family', 'graph'];
+    const ALL_VIEWS = ['advisor', 'knowbe', 'saiteki', 'family', 'graph', 'finance'];
 
     function switchView(view) {
       ALL_VIEWS.forEach(v => {
@@ -1512,6 +1549,7 @@
       if (view === 'family') renderFamilyView();
       if (view === 'knowbe') renderWorkView('knowbe');
       if (view === 'saiteki') renderWorkView('saiteki');
+      if (view === 'finance') renderFinanceView();
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
@@ -1530,6 +1568,7 @@
       if (view === 'family') renderFamilyView();
       if (view === 'knowbe') renderWorkView('knowbe');
       if (view === 'saiteki') renderWorkView('saiteki');
+      if (view === 'finance') renderFinanceView();
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
@@ -1537,7 +1576,7 @@
 
     function syncMobileNav(view) {
       document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
-      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'family': 3, 'graph': 4 };
+      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'family': 3, 'graph': 4, 'finance': 5 };
       const idx = viewMap[view];
       if (idx !== undefined) {
         const items = document.querySelectorAll('.mobile-nav-item');
@@ -1870,6 +1909,103 @@
             <span class="chip-title">${item.title}</span>
           </div>`;
       }).join('');
+    }
+
+    // ── 家計ダッシュボード ──
+    function renderFinanceView() {
+      const fmt = n => (n != null && !isNaN(n)) ? Number(n).toLocaleString('ja-JP') + '円' : '—';
+      const riskColor = { '高': '#f87171', '中': '#fbbf24', '低': '#4ade80' };
+
+      fetch('finance_report.json?t=' + Date.now())
+        .then(r => r.ok ? r.json() : Promise.reject('not found'))
+        .then(report => {
+          // 更新日時
+          const updatedEl = document.getElementById('finance-updated-at');
+          if (updatedEl && report.generated_at) {
+            const d = new Date(report.generated_at);
+            updatedEl.textContent = `最終更新: ${d.toLocaleString('ja-JP')}`;
+          }
+
+          // KPIカード
+          const s = report.summary || {};
+          const surplusColor = (s.monthly_surplus >= 0) ? '#4ade80' : '#f87171';
+          const kpiEl = document.getElementById('finance-kpi-row');
+          if (kpiEl) {
+            const kpis = [
+              { label: '月収合計', value: fmt(s.monthly_income), color: '#60a5fa' },
+              { label: '月次固定費', value: fmt(s.monthly_fixed_costs), color: '#fbbf24' },
+              { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor },
+              { label: '貯蓄率', value: (s.savings_rate_pct || 0) + '%', color: '#a78bfa' },
+              { label: '教育費積立/月', value: fmt(report.monthly_education_saving_needed), color: '#f472b6' },
+            ];
+            kpiEl.innerHTML = kpis.map(k => `
+              <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px;">${k.label}</div>
+                <div style="font-size:20px;font-weight:700;color:${k.color};">${k.value}</div>
+              </div>`).join('');
+          }
+
+          // 欲しいもの・リスク
+          const wishEl = document.getElementById('finance-wishlist');
+          if (wishEl) {
+            const items = report.wishlist_risk || [];
+            if (items.length === 0) {
+              wishEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;">欲しいものリストなし（日記に「欲しい」「買いたい」と書くと自動追加されます）</p>';
+            } else {
+              wishEl.innerHTML = items.map(item => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+                  <div>
+                    <div style="font-weight:600;">${item.item}</div>
+                    <div style="font-size:12px;color:var(--text-dim);">${fmt(item.cost)} / 優先度:${item.priority || '—'}</div>
+                    ${(item.reasons || []).map(r => `<div style="font-size:11px;color:var(--text-dim);">・${r}</div>`).join('')}
+                  </div>
+                  <span style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;background:${riskColor[item.risk] || '#6b7280'}22;color:${riskColor[item.risk] || '#6b7280'};">${item.risk_label || item.risk}</span>
+                </div>`).join('');
+            }
+          }
+
+          // 収支内訳
+          const bdEl = document.getElementById('finance-breakdown');
+          if (bdEl) {
+            const rows = [
+              ['月収合計', s.monthly_income, '#60a5fa'],
+              ['月次固定費', s.monthly_fixed_costs, '#fbbf24'],
+              ['変動費目安', s.monthly_variable_estimate, '#f87171'],
+              ['教育費積立', s.monthly_education_saving, '#f472b6'],
+              ['月次余剰', s.monthly_surplus, s.monthly_surplus >= 0 ? '#4ade80' : '#f87171'],
+            ];
+            bdEl.innerHTML = rows.map(([label, val, color]) => `
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="font-size:13px;color:var(--text-dim);">${label}</span>
+                <span style="font-weight:600;color:${color};">${fmt(val)}</span>
+              </div>`).join('');
+            if (s.note) {
+              bdEl.innerHTML += `<p style="font-size:11px;color:var(--text-dim);margin-top:8px;">※ ${s.note}</p>`;
+            }
+          }
+
+          // クレカ引き落とし
+          const ccEl = document.getElementById('finance-credit');
+          if (ccEl) {
+            const cards = report.credit_card_calendar || [];
+            if (cards.length === 0) {
+              ccEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;">FINCTXメールを送信するとクレカ情報が表示されます</p>';
+            } else {
+              ccEl.innerHTML = cards.map(c => `
+                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+                  <div>
+                    <div style="font-weight:600;">${c.card_name}</div>
+                    <div style="font-size:12px;color:var(--text-dim);">締め日:${c.closing_day}日 / 引落:${c.debit_day}日</div>
+                  </div>
+                  <span style="font-weight:700;color:#60a5fa;">${fmt(c.estimated_total)}</span>
+                </div>`).join('');
+            }
+          }
+        })
+        .catch(() => {
+          const kpiEl = document.getElementById('finance-kpi-row');
+          if (kpiEl) kpiEl.innerHTML = '<p style="color:var(--text-dim);">データなし — FINCTXメールを送信してください</p>';
+        });
     }
 
     // ── 家族ダッシュボード ──
