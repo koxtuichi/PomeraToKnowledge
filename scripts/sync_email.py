@@ -298,7 +298,6 @@ def check_emails(mail, save_dir):
                         for part in msg.walk():
                             if part.get_content_maintype() == 'multipart': continue
                             if part.get('Content-Disposition') is None: continue
-                            
                             filename = part.get_filename()
                             if filename and filename.lower().endswith(".txt"):
                                 saved_path = save_attachment(part, save_dir)
@@ -312,10 +311,15 @@ def check_emails(mail, save_dir):
                         if body:
                             filename = f"{extract_date_from_subject(subject)}_{subject}.txt"
                             filepath = os.path.join(save_dir, filename)
-                            with open(filepath, "w", encoding="utf-8") as f:
+                            # 同日に複数回送信した場合は追記（上書きしない）
+                            mode = "a" if os.path.exists(filepath) else "w"
+                            with open(filepath, mode, encoding="utf-8") as f:
+                                if mode == "a":
+                                    f.write("\n\n---\n")
                                 f.write(body)
                             saved_files.append(filepath)
-                            print(f"      📝 Saved Body: {filename}")
+                            action = "追記" if mode == "a" else "新規"
+                            print(f"      📝 Saved Body ({action}): {filename}")
         
         new_history.append(uid)
 
