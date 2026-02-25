@@ -114,13 +114,15 @@ def connect_imap():
         print(f"❌ Connection Error: {e}")
         return None
 
-def check_emails(mail, save_dir):
+def check_emails(mail, save_dir, blog_only=False):
     # Load history
     history = set()
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r") as f:
             history = set(line.strip() for line in f if line.strip())
     print(f"📋 処理済みUID: {len(history)} 件")
+    if blog_only:
+        print("📝 blog_onlyモード: BLOGメールのhistoryチェックをバイパスします")
 
     status, count = mail.select("inbox")
     if status != "OK" or not count[0]:
@@ -189,7 +191,8 @@ def check_emails(mail, save_dir):
                 continue
             uid = uid_match.group(1)
             
-            if uid in history:
+            # blog_onlyモードはBLOGメールのhistoryチェックをバイパス
+            if uid in history and not (blog_only and is_blog_draft):
                 continue
             
             # INTERNALDATE で10分以内かチェック
@@ -410,7 +413,7 @@ def main():
         mail = connect_imap()
         if mail:
             try:
-                new_files, blog_files, story_files = check_emails(mail, LOCAL_DIARY_DIR)
+                new_files, blog_files, story_files = check_emails(mail, LOCAL_DIARY_DIR, blog_only=args.blog_only)
                 
                 if args.blog_only:
                     # BLOGモード: ブログパイプラインのみ実行

@@ -38,26 +38,30 @@ jobs:
         env:
           BLOG_BODY: ${{ github.event.client_payload.body }}
           BLOG_SUBJECT: ${{ github.event.client_payload.subject }}
+          GMAIL_ACCOUNT: ${{ secrets.GMAIL_ACCOUNT }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
           echo "📬 payloadからブログ草案を取得中..."
           echo "🔍 デバッグ: BLOG_SUBJECT length=$(echo -n "$BLOG_SUBJECT" | wc -c)"
           echo "🔍 デバッグ: BLOG_BODY length=$(echo -n "$BLOG_BODY" | wc -c)"
-          echo "🔍 デバッグ: BLOG_BODY 先頭100文字: ${BLOG_BODY:0:100}"
           mkdir -p blog_drafts
-          # サブジェクトからファイル名を生成（unsafe文字除去）
-          SAFE_SUBJECT=$(echo "$BLOG_SUBJECT" | sed 's/[\/\*\?\:\"\<\>\|\\]//g' | cut -c1-50)
-          DATE_PREFIX=$(date +%Y%m%d)
-          DRAFT_FILE="blog_drafts/${DATE_PREFIX}_${SAFE_SUBJECT}.txt"
-          # bodyをファイルに保存（printfで改行を保持）
+
           if [ -n "$BLOG_BODY" ]; then
+            # payloadで本文が届いた場合
+            SAFE_SUBJECT=$(echo "$BLOG_SUBJECT" | sed 's/[\/\*\?\:\"<>\|\\]//g' | cut -c1-50)
+            DATE_PREFIX=$(date +%Y%m%d)
+            DRAFT_FILE="blog_drafts/${DATE_PREFIX}_${SAFE_SUBJECT}.txt"
             printf '%s' "$BLOG_BODY" > "$DRAFT_FILE"
-            echo "✅ 草案を保存しました: $DRAFT_FILE"
+            echo "✅ payloadから草案を保存しました: $DRAFT_FILE"
             echo "   文字数: $(wc -c < "$DRAFT_FILE") bytes"
-            echo "   先頭3行:"
-            head -3 "$DRAFT_FILE"
           else
-            echo "⚠️ BLOG_BODYが空です。GASのcheckBlogMailでbodyを送信しているか確認してください。"
+            # フォールバック: Gmailから直接取得（GASがbodyを送っていない場合）
+            echo "⚠️ BLOG_BODYが空。Gmailから直接取得します..."
+            python scripts/sync_email.py --blog-only
+            DRAFT_COUNT=$(ls blog_drafts/*.txt 2>/dev/null | wc -l)
+            echo "   Gmailから ${DRAFT_COUNT} 件取得"
           fi
+
           echo "📂 blog_drafts/ の内容:"
           ls -la blog_drafts/*.txt 2>/dev/null || echo "  TXTファイルなし"
 
