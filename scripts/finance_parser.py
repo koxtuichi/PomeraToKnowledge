@@ -5,8 +5,9 @@ finance_parser.py — FINCTXメール本文を解析して finance_context.json 
 使い方:
   python3 scripts/finance_parser.py --body "メール本文テキスト"
   python3 scripts/finance_parser.py --file path/to/finctx.txt
+  FINCTX_BODY="..." python3 scripts/finance_parser.py  # 環境変数からbody取得（推奨）
 
-GitHub Actionsからは client_payload.body をそのまま渡す。
+GitHub Actionsからは環境変数 FINCTX_BODY に本文をセットして実行する。
 """
 import os
 import re
@@ -141,17 +142,23 @@ def parse_finctx(text: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description="FINCTXテキストを finance_context.json に変換する")
-    group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group(required=False)
     group.add_argument("--body", help="FINCTXメール本文（文字列）")
     group.add_argument("--file", help="FINCTXテキストファイルのパス")
     parser.add_argument("--output", default=OUTPUT_FILE, help="出力先JSONファイルのパス")
     args = parser.parse_args()
 
-    if args.body:
-        text = args.body
-    else:
+    # 優先順位: --file > --body > 環境変数 FINCTX_BODY
+    if args.file:
         with open(args.file, "r", encoding="utf-8") as f:
             text = f.read()
+    elif args.body:
+        text = args.body
+    else:
+        text = os.environ.get("FINCTX_BODY", "")
+        if not text:
+            print("❌ 本文が見つかりません。--body / --file / 環境変数 FINCTX_BODY のいずれかを指定してください。")
+            return
 
     result = parse_finctx(text)
 
