@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家計ダッシュボード — Insight-OS Finance</title>
+    <meta name="description" content="家計の収支・購入リスク・教育費シミュレーションを可視化するダッシュボード">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0a0f1e;
+            --bg-panel: #0f172a;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --border-color: rgba(56, 189, 248, 0.12);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-primary: #38bdf8;
+            --accent-green: #34d399;
+            --accent-yellow: #fbbf24;
+            --accent-red: #f87171;
+            --accent-purple: #818cf8;
+            --glass-blur: blur(16px);
+            --radius: 20px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 60%, rgba(129, 140, 248, 0.05) 0%, transparent 60%);
+        }
+
+        /* ─── Header ─── */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: var(--glass-blur);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-back {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .nav-back:hover {
+            color: var(--accent-primary);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        #last-updated {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ─── Layout ─── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+        }
+
+        .page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ─── Summary Bar ─── */
+        .summary-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            backdrop-filter: var(--glass-blur);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .kpi-value.green {
+            color: var(--accent-green);
+        }
+
+        .kpi-value.yellow {
+            color: var(--accent-yellow);
+        }
+
+        .kpi-value.red {
+            color: var(--accent-red);
+        }
+
+        .kpi-value.blue {
+            color: var(--accent-primary);
+        }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ─── Panel ─── */
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 28px;
+            backdrop-filter: var(--glass-blur);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .panel-icon {
+            font-size: 18px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .panel-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* ─── Wishlist Risk ─── */
+        .wishlist-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .wish-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: start;
+            gap: 12px;
+            padding: 18px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+            transition: border-color 0.2s;
+        }
+
+        .wish-item:hover {
+            border-color: rgba(56, 189, 248, 0.25);
+        }
+
+        .wish-item.risk-high {
+            border-left: 3px solid var(--accent-red);
+        }
+
+        .wish-item.risk-mid {
+            border-left: 3px solid var(--accent-yellow);
+        }
+
+        .wish-item.risk-low {
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .wish-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .wish-cost {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .wish-reasons {
+            margin-top: 8px;
+        }
+
+        .wish-reason {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .risk-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .risk-badge.high {
+            background: rgba(248, 113, 113, 0.12);
+            color: var(--accent-red);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .risk-badge.mid {
+            background: rgba(251, 191, 36, 0.12);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .risk-badge.low {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+
+        .wish-months {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        /* ─── Credit Card Calendar ─── */
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .cal-day {
+            min-height: 70px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.015);
+            transition: background 0.2s;
+        }
+
+        .cal-day.has-card {
+            border-color: rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.04);
+        }
+
+        .cal-day-num {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .cal-day.has-card .cal-day-num {
+            color: var(--accent-primary);
+        }
+
+        .cal-card-tag {
+            font-size: 9px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-primary);
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        /* ─── Education Timeline Chart ─── */
+        .education-chart-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .education-chart-wrap svg {
+            display: block;
+        }
+
+        .milestone-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .milestone-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .milestone-year {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-purple);
+        }
+
+        .milestone-event {
+            font-size: 13px;
+        }
+
+        .milestone-child {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .milestone-cost {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-yellow);
+            white-space: nowrap;
+        }
+
+        /* ─── No Data State ─── */
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .no-data .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .no-data .title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .no-data .desc {
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .no-data code {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* ─── Tooltip ─── */
+        .tooltip {
+            position: fixed;
+            background: rgba(10, 15, 30, 0.97);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: var(--text-main);
+            pointer-events: none;
+            z-index: 9999;
+            max-width: 220px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .summary-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .cal-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo">💴 Finance</div>
+            <div class="badge">Insight-OS</div>
+        </div>
+        <div class="header-right">
+            <a href="dashboard.html" class="nav-back">← ダッシュボードへ</a>
+            <div id="last-updated"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">家計ダッシュボード</h1>
+        <p class="page-subtitle" id="data-date">家計コンテキストファイルからデータを読み込み中...</p>
+
+        <!-- KPI サマリー -->
+        <div class="summary-bar" id="summary-bar">
+            <div class="no-data" style="grid-column:1/-1; padding: 30px;">
+                <div class="icon">📂</div>
+                <div class="title">データ未設定</div>
+                <div class="desc">
+                    ポメラでFINCTXファイルを作成し、Gmailに送信してください。<br>
+                    件名: <code>[FINCTX]家計コンテキスト更新</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- 購入リスク評価 -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-icon" style="background:rgba(248,113,113,0.12);color:#f87171">🛒</div>
+                <div class="panel-title">購入リスク評価</div>
+            </div>
+            <div id="wishlist-panel" class="wishlist-grid">
+                <div class="no-data">
+                    <div class="icon">🛍️</div>
+                    <div class="title">欲しいものリストなし</div>
+                    <div class="desc">FINCTXファイルの <code>## 欲しいもの</code> セクションに追加してください。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2カラム: 収支グラフ + クレカカレンダー -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:28px;" id="two-col">
+            <!-- 月次収支 -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-icon" style="background:rgba(52,211,153,0.12);color:#34d399">📊</div>
+                    <div class="panel-title">月次収支（暫定）</div>
+                </div>
+                <svg id="income-chart" width="100%" height="200"></svg>
+            </div>
+
+            <!-- クレカ引落カレンダー -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-icon" style="background:rgba(129,140,248,0.12);color:#818cf8">📅</div>
+                    <div class="panel-title">クレカ引落カレンダー</div>
+                </div>
+                <div id="calendar-panel" class="cal-grid"></div>
+            </div>
+        </div>
+
+        <!-- 教育費タイムライン -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-icon" style="background:rgba(251,191,36,0.12);color:#fbbf24">🎓</div>
+                <div class="panel-title">教育費タイムライン</div>
+            </div>
+            <div class="education-chart-wrap">
+                <svg id="education-chart" height="200"></svg>
+            </div>
+            <div class="milestone-list" id="milestone-list"></div>
+        </div>
+    </main>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        // FINANCE_REPORT_START
+        const FINANCE_REPORT = null; // GitHub Actionsが finance_report.json を埋め込む
+        // FINANCE_REPORT_END
+
+        const tooltip = document.getElementById('tooltip');
+
+        function fmt(n) {
+            return n != null ? n.toLocaleString('ja-JP') + '円' : '—';
+        }
+
+        function showTooltip(e, html) {
+            tooltip.innerHTML = html;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX + 14) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+        }
+        function hideTooltip() { tooltip.style.display = 'none'; }
+
+        // ─── KPIサマリー ────────────────────────────────────────────────────
+        function renderSummary(r) {
+            const s = r.summary;
+            const surplusColor = s.monthly_surplus >= 0 ? 'green' : 'red';
+            const rateColor = s.savings_rate_pct >= 10 ? 'green' : s.savings_rate_pct >= 5 ? 'yellow' : 'red';
+
+            document.getElementById('summary-bar').innerHTML = [
+                { label: '月収合計', value: fmt(s.monthly_income), color: 'blue', sub: '収入' },
+                { label: '月次固定費', value: fmt(s.monthly_fixed_costs), color: 'yellow', sub: '家賃・保険など' },
+                { label: '月次余剰（暫定）', value: fmt(s.monthly_surplus), color: surplusColor, sub: '変動費は目安値' },
+                { label: '貯蓄率（暫定）', value: s.savings_rate_pct + '%', color: rateColor, sub: '変動費は目安値' },
+                { label: '教育費積立/月', value: fmt(r.monthly_education_saving_needed), color: 'purple', sub: '今から積立が必要な額' },
+            ].map(k => `
+      <div class="kpi-card">
+        <div class="kpi-label">${k.label}</div>
+        <div class="kpi-value ${k.color}">${k.value}</div>
+        <div class="kpi-sub">${k.sub}</div>
+      </div>
+    `).join('');
+        }
+
+        // ─── 購入リスク評価 ──────────────────────────────────────────────────
+        function renderWishlist(r) {
+            const items = r.wishlist_risk || [];
+            if (items.length === 0) return;
+
+            const riskClass = { '高': 'high', '中': 'mid', '低': 'low' };
+            const itemClass = { '高': 'risk-high', '中': 'risk-mid', '低': 'risk-low' };
+
+            document.getElementById('wishlist-panel').innerHTML = items.map(item => `
+      <div class="wish-item ${itemClass[item.risk] || ''}">
+        <div>
+          <div class="wish-name">${item.item}</div>
+          <div class="wish-cost">${fmt(item.cost)} / 優先度:${item.priority}</div>
+          <div class="wish-reasons">
+            ${(item.reasons || []).map(r => `<div class="wish-reason">・${r}</div>`).join('')}
+          </div>
+        </div>
+        <div style="text-align:right">
+          <span class="risk-badge ${riskClass[item.risk] || 'low'}">${item.risk_label}</span>
+          ${item.months_to_save ? `<div class="wish-months">約${item.months_to_save}ヶ月で貯蓄可能</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+        }
+
+        // ─── 月次収支棒グラフ ────────────────────────────────────────────────
+        function renderIncomeChart(r) {
+            const s = r.summary;
+            const bars = [
+                { label: '月収', value: s.monthly_income, color: '#38bdf8' },
+                { label: '固定費', value: s.monthly_fixed_costs, color: '#f87171' },
+                { label: '変動費', value: s.monthly_variable_estimate, color: '#fbbf24', note: '暫定' },
+                { label: '教育費積立', value: r.monthly_education_saving_needed, color: '#818cf8' },
+            ].filter(b => b.value > 0);
+
+            const svgEl = document.getElementById('income-chart');
+            const W = svgEl.parentElement.offsetWidth - 56;
+            const H = 200;
+            const pad = { top: 10, right: 10, bottom: 40, left: 10 };
+            const innerW = W - pad.left - pad.right;
+            const innerH = H - pad.top - pad.bottom;
+
+            const max = Math.max(...bars.map(b => b.value));
+            const barW = innerW / bars.length * 0.6;
+            const gap = innerW / bars.length;
+
+            svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
+            svgEl.innerHTML = '';
+            const ns = 'http://www.w3.org/2000/svg';
+            const g = document.createElementNS(ns, 'g');
+            g.setAttribute('transform', `translate(${pad.left},${pad.top})`);
+            svgEl.appendChild(g);
+
+            bars.forEach((b, i) => {
+                const bH = (b.value / max) * innerH;
+                const x = gap * i + (gap - barW) / 2;
+                const y = innerH - bH;
+
+                const rect = document.createElementNS(ns, 'rect');
+                rect.setAttribute('x', x); rect.setAttribute('y', y);
+                rect.setAttribute('width', barW); rect.setAttribute('height', bH);
+                rect.setAttribute('fill', b.color); rect.setAttribute('rx', 4);
+                rect.setAttribute('opacity', '0.85');
+                rect.style.cursor = 'pointer';
+                rect.addEventListener('mousemove', e => showTooltip(e, `<strong>${b.label}</strong><br>${fmt(b.value)}${b.note ? `<br>(${b.note})` : ''}`));
+                rect.addEventListener('mouseleave', hideTooltip);
+                g.appendChild(rect);
+
+                const lbl = document.createElementNS(ns, 'text');
+                lbl.setAttribute('x', x + barW / 2); lbl.setAttribute('y', innerH + 18);
+                lbl.setAttribute('text-anchor', 'middle');
+                lbl.setAttribute('fill', 'rgba(148,163,184,0.8)'); lbl.setAttribute('font-size', '10');
+                lbl.textContent = b.label;
+                g.appendChild(lbl);
+            });
+        }
+
+        // ─── クレカカレンダー ──────────────────────────────────────────────
+        function renderCalendar(r) {
+            const cc = r.credit_card_calendar || [];
+            const cardsByDay = {};
+            cc.forEach(entry => { cardsByDay[entry.day] = entry.cards; });
+
+            const el = document.getElementById('calendar-panel');
+            let html = '';
+            for (let d = 1; d <= 31; d++) {
+                const cards = cardsByDay[d];
+                if (cards) {
+                    html += `<div class="cal-day has-card">
+          <div class="cal-day-num">${d}日</div>
+          ${cards.map(c => `<span class="cal-card-tag" title="${c.name} (${c.bank})">${c.name}</span>`).join('')}
+        </div>`;
+                } else {
+                    html += `<div class="cal-day"><div class="cal-day-num" style="opacity:0.3">${d}</div></div>`;
+                }
+            }
+            el.innerHTML = html;
+        }
+
+        // ─── 教育費タイムライン ─────────────────────────────────────────────
+        function renderEducation(r) {
+            const timeline = (r.education_timeline || []).slice(0, 10);
+            const milestones = (r.upcoming_milestones || []);
+
+            // SVGグラフ
+            const svgEl = document.getElementById('education-chart');
+            const W = svgEl.parentElement.offsetWidth - 10;
+            const H = 200;
+            const pad = { top: 20, right: 20, bottom: 40, left: 60 };
+            const innerW = W - pad.left - pad.right;
+            const innerH = H - pad.top - pad.bottom;
+
+            svgEl.setAttribute('width', W);
+            svgEl.innerHTML = '';
+            const ns = 'http://www.w3.org/2000/svg';
+            const g = document.createElementNS(ns, 'g');
+            g.setAttribute('transform', `translate(${pad.left},${pad.top})`);
+            svgEl.appendChild(g);
+
+            if (timeline.length < 1) return;
+
+            const years = timeline.map(m => m.year);
+            const costs = timeline.map(m => m.cost);
+            const minY = Math.min(...years), maxY = Math.max(...years);
+            const maxC = Math.max(...costs);
+
+            const xScale = y => ((y - minY) / Math.max(maxY - minY, 1)) * innerW;
+            const yScale = c => innerH - (c / maxC) * innerH;
+
+            // 補助線
+            [0, 0.5, 1].forEach(v => {
+                const y = innerH * (1 - v);
+                const line = document.createElementNS(ns, 'line');
+                line.setAttribute('x1', 0); line.setAttribute('x2', innerW);
+                line.setAttribute('y1', y); line.setAttribute('y2', y);
+                line.setAttribute('stroke', 'rgba(255,255,255,0.06)');
+                g.appendChild(line);
+
+                if (v > 0) {
+                    const lbl = document.createElementNS(ns, 'text');
+                    lbl.setAttribute('x', -6); lbl.setAttribute('y', y + 4);
+                    lbl.setAttribute('text-anchor', 'end');
+                    lbl.setAttribute('fill', 'rgba(148,163,184,0.6)'); lbl.setAttribute('font-size', '9');
+                    lbl.textContent = (maxC * v / 10000).toFixed(0) + '万';
+                    g.appendChild(lbl);
+                }
+            });
+
+            // バー
+            const barW = Math.max(Math.min(innerW / timeline.length * 0.5, 30), 8);
+            timeline.forEach(m => {
+                const x = xScale(m.year);
+                const y = yScale(m.cost);
+                const bH = innerH - y;
+
+                const rect = document.createElementNS(ns, 'rect');
+                rect.setAttribute('x', x - barW / 2); rect.setAttribute('y', y);
+                rect.setAttribute('width', barW); rect.setAttribute('height', bH);
+                rect.setAttribute('fill', '#818cf8'); rect.setAttribute('rx', 3);
+                rect.setAttribute('opacity', '0.8');
+                rect.style.cursor = 'pointer';
+                rect.addEventListener('mousemove', e => showTooltip(e,
+                    `<strong>${m.event}</strong><br>${m.year}年 (${m.child})<br>${fmt(m.cost)}<br>積立目安: ${fmt(m.monthly_saving_needed)}/月`
+                ));
+                rect.addEventListener('mouseleave', hideTooltip);
+                g.appendChild(rect);
+
+                const lbl = document.createElementNS(ns, 'text');
+                lbl.setAttribute('x', x); lbl.setAttribute('y', innerH + 20);
+                lbl.setAttribute('text-anchor', 'middle');
+                lbl.setAttribute('fill', 'rgba(148,163,184,0.7)'); lbl.setAttribute('font-size', '9');
+                lbl.textContent = m.year;
+                g.appendChild(lbl);
+            });
+
+            // 直近マイルストーン一覧
+            const listEl = document.getElementById('milestone-list');
+            listEl.innerHTML = milestones.map(m => `
+      <div class="milestone-item">
+        <div>
+          <div class="milestone-year">${m.year}年</div>
+          <div class="milestone-child">${m.child} / ${m.age}歳</div>
+        </div>
+        <div class="milestone-event">
+          ${m.event}
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">
+            積立目安: ${fmt(m.monthly_saving_needed)}/月
+          </div>
+        </div>
+        <div class="milestone-cost">${fmt(m.cost)}</div>
+      </div>
+    `).join('');
+        }
+
+        // ─── メイン初期化 ──────────────────────────────────────────────────
+        function initFinance() {
+            const r = (typeof FINANCE_REPORT !== 'undefined' && FINANCE_REPORT != null) ? FINANCE_REPORT : null;
+
+            const updEl = document.getElementById('last-updated');
+            const dateEl = document.getElementById('data-date');
+
+            if (!r) {
+                if (dateEl) dateEl.textContent = 'FINCTXファイルをGmailで送信すると自動更新されます';
+                return;
+            }
+
+            if (updEl && r.generated_at) {
+                updEl.textContent = `更新: ${new Date(r.generated_at).toLocaleString('ja-JP')}`;
+            }
+            if (dateEl) dateEl.textContent = '下記データはFINCTXコンテキストファイルから生成されています。変動費は目安値です。';
+
+            renderSummary(r);
+            renderWishlist(r);
+            renderIncomeChart(r);
+            renderCalendar(r);
+            renderEducation(r);
+        }
+
+        document.addEventListener('DOMContentLoaded', initFinance);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initFinance();
+        }
+    </script>
+</body>
+
+</html>

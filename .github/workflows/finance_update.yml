@@ -1,0 +1,44 @@
+name: Finance Context Update
+
+on:
+  repository_dispatch:
+    types: [pomera-finctx]
+
+jobs:
+  finance-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Parse FIN Context
+        run: |
+          python scripts/finance_parser.py --body "${{ github.event.client_payload.body }}" --output finance_context.json
+
+      - name: Run Finance Analyzer
+        run: |
+          python scripts/finance_analyzer.py --context finance_context.json --graph knowledge_graph.jsonld --output finance_report.json
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Antigravity Bot"
+          git add finance_context.json finance_report.json || true
+
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "変更なし。スキップします。"
+          else
+            git commit -m "Auto-sync: Finance Context Update [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi

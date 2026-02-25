@@ -279,6 +279,66 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* --- Emotion Timeline Panel --- */
+    .emotion-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 40px;
+      backdrop-filter: var(--glass-blur);
+    }
+
+    .emotion-panel .card-header {
+      margin-bottom: 16px;
+    }
+
+    .emotion-chart-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .emotion-chart-wrap svg {
+      display: block;
+    }
+
+    .emotion-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .emotion-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .emotion-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .emotion-tooltip {
+      position: fixed;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--text-main);
+      pointer-events: none;
+      z-index: 9999;
+      max-width: 220px;
+      line-height: 1.5;
+      display: none;
+    }
   </style>
 </head>
 
@@ -360,6 +420,20 @@
             <div class="card-content" id="guidelines-list"></div>
           </div>
         </div>
+
+        <!-- Emotion Timeline Panel -->
+        <div class="emotion-panel" id="emotion-panel">
+          <div class="card-header">
+            <div class="card-icon" style="background: rgba(251, 191, 36, 0.12); color: #fbbf24;">💫</div>
+            <div class="card-title">感情タイムライン</div>
+          </div>
+          <div class="emotion-chart-wrap">
+            <svg id="emotion-chart" height="180"></svg>
+          </div>
+          <div class="emotion-legend" id="emotion-legend"></div>
+        </div>
+
+        <div id="emotion-tooltip" class="emotion-tooltip"></div>
       </div>
 
       <div id="graph-view">
@@ -1668,7 +1742,7 @@
         graph.style.display = 'block';
         links[1].classList.add('active');
         console.log("[Insight-OS] Switched to Graph");
-        
+
         // Ensure graph is initialized and resized
         setTimeout(() => {
           if (!graphSimulation) {
@@ -1688,7 +1762,7 @@
 
     function initDashboard() {
       console.log(`[Insight-OS] Initializing Dashboard ${VERSION}`);
-      
+
       // Set Date
       const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
       const dateStr = new Date().toLocaleDateString('ja-JP', options);
@@ -1710,7 +1784,7 @@
         const latest = diaryEntries[0];
         console.log("[Insight-OS] Populating with data from:", latest.date);
         populateAdvisorContent(latest.analysis_content);
-        
+
         if (GRAPH_DATA.metadata && GRAPH_DATA.metadata.last_updated) {
           const updateEl = document.getElementById('last-updated');
           if (updateEl) {
@@ -1722,6 +1796,9 @@
         const coachEl = document.getElementById('coach-comment');
         if (coachEl) coachEl.innerText = "分析データが見つかりません。scripts/llm_graph_builder.py を実行してください。";
       }
+
+      // 感情タイムラインを描画
+      renderEmotionTimeline();
     }
 
     function populateAdvisorContent(content) {
@@ -1736,7 +1813,7 @@
 
       try {
         let data = null;
-        
+
         // 1. Try JSON block
         const jsonMatch = content.match(/```json\s?([\s\S]*?)```/);
         const jsonStr = jsonMatch ? jsonMatch[1].trim() : (content.trim().startsWith('{') ? content.trim() : null);
@@ -1782,13 +1859,13 @@
           // --- Text Mode ---
           console.log("[Insight-OS] Rendering in text fallback mode");
           const parts = content.split('===DETAILS===');
-          
+
           if (typeof marked !== 'undefined') {
             coachCommentEl.innerHTML = `<div class="item-desc" style="color: var(--text-main); line-height: 1.6;">${marked.parse(parts[0].trim())}</div>`;
           } else {
             coachCommentEl.innerHTML = `<div style="white-space: pre-wrap; line-height: 1.6;">${parts[0].trim()}</div>`;
           }
-          
+
           if (parts.length > 1) {
             const detailHtml = typeof marked !== 'undefined' ? marked.parse(parts[1].trim()) : `<div style="white-space: pre-wrap;">${parts[1].trim()}</div>`;
             document.getElementById('challenges-list').innerHTML = `
@@ -1803,7 +1880,7 @@
               </li>
             `;
           }
-          
+
           ['priorities-list', 'risks-list', 'guidelines-list'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerHTML = '<li><p class="item-desc" style="opacity: 0.4;">最新の構造化データがありません</p></li>';
@@ -1821,12 +1898,12 @@
       const svg = d3.select("#graph-svg");
       const container = document.getElementById('graph-container');
       if (!container) return;
-      
+
       const width = container.clientWidth;
       const height = container.clientHeight;
       if (width === 0 || height === 0) {
-          console.warn("[Insight-OS] Container size is 0. Deferring graph init.");
-          return;
+        console.warn("[Insight-OS] Container size is 0. Deferring graph init.");
+        return;
       }
 
       svg.attr("viewBox", [0, 0, width, height]);
@@ -1889,7 +1966,7 @@
 
       graphSimulation.on("tick", () => {
         link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-            .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+          .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
         node.attr("transform", d => `translate(${d.x},${d.y})`);
       });
       console.log("[Insight-OS] Graph Initialized");
@@ -1899,6 +1976,183 @@
     document.addEventListener('DOMContentLoaded', initDashboard);
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       initDashboard();
+    }
+
+    // ─── 感情タイムライン描画 ─────────────────────────────────────────
+    function renderEmotionTimeline() {
+      const svgEl = document.getElementById('emotion-chart');
+      const legendEl = document.getElementById('emotion-legend');
+      const tooltip = document.getElementById('emotion-tooltip');
+      const panel = document.getElementById('emotion-panel');
+      if (!svgEl || !GRAPH_DATA) return;
+
+      // 感情ノードを収集
+      const emotionNodes = (GRAPH_DATA.nodes || []).filter(n =>
+        (n.type === '感情' || n.type === 'emotion') &&
+        Array.isArray(n.emotion_history) && n.emotion_history.length > 0
+      );
+
+      if (emotionNodes.length === 0) {
+        // emotion_historyがまだない場合はノードのsentimentを1点で表示
+        const singleNodes = (GRAPH_DATA.nodes || []).filter(n =>
+          (n.type === '感情' || n.type === 'emotion') && n.sentiment != null
+        );
+        if (singleNodes.length === 0) {
+          if (panel) panel.style.display = 'none';
+          return;
+        }
+        // emotion_historyが空でも今日の日付で疑似エントリを作成
+        const today = new Date().toISOString().split('T')[0];
+        singleNodes.forEach(n => {
+          n.emotion_history = [{
+            date: today,
+            sentiment: n.sentiment,
+            active_sentiment: n.active_sentiment != null ? n.active_sentiment : n.sentiment,
+            trigger: n.trigger || null
+          }];
+        });
+        emotionNodes.push(...singleNodes);
+      }
+
+      // 全日付を収集して時系列でソート
+      const allDates = [...new Set(
+        emotionNodes.flatMap(n => n.emotion_history.map(h => h.date))
+      )].sort();
+
+      if (allDates.length === 0) { if (panel) panel.style.display = 'none'; return; }
+
+      const W = svgEl.parentElement.offsetWidth || 700;
+      const H = 180;
+      const pad = { top: 20, right: 20, bottom: 40, left: 48 };
+      const innerW = W - pad.left - pad.right;
+      const innerH = H - pad.top - pad.bottom;
+
+      svgEl.setAttribute('width', W);
+      svgEl.innerHTML = '';
+
+      const ns = 'http://www.w3.org/2000/svg';
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('transform', `translate(${pad.left},${pad.top})`);
+      svgEl.appendChild(g);
+
+      // スケール
+      const xScale = i => (i / Math.max(allDates.length - 1, 1)) * innerW;
+      const yScale = v => innerH / 2 - (v * innerH / 2.2);
+
+      // 補助線
+      const gridLines = [-1, -0.5, 0, 0.5, 1];
+      gridLines.forEach(v => {
+        const y = yScale(v);
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', 0); line.setAttribute('x2', innerW);
+        line.setAttribute('y1', y); line.setAttribute('y2', y);
+        line.setAttribute('stroke', v === 0 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)');
+        line.setAttribute('stroke-dasharray', v === 0 ? '' : '3,3');
+        g.appendChild(line);
+
+        const label = document.createElementNS(ns, 'text');
+        label.setAttribute('x', -6); label.setAttribute('y', y + 4);
+        label.setAttribute('text-anchor', 'end');
+        label.setAttribute('fill', 'rgba(148,163,184,0.7)');
+        label.setAttribute('font-size', '9');
+        label.textContent = v > 0 ? `+${v}` : v;
+        g.appendChild(label);
+      });
+
+      // X軸ラベル
+      allDates.forEach((d, i) => {
+        const x = xScale(i);
+        const label = document.createElementNS(ns, 'text');
+        label.setAttribute('x', x); label.setAttribute('y', innerH + 24);
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('fill', 'rgba(148,163,184,0.7)');
+        label.setAttribute('font-size', '9');
+        label.textContent = d.slice(5); // MM-DD
+        g.appendChild(label);
+      });
+
+      // カラーパレット
+      const PALETTE = [
+        '#38bdf8', '#818cf8', '#34d399', '#fbbf24',
+        '#f87171', '#a78bfa', '#fb923c', '#4ade80'
+      ];
+
+      // 凡例リセット
+      if (legendEl) legendEl.innerHTML = '';
+
+      emotionNodes.forEach((node, ni) => {
+        const color = PALETTE[ni % PALETTE.length];
+        const hist = node.emotion_history.slice().sort((a, b) => a.date.localeCompare(b.date));
+
+        // ポリラインの点座標
+        const pts = hist.map(h => {
+          const di = allDates.indexOf(h.date);
+          const val = h.active_sentiment != null ? h.active_sentiment : (h.sentiment || 0);
+          return { x: xScale(di), y: yScale(val), h };
+        }).filter(p => p.x >= 0);
+
+        if (pts.length < 1) return;
+
+        // ライン
+        if (pts.length >= 2) {
+          const polyline = document.createElementNS(ns, 'polyline');
+          polyline.setAttribute('points', pts.map(p => `${p.x},${p.y}`).join(' '));
+          polyline.setAttribute('fill', 'none');
+          polyline.setAttribute('stroke', color);
+          polyline.setAttribute('stroke-width', '2');
+          polyline.setAttribute('stroke-linecap', 'round');
+          polyline.setAttribute('stroke-linejoin', 'round');
+          polyline.setAttribute('opacity', '0.85');
+          g.appendChild(polyline);
+        }
+
+        // データポイント
+        pts.forEach(p => {
+          const circle = document.createElementNS(ns, 'circle');
+          circle.setAttribute('cx', p.x);
+          circle.setAttribute('cy', p.y);
+          circle.setAttribute('r', p.h.trigger ? 5 : 3.5);
+          circle.setAttribute('fill', color);
+          circle.setAttribute('stroke', 'var(--bg-dark)');
+          circle.setAttribute('stroke-width', '1.5');
+          circle.style.cursor = 'pointer';
+
+          // Tooltip
+          circle.addEventListener('mousemove', e => {
+            if (!tooltip) return;
+            const val = p.h.active_sentiment != null ? p.h.active_sentiment : (p.h.sentiment || 0);
+            tooltip.innerHTML = [
+              `<strong>${node.label}</strong>`,
+              `日付: ${p.h.date}`,
+              `感情強度: ${val.toFixed(2)}`,
+              p.h.trigger ? `きっかけ: ${p.h.trigger}` : ''
+            ].filter(Boolean).join('<br>');
+            tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX + 14) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+          });
+          circle.addEventListener('mouseleave', () => {
+            if (tooltip) tooltip.style.display = 'none';
+          });
+
+          g.appendChild(circle);
+        });
+
+        // 凡例
+        if (legendEl) {
+          const item = document.createElement('div');
+          item.className = 'emotion-legend-item';
+          const dot = document.createElement('div');
+          dot.className = 'emotion-legend-dot';
+          dot.style.background = color;
+          const trend = node.trend ? ` (${node.trend})` : '';
+          item.appendChild(dot);
+          item.appendChild(document.createTextNode(`${node.label}${trend}`));
+          legendEl.appendChild(item);
+        }
+      });
+
+      console.log(`[Insight-OS] Emotion timeline rendered: ${emotionNodes.length} emotions.`);
     }
   </script>
 </body>

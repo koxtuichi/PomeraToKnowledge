@@ -232,3 +232,103 @@ function testStoryTrigger() {
     const success = triggerGitHubActionsWithEvent(token, '[TEST] STORYテスト送信', STORY_CONFIG.EVENT_TYPE);
     console.log(success ? '✅ 小説テスト成功！' : '❌ 小説テスト失敗');
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 家計コンテキスト (FINCTX) メール検知
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+const FINCTX_CONFIG = {
+    EVENT_TYPE: 'pomera-finctx',
+    GMAIL_QUERY: 'subject:FINCTX is:unread newer_than:24h'
+};
+
+function checkFinCtxMail() {
+    const threads = GmailApp.search(FINCTX_CONFIG.GMAIL_QUERY);
+
+    if (threads.length === 0) {
+        return; // 未読のFINCTXメールなし
+    }
+
+    console.log(`💰 ${threads.length} 件のFINCTXメールを検出`);
+
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        return;
+    }
+
+    // メール本文を取得してペイロードに含める
+    const message = threads[0].getMessages()[threads[0].getMessages().length - 1];
+    const subject = message.getSubject();
+    const body = message.getPlainBody();
+
+    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/dispatches`;
+    const options = {
+        method: 'post',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+        },
+        contentType: 'application/json',
+        payload: JSON.stringify({
+            event_type: FINCTX_CONFIG.EVENT_TYPE,
+            client_payload: {
+                subject: subject,
+                body: body,
+                triggered_at: new Date().toISOString()
+            }
+        }),
+        muteHttpExceptions: true
+    };
+
+    try {
+        const response = UrlFetchApp.fetch(url, options);
+        const code = response.getResponseCode();
+
+        if (code === 204) {
+            threads.forEach(thread => thread.markRead());
+            console.log('✅ FINCTX GitHub Actions をトリガーし、メールを既読にしました');
+        } else {
+            console.error(`❌ GitHub API エラー: ${code} - ${response.getContentText()}`);
+        }
+    } catch (e) {
+        console.error(`❌ リクエスト失敗: ${e.message}`);
+    }
+}
+
+function testFinCtxTrigger() {
+    const sampleBody = `[FINCTX]テスト\n\n## 収入\n給与・Knowbe: 650000\n副業・Saiteki: 80000\n`;
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN が未設定です');
+        return;
+    }
+
+    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/dispatches`;
+    const options = {
+        method: 'post',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+        },
+        contentType: 'application/json',
+        payload: JSON.stringify({
+            event_type: FINCTX_CONFIG.EVENT_TYPE,
+            client_payload: {
+                subject: '[FINCTX]テスト',
+                body: sampleBody,
+                triggered_at: new Date().toISOString()
+            }
+        }),
+        muteHttpExceptions: true
+    };
+
+    try {
+        const response = UrlFetchApp.fetch(url, options);
+        console.log(response.getResponseCode() === 204 ? '✅ FINCTXテスト成功！' : '❌ FINCTXテスト失敗');
+    } catch (e) {
+        console.error(`❌ リクエスト失敗: ${e.message}`);
+    }
+}

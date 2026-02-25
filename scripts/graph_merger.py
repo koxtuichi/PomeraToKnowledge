@@ -1,7 +1,17 @@
 import json
 import os
 import argparse
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+# ── 感情タイプ別の減衰係数 (1日あたり) ──
+# 感情が言及されない日が続くほど active_sentiment が中性値に近づく
+EMOTION_DECAY_RATES = {
+    "喜び": 0.30,      # 昂りは短命。1日でかなり冷める
+    "達成感": 0.15,    # 数日間は充実感が残る
+    "不安": 0.05,      # 解決されない限りほぼ消えない
+    "怒り": 0.20,      # 早めに冷める
+    "その他": 0.10,    # デフォルト
+}
 
 def load_graph(filepath):
     """Loads a graph JSON file. Returns an empty structure if file doesn't exist."""
@@ -36,6 +46,65 @@ def _make_edge_key_set(graph: dict) -> set:
         key = f"{e.get('source', '')}|{e.get('target', '')}|{e.get('type', 'UNKNOWN')}"
         keys.add(key)
     return keys
+
+
+def _calc_trend(history: list) -> str:
+    """emotion_history の直近3件の active_sentiment から傾向を計算する。"""
+    recent = [h.get("active_sentiment") for h in history[-3:] if h.get("active_sentiment") is not None]
+    if len(recent) < 2:
+        return "安定"
+    diff = recent[-1] - recent[0]
+    if diff > 0.05:
+        return "上昇"
+    elif diff < -0.05:
+        return "下降"
+    return "安定"
+
+
+def apply_emotion_decay(master: dict, daily_node_ids: set, today_str: str) -> None:
+    """感情ノードの active_sentiment を減衰させ、emotion_history に今日分を追記する。
+
+    - 今日言及された感情ノード: active_sentiment を sentiment 水準に戻す
+    - 今日言及されなかった感情ノード: emotion_category に応じた係数で減衰
+    """
+    for node in master.get("nodes", []):
+        if node.get("type") != "感情":
+            continue
+
+        sentiment = node.get("sentiment", 0)
+        active = node.get("active_sentiment", sentiment)
+        category = node.get("emotion_category", "その他")
+        trigger = node.get("trigger")
+
+        if node["id"] in daily_node_ids:
+            # 今日言及 → active_sentiment を sentiment 水準に戻す
+            new_active = sentiment
+        else:
+            # 言及なし → カテゴリ別の係数で減衰。0に向かって近づく
+            decay = EMOTION_DECAY_RATES.get(category, EMOTION_DECAY_RATES["その他"])
+            # active_sentiment は 0 に収束 (完全に忘れる)
+            new_active = round(active * (1 - decay), 4)
+
+        node["active_sentiment"] = new_active
+
+        # emotion_history に今日分を追記 (重複防止)
+        history = node.get("emotion_history", [])
+        if not any(h.get("date") == today_str for h in history):
+            history.append({
+                "date": today_str,
+                "sentiment": sentiment,
+                "active_sentiment": new_active,
+                "trigger": trigger if node["id"] in daily_node_ids else None
+            })
+        node["emotion_history"] = history
+
+        # peak_sentiment と trend を更新
+        all_sentiments = [h["sentiment"] for h in history if h.get("sentiment") is not None]
+        node["peak_sentiment"] = max(all_sentiments) if all_sentiments else sentiment
+        node["trend"] = _calc_trend(history)
+
+    active_emotions = [n for n in master.get("nodes", []) if n.get("type") == "感情"]
+    print(f"💫 Emotion decay applied: {len(active_emotions)} emotion nodes updated.")
 
 
 def apply_weight_decay(master: dict, daily_node_ids: set, daily_edge_keys: set) -> None:
@@ -268,7 +337,12 @@ def merge_graphs(master, daily):
     print(f"   Edges: {new_edge_count} new, {updated_edge_count} updated.")
 
     # --- 4. Weight時間減衰 ---
-    apply_weight_decay(master, set(n['id'] for n in daily.get('nodes', [])), _make_edge_key_set(daily))
+    daily_node_ids = set(n['id'] for n in daily.get('nodes', []))
+    apply_weight_decay(master, daily_node_ids, _make_edge_key_set(daily))
+
+    # --- 5. 感情の active_sentiment 減衰 ---
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    apply_emotion_decay(master, daily_node_ids, today_str)
 
     return master
 
