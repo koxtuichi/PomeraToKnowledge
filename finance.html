@@ -552,10 +552,6 @@
     <div id="tooltip" class="tooltip"></div>
 
     <script>
-        // FINANCE_REPORT_START
-        const FINANCE_REPORT = null; // GitHub Actionsが finance_report.json を埋め込む
-        // FINANCE_REPORT_END
-
         const tooltip = document.getElementById('tooltip');
 
         function fmt(n) {
@@ -695,7 +691,6 @@
             const timeline = (r.education_timeline || []).slice(0, 10);
             const milestones = (r.upcoming_milestones || []);
 
-            // SVGグラフ
             const svgEl = document.getElementById('education-chart');
             const W = svgEl.parentElement.offsetWidth - 10;
             const H = 200;
@@ -720,7 +715,6 @@
             const xScale = y => ((y - minY) / Math.max(maxY - minY, 1)) * innerW;
             const yScale = c => innerH - (c / maxC) * innerH;
 
-            // 補助線
             [0, 0.5, 1].forEach(v => {
                 const y = innerH * (1 - v);
                 const line = document.createElementNS(ns, 'line');
@@ -739,7 +733,6 @@
                 }
             });
 
-            // バー
             const barW = Math.max(Math.min(innerW / timeline.length * 0.5, 30), 8);
             timeline.forEach(m => {
                 const x = xScale(m.year);
@@ -766,7 +759,6 @@
                 g.appendChild(lbl);
             });
 
-            // 直近マイルストーン一覧
             const listEl = document.getElementById('milestone-list');
             listEl.innerHTML = milestones.map(m => `
       <div class="milestone-item">
@@ -785,23 +777,19 @@
     `).join('');
         }
 
-        // ─── メイン初期化 ──────────────────────────────────────────────────
-        function initFinance() {
-            const r = (typeof FINANCE_REPORT !== 'undefined' && FINANCE_REPORT != null) ? FINANCE_REPORT : null;
+        // ─── メイン初期化（fetch方式）──────────────────────────────────────
+        function showNoData() {
+            const dateEl = document.getElementById('data-date');
+            if (dateEl) dateEl.textContent = 'FINCTXファイルをGmailで送信すると自動更新されます';
+        }
 
+        function applyReport(r) {
             const updEl = document.getElementById('last-updated');
             const dateEl = document.getElementById('data-date');
-
-            if (!r) {
-                if (dateEl) dateEl.textContent = 'FINCTXファイルをGmailで送信すると自動更新されます';
-                return;
-            }
-
             if (updEl && r.generated_at) {
                 updEl.textContent = `更新: ${new Date(r.generated_at).toLocaleString('ja-JP')}`;
             }
             if (dateEl) dateEl.textContent = '下記データはFINCTXコンテキストファイルから生成されています。変動費は目安値です。';
-
             renderSummary(r);
             renderWishlist(r);
             renderIncomeChart(r);
@@ -809,10 +797,15 @@
             renderEducation(r);
         }
 
-        document.addEventListener('DOMContentLoaded', initFinance);
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            initFinance();
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('finance_report.json?t=' + Date.now())
+                .then(res => {
+                    if (!res.ok) throw new Error('not found');
+                    return res.json();
+                })
+                .then(r => applyReport(r))
+                .catch(() => showNoData());
+        });
     </script>
 </body>
 
