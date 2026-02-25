@@ -560,13 +560,41 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
         filtered_actions = []
         for action in prev_actions:
             if _is_completed_in_diary(action, all_recent_diary_text):
-                print(f"   ✅ [完了フィルタ] 除外: {action.get('action', '')[:40]}")
+                print(f"   ✅ [完了フィルタ/日記] 除外: {action.get('action', '')[:40]}")
                 filtered_count += 1
             else:
                 filtered_actions.append(action)
         if filtered_count > 0:
             print(f"   → {filtered_count} 件のアクションを完了済みとして除外しました")
         prev_actions = filtered_actions
+
+    # ── knowledge_graph.jsonld の status:完了 ノードとの照合フィルタ ───────
+    # 日記テキスト照合では拾えない完了済みアイテムを、グラフのstatus属性から確実に除外する
+    completed_node_labels = set()
+    graph_nodes_all = master_graph.get("nodes", [])
+    for node in graph_nodes_all:
+        if node.get("status") in ["完了", "done", "completed", "購入済み", "注文済み"]:
+            label = node.get("label", "")
+            if label:
+                completed_node_labels.add(label)
+                # 詳細テキストのキーワードも追加
+                detail = node.get("detail", "")
+                if detail and len(detail) > 5:
+                    # 詳細から重要な名詞句を抽出（5文字以上）
+                    for chunk in detail.replace("。", " ").replace("、", " ").split():
+                        if len(chunk) >= 5:
+                            completed_node_labels.add(chunk)
+
+    if completed_node_labels and prev_actions:
+        pre_count = len(prev_actions)
+        def _is_completed_in_graph(action: dict) -> bool:
+            action_text = (action.get("action") or "") + " " + (action.get("target_task") or "")
+            return any(label in action_text for label in completed_node_labels if len(label) >= 3)
+
+        prev_actions = [a for a in prev_actions if not _is_completed_in_graph(a)]
+        removed = pre_count - len(prev_actions)
+        if removed > 0:
+            print(f"   ✅ [完了フィルタ/グラフ] {removed} 件のアクションをstatus:完了ノードとの照合で除外しました")
 
     if prev_shopping_list and all_recent_diary_text:
         filtered_shopping = []
