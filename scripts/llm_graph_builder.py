@@ -524,6 +524,62 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
             except (json.JSONDecodeError, TypeError):
                 pass
 
+    # ── Pythonレベルの完了フィルタ ─────────────────────────────────────────
+    # 最近の日記本文を結合して「完了しているかどうか」をキーワードマッチで判定する。
+    # LLMによる判定の前段として確実に除外できるものを除く。
+    COMPLETION_PATTERNS = [
+        "買った", "注文した", "購入した", "届いた", "入手した",
+        "完了した", "やった", "やりました", "済んだ", "終わった", "終わりました",
+        "実行した", "解決した", "達成した", "クリアした",
+        "注文済み", "購入済み", "完了済み",
+    ]
+
+    # 直近5件の日記本文を全て結合して照合
+    all_recent_diary_text = " ".join(
+        (d.get("detail") or "") for d in all_diary_nodes
+    )
+
+    def _is_completed_in_diary(action: dict, diary_text: str) -> bool:
+        """アクションのactionテキストに含まれるキーワードが、日記で完了表現とセットで出現するか判定。"""
+        action_text = (action.get("action") or "") + " " + (action.get("constraint") or "")
+        # アクション名から名詞的なフレーズを抽出（2文字以上の語）
+        words = [w for w in action_text.replace("・", " ").replace("　", " ").split() if len(w) >= 2]
+        for word in words:
+            if word in diary_text:
+                # そのキーワードが完了表現の近くに出てくるか確認（前後50文字）
+                idx = diary_text.find(word)
+                while idx != -1:
+                    surrounding = diary_text[max(0, idx - 50): idx + len(word) + 50]
+                    if any(pat in surrounding for pat in COMPLETION_PATTERNS):
+                        return True
+                    idx = diary_text.find(word, idx + 1)
+        return False
+
+    if prev_actions and all_recent_diary_text:
+        filtered_count = 0
+        filtered_actions = []
+        for action in prev_actions:
+            if _is_completed_in_diary(action, all_recent_diary_text):
+                print(f"   ✅ [完了フィルタ] 除外: {action.get('action', '')[:40]}")
+                filtered_count += 1
+            else:
+                filtered_actions.append(action)
+        if filtered_count > 0:
+            print(f"   → {filtered_count} 件のアクションを完了済みとして除外しました")
+        prev_actions = filtered_actions
+
+    if prev_shopping_list and all_recent_diary_text:
+        filtered_shopping = []
+        for item in prev_shopping_list:
+            item_name = item.get("item") or item if isinstance(item, str) else ""
+            if item_name and any(
+                (item_name in all_recent_diary_text and any(pat in all_recent_diary_text[max(0, all_recent_diary_text.find(item_name)-30): all_recent_diary_text.find(item_name)+len(item_name)+30] for pat in COMPLETION_PATTERNS))
+            ):
+                print(f"   🛒 [買い物フィルタ] 除外: {item_name}")
+            else:
+                filtered_shopping.append(item)
+        prev_shopping_list = filtered_shopping
+
     # コンテキスト構築
     context_summary = "### 現在の状況\n"
 
