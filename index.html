@@ -2502,7 +2502,58 @@
             </div>`).join('');
         }
       }
+
+      // ── daily_graph.json の LLM生成セクションを追加表示 ──
+      const analysisData = getAnalysisData();
+      if (analysisData && analysisData[contextKey]) {
+        const llmSection = analysisData[contextKey];
+
+        // LLM生成の制約を上書き（データがあれば）
+        if (constraintEl && Array.isArray(llmSection.constraints) && llmSection.constraints.length) {
+          const llmConstraints = llmSection.constraints;
+          constraintEl.innerHTML = llmConstraints.map(c => `
+            <div class="action-item" style="border-left: 3px solid #ef4444;">
+              <div class="action-text">🪨 ${c.label || ''}</div>
+              ${c.detail ? `<div class="action-meta"><span class="action-effect">${c.detail}</span></div>` : ''}
+              ${c.constraint_type ? `<div style="margin-top:6px;"><span class="tag tag-gravity">${c.constraint_type}</span></div>` : ''}
+            </div>`).join('');
+          if (constraintCountEl) constraintCountEl.textContent = `${llmConstraints.length}件`;
+        }
+
+        // LLM生成のタスクを追加（データがあれば）
+        if (taskEl && Array.isArray(llmSection.tasks) && llmSection.tasks.length) {
+          const llmTasks = llmSection.tasks;
+          const existingHtml = taskEl.innerHTML.includes('empty-state') ? '' : taskEl.innerHTML;
+          taskEl.innerHTML = existingHtml + llmTasks.map(t => {
+            const statusColor = t.status === '完了' ? '#22c55e' : t.status === '進行中' ? accentColor : '#fbbf24';
+            return `
+              <div class="action-item" style="border-left: 3px solid ${accentColor}20;">
+                <div class="action-text">📋 ${t.label || ''}</div>
+                <div class="action-meta">
+                  ${t.status ? `<span class="action-effort" style="background:${statusColor}20; color:${statusColor}">${t.status}</span>` : ''}
+                  ${t.detail ? `<span class="action-effect">${t.detail}</span>` : ''}
+                  <span class="tag" style="background:rgba(99,102,241,0.15); color:#818cf8;">✨ 今日の日記より</span>
+                </div>
+              </div>`;
+          }).join('');
+          if (taskCountEl) {
+            const total = (taskEl.querySelectorAll('.action-item') || []).length;
+            taskCountEl.textContent = `${total}件`;
+          }
+        }
+
+        // LLM生成の知見を上書き（データがあれば）
+        if (insightEl && Array.isArray(llmSection.insights) && llmSection.insights.length) {
+          const llmInsights = llmSection.insights;
+          insightEl.innerHTML = llmInsights.map(i => `
+            <div class="insight-item">
+              <div class="insight-finding">🔍 ${i.finding || ''}</div>
+              ${i.implication ? `<div class="insight-implication">${i.implication}</div>` : ''}
+            </div>`).join('');
+        }
+      }
     }
+
 
     // ── 初期化 ──
     renderDashboard();
