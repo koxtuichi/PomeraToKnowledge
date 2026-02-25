@@ -1987,18 +1987,19 @@
           // クレカ引き落とし
           const ccEl = document.getElementById('finance-credit');
           if (ccEl) {
-            const cards = report.credit_card_calendar || [];
-            if (cards.length === 0) {
+            const calendar = report.credit_card_calendar || [];
+            if (calendar.length === 0) {
               ccEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;">FINCTXメールを送信するとクレカ情報が表示されます</p>';
             } else {
-              ccEl.innerHTML = cards.map(c => `
-                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              ccEl.innerHTML = calendar.map(entry => {
+                const cardNames = entry.cards.map(c => `<span style="font-weight:600;">${c.name}</span> <span style="font-size:11px;color:var(--text-dim);">(${c.bank || ''})</span>`).join('、');
+                return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
                   <div>
-                    <div style="font-weight:600;">${c.card_name}</div>
-                    <div style="font-size:12px;color:var(--text-dim);">締め日:${c.closing_day}日 / 引落:${c.debit_day}日</div>
+                    <div style="font-size:12px;color:var(--text-dim);">毎月${entry.day}日引落</div>
+                    <div>${cardNames}</div>
                   </div>
-                  <span style="font-weight:700;color:#60a5fa;">${fmt(c.estimated_total)}</span>
-                </div>`).join('');
+                </div>`;
+              }).join('');
             }
           }
         })
