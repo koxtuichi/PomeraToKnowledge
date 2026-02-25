@@ -106,7 +106,26 @@ def assess_wishlist_risk(
 
     results = []
     for item in wishlist:
-        cost = item["cost"]
+        raw_cost = item["cost"]
+        # LLMが文字列で返す場合・Noneの場合を安全に処理
+        try:
+            cost = int(raw_cost) if raw_cost is not None else None
+        except (ValueError, TypeError):
+            cost = None
+
+        # costが不明な場合はRisk判定をスキップして「要確認」にする
+        if cost is None:
+            results.append({
+                "item": item["item"],
+                "cost": None,
+                "priority": item["priority"],
+                "risk": "中",
+                "risk_label": "要確認",
+                "reasons": ["金額が未設定のためリスク判定不可"],
+                "months_to_save": None
+            })
+            continue
+
         risk = "低"
         reasons = []
 
@@ -165,9 +184,15 @@ def load_wishlist_from_graph(graph_file: str) -> list:
     wishlist = []
     for node in nodes:
         if node.get("type") == "購入希望" and node.get("status") != "購入済":
+            raw_cost = node.get("cost")
+            # LLMが文字列で返す場合も安全にint変換
+            try:
+                cost = int(raw_cost) if raw_cost is not None else None
+            except (ValueError, TypeError):
+                cost = None
             wishlist.append({
                 "item":     node.get("label", node.get("id", "")),
-                "cost":     node.get("cost"),        # Noneの場合あり
+                "cost":     cost,
                 "priority": node.get("priority", "中"),
                 "detail":   node.get("detail", ""),
                 "first_seen": node.get("first_seen", ""),
