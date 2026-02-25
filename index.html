@@ -1992,13 +1992,19 @@
               ccEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;">FINCTXメールを送信するとクレカ情報が表示されます</p>';
             } else {
               ccEl.innerHTML = calendar.map(entry => {
-                const cardNames = entry.cards.map(c => `<span style="font-weight:600;">${c.name}</span> <span style="font-size:11px;color:var(--text-dim);">(${c.bank || ''})</span>`).join('、');
-                return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <div>
-                    <div style="font-size:12px;color:var(--text-dim);">毎月${entry.day}日引落</div>
-                    <div>${cardNames}</div>
-                  </div>
-                </div>`;
+                const totalStr = entry.total_charge != null
+                  ? `<span style="font-weight:700;color:#60a5fa;">${fmt(entry.total_charge)}</span>`
+                  : '<span style="font-size:12px;color:var(--text-dim);">金額未登録</span>';
+                const cardRows = entry.cards.map(c => {
+                  const ch = c.monthly_charge != null ? ` <span style="color:#60a5fa;font-weight:700;">${fmt(c.monthly_charge)}</span>` : '';
+                  return `<div style="display:flex;justify-content:space-between;align-items:center;padding:2px 0;">`
+                    + `<span style="font-weight:600;">${c.name}</span>`
+                    + `<span style="font-size:12px;color:var(--text-dim);">${c.bank || ''}${ch}</span></div>`;
+                }).join('');
+                return `<div style="padding:10px 0;border-bottom:1px solid var(--border);">`
+                  + `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">`
+                  + `<span style="font-size:12px;color:var(--text-dim);">毎月${entry.day}日引落</span>${totalStr}</div>`
+                  + cardRows + `</div>`;
               }).join('');
             }
           }

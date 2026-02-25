@@ -44,7 +44,7 @@ def parse_finctx_with_llm(text: str) -> dict:
 {text}
 ---
 
-以下のJSONスキーマで返してください（値が不明な場合は空配列・0・空文字にすること）:
+以下のJSONスキーマで返してください（値が不明な場合は空配列・0・空文字・nullにすること）:
 {{
   "income": {{
     "sources": {{"収入源名": 月額数値（税抜き・整数）}},
@@ -54,7 +54,8 @@ def parse_finctx_with_llm(text: str) -> dict:
     {{
       "name": "カード名",
       "bank": "引き落とし銀行名",
-      "due_day": 引き落とし日（数値）
+      "due_day": 引き落とし日（数値）,
+      "monthly_charge": 当月請求額（整数・円。テキストに記載があれば抽出、なければnull）
     }}
   ],
   "family": {{
@@ -76,6 +77,7 @@ def parse_finctx_with_llm(text: str) -> dict:
 注意:
 - 収入は税抜き金額を使うこと（消費税抜きと書かれていたらその数値をそのまま使う）
 - クレカは引き落とし日が全角数字で書かれていても半角整数に変換すること
+- monthly_chargeはテキストに「〇〇円」「¥〇〇」など請求額が記載されている場合のみ整数で抽出する
 - JSONのみ返すこと（説明文不要）
 """
     raw = call_gemini(prompt)

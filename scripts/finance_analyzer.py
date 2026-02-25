@@ -206,17 +206,33 @@ def load_wishlist_from_graph(graph_file: str) -> list:
 
 
 def build_credit_card_calendar(credit_cards: list) -> list:
-    """クレカの引落日をカレンダー形式でまとめる。"""
+    """クレカの引落日をカレンダー形式でまとめる。月次請求額も引き継ぐ。"""
     calendar = {}
     for card in credit_cards:
         day = card.get("due_day", 0)
         if day not in calendar:
-            calendar[day] = []
-        calendar[day].append({
+            calendar[day] = {"cards": [], "total_charge": None}
+        entry = {
             "name": card["name"],
-            "bank": card.get("bank", "不明")
-        })
-    return [{"day": d, "cards": cards} for d, cards in sorted(calendar.items())]
+            "bank": card.get("bank", "不明"),
+        }
+        charge = card.get("monthly_charge")
+        if charge is not None:
+            try:
+                entry["monthly_charge"] = int(charge)
+                # 引落日合計を集計
+                if calendar[day]["total_charge"] is None:
+                    calendar[day]["total_charge"] = 0
+                calendar[day]["total_charge"] += int(charge)
+            except (ValueError, TypeError):
+                entry["monthly_charge"] = None
+        else:
+            entry["monthly_charge"] = None
+        calendar[day]["cards"].append(entry)
+    return [
+        {"day": d, "cards": v["cards"], "total_charge": v["total_charge"]}
+        for d, v in sorted(calendar.items())
+    ]
 
 
 def analyze(ctx: dict, graph_file: str = DEFAULT_GRAPH_FILE) -> dict:
