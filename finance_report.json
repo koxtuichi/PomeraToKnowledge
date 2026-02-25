@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-02-25T08:04:39.692386",
+  "summary": {
+    "monthly_income": 0,
+    "monthly_fixed_costs": 0,
+    "monthly_variable_estimate": 500000,
+    "monthly_education_saving": 0,
+    "monthly_surplus": -500000,
+    "savings_rate_pct": 0,
+    "emergency_fund_target": 1500000,
+    "note": "変動費は暫定値です。実際のクレカ合計と差し替えてください。"
+  },
+  "wishlist_risk": [],
+  "credit_card_calendar": [],
+  "education_timeline": [],
+  "upcoming_milestones": [],
+  "monthly_education_saving_needed": 0,
+  "education_scenario": "public",
+  "children": []
+}
