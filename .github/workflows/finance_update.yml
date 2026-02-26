@@ -32,6 +32,8 @@ jobs:
           python scripts/finance_parser.py --output finance_context.json
 
       - name: Run Finance Analyzer
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           python scripts/finance_analyzer.py --context finance_context.json --graph knowledge_graph.jsonld --output finance_report.json
 
