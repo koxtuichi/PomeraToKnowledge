@@ -1262,6 +1262,17 @@
         <div id="finance-kpi-row"
           style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:28px;">
         </div>
+        <!-- AIアドバイス -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24;">💡</div>
+            <div class="card-title">家計アドバイス</div>
+          </div>
+          <div id="finance-advice">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">
+              分析スクリプトを実行するとAIアドバイスが表示されます。</p>
+          </div>
+        </div>
         <!-- カード別請求明細 -->
         <div class="dash-card" style="margin-bottom:20px;">
           <div class="card-header">
@@ -1271,6 +1282,17 @@
           <div id="finance-cc-tabs" style="display:flex;gap:6px;margin-bottom:14px;"></div>
           <div id="finance-cc-body">
             <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">日記にクレカ請求額を記載すると自動で反映されます。
+            </p>
+          </div>
+        </div>
+        <!-- 現金・その他の支出 -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(248,113,113,0.1);color:#f87171;">💵</div>
+            <div class="card-title">現金・その他の支出</div>
+          </div>
+          <div id="finance-cash">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">日記に現金支出を記録すると自動で反映されます。
             </p>
           </div>
         </div>
@@ -1786,20 +1808,32 @@
           const kpiEl = document.getElementById('finance-kpi-row');
           if (kpiEl) {
             const kpis = [
-              { label: '月収合計', value: fmt(s.monthly_income), color: '#60a5fa' },
-              { label: '月次固定費', value: fmt(s.monthly_fixed_costs), color: '#fbbf24' },
-              { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor },
-              { label: '貯蓄率', value: (s.savings_rate_pct || 0) + '%', color: rateColor },
+              { label: '月収合計', value: fmt(s.monthly_income), color: '#60a5fa', sub: '収入' },
+              { label: 'クレカ利用額', value: fmt(s.monthly_variable_estimate), color: '#fbbf24', sub: s.note || '' },
             ];
+            if (s.cash_total > 0) {
+              kpis.push({ label: '現金支出', value: fmt(s.cash_total), color: '#f87171', sub: '日記から集計' });
+            }
+            kpis.push(
+              { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor, sub: '収入−固定費−変動費−現金' },
+              { label: '貯蓄率', value: (s.savings_rate_pct || 0) + '%', color: rateColor, sub: '' },
+            );
             kpiEl.innerHTML = kpis.map(k => `
               <div style="background:var(--card-bg);border:1px solid var(--border-color);border-radius:14px;padding:16px 18px;transition:transform 0.2s;">
                 <div style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">${k.label}</div>
                 <div style="font-size:22px;font-weight:700;color:${k.color};">${k.value}</div>
+                ${k.sub ? `<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">${k.sub}</div>` : ''}
               </div>`).join('');
           }
 
+          // AIアドバイス
+          renderFinanceAdvice(report);
+
           // カード別請求明細
           renderFinanceCardCharges(report, fmt);
+
+          // 現金支出
+          renderFinanceCashExpenses(report, fmt);
 
           // ライフイベント予測タイムライン
           renderFinanceTimeline(report, fmt);
@@ -1871,8 +1905,9 @@
         m.cards.forEach(c => {
           const pct = Math.max((c.amount / mx) * 100, 1);
           const zero = c.amount === 0 ? 'opacity:0.4;' : '';
+          const usageHtml = c.usage ? `<div style="font-size:9px;color:var(--text-dim);margin-top:1px;">${c.usage}</div>` : '';
           h += `<div style="display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03);">`;
-          h += `<div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${c.name}">${c.name}</div>`;
+          h += `<div style="font-size:12px;font-weight:500;" title="${c.name}"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.name}</div>${usageHtml}</div>`;
           h += `<div style="height:14px;border-radius:5px;background:rgba(255,255,255,0.03);overflow:hidden;"><div style="height:100%;width:${pct}%;border-radius:5px;background:linear-gradient(90deg,rgba(56,189,248,0.5),rgba(129,140,248,0.4));transition:width 0.5s;min-width:2px;"></div></div>`;
           h += `<div style="font-size:12px;font-weight:600;color:var(--accent-primary);text-align:right;${zero}">${fmt(c.amount)}</div>`;
           h += '</div>';
@@ -1941,6 +1976,45 @@
           </div>
         </div>`;
       }).join('');
+    }
+
+    function renderFinanceAdvice(report) {
+      const advice = report.spending_advice || [];
+      const el = document.getElementById('finance-advice');
+      if (!el || advice.length === 0) return;
+
+      const sevBorder = { warning: 'rgba(251,191,36,0.4)', info: 'rgba(56,189,248,0.3)', success: 'rgba(52,211,153,0.3)' };
+      el.innerHTML = advice.map((a, i) => {
+        const sev = a.severity || 'info';
+        const bc = sevBorder[sev] || sevBorder.info;
+        return `<div style="display:flex;gap:14px;padding:14px 16px;border-radius:12px;border:1px solid var(--border-color);border-left:3px solid ${bc};background:rgba(255,255,255,0.02);margin-bottom:10px;animation:fadeIn 0.3s ease ${i * 0.06}s both;">
+          <div style="font-size:20px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">${a.icon || '💡'}</div>
+          <div style="flex:1;">
+            <div style="font-weight:600;font-size:13px;margin-bottom:3px;">${a.title}</div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.6;">${a.detail}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderFinanceCashExpenses(report, fmt) {
+      const expenses = report.cash_expenses || [];
+      const el = document.getElementById('finance-cash');
+      if (!el || expenses.length === 0) return;
+
+      const total = expenses.reduce((s, e) => s + e.amount, 0);
+      let html = expenses.map(e => `
+        <div style="display:grid;grid-template-columns:1fr 60px 90px;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);">
+          <div style="font-size:13px;font-weight:500;">${e.label}</div>
+          <div style="font-size:10px;color:var(--text-dim);text-align:center;">${e.source}</div>
+          <div style="font-size:13px;font-weight:600;color:var(--accent-warning);text-align:right;">${fmt(e.amount)}</div>
+        </div>
+      `).join('');
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;margin-top:6px;border-top:1px solid var(--border-color);">
+        <span style="font-size:11px;color:var(--text-dim);">現金支出合計</span>
+        <span style="font-size:16px;font-weight:700;color:var(--accent-warning);">${fmt(total)}</span>
+      </div>`;
+      el.innerHTML = html;
     }
 
     // ブログタブ切り替え
