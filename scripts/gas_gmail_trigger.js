@@ -24,33 +24,45 @@ const CONFIG = {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function checkPomeraMail() {
-    const threads = GmailApp.search(CONFIG.GMAIL_QUERY);
-
-    if (threads.length === 0) {
-        return; // 未読のPOMERAメールなし
-    }
-
-    console.log(`📬 ${threads.length} 件のPOMERAメールを検出`);
-
-    // ★ 先に既読にして重複トリガーを防止
-    threads.forEach(thread => thread.markRead());
-
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
-        threads.forEach(thread => thread.markUnread());
+    // ★ 排他制御: 同時実行を防止
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(3000)) {
+        console.log('⏳ 他のPOMERAトリガーが処理中。スキップします');
         return;
     }
 
-    const subject = threads[0].getFirstMessageSubject();
-    const success = triggerGitHubActions(token, subject);
+    try {
+        const threads = GmailApp.search(CONFIG.GMAIL_QUERY);
 
-    if (success) {
-        console.log('✅ GitHub Actions をトリガーしました（既読済み）');
-    } else {
-        // 失敗時は未読に戻して次回リトライ
-        threads.forEach(thread => thread.markUnread());
-        console.error('⚠️ トリガー失敗のため未読に戻しました');
+        if (threads.length === 0) {
+            return; // 未読のPOMERAメールなし
+        }
+
+        console.log(`📬 ${threads.length} 件のPOMERAメールを検出`);
+
+        // ★ 先に既読にして重複トリガーを防止
+        threads.forEach(thread => thread.markRead());
+
+        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+        if (!token) {
+            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+            threads.forEach(thread => thread.markUnread());
+            return;
+        }
+
+        const subject = threads[0].getFirstMessageSubject();
+        const success = triggerGitHubActions(token, subject);
+
+        if (success) {
+            console.log('✅ GitHub Actions をトリガーしました（既読済み）');
+        } else {
+            // 失敗時は未読に戻して次回リトライ
+            threads.forEach(thread => thread.markUnread());
+            console.error('⚠️ トリガー失敗のため未読に戻しました');
+        }
+
+    } finally {
+        lock.releaseLock();
     }
 }
 
@@ -106,37 +118,49 @@ const BLOG_CONFIG = {
 };
 
 function checkBlogMail() {
-    const threads = GmailApp.search(BLOG_CONFIG.GMAIL_QUERY);
-
-    if (threads.length === 0) {
-        return; // 未読のBLOGメールなし
-    }
-
-    console.log(`📝 ${threads.length} 件のBLOGメールを検出`);
-
-    // ★ 先にメール情報を取得してから既読にする
-    const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
-    const subject = threads[0].getFirstMessageSubject();
-    const body = msg.getPlainBody();
-
-    // ★ 先に既読にして重複トリガーを防止
-    threads.forEach(thread => thread.markRead());
-
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
-        threads.forEach(thread => thread.markUnread());
+    // ★ 排他制御: 同時実行を防止
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(3000)) {
+        console.log('⏳ 他のBLOGトリガーが処理中。スキップします');
         return;
     }
 
-    const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE, body);
+    try {
+        const threads = GmailApp.search(BLOG_CONFIG.GMAIL_QUERY);
 
-    if (success) {
-        console.log('✅ Blog GitHub Actions をトリガーしました（既読済み）');
-    } else {
-        // 失敗時は未読に戻して次回リトライ
-        threads.forEach(thread => thread.markUnread());
-        console.error('⚠️ Blogトリガー失敗のため未読に戻しました');
+        if (threads.length === 0) {
+            return; // 未読のBLOGメールなし
+        }
+
+        console.log(`📝 ${threads.length} 件のBLOGメールを検出`);
+
+        // ★ 先にメール情報を取得してから既読にする
+        const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+        const subject = threads[0].getFirstMessageSubject();
+        const body = msg.getPlainBody();
+
+        // ★ 先に既読にして重複トリガーを防止
+        threads.forEach(thread => thread.markRead());
+
+        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+        if (!token) {
+            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+            threads.forEach(thread => thread.markUnread());
+            return;
+        }
+
+        const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE, body);
+
+        if (success) {
+            console.log('✅ Blog GitHub Actions をトリガーしました（既読済み）');
+        } else {
+            // 失敗時は未読に戻して次回リトライ
+            threads.forEach(thread => thread.markUnread());
+            console.error('⚠️ Blogトリガー失敗のため未読に戻しました');
+        }
+
+    } finally {
+        lock.releaseLock();
     }
 }
 
@@ -220,33 +244,45 @@ const STORY_CONFIG = {
 };
 
 function checkStoryMail() {
-    const threads = GmailApp.search(STORY_CONFIG.GMAIL_QUERY);
-
-    if (threads.length === 0) {
-        return; // 未読のSTORYメールなし
-    }
-
-    console.log(`📖 ${threads.length} 件のSTORYメールを検出`);
-
-    const subject = threads[0].getFirstMessageSubject();
-
-    // ★ 先に既読にして重複トリガーを防止
-    threads.forEach(thread => thread.markRead());
-
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
-        threads.forEach(thread => thread.markUnread());
+    // ★ 排他制御: 同時実行を防止
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(3000)) {
+        console.log('⏳ 他のSTORYトリガーが処理中。スキップします');
         return;
     }
 
-    const success = triggerGitHubActionsWithEvent(token, subject, STORY_CONFIG.EVENT_TYPE);
+    try {
+        const threads = GmailApp.search(STORY_CONFIG.GMAIL_QUERY);
 
-    if (success) {
-        console.log('✅ Story GitHub Actions をトリガーしました（既読済み）');
-    } else {
-        threads.forEach(thread => thread.markUnread());
-        console.error('⚠️ Storyトリガー失敗のため未読に戻しました');
+        if (threads.length === 0) {
+            return; // 未読のSTORYメールなし
+        }
+
+        console.log(`📖 ${threads.length} 件のSTORYメールを検出`);
+
+        const subject = threads[0].getFirstMessageSubject();
+
+        // ★ 先に既読にして重複トリガーを防止
+        threads.forEach(thread => thread.markRead());
+
+        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+        if (!token) {
+            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+            threads.forEach(thread => thread.markUnread());
+            return;
+        }
+
+        const success = triggerGitHubActionsWithEvent(token, subject, STORY_CONFIG.EVENT_TYPE);
+
+        if (success) {
+            console.log('✅ Story GitHub Actions をトリガーしました（既読済み）');
+        } else {
+            threads.forEach(thread => thread.markUnread());
+            console.error('⚠️ Storyトリガー失敗のため未読に戻しました');
+        }
+
+    } finally {
+        lock.releaseLock();
     }
 }
 
@@ -270,36 +306,48 @@ const FINCTX_CONFIG = {
 };
 
 function checkFinCtxMail() {
-    const threads = GmailApp.search(FINCTX_CONFIG.GMAIL_QUERY);
-
-    if (threads.length === 0) {
-        return; // 未読のFINCTXメールなし
-    }
-
-    console.log(`💰 ${threads.length} 件のFINCTXメールを検出`);
-
-    // ★ 先にメール情報を取得
-    const message = threads[0].getMessages()[threads[0].getMessages().length - 1];
-    const subject = message.getSubject();
-    const body = message.getPlainBody();
-
-    // ★ 先に既読にして重複トリガーを防止
-    threads.forEach(thread => thread.markRead());
-
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
-        threads.forEach(thread => thread.markUnread());
+    // ★ 排他制御: 同時実行を防止
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(3000)) {
+        console.log('⏳ 他のFINCTXトリガーが処理中。スキップします');
         return;
     }
 
-    const success = triggerGitHubActionsWithEvent(token, subject, FINCTX_CONFIG.EVENT_TYPE, body);
+    try {
+        const threads = GmailApp.search(FINCTX_CONFIG.GMAIL_QUERY);
 
-    if (success) {
-        console.log('✅ FINCTX GitHub Actions をトリガーしました（既読済み）');
-    } else {
-        threads.forEach(thread => thread.markUnread());
-        console.error('⚠️ FINCTXトリガー失敗のため未読に戻しました');
+        if (threads.length === 0) {
+            return; // 未読のFINCTXメールなし
+        }
+
+        console.log(`💰 ${threads.length} 件のFINCTXメールを検出`);
+
+        // ★ 先にメール情報を取得
+        const message = threads[0].getMessages()[threads[0].getMessages().length - 1];
+        const subject = message.getSubject();
+        const body = message.getPlainBody();
+
+        // ★ 先に既読にして重複トリガーを防止
+        threads.forEach(thread => thread.markRead());
+
+        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+        if (!token) {
+            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+            threads.forEach(thread => thread.markUnread());
+            return;
+        }
+
+        const success = triggerGitHubActionsWithEvent(token, subject, FINCTX_CONFIG.EVENT_TYPE, body);
+
+        if (success) {
+            console.log('✅ FINCTX GitHub Actions をトリガーしました（既読済み）');
+        } else {
+            threads.forEach(thread => thread.markUnread());
+            console.error('⚠️ FINCTXトリガー失敗のため未読に戻しました');
+        }
+
+    } finally {
+        lock.releaseLock();
     }
 }
 
