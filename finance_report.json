@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-26T11:10:25.752628",
+  "generated_at": "2026-02-26T11:15:04.599435",
   "summary": {
     "monthly_income": 870000,
     "monthly_fixed_costs": 160000,
@@ -129,18 +129,18 @@
     {
       "event": "妊娠検査キットの購入",
       "category": "日用品",
-      "timing": "2026年2月27日",
+      "timing": "明日",
       "months_until": 0,
-      "estimated_cost": 2000,
-      "certainty": "高",
+      "estimated_cost": null,
+      "certainty": "中",
       "note": "沙也香さんの妊娠の可能性を考慮"
     },
     {
-      "event": "AOKI薬局での日用品購入",
+      "event": "AOKI薬局での買い物",
       "category": "日用品",
-      "timing": "2026年3月2日",
+      "timing": "今週末",
       "months_until": 0,
-      "estimated_cost": 5000,
+      "estimated_cost": null,
       "certainty": "高",
       "note": "豆乳イソフラボン スプレー、蒼馬のオムツと粉ミルク、猫の餌、犬のシーツ"
     },
@@ -151,10 +151,10 @@
       "months_until": 0,
       "estimated_cost": null,
       "certainty": "高",
-      "note": "エネクスフリート加須店。車検証持参"
+      "note": "エネクスフリート加須店にて実施。車検証持参"
     },
     {
-      "event": "確定申告準備",
+      "event": "確定申告の準備",
       "category": "税金",
       "timing": "2026年3月15日",
       "months_until": 0,
@@ -165,44 +165,44 @@
     {
       "event": "城山公園へのピクニック",
       "category": "レジャー",
-      "timing": "2026年3月頃",
+      "timing": "2026年3月1日",
       "months_until": 0,
-      "estimated_cost": 5000,
+      "estimated_cost": null,
       "certainty": "中",
-      "note": "食料品、レジャーシートなど"
+      "note": "家族での外出。具体的な日程調整が必要"
     },
     {
       "event": "蒼馬 1歳 誕生日",
       "category": "育児",
-      "timing": "2026年5月頃",
+      "timing": "2026年5月",
       "months_until": 2,
-      "estimated_cost": 30000,
+      "estimated_cost": null,
       "certainty": "高",
-      "note": "プレゼント、誕生日会など"
+      "note": "誕生日プレゼント、イベント費用"
     },
     {
       "event": "妻の誕生日",
       "category": "記念日",
-      "timing": "2026年10月頃",
-      "months_until": 7,
+      "timing": "2026年〇月頃",
+      "months_until": 8,
       "estimated_cost": 20000,
       "certainty": "高",
       "note": "プレゼント・外食など"
     },
     {
-      "event": "年末調整・所得税",
-      "category": "税金",
-      "timing": "2026年12月頃",
-      "months_until": 9,
+      "event": "蒼馬の保育園入園準備",
+      "category": "育児",
+      "timing": "2027年4月頃",
+      "months_until": 13,
       "estimated_cost": null,
-      "certainty": "高",
-      "note": "所得税の支払い"
+      "certainty": "中",
+      "note": "保育園グッズ、入園費用など"
     },
     {
-      "event": "ダイニングの照明購入",
+      "event": "ダイニングの照明の購入",
       "category": "家具",
-      "timing": "2026年",
-      "months_until": 10,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": 100000,
       "certainty": "中",
       "note": "妻の希望。予算10万円"
@@ -210,8 +210,8 @@
     {
       "event": "外構工事の検討",
       "category": "住宅",
-      "timing": "2026年以降",
-      "months_until": 12,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": 600000,
       "certainty": "低",
       "note": "駐車場の後ろの外構工事。妻の希望。予算60万円程度"
@@ -219,56 +219,56 @@
     {
       "event": "乾太くん（ガス乾燥機）の導入検討",
       "category": "家電",
-      "timing": "2027年以降",
-      "months_until": 12,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": null,
       "certainty": "低",
-      "note": "蒼馬が幼稚園等に入り洗濯物が増えることを見越して"
+      "note": "蒼馬が幼稚園等に入り洗濯物が増えることを見越して検討"
     },
     {
       "event": "400Lクラスの冷蔵庫の購入検討",
       "category": "家電",
-      "timing": "2027年以降",
-      "months_until": 12,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": null,
       "certainty": "低",
       "note": "子供の成長に合わせて必要になると予想"
     },
     {
-      "event": "60インチのテレビとテレビボードの購入検討",
+      "event": "60インチのテレビへの買い替え検討",
       "category": "家電",
-      "timing": "2027年以降",
-      "months_until": 12,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": null,
       "certainty": "低",
       "note": "大型テレビへの買い替え希望"
     },
     {
-      "event": "三菱 デリカD5の購入検討",
-      "category": "自動車",
-      "timing": "2027年以降",
-      "months_until": 12,
-      "estimated_cost": 6000000,
+      "event": "テレビボードの購入検討",
+      "category": "家具",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
       "certainty": "低",
-      "note": "残価ローンでの購入をイメージ。総額約600万円、月々6万円程度"
+      "note": "テレビの買い替えに合わせて検討"
     },
     {
       "event": "ソファの購入検討",
       "category": "家具",
-      "timing": "2028年以降",
-      "months_until": 24,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": null,
       "certainty": "低",
       "note": "子供が3歳になりプレイマットが不要になったタイミングで検討"
     },
     {
-      "event": "蒼馬の保育園入園準備",
-      "category": "育児",
-      "timing": "2028年4月",
-      "months_until": 25,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "保育園グッズ、入園料など"
+      "event": "三菱 デリカD5の購入検討",
+      "category": "自動車",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": 6000000,
+      "certainty": "低",
+      "note": "残価ローンでの購入をイメージ。総額約600万円、月々6万円程度"
     }
   ]
 }
