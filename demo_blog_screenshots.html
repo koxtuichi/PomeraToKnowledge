@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Demo - ブログ用ダミーデータ</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-deeper: #0a0f1c;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --accent-primary: #38bdf8;
+            --accent-secondary: #818cf8;
+            --accent-success: #34d399;
+            --accent-warning: #fbbf24;
+            --accent-danger: #f87171;
+            --accent-purple: #a78bfa;
+            --accent-pink: #f472b6;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
+            --gravity-red: #ef4444;
+            --gravity-orange: #f97316;
+            --gravity-yellow: #eab308;
+            --energy-green: #22c55e;
+            --energy-teal: #14b8a6;
+            --energy-blue: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background: var(--bg-dark);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.04) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(129, 140, 248, 0.04) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(167, 139, 250, 0.03) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #app {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            height: 100vh;
+        }
+
+        aside {
+            background: rgba(10, 15, 28, 0.9);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            backdrop-filter: var(--glass-blur);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg);
+            color: var(--text-main);
+        }
+
+        .nav-link.active {
+            background: rgba(56, 189, 248, 0.08);
+            color: var(--accent-primary);
+            border-color: rgba(56, 189, 248, 0.15);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 16px 8px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        main {
+            padding: 32px 40px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header-section {
+            margin-bottom: 32px;
+        }
+
+        .header-section h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .header-section .date-text {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .coach-card {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(167, 139, 250, 0.08));
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 20px;
+            padding: 28px 32px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: var(--glass-blur);
+        }
+
+        .coach-card::before {
+            content: '🚀';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 80px;
+            opacity: 0.06;
+        }
+
+        .coach-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+        }
+
+        #coach-comment {
+            font-size: 16px;
+            line-height: 1.8;
+            font-weight: 400;
+            color: var(--text-main);
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-grid .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .dash-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: var(--glass-blur);
+            transition: border-color 0.2s;
+        }
+
+        .dash-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .card-count {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        /* Gravity Map */
+        .gravity-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .gravity-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .gravity-task-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gravity-task-assessment {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .gravity-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .gravity-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .gravity-bar-label {
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .gravity-bar-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .gravity-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        .gravity-bar-fill.gravity {
+            background: linear-gradient(90deg, var(--gravity-red), var(--gravity-orange));
+        }
+
+        .gravity-bar-fill.energy {
+            background: linear-gradient(90deg, var(--energy-teal), var(--energy-green));
+        }
+
+        .gravity-bar-text {
+            font-size: 10px;
+            color: var(--text-dim);
+            min-width: 80px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .tag-gravity {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--gravity-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .tag-gravity.severity-high {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .tag-gravity.severity-med {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--gravity-orange);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+
+        .tag-energy {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--energy-green);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        /* Actions */
+        .action-item {
+            margin-bottom: 16px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .action-item:hover {
+            border-color: rgba(34, 197, 94, 0.2);
+            background: rgba(34, 197, 94, 0.03);
+        }
+
+        .action-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .action-text {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .action-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .action-effort {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 1px 6px;
+            border-radius: 4px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .action-effect {
+            color: var(--text-muted);
+        }
+
+        /* Insights */
+        .insight-item {
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .insight-finding {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .insight-implication {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Emotions */
+        .emotion-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .emotion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .emotion-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .emotion-dot.positive {
+            background: var(--energy-green);
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+        }
+
+        .emotion-dot.negative {
+            background: var(--gravity-red);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        }
+
+        .emotion-dot.neutral {
+            background: var(--accent-warning);
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+        }
+
+        .emotion-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .emotion-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .emotion-context {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .emotion-score {
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Inter', monospace;
+            min-width: 36px;
+            text-align: right;
+        }
+
+        /* Schedule */
+        .schedule-strip {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 4px 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .schedule-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            white-space: nowrap;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .schedule-chip .chip-cat {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .chip-cat-work {
+            background: #60a5fa;
+        }
+
+        .chip-cat-side {
+            background: #a78bfa;
+        }
+
+        .chip-cat-family {
+            background: #f472b6;
+        }
+
+        .chip-cat-personal {
+            background: #34d399;
+        }
+
+        /* Blog Seeds */
+        .blog-seed-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .blog-seed-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .blog-seed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .blog-seed-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .blog-seed-theme {
+            font-size: 10px;
+            color: var(--accent-secondary);
+            background: rgba(99, 102, 241, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .blog-seed-outline {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            padding: 10px 12px;
+            background: rgba(148, 163, 184, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .blog-seed-readiness {
+            display: inline-block;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .readiness-high {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .readiness-med {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+
+        /* Family View */
+        #family-view {
+            display: none;
+        }
+
+        .family-header {
+            margin-bottom: 24px;
+        }
+
+        .family-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .family-member-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .family-member-card:hover {
+            border-color: #f472b6;
+        }
+
+        .family-member-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .family-event {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .family-emotion-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(244, 114, 182, 0.15);
+            color: #f472b6;
+            margin-top: 4px;
+        }
+
+        .family-todo-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .family-todo-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Graph View */
+        #graph-view {
+            display: none;
+            height: calc(100vh - 64px);
+            position: relative;
+        }
+
+        #graph-container {
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        /* Graph Legend */
+        .graph-legend {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 18px;
+            backdrop-filter: var(--glass-blur);
+            z-index: 10;
+        }
+
+        .graph-legend-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .graph-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .graph-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <aside>
+            <div class="logo">
+                <div class="logo-icon">🚀</div>
+                <span class="logo-text">Antigravity</span>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <div class="nav-link active" onclick="switchView('advisor')"><span>🏠</span> ダッシュボード</div>
+                    </li>
+                    <li>
+                        <div class="nav-link" onclick="switchView('family')"><span>👨‍👩‍👦</span> ファミリー</div>
+                    </li>
+                    <li>
+                        <div class="nav-link" onclick="switchView('graph')"><span>🕸️</span> ナレッジグラフ</div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div style="font-size: 11px; color: var(--text-dim);">最終更新: 2026-02-18 15:30</div>
+                <div style="font-size: 10px; color: var(--text-dim); margin-top: 4px;">※ ブログ用デモデータ</div>
+            </div>
+        </aside>
+
+        <main>
+            <!-- ダッシュボードビュー -->
+            <div id="advisor-view" class="dashboard-container">
+                <div class="header-section">
+                    <h1>こんにちは、田中さん</h1>
+                    <p class="date-text">2026年2月18日 火曜日</p>
+                </div>
+
+                <div id="schedule-section">
+                    <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">📅
+                        確定予定</div>
+                    <div class="schedule-strip">
+                        <div class="schedule-chip">
+                            <div class="chip-cat chip-cat-work"></div><span>2/19</span><span
+                                style="color: var(--text-muted)">チームミーティング</span>
+                        </div>
+                        <div class="schedule-chip">
+                            <div class="chip-cat chip-cat-side"></div><span>2/20</span><span
+                                style="color: var(--text-muted)">個人プロジェクトレビュー</span>
+                        </div>
+                        <div class="schedule-chip">
+                            <div class="chip-cat chip-cat-family"></div><span>2/22</span><span
+                                style="color: var(--text-muted)">家族で動物園</span>
+                        </div>
+                        <div class="schedule-chip">
+                            <div class="chip-cat chip-cat-personal"></div><span>2/25</span><span
+                                style="color: var(--text-muted)">読書会</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coach-card">
+                    <div class="coach-label">Antigravity Advisor</div>
+                    <div id="coach-comment">
+                        個人プロジェクトの進捗が順調で、特にポメラを使った思考整理の習慣が定着してきていますね。日記を書く時間を確保できている日は、仕事のパフォーマンスも高い傾向がデータから見えています。一方で、運動習慣の定着がまだ課題です。「やらなきゃ」という重力よりも、「やると気持ちいい」というエネルギーを見つけるフェーズに入りましょう。
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- 重力マップ -->
+                    <div class="dash-card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(239,68,68,0.1); color: #ef4444;">🪨</div>
+                            <div class="card-title">重力マップ</div>
+                            <div class="card-count">3 タスク</div>
+                        </div>
+                        <div id="gravity-map-list">
+                            <div class="gravity-item">
+                                <div class="gravity-task-name">📋 技術ブログの執筆</div>
+                                <div class="gravity-task-assessment">書きたいテーマはあるが、「完璧な記事にしなきゃ」という心理的重力が着手を阻んでいる。</div>
+                                <div class="gravity-bars">
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">🪨</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill gravity" style="width:75%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">完璧主義</div>
+                                    </div>
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">🪨</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill gravity" style="width:50%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">時間不足</div>
+                                    </div>
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">⚡</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill energy" style="width:60%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">知識共有への意欲</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gravity-item">
+                                <div class="gravity-task-name">🏃 週3回の運動習慣</div>
+                                <div class="gravity-task-assessment">ジムに行く気力が仕事後に残らない。移動時間が障壁になっている。</div>
+                                <div class="gravity-bars">
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">🪨</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill gravity" style="width:80%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">疲労</div>
+                                    </div>
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">🪨</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill gravity" style="width:40%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">移動コスト</div>
+                                    </div>
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">⚡</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill energy" style="width:45%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">健康への危機感</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gravity-item">
+                                <div class="gravity-task-name">📚 読みかけの本の消化</div>
+                                <div class="gravity-task-assessment">3冊同時に読み進めており、どれも中途半端になっている。</div>
+                                <div class="gravity-bars">
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">🪨</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill gravity" style="width:45%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">選択疲れ</div>
+                                    </div>
+                                    <div class="gravity-bar-row">
+                                        <div class="gravity-bar-label">⚡</div>
+                                        <div class="gravity-bar-track">
+                                            <div class="gravity-bar-fill energy" style="width:70%"></div>
+                                        </div>
+                                        <div class="gravity-bar-text">知的好奇心</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 反重力アクション -->
+                    <div class="dash-card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(34,197,94,0.1); color: #22c55e;">🚀</div>
+                            <div class="card-title">重力軽減アクション</div>
+                            <div class="card-count">4 件</div>
+                        </div>
+                        <div id="action-list">
+                            <div class="action-item">
+                                <div class="action-text">ブログ記事を「完成版」ではなく「学習メモ」として書き始める</div>
+                                <div class="action-meta">
+                                    <span class="action-effort">⏱ 10分</span>
+                                    <span class="action-effect">→ 技術ブログの執筆</span>
+                                </div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-text">ジムの代わりに自宅で7分ワークアウト動画を1本やる</div>
+                                <div class="action-meta">
+                                    <span class="action-effort">⏱ 7分</span>
+                                    <span class="action-effect">→ 運動習慣の定着</span>
+                                </div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-text">3冊のうち最も薄い1冊に絞り、今日中に20ページだけ読む</div>
+                                <div class="action-meta">
+                                    <span class="action-effort">⏱ 15分</span>
+                                    <span class="action-effect">→ 読書の消化</span>
+                                </div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-text">明日の朝、ポメラで「今週やりたいこと」を3つだけ書き出す</div>
+                                <div class="action-meta">
+                                    <span class="action-effort">⏱ 5分</span>
+                                    <span class="action-effect">→ 週次の方向性整理</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 知見 -->
+                    <div class="dash-card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(129,140,248,0.1); color: #818cf8;">💡</div>
+                            <div class="card-title">知見</div>
+                        </div>
+                        <div id="insights-list">
+                            <div class="insight-item">
+                                <div class="insight-finding">💡 ポメラで書いた日の午前中は、平均1.5倍のタスクをこなしている</div>
+                                <div class="insight-implication">ポメラでの思考整理が、その日全体の「認知的な準備運動」として機能している可能性がある。</div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-finding">💡 「やらなきゃ」より「面白そう」で始めたタスクは完了率が3倍高い</div>
+                                <div class="insight-implication">義務感ではなく好奇心をトリガーにする仕組みを作ることが、継続の鍵になる。</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 感情の流れ -->
+                    <div class="dash-card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(244,114,182,0.1); color: #f472b6;">💭</div>
+                            <div class="card-title">感情の流れ</div>
+                        </div>
+                        <div id="emotion-list">
+                            <div class="emotion-item">
+                                <div class="emotion-dot positive"></div>
+                                <div class="emotion-info">
+                                    <div class="emotion-name">達成感</div>
+                                    <div class="emotion-context">個人プロジェクトのマイルストーン達成による充実感</div>
+                                </div>
+                                <div class="emotion-score" style="color: var(--energy-green);">+0.8</div>
+                            </div>
+                            <div class="emotion-item">
+                                <div class="emotion-dot positive"></div>
+                                <div class="emotion-info">
+                                    <div class="emotion-name">感謝</div>
+                                    <div class="emotion-context">妻が子どもの世話をしてくれている間に集中できた</div>
+                                </div>
+                                <div class="emotion-score" style="color: var(--energy-green);">+0.7</div>
+                            </div>
+                            <div class="emotion-item">
+                                <div class="emotion-dot negative"></div>
+                                <div class="emotion-info">
+                                    <div class="emotion-name">焦り</div>
+                                    <div class="emotion-context">運動習慣が2週間途切れていることへの自己嫌悪</div>
+                                </div>
+                                <div class="emotion-score" style="color: var(--gravity-red);">-0.4</div>
+                            </div>
+                            <div class="emotion-item">
+                                <div class="emotion-dot neutral"></div>
+                                <div class="emotion-info">
+                                    <div class="emotion-name">期待</div>
+                                    <div class="emotion-context">週末の家族での動物園への楽しみ</div>
+                                </div>
+                                <div class="emotion-score" style="color: var(--accent-warning);">+0.5</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ブログ素材 -->
+                    <div class="dash-card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(251,191,36,0.1); color: #fbbf24;">✍️</div>
+                            <div class="card-title">ブログ素材</div>
+                            <div class="card-count">2 件</div>
+                        </div>
+                        <div id="blog-seeds-list">
+                            <div class="blog-seed-item">
+                                <div class="blog-seed-header">
+                                    <div class="blog-seed-title">書かれなかった手紙</div>
+                                    <div class="blog-seed-theme">日常</div>
+                                </div>
+                                <div class="blog-seed-outline">
+                                    毎日日記を書いている男が、ある日「自分宛ての手紙」を見つける。それは未来の自分からのメッセージだった。しかし読み進めると、内容は過去の日記そのもので…</div>
+                                <div><span class="blog-seed-readiness readiness-high">準備完了</span></div>
+                            </div>
+                            <div class="blog-seed-item">
+                                <div class="blog-seed-header">
+                                    <div class="blog-seed-title">7分間の宇宙</div>
+                                    <div class="blog-seed-theme">哲学的</div>
+                                </div>
+                                <div class="blog-seed-outline">
+                                    たった7分間の運動で、世界の見え方が変わると気づいた研究者。しかし彼が本当に発見したのは、7分間の静寂がもたらす思考の深さだった。</div>
+                                <div><span class="blog-seed-readiness readiness-med">構想中</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ファミリービュー -->
+            <div id="family-view">
+                <div class="family-header">
+                    <h2>👨‍👩‍👦 ファミリーダイジェスト</h2>
+                    <p class="date-text" style="margin-top: 4px;">日記から家族に関する出来事を抽出しています</p>
+                </div>
+                <div id="family-highlights">
+                    <div class="family-member-card">
+                        <div class="family-member-name">👦 ゆうと</div>
+                        <div class="family-event">📝 積み木で初めて5段のタワーを作れた。崩れた時に笑っていて、「もう一回！」と言った。成長を感じる。</div>
+                        <div class="family-emotion-tag">🌱 成長への喜び</div>
+                    </div>
+                    <div class="family-member-card">
+                        <div class="family-member-name">👩 あかり</div>
+                        <div class="family-event">📝 仕事復帰に向けて資格の勉強を再開した。子どもが寝た後の時間を上手に使っている。応援したい。</div>
+                        <div class="family-emotion-tag">💪 尊敬と応援</div>
+                    </div>
+                </div>
+                <div class="dash-card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(244,114,182,0.1); color: #f472b6;">📝</div>
+                        <div class="card-title">家族の TODO</div>
+                    </div>
+                    <div id="family-todos">
+                        <div class="family-todo-item">☐ 動物園の持ち物リストを作成する</div>
+                        <div class="family-todo-item">☐ ゆうとの1歳半健診の予約を確認する</div>
+                        <div class="family-todo-item">☐ あかりの勉強時間を確保するため、日曜午前は子どもを外遊びに連れ出す</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ナレッジグラフビュー -->
+            <div id="graph-view">
+                <div class="graph-legend">
+                    <div class="graph-legend-title">ノードの種類</div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #38bdf8;"></div>日記
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #f97316;"></div>タスク
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #22c55e;"></div>目標
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #a78bfa;"></div>知見
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #f472b6;"></div>人物
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #fbbf24;"></div>感情
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #ef4444;"></div>制約
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #818cf8;"></div>プロジェクト
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot" style="background: #14b8a6;"></div>出来事
+                    </div>
+                </div>
+                <div id="graph-container">
+                    <svg id="graph-svg"></svg>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ========== ビュー切り替え ==========
+        function switchView(view) {
+            document.getElementById('advisor-view').style.display = view === 'advisor' ? 'block' : 'none';
+            document.getElementById('family-view').style.display = view === 'family' ? 'block' : 'none';
+            document.getElementById('graph-view').style.display = view === 'graph' ? 'block' : 'none';
+
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            const labels = { advisor: 'ダッシュボード', family: 'ファミリー', graph: 'ナレッジグラフ' };
+            document.querySelectorAll('.nav-link').forEach(el => {
+                if (el.textContent.includes(labels[view])) el.classList.add('active');
+            });
+
+            if (view === 'graph' && !graphInitialized) {
+                initGraph();
+                graphInitialized = true;
+            }
+        }
+
+        // ========== ナレッジグラフ ==========
+        let graphInitialized = false;
+
+        const DUMMY_GRAPH = {
+            nodes: [
+                { id: "日記:2026-02-18", label: "2月18日の日記", type: "日記" },
+                { id: "日記:2026-02-17", label: "2月17日の日記", type: "日記" },
+                { id: "日記:2026-02-16", label: "2月16日の日記", type: "日記" },
+
+                { id: "タスク:ブログ執筆", label: "技術ブログの執筆", type: "タスク" },
+                { id: "タスク:運動習慣", label: "週3回の運動", type: "タスク" },
+                { id: "タスク:読書", label: "読書の消化", type: "タスク" },
+                { id: "タスク:プレゼン準備", label: "プレゼン資料作成", type: "タスク" },
+
+                { id: "目標:健康", label: "健康的な生活習慣", type: "目標" },
+                { id: "目標:アウトプット", label: "月2本のブログ", type: "目標" },
+                { id: "目標:スキルアップ", label: "新技術の習得", type: "目標" },
+
+                { id: "知見:ポメラ効果", label: "ポメラで集中力向上", type: "知見" },
+                { id: "知見:小さく始める", label: "小さく始めると続く", type: "知見" },
+                { id: "知見:運動と思考", label: "運動後は思考がクリア", type: "知見" },
+
+                { id: "人物:あかり", label: "あかり", type: "人物" },
+                { id: "人物:ゆうと", label: "ゆうと", type: "人物" },
+                { id: "人物:自分", label: "自分", type: "人物" },
+                { id: "人物:山田さん", label: "山田さん", type: "人物" },
+
+                { id: "感情:達成感", label: "達成感", type: "感情" },
+                { id: "感情:焦り", label: "焦り", type: "感情" },
+                { id: "感情:期待", label: "期待", type: "感情" },
+
+                { id: "制約:時間不足", label: "時間不足", type: "制約" },
+                { id: "制約:完璧主義", label: "完璧主義", type: "制約" },
+                { id: "制約:疲労", label: "仕事後の疲労", type: "制約" },
+
+                { id: "プロジェクト:個人開発", label: "個人プロジェクト", type: "プロジェクト" },
+                { id: "プロジェクト:本業", label: "チーム開発", type: "プロジェクト" },
+
+                { id: "出来事:公園", label: "家族で公園散歩", type: "出来事" },
+                { id: "出来事:積み木", label: "ゆうとの積み木成功", type: "出来事" },
+            ],
+            edges: [
+                { source: "日記:2026-02-18", target: "タスク:ブログ執筆", label: "記録" },
+                { source: "日記:2026-02-18", target: "タスク:運動習慣", label: "記録" },
+                { source: "日記:2026-02-18", target: "感情:達成感", label: "感じた" },
+                { source: "日記:2026-02-18", target: "感情:焦り", label: "感じた" },
+                { source: "日記:2026-02-18", target: "出来事:積み木", label: "記録" },
+
+                { source: "日記:2026-02-17", target: "タスク:読書", label: "記録" },
+                { source: "日記:2026-02-17", target: "知見:ポメラ効果", label: "発見" },
+                { source: "日記:2026-02-17", target: "出来事:公園", label: "記録" },
+                { source: "日記:2026-02-17", target: "感情:期待", label: "感じた" },
+
+                { source: "日記:2026-02-16", target: "タスク:プレゼン準備", label: "記録" },
+                { source: "日記:2026-02-16", target: "知見:小さく始める", label: "発見" },
+
+                { source: "タスク:ブログ執筆", target: "目標:アウトプット", label: "貢献" },
+                { source: "タスク:運動習慣", target: "目標:健康", label: "貢献" },
+                { source: "タスク:読書", target: "目標:スキルアップ", label: "貢献" },
+
+                { source: "制約:完璧主義", target: "タスク:ブログ執筆", label: "阻害" },
+                { source: "制約:時間不足", target: "タスク:ブログ執筆", label: "阻害" },
+                { source: "制約:疲労", target: "タスク:運動習慣", label: "阻害" },
+                { source: "制約:時間不足", target: "タスク:読書", label: "阻害" },
+
+                { source: "知見:ポメラ効果", target: "タスク:ブログ執筆", label: "解決" },
+                { source: "知見:小さく始める", target: "タスク:運動習慣", label: "解決" },
+                { source: "知見:運動と思考", target: "目標:健康", label: "関連" },
+
+                { source: "人物:自分", target: "プロジェクト:個人開発", label: "担当" },
+                { source: "人物:自分", target: "プロジェクト:本業", label: "担当" },
+                { source: "人物:山田さん", target: "プロジェクト:本業", label: "所属" },
+                { source: "人物:自分", target: "人物:あかり", label: "家族" },
+                { source: "人物:自分", target: "人物:ゆうと", label: "家族" },
+
+                { source: "出来事:積み木", target: "人物:ゆうと", label: "主体" },
+                { source: "出来事:公園", target: "人物:あかり", label: "参加" },
+                { source: "出来事:公園", target: "人物:ゆうと", label: "参加" },
+
+                { source: "プロジェクト:個人開発", target: "タスク:ブログ執筆", label: "計画" },
+                { source: "プロジェクト:本業", target: "タスク:プレゼン準備", label: "計画" },
+
+                { source: "感情:達成感", target: "プロジェクト:個人開発", label: "関連" },
+                { source: "感情:焦り", target: "タスク:運動習慣", label: "関連" },
+                { source: "感情:期待", target: "出来事:公園", label: "関連" },
+            ]
+        };
+
+        const TYPE_COLORS = {
+            "日記": "#38bdf8",
+            "タスク": "#f97316",
+            "目標": "#22c55e",
+            "知見": "#a78bfa",
+            "人物": "#f472b6",
+            "感情": "#fbbf24",
+            "制約": "#ef4444",
+            "プロジェクト": "#818cf8",
+            "出来事": "#14b8a6",
+        };
+
+        function initGraph() {
+            const container = document.getElementById('graph-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            const svg = d3.select('#graph-svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            // Defs for glow
+            const defs = svg.append('defs');
+            const filter = defs.append('filter').attr('id', 'glow');
+            filter.append('feGaussianBlur').attr('stdDeviation', '3').attr('result', 'coloredBlur');
+            const feMerge = filter.append('feMerge');
+            feMerge.append('feMergeNode').attr('in', 'coloredBlur');
+            feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
+            const g = svg.append('g');
+
+            // Zoom
+            const zoom = d3.zoom()
+                .scaleExtent([0.3, 3])
+                .on('zoom', (event) => g.attr('transform', event.transform));
+            svg.call(zoom);
+
+            const simulation = d3.forceSimulation(DUMMY_GRAPH.nodes)
+                .force('link', d3.forceLink(DUMMY_GRAPH.edges).id(d => d.id).distance(120))
+                .force('charge', d3.forceManyBody().strength(-400))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(35));
+
+            // Links
+            const link = g.append('g')
+                .selectAll('line')
+                .data(DUMMY_GRAPH.edges)
+                .join('line')
+                .attr('stroke', 'rgba(255,255,255,0.08)')
+                .attr('stroke-width', 1);
+
+            // Link labels
+            const linkLabel = g.append('g')
+                .selectAll('text')
+                .data(DUMMY_GRAPH.edges)
+                .join('text')
+                .text(d => d.label)
+                .attr('fill', 'rgba(255,255,255,0.2)')
+                .attr('font-size', '9px')
+                .attr('text-anchor', 'middle')
+                .attr('font-family', "'Noto Sans JP', sans-serif");
+
+            // Nodes
+            const node = g.append('g')
+                .selectAll('g')
+                .data(DUMMY_GRAPH.nodes)
+                .join('g')
+                .call(d3.drag()
+                    .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+                    .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+                    .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+                );
+
+            node.append('circle')
+                .attr('r', d => d.type === '日記' ? 18 : d.type === '人物' ? 15 : 12)
+                .attr('fill', d => TYPE_COLORS[d.type] || '#64748b')
+                .attr('opacity', 0.85)
+                .attr('stroke', d => TYPE_COLORS[d.type] || '#64748b')
+                .attr('stroke-width', 2)
+                .attr('stroke-opacity', 0.3)
+                .style('filter', 'url(#glow)');
+
+            node.append('text')
+                .text(d => d.label)
+                .attr('dy', d => (d.type === '日記' ? 18 : d.type === '人物' ? 15 : 12) + 14)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'var(--text-muted)')
+                .attr('font-size', '10px')
+                .attr('font-family', "'Noto Sans JP', sans-serif");
+
+            // Tooltip on hover
+            node.append('title').text(d => d.label);
+
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                linkLabel
+                    .attr('x', d => (d.source.x + d.target.x) / 2)
+                    .attr('y', d => (d.source.y + d.target.y) / 2);
+
+                node.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+
+            // Initial zoom
+            svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(0.9));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+{
+  "title": "ポメラの日記をAIでToDo化する仕組み",
+  "description": "ToDoアプリが長続きしない課題を、ポメラDM250とAI（Gemini）の連携で解決した話。日記を書くだけで自動的にタスクが抽出され、自作のダッシュボードに整理される仕組みを構築。思考のついでにタスク管理ができる、筆者独自のライフハックを紹介します。",
+  "categories": [
+    "ポメラ",
+    "AI活用",
+    "ライフハック"
+  ],
+  "estimated_read_time": "5分",
+  "source_file": "blog_drafts/20260226_[BLOG]Todoタスクを日記から見える化.txt",
+  "generated_at": "2026-02-26T01:14:41.445603",
+  "type": "blog_article"
+}
