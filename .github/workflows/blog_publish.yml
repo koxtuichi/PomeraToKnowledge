@@ -35,11 +35,10 @@ jobs:
 
       - name: Save Blog Draft from Payload
         if: ${{ github.event_name == 'repository_dispatch' }}
+        id: save_draft
         env:
           BLOG_BODY: ${{ github.event.client_payload.body }}
           BLOG_SUBJECT: ${{ github.event.client_payload.subject }}
-          GMAIL_ACCOUNT: ${{ secrets.GMAIL_ACCOUNT }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
           echo "📬 payloadからブログ草案を取得中..."
           echo "🔍 デバッグ: BLOG_SUBJECT length=$(echo -n "$BLOG_SUBJECT" | wc -c)"
@@ -47,23 +46,18 @@ jobs:
           mkdir -p blog_drafts
 
           if [ -n "$BLOG_BODY" ]; then
-            # payloadで本文が届いた場合
             SAFE_SUBJECT=$(echo "$BLOG_SUBJECT" | sed 's/[\/\*\?\:\"<>\|\\]//g' | cut -c1-50)
             DATE_PREFIX=$(date +%Y%m%d)
             DRAFT_FILE="blog_drafts/${DATE_PREFIX}_${SAFE_SUBJECT}.txt"
             printf '%s' "$BLOG_BODY" > "$DRAFT_FILE"
             echo "✅ payloadから草案を保存しました: $DRAFT_FILE"
             echo "   文字数: $(wc -c < "$DRAFT_FILE") bytes"
+            # ★ 今回保存したファイルパスを後続ステップに渡す
+            echo "draft_file=$DRAFT_FILE" >> $GITHUB_OUTPUT
           else
-            # フォールバック: Gmailから直接取得（GASがbodyを送っていない場合）
-            echo "⚠️ BLOG_BODYが空。Gmailから直接取得します..."
-            python scripts/sync_email.py --blog-only
-            DRAFT_COUNT=$(ls blog_drafts/*.txt 2>/dev/null | wc -l)
-            echo "   Gmailから ${DRAFT_COUNT} 件取得"
+            echo "⚠️ BLOG_BODYが空です。処理をスキップします。"
+            echo "draft_file=" >> $GITHUB_OUTPUT
           fi
-
-          echo "📂 blog_drafts/ の内容:"
-          ls -la blog_drafts/*.txt 2>/dev/null || echo "  TXTファイルなし"
 
       - name: Generate Essay and Publish
         env:
@@ -71,6 +65,7 @@ jobs:
           HATENA_ID: ${{ secrets.HATENA_ID }}
           HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}
           HATENA_API_KEY: ${{ secrets.HATENA_API_KEY }}
+          CURRENT_DRAFT: ${{ steps.save_draft.outputs.draft_file || github.event.inputs.draft_file || '' }}
         run: |
           echo "🔑 環境変数チェック:"
           echo "  GOOGLE_API_KEY: $([ -n '${{ secrets.GOOGLE_API_KEY }}' ] && echo 'セット済み' || echo '未設定')"
@@ -78,23 +73,23 @@ jobs:
           echo "  HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}"
           echo "  HATENA_API_KEY: $([ -n '${{ secrets.HATENA_API_KEY }}' ] && echo 'セット済み' || echo '未設定 ← 投稿できない原因の可能性')"
 
-          # blog_drafts/ 内の未処理ファイルを処理
-          if [ -d "blog_drafts" ] && [ "$(ls -A blog_drafts/*.txt 2>/dev/null)" ]; then
-            mkdir -p blog_drafts/processed blog_ready
-            for f in blog_drafts/*.txt; do
-              echo "📝 Processing: $f"
-              python scripts/blog_article_writer.py "$f"
-              EXIT_CODE=$?
-              if [ $EXIT_CODE -ne 0 ]; then
-                echo "⚠️ 失敗 (exit=$EXIT_CODE): $f"
-              else
-                echo "✅ 完了: $f"
-              fi
-              mv "$f" blog_drafts/processed/ 2>/dev/null || true
-              sleep 5
-            done
+          mkdir -p blog_drafts/processed blog_ready
+
+          # ★ CURRENT_DRAFTが指定されていればそのファイルだけ処理
+          if [ -n "$CURRENT_DRAFT" ] && [ -f "$CURRENT_DRAFT" ]; then
+            echo "📝 Processing (指定ファイル): $CURRENT_DRAFT"
+            python scripts/blog_article_writer.py "$CURRENT_DRAFT"
+            EXIT_CODE=$?
+            if [ $EXIT_CODE -ne 0 ]; then
+              echo "⚠️ 失敗 (exit=$EXIT_CODE): $CURRENT_DRAFT"
+            else
+              echo "✅ 完了: $CURRENT_DRAFT"
+            fi
+            mv "$CURRENT_DRAFT" blog_drafts/processed/ 2>/dev/null || true
+          elif [ -n "$CURRENT_DRAFT" ]; then
+            echo "❌ 指定ファイルが見つかりません: $CURRENT_DRAFT"
           else
-            echo "💤 処理対象のブログ草案がありません"
+            echo "💤 処理対象のブログ草案がありません（BLOG_BODYが空でした）"
           fi
 
           echo "📂 blog_ready/ の生成結果:"
