@@ -32,10 +32,13 @@ function checkPomeraMail() {
 
     console.log(`📬 ${threads.length} 件のPOMERAメールを検出`);
 
-    // GitHub repository_dispatch を発火
+    // ★ 先に既読にして重複トリガーを防止
+    threads.forEach(thread => thread.markRead());
+
     const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
     if (!token) {
         console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        threads.forEach(thread => thread.markUnread());
         return;
     }
 
@@ -43,9 +46,11 @@ function checkPomeraMail() {
     const success = triggerGitHubActions(token, subject);
 
     if (success) {
-        // 処理済みのメールを既読にする
-        threads.forEach(thread => thread.markRead());
-        console.log('✅ GitHub Actions をトリガーし、メールを既読にしました');
+        console.log('✅ GitHub Actions をトリガーしました（既読済み）');
+    } else {
+        // 失敗時は未読に戻して次回リトライ
+        threads.forEach(thread => thread.markUnread());
+        console.error('⚠️ トリガー失敗のため未読に戻しました');
     }
 }
 
@@ -109,21 +114,29 @@ function checkBlogMail() {
 
     console.log(`📝 ${threads.length} 件のBLOGメールを検出`);
 
+    // ★ 先にメール情報を取得してから既読にする
+    const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+    const subject = threads[0].getFirstMessageSubject();
+    const body = msg.getPlainBody();
+
+    // ★ 先に既読にして重複トリガーを防止
+    threads.forEach(thread => thread.markRead());
+
     const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
     if (!token) {
         console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        threads.forEach(thread => thread.markUnread());
         return;
     }
 
-    const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
-    const subject = threads[0].getFirstMessageSubject();
-    // メール本文をpayloadに含める（FINCTXと同じ方式）
-    const body = msg.getPlainBody();
     const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE, body);
 
     if (success) {
-        threads.forEach(thread => thread.markRead());
-        console.log('✅ Blog GitHub Actions をトリガーし、メールを既読にしました');
+        console.log('✅ Blog GitHub Actions をトリガーしました（既読済み）');
+    } else {
+        // 失敗時は未読に戻して次回リトライ
+        threads.forEach(thread => thread.markUnread());
+        console.error('⚠️ Blogトリガー失敗のため未読に戻しました');
     }
 }
 
@@ -215,18 +228,25 @@ function checkStoryMail() {
 
     console.log(`📖 ${threads.length} 件のSTORYメールを検出`);
 
+    const subject = threads[0].getFirstMessageSubject();
+
+    // ★ 先に既読にして重複トリガーを防止
+    threads.forEach(thread => thread.markRead());
+
     const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
     if (!token) {
         console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        threads.forEach(thread => thread.markUnread());
         return;
     }
 
-    const subject = threads[0].getFirstMessageSubject();
     const success = triggerGitHubActionsWithEvent(token, subject, STORY_CONFIG.EVENT_TYPE);
 
     if (success) {
-        threads.forEach(thread => thread.markRead());
-        console.log('✅ Story GitHub Actions をトリガーし、メールを既読にしました');
+        console.log('✅ Story GitHub Actions をトリガーしました（既読済み）');
+    } else {
+        threads.forEach(thread => thread.markUnread());
+        console.error('⚠️ Storyトリガー失敗のため未読に戻しました');
     }
 }
 
@@ -258,49 +278,28 @@ function checkFinCtxMail() {
 
     console.log(`💰 ${threads.length} 件のFINCTXメールを検出`);
 
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
-        return;
-    }
-
-    // メール本文を取得してペイロードに含める
+    // ★ 先にメール情報を取得
     const message = threads[0].getMessages()[threads[0].getMessages().length - 1];
     const subject = message.getSubject();
     const body = message.getPlainBody();
 
-    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/dispatches`;
-    const options = {
-        method: 'post',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'X-GitHub-Api-Version': '2022-11-28'
-        },
-        contentType: 'application/json',
-        payload: JSON.stringify({
-            event_type: FINCTX_CONFIG.EVENT_TYPE,
-            client_payload: {
-                subject: subject,
-                body: body,
-                triggered_at: new Date().toISOString()
-            }
-        }),
-        muteHttpExceptions: true
-    };
+    // ★ 先に既読にして重複トリガーを防止
+    threads.forEach(thread => thread.markRead());
 
-    try {
-        const response = UrlFetchApp.fetch(url, options);
-        const code = response.getResponseCode();
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        threads.forEach(thread => thread.markUnread());
+        return;
+    }
 
-        if (code === 204) {
-            threads.forEach(thread => thread.markRead());
-            console.log('✅ FINCTX GitHub Actions をトリガーし、メールを既読にしました');
-        } else {
-            console.error(`❌ GitHub API エラー: ${code} - ${response.getContentText()}`);
-        }
-    } catch (e) {
-        console.error(`❌ リクエスト失敗: ${e.message}`);
+    const success = triggerGitHubActionsWithEvent(token, subject, FINCTX_CONFIG.EVENT_TYPE, body);
+
+    if (success) {
+        console.log('✅ FINCTX GitHub Actions をトリガーしました（既読済み）');
+    } else {
+        threads.forEach(thread => thread.markUnread());
+        console.error('⚠️ FINCTXトリガー失敗のため未読に戻しました');
     }
 }
 
