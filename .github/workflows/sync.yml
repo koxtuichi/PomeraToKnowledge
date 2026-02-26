@@ -56,6 +56,17 @@ jobs:
             sleep 5
           done
 
+      - name: Update Finance Report
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          if [ -f finance_context.json ]; then
+            echo "💰 家計レポートを更新中..."
+            python scripts/finance_analyzer.py --output finance_report.json || echo "⚠️ finance_analyzer.py 失敗（スキップ）"
+          else
+            echo "💤 finance_context.json がないためスキップします"
+          fi
+
       - name: HTML の整合性チェック
         run: python3 scripts/validate_html.py graph_data.js
 

@@ -760,6 +760,9 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
     print("🔄 Antigravity分析を実行中...")
     raw = call_gemini_api(prompt, model=_DEFAULT_SECTION_MODEL, response_mime_type="application/json")
     # Markdownコードブロックが混入した場合に備えてクリーニング
+    if not raw:
+        print("   ⚠️ Gemini APIからの応答がNullです。Antigravity分析をスキップします。")
+        return "{}"
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         cleaned = re.sub(r'^```(?:json)?\s*', '', cleaned)
