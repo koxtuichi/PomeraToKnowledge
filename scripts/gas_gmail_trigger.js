@@ -4,6 +4,11 @@
  * Gmailに「POMERA」を含む件名のメールが届いたら、
  * GitHub repository_dispatch APIを叩いてワークフローを起動する。
  * 
+ * ■ 重複防止策（3層防御）
+ *   1. LockService: 同時実行を排他制御
+ *   2. 既読化を先に実行: 次のポーリングで検知されない
+ *   3. メッセージID記録: 処理済みメールをスキップ
+ * 
  * ■ セットアップ手順は SETUP_GAS_TRIGGER.md を参照
  */
 
@@ -20,11 +25,66 @@ const CONFIG = {
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 重複防止ユーティリティ
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/**
+ * メッセージIDが処理済みかチェックし、未処理なら記録する。
+ * ScriptPropertiesに最新20件のIDを保持する。
+ * @returns {boolean} true=処理済み（スキップすべき）, false=未処理（処理OK）
+ */
+function isAlreadyProcessed(messageId, category) {
+    const props = PropertiesService.getScriptProperties();
+    const key = `PROCESSED_${category}`;
+    const raw = props.getProperty(key) || '[]';
+
+    let processedIds;
+    try {
+        processedIds = JSON.parse(raw);
+    } catch (e) {
+        processedIds = [];
+    }
+
+    if (processedIds.includes(messageId)) {
+        console.log(`⏭️ メッセージID ${messageId} は処理済み。スキップします`);
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * メッセージIDを処理済みとして記録する。
+ * 最新20件のみ保持し、古いものは自動的に削除される。
+ */
+function markAsProcessed(messageId, category) {
+    const props = PropertiesService.getScriptProperties();
+    const key = `PROCESSED_${category}`;
+    const raw = props.getProperty(key) || '[]';
+
+    let processedIds;
+    try {
+        processedIds = JSON.parse(raw);
+    } catch (e) {
+        processedIds = [];
+    }
+
+    processedIds.push(messageId);
+    // 最新20件のみ保持
+    if (processedIds.length > 20) {
+        processedIds = processedIds.slice(-20);
+    }
+
+    props.setProperty(key, JSON.stringify(processedIds));
+    console.log(`📌 メッセージID ${messageId} を処理済みとして記録`);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // メイン関数 — トリガーから1分間隔で呼び出される
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function checkPomeraMail() {
-    // ★ 排他制御: 同時実行を防止
+    // 防御1: 排他制御
     const lock = LockService.getScriptLock();
     if (!lock.tryLock(3000)) {
         console.log('⏳ 他のPOMERAトリガーが処理中。スキップします');
@@ -35,12 +95,21 @@ function checkPomeraMail() {
         const threads = GmailApp.search(CONFIG.GMAIL_QUERY);
 
         if (threads.length === 0) {
-            return; // 未読のPOMERAメールなし
+            return;
         }
 
         console.log(`📬 ${threads.length} 件のPOMERAメールを検出`);
 
-        // ★ 先に既読にして重複トリガーを防止
+        const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+        const msgId = msg.getId();
+
+        // 防御3: メッセージID重複チェック
+        if (isAlreadyProcessed(msgId, 'POMERA')) {
+            threads.forEach(thread => thread.markRead());
+            return;
+        }
+
+        // 防御2: 先に既読にして次のポーリングで検知されないようにする
         threads.forEach(thread => thread.markRead());
 
         const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
@@ -54,9 +123,9 @@ function checkPomeraMail() {
         const success = triggerGitHubActions(token, subject);
 
         if (success) {
-            console.log('✅ GitHub Actions をトリガーしました（既読済み）');
+            markAsProcessed(msgId, 'POMERA');
+            console.log('✅ GitHub Actions をトリガーしました');
         } else {
-            // 失敗時は未読に戻して次回リトライ
             threads.forEach(thread => thread.markUnread());
             console.error('⚠️ トリガー失敗のため未読に戻しました');
         }
@@ -118,7 +187,7 @@ const BLOG_CONFIG = {
 };
 
 function checkBlogMail() {
-    // ★ 排他制御: 同時実行を防止
+    // 防御1: 排他制御
     const lock = LockService.getScriptLock();
     if (!lock.tryLock(3000)) {
         console.log('⏳ 他のBLOGトリガーが処理中。スキップします');
@@ -129,17 +198,23 @@ function checkBlogMail() {
         const threads = GmailApp.search(BLOG_CONFIG.GMAIL_QUERY);
 
         if (threads.length === 0) {
-            return; // 未読のBLOGメールなし
+            return;
         }
 
         console.log(`📝 ${threads.length} 件のBLOGメールを検出`);
 
-        // ★ 先にメール情報を取得してから既読にする
         const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+        const msgId = msg.getId();
         const subject = threads[0].getFirstMessageSubject();
         const body = msg.getPlainBody();
 
-        // ★ 先に既読にして重複トリガーを防止
+        // 防御3: メッセージID重複チェック
+        if (isAlreadyProcessed(msgId, 'BLOG')) {
+            threads.forEach(thread => thread.markRead());
+            return;
+        }
+
+        // 防御2: 先に既読化
         threads.forEach(thread => thread.markRead());
 
         const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
@@ -152,9 +227,9 @@ function checkBlogMail() {
         const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE, body);
 
         if (success) {
-            console.log('✅ Blog GitHub Actions をトリガーしました（既読済み）');
+            markAsProcessed(msgId, 'BLOG');
+            console.log('✅ Blog GitHub Actions をトリガーしました');
         } else {
-            // 失敗時は未読に戻して次回リトライ
             threads.forEach(thread => thread.markUnread());
             console.error('⚠️ Blogトリガー失敗のため未読に戻しました');
         }
@@ -175,7 +250,6 @@ function triggerGitHubActionsWithEvent(token, subject, eventType, body = null) {
         subject: subject,
         triggered_at: new Date().toISOString()
     };
-    // bodyがある場合はpayloadに含める（BLOG/FINCTXで使用）
     if (body) clientPayload.body = body;
 
     const options = {
@@ -244,7 +318,7 @@ const STORY_CONFIG = {
 };
 
 function checkStoryMail() {
-    // ★ 排他制御: 同時実行を防止
+    // 防御1: 排他制御
     const lock = LockService.getScriptLock();
     if (!lock.tryLock(3000)) {
         console.log('⏳ 他のSTORYトリガーが処理中。スキップします');
@@ -255,14 +329,22 @@ function checkStoryMail() {
         const threads = GmailApp.search(STORY_CONFIG.GMAIL_QUERY);
 
         if (threads.length === 0) {
-            return; // 未読のSTORYメールなし
+            return;
         }
 
         console.log(`📖 ${threads.length} 件のSTORYメールを検出`);
 
+        const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+        const msgId = msg.getId();
         const subject = threads[0].getFirstMessageSubject();
 
-        // ★ 先に既読にして重複トリガーを防止
+        // 防御3: メッセージID重複チェック
+        if (isAlreadyProcessed(msgId, 'STORY')) {
+            threads.forEach(thread => thread.markRead());
+            return;
+        }
+
+        // 防御2: 先に既読化
         threads.forEach(thread => thread.markRead());
 
         const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
@@ -275,7 +357,8 @@ function checkStoryMail() {
         const success = triggerGitHubActionsWithEvent(token, subject, STORY_CONFIG.EVENT_TYPE);
 
         if (success) {
-            console.log('✅ Story GitHub Actions をトリガーしました（既読済み）');
+            markAsProcessed(msgId, 'STORY');
+            console.log('✅ Story GitHub Actions をトリガーしました');
         } else {
             threads.forEach(thread => thread.markUnread());
             console.error('⚠️ Storyトリガー失敗のため未読に戻しました');
@@ -306,7 +389,7 @@ const FINCTX_CONFIG = {
 };
 
 function checkFinCtxMail() {
-    // ★ 排他制御: 同時実行を防止
+    // 防御1: 排他制御
     const lock = LockService.getScriptLock();
     if (!lock.tryLock(3000)) {
         console.log('⏳ 他のFINCTXトリガーが処理中。スキップします');
@@ -317,17 +400,23 @@ function checkFinCtxMail() {
         const threads = GmailApp.search(FINCTX_CONFIG.GMAIL_QUERY);
 
         if (threads.length === 0) {
-            return; // 未読のFINCTXメールなし
+            return;
         }
 
         console.log(`💰 ${threads.length} 件のFINCTXメールを検出`);
 
-        // ★ 先にメール情報を取得
         const message = threads[0].getMessages()[threads[0].getMessages().length - 1];
+        const msgId = message.getId();
         const subject = message.getSubject();
         const body = message.getPlainBody();
 
-        // ★ 先に既読にして重複トリガーを防止
+        // 防御3: メッセージID重複チェック
+        if (isAlreadyProcessed(msgId, 'FINCTX')) {
+            threads.forEach(thread => thread.markRead());
+            return;
+        }
+
+        // 防御2: 先に既読化
         threads.forEach(thread => thread.markRead());
 
         const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
@@ -340,7 +429,8 @@ function checkFinCtxMail() {
         const success = triggerGitHubActionsWithEvent(token, subject, FINCTX_CONFIG.EVENT_TYPE, body);
 
         if (success) {
-            console.log('✅ FINCTX GitHub Actions をトリガーしました（既読済み）');
+            markAsProcessed(msgId, 'FINCTX');
+            console.log('✅ FINCTX GitHub Actions をトリガーしました');
         } else {
             threads.forEach(thread => thread.markUnread());
             console.error('⚠️ FINCTXトリガー失敗のため未読に戻しました');
@@ -385,4 +475,30 @@ function testFinCtxTrigger() {
     } catch (e) {
         console.error(`❌ リクエスト失敗: ${e.message}`);
     }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 処理済みID管理用ユーティリティ
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/** 処理済みIDの一覧を確認する（デバッグ用） */
+function showProcessedIds() {
+    const props = PropertiesService.getScriptProperties();
+    const categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX'];
+
+    categories.forEach(cat => {
+        const raw = props.getProperty(`PROCESSED_${cat}`) || '[]';
+        console.log(`${cat}: ${raw}`);
+    });
+}
+
+/** 処理済みIDをリセットする（トラブル時に使用） */
+function resetProcessedIds() {
+    const props = PropertiesService.getScriptProperties();
+    const categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX'];
+
+    categories.forEach(cat => {
+        props.deleteProperty(`PROCESSED_${cat}`);
+        console.log(`🗑️ ${cat} の処理済みIDをリセットしました`);
+    });
 }
