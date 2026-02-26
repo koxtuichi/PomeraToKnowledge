@@ -1,186 +1,15 @@
 {
-  "generated_at": "2026-02-26T08:59:53.346159",
+  "generated_at": "2026-02-26T17:02:37.023338",
   "summary": {
     "monthly_income": 870000,
     "monthly_fixed_costs": 160000,
-    "monthly_variable_estimate": 451888,
-    "monthly_education_saving": 31495,
-    "monthly_surplus": 226617,
-    "savings_rate_pct": 26.0,
-    "emergency_fund_target": 1835664,
+    "monthly_variable_estimate": 383393,
+    "monthly_surplus": 326607,
+    "savings_rate_pct": 37.5,
     "note": "クレカ実績合計（日記から取得）",
     "income_from_diary": false,
     "charges_from_diary": true
   },
-  "wishlist_risk": [
-    {
-      "item": "蒼馬のオムツ",
-      "cost": null,
-      "priority": "高",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "粉ミルク",
-      "cost": null,
-      "priority": "高",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "猫の餌",
-      "cost": null,
-      "priority": "高",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "犬のペットシーツ",
-      "cost": null,
-      "priority": "高",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "蒼馬のオムツと粉ミルク",
-      "cost": null,
-      "priority": "高",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "ダイニングの照明",
-      "cost": 100000,
-      "priority": "中",
-      "risk": "低",
-      "risk_label": "🟢 低",
-      "reasons": [
-        "貯蓄期間の目安: 約0ヶ月"
-      ],
-      "months_to_save": 0.4
-    },
-    {
-      "item": "駐車場の後ろの外構工事",
-      "cost": 600000,
-      "priority": "中",
-      "risk": "低",
-      "risk_label": "🟢 低",
-      "reasons": [
-        "貯蓄期間の目安: 約3ヶ月"
-      ],
-      "months_to_save": 2.6
-    },
-    {
-      "item": "三菱 デリカD5",
-      "cost": 6000000,
-      "priority": "中",
-      "risk": "高",
-      "risk_label": "🔴 高",
-      "reasons": [
-        "購入金額が緊急予備費の50%超（目標:1,835,664円）",
-        "月余剰で貯めるのに26ヶ月かかる",
-        "購入後は教育費積立に影響する可能性あり"
-      ],
-      "months_to_save": 26.5
-    },
-    {
-      "item": "豆乳イソフラボン顔用スプレー",
-      "cost": null,
-      "priority": "中",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "豆乳イソフラボン スプレー",
-      "cost": null,
-      "priority": "中",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "乾太くん（ガス乾燥機）",
-      "cost": null,
-      "priority": "中",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "400Lクラスの冷蔵庫",
-      "cost": null,
-      "priority": "中",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "60インチのテレビ",
-      "cost": null,
-      "priority": "中",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "テレビボード",
-      "cost": null,
-      "priority": "中",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    },
-    {
-      "item": "ソファ",
-      "cost": null,
-      "priority": "低",
-      "risk": "中",
-      "risk_label": "要確認",
-      "reasons": [
-        "金額が未設定のためリスク判定不可"
-      ],
-      "months_to_save": null
-    }
-  ],
   "credit_card_calendar": [
     {
       "day": 2,
@@ -219,10 +48,10 @@
         {
           "name": "Ｖｉｅｗカード",
           "bank": "あおぞら銀行",
-          "monthly_charge": 2717
+          "monthly_charge": null
         }
       ],
-      "total_charge": 184603
+      "total_charge": 181886
     },
     {
       "day": 26,
@@ -230,7 +59,7 @@
         {
           "name": "Ａｍａｚｏｎカード",
           "bank": "あおぞら銀行",
-          "monthly_charge": 65778
+          "monthly_charge": null
         },
         {
           "name": "エポスカード",
@@ -238,130 +67,181 @@
           "monthly_charge": 1000
         }
       ],
-      "total_charge": 66778
+      "total_charge": 1000
     },
     {
       "day": 28,
       "cards": [
         {
           "name": "メルカード",
-          "bank": null,
+          "bank": "",
           "monthly_charge": 20480
         }
       ],
       "total_charge": 20480
     }
   ],
-  "education_timeline": [
+  "card_charges_by_month": [
     {
-      "child": "蒼馬",
-      "age": 3,
-      "year": 2028,
-      "years_until": 2,
-      "event": "保育園・幼稚園入園準備",
-      "cost": 100000,
-      "monthly_saving_needed": 4166
-    },
-    {
-      "child": "蒼馬",
-      "age": 6,
-      "year": 2031,
-      "years_until": 5,
-      "event": "小学校入学準備",
-      "cost": 300000,
-      "monthly_saving_needed": 5000
-    },
-    {
-      "child": "蒼馬",
-      "age": 12,
-      "year": 2037,
-      "years_until": 11,
-      "event": "中学校入学準備",
-      "cost": 200000,
-      "monthly_saving_needed": 1515
-    },
-    {
-      "child": "蒼馬",
-      "age": 15,
-      "year": 2040,
-      "years_until": 14,
-      "event": "高校入学準備",
-      "cost": 300000,
-      "monthly_saving_needed": 1785
-    },
-    {
-      "child": "蒼馬",
-      "age": 18,
-      "year": 2043,
-      "years_until": 17,
-      "event": "大学入学初年度費用",
-      "cost": 2000000,
-      "monthly_saving_needed": 9803
-    },
-    {
-      "child": "蒼馬",
-      "age": 19,
-      "year": 2044,
-      "years_until": 18,
-      "event": "大学2年",
-      "cost": 700000,
-      "monthly_saving_needed": 3240
-    },
-    {
-      "child": "蒼馬",
-      "age": 20,
-      "year": 2045,
-      "years_until": 19,
-      "event": "大学3年",
-      "cost": 700000,
-      "monthly_saving_needed": 3070
-    },
-    {
-      "child": "蒼馬",
-      "age": 21,
-      "year": 2046,
-      "years_until": 20,
-      "event": "大学4年",
-      "cost": 700000,
-      "monthly_saving_needed": 2916
+      "month": "2026-02",
+      "cards": [
+        {
+          "name": "セゾンゴールド",
+          "amount": 171412
+        },
+        {
+          "name": "ファミマカード",
+          "amount": 111532
+        },
+        {
+          "name": "Amazonカード",
+          "amount": 65778
+        },
+        {
+          "name": "メルカード",
+          "amount": 20480
+        },
+        {
+          "name": "セゾンシネマズ",
+          "amount": 10474
+        },
+        {
+          "name": "Viewカード",
+          "amount": 2717
+        },
+        {
+          "name": "エポスカード",
+          "amount": 1000
+        },
+        {
+          "name": "セゾンアメックス",
+          "amount": 0
+        },
+        {
+          "name": "三井セゾン",
+          "amount": 0
+        }
+      ],
+      "total": 383393
     }
   ],
-  "upcoming_milestones": [
+  "life_events_forecast": [
     {
-      "child": "蒼馬",
-      "age": 3,
-      "year": 2028,
-      "years_until": 2,
-      "event": "保育園・幼稚園入園準備",
-      "cost": 100000,
-      "monthly_saving_needed": 4166
+      "event": "NBox 12ヶ月点検",
+      "category": "自動車",
+      "timing": "2026年3月7日",
+      "months_until": 0,
+      "estimated_cost": null,
+      "certainty": "高",
+      "note": "エネクスフリート加須店にて実施。車検証持参。"
     },
     {
-      "child": "蒼馬",
-      "age": 6,
-      "year": 2031,
-      "years_until": 5,
-      "event": "小学校入学準備",
-      "cost": 300000,
-      "monthly_saving_needed": 5000
+      "event": "確定申告",
+      "category": "税金",
+      "timing": "2026年3月15日",
+      "months_until": 0,
+      "estimated_cost": null,
+      "certainty": "高",
+      "note": "住宅ローン減税確認含む"
     },
     {
-      "child": "蒼馬",
-      "age": 12,
-      "year": 2037,
-      "years_until": 11,
-      "event": "中学校入学準備",
-      "cost": 200000,
-      "monthly_saving_needed": 1515
-    }
-  ],
-  "monthly_education_saving_needed": 31495,
-  "education_scenario": null,
-  "children": [
+      "event": "城山公園へのピクニック",
+      "category": "家族",
+      "timing": "2026年3月1日",
+      "months_until": 0,
+      "estimated_cost": null,
+      "certainty": "中",
+      "note": null
+    },
     {
-      "name": "蒼馬",
-      "birth_year": 2025,
-      "birth_month": 5
+      "event": "蒼馬 1歳 誕生日",
+      "category": "育児",
+      "timing": "2026年5月",
+      "months_until": 2,
+      "estimated_cost": 20000,
+      "certainty": "高",
+      "note": "プレゼント、誕生日会など"
+    },
+    {
+      "event": "妻の誕生日",
+      "category": "記念日",
+      "timing": "2026年10月頃",
+      "months_until": 7,
+      "estimated_cost": 20000,
+      "certainty": "高",
+      "note": "プレゼント・外食など"
+    },
+    {
+      "event": "蒼馬の成長に伴う育児用品",
+      "category": "育児",
+      "timing": "今後数ヶ月",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "中",
+      "note": "離乳食、おむつ、服など。幼稚園入園を見据えた準備も含む可能性。"
+    },
+    {
+      "event": "ダイニング照明の購入",
+      "category": "家具",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": 100000,
+      "certainty": "中",
+      "note": "妻が希望。予算10万円"
+    },
+    {
+      "event": "外構工事",
+      "category": "住宅",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": 600000,
+      "certainty": "低",
+      "note": "駐車場の後ろ。妻が希望。予算60万円程度"
+    },
+    {
+      "event": "ガス乾燥機（乾太くん）の購入",
+      "category": "家電",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "洗濯物が増えることを見越して検討"
+    },
+    {
+      "event": "冷蔵庫の買い替え",
+      "category": "家電",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "400Lクラス。子供の成長に合わせて検討"
+    },
+    {
+      "event": "テレビ・テレビボードの買い替え",
+      "category": "家電・家具",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "60インチテレビとテレビボード。セットで検討"
+    },
+    {
+      "event": "ソファの購入",
+      "category": "家具",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "子供が3歳になりプレイマットが不要になったタイミングで検討"
+    },
+    {
+      "event": "自動車の買い替え",
+      "category": "自動車",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": 6000000,
+      "certainty": "低",
+      "note": "三菱 デリカD5。残価ローンでの購入をイメージ。総額約600万円、月々6万円程度。"
     }
   ]
 }

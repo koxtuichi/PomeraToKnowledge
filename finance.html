@@ -5,18 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>家計ダッシュボード — Insight-OS Finance</title>
-    <meta name="description" content="家計の収支・購入リスク・教育費シミュレーションを可視化するダッシュボード">
+    <meta name="description" content="家計の収支・ライフイベント予測を可視化するダッシュボード">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
         rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-
     <style>
         :root {
             --bg-dark: #0a0f1e;
-            --bg-panel: #0f172a;
             --card-bg: rgba(15, 23, 42, 0.85);
             --border-color: rgba(56, 189, 248, 0.12);
             --text-main: #e2e8f0;
@@ -227,92 +224,6 @@
             font-weight: 600;
         }
 
-        /* ─── Wishlist Risk ─── */
-        .wishlist-grid {
-            display: grid;
-            gap: 16px;
-        }
-
-        .wish-item {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: start;
-            gap: 12px;
-            padding: 18px 20px;
-            border-radius: 14px;
-            border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.02);
-            transition: border-color 0.2s;
-        }
-
-        .wish-item:hover {
-            border-color: rgba(56, 189, 248, 0.25);
-        }
-
-        .wish-item.risk-high {
-            border-left: 3px solid var(--accent-red);
-        }
-
-        .wish-item.risk-mid {
-            border-left: 3px solid var(--accent-yellow);
-        }
-
-        .wish-item.risk-low {
-            border-left: 3px solid var(--accent-green);
-        }
-
-        .wish-name {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .wish-cost {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .wish-reasons {
-            margin-top: 8px;
-        }
-
-        .wish-reason {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .risk-badge {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-
-        .risk-badge.high {
-            background: rgba(248, 113, 113, 0.12);
-            color: var(--accent-red);
-            border: 1px solid rgba(248, 113, 113, 0.2);
-        }
-
-        .risk-badge.mid {
-            background: rgba(251, 191, 36, 0.12);
-            color: var(--accent-yellow);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-        }
-
-        .risk-badge.low {
-            background: rgba(52, 211, 153, 0.12);
-            color: var(--accent-green);
-            border: 1px solid rgba(52, 211, 153, 0.2);
-        }
-
-        .wish-months {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            text-align: right;
-        }
-
         /* ─── Credit Card Calendar ─── */
         .cal-grid {
             display: grid;
@@ -359,56 +270,308 @@
             display: block;
         }
 
-        /* ─── Education Timeline Chart ─── */
-        .education-chart-wrap {
-            width: 100%;
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }
-
-        .education-chart-wrap svg {
-            display: block;
-        }
-
-        .milestone-list {
+        /* ─── ライフイベント タイムライン ─── */
+        .timeline {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0;
+            position: relative;
         }
 
-        .milestone-item {
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 52px;
+            top: 24px;
+            bottom: 24px;
+            width: 1px;
+            background: linear-gradient(to bottom, rgba(56, 189, 248, 0.3), rgba(129, 140, 248, 0.1));
+        }
+
+        .tl-item {
             display: grid;
-            grid-template-columns: 80px 1fr auto;
+            grid-template-columns: 104px 1fr;
+            gap: 20px;
+            padding: 16px 0;
+            position: relative;
+            animation: fadeInUp 0.4s ease both;
+        }
+
+        .tl-item:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .tl-item:nth-child(2) {
+            animation-delay: 0.05s;
+        }
+
+        .tl-item:nth-child(3) {
+            animation-delay: 0.10s;
+        }
+
+        .tl-item:nth-child(4) {
+            animation-delay: 0.15s;
+        }
+
+        .tl-item:nth-child(5) {
+            animation-delay: 0.20s;
+        }
+
+        .tl-item:nth-child(6) {
+            animation-delay: 0.25s;
+        }
+
+        .tl-item:nth-child(7) {
+            animation-delay: 0.30s;
+        }
+
+        .tl-item:nth-child(8) {
+            animation-delay: 0.35s;
+        }
+
+        .tl-item:nth-child(9) {
+            animation-delay: 0.40s;
+        }
+
+        .tl-item:nth-child(10) {
+            animation-delay: 0.45s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tl-left {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
+            gap: 6px;
+            padding-top: 4px;
         }
 
-        .milestone-year {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--accent-purple);
+        .tl-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-primary);
+            background: var(--bg-dark);
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
         }
 
-        .milestone-event {
-            font-size: 13px;
+        .tl-dot.c-high {
+            border-color: var(--accent-primary);
+            background: rgba(56, 189, 248, 0.2);
         }
 
-        .milestone-child {
+        .tl-dot.c-mid {
+            border-color: var(--accent-yellow);
+            background: rgba(251, 191, 36, 0.2);
+        }
+
+        .tl-dot.c-low {
+            border-color: var(--text-muted);
+            background: rgba(148, 163, 184, 0.1);
+        }
+
+        .tl-timing {
             font-size: 10px;
             color: var(--text-muted);
+            text-align: center;
+            line-height: 1.4;
         }
 
-        .milestone-cost {
+        .tl-body {
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .tl-body:hover {
+            border-color: rgba(56, 189, 248, 0.25);
+            background: rgba(56, 189, 248, 0.03);
+        }
+
+        .tl-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .tl-event {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .tl-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .tl-cost {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 14px;
             font-weight: 600;
             color: var(--accent-yellow);
             white-space: nowrap;
+        }
+
+        .certainty-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .certainty-badge.high {
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-primary);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .certainty-badge.mid {
+            background: rgba(251, 191, 36, 0.12);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .certainty-badge.low {
+            background: rgba(148, 163, 184, 0.12);
+            color: var(--text-muted);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .tl-category {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(129, 140, 248, 0.12);
+            color: var(--accent-purple);
+            margin-right: 4px;
+        }
+
+        .tl-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        /* ─── カード別請求明細 ─── */
+        .charges-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .charges-tab {
+            font-size: 12px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .charges-tab.active {
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-primary);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .charges-tab:hover:not(.active) {
+            border-color: rgba(56, 189, 248, 0.2);
+            color: var(--text-main);
+        }
+
+        .card-row {
+            display: grid;
+            grid-template-columns: 130px 1fr 90px;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .card-row:last-child {
+            border-bottom: none;
+        }
+
+        .card-name {
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-bar-wrap {
+            height: 18px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+        }
+
+        .card-bar {
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.5), rgba(129, 140, 248, 0.4));
+            transition: width 0.6s ease;
+            min-width: 2px;
+        }
+
+        .card-amount {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-align: right;
+        }
+
+        .card-amount.zero {
+            color: var(--text-muted);
+            opacity: 0.4;
+        }
+
+        .charges-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0 0;
+            margin-top: 8px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .charges-total-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .charges-total-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-yellow);
         }
 
         /* ─── No Data State ─── */
@@ -435,14 +598,6 @@
             line-height: 1.7;
         }
 
-        .no-data code {
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent-primary);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
         /* ─── Tooltip ─── */
         .tooltip {
             position: fixed;
@@ -467,12 +622,20 @@
             .cal-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+
+            .tl-item {
+                grid-template-columns: 80px 1fr;
+                gap: 12px;
+            }
+
+            .timeline::before {
+                left: 40px;
+            }
         }
     </style>
 </head>
 
 <body>
-
     <header>
         <div class="header-left">
             <div class="logo">💴 Finance</div>
@@ -486,31 +649,44 @@
 
     <main class="container">
         <h1 class="page-title">家計ダッシュボード</h1>
-        <p class="page-subtitle" id="data-date">家計コンテキストファイルからデータを読み込み中...</p>
+        <p class="page-subtitle" id="data-date">データを読み込み中...</p>
 
         <!-- KPI サマリー -->
         <div class="summary-bar" id="summary-bar">
             <div class="no-data" style="grid-column:1/-1; padding: 30px;">
                 <div class="icon">📂</div>
                 <div class="title">データ未設定</div>
-                <div class="desc">
-                    ポメラでFINCTXファイルを作成し、Gmailに送信してください。<br>
-                    件名: <code>[FINCTX]家計コンテキスト更新</code>
+                <div class="desc">finance_report.json が読み込めませんでした。</div>
+            </div>
+        </div>
+
+        <!-- カード別請求明細 -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-icon" style="background:rgba(56,189,248,0.12);color:#38bdf8">💳</div>
+                <div class="panel-title">カード別請求明細</div>
+            </div>
+            <div id="card-charges-tabs" class="charges-tabs"></div>
+            <div id="card-charges-body">
+                <div class="no-data" style="padding:30px">
+                    <div class="icon">💳</div>
+                    <div class="title">請求データなし</div>
+                    <div class="desc">日記にクレカ請求額を記載すると自動で反映されます。</div>
                 </div>
             </div>
         </div>
 
-        <!-- 購入リスク評価 -->
+        <!-- ライフイベント予測 -->
         <div class="panel">
             <div class="panel-header">
-                <div class="panel-icon" style="background:rgba(248,113,113,0.12);color:#f87171">🛒</div>
-                <div class="panel-title">購入リスク評価</div>
+                <div class="panel-icon" style="background:rgba(129,140,248,0.12);color:#818cf8">🔮</div>
+                <div class="panel-title">ライフイベント予測タイムライン</div>
             </div>
-            <div id="wishlist-panel" class="wishlist-grid">
+            <div id="life-events-panel" class="timeline">
                 <div class="no-data">
-                    <div class="icon">🛍️</div>
-                    <div class="title">欲しいものリストなし</div>
-                    <div class="desc">FINCTXファイルの <code>## 欲しいもの</code> セクションに追加してください。</div>
+                    <div class="icon">📅</div>
+                    <div class="title">予測データなし</div>
+                    <div class="desc">分析スクリプトを実行するとライフイベントの予測が表示されます。</div>
                 </div>
             </div>
         </div>
@@ -521,11 +697,10 @@
             <div class="panel">
                 <div class="panel-header">
                     <div class="panel-icon" style="background:rgba(52,211,153,0.12);color:#34d399">📊</div>
-                    <div class="panel-title">月次収支（暫定）</div>
+                    <div class="panel-title">月次収支</div>
                 </div>
                 <svg id="income-chart" width="100%" height="200"></svg>
             </div>
-
             <!-- クレカ引落カレンダー -->
             <div class="panel">
                 <div class="panel-header">
@@ -535,91 +710,136 @@
                 <div id="calendar-panel" class="cal-grid"></div>
             </div>
         </div>
-
-        <!-- 教育費タイムライン -->
-        <div class="panel">
-            <div class="panel-header">
-                <div class="panel-icon" style="background:rgba(251,191,36,0.12);color:#fbbf24">🎓</div>
-                <div class="panel-title">教育費タイムライン</div>
-            </div>
-            <div class="education-chart-wrap">
-                <svg id="education-chart" height="200"></svg>
-            </div>
-            <div class="milestone-list" id="milestone-list"></div>
-        </div>
     </main>
 
     <div id="tooltip" class="tooltip"></div>
 
     <script>
         const tooltip = document.getElementById('tooltip');
-
-        function fmt(n) {
-            return n != null ? n.toLocaleString('ja-JP') + '円' : '—';
-        }
-
+        function fmt(n) { return n != null ? n.toLocaleString('ja-JP') + '円' : '—'; }
         function showTooltip(e, html) {
-            tooltip.innerHTML = html;
-            tooltip.style.display = 'block';
-            tooltip.style.left = (e.clientX + 14) + 'px';
-            tooltip.style.top = (e.clientY - 10) + 'px';
+            tooltip.innerHTML = html; tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX + 14) + 'px'; tooltip.style.top = (e.clientY - 10) + 'px';
         }
         function hideTooltip() { tooltip.style.display = 'none'; }
 
-        // ─── KPIサマリー ────────────────────────────────────────────────────
+        // ─── KPIサマリー ─────────────────────────────────────
         function renderSummary(r) {
             const s = r.summary;
             const surplusColor = s.monthly_surplus >= 0 ? 'green' : 'red';
             const rateColor = s.savings_rate_pct >= 10 ? 'green' : s.savings_rate_pct >= 5 ? 'yellow' : 'red';
-
             document.getElementById('summary-bar').innerHTML = [
                 { label: '月収合計', value: fmt(s.monthly_income), color: 'blue', sub: '収入' },
                 { label: '月次固定費', value: fmt(s.monthly_fixed_costs), color: 'yellow', sub: '家賃・保険など' },
-                { label: '月次余剰（暫定）', value: fmt(s.monthly_surplus), color: surplusColor, sub: '変動費は目安値' },
-                { label: '貯蓄率（暫定）', value: s.savings_rate_pct + '%', color: rateColor, sub: '変動費は目安値' },
-                { label: '教育費積立/月', value: fmt(r.monthly_education_saving_needed), color: 'purple', sub: '今から積立が必要な額' },
+                { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor, sub: s.note || '' },
+                { label: '貯蓄率', value: s.savings_rate_pct + '%', color: rateColor, sub: s.note || '' },
             ].map(k => `
-      <div class="kpi-card">
-        <div class="kpi-label">${k.label}</div>
-        <div class="kpi-value ${k.color}">${k.value}</div>
-        <div class="kpi-sub">${k.sub}</div>
-      </div>
-    `).join('');
+                <div class="kpi-card">
+                    <div class="kpi-label">${k.label}</div>
+                    <div class="kpi-value ${k.color}">${k.value}</div>
+                    <div class="kpi-sub">${k.sub}</div>
+                </div>
+            `).join('');
         }
 
-        // ─── 購入リスク評価 ──────────────────────────────────────────────────
-        function renderWishlist(r) {
-            const items = r.wishlist_risk || [];
-            if (items.length === 0) return;
+        // ─── カード別請求明細 ─────────────────────────────────
+        function renderCardCharges(r) {
+            const data = r.card_charges_by_month || [];
+            if (data.length === 0) return;
 
-            const riskClass = { '高': 'high', '中': 'mid', '低': 'low' };
-            const itemClass = { '高': 'risk-high', '中': 'risk-mid', '低': 'risk-low' };
+            const tabsEl = document.getElementById('card-charges-tabs');
+            const bodyEl = document.getElementById('card-charges-body');
 
-            document.getElementById('wishlist-panel').innerHTML = items.map(item => `
-      <div class="wish-item ${itemClass[item.risk] || ''}">
-        <div>
-          <div class="wish-name">${item.item}</div>
-          <div class="wish-cost">${fmt(item.cost)} / 優先度:${item.priority}</div>
-          <div class="wish-reasons">
-            ${(item.reasons || []).map(r => `<div class="wish-reason">・${r}</div>`).join('')}
-          </div>
-        </div>
-        <div style="text-align:right">
-          <span class="risk-badge ${riskClass[item.risk] || 'low'}">${item.risk_label}</span>
-          ${item.months_to_save ? `<div class="wish-months">約${item.months_to_save}ヶ月で貯蓄可能</div>` : ''}
-        </div>
-      </div>
-    `).join('');
+            function renderMonth(idx) {
+                const m = data[idx];
+                const maxAmt = Math.max(...m.cards.map(c => c.amount), 1);
+                let html = '';
+                m.cards.forEach(c => {
+                    const pct = Math.max((c.amount / maxAmt) * 100, 1);
+                    const zeroClass = c.amount === 0 ? ' zero' : '';
+                    html += `
+                        <div class="card-row">
+                            <div class="card-name" title="${c.name}">${c.name}</div>
+                            <div class="card-bar-wrap">
+                                <div class="card-bar" style="width:${pct}%"></div>
+                            </div>
+                            <div class="card-amount${zeroClass}">${fmt(c.amount)}</div>
+                        </div>
+                    `;
+                });
+                html += `
+                    <div class="charges-total">
+                        <span class="charges-total-label">合計</span>
+                        <span class="charges-total-value">${fmt(m.total)}</span>
+                    </div>
+                `;
+                bodyEl.innerHTML = html;
+            }
+
+            // タブを生成
+            tabsEl.innerHTML = data.map((m, i) => {
+                const label = m.month.replace(/^(\d{4})-(\d{2})$/, '$1年$2月');
+                const active = i === 0 ? ' active' : '';
+                return `<button class="charges-tab${active}" data-idx="${i}">${label}</button>`;
+            }).join('');
+
+            tabsEl.addEventListener('click', e => {
+                const btn = e.target.closest('.charges-tab');
+                if (!btn) return;
+                tabsEl.querySelectorAll('.charges-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderMonth(parseInt(btn.dataset.idx));
+            });
+
+            renderMonth(0);
         }
 
-        // ─── 月次収支棒グラフ ────────────────────────────────────────────────
+        // ─── ライフイベント予測タイムライン ───────────────────
+        function renderLifeEvents(r) {
+            const events = r.life_events_forecast || [];
+            if (events.length === 0) return;
+
+            const certClass = { '高': 'high', '中': 'mid', '低': 'low' };
+            const certLabel = { '高': '確度:高', '中': '確度:中', '低': '確度:低' };
+
+            document.getElementById('life-events-panel').innerHTML = events.map(ev => {
+                const cc = certClass[ev.certainty] || 'low';
+                const cl = certLabel[ev.certainty] || ev.certainty;
+                const costStr = ev.estimated_cost != null ? fmt(ev.estimated_cost) : '金額未定';
+                const monthsStr = ev.months_until != null
+                    ? (ev.months_until <= 0 ? '今月' : ev.months_until + 'ヶ月後')
+                    : '';
+                return `
+                    <div class="tl-item">
+                        <div class="tl-left">
+                            <div class="tl-dot c-${cc}"></div>
+                            <div class="tl-timing">${monthsStr}<br>${ev.timing || ''}</div>
+                        </div>
+                        <div class="tl-body">
+                            <div class="tl-header">
+                                <div>
+                                    <span class="tl-category">${ev.category || 'その他'}</span>
+                                    <span class="tl-event">${ev.event}</span>
+                                </div>
+                                <div class="tl-meta">
+                                    <span class="tl-cost">${costStr}</span>
+                                    <span class="certainty-badge ${cc}">${cl}</span>
+                                </div>
+                            </div>
+                            ${ev.note ? `<div class="tl-note">${ev.note}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ─── 月次収支棒グラフ ────────────────────────────────
         function renderIncomeChart(r) {
             const s = r.summary;
             const bars = [
                 { label: '月収', value: s.monthly_income, color: '#38bdf8' },
                 { label: '固定費', value: s.monthly_fixed_costs, color: '#f87171' },
-                { label: '変動費', value: s.monthly_variable_estimate, color: '#fbbf24', note: '暫定' },
-                { label: '教育費積立', value: r.monthly_education_saving_needed, color: '#818cf8' },
+                { label: '変動費', value: s.monthly_variable_estimate, color: '#fbbf24', note: s.note },
             ].filter(b => b.value > 0);
 
             const svgEl = document.getElementById('income-chart');
@@ -628,7 +848,6 @@
             const pad = { top: 10, right: 10, bottom: 40, left: 10 };
             const innerW = W - pad.left - pad.right;
             const innerH = H - pad.top - pad.bottom;
-
             const max = Math.max(...bars.map(b => b.value));
             const barW = innerW / bars.length * 0.6;
             const gap = innerW / bars.length;
@@ -644,17 +863,14 @@
                 const bH = (b.value / max) * innerH;
                 const x = gap * i + (gap - barW) / 2;
                 const y = innerH - bH;
-
                 const rect = document.createElementNS(ns, 'rect');
                 rect.setAttribute('x', x); rect.setAttribute('y', y);
                 rect.setAttribute('width', barW); rect.setAttribute('height', bH);
                 rect.setAttribute('fill', b.color); rect.setAttribute('rx', 4);
-                rect.setAttribute('opacity', '0.85');
-                rect.style.cursor = 'pointer';
+                rect.setAttribute('opacity', '0.85'); rect.style.cursor = 'pointer';
                 rect.addEventListener('mousemove', e => showTooltip(e, `<strong>${b.label}</strong><br>${fmt(b.value)}${b.note ? `<br>(${b.note})` : ''}`));
                 rect.addEventListener('mouseleave', hideTooltip);
                 g.appendChild(rect);
-
                 const lbl = document.createElementNS(ns, 'text');
                 lbl.setAttribute('x', x + barW / 2); lbl.setAttribute('y', innerH + 18);
                 lbl.setAttribute('text-anchor', 'middle');
@@ -664,21 +880,20 @@
             });
         }
 
-        // ─── クレカカレンダー ──────────────────────────────────────────────
+        // ─── クレカカレンダー ────────────────────────────────
         function renderCalendar(r) {
             const cc = r.credit_card_calendar || [];
             const cardsByDay = {};
             cc.forEach(entry => { cardsByDay[entry.day] = entry.cards; });
-
             const el = document.getElementById('calendar-panel');
             let html = '';
             for (let d = 1; d <= 31; d++) {
                 const cards = cardsByDay[d];
                 if (cards) {
                     html += `<div class="cal-day has-card">
-          <div class="cal-day-num">${d}日</div>
-          ${cards.map(c => `<span class="cal-card-tag" title="${c.name} (${c.bank})">${c.name}</span>`).join('')}
-        </div>`;
+                        <div class="cal-day-num">${d}日</div>
+                        ${cards.map(c => `<span class="cal-card-tag" title="${c.name} (${c.bank})">${c.name}</span>`).join('')}
+                    </div>`;
                 } else {
                     html += `<div class="cal-day"><div class="cal-day-num" style="opacity:0.3">${d}</div></div>`;
                 }
@@ -686,123 +901,29 @@
             el.innerHTML = html;
         }
 
-        // ─── 教育費タイムライン ─────────────────────────────────────────────
-        function renderEducation(r) {
-            const timeline = (r.education_timeline || []).slice(0, 10);
-            const milestones = (r.upcoming_milestones || []);
-
-            const svgEl = document.getElementById('education-chart');
-            const W = svgEl.parentElement.offsetWidth - 10;
-            const H = 200;
-            const pad = { top: 20, right: 20, bottom: 40, left: 60 };
-            const innerW = W - pad.left - pad.right;
-            const innerH = H - pad.top - pad.bottom;
-
-            svgEl.setAttribute('width', W);
-            svgEl.innerHTML = '';
-            const ns = 'http://www.w3.org/2000/svg';
-            const g = document.createElementNS(ns, 'g');
-            g.setAttribute('transform', `translate(${pad.left},${pad.top})`);
-            svgEl.appendChild(g);
-
-            if (timeline.length < 1) return;
-
-            const years = timeline.map(m => m.year);
-            const costs = timeline.map(m => m.cost);
-            const minY = Math.min(...years), maxY = Math.max(...years);
-            const maxC = Math.max(...costs);
-
-            const xScale = y => ((y - minY) / Math.max(maxY - minY, 1)) * innerW;
-            const yScale = c => innerH - (c / maxC) * innerH;
-
-            [0, 0.5, 1].forEach(v => {
-                const y = innerH * (1 - v);
-                const line = document.createElementNS(ns, 'line');
-                line.setAttribute('x1', 0); line.setAttribute('x2', innerW);
-                line.setAttribute('y1', y); line.setAttribute('y2', y);
-                line.setAttribute('stroke', 'rgba(255,255,255,0.06)');
-                g.appendChild(line);
-
-                if (v > 0) {
-                    const lbl = document.createElementNS(ns, 'text');
-                    lbl.setAttribute('x', -6); lbl.setAttribute('y', y + 4);
-                    lbl.setAttribute('text-anchor', 'end');
-                    lbl.setAttribute('fill', 'rgba(148,163,184,0.6)'); lbl.setAttribute('font-size', '9');
-                    lbl.textContent = (maxC * v / 10000).toFixed(0) + '万';
-                    g.appendChild(lbl);
-                }
-            });
-
-            const barW = Math.max(Math.min(innerW / timeline.length * 0.5, 30), 8);
-            timeline.forEach(m => {
-                const x = xScale(m.year);
-                const y = yScale(m.cost);
-                const bH = innerH - y;
-
-                const rect = document.createElementNS(ns, 'rect');
-                rect.setAttribute('x', x - barW / 2); rect.setAttribute('y', y);
-                rect.setAttribute('width', barW); rect.setAttribute('height', bH);
-                rect.setAttribute('fill', '#818cf8'); rect.setAttribute('rx', 3);
-                rect.setAttribute('opacity', '0.8');
-                rect.style.cursor = 'pointer';
-                rect.addEventListener('mousemove', e => showTooltip(e,
-                    `<strong>${m.event}</strong><br>${m.year}年 (${m.child})<br>${fmt(m.cost)}<br>積立目安: ${fmt(m.monthly_saving_needed)}/月`
-                ));
-                rect.addEventListener('mouseleave', hideTooltip);
-                g.appendChild(rect);
-
-                const lbl = document.createElementNS(ns, 'text');
-                lbl.setAttribute('x', x); lbl.setAttribute('y', innerH + 20);
-                lbl.setAttribute('text-anchor', 'middle');
-                lbl.setAttribute('fill', 'rgba(148,163,184,0.7)'); lbl.setAttribute('font-size', '9');
-                lbl.textContent = m.year;
-                g.appendChild(lbl);
-            });
-
-            const listEl = document.getElementById('milestone-list');
-            listEl.innerHTML = milestones.map(m => `
-      <div class="milestone-item">
-        <div>
-          <div class="milestone-year">${m.year}年</div>
-          <div class="milestone-child">${m.child} / ${m.age}歳</div>
-        </div>
-        <div class="milestone-event">
-          ${m.event}
-          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">
-            積立目安: ${fmt(m.monthly_saving_needed)}/月
-          </div>
-        </div>
-        <div class="milestone-cost">${fmt(m.cost)}</div>
-      </div>
-    `).join('');
-        }
-
-        // ─── メイン初期化（fetch方式）──────────────────────────────────────
+        // ─── メイン初期化 ────────────────────────────────────
         function showNoData() {
             const dateEl = document.getElementById('data-date');
-            if (dateEl) dateEl.textContent = 'FINCTXファイルをGmailで送信すると自動更新されます';
+            if (dateEl) dateEl.textContent = 'finance_report.json が見つかりませんでした';
         }
 
         function applyReport(r) {
             const updEl = document.getElementById('last-updated');
             const dateEl = document.getElementById('data-date');
             if (updEl && r.generated_at) {
-                updEl.textContent = `更新: ${new Date(r.generated_at).toLocaleString('ja-JP')}`;
+                updEl.textContent = '更新: ' + new Date(r.generated_at).toLocaleString('ja-JP');
             }
-            if (dateEl) dateEl.textContent = '下記データはFINCTXコンテキストファイルから生成されています。変動費は目安値です。';
+            if (dateEl) dateEl.textContent = '家計コンテキストファイルから生成されたデータです';
             renderSummary(r);
-            renderWishlist(r);
+            renderCardCharges(r);
+            renderLifeEvents(r);
             renderIncomeChart(r);
             renderCalendar(r);
-            renderEducation(r);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('finance_report.json?t=' + Date.now())
-                .then(res => {
-                    if (!res.ok) throw new Error('not found');
-                    return res.json();
-                })
+                .then(res => { if (!res.ok) throw new Error('not found'); return res.json(); })
                 .then(r => applyReport(r))
                 .catch(() => showNoData());
         });
