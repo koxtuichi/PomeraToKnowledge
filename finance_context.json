@@ -11,55 +11,64 @@
       "name": "セゾンゴールド",
       "bank": "あおぞら銀行",
       "due_day": 4,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "ローンを組みたい場合に使う"
     },
     {
       "name": "セゾンアメックス",
       "bank": "あおぞら銀行",
       "due_day": 4,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "なし"
     },
     {
       "name": "セゾンシネマズ",
       "bank": "あおぞら銀行",
       "due_day": 4,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "なし"
     },
     {
       "name": "三井セゾン",
       "bank": "あおぞら銀行",
       "due_day": 4,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "ららぽーとで使う"
     },
     {
       "name": "ファミマカード",
       "bank": "あおぞら銀行",
       "due_day": 2,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "優先すべきカードがないときに使う"
     },
     {
       "name": "Ａｍａｚｏｎカード",
       "bank": "あおぞら銀行",
       "due_day": 26,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "Amazonで使う"
     },
     {
       "name": "メルカード",
-      "bank": null,
+      "bank": "なし。メルカリアプリでチャージしないといけない",
       "due_day": 28,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "メルカリで使う"
     },
     {
       "name": "Ｖｉｅｗカード",
       "bank": "あおぞら銀行",
       "due_day": 4,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "ルミネで使う"
     },
     {
       "name": "エポスカード",
       "bank": "あおぞら銀行",
       "due_day": 26,
-      "monthly_charge": null
+      "monthly_charge": null,
+      "usage": "モラージュ菖蒲で使う"
     }
   ],
   "family": {
@@ -78,7 +87,7 @@
     },
     "total": 160000
   },
-  "generated_at": "2026-02-26T11:14:58.779463",
+  "generated_at": "2026-02-26T11:29:54.478269",
   "monthly_income": 870000,
   "monthly_fixed_costs": 160000,
   "monthly_surplus_before_variable": 710000
