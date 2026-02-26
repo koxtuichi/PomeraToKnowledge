@@ -10,47 +10,56 @@
     {
       "name": "セゾンゴールド",
       "bank": "あおぞら銀行",
-      "due_day": 4
+      "due_day": 4,
+      "monthly_charge": null
     },
     {
       "name": "セゾンアメックス",
       "bank": "あおぞら銀行",
-      "due_day": 4
+      "due_day": 4,
+      "monthly_charge": null
     },
     {
       "name": "セゾンシネマズ",
       "bank": "あおぞら銀行",
-      "due_day": 4
+      "due_day": 4,
+      "monthly_charge": null
     },
     {
       "name": "三井セゾン",
       "bank": "あおぞら銀行",
-      "due_day": 4
+      "due_day": 4,
+      "monthly_charge": null
     },
     {
       "name": "ファミマカード",
       "bank": "あおぞら銀行",
-      "due_day": 2
+      "due_day": 2,
+      "monthly_charge": null
     },
     {
       "name": "Ａｍａｚｏｎカード",
       "bank": "あおぞら銀行",
-      "due_day": 26
+      "due_day": 26,
+      "monthly_charge": null
     },
     {
       "name": "メルカード",
-      "bank": "",
-      "due_day": 28
+      "bank": null,
+      "due_day": 28,
+      "monthly_charge": null
     },
     {
       "name": "Ｖｉｅｗカード",
       "bank": "あおぞら銀行",
-      "due_day": 4
+      "due_day": 4,
+      "monthly_charge": null
     },
     {
       "name": "エポスカード",
       "bank": "あおぞら銀行",
-      "due_day": 26
+      "due_day": 26,
+      "monthly_charge": null
     }
   ],
   "family": {
@@ -61,7 +70,7 @@
         "birth_month": 5
       }
     ],
-    "education_scenario": "public"
+    "education_scenario": null
   },
   "fixed_costs": {
     "breakdown": {
@@ -69,7 +78,7 @@
     },
     "total": 160000
   },
-  "generated_at": "2026-02-25T15:31:58.779451",
+  "generated_at": "2026-02-26T08:57:03.770915",
   "monthly_income": 870000,
   "monthly_fixed_costs": 160000,
   "monthly_surplus_before_variable": 710000

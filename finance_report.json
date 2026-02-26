@@ -1,14 +1,16 @@
 {
-  "generated_at": "2026-02-25T15:31:58.831911",
+  "generated_at": "2026-02-26T08:57:03.855805",
   "summary": {
     "monthly_income": 870000,
     "monthly_fixed_costs": 160000,
-    "monthly_variable_estimate": 500000,
+    "monthly_variable_estimate": 451888,
     "monthly_education_saving": 31495,
-    "monthly_surplus": 178505,
-    "savings_rate_pct": 20.5,
-    "emergency_fund_target": 1980000,
-    "note": "変動費は暫定値です。実際のクレカ合計と差し替えてください。"
+    "monthly_surplus": 226617,
+    "savings_rate_pct": 26.0,
+    "emergency_fund_target": 1835664,
+    "note": "クレカ実績合計（日記から取得）",
+    "income_from_diary": false,
+    "charges_from_diary": true
   },
   "wishlist_risk": [
     {
@@ -67,6 +69,41 @@
       "months_to_save": null
     },
     {
+      "item": "ダイニングの照明",
+      "cost": 100000,
+      "priority": "中",
+      "risk": "低",
+      "risk_label": "🟢 低",
+      "reasons": [
+        "貯蓄期間の目安: 約0ヶ月"
+      ],
+      "months_to_save": 0.4
+    },
+    {
+      "item": "駐車場の後ろの外構工事",
+      "cost": 600000,
+      "priority": "中",
+      "risk": "低",
+      "risk_label": "🟢 低",
+      "reasons": [
+        "貯蓄期間の目安: 約3ヶ月"
+      ],
+      "months_to_save": 2.6
+    },
+    {
+      "item": "三菱 デリカD5",
+      "cost": 6000000,
+      "priority": "中",
+      "risk": "高",
+      "risk_label": "🔴 高",
+      "reasons": [
+        "購入金額が緊急予備費の50%超（目標:1,835,664円）",
+        "月余剰で貯めるのに26ヶ月かかる",
+        "購入後は教育費積立に影響する可能性あり"
+      ],
+      "months_to_save": 26.5
+    },
+    {
       "item": "豆乳イソフラボン顔用スプレー",
       "cost": null,
       "priority": "中",
@@ -87,6 +124,61 @@
         "金額が未設定のためリスク判定不可"
       ],
       "months_to_save": null
+    },
+    {
+      "item": "乾太くん（ガス乾燥機）",
+      "cost": null,
+      "priority": "中",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
+    },
+    {
+      "item": "400Lクラスの冷蔵庫",
+      "cost": null,
+      "priority": "中",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
+    },
+    {
+      "item": "60インチのテレビ",
+      "cost": null,
+      "priority": "中",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
+    },
+    {
+      "item": "テレビボード",
+      "cost": null,
+      "priority": "中",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
+    },
+    {
+      "item": "ソファ",
+      "cost": null,
+      "priority": "低",
+      "risk": "中",
+      "risk_label": "要確認",
+      "reasons": [
+        "金額が未設定のためリスク判定不可"
+      ],
+      "months_to_save": null
     }
   ],
   "credit_card_calendar": [
@@ -95,56 +187,69 @@
       "cards": [
         {
           "name": "ファミマカード",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 111532
         }
-      ]
+      ],
+      "total_charge": 111532
     },
     {
       "day": 4,
       "cards": [
         {
           "name": "セゾンゴールド",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 171412
         },
         {
           "name": "セゾンアメックス",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 0
         },
         {
           "name": "セゾンシネマズ",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 10474
         },
         {
           "name": "三井セゾン",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 0
         },
         {
           "name": "Ｖｉｅｗカード",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 2717
         }
-      ]
+      ],
+      "total_charge": 184603
     },
     {
       "day": 26,
       "cards": [
         {
           "name": "Ａｍａｚｏｎカード",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 65778
         },
         {
           "name": "エポスカード",
-          "bank": "あおぞら銀行"
+          "bank": "あおぞら銀行",
+          "monthly_charge": 1000
         }
-      ]
+      ],
+      "total_charge": 66778
     },
     {
       "day": 28,
       "cards": [
         {
           "name": "メルカード",
-          "bank": ""
+          "bank": null,
+          "monthly_charge": 20480
         }
-      ]
+      ],
+      "total_charge": 20480
     }
   ],
   "education_timeline": [
@@ -251,7 +356,7 @@
     }
   ],
   "monthly_education_saving_needed": 31495,
-  "education_scenario": "public",
+  "education_scenario": null,
   "children": [
     {
       "name": "蒼馬",
