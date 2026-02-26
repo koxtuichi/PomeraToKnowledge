@@ -598,6 +598,113 @@
             line-height: 1.7;
         }
 
+        /* ─── AIアドバイス ─── */
+        .advice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .advice-item {
+            display: flex;
+            gap: 14px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+            transition: border-color 0.2s, background 0.2s;
+            animation: fadeInUp 0.4s ease both;
+        }
+
+        .advice-item:hover {
+            border-color: rgba(56, 189, 248, 0.25);
+            background: rgba(56, 189, 248, 0.03);
+        }
+
+        .advice-item.warning {
+            border-left: 3px solid var(--accent-yellow);
+        }
+
+        .advice-item.info {
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .advice-item.success {
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .advice-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .advice-content {
+            flex: 1;
+        }
+
+        .advice-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .advice-detail {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ─── 現金支出 ─── */
+        .cash-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .cash-row {
+            display: grid;
+            grid-template-columns: 1fr 60px 90px;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .cash-row:last-child {
+            border-bottom: none;
+        }
+
+        .cash-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .cash-source {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .cash-amount {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-yellow);
+            text-align: right;
+        }
+
+        /* ─── カード用途 ─── */
+        .card-usage {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
         /* ─── Tooltip ─── */
         .tooltip {
             position: fixed;
@@ -660,6 +767,21 @@
             </div>
         </div>
 
+        <!-- AIアドバイス -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-icon" style="background:rgba(251,191,36,0.12);color:#fbbf24">💡</div>
+                <div class="panel-title">家計アドバイス</div>
+            </div>
+            <div id="advice-panel" class="advice-list">
+                <div class="no-data" style="padding:30px">
+                    <div class="icon">💡</div>
+                    <div class="title">アドバイスなし</div>
+                    <div class="desc">分析スクリプトを実行するとAIアドバイスが表示されます。</div>
+                </div>
+            </div>
+        </div>
+
         <!-- カード別請求明細 -->
         <div class="panel">
             <div class="panel-header">
@@ -672,6 +794,21 @@
                     <div class="icon">💳</div>
                     <div class="title">請求データなし</div>
                     <div class="desc">日記にクレカ請求額を記載すると自動で反映されます。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 現金・その他の支出 -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-icon" style="background:rgba(248,113,113,0.12);color:#f87171">💵</div>
+                <div class="panel-title">現金・その他の支出</div>
+            </div>
+            <div id="cash-expenses-panel" class="cash-list">
+                <div class="no-data" style="padding:30px">
+                    <div class="icon">💵</div>
+                    <div class="title">現金支出なし</div>
+                    <div class="desc">日記に現金支出を記録すると自動で反映されます。</div>
                 </div>
             </div>
         </div>
@@ -728,12 +865,18 @@
             const s = r.summary;
             const surplusColor = s.monthly_surplus >= 0 ? 'green' : 'red';
             const rateColor = s.savings_rate_pct >= 10 ? 'green' : s.savings_rate_pct >= 5 ? 'yellow' : 'red';
-            document.getElementById('summary-bar').innerHTML = [
+            const items = [
                 { label: '月収合計', value: fmt(s.monthly_income), color: 'blue', sub: '収入' },
-                { label: '月次固定費', value: fmt(s.monthly_fixed_costs), color: 'yellow', sub: '家賃・保険など' },
-                { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor, sub: s.note || '' },
-                { label: '貯蓄率', value: s.savings_rate_pct + '%', color: rateColor, sub: s.note || '' },
-            ].map(k => `
+                { label: 'クレカ利用額', value: fmt(s.monthly_variable_estimate), color: 'yellow', sub: s.note || '' },
+            ];
+            if (s.cash_total > 0) {
+                items.push({ label: '現金支出', value: fmt(s.cash_total), color: 'red', sub: '日記から集計' });
+            }
+            items.push(
+                { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor, sub: '収入−固定費−変動費−現金' },
+                { label: '貯蓄率', value: s.savings_rate_pct + '%', color: rateColor, sub: '' },
+            );
+            document.getElementById('summary-bar').innerHTML = items.map(k => `
                 <div class="kpi-card">
                     <div class="kpi-label">${k.label}</div>
                     <div class="kpi-value ${k.color}">${k.value}</div>
@@ -757,9 +900,10 @@
                 m.cards.forEach(c => {
                     const pct = Math.max((c.amount / maxAmt) * 100, 1);
                     const zeroClass = c.amount === 0 ? ' zero' : '';
+                    const usageHtml = c.usage ? `<div class="card-usage">${c.usage}</div>` : '';
                     html += `
                         <div class="card-row">
-                            <div class="card-name" title="${c.name}">${c.name}</div>
+                            <div class="card-name" title="${c.name}">${c.name}${usageHtml}</div>
                             <div class="card-bar-wrap">
                                 <div class="card-bar" style="width:${pct}%"></div>
                             </div>
@@ -907,6 +1051,47 @@
             if (dateEl) dateEl.textContent = 'finance_report.json が見つかりませんでした';
         }
 
+        // ─── AIアドバイス ──────────────────────────────────────
+        function renderAdvice(r) {
+            const advice = r.spending_advice || [];
+            if (advice.length === 0) return;
+
+            document.getElementById('advice-panel').innerHTML = advice.map((a, i) => {
+                const sev = a.severity || 'info';
+                return `
+                    <div class="advice-item ${sev}" style="animation-delay:${i * 0.08}s">
+                        <div class="advice-icon">${a.icon || '💡'}</div>
+                        <div class="advice-content">
+                            <div class="advice-title">${a.title}</div>
+                            <div class="advice-detail">${a.detail}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ─── 現金支出 ─────────────────────────────────────────
+        function renderCashExpenses(r) {
+            const expenses = r.cash_expenses || [];
+            if (expenses.length === 0) return;
+
+            const total = expenses.reduce((s, e) => s + e.amount, 0);
+            let html = expenses.map(e => `
+                <div class="cash-row">
+                    <div class="cash-label">${e.label}</div>
+                    <div class="cash-source">${e.source}</div>
+                    <div class="cash-amount">${fmt(e.amount)}</div>
+                </div>
+            `).join('');
+            html += `
+                <div class="charges-total">
+                    <span class="charges-total-label">現金支出合計</span>
+                    <span class="charges-total-value">${fmt(total)}</span>
+                </div>
+            `;
+            document.getElementById('cash-expenses-panel').innerHTML = html;
+        }
+
         function applyReport(r) {
             const updEl = document.getElementById('last-updated');
             const dateEl = document.getElementById('data-date');
@@ -915,7 +1100,9 @@
             }
             if (dateEl) dateEl.textContent = '家計コンテキストファイルから生成されたデータです';
             renderSummary(r);
+            renderAdvice(r);
             renderCardCharges(r);
+            renderCashExpenses(r);
             renderLifeEvents(r);
             renderIncomeChart(r);
             renderCalendar(r);

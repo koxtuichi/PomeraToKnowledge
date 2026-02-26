@@ -55,7 +55,8 @@ def parse_finctx_with_llm(text: str) -> dict:
       "name": "カード名",
       "bank": "引き落とし銀行名",
       "due_day": 引き落とし日（数値）,
-      "monthly_charge": 当月請求額（整数・円。テキストに記載があれば抽出、なければnull）
+      "monthly_charge": 当月請求額（整数・円。テキストに記載があれば抽出、なければnull）,
+      "usage": "カードの用途・使い道（テキストに記載があれば抽出、なければnull）"
     }}
   ],
   "family": {{

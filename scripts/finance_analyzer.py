@@ -111,14 +111,20 @@ def load_monthly_charges_from_graph(graph_file: str) -> dict:
     return charges
 
 
-def load_card_charges_by_month(graph_file: str) -> list:
+def load_card_charges_by_month(graph_file: str, card_usage_map: dict = None) -> list:
     """ナレッジグラフから当月・翌月のカード別請求データを取得する。
 
+    Args:
+        graph_file: ナレッジグラフJSON-LDファイルのパス
+        card_usage_map: {正規化カード名: 用途} の辞書
+
     Returns:
-        [{"month": "2026-02", "cards": [{"name": "...", "amount": 1234}, ...], "total": 9999}, ...]
+        [{"month": "2026-02", "cards": [{"name": "...", "amount": 1234, "usage": "..."}, ...], "total": 9999}, ...]
     """
     if not os.path.exists(graph_file):
         return []
+
+    card_usage_map = card_usage_map or {}
 
     with open(graph_file, "r", encoding="utf-8") as f:
         graph = json.load(f)
@@ -152,7 +158,7 @@ def load_card_charges_by_month(graph_file: str) -> list:
     for m in sorted_months:
         cards = by_month[m]
         card_list = sorted(
-            [{"name": k, "amount": v} for k, v in cards.items()],
+            [{"name": k, "amount": v, "usage": _find_card_usage(k, card_usage_map)} for k, v in cards.items()],
             key=lambda x: -x["amount"]
         )
         result.append({
@@ -161,6 +167,20 @@ def load_card_charges_by_month(graph_file: str) -> list:
             "total": sum(c["amount"] for c in card_list),
         })
     return result
+
+
+def _find_card_usage(card_name: str, card_usage_map: dict) -> str:
+    """カード名から用途を検索する。部分一致で探す。"""
+    if not card_usage_map:
+        return None
+    # 完全一致
+    if card_name in card_usage_map:
+        return card_usage_map[card_name]
+    # 部分一致
+    for k, v in card_usage_map.items():
+        if k in card_name or card_name in k:
+            return v
+    return None
 
 
 def load_monthly_income_from_graph(graph_file: str) -> dict:
@@ -345,6 +365,158 @@ def build_credit_card_calendar(credit_cards: list) -> list:
         for d, v in sorted(calendar.items())
     ]
 
+# ─── 現金支出の収集 ──────────────────────────────────────────────────────
+
+def load_cash_expenses_from_graph(graph_file: str) -> list:
+    """ナレッジグラフから現金支出を収集する。
+
+    以下のノードから現金支出を抽出する:
+    - type=購入希望 で status=購入済 かつ detail に「現金」を含む
+    - type=出来事 で detail に「現金」と「円」を含む
+
+    Returns:
+        [{"label": "漫画", "amount": 30000, "source": "購入希望"}, ...]
+    """
+    if not os.path.exists(graph_file):
+        return []
+
+    with open(graph_file, "r", encoding="utf-8") as f:
+        graph = json.load(f)
+
+    nodes = graph.get("nodes", [])
+    cash_expenses = []
+
+    for n in nodes:
+        ntype = n.get("type", "")
+        detail = str(n.get("detail", ""))
+        label = n.get("label", "")
+
+        if ntype == "購入希望" and n.get("status") == "購入済" and "現金" in detail:
+            amount = _extract_amount(detail, n.get("cost"))
+            if amount > 0:
+                cash_expenses.append({"label": label, "amount": amount, "source": "購入希望"})
+
+        elif ntype == "出来事" and "現金" in detail and "円" in detail:
+            amount = _extract_amount(detail)
+            if amount > 0:
+                cash_expenses.append({"label": label, "amount": amount, "source": "出来事"})
+
+    cash_expenses.sort(key=lambda x: -x["amount"])
+    if cash_expenses:
+        total = sum(e["amount"] for e in cash_expenses)
+        print(f"   💵 現金支出: {len(cash_expenses)}件 合計{total:,}円")
+    return cash_expenses
+
+
+def _extract_amount(detail: str, fallback_cost=None) -> int:
+    """テキストから金額を抽出する。"""
+    # 「30,000円」「45000円」のようなパターン
+    match = re.search(r'([0-9,]+)円', detail)
+    if match:
+        try:
+            return int(match.group(1).replace(',', ''))
+        except ValueError:
+            pass
+    # フォールバック
+    if fallback_cost is not None:
+        try:
+            return int(fallback_cost)
+        except (ValueError, TypeError):
+            pass
+    return 0
+
+
+# ─── AIアドバイス生成 ──────────────────────────────────────────────────
+
+def generate_spending_advice(
+    ctx: dict,
+    card_charges_by_month: list,
+    cash_expenses: list,
+    summary: dict,
+) -> list:
+    """Gemini APIで家計アドバイスを生成する。
+
+    Returns:
+        [{"icon": "💡", "title": "...", "detail": "...", "severity": "info"}, ...]
+    """
+    # カード用途マップを作成
+    card_usage_info = []
+    for card in ctx.get("credit_cards", []):
+        name = card.get("name", "")
+        usage = card.get("usage", "")
+        if usage:
+            card_usage_info.append(f"- {name}: {usage}")
+
+    today_str = datetime.now().strftime("%Y年%m月%d日")
+
+    prompt = f"""あなたは家計アドバイザーです。以下の家計データを分析して、具体的なアドバイスを生成してください。
+
+## 現在の日付
+{today_str}
+
+## 収支サマリー
+- 月収: {summary.get('monthly_income', 0):,}円
+- 固定費: {summary.get('monthly_fixed_costs', 0):,}円
+- クレカ利用額: {summary.get('monthly_variable_estimate', 0):,}円
+- 現金支出合計: {summary.get('cash_total', 0):,}円
+- 月次余剰: {summary.get('monthly_surplus', 0):,}円
+- 貯蓄率: {summary.get('savings_rate_pct', 0)}%
+
+## カード別請求明細
+{json.dumps(card_charges_by_month, ensure_ascii=False, indent=2)}
+
+## カードの用途
+{chr(10).join(card_usage_info) if card_usage_info else '用途情報なし'}
+
+## 現金支出
+{json.dumps(cash_expenses, ensure_ascii=False, indent=2)}
+
+## 固定費の内訳
+{json.dumps(ctx.get('fixed_costs', {}), ensure_ascii=False, indent=2)}
+
+## 出力ルール
+以下のJSON配列を出力してください。3〜6件程度のアドバイスを生成してください。
+JSONのみ出力し余計な説明はしないでください。
+
+出力形式:
+[
+  {{
+    "icon": "絵文字1文字",
+    "title": "アドバイスのタイトル",
+    "detail": "具体的な説明（2〜3文）",
+    "severity": "warning / info / success のいずれか"
+  }}
+]
+
+## アドバイスの指針
+- 特定のカードの利用額が多い場合、そのカードの用途を踏まえて使いすぎかどうか分析する
+- 現金支出が多い場合は指摘する
+- 貯蓄率が低い場合は改善策を提案する
+- 良い点があれば褒める（severity: success）
+- 具体的な金額を使って説明する
+- severity は warning（注意）/ info（情報）/ success（良い点）の3段階
+- 日本語で、丁寧だが簡潔に書く
+"""
+
+    print("   🤖 Gemini で家計アドバイスを生成中...")
+    raw = call_gemini_api(prompt)
+
+    try:
+        advice = json.loads(raw)
+        if isinstance(advice, list):
+            print(f"   ✅ 家計アドバイス: {len(advice)}件")
+            return advice
+    except json.JSONDecodeError:
+        try:
+            match = re.search(r'\[.*\]', raw, re.DOTALL)
+            if match:
+                return json.loads(match.group())
+        except Exception:
+            pass
+
+    print("   ⚠️  家計アドバイスのパースに失敗しました")
+    return []
+
 
 # ─── メイン分析 ────────────────────────────────────────────────────────
 
@@ -359,6 +531,14 @@ def analyze(
     monthly_income = ctx.get("monthly_income", 0)
     monthly_fixed  = ctx.get("monthly_fixed_costs", 0)
     credit_cards   = ctx.get("credit_cards", [])
+
+    # カード用途マップを作成
+    card_usage_map = {}
+    for card in credit_cards:
+        name = _normalize_card_name(card.get("name", ""))
+        usage = card.get("usage")
+        if name and usage:
+            card_usage_map[name] = usage
 
     # 月次クレカ請求をグラフから取得
     graph_charges = load_monthly_charges_from_graph(graph_file)
@@ -378,8 +558,13 @@ def analyze(
         monthly_variable_estimate = DEFAULT_MONTHLY_VARIABLE_COST
         variable_note = "変動費は暫定値です"
 
-    # 月次収支サマリー
-    monthly_surplus = monthly_income - monthly_fixed - monthly_variable_estimate
+    # 現金支出をグラフから収集
+    cash_expenses = load_cash_expenses_from_graph(graph_file)
+    cash_total = sum(e["amount"] for e in cash_expenses)
+
+    # 月次収支サマリー（現金支出も加味）
+    total_spending = monthly_fixed + monthly_variable_estimate + cash_total
+    monthly_surplus = monthly_income - total_spending
     savings_rate = round(monthly_surplus / monthly_income * 100, 1) if monthly_income > 0 else 0
 
     # クレカカレンダー（グラフの請求額でmonthly_chargeを補完）
@@ -395,23 +580,34 @@ def analyze(
     # ライフイベント予測（LLM）
     life_events = generate_life_events_forecast(ctx, graph_file, role_def_file)
 
-    # カード別請求明細（当月・翌月）
-    card_charges_by_month = load_card_charges_by_month(graph_file)
+    # カード別請求明細（当月・翌月、用途付き）
+    card_charges_by_month = load_card_charges_by_month(graph_file, card_usage_map)
+
+    # サマリーデータを構築
+    summary = {
+        "monthly_income": monthly_income,
+        "monthly_fixed_costs": monthly_fixed,
+        "monthly_variable_estimate": monthly_variable_estimate,
+        "cash_total": cash_total,
+        "monthly_surplus": monthly_surplus,
+        "savings_rate_pct": savings_rate,
+        "note": variable_note,
+        "income_from_diary": bool(graph_income.get("total")),
+        "charges_from_diary": bool(graph_charges),
+    }
+
+    # AIアドバイス生成（LLM）
+    spending_advice = generate_spending_advice(
+        ctx, card_charges_by_month, cash_expenses, summary
+    )
 
     return {
         "generated_at": datetime.now().isoformat(),
-        "summary": {
-            "monthly_income": monthly_income,
-            "monthly_fixed_costs": monthly_fixed,
-            "monthly_variable_estimate": monthly_variable_estimate,
-            "monthly_surplus": monthly_surplus,
-            "savings_rate_pct": savings_rate,
-            "note": variable_note,
-            "income_from_diary": bool(graph_income.get("total")),
-            "charges_from_diary": bool(graph_charges),
-        },
+        "summary": summary,
         "credit_card_calendar": cc_calendar,
         "card_charges_by_month": card_charges_by_month,
+        "cash_expenses": cash_expenses,
+        "spending_advice": spending_advice,
         "life_events_forecast": life_events,
     }
 
