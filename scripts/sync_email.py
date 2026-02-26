@@ -127,7 +127,7 @@ def check_emails(mail, save_dir, blog_only=False):
     status, count = mail.select("inbox")
     if status != "OK" or not count[0]:
         print("❌ inbox選択に失敗")
-        return [], []
+        return [], [], []
 
     # 今日の日付でIMAPクエリし、Python側で当日分（過去24時間以内）にフィルタ
     from datetime import timedelta
