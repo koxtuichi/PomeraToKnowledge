@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-27T05:35:13.072851",
+  "generated_at": "2026-02-27T14:40:47.806551",
   "summary": {
     "monthly_income": 870000,
     "monthly_fixed_costs": 160000,
@@ -161,53 +161,44 @@
     {
       "icon": "💳",
       "title": "クレジットカード利用額の見直し",
-      "detail": "今月のクレジットカード利用額は383,393円と高額です。特にセゾンゴールドカードとファミマカードの利用額が多いので、本当に必要な支出か見直してみましょう。利用目的を再検討し、無駄な支出を削減することで、貯蓄率の向上に繋がります。",
+      "detail": "今月のクレジットカード利用額は383,393円と高額です。特にセゾンゴールドカードとファミマカードの利用額が高いので、利用目的と必要性を再検討し、無駄な支出を削減しましょう。",
       "severity": "warning"
     },
     {
       "icon": "💰",
       "title": "現金支出の管理",
-      "detail": "今月の現金支出は160,000円です。内訳を見ると、システム手帳や漫画など、購入希望のものが含まれています。本当に必要なものか検討し、予算を立てて計画的に購入するようにしましょう。",
-      "severity": "info"
-    },
-    {
-      "icon": "📊",
-      "title": "貯蓄率の維持・向上",
-      "detail": "現在の貯蓄率は19.2%と良好ですが、クレジットカードの利用額を減らすことで、さらに貯蓄率を向上させることができます。月収の20%以上を貯蓄することを目標に、支出を見直してみましょう。",
-      "severity": "info"
-    },
-    {
-      "icon": "👍",
-      "title": "高収入を維持",
-      "detail": "月収87万円は非常に素晴らしいです。この収入を維持することで、将来の目標達成に大きく近づくことができます。引き続き、スキルアップやキャリアアップに励みましょう。",
-      "severity": "success"
+      "detail": "現金支出が合計160,000円となっています。システム手帳や漫画など、購入希望の項目が多いようです。本当に必要なものか見極め、予算を立てて計画的に購入するようにしましょう。",
+      "severity": "warning"
     },
     {
       "icon": "🎯",
       "title": "カード利用目的の明確化",
-      "detail": "各カードの利用目的が設定されていますが、ファミマカードのように「優先すべきカードがないときに使う」という曖昧なものは、利用を控えるか、他のカードに集約することを検討しましょう。利用目的を明確にすることで、無駄な支出を防ぐことができます。",
+      "detail": "複数のクレジットカードをお持ちですが、用途が曖昧なカードも見受けられます。ポイント還元率や特典などを比較検討し、利用頻度の低いカードは解約することも検討しましょう。",
       "severity": "info"
     },
     {
-      "icon": "🏡",
-      "title": "住宅ローン以外の固定費削減",
-      "detail": "固定費が住宅ローンのみというのは素晴らしいです。今後も無駄な固定費を増やさないように心がけましょう。サブスクリプションサービスなど、利用頻度の低いものは解約を検討するのも有効です。",
+      "icon": "📈",
+      "title": "貯蓄率の維持",
+      "detail": "月収870,000円に対して貯蓄率が19.2%というのは素晴らしいです。この貯蓄率を維持し、将来の目標に向けて着実に資産を形成していきましょう。",
+      "severity": "success"
+    },
+    {
+      "icon": "👪",
+      "title": "親への送金について",
+      "detail": "親への送金は大切なことですが、毎月45,000円は家計に占める割合も大きいです。ご両親と話し合い、無理のない範囲で継続できる金額を検討することも考えてみましょう。",
+      "severity": "info"
+    },
+    {
+      "icon": "🧾",
+      "title": "固定費の確認",
+      "detail": "固定費は家のローン160,000円のみで、非常に管理されています。今後も変動費を抑え、貯蓄に回せるように心がけましょう。",
       "severity": "success"
     }
   ],
   "life_events_forecast": [
     {
-      "event": "N-BOX 12ヶ月点検",
-      "category": "自動車",
-      "timing": "2026年3月7日",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "高",
-      "note": "エネクスフリート加須店にて実施。車検証持参。"
-    },
-    {
-      "event": "確定申告",
-      "category": "税金",
+      "event": "確定申告の準備",
+      "category": "個人",
       "timing": "2026年3月15日",
       "months_until": 0,
       "estimated_cost": null,
@@ -215,157 +206,139 @@
       "note": "住宅ローン減税確認含む"
     },
     {
-      "event": "城山公園へのピクニック",
-      "category": "家族",
-      "timing": "2026年3月1日",
+      "event": "NBox 12ヶ月点検",
+      "category": "自動車",
+      "timing": "2026年3月7日",
       "months_until": 0,
-      "estimated_cost": 5000,
-      "certainty": "中",
-      "note": "食料品、レジャー用品など"
+      "estimated_cost": null,
+      "certainty": "高",
+      "note": "エネクスフリート加須店"
     },
     {
-      "event": "妊娠検査キットの購入",
-      "category": "医療",
-      "timing": "近日中",
-      "months_until": 0,
-      "estimated_cost": 2000,
-      "certainty": "中",
-      "note": "妻の体調不良に関連"
-    },
-    {
-      "event": "ペット用品の購入",
-      "category": "ペット",
-      "timing": "今週中",
-      "months_until": 0,
-      "estimated_cost": 5000,
-      "certainty": "中",
-      "note": "猫の餌、犬のシーツなど。AOKI薬局で購入予定。"
-    },
-    {
-      "event": "シール剥がし液の購入",
-      "category": "日用品",
-      "timing": "今週中",
-      "months_until": 0,
-      "estimated_cost": 1500,
-      "certainty": "中",
-      "note": "ペット部屋の粘着汚れ除去用"
-    },
-    {
-      "event": "蒼馬 1歳 誕生日",
+      "event": "蒼馬 1歳の誕生日",
       "category": "育児",
       "timing": "2026年5月",
       "months_until": 2,
-      "estimated_cost": 30000,
+      "estimated_cost": 20000,
       "certainty": "高",
       "note": "プレゼント、誕生日会など"
     },
     {
-      "event": "自動車税",
-      "category": "自動車",
-      "timing": "2026年5月頃",
-      "months_until": 2,
+      "event": "蒼馬の成長に伴う育児用品の購入",
+      "category": "育児",
+      "timing": "2026年5月以降",
+      "months_until": 3,
       "estimated_cost": null,
-      "certainty": "高",
-      "note": "N-BOXの自動車税"
+      "certainty": "中",
+      "note": "離乳食、幼児食、おもちゃ、衣服など"
     },
     {
       "event": "妻の誕生日",
       "category": "記念日",
-      "timing": "2026年8月頃",
+      "timing": "2026年8月",
       "months_until": 5,
-      "estimated_cost": 20000,
+      "estimated_cost": 30000,
       "certainty": "高",
-      "note": "プレゼント・外食など"
+      "note": "プレゼント、外食など"
+    },
+    {
+      "event": "犬・猫のペット用品の定期的な購入",
+      "category": "ペット",
+      "timing": "毎月",
+      "months_until": null,
+      "estimated_cost": 5000,
+      "certainty": "高",
+      "note": "猫の餌、犬のシーツなど"
     },
     {
       "event": "ダイニングの照明の購入",
       "category": "家具",
-      "timing": "2026年内",
-      "months_until": 10,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": 100000,
       "certainty": "中",
-      "note": "妻の希望。予算10万円。"
+      "note": "妻の希望"
     },
     {
-      "event": "外構工事",
+      "event": "外構工事の実施",
       "category": "住宅",
-      "timing": "数年以内",
-      "months_until": 12,
+      "timing": "未定",
+      "months_until": null,
       "estimated_cost": 600000,
       "certainty": "低",
-      "note": "妻の希望。駐車場の後ろ。予算60万円程度。"
+      "note": "妻の希望、駐車場の後ろ"
     },
     {
-      "event": "乾太くん（ガス乾燥機）の購入",
+      "event": "ガス乾燥機（乾太くん）の購入",
       "category": "家電",
-      "timing": "数年以内",
-      "months_until": 24,
-      "estimated_cost": null,
-      "certainty": "低",
-      "note": "蒼馬が幼稚園等に入り洗濯物が増えることを見越した導入検討"
-    },
-    {
-      "event": "ソファの購入",
-      "category": "家具",
-      "timing": "2028年5月以降",
-      "months_until": 27,
-      "estimated_cost": null,
-      "certainty": "低",
-      "note": "子供が3歳になりプレイマットが不要になったタイミングで検討"
-    },
-    {
-      "event": "400Lクラスの冷蔵庫の購入",
-      "category": "家電",
-      "timing": "数年以内",
-      "months_until": 36,
-      "estimated_cost": null,
-      "certainty": "低",
-      "note": "子供の成長に合わせて必要になると予想"
-    },
-    {
-      "event": "60インチのテレビの購入",
-      "category": "家電",
-      "timing": "数年以内",
-      "months_until": 36,
-      "estimated_cost": null,
-      "certainty": "低",
-      "note": "大型テレビへの買い替え希望"
-    },
-    {
-      "event": "テレビボードの購入",
-      "category": "家具",
-      "timing": "数年以内",
-      "months_until": 36,
-      "estimated_cost": null,
-      "certainty": "低",
-      "note": "テレビの買い替えに合わせて検討"
-    },
-    {
-      "event": "三菱 デリカD5の購入",
-      "category": "自動車",
-      "timing": "数年以内",
-      "months_until": 36,
-      "estimated_cost": 6000000,
-      "certainty": "低",
-      "note": "残価ローンでの購入をイメージ。総額約600万円、月々6万円程度。"
-    },
-    {
-      "event": "妻の体調不良による医療費",
-      "category": "医療",
-      "timing": "今後数ヶ月",
-      "months_until": null,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "子宮の痛み。検査費用や治療費が発生する可能性。"
-    },
-    {
-      "event": "沙也香の美容整形",
-      "category": "美容",
       "timing": "未定",
       "months_until": null,
       "estimated_cost": null,
       "certainty": "低",
-      "note": "妻が外見にコンプレックスを抱いているため、美容整形を検討する可能性"
+      "note": "洗濯物が増えることを見越して"
+    },
+    {
+      "event": "冷蔵庫の買い替え",
+      "category": "家電",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "400Lクラス、子供の成長に合わせて"
+    },
+    {
+      "event": "テレビ・テレビボードの買い替え",
+      "category": "家電・家具",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "60インチテレビへの買い替え"
+    },
+    {
+      "event": "ソファの購入",
+      "category": "家具",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "子供が3歳になりプレイマットが不要になったタイミング"
+    },
+    {
+      "event": "自動車の買い替え",
+      "category": "自動車",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": 6000000,
+      "certainty": "低",
+      "note": "三菱 デリカD5、残価ローン"
+    },
+    {
+      "event": "自動車の定期的なメンテナンス費用",
+      "category": "自動車",
+      "timing": "定期的",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "高",
+      "note": "NBoxのリース契約に基づく点検費用、ガソリン代、保険代"
+    },
+    {
+      "event": "蒼馬の保育園入園準備",
+      "category": "育児",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "中",
+      "note": "保育園入園に必要なグッズの購入"
+    },
+    {
+      "event": "妻の退職に伴う収入減",
+      "category": "家計",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "妻の職場でのパワハラ問題が解決しない場合、退職の可能性を考慮"
     }
   ]
 }
