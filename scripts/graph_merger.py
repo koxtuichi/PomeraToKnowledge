@@ -1,5 +1,6 @@
 import json
 import os
+import math
 import argparse
 from datetime import datetime, timezone, timedelta
 
@@ -12,6 +13,92 @@ EMOTION_DECAY_RATES = {
     "怒り": 0.20,      # 早めに冷める
     "その他": 0.10,    # デフォルト
 }
+
+# ── ベクトル検索によるノード解決 ──
+_EMBED_SIMILARITY_THRESHOLD = 0.85
+
+def _cosine_similarity(a, b):
+    """2つのベクトルのコサイン類似度を計算する。"""
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(x * x for x in b))
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
+def _get_embeddings(texts):
+    """Gemini Embedding APIでテキストリストのembeddingを取得する。"""
+    try:
+        import google.generativeai as genai
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            print("   ⚠️ GOOGLE_API_KEY が未設定のためベクトル検索をスキップ")
+            return []
+        genai.configure(api_key=api_key)
+        result = genai.embed_content(
+            model="models/gemini-embedding-001",
+            content=texts,
+        )
+        return result["embedding"]
+    except Exception as e:
+        print(f"   ⚠️ Embedding API エラー: {e}")
+        return []
+
+
+def _resolve_target_by_vector(target_id, master_nodes_dict, _cache={}):
+    """ベクトル検索でターゲットIDに最も意味的に近いマスターノードを探す。
+
+    結果はキャッシュして同一マージ内での重複API呼び出しを防ぐ。
+    """
+    if target_id in _cache:
+        return _cache[target_id]
+
+    # ターゲットのラベル部分を抽出
+    target_label = target_id.split(":", 1)[-1] if ":" in target_id else target_id
+    target_type = target_id.split(":", 1)[0] if ":" in target_id else ""
+
+    # マスターグラフの候補ノードを収集
+    candidates = []
+    for nid, node in master_nodes_dict.items():
+        node_type = node.get("type", "")
+        node_label = node.get("label", "")
+        # タイプが大きく異なる場合は除外
+        if target_type and target_type not in ("目標", "プロジェクト") and node_type not in ("目標", "プロジェクト", target_type):
+            continue
+        if target_type in ("目標", "プロジェクト") and node_type not in ("目標", "プロジェクト"):
+            continue
+        if node_label:
+            candidates.append((nid, node_label))
+
+    if not candidates:
+        _cache[target_id] = None
+        return None
+
+    # embeddingを取得
+    texts = [target_label] + [c[1] for c in candidates]
+    embeddings = _get_embeddings(texts)
+    if len(embeddings) < 2:
+        _cache[target_id] = None
+        return None
+
+    target_emb = embeddings[0]
+    best_sim = -1.0
+    best_id = None
+    for i, (nid, label) in enumerate(candidates):
+        sim = _cosine_similarity(target_emb, embeddings[i + 1])
+        if sim > best_sim:
+            best_sim = sim
+            best_id = nid
+
+    if best_sim >= _EMBED_SIMILARITY_THRESHOLD:
+        print(f"   🔍 ベクトル検索: '{target_label}' → '{master_nodes_dict[best_id].get('label', best_id)}' (類似度: {best_sim:.3f})")
+        _cache[target_id] = best_id
+        return best_id
+    else:
+        print(f"   ⚠️ ベクトル検索: '{target_label}' に該当なし (最大類似度: {best_sim:.3f})")
+        _cache[target_id] = None
+        return None
 
 def load_graph(filepath):
     """Loads a graph JSON file. Returns an empty structure if file doesn't exist."""
@@ -308,7 +395,10 @@ def merge_graphs(master, daily):
     # 日記ノードから「言及する」エッジで繋がっているノードは、
     # デイリーグラフに直接ノードとして抽出されなくても、言及があった事実を
     # last_seen に反映する。これにより目標の進捗追跡が正確になる。
+    # ID不一致時はGemini Embedding APIでベクトル検索を行い、意味的に最も
+    # 近いノードにフォールバックする。
     mention_updated = 0
+    vector_resolved = 0
     current_time_mention = datetime.now().isoformat()
     master_nodes_dict = {n['id']: n for n in master['nodes']}
     
@@ -316,13 +406,26 @@ def merge_graphs(master, daily):
         if edge.get('type') == '言及する':
             target_id = id_remap.get(edge['target'], edge['target'])
             if target_id in master_nodes_dict:
+                # ID完全一致
                 master_nodes_dict[target_id]['last_seen'] = current_time_mention
                 mention_updated += 1
+            else:
+                # ベクトル検索フォールバック
+                resolved_id = _resolve_target_by_vector(target_id, master_nodes_dict)
+                if resolved_id:
+                    master_nodes_dict[resolved_id]['last_seen'] = current_time_mention
+                    mention_updated += 1
+                    vector_resolved += 1
+                    # 次回以降ID一致するようにリマップを記録
+                    id_remap[edge['target']] = resolved_id
     
     master['nodes'] = list(master_nodes_dict.values())
     
     if mention_updated:
-        print(f"   🔗 言及エッジ経由で {mention_updated} ノードの last_seen を更新しました。")
+        msg = f"   🔗 言及エッジ経由で {mention_updated} ノードの last_seen を更新しました。"
+        if vector_resolved:
+            msg += f" (うち {vector_resolved} 件はベクトル検索で解決)"
+        print(msg)
 
     # --- 3. Update Metadata ---
     if 'metadata' not in master:
