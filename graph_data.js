@@ -86,13 +86,14 @@ const GRAPH_DATA = {
     },
     {
       "id": "制約:時間不足_副業",
-      "label": "副業の時間確保が困難",
+      "label": "Saiteki活動の時間確保困難",
       "type": "制約",
-      "detail": "やるべきことが溜まっているが時間が足りない。本業後に行う必要がある。",
+      "detail": "家族のケアなどで勉強会参加やまとまった開発時間が確保できない状態",
       "constraint_type": "時間不足",
       "first_seen": "2026-02-16T23:51:38.047244",
-      "last_seen": "2026-02-16T23:51:38.047244",
-      "weight": 0.1
+      "last_seen": "2026-02-27T23:50:51.124760",
+      "weight": 1.05,
+      "tags": []
     },
     {
       "id": "タスク:Saiteki_ReplySuzuki",
@@ -196,6 +197,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.8,
           "active_sentiment": 0.1648,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.1335,
           "trigger": null
         }
       ],
@@ -401,7 +408,7 @@ const GRAPH_DATA = {
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
-      "last_seen": "2026-02-27T15:37:46.914028",
+      "last_seen": "2026-02-28T00:44:42.321774",
       "weight": 158,
       "tags": []
     },
@@ -476,11 +483,11 @@ const GRAPH_DATA = {
       "id": "目標:WeightUnder75",
       "label": "年内体重75kg切り",
       "type": "目標",
-      "detail": "2/27時点で78.6kg。日曜までに77kg台を目指す極めて順調な推移",
+      "detail": "2/27時点で78.6kg。順調に推移しており、日曜までに77kg台を目指す",
       "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317236",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 14.45,
       "tags": []
     },
@@ -540,10 +547,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "制約:YouTubeNight",
@@ -566,7 +579,7 @@ const GRAPH_DATA = {
       "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317260",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 15.8,
       "tags": [
         "100体チャレンジ",
@@ -645,12 +658,12 @@ const GRAPH_DATA = {
       "id": "目標:ParkPicnic",
       "label": "城山公園へのピクニック",
       "type": "目標",
-      "detail": "3月に入ってから実施予定。",
-      "status": "進行中",
+      "detail": "3月に予定していたが、家族の体調によりこの土日は断念",
+      "status": "保留",
       "category": "父親",
       "first_seen": "2026-02-16T14:56:00.317290",
-      "last_seen": "2026-02-25T13:37:31.318620",
-      "weight": 3.05,
+      "last_seen": "2026-02-28T00:44:42.323676",
+      "weight": 4.15,
       "tags": [],
       "date": "2026-03-01"
     },
@@ -696,6 +709,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": -0.9,
           "active_sentiment": -0.1668,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.9,
+          "active_sentiment": -0.1351,
           "trigger": null
         }
       ],
@@ -806,6 +825,12 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.1483,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.1202,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -864,10 +889,16 @@ const GRAPH_DATA = {
           "sentiment": -0.9,
           "active_sentiment": -0.0523,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0424,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "知見:体重の停滞期",
@@ -910,7 +941,7 @@ const GRAPH_DATA = {
       "category": "夫",
       "first_seen": "2026-02-16T15:02:03.441112",
       "last_seen": "2026-02-24T15:39:05.953298",
-      "weight": 11.2,
+      "weight": 11.15,
       "tags": []
     },
     {
@@ -971,7 +1002,7 @@ const GRAPH_DATA = {
       ],
       "first_seen": "2026-02-16T15:03:34.868320",
       "last_seen": "2026-02-24T15:40:25.046838",
-      "weight": 1.95
+      "weight": 1.9
     },
     {
       "id": "知見:陰影の付け方の理解",
@@ -1011,10 +1042,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "感情:経済的不安",
@@ -1045,10 +1082,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "制約:副業の着手タイミング",
@@ -1250,10 +1293,16 @@ const GRAPH_DATA = {
           "sentiment": 0.6,
           "active_sentiment": 0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "日記:2026-02-17",
@@ -1343,10 +1392,16 @@ const GRAPH_DATA = {
           "sentiment": 0.7,
           "active_sentiment": 0.0366,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0296,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:感謝の言葉の重要性",
@@ -1376,7 +1431,7 @@ const GRAPH_DATA = {
       "detail": "鉛筆でしっかり描いた動画を上げた際、チャンネル登録者が3人増えた。時間をかけることの重要性を示唆。",
       "first_seen": "2026-02-16T15:54:33.865481",
       "last_seen": "2026-02-24T15:40:25.046838",
-      "weight": 8.75,
+      "weight": 8.7,
       "tags": [
         "YouTube運営",
         "分析"
@@ -1411,10 +1466,16 @@ const GRAPH_DATA = {
           "sentiment": 0.7,
           "active_sentiment": 0.0366,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0296,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "タスク:SayakaGratitude",
@@ -1540,10 +1601,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "場所:Shozai",
@@ -1627,10 +1694,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "タスク:MainJob_ImprovementFlow",
@@ -1686,10 +1759,16 @@ const GRAPH_DATA = {
           "sentiment": 0.6,
           "active_sentiment": 0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:高品質なイラスト of 集客効果",
@@ -1739,10 +1818,16 @@ const GRAPH_DATA = {
           "sentiment": 0.6,
           "active_sentiment": 0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "制約:活動時間の物理的限界",
@@ -1791,10 +1876,16 @@ const GRAPH_DATA = {
           "sentiment": 0.7,
           "active_sentiment": 0.0366,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0296,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "感情:将来への不安",
@@ -1826,10 +1917,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.1236,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.1001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.0,
-      "trend": "下降"
+      "trend": "上昇"
     },
     {
       "id": "制約:文章作成の迷い",
@@ -1870,10 +1967,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "出来事:蒼馬の相手",
@@ -1936,10 +2039,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "感情:収益化への渇望",
@@ -1970,10 +2079,16 @@ const GRAPH_DATA = {
           "sentiment": 0.5,
           "active_sentiment": 0.0263,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0213,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "制約:プラン料金の増額",
@@ -2024,10 +2139,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "概念:追加の読書リスト",
@@ -2053,15 +2174,15 @@ const GRAPH_DATA = {
     },
     {
       "id": "感情:制作への手応え",
-      "label": "モンスター描画への手応え",
+      "label": "高品質描画への手応え",
       "type": "感情",
-      "sentiment": 0.8,
-      "detail": "雰囲気のある絵が描けたことによる前向きな実感。",
+      "sentiment": 0.6,
+      "detail": "登録者増を受けて、時間をかけた描画の重要性を感じ、挑戦したいという前向きな意欲。",
       "first_seen": "2026-02-16T23:45:29.453504",
-      "last_seen": "2026-02-27T15:37:46.914768",
-      "weight": 1.1,
+      "last_seen": "2026-02-17T00:49:10.716612",
+      "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.8,
+      "active_sentiment": 0.0255,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2080,10 +2201,16 @@ const GRAPH_DATA = {
           "sentiment": 0.6,
           "active_sentiment": 0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "人物:Sayaka",
@@ -2131,10 +2258,16 @@ const GRAPH_DATA = {
           "sentiment": -0.4,
           "active_sentiment": -0.0209,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0169,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "制約:生活リズムの乱れ",
@@ -2220,10 +2353,16 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.0388,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0314,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "概念:5万円の副収入",
@@ -2345,10 +2484,16 @@ const GRAPH_DATA = {
           "sentiment": 0.4,
           "active_sentiment": 0.0209,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0169,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.4,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "タスク:Knowbe_ThinkingOrganization",
@@ -2417,6 +2562,12 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.1373,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.1112,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -2473,6 +2624,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.9,
           "active_sentiment": 0.0646,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0523,
           "trigger": null
         }
       ],
@@ -2567,10 +2724,16 @@ const GRAPH_DATA = {
           "sentiment": 0.6,
           "active_sentiment": 0.0314,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0255,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "感情:頭のもやもや",
@@ -2604,10 +2767,16 @@ const GRAPH_DATA = {
           "sentiment": -0.3,
           "active_sentiment": -0.0157,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0127,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "感情:所有欲の充足",
@@ -2637,10 +2806,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:自動化による集中環境",
@@ -2688,12 +2863,12 @@ const GRAPH_DATA = {
       "id": "タスク:SayakaHealthMonitor",
       "label": "妻の体調経過観察と受診勧奨",
       "type": "タスク",
-      "detail": "子宮付近の痛みを心配し、痛みが増すようなら病院へ行くよう説得・様子見を行う。",
-      "status": "進行中",
+      "detail": "受診が完了し、ただの風邪と判明したため完了とする",
+      "status": "完了",
       "category": "夫",
       "first_seen": "2026-02-18T00:35:24.294852",
-      "last_seen": "2026-02-27T15:37:46.914768",
-      "weight": 0.1,
+      "last_seen": "2026-02-27T23:50:51.124760",
+      "weight": 1.05,
       "tags": []
     },
     {
@@ -2900,10 +3075,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:Prompt_Engineering_Novel",
@@ -2996,6 +3177,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": -0.8,
           "active_sentiment": -0.2034,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.8,
+          "active_sentiment": -0.1648,
           "trigger": null
         }
       ],
@@ -3097,10 +3284,16 @@ const GRAPH_DATA = {
           "sentiment": 0.4,
           "active_sentiment": 0.0394,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0319,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
-      "trend": "下降",
+      "trend": "安定",
       "tags": []
     },
     {
@@ -3157,6 +3350,12 @@ const GRAPH_DATA = {
           "sentiment": -0.9,
           "active_sentiment": -0.0887,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0718,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
@@ -3171,7 +3370,7 @@ const GRAPH_DATA = {
       "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-20T08:31:06.380319",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "last_seen": "2026-02-27T16:05:32.480583",
       "weight": 1.5,
       "tags": []
     },
@@ -3226,10 +3425,16 @@ const GRAPH_DATA = {
           "sentiment": 0.9,
           "active_sentiment": 0.0471,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0382,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:対面コミュニケーションの重要性",
@@ -3295,6 +3500,12 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.279,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.226,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -3347,6 +3558,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.9,
           "active_sentiment": 0.0985,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0798,
           "trigger": null
         }
       ],
@@ -3500,6 +3717,12 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0877,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.071,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -3543,6 +3766,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.9,
           "active_sentiment": 0.3139,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.2542,
           "trigger": null
         }
       ],
@@ -3694,10 +3923,16 @@ const GRAPH_DATA = {
           "sentiment": -0.3,
           "active_sentiment": -0.0157,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0127,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "タスク:ペット用品の購入",
@@ -3755,10 +3990,16 @@ const GRAPH_DATA = {
           "sentiment": -0.2,
           "active_sentiment": -0.0104,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.2,
+          "active_sentiment": -0.0085,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.2,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "プロジェクト:Saitekiキャリアパス検討",
@@ -3993,6 +4234,12 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.1082,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0877,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -4067,6 +4314,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.8,
           "active_sentiment": 0.3444,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.279,
           "trigger": null
         }
       ],
@@ -4232,6 +4485,12 @@ const GRAPH_DATA = {
           "sentiment": -0.5,
           "active_sentiment": -0.45,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.5,
+          "active_sentiment": -0.3645,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -4299,6 +4558,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.8,
           "active_sentiment": 0.3827,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.31,
           "trigger": null
         }
       ],
@@ -4369,10 +4634,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:Saiteki社員化の判断軸",
@@ -4565,10 +4836,16 @@ const GRAPH_DATA = {
           "sentiment": -0.4,
           "active_sentiment": -0.0209,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0169,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "制約:育児負担への共感不足",
@@ -4656,10 +4933,16 @@ const GRAPH_DATA = {
           "sentiment": 0.6,
           "active_sentiment": 0.0532,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0431,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降",
+      "trend": "安定",
       "tags": []
     },
     {
@@ -4718,6 +5001,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.9,
           "active_sentiment": 0.2542,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.2059,
           "trigger": null
         }
       ],
@@ -4780,10 +5069,16 @@ const GRAPH_DATA = {
           "sentiment": 0.4,
           "active_sentiment": 0.0209,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0169,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.4,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "制約:感情的ブレーキ_やる気の欠如",
@@ -4831,10 +5126,16 @@ const GRAPH_DATA = {
           "sentiment": -0.9,
           "active_sentiment": -0.0471,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0382,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "タスク:Saiteki_MTG資料準備",
@@ -4922,10 +5223,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "概念:ストックオプションの潜在価値",
@@ -5099,10 +5406,16 @@ const GRAPH_DATA = {
           "sentiment": 0.9,
           "active_sentiment": 0.0471,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0382,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "知見:理想追求の際限なさへの警戒",
@@ -5201,10 +5514,16 @@ const GRAPH_DATA = {
           "sentiment": 0.5,
           "active_sentiment": 0.0263,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0213,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "感情:強烈な自己嫌悪",
@@ -5236,10 +5555,16 @@ const GRAPH_DATA = {
           "sentiment": -0.9,
           "active_sentiment": -0.0471,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0382,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "知見:心理的安全性のマネジメントへの重要性",
@@ -5485,10 +5810,16 @@ const GRAPH_DATA = {
           "sentiment": -0.4,
           "active_sentiment": -0.0487,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0394,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
-      "trend": "上昇"
+      "trend": "安定"
     },
     {
       "id": "購入希望:猫の餌",
@@ -5578,6 +5909,12 @@ const GRAPH_DATA = {
           "sentiment": 0.5,
           "active_sentiment": 0.1031,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0835,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -5623,6 +5960,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": -0.3,
           "active_sentiment": -0.0686,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0555,
           "trigger": null
         }
       ],
@@ -5726,6 +6069,12 @@ const GRAPH_DATA = {
           "sentiment": -0.8,
           "active_sentiment": -0.2511,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.8,
+          "active_sentiment": -0.2034,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.8,
@@ -5807,6 +6156,12 @@ const GRAPH_DATA = {
           "sentiment": -0.3,
           "active_sentiment": -0.1162,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0941,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -5851,6 +6206,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.6,
           "active_sentiment": 0.3189,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.6,
+          "active_sentiment": 0.2583,
           "trigger": null
         }
       ],
@@ -6015,6 +6376,12 @@ const GRAPH_DATA = {
           "sentiment": -0.5,
           "active_sentiment": -0.2953,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.5,
+          "active_sentiment": -0.2392,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.5,
@@ -6040,7 +6407,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T01:10:34.836377",
       "last_seen": "2026-02-26T20:11:39.236381",
       "weight": 1,
-      "analysis_content": "{\"coach_comment\": \"Knowbeでの『認めてもらえない』という重力、本当に苦しいですね。しかし、ポメラで自分の思考に深く潜り、体重計で数字の成果を出し、Saitekiという心の港を持っている今のあなたは、決して無力ではありません。今は重力と真っ向から戦うのではなく、ポメラという『思考の宇宙服』を着て、外からの評価に左右されない自分だけの高度を保っていきましょう。\", \"gravity_map\": [{\"task\": \"Knowbe 臨時報酬改定情報の集約\", \"task_id\": \"KNOWBE_REWARD_INFO\", \"constraints\": [{\"name\": \"承認欲求の未充足\", \"type\": \"感情的ブレーキ\", \"severity\": \"高\"}, {\"name\": \"コミュニケーションの回避\", \"type\": \"感情적ブレーキ\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"ポメラによる思考整理\", \"type\": \"知見\"}, {\"name\": \"Saitekiでの安心感\", \"type\": \"感情\"}], \"net_assessment\": \"仕事の意義が見出せない重力に対し、ポメラでの言語化を盾にして、事務的な処理として切り分ける必要がある。\"}, {\"task\": \"Saiteki 直道さん・小松田さんへの返信\", \"task_id\": \"SAITEKI_REPLIES\", \"constraints\": [{\"name\": \"特になし\", \"type\": \"リソース不足\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"副業による安心感\", \"type\": \"感情\"}], \"net_assessment\": \"心理的重力が極めて低く、早期に着手することで一日のリズムを作る原動力になる。\"}, {\"task\": \"3月の20万円貯金実行\", \"task_id\": \"SAVING_MARCH_EXEC\", \"constraints\": [{\"name\": \"2月の高額支出（趣味・税金・送金）\", \"type\": \"リソース不足\", \"severity\": \"高\"}], \"energy_sources\": [{\"name\": \"支出の完全可視化\", \"type\": \"知見\"}], \"net_assessment\": \"2月の高額支出という重力に対し、現状把握ができているため、3月のルール化による軌道修正は可能。\"}], \"antigravity_actions\": [{\"action\": \"Knowbeの業務成果を『AI（Gemini）なら自分をどう評価するか』という客観的視点でポメラに3行で書き出す\", \"target_task\": \"Knowbeでの自信回復と業務遂行\", \"effect\": \"「認められない」という主観的な不安（重力）を、AIという第三者視点の論理的評価に置き換えて、精神的な停滞を解消する。\", \"effort\": \"5分\"}, {\"action\": \"今日の日記に書き出した2月の総支出額をポメラで合計し、3月の『絶対に買わないカテゴリー』を3つ確定させる\", \"target_task\": \"3月の20万円貯金実行\", \"effect\": \"支出の可視化によって生じる漠然とした不安（重力）を、次月の具体的な行動制限というコントロール可能なルールに変換する。\", \"effort\": \"30分\"}, {\"action\": \"明朝78kg台に到達していた場合、その数値をポメラの目立つ場所にメモし『自分は環境を支配できている』と一言添える\", \"target_task\": \"年内体重75kg切り\", \"effect\": \"仕事での自信喪失を、100%自己管理の結果であるダイエットの成功体験で相殺し、メンタルの浮揚力を生む。\", \"effort\": \"5分\"}, {\"action\": \"『ポメラ駆動のナレッジグラフ構築術』という記事タイトルのリード文（最初の200文字）をDM250で執筆する\", \"target_task\": \"キングジムとのコラボレーション\", \"effect\": \"高い製品満足度を単なる趣味で終わらせず、公式との接点を作るための具体的成果物へと昇華させ、創作意欲を加速させる。\", \"effort\": \"30分\"}, {\"action\": \"KnowbeのSlackにて、自分からの発信ではなく「他人の発言に1つだけリアクションスタンプを押す」ことを明日の目標にする\", \"target_task\": \"Knowbeでの自信回復と業務遂行\", \"effect\": \"「会話を避けてしまう」という心理的重力に対し、スタンプ一つという最小の負荷でコミュニケーションの回路を維持する。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"Knowbeのモチベーション低下は『能力不足』ではなく『承認と安全性の欠如』による二次的な重力である。\", \"implication\": \"自分の価値をKnowbeの評価に委ねず、Saitekiやポメラ、ダイエットの成果に置くことで、精神的な『無重力状態』を作れる。\"}, {\"finding\": \"2月の支出明細が1円単位で把握できている。これは家計管理において極めて高い『制御能力』を示している。\", \"implication\": \"数字を把握できている限り、3月のリカバリーは計算上十分に可能である。\"}], \"emotion_flow\": [{\"emotion\": \"承認欲求の未充足による憂鬱\", \"sentiment\": -0.8, \"context\": \"Knowbeでの業務に対するモチベーション低下とコミュニケーション回避。\"}, {\"emotion\": \"自己効力感の向上\", \"sentiment\": 0.9, \"context\": \"食後79.4kgというダイエットの具体的な成果確認。\"}, {\"emotion\": \"没頭・充実感\", \"sentiment\": 1.0, \"context\": \"ポメラDM250での思考整理が、自分にとって最も大切な時間であるという実感。\"}], \"upcoming_schedule\": [{\"title\": \"NBox 12ヶ月点検（エネクスフリート加須店）\", \"date\": \"2026-03-07\", \"time\": \"09:00\", \"category\": \"個人\"}], \"family_digest\": {\"highlights\": [{\"member\": \"本人\", \"event\": \"仕事に対するモチベーションの低下や職場でのコミュニケーションに難しさを感じているが、Saitekiという別の仕事の存在に安心感を得ている。\", \"emotion\": \"悩み、不安、安心感\"}, {\"member\": \"本人\", \"event\": \"体重を測定したところ79.4kgであり、ダイエットの成果を実感するとともに明朝の目標（78kg台）に期待を寄せている。\", \"emotion\": \"満足感、期待\"}, {\"member\": \"本人\", \"event\": \"DM250（ポメラ）を使用して思考を整理することに没頭し、将来的なブログ活用やメーカーとのコラボレーションへの夢を膨らませた。\", \"emotion\": \"充実感、喜び\"}, {\"member\": \"両親\", \"event\": \"本人から45,000円の送金を受けた。\", \"emotion\": \"なし\"}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記にて購入予定との記述あり。\"}, {\"item\": \"妻が希望するウィッシュリストの品々\", \"category\": \"その他\", \"urgency\": \"いつか\", \"note\": \"2026-02-25の日記で「妻が希望する将来の購入リスト」として言及。\"}]}, \"blog_seeds\": [{\"title\": \"重力のない書斎\", \"genre\": \"哲学的\", \"tone\": \"シリアス\", \"story_seed\": \"ある男が、外の世界では誰にも認められないが、小さな魔法の板に文字を刻む間だけは、あらゆる重力から解放されて自由に空を飛べるようになる物語。\", \"core_message\": \"自分の居場所は自分で作る文字の中にある\", \"reader_feeling\": \"静かな勇気\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"『ポメラ駆動』で思考のデトックス：なぜ私はPCではなく専用機で日記を書くのか\", \"theme\": \"ポメラ活用術・メンタルヘルス\", \"hook\": \"「がんばっても認めてもらえない」そんな夜、私はポメラの電源を入れた。\", \"readiness\": \"高\"}, {\"title\": \"エンジニアがポメラで見つけた『評価されない不安』への対抗策\", \"theme\": \"仕事術・マインドセット\", \"hook\": \"コミュニケーションを避けたくなるほどの重力を、文字の力でどう軽減するか。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [{\"label\": \"承認欲求の不充足による意欲低下\", \"detail\": \"「がんばっても認めてもらえない」という予期不安があり、Knowbe業務に対する根本的なモチベーションが損なわれている。\", \"constraint_type\": \"感情\"}, {\"label\": \"対人コミュニケーションの回避\", \"detail\": \"会話の難しさを感じて自分から話すタイミングを避けており、11:00の定例MTG等の場での円滑な意思疎通を阻害する要因となっている。\", \"constraint_type\": \"感情\"}, {\"label\": \"業務への集中力欠如\", \"detail\": \"最近仕事に集中できないという悩みを抱えており、MTG前の思考整理といった具体的な準備タスクの進捗を妨げている。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"Knowbe MTG前の思考整理\", \"detail\": \"10:30の定例前に業務内容を整理し、11:00の引き締まったMTGに備える。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"Knowbeの業務に対するモチベーションの低下は、自身の貢献が認められないという不安や、コミュニケーションの難しさに起因している可能性がある。\", \"implication\": \"11:00のMTGに向けて「思考整理」を行う際、単なる業務進捗だけでなく、現在の懸念事項や評価に対する不安を言語化し、対話のきっかけにすることが重要である。\"}, {\"finding\": \"ポメラ（DM250）を用いた「ポメラ駆動」による執筆・思考整理の時間が、自身の納得感や没頭感を生む重要な時間となっている。\", \"implication\": \"KnowbeのMTG前の思考整理タスクにおいて、ポメラを活用して思考を深めることで、業務に対する主体的意識の回復やAI連携を含めた独自の価値提案に繋がる可能性がある。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"業務モチベーションと集中力の欠如\", \"detail\": \"「努力が認められない」という予期的な諦念により、Saitekiの業務を含む仕事全般に対して意欲が湧かず、集中力が維持できない状態にある。\", \"constraint_type\": \"感情\"}, {\"label\": \"自発的コミュニケーションの抑制\", \"detail\": \"意思疎通の難しさを感じているため、自分から会話するタイミングを避けてしまうといった回避行動が生じている。\", \"constraint_type\": \"感情\"}, {\"label\": \"失職に対する不安感\", \"detail\": \"仕事がなくなることへの強い不安があり、Saitekiでの仕事があることに安堵しているものの、その不安が心理的な制約となっている。\", \"constraint_type\": \"感情\"}], \"tasks\": [], \"insights\": [{\"finding\": \"メインの仕事でモチベーション低下や評価への不安を感じている状況において、Saitekiに仕事があることが精神的な安定（安心感）に寄与している。\", \"implication\": \"Saitekiの業務は単なる実務以上の、キャリアにおけるリスクヘッジや心理的安全性を担保する役割を果たしており、複数の仕事を持つポートフォリオワーカーとしての優位性が示唆される。\"}, {\"finding\": \"ポメラ（DM250）を用いた「ポメラ駆動」による思考の整理とAI活用の親和性を高く評価しており、この手法を具体化したいと考えている。\", \"implication\": \"デバイスによる集中環境の確保とAIによる処理を組み合わせた独自のワークフローは、SaitekiにおけるAI活用ソリューションやナレッジマネジメントの新たなモデルケースになる可能性がある。\"}]}}",
+      "analysis_content": "{\"coach_comment\": \"Knowbeの定例で有意義な提案ができ、合意形成まで漕ぎ着けたのは大きな前進ですね。仕事への重力（モチベーションの低下）は依然としてありますが、今日の成功体験は確かな『浮揚力』になっています。今はポメラという聖域で思考を研ぎ澄まし、数字と事実（体重、支出、タスクの完了）を味方につけることで、不安定な感情の波を乗りこなしていきましょう。\", \"gravity_map\": [{\"task\": \"Knowbe 臨時報酬改定情報の集約\", \"task_id\": \"KNOWBE_REWARD_INFO\", \"constraints\": [{\"name\": \"承認欲求の未充足\", \"type\": \"感情的ブレーキ\", \"severity\": \"高\"}, {\"name\": \"業務内容の不明瞭さ\", \"type\": \"技術的課題\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"デザイン定例での達成感\", \"type\": \"感情\"}, {\"name\": \"ポメラによる思考整理\", \"type\": \"知見\"}], \"net_assessment\": \"職場の対人不安が強い一方で、本日の定例での成功体験が強力な推進力となっており、事務的な整理から着手すれば重力は大幅に軽減される。\"}, {\"task\": \"将来の必要資金額の分析\", \"task_id\": \"FUTURE_FINANCE_ANALYSIS\", \"constraints\": [{\"name\": \"2月の高額支出による心理的負担\", \"type\": \"リソース不足\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"支出の完全可視化\", \"type\": \"目標\"}], \"net_assessment\": \"『何が不安か』が支出の内訳として可視化されたことで、分析は『守り』ではなく『コントロール権の奪還』というポジティブなタスクへ変化している。\"}], \"antigravity_actions\": [{\"action\": \"Knowbeでの「今週の事実（成果）」をポメラで3つだけ書き出し、他人の評価を介さない自分だけの評価軸を再構築する\", \"target_task\": \"Knowbeでの自信回復と業務遂行\", \"effect\": \"「認めてもらえない」という承認欲求の引力を、客観的な事実（作業完了など）の積み上げによって相殺し、心理的安全性を自己確保する。\", \"effort\": \"30分\"}, {\"action\": \"日記にメモした約54万円の支出内訳（2月分）をAIに読み込ませ、3月に20万円貯金するための「聖域なき削減プラン」を提示させる\", \"target_task\": \"3月の20万円貯金実行\", \"effect\": \"高額な支出（重力）を可視化し、具体的な削減項目をAIに決めさせることで、意思決定のコストと不安を軽減する。\", \"effort\": \"30分\"}, {\"action\": \"ポメラDM250への満足感を活かし、キングジムの担当者の目に留まることを想定した「ポメラ駆動開発」のキャッチコピーを3案作成する\", \"target_task\": \"キングジムとのコラボレーション\", \"effect\": \"単なる日記を「公式との接点」という目標に結びつけることで、執筆モチベーションを「憧れ」の推進力に変える。\", \"effort\": \"30分\"}, {\"action\": \"明朝、もし78kg台に到達していたら、その瞬間の喜びをポメラに1行だけ「勝利の記録」として刻む\", \"target_task\": \"年内体重75kg切り\", \"effect\": \"夕食後で79.4kgという好条件を成功体験として定着させ、ダイエット停滞期の引力を完全に断ち切る。\", \"effort\": \"5分\"}, {\"action\": \"Knowbeの業務において、自分から発言しづらい内容をあらかじめポメラで「チャット送信用テンプレート」として下書きする\", \"target_task\": \"Knowbeでの自信回復と業務遂行\", \"effect\": \"コミュニケーションのタイミングを逃す原因である「その場での思考負荷」を事前に解消し、心理的ハードルを下げる。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"Knowbeにおいて『有意義な質問や提案』ができたことは、コミュニケーション回避の引力が弱まっている兆候である。\", \"implication\": \"「認められない」という思い込みに対し、今日の成功を『反証データ』として自分の中に蓄積することで、心理的安全性を自給自足できる。\"}, {\"finding\": \"2月の支出（趣味の漫画・手帳、親への送金、税金）は突発的・投資的なものが多く、固定費の膨張ではない。\", \"implication\": \"3月以降、ルールさえ決めれば20万円貯金への復帰は数字上十分に可能であり、過度な悲観は不要である。\"}], \"emotion_flow\": [{\"emotion\": \"業務上の達成感\", \"sentiment\": 0.9, \"context\": \"デザイン定例での発言と運用フローの合意形成による前進。\"}, {\"emotion\": \"減量の強い手応え\", \"sentiment\": 0.9, \"context\": \"食後79.4kgという、停滞期を抜けた確信に近い数値。\"}, {\"emotion\": \"将来への期待と不安\", \"sentiment\": 0.4, \"context\": \"沙也香さんの妊娠の可能性に伴う、生活の変化への予感。\"}], \"upcoming_schedule\": [{\"title\": \"Saiteki勉強会（途中入退室可）\", \"date\": \"2026-02-27\", \"time\": \"19:00\", \"category\": \"副業\"}, {\"title\": \"NBox 12ヶ月点検（エネクスフリート加須店）\", \"date\": \"2026-03-07\", \"time\": \"09:00\", \"category\": \"個人\"}], \"family_digest\": {\"highlights\": [{\"member\": \"本人\", \"event\": \"仕事へのモチベーション低下や対人コミュニケーションの難しさを感じており、将来への不安を抱いているが、副業（Saiteki）の存在に安心感も得ている。\", \"emotion\": \"不安、葛藤、安心感\"}, {\"member\": \"本人\", \"event\": \"体重が79.4kgまで減少し、ダイエットの成果を実感している。\", \"emotion\": \"満足感、期待\"}, {\"member\": \"本人\", \"event\": \"ポメラ（DM250）を用いた思考整理の時間に没頭し、将来的な活用や発信に意欲を燃やしている。\", \"emotion\": \"満足感、充実感、期待\"}, {\"member\": \"親\", \"event\": \"本人から45,000円の送金を受けた。\", \"emotion\": null}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記にて購入予定との記述があり、その後の購入完了報告がないため。\"}, {\"item\": \"車の点検（サービス）\", \"category\": \"その他\", \"urgency\": \"今週中\", \"note\": \"2026-02-25の日記にて「車の点検予定」との記述があるため。\"}, {\"item\": \"妻が希望するウィッシュリストの品目\", \"category\": \"その他\", \"urgency\": \"いつか\", \"note\": \"2026-02-25の日記にて「妻が希望する将来の購入リスト」として言及されており、優先順位の整理が必要な段階であるため。\"}]}, \"blog_seeds\": [{\"title\": \"評価を銀色の板に預けて\", \"genre\": \"日常\", \"tone\": \"哲学的\", \"story_seed\": \"誰からも褒められない職場で働く男が、銀色の小さな入力端末（ポメラ）の中だけで、自分の成功を1g単位で記録し続ける。外界の重力と、端末内の無重力。その境界線で男が見つけた本当の自信とは。\", \"core_message\": \"他人の評価は天候のようなものだが、自分の記録は裏切らない地層になる。\", \"reader_feeling\": \"静かな肯定感\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"『食後でも79kg』を叩き出した、エンジニア的ダイエットの『数字による引力制御』\", \"theme\": \"ダイエット・自己管理\", \"hook\": \"停滞期を突破したのは、根性ではなく『ポメラでの思考整理』と『数字の可視化』だった。\", \"readiness\": \"高\"}, {\"title\": \"職場の『承認不足』という重力に負けないための、AIとポメラを併用したメンタル・テイクオフ術\", \"theme\": \"メンタルヘルス・仕事術\", \"hook\": \"「頑張っても認めてもらえない」と感じる時、私はポメラを開き、AIに自分を客観評価させる。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [{\"label\": \"評価への不信感によるモチベーション低下\", \"detail\": \"「がんばったところで認めてもらえない」という認識により、業務に対する意欲が損なわれている。\", \"constraint_type\": \"感情\"}, {\"label\": \"コミュニケーションの回避\", \"detail\": \"周囲とのコミュニケーションに難しさを感じており、自分から会話する機会を避けてしまっている。\", \"constraint_type\": \"組織\"}, {\"label\": \"業務への集中力欠如\", \"detail\": \"モチベーションの喪失や心理的な壁により、仕事に対して本来のパフォーマンスを発揮できない状態にある。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"Knowbe MTG前の思考整理\", \"detail\": \"10:30の定例前に業務内容を整理し、11:00の引き締まったMTGに備える。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"業務へのモチベーション低下の背景に「頑張っても認められない」という評価への不安と、それに伴うコミュニケーション回避の傾向がある。\", \"implication\": \"11:00のMTGを形骸化させないため、10:30からの思考整理の時間を、単なるタスク確認ではなく『自分の成果や考えを言語化し、対話の心理的ハードルを下げるための準備』として活用する必要がある。\"}, {\"finding\": \"仕事がなくなることへの不安を感じつつも、現状では自分から会話するタイミングを避けてしまっている。\", \"implication\": \"Knowbe業務において「安心」を確保するためには、MTGを自身の進捗や価値を可視化する機会と捉え、受動的な参加から能動的なコミュニケーションへの転換が求められる。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"承認欲求の不充足によるモチベーション低下\", \"detail\": \"頑張っても認められないという懸念から、仕事に対する意欲や集中力が欠如している。\", \"constraint_type\": \"感情\"}, {\"label\": \"自発的コミュニケーションの抑制\", \"detail\": \"コミュニケーションに難しさを感じ、自分から会話するタイミングを避けてしまう傾向がある。\", \"constraint_type\": \"感情\"}, {\"label\": \"雇用継続に対する不安感\", \"detail\": \"仕事がなくなることへの不安を抱えており、Saitekiの業務が存在することに依存的な安心感を得ている精神状態。\", \"constraint_type\": \"感情\"}], \"tasks\": [], \"insights\": [{\"finding\": \"本業におけるコミュニケーションの難しさやモチベーションの低下に対し、Saitekiの仕事が存在することが精神的な安心感（セーフティネット）として機能している。\", \"implication\": \"Saitekiの業務は、他所での自己肯定感や雇用の不安を補完する心理的安定剤としての役割を果たしており、多角的なポートフォリオを維持することが個人のメンタルヘルス維持に直結している。\"}, {\"finding\": \"Pomera DM250を用いた思考の整理に強い満足感を得ており、これを起点とした「ポメラ駆動」のAI活用方法を模索したいと考えている。\", \"implication\": \"デジタルデトックスされた環境での執筆（ポメラ）とAIの処理を組み合わせた独自のワークフローをSaitekiのナレッジとして体系化することで、他にはない独自の知的生産メソッドをサービス化できる可能性がある。\"}]}}",
       "tags": []
     },
     {
@@ -6090,6 +6457,12 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.5144,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.4643,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -6121,10 +6494,16 @@ const GRAPH_DATA = {
           "sentiment": 0.8,
           "active_sentiment": 0.56,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.2744,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "安定",
+      "trend": "下降",
       "tags": []
     },
     {
@@ -6317,6 +6696,12 @@ const GRAPH_DATA = {
           "sentiment": 0.9,
           "active_sentiment": 0.765,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.5527,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -6456,6 +6841,12 @@ const GRAPH_DATA = {
           "sentiment": -0.6,
           "active_sentiment": -0.5415,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": -0.6,
+          "active_sentiment": -0.4887,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -6486,6 +6877,12 @@ const GRAPH_DATA = {
           "sentiment": 0.9,
           "active_sentiment": 0.6502,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.4698,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -6515,6 +6912,12 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 1.0,
           "active_sentiment": 0.7,
+          "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 1.0,
+          "active_sentiment": 0.343,
           "trigger": null
         }
       ],
@@ -6579,6 +6982,12 @@ const GRAPH_DATA = {
           "sentiment": 0.9,
           "active_sentiment": 0.765,
           "trigger": null
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.9,
+          "active_sentiment": 0.5527,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -6599,11 +7008,11 @@ const GRAPH_DATA = {
       "id": "タスク:妊娠検査キットの購入",
       "label": "妊娠検査キットの購入",
       "type": "タスク",
-      "detail": "生理が来たため、今回の必要性は消失",
+      "detail": "生理が来たため購入の必要がなくなった",
       "status": "キャンセル",
       "context": "private",
       "first_seen": "2026-02-26T20:11:39.235686",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 1.9,
       "tags": []
     },
@@ -6621,14 +7030,14 @@ const GRAPH_DATA = {
     },
     {
       "id": "出来事:Saiteki勉強会_20260227",
-      "label": "Saiteki勉強会（AWS）",
+      "label": "Saiteki勉強会(2026-02-27)",
       "type": "出来事",
-      "detail": "19時からの勉強会。沙也香の体調不良対応のため参加断念。",
+      "detail": "AWSに関する勉強会。妻の看病と体調不良により欠席",
       "status": "中止",
       "date": "2026-02-27",
       "context": "saiteki",
       "first_seen": "2026-02-26T20:11:39.235888",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 1.9,
       "tags": []
     },
@@ -6648,46 +7057,50 @@ const GRAPH_DATA = {
       "type": "日記",
       "detail": "今日の日記エントリ",
       "date": "2026-02-27",
-      "context": "shared",
-      "first_seen": "2026-02-27T05:32:12.775856",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "context": "knowbe",
+      "tags": [
+        "POMERA",
+        "アウトプット",
+        "自信回復"
+      ],
+      "first_seen": "2026-02-27T16:05:32.478135",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 1,
-      "analysis_content": "{\"coach_comment\": \"KnowbeでのGAS提案、素晴らしい一歩でしたね。周囲の評価を待つのではなく、自ら『動く事実』を作ることで、心の重力がフワッと軽くなったのを感じます。沙也香さんの職場環境やCTO職への向き合い方など、新たな重力も見えてきましたが、一つずつ『自分にとっての正解』を定義して、身軽になっていきましょう。\", \"gravity_map\": [{\"task\": \"Knowbeでの自信回復と業務遂行\", \"task_id\": \"TASK_KNOWBE_CONFIDENCE\", \"constraints\": [{\"name\": \"心理的安全性の欠如\", \"type\": \"感情적ブレーキ\", \"severity\": \"高\"}, {\"name\": \"継続的な業務否定\", \"type\": \"感情적ブレーキ\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"GAS提案という「動く事実」\", \"type\": \"知見\"}, {\"name\": \"アウトプットによる自己効力感\", \"type\": \"感情\"}], \"net_assessment\": \"外部承認から「自分の成果物」への信頼へエネルギー源がシフトし、重力が軽減し始めています。\"}, {\"task\": \"将来のキャリア設計（CTO職への検討）\", \"task_id\": \"TASK_CAREER_CTO\", \"constraints\": [{\"name\": \"育児・副業・本業による時間的限界\", \"type\": \"時間不足\", \"severity\": \"高\"}, {\"name\": \"責任の重圧\", \"type\": \"感情的ブレーキ\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"ストックオプションによる1億円獲得目標\", \"type\": \"目標\"}], \"net_assessment\": \"「多くを求めない」という戦略的撤退により、CTO職という重圧（重力）を軽減し、資産形成にエネルギーを集中しようとしています。\"}, {\"task\": \"沙也香の職場問題への対応\", \"task_id\": \"TASK_SAYAKA_WORK_SUPPORT\", \"constraints\": [{\"name\": \"職場の院長のパワハラ\", \"type\": \"物理的障害\", \"severity\": \"高\"}, {\"name\": \"受診への恐怖（解決済みだが精神的余波あり）\", \"type\": \"感情的ブレーキ\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"夫婦の協力体制\", \"type\": \"感情\"}], \"net_assessment\": \"パワハラという強力な外部重力に対し、退職という選択肢を含む具体的な防衛策を検討する必要があります。\"}], \"antigravity_actions\": [{\"action\": \"作成したGASの論理構成と『解決したかった課題』をポメラに転記し、自分の実力を客観的に肯定する「技術資産ログ」を作る\", \"target_task\": \"Knowbe問題解決用GASの提案\", \"effect\": \"他者の反応や評価に依存せず、自分の行動そのものを「成功体験」として定義し、折れかけた自信を内側から補強します。\", \"effort\": \"30分\"}, {\"action\": \"沙也香がパワハラ職場を即座に辞めた場合の失業手当や家計のセーフティネットを30分だけ調べ、夫婦の「逃げ道」を可視化する\", \"target_task\": \"沙也香の職場のパワハラ\", \"effect\": \"「辞めたら生活が壊れる」という漠然とした恐怖を具体的な数字で取り除き、精神的な安全圏を確保します。\", \"effort\": \"30分\"}, {\"action\": \"欠席したSaiteki勉強会の資料やSlackのログから、一番興味のあるキーワード1つだけをポメラにメモして「最低限のキャッチアップ」を済ませる\", \"target_task\": \"AIツール横断運用の準備\", \"effect\": \"勉強会に参加できなかった罪悪感を「情報のつまみ食い」で解消し、学習の遅れによる精神的重力を軽減します。\", \"effort\": \"30分\"}, {\"action\": \"「CTOを目指さない」ことで解放されるはずの未来の時間を、具体的にどの趣味（絵やポメラ活用本の執筆）に投資するか3つリストアップする\", \"target_task\": \"時間不足によるCTO職への限界\", \"effect\": \"キャリアの断念を「敗北」ではなく「自由時間の獲得」というポジティブな選択肢に書き換え、心理的負荷を軽減します。\", \"effort\": \"5分\"}, {\"action\": \"日曜日に77kg台に到達した際の「食べ物以外のご褒美（入浴剤や文具など）」を1つ決め、Amazonのリストに追加する\", \"target_task\": \"年内体重75kg切り\", \"effect\": \"ダイエットの成功を食事以外で祝う習慣を作り、停滞期を抜けた今の勢いを「楽しみ」という推進力に変えます。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"Artifact（成果物）ベースの防衛本能\", \"implication\": \"言葉での交流に不安がある時、コードやGASという「否定できない事実」を盾にすることで、自信を維持する防御術を習得しています。\"}, {\"finding\": \"期待値の再定義による軽量化\", \"implication\": \"「CTO」という肩書きではなく「SOによる資産」をゴールに据え直したことで、キャリアに対する過剰な重力から逃れる道を見つけています。\"}], \"emotion_flow\": [{\"emotion\": \"自信の萌芽\", \"sentiment\": 0.6, \"context\": \"GAS提案により「見られていなくてもやっている」という自負が生まれた。\"}, {\"emotion\": \"安堵\", \"sentiment\": 0.8, \"context\": \"沙也香の体調が普通の風邪であり、深刻な病気ではなかったことへの安心感。\"}, {\"emotion\": \"憤り\", \"sentiment\": -0.7, \"context\": \"沙也香の職場の院長によるパワハラ実態に対する強い危機感。\"}], \"upcoming_schedule\": [{\"title\": \"NBox 12ヶ月点検（エネクスフリート加須店）\", \"date\": \"2026-03-07\", \"time\": \"09:00\", \"category\": \"個人\"}], \"family_digest\": {\"highlights\": [{\"member\": \"沙也香\", \"event\": \"病院を受診し、長引く熱が普通の風邪であると診断された。はしかの疑いや妊娠も否定された。\", \"emotion\": \"安心\"}, {\"member\": \"沙也香\", \"event\": \"生理がきたことで、予定通り仕事復帰の準備を進められるようになった。\", \"emotion\": \"前向き\"}, {\"member\": \"沙也香\", \"event\": \"職場の院長からパワハラを受けており、深刻な状況にある。\", \"emotion\": \"苦痛・心労\"}, {\"member\": \"自分\", \"event\": \"仕事で自信を失いかけたが、GASの提案など積極的なアウトプットを通じて自信を再構築しようとしている。\", \"emotion\": \"自信喪失からの前向きな意欲\"}, {\"member\": \"自分\", \"event\": \"ダイエットが順調に進み、体重が78.6kgまで減少した。\", \"emotion\": \"満足感・期待\"}, {\"member\": \"自分\", \"event\": \"妻の体調不良を優先して勉強会を欠席し、今後のキャリア観（CTOではなく現実的な資産形成）を整理した。\", \"emotion\": \"残念・諦め・納得\"}], \"family_todos\": [\"沙也香の体調管理と看病（風邪の回復を優先する）\", \"沙也香の職場のパワハラ問題および今後のキャリア（退職の検討や仕事復帰）についての相談\"], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2/22の日記にて購入予定との記述があるが、その後の日記で購入完了の報告がないため。\"}, {\"item\": \"妻のウィッシュリストの品目（将来の購入希望品）\", \"category\": \"日用品/その他\", \"urgency\": \"いつか\", \"note\": \"2/25の日記にて、妻が希望する壮大なウィッシュリストとして言及されているため。\"}, {\"item\": \"風邪対策用品・栄養食品\", \"category\": \"日用品/食料品\", \"urgency\": \"急ぎ\", \"note\": \"2/27の日記で、妻が病院にて風邪と診断され、夜も体調が悪いとの記述があるため。\"}]}, \"blog_seeds\": [{\"title\": \"透明な盾を持つエンジニア\", \"genre\": \"仕事\", \"tone\": \"哲学的\", \"story_seed\": \"言葉が通じない、否定の嵐が吹く街で、一人のエンジニアが『動くコード』という透明な盾を鍛え上げる。盾が大きくなるにつれ、彼は他人の声に怯える必要がないことに気づく。\", \"core_message\": \"評価は他人が決めるが、成果を出したという事実は自分だけのもの。\", \"reader_feeling\": \"自己肯定\", \"readiness\": \"高\"}, {\"title\": \"一億円の引力、自由の重力\", \"genre\": \"人生\", \"tone\": \"シリアス\", \"story_seed\": \"ある役職（CTO）を目指していた男が、家族の体調不良をきっかけに、その役職を脱ぎ捨てる。代わりに手に入れたのは、数字の目標と、夕暮れにモスバーガーを食べる自由だった。\", \"core_message\": \"何を諦めるかは、何を守るかと同じくらい重要である。\", \"reader_feeling\": \"納得感\", \"readiness\": \"中\"}], \"blog_ideas\": [{\"title\": \"「認められない」をGASで解決した話：心理的安全性ゼロの現場でのサバイバル術\", \"theme\": \"エンジニアの仕事術\", \"hook\": \"自分の仕事が見られていない、正当に評価されない。そんな絶望をポメラとGASで「見える化」して突破した実録です。\", \"readiness\": \"高\"}, {\"title\": \"理想のCTOを諦めて「SOで1億円」を目指すことにした、30代エンジニアの戦略的撤退\", \"theme\": \"キャリア形成・家族\", \"hook\": \"時間は有限、家族は大切、でもお金も欲しい。CTOという重責を捨てて、合理的に1億円を目指す道を選んだ私の本音。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [{\"label\": \"自己効力感の低下\", \"detail\": \"Knowbeの業務において自信を失いかけており、具体的なアウトプット（GASの提案など）を出すことでしか自信を維持・証明できないという心理的プレッシャーがある。\", \"constraint_type\": \"感情\"}, {\"label\": \"業務プロセスの不可視性\", \"detail\": \"受動的な状態では取り組んでいる業務が周囲に認知されにくいと感じており、アピールのための能動的な行動を常に意識しなければならない環境的懸念。\", \"constraint_type\": \"環境\"}, {\"label\": \"専門性向上への時間的制約\", \"detail\": \"家族の看病等の私生活上の要因により、勉強会への参加など中長期的なスキルアップ（AWS等）に充てる時間の確保が困難になっている。\", \"constraint_type\": \"時間\"}], \"tasks\": [{\"label\": \"Knowbe MTG前の思考整理\", \"detail\": \"10:30の定例前に業務内容を整理し、11:00の引き締まったMTGに備える。\", \"status\": \"進行中\"}, {\"label\": \"GASによる問題解決の提案\", \"detail\": \"自信喪失の解消と、積極的なアウトプットの提示のため、問題解決のためのGASを用意して提案を行う。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"具体的なアウトプット（GASの提案など）を伴う能動的な行動は、業務における自信の回復に寄与する。\", \"implication\": \"自信を喪失した際、受動的にならずに自ら課題解決の提案（形に見える成果物）を出すことで、自己効力感を再構築できる。\"}, {\"finding\": \"「見られていなくても実行した事実」を積み上げることが精神的な支えになる。\", \"implication\": \"他者からの評価に依存せず、自身の行動を客観的な事実として提示できる状態にしておくことが、心理的な安定と前向きな姿勢の維持に繋がる。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"学習・共有機会の欠落\", \"detail\": \"家庭の事情（妻の体調不良）によりSaitekiの勉強会に参加できず、AWS等の業務に必要な技術情報のキャッチアップが阻害されている。\", \"constraint_type\": \"時間\"}, {\"label\": \"キャリア目標の心理的後退\", \"detail\": \"時間の確保が困難な状況から、CTO就任などの高い目標を維持することに限界を感じ、意欲を下方修正せざるを得ない心理状態にある。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"Saiteki勉強会（AWS）のキャッチアップ\", \"detail\": \"2026年2月27日に開催されたAWSに関する勉強会に欠席したため、内容の確認を行う。\", \"status\": \"進行中\"}, {\"label\": \"Saitekiにおける中長期的な関わり方と目標の再検討\", \"detail\": \"時間の確保が困難な現状を踏まえ、CTO職への挑戦ではなくストックオプション（1億円目標）を重視した戦略へのシフトを検討する。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"家庭の事情（看病など）により、Saitekiの勉強会（AWS関連など）への参加が困難になるリスクがある。\", \"implication\": \"学習機会の損失を考慮し、時間が限られた状況下でもキャッチアップできる体制や、優先順位の調整が必要になる。\"}, {\"finding\": \"継続的な時間の制約がある場合、CTO等の高いコミットメントを要する役職への到達が難しくなる可能性がある。\", \"implication\": \"役職としてのキャリアアップだけでなく、ストックオプションによる経済的リターン（評価額100億での1%確保など）を現実的な目標に据えるという戦略的撤退・転換の検討が必要。\"}]}}",
+      "analysis_content": "{\"coach_comment\": \"沙也香さんの診断結果、まずは大きな安心を得られましたね。お疲れ様でした。KnowbeでのGAS提案は、あなたが自分自身の価値を『再定義』するための力強い一歩になっています。CTOという役割に固執せず、SO1億円という具体的で現実的な目標に舵を切った判断も、不必要な焦り（重力）を捨てる賢明な選択です。\", \"gravity_map\": [{\"task\": \"Knowbeでの自信回復と業務遂行\", \"task_id\": \"TASK_KNOWBE_CONFIDENCE\", \"constraints\": [{\"name\": \"心理的安全性の欠如\", \"type\": \"感情적ブレーキ\", \"severity\": \"高\"}, {\"name\": \"業務否定の常態化\", \"type\": \"感情的ブレーキ\", \"severity\": \"高\"}], \"energy_sources\": [{\"name\": \"GAS提案による自己効力感\", \"type\": \"知見\"}, {\"name\": \"アウトプットという事実\", \"type\": \"感情\"}], \"net_assessment\": \"『見られていなくてもやっている』という実感が、否定的な環境からの精神的自立を助けています。\"}, {\"task\": \"沙也香のキャリアとメンタルケア\", \"task_id\": \"TASK_SAYAKA_CAREER\", \"constraints\": [{\"name\": \"職場のパワハラ\", \"type\": \"感情的ブレーキ\", \"severity\": \"高\"}, {\"name\": \"病後の体力低下\", \"type\": \"疲労\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"家族の健康への安心感\", \"type\": \"目標\"}, {\"name\": \"退職という選択肢の許容\", \"type\": \"感情\"}], \"net_assessment\": \"パワハラという強い重力に対し、『やめてもいい』という逃げ道を確保することが最大の軽減策となります。\"}], \"antigravity_actions\": [{\"action\": \"妻がパワハラ職場を辞めるための家計シミュレーション（最低限必要な月収の算出）をポメラで30分間行う\", \"target_task\": \"将来の必要資金額の分析\", \"effect\": \"家族を苦痛から解放するための具体的な数値的根拠を得て、心理的な重力を取り除く\", \"effort\": \"30分\"}, {\"action\": \"『CTOではなく1%のSO』という新方針に基づき、現在の業務で捨てるべきことと注力することを5分で書き出す\", \"target_task\": \"ストックオプションで1億円を目指す\", \"effect\": \"時間不足による「役割への執着」を捨て、リソースを最も期待値の高い行動に集中させる\", \"effort\": \"5分\"}, {\"action\": \"社会保険料シミュレーターで、希望額に対する手取りを算出し、交渉用のメモを5分で作成する\", \"target_task\": \"希望給与条件の整理と提示\", \"effect\": \"不透明な手取り額への不安（重力）を解消し、Saitekiへの条件提示を現実的なものにする\", \"effort\": \"5分\"}, {\"action\": \"外食による塩分をリセットするため、今日・明日の水分摂取量と食事内容を5分で決める\", \"target_task\": \"年内体重75kg切り\", \"effect\": \"モスバーガーの塩分による一時的な増量を防ぎ、日曜の77kg台到達を確実にする\", \"effort\": \"5分\"}, {\"action\": \"GAS提案を継続するため、次に自動化できそうなKnowbeの単純作業を1つだけ特定し、30分で設計メモを書く\", \"target_task\": \"GASによる問題解決の提案\", \"effect\": \"能動的なアウトプットを習慣化し、Knowbe内での自信喪失という重力を跳ね返す\", \"effort\": \"30分\"}], \"insights\": [{\"finding\": \"『CTO』という称号より『SO 1億円』という果実の方が、今の自分には重力が少ない目標である。\", \"implication\": \"役割への義務感よりも、経済的な自由という具体的な目標の方が、高いモチベーションを生み出す。\"}, {\"finding\": \"GASのような『手触りのある成果物』が、否定的な環境における精神的な防護壁になる。\", \"implication\": \"言葉での説明ではなく、動くものを作ることで自己定義を行うのが、現在のエンジニアとしての生存戦略に合っている。\"}], \"emotion_flow\": [{\"emotion\": \"診断結果への安心感\", \"sentiment\": 0.8, \"context\": \"沙也香の病状が普通の風邪であり、深刻なものではなかったことへの安堵。\"}, {\"emotion\": \"自信回復への手応え\", \"sentiment\": 0.7, \"context\": \"GASによるアウトプットが、自己効力感の源泉になると確信。\"}, {\"emotion\": \"諦めと現実的選択\", \"sentiment\": 0.4, \"context\": \"CTOを諦めSOを狙うという、身の丈に合わせた戦略変更による心の安定。\"}], \"upcoming_schedule\": [{\"title\": \"NBox 12ヶ月点検（エネクスフリート加須店）\", \"date\": \"2026-03-07\", \"time\": \"09:00\", \"category\": \"個人\"}], \"family_digest\": {\"highlights\": [{\"member\": \"沙也香\", \"event\": \"病院を受診し、熱の原因が普通の風邪であることを確認。妊娠はしておらず生理が来たため、仕事復帰の準備を進める予定。\", \"emotion\": \"安心（夫視点）\"}, {\"member\": \"沙也香\", \"event\": \"職場の院長によるパワハラが深刻な状況にあり、夫から退職を検討されるほどの負担となっている。\", \"emotion\": \"苦痛、深刻\"}, {\"member\": \"本人\", \"event\": \"仕事で自信を喪失したがGAS開発で対策。体重が78.6kgと順調に減少。妻の看病のため勉強会を欠席しモスバーガーを夕食にした。将来のキャリアパスを再考した。\", \"emotion\": \"自信の模索、達成感、心残り、現実的な妥協\"}], \"family_todos\": [\"体調不良である沙也香の看病と体調管理の継続\", \"沙也香の職場のパワハラ問題および今後の仕事継続・退職に関する相談\", \"沙也香の仕事復帰に向けた具体的な準備とスケジュールの検討\"], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2/22に購入予定の記述あり。その後の購入報告なし。\"}, {\"item\": \"車の点検代\", \"category\": \"その他\", \"urgency\": \"今週中\", \"note\": \"2/25に点検予定の記述あり。\"}, {\"item\": \"妻の風邪対策用品（薬・ゼリー飲料等）\", \"category\": \"日用品/食料品\", \"urgency\": \"急ぎ\", \"note\": \"2/27に妻が風邪で体調不良との記述あり。\"}, {\"item\": \"妻のウィッシュリスト掲載品\", \"category\": \"その他\", \"urgency\": \"いつか\", \"note\": \"2/25に妻が希望する将来の購入リストとして言及あり。\"}]}, \"blog_seeds\": [{\"title\": \"透明な盾、あるいはGAS\", \"genre\": \"テクノロジー\", \"tone\": \"シリアス\", \"story_seed\": \"誰も自分を見ていない、自分の存在が否定され続ける透明なオフィスで、一人のエンジニアが深夜にひっそりとスクリプトを走らせる。そのスクリプトが動くたび、彼の周囲には誰にも見えない『事実の壁』が築かれ、外界の悪意を弾き返すようになる。\", \"core_message\": \"アウトプットは、時に攻撃手段ではなく、自分を守る盾になる。\", \"reader_feeling\": \"静かな感動\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"評価0の場所で腐らないために。僕が『勝手にGASを書いて提案する』ことに決めた理由\", \"theme\": \"メンタルハック\", \"hook\": \"心理的安全性がゼロなら、自分の手で『事実の安全性』を作り出すしかない。\", \"readiness\": \"高\"}, {\"title\": \"CTOは無理かもしれない。でもSOで1億円は狙える。夢を『削ぎ落とす』ことで見えた現実的な勝利の方程式\", \"theme\": \"キャリア戦略\", \"hook\": \"「何者か」になりたい重圧を捨てたとき、最も身軽で強力な目標が手に入る。\", \"readiness\": \"高\"}], \"knowbe\": {\"constraints\": [{\"label\": \"業務における自信の喪失\", \"detail\": \"Knowbeの業務において自信を失っている箇所があり、GASの提案など具体的な成果物を出すことで自己肯定感を維持しようとする心理的な負荷が生じている。\", \"constraint_type\": \"感情\"}, {\"label\": \"家庭環境に起因する時間的制約\", \"detail\": \"家族の体調不良や家事への対応により、勉強会への参加やキャリアアップに繋がる活動時間が制限され、将来的な展望への懸念が生じている。\", \"constraint_type\": \"時間\"}, {\"label\": \"業務プロセスの非可視化\", \"detail\": \"自身の取り組みが周囲から見られていないという感覚があり、アウトプットを通じて意図的に「やっていること」を証明しなければならないという組織的な課題がある。\", \"constraint_type\": \"組織\"}], \"tasks\": [{\"label\": \"Knowbe MTG前の思考整理\", \"detail\": \"10:30の定例前に業務内容を整理し、11:00の引き締まったMTGに備える。\", \"status\": \"進行中\"}, {\"label\": \"問題解決のためのGAS用意と提案\", \"detail\": \"自信につなげるための積極的な行動として、問題解決に向けたGASを作成し提案する。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"課題解決に向けた具体的なアウトプット（GASの作成・提案など）を行うことが、業務に対する自信の回復や維持につながる。\", \"implication\": \"受動的にならず、自発的な提案や目に見える形での貢献を行うことで、周囲の評価とは別に「自分がやるべきことをやっている」という自己肯定感を得られる。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"家族の体調不良による学習機会の制限\", \"detail\": \"家族の看病や対応を優先した結果、Saitekiの勉強会に参加できず、AWSなどの重要な技術習得の機会を逃している。\", \"constraint_type\": \"環境\"}, {\"label\": \"キャリア形成に向けた時間の不足\", \"detail\": \"継続的に学習時間を確保できない状態が続いており、CTOなどの重要な役割を担うことへの実現可能性に懸念が生じている。\", \"constraint_type\": \"時間\"}, {\"label\": \"役割期待に対する心理的な下方修正\", \"detail\": \"時間的制約からCTO等の高い目標を諦め、ストックオプション等の経済的利益に目標を切り替えようとする妥協の感情が生じている。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"Saiteki勉強会の内容確認（AWS関連）\", \"detail\": \"2月27日の勉強会に参加できなかったため、聞き逃したAWSに関する内容を確認する。\", \"status\": \"未完了\"}, {\"label\": \"Saitekiにおける中長期的なキャリア・報酬設計\", \"detail\": \"CTO職の可能性を考慮しつつ、ストックオプションで1億円（評価額100億の1%相当）を目指す計画の検討。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"Saitekiの勉強会（AWS関連等）への継続的な参加が困難な場合、将来的なCTO等の責任ある役職への就任が現実的ではなくなる可能性がある。\", \"implication\": \"自身の生活状況や時間的制約を鑑み、役職への執着を捨ててストックオプション（評価額100億時の1%獲得など）による経済的リターンの確保に目標をシフトする柔軟なキャリア戦略が必要である。\"}, {\"finding\": \"GASを用いた問題解決の提案など、具体的なアウトプットを伴う積極的な行動は、周囲の認知に関わらず自己の自信に繋がる。\", \"implication\": \"他者からの評価に依存せず、自発的な技術提供や課題解決を継続することが、業務における自己効力感と主体性を維持する鍵となる。\"}]}}"
+    },
+    {
+      "id": "出来事:GASの提案_20260227",
+      "label": "GASを用いた問題解決の提案",
+      "type": "出来事",
+      "status": "完了",
+      "detail": "Knowbeの業務上の問題解決のためにGAS（Google Apps Script）を用意し、チームへ提案を行った。",
+      "date": "2026-02-27",
+      "context": "knowbe",
+      "first_seen": "2026-02-27T16:05:32.478250",
+      "last_seen": "2026-02-27T16:05:32.480583",
+      "weight": 0.9
+    },
+    {
+      "id": "知見:アウトプットによる自信構築",
+      "label": "積極的なアウトプットが自信に繋がる",
+      "type": "知見",
+      "detail": "目に見える成果物を提示することで、自分の行動を証明でき、それが自身の自信回復に寄与する",
+      "context": "knowbe",
+      "first_seen": "2026-02-27T16:05:32.478338",
+      "last_seen": "2026-02-27T23:50:51.124760",
+      "weight": 1.95,
       "tags": []
     },
     {
-      "id": "出来事:KnowbeへのGAS提案",
-      "label": "GASによる問題解決の提案",
-      "type": "出来事",
-      "detail": "Knowbeの業務上の問題を解決するためにGoogle Apps Script（GAS）を作成し、自ら提案を行った。",
-      "status": "完了",
-      "date": "2026-02-27",
-      "context": "knowbe",
-      "first_seen": "2026-02-27T05:32:12.775907",
-      "last_seen": "2026-02-27T05:32:12.776735",
-      "weight": 0.9
-    },
-    {
-      "id": "知見:アウトプットによる自信回復",
-      "label": "アウトプットの可視化による自信形成",
-      "type": "知見",
-      "detail": "周囲の評価を待つのではなく、具体的な成果物を作って積極的に行動することで、「やっていることはある」という自己認識が自信に繋がる。",
-      "context": "knowbe",
-      "first_seen": "2026-02-27T05:32:12.775940",
-      "last_seen": "2026-02-27T05:32:12.776735",
-      "weight": 0.9
-    },
-    {
-      "id": "感情:自信の萌芽",
-      "label": "自信の萌芽",
+      "id": "感情:自信の兆し_20260227",
+      "label": "自信回復への手応え",
       "type": "感情",
-      "detail": "アウトプットを通じて自分の価値を再確認できたことによる前向きな感覚。",
       "sentiment": 0.6,
       "emotion_category": "達成感",
-      "trigger": "問題解決のためにGASを自作し、自分から提案できたこと。",
+      "trigger": "GASを自ら用意し提案するという積極的な行動をとれたこと。",
       "context": "knowbe",
-      "first_seen": "2026-02-27T05:32:12.775972",
-      "last_seen": "2026-02-27T05:32:12.776735",
+      "first_seen": "2026-02-27T16:05:32.478426",
+      "last_seen": "2026-02-27T16:05:32.480583",
       "weight": 0.9,
       "active_sentiment": 0.4335,
       "emotion_history": [
@@ -6695,190 +7108,212 @@ const GRAPH_DATA = {
           "date": "2026-02-27",
           "sentiment": 0.6,
           "active_sentiment": 0.6,
-          "trigger": "問題解決のためにGASを自作し、自分から提案できたこと。"
-        }
-      ],
-      "peak_sentiment": 0.6,
-      "trend": "安定"
-    },
-    {
-      "id": "感情:自信の回復",
-      "label": "アウトプットによる自信の回復",
-      "type": "感情",
-      "detail": "GASの提案など、具体的アウトプットを出すことで自分の価値を再確認できている状態",
-      "sentiment": 0.6,
-      "emotion_category": "達成感",
-      "trigger": "問題解決のためにGASを用意して提案したこと",
-      "context": "knowbe",
-      "first_seen": "2026-02-27T14:38:32.931161",
-      "last_seen": "2026-02-27T14:38:32.932263",
-      "weight": 0.95,
-      "active_sentiment": 0.51,
-      "emotion_history": [
+          "trigger": "GASを自ら用意し提案するという積極的な行動をとれたこと。"
+        },
         {
-          "date": "2026-02-27",
+          "date": "2026-02-28",
           "sentiment": 0.6,
-          "active_sentiment": 0.6,
-          "trigger": "問題解決のためにGASを用意して提案したこと"
+          "active_sentiment": 0.4335,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
-      "trend": "安定"
+      "trend": "下降"
     },
     {
-      "id": "知見:アウトプットと自信の相関",
-      "label": "アウトプットが自信の源泉",
-      "type": "知見",
-      "detail": "受動的な評価を待つのではなく、積極的な行動と成果物の提示が自己効力感を高める",
-      "context": "knowbe",
-      "first_seen": "2026-02-27T14:38:32.931196",
-      "last_seen": "2026-02-27T14:38:32.932263",
-      "weight": 0.95
-    },
-    {
-      "id": "タスク:Knowbe_GAS提案",
-      "label": "Knowbe問題解決用GASの提案",
+      "id": "タスク:GAS提案による問題解決",
+      "label": "GASによる問題解決の提案",
       "type": "タスク",
-      "detail": "自信回復のために自発的に作成したGASを提案し、実行する",
+      "detail": "Knowbeでの課題解決のためにGASを用意し、積極的に提案を行う",
       "status": "進行中",
       "context": "knowbe",
-      "first_seen": "2026-02-27T14:38:32.931231",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "category": "エンジニア",
+      "first_seen": "2026-02-27T23:50:51.121779",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 0.95
     },
     {
       "id": "出来事:沙也香の病院受診",
       "label": "沙也香の病院受診",
       "type": "出来事",
-      "detail": "長引く熱のため受診したが、普通の風邪との診断。妊娠もしておらず生理が来た。",
+      "detail": "長引く熱のため受診。結果はただの風邪であり、妊娠もしていなかった",
       "status": "完了",
       "date": "2026-02-27",
       "context": "private",
-      "first_seen": "2026-02-27T14:38:32.931313",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "first_seen": "2026-02-27T23:50:51.122069",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 0.95
     },
     {
-      "id": "制約:沙也香の職場のパワハラ",
-      "label": "沙也香の職場のパワハラ",
-      "type": "制約",
-      "constraint_type": "感情的ブレーキ",
-      "detail": "沙也香の職場の院長がパワハラ気味であり、継続勤務に深刻な懸念がある",
+      "id": "感情:沙也香の診断結果による安堵",
+      "label": "診断結果への安心感",
+      "type": "感情",
+      "sentiment": 0.8,
+      "emotion_category": "喜び",
+      "trigger": "妻の体調不良が深刻なものではなく、普通の風邪であったことがわかったため",
       "context": "private",
-      "first_seen": "2026-02-27T14:38:32.931347",
-      "last_seen": "2026-02-27T14:38:32.932263",
-      "weight": 0.95
+      "first_seen": "2026-02-27T23:50:51.122161",
+      "last_seen": "2026-02-27T23:50:51.124760",
+      "weight": 0.95,
+      "active_sentiment": 0.56,
+      "emotion_history": [
+        {
+          "date": "2026-02-27",
+          "sentiment": 0.8,
+          "active_sentiment": 0.8,
+          "trigger": "妻の体調不良が深刻なものではなく、普通の風邪であったことがわかったため"
+        },
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.56,
+          "trigger": null
+        }
+      ],
+      "peak_sentiment": 0.8,
+      "trend": "下降"
     },
     {
-      "id": "制約:時間不足によるキャリア制限",
-      "label": "時間不足によるCTO職への限界",
+      "id": "制約:妻の職場のパワハラ",
+      "label": "沙也香の職場でのパワハラ",
       "type": "制約",
-      "constraint_type": "時間不足",
-      "detail": "家庭の状況や副業の兼ね合いで、CTOのような重責を担うための時間が確保できない可能性",
-      "context": "saiteki",
-      "first_seen": "2026-02-27T14:38:32.931417",
-      "last_seen": "2026-02-27T14:38:32.932263",
-      "weight": 0.95
-    },
-    {
-      "id": "知見:ストックオプションによる資産形成戦略",
-      "label": "SOによる1億円獲得戦略",
-      "type": "知見",
-      "detail": "CTO等の役職にこだわらず、1%のSO保持で評価額100億を目指し、1億円の資産形成を狙う",
-      "context": "saiteki",
-      "first_seen": "2026-02-27T14:38:32.931449",
-      "last_seen": "2026-02-27T14:38:32.932263",
-      "weight": 0.95
-    },
-    {
-      "id": "購入希望:モスバーガー_期間限定",
-      "label": "トマトガーリック竜田（モスバーガー）",
-      "type": "購入希望",
-      "detail": "沙也香の体調不良に伴う夕食として購入",
-      "status": "購入済",
-      "priority": "中",
+      "constraint_type": "その他",
+      "detail": "職場の院長がパワハラ気味であり、仕事継続における精神的な障壁となっている",
       "context": "private",
-      "first_seen": "2026-02-27T14:38:32.931482",
-      "last_seen": "2026-02-27T14:38:32.932263",
+      "first_seen": "2026-02-27T23:50:51.122250",
+      "last_seen": "2026-02-27T23:50:51.124760",
+      "weight": 0.95
+    },
+    {
+      "id": "概念:CTO就任",
+      "label": "CTOという役割",
+      "type": "概念",
+      "detail": "時間的制約から実現が難しいと感じ始めている、Saitekiでの将来的な立ち位置",
+      "context": "saiteki",
+      "first_seen": "2026-02-27T23:50:51.122530",
+      "last_seen": "2026-02-27T23:50:51.124760",
+      "weight": 0.95
+    },
+    {
+      "id": "目標:ストックオプション1億円獲得",
+      "label": "ストックオプションで1億円を目指す",
+      "type": "目標",
+      "detail": "CTOなどの高い役職にこだわらず、評価額100億の1%相当の利益を堅実に狙う",
+      "status": "進行中",
+      "context": "saiteki",
+      "first_seen": "2026-02-27T23:50:51.122618",
+      "last_seen": "2026-02-27T23:50:51.124760",
       "weight": 0.95
     },
     {
       "id": "日記:2026-02-28",
       "label": "2026年2月28日の日記",
       "type": "日記",
-      "detail": "モンスター描画の技法発見、ポメラ本のプロット構想、週末の予定変更、AIロボット構築への着想について記録",
+      "detail": "モンスターデザインの技法発見、ポメラ本のプロット構想、週末の予定変更、AIモデル構築の検討について",
       "date": "2026-02-28",
       "context": "shared",
-      "first_seen": "2026-02-27T15:37:46.913746",
-      "last_seen": "2026-02-27T15:37:46.913746",
+      "first_seen": "2026-02-28T00:44:42.320819",
+      "last_seen": "2026-02-28T00:44:42.320819",
       "weight": 1,
-      "analysis_content": "{\"coach_comment\": \"鉛筆を寝かせて描くことで新しい『味』を見つけたように、今はやり方を変えるだけで重力を軽やかに受け流せているね。ポメラ本のプロットやAIロボットの構想など、ワクワクする種が同時に芽生えているのは君のエネルギーが充実している証拠だよ。今週末は沙也香さんの体調を労りつつ、神社での参拝を通じて『何もしない贅沢』と『ふとした着想』をポメラで楽しむ、ゆったりとした時間を自分に許してあげよう。\", \"gravity_map\": [{\"task\": \"ポメラユーザーを1人創出する\", \"task_id\": \"ポメラユーザー創出タスク\", \"constraints\": [{\"name\": \"アプローチの不明確さ\", \"type\": \"技術的課題\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"ポメラDM250スケルトンへの愛着\", \"type\": \"感情\"}], \"net_assessment\": \"具体的なターゲット像が定まっていないことが重力になっているが、愛着という強い推進力がある。\"}, {\"task\": \"Pomera活用本のプロット作成\", \"task_id\": \"Pomera活用本のプロット作成\", \"constraints\": [{\"name\": \"ブログ内容への完璧主義\", \"type\": \"感情적ブレーキ\", \"severity\": \"中\"}, {\"name\": \"執筆時間の確保困難\", \"type\": \"時間不足\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"ポメラ本への意欲\", \"type\": \"目標\"}], \"net_assessment\": \"「本を書く」という大きな山を前に、着手ハードルを下げる工夫が必要な状態。\"}, {\"task\": \"毎日のモンスター描画\", \"task_id\": \"毎日のモンスター描画\", \"constraints\": [{\"name\": \"制作時間の確保困難\", \"type\": \"時間不足\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"鉛筆の寝かせ描きによる質感発見\", \"type\": \"知見\"}, {\"name\": \"制作への前向きな手応え\", \"type\": \"感情\"}], \"net_assessment\": \"技法の発見によりエネルギーが勝っており、重力はほとんど感じられない良好なバランス。\"}], \"antigravity_actions\": [{\"action\": \"ポメラ活用本の『目次案』として、自分が最も書きたいトピックを10個だけ、週末のカフェで箇条書きにする\", \"target_task\": \"Pomera活用本のプロット作成\", \"effect\": \"「本一冊」という漠然とした重圧を、カフェでのリラックスした思考時間で「10のパーツ」に分解し、着手への心理的ハードルを下げます。\", \"effort\": \"30分\"}, {\"action\": \"ピクニック中止を逆手に取り、沙也香さんに『今日は家でゆっくり療養しよう』と伝え、家事の優先度を最低限にする「休息宣言」を行う\", \"target_task\": \"妻の体調経過観察と受診勧奨\", \"effect\": \"予定変更による喪失感を「積極的な休養」に転換し、妻の精神的な罪悪感を取り除きながら、自分自身の休息時間も確保します。\", \"effort\": \"5分\"}, {\"action\": \"ブログの末尾に『ポメラを使ってみたいと思った瞬間』を募集する一文を固定し、読者との対話の入り口を作る\", \"target_task\": \"ポメラユーザーを1人創出する\", \"effect\": \"「どうアプローチすべきか」という迷いを、「読者の反応を待つ」という具体的な仕組みに変えることで、執筆のモチベーションを維持します。\", \"effort\": \"5分\"}, {\"action\": \"「自分自身のAIが、自分の代わりにどんな面倒な質問に答えてくれたら嬉しいか」という問いを3つだけポメラにメモする\", \"target_task\": \"KGベースAIモデルの構築検討\", \"effect\": \"技術的な構築難度を考える前に「利便性のイメージ」を固めることで、開発に対する意欲（エネルギー）を醸成します。\", \"effort\": \"30分\"}, {\"action\": \"今日発見した『鉛筆を寝かせて描く技法』を、次回のモンスター描画の主役に据え、最初の5分間だけその質感を楽しむことに集中する\", \"target_task\": \"5時間かけた高品質なモンスター描画の制作\", \"effect\": \"「高品質（5時間）」という時間の長さに怯えず、手元の「技術的な発見」を入り口にすることで、自然と筆を動かしやすくします。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"「鉛筆を寝かせる」という物理的なアプローチの変化が、描画への手応えと楽しさを劇的に向上させている。\", \"implication\": \"行き詰まっている他のタスク（ブログや仕事）も、内容ではなく「物理的なツールや姿勢」を変えることで突破口が開ける可能性がある。\"}, {\"finding\": \"沙也香の体調不良と週末の予定変更を、不満ではなく氷川神社参拝への「前向きな切り替え」として捉えられている。\", \"implication\": \"ストレス耐性が高まっており、現状を柔軟に受け入れて最適化する能力が発揮されている。\"}], \"emotion_flow\": [{\"emotion\": \"制作への手応え\", \"sentiment\": 0.8, \"context\": \"鉛筆を寝かせて描く技法の発見による\"}, {\"emotion\": \"創作への意欲\", \"sentiment\": 0.7, \"context\": \"ポメラ活用本のプロットやAIロボット構築への着想\"}, {\"emotion\": \"冷静な受容\", \"sentiment\": 0.4, \"context\": \"沙也香の風邪に伴う予定変更の判断\"}], \"upcoming_schedule\": [{\"title\": \"氷川神社参拝とお礼（蒼馬のこと）・カフェ立ち寄り\", \"date\": \"2026-03-01\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"NBox 12ヶ月点検（エネクスフリート加須店）\", \"date\": \"2026-03-07\", \"time\": \"09:00\", \"category\": \"個人\"}], \"family_digest\": {\"highlights\": [{\"member\": \"沙也香\", \"event\": \"風邪を引いており、週末の城山公園行きを取りやめる\", \"emotion\": \"体調不良\"}, {\"member\": \"蒼馬\", \"event\": \"これまでの成長や出来事の感謝を伝えに、氷川神社へお礼参りに行く予定である\", \"emotion\": \"健やか\"}], \"family_todos\": [\"氷川神社に行って蒼馬のお礼を言いに行く\", \"カフェに行く\"], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22に購入予定の記述あり\"}, {\"item\": \"風邪薬・ゼリー飲料等の看病用品\", \"category\": \"食料品/医薬品\", \"urgency\": \"急ぎ\", \"note\": \"2026-02-28に妻（沙也香さん）が風邪を引いているとの記述あり\"}, {\"item\": \"車の点検（費用）\", \"category\": \"メンテナンス\", \"urgency\": \"今週中\", \"note\": \"2026-02-25に点検予定の記述あり\"}, {\"item\": \"妻のウィッシュリスト掲載品\", \"category\": \"その他\", \"urgency\": \"いつか\", \"note\": \"2026-02-25に壮大なウィッシュリストの存在と言及あり\"}]}, \"blog_seeds\": [{\"title\": \"角度を変えるまで見えなかった怪物の輪郭\", \"genre\": \"日常/ファンタジー\", \"tone\": \"哲学的\", \"story_seed\": \"ある絵描きが、尖った鉛筆で細部ばかりを描こうとしていたが、鉛筆を寝かせることで初めて、キャンバスに隠れていた「大きな怪物の気配」を描き出すことに成功する話。\", \"core_message\": \"道具の使い方の角度を少し変えるだけで、世界は全く違う表情を見せてくれる。\", \"reader_feeling\": \"発見の喜び\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「鉛筆を寝かせる」だけで完璧主義が溶けた。モンスター描画で見つけた、執筆にも通じる『筆圧』の抜き方\", \"theme\": \"クリエイティブにおける物理的なアプローチの変化と心理的影響\", \"hook\": \"尖った芯で精密に描こうとするのをやめた瞬間、絵に『魂』が宿り始めた。\", \"readiness\": \"高\"}, {\"title\": \"ポメラで本を書く決意。最初の一歩を『プロット作り』の重圧から解放する方法\", \"theme\": \"Pomera活用本の執筆プロセスとタスク管理\", \"hook\": \"いつまでも始まらないのは、プロットを『立派に書こう』としているからかもしれない。\", \"readiness\": \"中\"}, {\"title\": \"自分の分身としてのAI、その第一歩は『ナレッジグラフの擬人化』から始まる\", \"theme\": \"AI・技術活用・自己分析\", \"hook\": \"ただのデータではない。自分の日記を学習したAIに、どんな『性格』を与えるべきか？\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [{\"label\": \"ユーザー創出アプローチの不明確さ\", \"detail\": \"ポメラユーザーを創出するための具体的な手法が分からず、ブログを書いて反応を待つという受動的な状況に留まっている。\", \"constraint_type\": \"感情\"}, {\"label\": \"AIモデル開発の着手時期未定\", \"detail\": \"ナレッジグラフを活用した自分専用のカスタムモデル構築を検討しているが、具体的な実施スケジュールが確定していない。\", \"constraint_type\": \"時間\"}, {\"label\": \"執筆プロジェクトの着手判断の迷い\", \"detail\": \"ブログ内容の深化とプロット作成の優先順位において、完璧さを求めるとプロジェクトが始まらないというジレンマを抱えている。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"Knowbe MTG前の思考整理\", \"detail\": \"10:30の定例前に業務内容を整理し、11:00の引き締まったMTGに備える。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"ナレッジグラフを学習させたカスタムモデルを作成することで、自分にそっくりのAIを構築できる可能性がある。\", \"implication\": \"Knowbeにおける日々のナレッジ蓄積が、単なる情報の整理に留まらず、自己の思考や特性を再現する高度なAIを生成するための基礎データとして活用できる可能性を示唆している。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"ポメラユーザー創出アプローチの不透明性\", \"detail\": \"新規ユーザーを獲得するための具体的な戦略が定まっておらず、ブログ更新による受動的な待機状態となっている。\", \"constraint_type\": \"組織\"}, {\"label\": \"コンテンツ深化と着手のトレードオフ\", \"detail\": \"ブログ内容の質を追求することで、ポメラ活用本のプロット作成や執筆開始が遅れるリスクがある。\", \"constraint_type\": \"時間\"}, {\"label\": \"家庭内の健康状態による活動制限\", \"detail\": \"家族の体調不良や優先すべき個人的な予定により、週末の活動範囲やリソースが制限されている。\", \"constraint_type\": \"環境\"}], \"tasks\": [{\"label\": \"Pomera活用本のプロット作成\", \"detail\": \"ブログの内容に深みを出しつつ、土日の空き時間を利用して本のプロット作成を開始する。\", \"status\": \"進行中\"}, {\"label\": \"ポメラユーザーの創出\", \"detail\": \"ブログでポメラについて発信し続け、1人のユーザーを創出する。具体的なアプローチ方法は現在検討中。\", \"status\": \"進行中\"}, {\"label\": \"ナレッジグラフを学習させたカスタムモデルの作成\", \"detail\": \"自分にそっくりのAIを作るため、ナレッジグラフを学習させたカスタムモデルの構築を検討する。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"ポメラユーザーを一人創出するという目標に対し、現状はブログを通じた受動的なアプローチ（待機）に留まっている。\", \"implication\": \"単なる発信の継続だけでなく、ターゲットに確実に届けるためのより能動的なアプローチや、戦略的なプロットの検討が必要な段階にある。\"}, {\"finding\": \"自己のデジタルツイン（自分にそっくりのAI）を構築する手段として、ナレッジグラフを学習させたカスタムモデルの作成が具体的な案として浮上した。\", \"implication\": \"個人の思考プロセスや知識を構造化したナレッジグラフは、AIのパーソナライズ化における強力なデータソース（基盤）になり得る。\"}]}}"
+      "analysis_content": "{\"coach_comment\": \"モンスターデザインでの新しい技法の発見、素晴らしいですね。鉛筆を寝かせるという物理的な感触が、あなたの感性に響いているのが伝わります。沙也香さんの体調を最優先にしつつ、週末の予定を『お礼参り』と『カフェ』という穏やかなものに調整されたのは、今のあなたにとって最適な『重力調整』と言えるでしょう。\", \"gravity_map\": [{\"task\": \"Pomera活用本のプロット作成\", \"task_id\": \"TASK_POMERA_PLOT\", \"constraints\": [{\"name\": \"沙也香の風邪に伴う育児・家事負荷\", \"type\": \"リソース不足\", \"severity\": \"中\"}, {\"name\": \"執筆時間の確保困難\", \"type\": \"時間不足\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"モンスター描画で得たクリエイティブな手応え\", \"type\": \"感情\"}, {\"name\": \"ポメラへの深い愛着\", \"type\": \"感情\"}], \"net_assessment\": \"創作意欲は高いものの、家庭内の状況（風邪）によりまとまった時間の確保に重力がかかっています。\"}, {\"task\": \"ポメラユーザーを1人創出する\", \"task_id\": \"TASK_CREATE_POMERA_USER\", \"constraints\": [{\"name\": \"アプローチ方法の不透明さ\", \"type\": \"技術的課題\", \"severity\": \"高\"}, {\"name\": \"「待ち」の姿勢による長期化懸念\", \"type\": \"感情적ブレーキ\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"ポメラ駆動の発信による知名度向上への期待\", \"type\": \"目標\"}], \"net_assessment\": \"「どう動けばいいか」という地図がないため、行動が重力に囚われて停滞しています。\"}], \"antigravity_actions\": [{\"action\": \"カフェでの30分間、ポメラの『アウトライン機能』を使って、今日感じた『鉛筆の味』という感覚を本の序章に組み込むプロットを書く\", \"target_task\": \"Pomera活用本のプロット作成\", \"effect\": \"「いつかやる」という漠然とした重力を、具体的な場所（カフェ）と今日得た新鮮な感覚（鉛筆の味）に結びつけて解消する\", \"effort\": \"30分\"}, {\"action\": \"『ポメラで描くような文章：鉛筆の寝かせ技に学ぶ味の出し方』というテーマで、今日のブログ記事を1件書き上げる\", \"target_task\": \"ポメラユーザーを1人創出する\", \"effect\": \"「どうアプローチすべきか」という迷いの重力を、今日発見した「鉛筆のような描き味」という独自視点を発信することで突破する\", \"effort\": \"30分\"}, {\"action\": \"自分の分身AIに「最初に何を覚えさせたいか」の優先順位を3つだけ、ポメラに箇条書きで書き出す\", \"target_task\": \"KG学習済みカスタムモデルの構築検討\", \"effect\": \"構築という技術的ハードルの重さを、「何をさせたいか」という意思決定の最小単位に分割して心理的障壁を下げる\", \"effort\": \"5分\"}, {\"action\": \"発見した『鉛筆を寝かせる技法』だけを使って、モンスターの特定のパーツ（角や鱗など）の質感だけを30分集中して描き込む\", \"target_task\": \"5時間かけた高品質なモンスター描画の制作\", \"effect\": \"「5時間かけなければならない」という時間的重圧を、新技術の実験という楽しみに変換し、着手の重みを消す\", \"effort\": \"30分\"}], \"insights\": [{\"finding\": \"鉛筆を寝かせる技法での達成感\", \"implication\": \"「リアリティの欠如」という重力は、細部への書き込みではなく『筆致の味（アナログ感）』で解消できる可能性がある\"}, {\"finding\": \"週末の予定を「お礼参り」にシフト\", \"implication\": \"アクティブなピクニックよりも、内省的なお礼参りの方が今の精神的・体力的重力バランスに合致している\"}], \"emotion_flow\": [{\"emotion\": \"モンスター描画への達成感\", \"sentiment\": 0.8, \"context\": \"新しい技法（鉛筆を寝かせる）による表現の広がりに手応えを感じた\"}, {\"emotion\": \"戦略への迷い\", \"sentiment\": -0.2, \"context\": \"ポメラユーザー創出への具体的な手段が見えず、停滞感を感じている\"}, {\"emotion\": \"家族への感謝（お礼参りへの意欲）\", \"sentiment\": 0.7, \"context\": \"蒼馬の無事を感謝しに神社へ行くという、精神的な浄化への志向\"}], \"upcoming_schedule\": [{\"title\": \"氷川神社へのお礼参り・カフェ\", \"date\": \"2026-03-01\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"NBox 12ヶ月点検（エネクスフリート加須店）\", \"date\": \"2026-03-07\", \"time\": \"09:00\", \"category\": \"個人\"}], \"family_digest\": {\"highlights\": [{\"member\": \"沙也香\", \"event\": \"風邪を引いて体調を崩している\", \"emotion\": \"不明（安静）\"}, {\"member\": \"蒼馬\", \"event\": \"氷川神社へ成長のお礼参りに行く対象となっている\", \"emotion\": \"感謝\"}], \"family_todos\": [\"氷川神社に行って蒼馬のお礼を言いに行く\", \"カフェに行く\"], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記に購入予定の記述があるため\"}, {\"item\": \"妻のウィッシュリスト掲載品\", \"category\": \"その他\", \"urgency\": \"いつか\", \"note\": \"2026-02-25の日記に妻が希望する将来の購入リストの記述があるため\"}, {\"item\": \"風邪対策用品（薬、ゼリー飲料等）\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-02-28の日記に妻が風邪を引いたとの記述があるため\"}]}, \"blog_seeds\": [{\"title\": \"角度で変わる世界\", \"genre\": \"哲学的\", \"tone\": \"しっとり\", \"story_seed\": \"ある画廊で、一人の画家が『鉛筆を寝かせて描いた線』だけで描かれた絵を展示している。観客はその線の太さの違いに、自分の人生の起伏を重ね合わせる。\", \"core_message\": \"物事の捉え方（角度）を変えるだけで、同じ道具でも全く違う表情が見えてくる。\", \"reader_feeling\": \"日常の些細な工夫への希望\", \"readiness\": \"高\"}, {\"title\": \"分身の記憶、ナレッジグラフの夢\", \"genre\": \"テクノロジー\", \"tone\": \"シリアス\", \"story_seed\": \"自分の全日記を学習させたAIを作った男。しかし、AIは男が忘れていた『当時の微かな感情』をナレッジグラフから掘り起こし、男に問いかけ始める。\", \"core_message\": \"データは過去を記録するだけでなく、未来の自分を再定義する。\", \"reader_feeling\": \"少しの畏怖と深い内省\", \"readiness\": \"中\"}], \"blog_ideas\": [{\"title\": \"『鉛筆を寝かせる』だけで描画が変わった！デジタル全盛期に見つけたアナログの筆圧の魔法\", \"theme\": \"モンスター描画とアナログ技法の発見\", \"hook\": \"「もっとうまく描かなければ」という力みを、鉛筆の角度を変えるだけで捨てることができました。\", \"readiness\": \"高\"}, {\"title\": \"ポメラ活用本を『ポメラ』で書くための、最速プロット構築術\", \"theme\": \"ポメラ活用本の執筆プロセス\", \"hook\": \"いつまで経っても本が書き始まらないのは、プロットを重く考えすぎていたからかもしれません。\", \"readiness\": \"中\"}, {\"title\": \"週末のピクニックを中止して『お礼参り』へ。家族の健康を守るための、私の重力調整法\", \"theme\": \"育児・家族と健康管理の優先順位\", \"hook\": \"予定をキャンセルするのは勇気がいりますが、今の私たちに必要なのは遊びではなく『感謝と休息』でした。\", \"readiness\": \"高\"}], \"knowbe\": {\"constraints\": [{\"label\": \"ポメラユーザー創出アプローチの不明確さ\", \"detail\": \"新規ユーザーを獲得するための具体的な戦略が欠如しており、ブログを通じた受動的な発信に留まっている。\", \"constraint_type\": \"環境\"}, {\"label\": \"ナレッジグラフ活用AI開発の着手時期未定\", \"detail\": \"自身のナレッジグラフを学習させたAIモデルの構想はあるが、具体的な実行スケジュールが設定されていない。\", \"constraint_type\": \"時間\"}, {\"label\": \"完全性へのこだわりによるプロジェクト停滞\", \"detail\": \"ブログの内容に深みを出したいという欲求が、Pomera活用本のプロット作成などの開始を遅らせる要因となっている。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"Knowbe MTG前の思考整理\", \"detail\": \"10:30の定例前に業務内容を整理し、11:00の引き締まったMTGに備える。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"ナレッジグラフを学習データとしてカスタムモデルに読み込ませることで、自身の思考を再現するAIを構築できる可能性があるという着想。\", \"implication\": \"Knowbe業務においてナレッジグラフを構築・更新し続けることは、単なる情報の整理に留まらず、将来的に自身の業務判断や思考プロセスを外部化・自動化するための重要な資産蓄積となる。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"ポメラユーザー創出手法の不透明性\", \"detail\": \"具体的なアプローチ方法が不明確であり、ブログを書きながら反応を待つという受動的な状況に陥る懸念がある。\", \"constraint_type\": \"組織\"}, {\"label\": \"週末の活動時間の制限\", \"detail\": \"家族の体調不良や予定されている行事により、週末のプロジェクト活動や移動が制限されている。\", \"constraint_type\": \"時間\"}, {\"label\": \"AIモデル開発の着手遅延\", \"detail\": \"ナレッジグラフを活用したカスタムAI構築の構想はあるが、具体的な実施時期が未定の状態である。\", \"constraint_type\": \"時間\"}], \"tasks\": [{\"label\": \"ナレッジグラフを学習させたカスタムモデルの作成\", \"detail\": \"自分にそっくりのAIを作成するため、ナレッジグラフをベースにしたカスタムモデルの構築を検討する。\", \"status\": \"進行中\"}, {\"label\": \"Pomera活用本のプロット作成\", \"detail\": \"ブログの内容を深めつつ、土日の空き時間を利用して活用本のプロット作成に着手する。\", \"status\": \"進行中\"}, {\"label\": \"ポメラユーザー創出に向けたアプローチの検討\", \"detail\": \"ブログ執筆を継続しつつ、ポメラを普及させるための具体的なアプローチ方法を模索する。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"自分自身の思考を再現するAIの構築手段として、ナレッジグラフを学習させたカスタムモデルの作成が有効なアプローチになり得る。\", \"implication\": \"蓄積されたナレッジグラフは単なる情報整理の道具ではなく、パーソナライズされた高度なAIモデルを開発するための基盤データとして機能する。\"}, {\"finding\": \"特定のツール（ポメラ）のユーザー創出において、ブログでの継続的な発信だけでは受動的な待ちの状態になりやすく、効果的なアプローチ手法が不明確である。\", \"implication\": \"認知拡大や新規ユーザー獲得のためには、発信の継続性に加え、よりターゲットに直接届く戦略的なマーケティングや導線設計の検討が必要である。\"}]}}"
     },
     {
-      "id": "知見:鉛筆の寝かせ描き",
-      "label": "鉛筆の寝かせ描きによる質感",
+      "id": "知見:鉛筆を寝かせて描く技法",
+      "label": "鉛筆を寝かせて描く技法",
       "type": "知見",
-      "detail": "鉛筆を寝かせて描くことで筆圧や太さが変わり、絵に独特の味が出るという発見。",
-      "category": "エンジニア",
+      "detail": "鉛筆を寝かせて描くことで太さが変わり、絵に独特の「味」が出るという発見。継続すべき手法。",
       "context": "private",
-      "first_seen": "2026-02-27T15:37:46.913791",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "first_seen": "2026-02-28T00:44:42.320936",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 1
     },
     {
-      "id": "タスク:Pomera本プロット作成",
+      "id": "感情:モンスター描画への達成感",
+      "label": "モンスター描画への達成感",
+      "type": "感情",
+      "sentiment": 0.8,
+      "emotion_category": "達成感",
+      "trigger": "雰囲気のあるモンスターの絵が描け、新しい表現技法を発見したこと",
+      "context": "private",
+      "first_seen": "2026-02-28T00:44:42.321028",
+      "last_seen": "2026-02-28T00:44:42.323676",
+      "weight": 1,
+      "active_sentiment": 0.8,
+      "emotion_history": [
+        {
+          "date": "2026-02-28",
+          "sentiment": 0.8,
+          "active_sentiment": 0.8,
+          "trigger": "雰囲気のあるモンスターの絵が描け、新しい表現技法を発見したこと"
+        }
+      ],
+      "peak_sentiment": 0.8,
+      "trend": "安定"
+    },
+    {
+      "id": "タスク:Pomera活用本のプロット作成",
       "label": "Pomera活用本のプロット作成",
       "type": "タスク",
       "status": "未着手",
-      "detail": "土日の空いた時間を利用して、活用本の構成（プロット）を考え始める。",
+      "detail": "土日の空き時間を利用して、ポメラ活用本の全体構成（プロット）を考える",
+      "date": "2026-03-01",
       "context": "private",
-      "first_seen": "2026-02-27T15:37:46.913865",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "first_seen": "2026-02-28T00:44:42.321122",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 1
     },
     {
-      "id": "制約:沙也香の風邪",
+      "id": "制約:妻の体調不良",
       "label": "沙也香の風邪",
       "type": "制約",
       "constraint_type": "物理的障害",
-      "detail": "妻の沙也香が風邪を引いているため、予定していた外出に制限が出る。",
+      "detail": "沙也香が風邪を引いているため、週末の外出予定（ピクニック）に影響が出ている",
       "context": "private",
-      "first_seen": "2026-02-27T15:37:46.913900",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "first_seen": "2026-02-28T00:44:42.321212",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 1
     },
     {
-      "id": "出来事:氷川神社への参拝とお礼",
-      "label": "氷川神社参拝",
+      "id": "出来事:氷川神社参拝",
+      "label": "氷川神社へのお礼参り",
       "type": "出来事",
       "status": "予定",
-      "detail": "蒼馬のことについてお礼を言いに行き、カフェにも立ち寄る予定。",
-      "date": "2026-03-01",
+      "detail": "蒼馬の件でのお礼を伝えに氷川神社へ行く",
       "context": "private",
-      "first_seen": "2026-02-27T15:37:46.913932",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "first_seen": "2026-02-28T00:44:42.321302",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 1
     },
     {
-      "id": "制約:アプローチの不明確さ_ポメラ普及",
-      "label": "アプローチの不明確さ",
+      "id": "場所:氷川神社",
+      "label": "氷川神社",
+      "type": "場所",
+      "detail": "週末に参拝を予定している場所",
+      "context": "private",
+      "first_seen": "2026-02-28T00:44:42.321392",
+      "last_seen": "2026-02-28T00:44:42.323676",
+      "weight": 1
+    },
+    {
+      "id": "制約:アプローチ方法の未確立",
+      "label": "ポメラユーザー創出のアプローチ不明",
       "type": "制約",
-      "constraint_type": "その他",
-      "detail": "ポメラユーザーを創出するための具体的な戦略がまだ見えていない状態。",
+      "constraint_type": "技術的課題",
+      "detail": "どのようにアプローチすればユーザーを創出できるか具体的な戦略がわかっていない",
       "context": "private",
-      "first_seen": "2026-02-27T15:37:46.913964",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "first_seen": "2026-02-28T00:44:42.321481",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 1
     },
     {
-      "id": "タスク:KGベースAIモデルの構築検討",
-      "label": "KGベースAIモデルの構築検討",
+      "id": "タスク:AIロボット用KG学習モデルの試作",
+      "label": "KG学習済みカスタムモデルの構築検討",
       "type": "タスク",
       "status": "未着手",
-      "detail": "自分の分身を作る第一歩として、ナレッジグラフを学習させたカスタムモデルの作成を検討する。",
+      "detail": "自分の分身を作る第一歩として、ナレッジグラフを学習させたカスタムAIモデルを作成する",
       "context": "shared",
-      "first_seen": "2026-02-27T15:37:46.913996",
-      "last_seen": "2026-02-27T15:37:46.914768",
+      "first_seen": "2026-02-28T00:44:42.321570",
+      "last_seen": "2026-02-28T00:44:42.323676",
       "weight": 1
     }
   ],
@@ -7473,7 +7908,7 @@ const GRAPH_DATA = {
       "target": "タスク:PetRoomCleaning",
       "type": "言及する",
       "label": "言及",
-      "weight": 1.35,
+      "weight": 1.3,
       "first_seen": "2026-02-16T14:56:00.317407",
       "last_seen": "2026-02-24T15:37:48.249653"
     },
@@ -8672,7 +9107,7 @@ const GRAPH_DATA = {
       "label": "23体目の進捗報告",
       "first_seen": "2026-02-16T15:48:16.120857",
       "last_seen": "2026-02-24T15:40:25.046771",
-      "weight": 28.25
+      "weight": 28.2
     },
     {
       "source": "日記:2026-02-17",
@@ -8924,7 +9359,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T15:54:33.865647",
       "last_seen": "2026-02-24T15:40:25.046818",
-      "weight": 7.75
+      "weight": 7.7
     },
     {
       "source": "感情:制作への意欲",
@@ -8951,7 +9386,7 @@ const GRAPH_DATA = {
       "label": "登録者増の成功体験が後押し",
       "first_seen": "2026-02-16T15:54:33.865656",
       "last_seen": "2026-02-24T15:40:25.046776",
-      "weight": 8.75
+      "weight": 8.7
     },
     {
       "source": "日記:2026-02-17",
@@ -8969,7 +9404,7 @@ const GRAPH_DATA = {
       "label": "感謝の気持ちを強化",
       "first_seen": "2026-02-16T16:05:27.259559",
       "last_seen": "2026-02-24T15:39:05.953243",
-      "weight": 8.25
+      "weight": 8.2
     },
     {
       "source": "制約:所得税支払いの不確実性",
@@ -19371,62 +19806,53 @@ const GRAPH_DATA = {
       "target": "タスク:Knowbeでの自信回復",
       "type": "言及する",
       "label": "自信回復の手段について記述",
-      "first_seen": "2026-02-27T05:32:12.776702",
-      "last_seen": "2026-02-27T14:38:32.932205",
-      "weight": 1.9
+      "first_seen": "2026-02-27T16:05:32.480493",
+      "last_seen": "2026-02-27T16:05:32.480493",
+      "weight": 0.9
     },
     {
       "source": "日記:2026-02-27",
-      "target": "出来事:KnowbeへのGAS提案",
+      "target": "制約:Knowbe業務へのやる気欠如（感情的ブレーキ）",
       "type": "言及する",
-      "label": "提案を行ったことを記録",
-      "first_seen": "2026-02-27T05:32:12.776708",
-      "last_seen": "2026-02-27T05:32:12.776708",
+      "label": "自信喪失の状態について言及",
+      "first_seen": "2026-02-27T16:05:32.480506",
+      "last_seen": "2026-02-27T16:05:32.480506",
       "weight": 0.9
     },
     {
-      "source": "出来事:KnowbeへのGAS提案",
-      "target": "知見:アウトプットによる自信回復",
-      "type": "引き起こす",
-      "label": "行動から教訓を得た",
-      "first_seen": "2026-02-27T05:32:12.776710",
-      "last_seen": "2026-02-27T05:32:12.776710",
-      "weight": 0.9
-    },
-    {
-      "source": "出来事:KnowbeへのGAS提案",
-      "target": "感情:自信の萌芽",
-      "type": "引き起こす",
-      "label": "提案が自信に繋がった",
-      "first_seen": "2026-02-27T05:32:12.776712",
-      "last_seen": "2026-02-27T05:32:12.776712",
-      "weight": 0.9
-    },
-    {
-      "source": "知見:アウトプットによる自信回復",
+      "source": "出来事:GASの提案_20260227",
       "target": "制約:Knowbe業務へのやる気欠如（感情的ブレーキ）",
       "type": "解決する",
-      "label": "アウトプットを出すことでブレーキを解消する",
-      "first_seen": "2026-02-27T05:32:12.776714",
-      "last_seen": "2026-02-27T05:32:12.776714",
+      "label": "能動的なアウトプットにより無力感を解消する",
+      "first_seen": "2026-02-27T16:05:32.480516",
+      "last_seen": "2026-02-27T16:05:32.480516",
       "weight": 0.9
     },
     {
-      "source": "知見:アウトプットによる自信回復",
-      "target": "制約:Knowbeにおける心理的安全性の欠如",
-      "type": "解決する",
-      "label": "自己肯定感を高めることで不安を軽減する",
-      "first_seen": "2026-02-27T05:32:12.776716",
-      "last_seen": "2026-02-27T05:32:12.776716",
+      "source": "出来事:GASの提案_20260227",
+      "target": "知見:アウトプットによる自信構築",
+      "type": "引き起こす",
+      "label": "提案行動から教訓を得る",
+      "first_seen": "2026-02-27T16:05:32.480521",
+      "last_seen": "2026-02-27T16:05:32.480521",
       "weight": 0.9
     },
     {
-      "source": "感情:自信の萌芽",
+      "source": "出来事:GASの提案_20260227",
+      "target": "感情:自信の兆し_20260227",
+      "type": "引き起こす",
+      "label": "能動的な行動がポジティブな感情を生む",
+      "first_seen": "2026-02-27T16:05:32.480527",
+      "last_seen": "2026-02-27T16:05:32.480527",
+      "weight": 0.9
+    },
+    {
+      "source": "知見:アウトプットによる自信構築",
       "target": "タスク:Knowbeでの自信回復",
       "type": "原動力になる",
-      "label": "前向きな感情が自信回復を後押しする",
-      "first_seen": "2026-02-27T05:32:12.776718",
-      "last_seen": "2026-02-27T05:32:12.776718",
+      "label": "「やっていることはある」という自負が自信を支える",
+      "first_seen": "2026-02-27T16:05:32.480532",
+      "last_seen": "2026-02-27T16:05:32.480532",
       "weight": 0.9
     },
     {
@@ -19435,134 +19861,143 @@ const GRAPH_DATA = {
       "type": "関連する",
       "label": "書いた",
       "weight": 1.95,
-      "first_seen": "2026-02-27T05:32:12.776719",
-      "last_seen": "2026-02-27T14:38:32.932226"
+      "first_seen": "2026-02-27T16:05:32.480537",
+      "last_seen": "2026-02-27T23:50:51.124688"
     },
     {
       "source": "日記:2026-02-27",
-      "target": "知見:アウトプットによる自信回復",
+      "target": "出来事:GASの提案_20260227",
       "type": "言及する",
       "label": "言及",
       "weight": 0.9,
-      "first_seen": "2026-02-27T05:32:12.776721",
-      "last_seen": "2026-02-27T05:32:12.776721"
+      "first_seen": "2026-02-27T16:05:32.480541",
+      "last_seen": "2026-02-27T16:05:32.480541"
     },
     {
       "source": "日記:2026-02-27",
-      "target": "感情:自信の萌芽",
+      "target": "知見:アウトプットによる自信構築",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1.95,
+      "first_seen": "2026-02-27T16:05:32.480546",
+      "last_seen": "2026-02-27T23:50:51.124697"
+    },
+    {
+      "source": "日記:2026-02-27",
+      "target": "感情:自信の兆し_20260227",
       "type": "言及する",
       "label": "言及",
       "weight": 0.9,
-      "first_seen": "2026-02-27T05:32:12.776723",
-      "last_seen": "2026-02-27T05:32:12.776723"
+      "first_seen": "2026-02-27T16:05:32.480550",
+      "last_seen": "2026-02-27T16:05:32.480550"
+    },
+    {
+      "source": "日記:2026-02-27",
+      "target": "タスク:GAS提案による問題解決",
+      "type": "言及する",
+      "label": "言及",
+      "first_seen": "2026-02-27T23:50:51.124643",
+      "last_seen": "2026-02-27T23:50:51.124694",
+      "weight": 1.95
     },
     {
       "source": "日記:2026-02-27",
       "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
-      "first_seen": "2026-02-27T14:38:32.932209",
-      "last_seen": "2026-02-27T14:38:32.932234",
-      "weight": 1.9
+      "first_seen": "2026-02-27T23:50:51.124653",
+      "last_seen": "2026-02-27T23:50:51.124701",
+      "weight": 1.95
     },
     {
-      "source": "知見:アウトプットと自信の相関",
+      "source": "日記:2026-02-27",
+      "target": "出来事:沙也香の病院受診",
+      "type": "言及する",
+      "label": "言及",
+      "first_seen": "2026-02-27T23:50:51.124657",
+      "last_seen": "2026-02-27T23:50:51.124705",
+      "weight": 1.95
+    },
+    {
+      "source": "日記:2026-02-27",
+      "target": "目標:ストックオプション1億円獲得",
+      "type": "言及する",
+      "label": "言及",
+      "first_seen": "2026-02-27T23:50:51.124661",
+      "last_seen": "2026-02-27T23:50:51.124726",
+      "weight": 1.95
+    },
+    {
+      "source": "タスク:GAS提案による問題解決",
       "target": "タスク:Knowbeでの自信回復",
-      "type": "原動力になる",
-      "label": "自信を取り戻すための指針",
-      "first_seen": "2026-02-27T14:38:32.932212",
-      "last_seen": "2026-02-27T14:38:32.932212",
+      "type": "解決する",
+      "label": "アウトプットで自信を補う",
+      "first_seen": "2026-02-27T23:50:51.124664",
+      "last_seen": "2026-02-27T23:50:51.124664",
       "weight": 0.95
     },
     {
-      "source": "タスク:Knowbe_GAS提案",
-      "target": "感情:自信の回復",
-      "type": "引き起こす",
-      "label": "アウトプットが感情をポジティブにする",
-      "first_seen": "2026-02-27T14:38:32.932214",
-      "last_seen": "2026-02-27T14:38:32.932214",
+      "source": "知見:アウトプットによる自信構築",
+      "target": "タスク:GAS提案による問題解決",
+      "type": "原動力になる",
+      "label": "",
+      "first_seen": "2026-02-27T23:50:51.124671",
+      "last_seen": "2026-02-27T23:50:51.124671",
       "weight": 0.95
     },
     {
       "source": "出来事:沙也香の病院受診",
-      "target": "タスク:SayakaHealthMonitor",
-      "type": "関連する",
-      "label": "受診結果の判明",
-      "first_seen": "2026-02-27T14:38:32.932216",
-      "last_seen": "2026-02-27T14:38:32.932216",
-      "weight": 0.95
-    },
-    {
-      "source": "制約:時間不足によるキャリア制限",
-      "target": "知見:ストックオプションによる資産形成戦略",
+      "target": "感情:沙也香の診断結果による安堵",
       "type": "引き起こす",
-      "label": "時間の制約から現実的な目標を再定義",
-      "first_seen": "2026-02-27T14:38:32.932218",
-      "last_seen": "2026-02-27T14:38:32.932218",
+      "label": "",
+      "first_seen": "2026-02-27T23:50:51.124675",
+      "last_seen": "2026-02-27T23:50:51.124675",
       "weight": 0.95
     },
     {
-      "source": "制約:沙也香の職場のパワハラ",
-      "target": "出来事:沙也香の病院受診",
-      "type": "関連する",
-      "label": "仕事復帰の検討における懸念点",
-      "first_seen": "2026-02-27T14:38:32.932219",
-      "last_seen": "2026-02-27T14:38:32.932219",
-      "weight": 0.95
-    },
-    {
-      "source": "出来事:Saiteki勉強会_20260227",
-      "target": "制約:本業・副業・育児による時間不足",
+      "source": "制約:妻の職場のパワハラ",
+      "target": "プロジェクト:共働き生活",
       "type": "阻害する",
-      "label": "家庭の事情により参加不可",
-      "first_seen": "2026-02-27T14:38:32.932224",
-      "last_seen": "2026-02-27T14:38:32.932224",
+      "label": "継続を困難にする",
+      "first_seen": "2026-02-27T23:50:51.124679",
+      "last_seen": "2026-02-27T23:50:51.124679",
+      "weight": 0.95
+    },
+    {
+      "source": "制約:時間不足_副業",
+      "target": "概念:CTO就任",
+      "type": "阻害する",
+      "label": "役割の追求を諦める要因",
+      "first_seen": "2026-02-27T23:50:51.124682",
+      "last_seen": "2026-02-27T23:50:51.124682",
+      "weight": 0.95
+    },
+    {
+      "source": "知見:アウトプットによる自信構築",
+      "target": "タスク:Knowbeでの自信回復",
+      "type": "解決する",
+      "label": "精神的ブレーキを解消",
+      "first_seen": "2026-02-27T23:50:51.124685",
+      "last_seen": "2026-02-27T23:50:51.124685",
       "weight": 0.95
     },
     {
       "source": "日記:2026-02-27",
-      "target": "感情:自信の回復",
+      "target": "感情:沙也香の診断結果による安堵",
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932228",
-      "last_seen": "2026-02-27T14:38:32.932228"
+      "first_seen": "2026-02-27T23:50:51.124708",
+      "last_seen": "2026-02-27T23:50:51.124708"
     },
     {
       "source": "日記:2026-02-27",
-      "target": "知見:アウトプットと自信の相関",
+      "target": "制約:妻の職場のパワハラ",
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932230",
-      "last_seen": "2026-02-27T14:38:32.932230"
-    },
-    {
-      "source": "日記:2026-02-27",
-      "target": "タスク:Knowbe_GAS提案",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932232",
-      "last_seen": "2026-02-27T14:38:32.932232"
-    },
-    {
-      "source": "日記:2026-02-27",
-      "target": "出来事:沙也香の病院受診",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932238",
-      "last_seen": "2026-02-27T14:38:32.932238"
-    },
-    {
-      "source": "日記:2026-02-27",
-      "target": "制約:沙也香の職場のパワハラ",
-      "type": "言及する",
-      "label": "言及",
-      "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932240",
-      "last_seen": "2026-02-27T14:38:32.932240"
+      "first_seen": "2026-02-27T23:50:51.124712",
+      "last_seen": "2026-02-27T23:50:51.124712"
     },
     {
       "source": "日記:2026-02-27",
@@ -19570,35 +20005,35 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932244",
-      "last_seen": "2026-02-27T14:38:32.932244"
+      "first_seen": "2026-02-27T23:50:51.124716",
+      "last_seen": "2026-02-27T23:50:51.124716"
     },
     {
       "source": "日記:2026-02-27",
-      "target": "制約:時間不足によるキャリア制限",
+      "target": "制約:時間不足_副業",
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932245",
-      "last_seen": "2026-02-27T14:38:32.932245"
+      "first_seen": "2026-02-27T23:50:51.124720",
+      "last_seen": "2026-02-27T23:50:51.124720"
     },
     {
       "source": "日記:2026-02-27",
-      "target": "知見:ストックオプションによる資産形成戦略",
+      "target": "概念:CTO就任",
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932247",
-      "last_seen": "2026-02-27T14:38:32.932247"
+      "first_seen": "2026-02-27T23:50:51.124723",
+      "last_seen": "2026-02-27T23:50:51.124723"
     },
     {
       "source": "日記:2026-02-27",
-      "target": "購入希望:モスバーガー_期間限定",
+      "target": "タスク:SayakaHealthMonitor",
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932249",
-      "last_seen": "2026-02-27T14:38:32.932249"
+      "first_seen": "2026-02-27T23:50:51.124730",
+      "last_seen": "2026-02-27T23:50:51.124730"
     },
     {
       "source": "日記:2026-02-27",
@@ -19606,124 +20041,124 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-02-27T14:38:32.932250",
-      "last_seen": "2026-02-27T14:38:32.932250"
+      "first_seen": "2026-02-27T23:50:51.124733",
+      "last_seen": "2026-02-27T23:50:51.124733"
     },
     {
       "source": "日記:2026-02-28",
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
-      "label": "描画技法の発見を記録",
-      "first_seen": "2026-02-27T15:37:46.914710",
-      "last_seen": "2026-02-27T15:37:46.914710",
+      "label": "制作報告",
+      "first_seen": "2026-02-28T00:44:42.323534",
+      "last_seen": "2026-02-28T00:44:42.323534",
       "weight": 1
     },
     {
-      "source": "知見:鉛筆の寝かせ描き",
+      "source": "知見:鉛筆を寝かせて描く技法",
       "target": "タスク:MonsterDrawing",
       "type": "原動力になる",
-      "label": "表現の幅が広がり継続意欲に繋がる",
-      "first_seen": "2026-02-27T15:37:46.914714",
-      "last_seen": "2026-02-27T15:37:46.914714",
+      "label": "新しい表現の発見",
+      "first_seen": "2026-02-28T00:44:42.323545",
+      "last_seen": "2026-02-28T00:44:42.323545",
       "weight": 1
     },
     {
-      "source": "感情:制作への手応え",
-      "target": "タスク:MonsterDrawing",
-      "type": "原動力になる",
-      "label": "納得のいく表現ができたことが自信になる",
-      "first_seen": "2026-02-27T15:37:46.914716",
-      "last_seen": "2026-02-27T15:37:46.914716",
+      "source": "タスク:MonsterDrawing",
+      "target": "感情:モンスター描画への達成感",
+      "type": "引き起こす",
+      "label": "納得のいく出来栄え",
+      "first_seen": "2026-02-28T00:44:42.323550",
+      "last_seen": "2026-02-28T00:44:42.323550",
       "weight": 1
     },
     {
       "source": "日記:2026-02-28",
       "target": "目標:Pomera活用本の執筆",
       "type": "言及する",
-      "label": "プロット着手の意思決定",
-      "first_seen": "2026-02-27T15:37:46.914718",
-      "last_seen": "2026-02-27T15:37:46.914718",
+      "label": "プロット着手の検討",
+      "first_seen": "2026-02-28T00:44:42.323555",
+      "last_seen": "2026-02-28T00:44:42.323555",
       "weight": 1
     },
     {
       "source": "目標:Pomera活用本の執筆",
-      "target": "タスク:Pomera本プロット作成",
+      "target": "タスク:Pomera活用本のプロット作成",
       "type": "計画する",
-      "label": "執筆開始に向けた最初のステップ",
-      "first_seen": "2026-02-27T15:37:46.914720",
-      "last_seen": "2026-02-27T15:37:46.914720",
+      "label": "最初のステップ",
+      "first_seen": "2026-02-28T00:44:42.323560",
+      "last_seen": "2026-02-28T00:44:42.323560",
       "weight": 1
     },
     {
       "source": "日記:2026-02-28",
-      "target": "目標:城山公園へのピクニック",
+      "target": "目標:ParkPicnic",
       "type": "言及する",
-      "label": "今週末の実施見送りを記録",
-      "first_seen": "2026-02-27T15:37:46.914724",
-      "last_seen": "2026-02-27T15:37:46.914724",
+      "label": "土日の実施見送り",
+      "first_seen": "2026-02-28T00:44:42.323565",
+      "last_seen": "2026-02-28T00:44:42.323565",
+      "weight": 0.95
+    },
+    {
+      "source": "制約:妻の体調不良",
+      "target": "目標:ParkPicnic",
+      "type": "阻害する",
+      "label": "外出困難",
+      "first_seen": "2026-02-28T00:44:42.323570",
+      "last_seen": "2026-02-28T00:44:42.323570",
+      "weight": 0.95
+    },
+    {
+      "source": "日記:2026-02-28",
+      "target": "出来事:氷川神社参拝",
+      "type": "言及する",
+      "label": "予定の追加",
+      "first_seen": "2026-02-28T00:44:42.323575",
+      "last_seen": "2026-02-28T00:44:42.323575",
       "weight": 1
     },
     {
-      "source": "制約:沙也香の風邪",
-      "target": "目標:城山公園へのピクニック",
-      "type": "阻害する",
-      "label": "家族の体調不良により外出が困難",
-      "first_seen": "2026-02-27T15:37:46.914726",
-      "last_seen": "2026-02-27T15:37:46.914726",
+      "source": "出来事:氷川神社参拝",
+      "target": "場所:氷川神社",
+      "type": "場所で",
+      "label": "参拝場所",
+      "first_seen": "2026-02-28T00:44:42.323580",
+      "last_seen": "2026-02-28T00:44:42.323580",
       "weight": 1
     },
     {
       "source": "日記:2026-02-28",
       "target": "目標:ポメラユーザーを1人創出する",
       "type": "言及する",
-      "label": "アプローチの迷いを記録",
-      "first_seen": "2026-02-27T15:37:46.914729",
-      "last_seen": "2026-02-27T15:37:46.914729",
+      "label": "アプローチへの悩み",
+      "first_seen": "2026-02-28T00:44:42.323585",
+      "last_seen": "2026-02-28T00:44:42.323585",
       "weight": 1
     },
     {
-      "source": "制約:アプローチの不明確さ_ポメラ普及",
+      "source": "制約:アプローチ方法の未確立",
       "target": "目標:ポメラユーザーを1人創出する",
       "type": "阻害する",
-      "label": "具体的な手法が決まっていない",
-      "first_seen": "2026-02-27T15:37:46.914730",
-      "last_seen": "2026-02-27T15:37:46.914730",
+      "label": "戦略不足",
+      "first_seen": "2026-02-28T00:44:42.323590",
+      "last_seen": "2026-02-28T00:44:42.323590",
       "weight": 1
     },
     {
       "source": "日記:2026-02-28",
       "target": "目標:自分の分身となるAIロボットの構築",
       "type": "言及する",
-      "label": "KGベースのモデル構築を構想",
-      "first_seen": "2026-02-27T15:37:46.914734",
-      "last_seen": "2026-02-27T15:37:46.914734",
+      "label": "カスタムモデル構築の構想",
+      "first_seen": "2026-02-28T00:44:42.323594",
+      "last_seen": "2026-02-28T00:44:42.323594",
       "weight": 1
     },
     {
       "source": "目標:自分の分身となるAIロボットの構築",
-      "target": "タスク:KGベースAIモデルの構築検討",
+      "target": "タスク:AIロボット用KG学習モデルの試作",
       "type": "計画する",
-      "label": "ナレッジグラフ活用の具体化",
-      "first_seen": "2026-02-27T15:37:46.914736",
-      "last_seen": "2026-02-27T15:37:46.914736",
-      "weight": 1
-    },
-    {
-      "source": "出来事:氷川神社への参拝とお礼",
-      "target": "人物:蒼馬",
-      "type": "関連する",
-      "label": "子供の健やかな成長への感謝",
-      "first_seen": "2026-02-27T15:37:46.914738",
-      "last_seen": "2026-02-27T15:37:46.914738",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-02-28",
-      "target": "タスク:SayakaHealthMonitor",
-      "type": "言及する",
-      "label": "沙也香の風邪について言及",
-      "first_seen": "2026-02-27T15:37:46.914740",
-      "last_seen": "2026-02-27T15:37:46.914740",
+      "label": "実装方法の検討",
+      "first_seen": "2026-02-28T00:44:42.323600",
+      "last_seen": "2026-02-28T00:44:42.323600",
       "weight": 1
     },
     {
@@ -19732,71 +20167,71 @@ const GRAPH_DATA = {
       "type": "関連する",
       "label": "書いた",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914742",
-      "last_seen": "2026-02-27T15:37:46.914742"
+      "first_seen": "2026-02-28T00:44:42.323605",
+      "last_seen": "2026-02-28T00:44:42.323605"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "知見:鉛筆の寝かせ描き",
+      "target": "知見:鉛筆を寝かせて描く技法",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914744",
-      "last_seen": "2026-02-27T15:37:46.914744"
+      "first_seen": "2026-02-28T00:44:42.323610",
+      "last_seen": "2026-02-28T00:44:42.323610"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "感情:制作への手応え",
+      "target": "感情:モンスター描画への達成感",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914745",
-      "last_seen": "2026-02-27T15:37:46.914745"
+      "first_seen": "2026-02-28T00:44:42.323614",
+      "last_seen": "2026-02-28T00:44:42.323614"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "タスク:Pomera本プロット作成",
+      "target": "タスク:Pomera活用本のプロット作成",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914747",
-      "last_seen": "2026-02-27T15:37:46.914747"
+      "first_seen": "2026-02-28T00:44:42.323624",
+      "last_seen": "2026-02-28T00:44:42.323624"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "制約:沙也香の風邪",
+      "target": "制約:妻の体調不良",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914749",
-      "last_seen": "2026-02-27T15:37:46.914749"
+      "first_seen": "2026-02-28T00:44:42.323630",
+      "last_seen": "2026-02-28T00:44:42.323630"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "出来事:氷川神社への参拝とお礼",
+      "target": "場所:氷川神社",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914750",
-      "last_seen": "2026-02-27T15:37:46.914750"
+      "first_seen": "2026-02-28T00:44:42.323634",
+      "last_seen": "2026-02-28T00:44:42.323634"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "制約:アプローチの不明確さ_ポメラ普及",
+      "target": "制約:アプローチ方法の未確立",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914752",
-      "last_seen": "2026-02-27T15:37:46.914752"
+      "first_seen": "2026-02-28T00:44:42.323639",
+      "last_seen": "2026-02-28T00:44:42.323639"
     },
     {
       "source": "日記:2026-02-28",
-      "target": "タスク:KGベースAIモデルの構築検討",
+      "target": "タスク:AIロボット用KG学習モデルの試作",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-02-27T15:37:46.914754",
-      "last_seen": "2026-02-27T15:37:46.914754"
+      "first_seen": "2026-02-28T00:44:42.323644",
+      "last_seen": "2026-02-28T00:44:42.323644"
     }
   ],
   "metadata": {
@@ -19829,7 +20264,7 @@ const GRAPH_DATA = {
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
-    "last_updated": "2026-02-27T15:37:46.914826",
+    "last_updated": "2026-02-28T00:44:42.323797",
     "node_count": 446,
     "edge_count": 1435
   }

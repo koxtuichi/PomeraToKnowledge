@@ -100,6 +100,65 @@ def _resolve_target_by_vector(target_id, master_nodes_dict, _cache={}):
         _cache[target_id] = None
         return None
 
+def _resolve_label_by_vector(label, node_type, master_nodes_dict, _cache={}):
+    """Pass 1用: ラベルとタイプからマスターグラフ内の類似ノードをベクトル検索で探す。
+
+    日記型ノードやタイプが大きく異なるノードは除外する。
+    """
+    cache_key = f"{node_type}:{label}"
+    if cache_key in _cache:
+        return _cache[cache_key]
+
+    # 日記型はスキップ
+    if node_type in ('日記', 'diary'):
+        _cache[cache_key] = None
+        return None
+
+    # 目標とプロジェクトは相互に検索可能
+    GOAL_TYPES = {'目標', 'プロジェクト', 'goal', 'project'}
+    type_group_match = node_type in GOAL_TYPES
+
+    candidates = []
+    for nid, node in master_nodes_dict.items():
+        n_type = node.get('type', '')
+        n_label = node.get('label', '')
+        if not n_label or n_type in ('日記', 'diary'):
+            continue
+        # タイプの整合性チェック
+        if type_group_match:
+            if n_type not in GOAL_TYPES:
+                continue
+        elif node_type and n_type != node_type:
+            continue
+        candidates.append((nid, n_label))
+
+    if not candidates:
+        _cache[cache_key] = None
+        return None
+
+    texts = [label] + [c[1] for c in candidates]
+    embeddings = _get_embeddings(texts)
+    if len(embeddings) < 2:
+        _cache[cache_key] = None
+        return None
+
+    target_emb = embeddings[0]
+    best_sim = -1.0
+    best_id = None
+    for i, (nid, clabel) in enumerate(candidates):
+        sim = _cosine_similarity(target_emb, embeddings[i + 1])
+        if sim > best_sim:
+            best_sim = sim
+            best_id = nid
+
+    if best_sim >= _EMBED_SIMILARITY_THRESHOLD:
+        print(f"   🔍 Pass1ベクトル検索: '{label}' → '{master_nodes_dict[best_id].get('label', best_id)}' (類似度: {best_sim:.3f})")
+        _cache[cache_key] = best_id
+        return best_id
+    else:
+        _cache[cache_key] = None
+        return None
+
 def load_graph(filepath):
     """Loads a graph JSON file. Returns an empty structure if file doesn't exist."""
     if not os.path.exists(filepath):
@@ -272,8 +331,17 @@ def merge_graphs(master, daily):
                     id_remap[raw_id] = target_id
                     node['id'] = target_id
             else:
-                # New label: establish this raw_id as the canonical ID for this label
-                label_map[nlabel] = raw_id
+                # ラベル完全一致なし → ベクトル検索でマスター内の類似ノードを探す
+                ntype = node.get('type', '')
+                resolved_id = _resolve_label_by_vector(nlabel, ntype, master_nodes)
+                if resolved_id:
+                    print(f"🔄 Remapping node (vector): {raw_id} -> {resolved_id} (Label: '{nlabel}')")
+                    id_remap[raw_id] = resolved_id
+                    node['id'] = resolved_id
+                    label_map[nlabel] = resolved_id
+                else:
+                    # 本当に新しいノード
+                    label_map[nlabel] = raw_id
 
     # Pass 2: Property Merging with Normalized IDs
     # Now that all nodes in 'daily' have their IDs normalized to either a Master ID or a Canonical Daily ID,
