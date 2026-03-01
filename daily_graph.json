@@ -1,191 +1,331 @@
 {
   "nodes": [
     {
-      "id": "日記:2026-02-28",
-      "label": "2026年2月28日の日記",
+      "id": "日記:20260301",
+      "label": "2026年3月1日の日記",
       "type": "日記",
-      "detail": "モンスター描画の技法発見、ポメラ本プロットの着手決定、週末の予定（氷川神社・カフェ）と中止（城山公園）について。",
-      "date": "2026-02-28",
-      "context": "private"
-    },
-    {
-      "id": "知見:鉛筆を寝かせて描く技法",
-      "label": "鉛筆を寝かせて描く技法",
-      "type": "知見",
-      "detail": "鉛筆を寝かせて描くことで線の太さが変わり、絵に味が出るという発見。",
-      "context": "private"
-    },
-    {
-      "id": "感情:モンスター描画への達成感",
-      "label": "描画への手応え",
-      "type": "感情",
-      "sentiment": 0.8,
-      "emotion_category": "達成感",
-      "trigger": "自分なりに雰囲気のある絵が描け、新しい技法を見つけたこと",
-      "context": "private"
-    },
-    {
-      "id": "タスク:Pomera活用本のプロット作成",
-      "label": "Pomera活用本のプロット作成",
-      "type": "タスク",
-      "detail": "土日の空き時間を利用して、ブログの蓄積を待たずに着手する。",
-      "status": "進行中",
-      "context": "private"
-    },
-    {
-      "id": "イベント:FamilyParkVisit",
-      "label": "城山公園への外出",
-      "type": "出来事",
-      "status": "中止",
-      "detail": "今週末に予定していたが、妻の風邪や他の予定（氷川神社・カフェ）を優先するため中止。",
-      "context": "private"
-    },
-    {
-      "id": "出来事:カフェに行く",
-      "label": "カフェでの休息",
-      "type": "出来事",
-      "status": "予定",
-      "detail": "土日の外出に合わせてカフェに立ち寄る。",
+      "detail": "朝のMTG、家族での外出予定、ダイエットの状況、ポメラ駆動のSNS自動化構想、YouTube投稿のトラブルについて。",
       "date": "2026-03-01",
-      "context": "private"
-    },
-    {
-      "id": "出来事:氷川神社参拝",
-      "label": "氷川神社へのお礼参り",
-      "type": "出来事",
-      "status": "予定",
-      "date": "2026-03-01",
-      "detail": "蒼馬の件でお礼を伝えに大宮の氷川神社へ行く。",
-      "context": "private"
-    },
-    {
-      "id": "タスク:MonsterDrawing",
-      "label": "毎日のモンスター描画",
-      "type": "タスク",
-      "status": "進行中",
-      "detail": "鉛筆を寝かせる新技法を取り入れ、雰囲気のある絵を目指す。",
-      "context": "private"
-    },
-    {
-      "id": "目標:ポメラユーザーを1人創出する",
-      "label": "ポメラユーザーを1人創出する",
-      "type": "目標",
-      "status": "進行中",
-      "detail": "ブログでの発信を継続し、アプローチを模索する。",
-      "context": "private"
-    },
-    {
-      "id": "タスク:AIロボット用KG学習モデルの試作",
-      "label": "KG学習済みカスタムモデルの構築検討",
-      "type": "タスク",
-      "status": "進行中",
-      "detail": "自分の分身を作る第一歩として、ナレッジグラフを学習させたカスタムAIモデルを試作する方針。",
       "context": "shared"
+    },
+    {
+      "id": "出来事:直道とのMTG_20260301",
+      "label": "直道との副業MTG (3/1)",
+      "type": "出来事",
+      "detail": "朝8時から実施。進捗管理の楽しさを実感する機会となった。",
+      "status": "完了",
+      "date": "2026-03-01",
+      "context": "saiteki"
+    },
+    {
+      "id": "出来事:沙也香の美容室_20260301",
+      "label": "沙也香の美容室",
+      "type": "出来事",
+      "detail": "9時半から沙也香が美容室へ外出。",
+      "status": "予定",
+      "date": "2026-03-01",
+      "context": "private"
+    },
+    {
+      "id": "感情:外出への期待",
+      "label": "家族外出への楽しみ",
+      "type": "感情",
+      "detail": "久しぶりに家族3人でカフェに出かけられることへの喜び。",
+      "sentiment": 0.8,
+      "emotion_category": "喜び",
+      "trigger": "菖蒲にある前から行きたかったカフェに家族3人で行く予定があるため。",
+      "context": "private"
+    },
+    {
+      "id": "目標:YearOfRevolution_FamilyFirst",
+      "label": "革命の年・家族第一の父親",
+      "type": "目標",
+      "detail": "自分のための支出を削り、家族のために動ける父親を目指す。2026年を自分の中の革命の年とする。",
+      "status": "進行中",
+      "context": "private",
+      "category": "父親"
+    },
+    {
+      "id": "タスク:3月のクレカ請求確認",
+      "label": "3月のカード請求額確認",
+      "type": "タスク",
+      "detail": "月が変わったため、クレジットカードの請求額をチェックする。明日実施予定。",
+      "status": "未着手",
+      "context": "private",
+      "tags": [
+        "家計管理"
+      ]
+    },
+    {
+      "id": "感情:YouTubeトラブルによる落胆",
+      "label": "動画アップロード失敗への最悪感",
+      "type": "感情",
+      "detail": "再生数が伸びていた動画が未完成状態でアップされており、再アップが必要になったことへのストレス。",
+      "sentiment": -0.8,
+      "emotion_category": "その他",
+      "trigger": "YouTubeに上げた鉛筆描画動画が未完成のまま1300回再生され、再アップを余儀なくされた。",
+      "context": "private"
+    },
+    {
+      "id": "制約:YouTube再アップによる再生数低下リスク",
+      "label": "動画再アップによるアルゴリズム懸念",
+      "type": "制約",
+      "detail": "同じ動画を再度上げることによるBANや再生回数低下の恐怖。",
+      "constraint_type": "その他",
+      "context": "private"
+    },
+    {
+      "id": "感情:ポメラへの深い満足感",
+      "label": "ポメラDM250活用の充実感",
+      "type": "感情",
+      "detail": "ポメラDM250を購入し、それを通じてアウトプットができている現状への満足。",
+      "sentiment": 1.0,
+      "emotion_category": "喜び",
+      "trigger": "ポメラDM250を買って本当によかったと感じ、ポメラ駆動が実現できている。",
+      "context": "private"
+    },
+    {
+      "id": "タスク:SNS運用のシステム化検討",
+      "label": "SNS運用のポメラ駆動システム化",
+      "type": "タスク",
+      "detail": "ポメラで投稿を溜め、指定時間に自動投稿し、反応をまとめる仕組みを構築したい。",
+      "status": "進行中",
+      "context": "shared",
+      "tags": [
+        "自動化",
+        "ポメラ駆動"
+      ]
+    },
+    {
+      "id": "制約:X_APIのコスト",
+      "label": "X APIの有料化壁",
+      "type": "制約",
+      "detail": "Xへの自動投稿を検討しているが、APIが有料である可能性が懸念点。",
+      "constraint_type": "リソース不足",
+      "context": "shared"
+    },
+    {
+      "id": "制約:SNS投稿と日記の定義曖昧性",
+      "label": "SNSと日記の書き分けルール不足",
+      "type": "制約",
+      "detail": "SNS用の内容と日記の内容をどう切り分けるかの定義が決まっていない。",
+      "constraint_type": "技術的課題",
+      "context": "private"
+    },
+    {
+      "id": "感情:進捗管理の楽しさ",
+      "label": "進捗管理への達成感",
+      "type": "感情",
+      "detail": "ゴールを決め、そこに向かって進捗を自分で管理することに楽しさを感じる。",
+      "sentiment": 0.9,
+      "emotion_category": "達成感",
+      "trigger": "直道とのMTGを通じて、進捗を自分で管理しゴールに向かうプロセスが楽しいと気づいた。",
+      "context": "saiteki"
+    },
+    {
+      "id": "知見:進捗管理は自己効力感を高める",
+      "label": "進捗管理によるモチベーション向上",
+      "type": "知見",
+      "detail": "ゴールを設定し進捗を可視化して進めること自体が、作業の楽しさと推進力に繋がる。",
+      "context": "shared"
+    },
+    {
+      "id": "日記:2026-03-01",
+      "label": "2026-03-01の日記",
+      "type": "日記",
+      "date": "2026-03-01",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-03-01T03:28:13.573973",
+      "last_seen": "2026-03-01T03:28:13.573975",
+      "weight": 1
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-02-27T16:08:00.731798",
-      "last_seen": "2026-02-27T16:08:00.731800",
+      "first_seen": "2026-03-01T03:28:13.573979",
+      "last_seen": "2026-03-01T03:28:13.573980",
       "weight": 1
     }
   ],
   "edges": [
     {
-      "source": "日記:2026-02-28",
-      "target": "タスク:MonsterDrawing",
+      "source": "日記:20260301",
+      "target": "目標:年内体重75kg切り",
       "type": "言及する",
-      "label": "描画活動と新技法について記述"
+      "label": "現在の体重78.6kgを確認"
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "タスク:Pomera活用本のプロット作成",
+      "source": "日記:20260301",
+      "target": "出来事:カフェでの休息",
       "type": "言及する",
-      "label": "土日に着手することを決定"
+      "label": "菖蒲のカフェへ行く予定"
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "イベント:FamilyParkVisit",
+      "source": "日記:20260301",
+      "target": "目標:YearOfRevolution_FamilyFirst",
       "type": "言及する",
-      "label": "中止を判断"
+      "label": "今年の目標として定義"
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "出来事:氷川神社参拝",
-      "type": "言及する",
-      "label": "明日行く予定を再認"
+      "source": "出来事:直道とのMTG_20260301",
+      "target": "感情:進捗管理の楽しさ",
+      "type": "引き起こす",
+      "label": "MTGでのやり取りから発生"
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "目標:ポメラユーザーを1人創出する",
-      "type": "言及する",
-      "label": "アプローチの難しさを吐露"
-    },
-    {
-      "source": "日記:2026-02-28",
-      "target": "タスク:AIロボット用KG学習モデルの試作",
-      "type": "言言及する",
-      "label": "カスタムモデル試作の検討"
-    },
-    {
-      "source": "知見:鉛筆を寝かせて描く技法",
-      "target": "タスク:MonsterDrawing",
+      "source": "感情:進捗管理の楽しさ",
+      "target": "タスク:Knowbe_TeamStatusGrasp",
       "type": "原動力になる",
-      "label": "描画に味を出す新しい発見"
+      "label": "管理の楽しさが本業の進捗把握にも寄与"
     },
     {
-      "source": "感情:モンスター描画への達成感",
-      "target": "タスク:MonsterDrawing",
+      "source": "知見:進捗管理は自己効力感を高める",
+      "target": "タスク:ImprovementTaskFlow",
       "type": "原動力になる",
-      "label": "良い絵が描けた実感がモチベーションになる"
+      "label": "管理プロセス自体の楽しさを活用"
     },
     {
-      "source": "制約:沙也香の風邪",
-      "target": "イベント:FamilyParkVisit",
+      "source": "感情:YouTubeトラブルによる落胆",
+      "target": "タスク:MonsterDrawing",
       "type": "阻害する",
-      "label": "妻の体調不良が外出中止の要因"
+      "label": "投稿トラブルにより制作への心理的ブレーキ"
     },
     {
-      "source": "制約:ポメラユーザー創出のアプローチ不明",
-      "target": "目標:ポメラユーザーを1人創出する",
+      "source": "制約:YouTube再アップによる再生数低下リスク",
+      "target": "タスク:MonsterDrawing",
       "type": "阻害する",
-      "label": "具体的な手段が見つかっていない"
+      "label": "投稿への不安"
+    },
+    {
+      "source": "制約:X_APIのコスト",
+      "target": "タスク:SNS_System_Definition",
+      "type": "阻害する",
+      "label": "自動化の手段を制限"
+    },
+    {
+      "source": "感情:ポメラへの深い満足感",
+      "target": "タスク:SNS運用のシステム化検討",
+      "type": "原動力になる",
+      "label": "ポメラ活用の成功体験が次なる自動化へ繋がる"
+    },
+    {
+      "source": "制約:外食による塩分過多",
+      "target": "目標:年内体重75kg切り",
+      "type": "阻害する",
+      "label": "土曜日のカップラーメンやうどん摂取"
     },
     {
       "source": "人物:自分",
-      "target": "日記:2026-02-28",
+      "target": "日記:2026-03-01",
       "type": "関連する",
       "label": "書いた",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "知見:鉛筆を寝かせて描く技法",
+      "source": "日記:2026-03-01",
+      "target": "日記:20260301",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "感情:モンスター描画への達成感",
+      "source": "日記:2026-03-01",
+      "target": "出来事:直道とのMTG_20260301",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     },
     {
-      "source": "日記:2026-02-28",
-      "target": "出来事:カフェに行く",
+      "source": "日記:2026-03-01",
+      "target": "出来事:沙也香の美容室_20260301",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "感情:外出への期待",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "目標:YearOfRevolution_FamilyFirst",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "タスク:3月のクレカ請求確認",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "感情:YouTubeトラブルによる落胆",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "制約:YouTube再アップによる再生数低下リスク",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "感情:ポメラへの深い満足感",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "タスク:SNS運用のシステム化検討",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "制約:X_APIのコスト",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "制約:SNS投稿と日記の定義曖昧性",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "感情:進捗管理の楽しさ",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-01",
+      "target": "知見:進捗管理は自己効力感を高める",
       "type": "言及する",
       "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-02-27T16:08:00.731783",
-    "source_file": "diary/20260228_[POMERA]2026年2月28日.txt",
-    "node_count": 10,
-    "edge_count": 10
+    "generated_at": "2026-03-01T03:28:13.573960",
+    "source_file": "diary/20260301_[POMERA]2026年3月1日.txt",
+    "node_count": 14,
+    "edge_count": 11
   }
 }
