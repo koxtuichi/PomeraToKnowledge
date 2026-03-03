@@ -1756,7 +1756,7 @@
     // ── チャット機能 ──
 
     function handleChatKeydown(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
         e.preventDefault();
         sendChatMessage();
       }
