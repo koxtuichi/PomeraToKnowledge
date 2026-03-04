@@ -116,7 +116,27 @@ def _graph_to_text(graph: dict) -> str:
         ""
     ]
 
-    # Gravityノード（重力が高い＝未解決の重要課題）
+    # --- 日付別ノード一覧（直近14日） ---
+    # 日付を持つノードを日付ごとにまとめ、新しい順に表示
+    dated_nodes: dict[str, list] = {}
+    for n in nodes:
+        d = n.get("date", "")
+        if d and len(d) == 10:  # YYYY-MM-DD形式のみ
+            dated_nodes.setdefault(d, []).append(n)
+
+    recent_dates = sorted(dated_nodes.keys(), reverse=True)[:14]
+    if recent_dates:
+        lines.append("## 日付別の記録（新しい順）")
+        for date in recent_dates:
+            lines.append(f"\n### {date}")
+            for n in dated_nodes[date]:
+                t = n.get("type", "")
+                detail = n.get("detail", "") or n.get("id", "")
+                status = n.get("status", "")
+                status_str = f" [{status}]" if status else ""
+                lines.append(f"- [{t}]{status_str} {detail}")
+
+    # --- Gravityノード（未解決の重要課題） ---
     gravity_nodes = sorted(
         [n for n in nodes if n.get("gravity", 0) > 0],
         key=lambda n: n.get("gravity", 0), reverse=True
@@ -126,19 +146,22 @@ def _graph_to_text(graph: dict) -> str:
         for n in gravity_nodes[:20]:
             g = n.get("gravity", 0)
             detail = n.get("detail", "") or n.get("id", "")
-            label = n.get("label", "") or n.get("id", "")
-            lines.append(f"- [{n.get('type','')}] {detail} (G={g})")
+            date = n.get("date", "")
+            date_str = f" ({date})" if date else ""
+            lines.append(f"- [{n.get('type','')}]{date_str} {detail} (G={g})")
 
-    # 重要ノード（重み上位）
+    # --- 重要ノード（重み上位、ただし日付があるものは日付を付記） ---
     important = sorted(nodes, key=lambda n: n.get("weight", 0), reverse=True)[:30]
     lines.append("\n## 重要ノード（重み上位）")
     for n in important:
         t = n.get("type", "")
         detail = n.get("detail", "") or n.get("id", "")
         w = n.get("weight", 0)
-        lines.append(f"- [{t}] {detail} (W={w})")
+        date = n.get("date", "")
+        date_str = f" ({date})" if date else ""
+        lines.append(f"- [{t}]{date_str} {detail} (W={w})")
 
-    # エッジ（関係性）
+    # --- エッジ（関係性） ---
     if edges:
         lines.append("\n## 主要な関係性")
         for e in edges[:50]:
@@ -147,7 +170,7 @@ def _graph_to_text(graph: dict) -> str:
             rel = e.get("relation", e.get("type", ""))
             lines.append(f"- {src} → {rel} → {tgt}")
 
-    # タイプ別統計
+    # --- タイプ別統計 ---
     type_counts: dict[str, int] = {}
     for n in nodes:
         t = n.get("type", "不明")
