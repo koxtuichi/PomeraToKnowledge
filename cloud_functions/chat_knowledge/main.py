@@ -222,7 +222,7 @@ def chat_knowledge(request):
             config=types.GenerateContentConfig(
                 cached_content=cache_name,
                 temperature=0.7,
-                max_output_tokens=800,
+                max_output_tokens=4096,
             )
         )
 
