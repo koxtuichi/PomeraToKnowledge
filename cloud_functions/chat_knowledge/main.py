@@ -106,24 +106,6 @@ def _graph_to_text(graph: dict) -> str:
         ""
     ]
 
-    # 日記ノード（全件、日付降順）
-    diary_nodes = sorted(
-        [n for n in nodes if n.get("type") in ("日記", "diary")],
-        key=lambda n: n.get("date", ""),
-        reverse=True
-    )
-    if diary_nodes:
-        lines.append("## 日記分析（新しい順）")
-        for n in diary_nodes:
-            date = n.get("date", "不明")
-            analysis = n.get("analysis_content", "") or n.get("detail", "")
-            tags = n.get("tags", [])
-            lines.append(f"\n### {date}")
-            if tags:
-                lines.append(f"タグ: {', '.join(tags)}")
-            if analysis:
-                lines.append(analysis)
-
     # Gravityノード（重力が高い＝未解決の重要課題）
     gravity_nodes = sorted(
         [n for n in nodes if n.get("gravity", 0) > 0],
