@@ -176,8 +176,25 @@ def chat_knowledge(request):
         graph_text = _load_graph_from_gcs()
         cache_name = _get_or_create_cache(graph_text)
 
+        # 今日の日付を取得してコンテキストに追加
+        today = datetime.datetime.now(
+            datetime.timezone(datetime.timedelta(hours=9))  # JST
+        ).strftime("%Y年%m月%d日")
+
         # 会話履歴を構築（最大6往復）
         chat_contents = []
+
+        # 先頭に「今日の日付」を注入（キャッシュは静的なため毎回追加が必要）
+        chat_contents.append(
+            types.Content(
+                role="user",
+                parts=[types.Part(text=f"【現在の日付】今日は {today} です。グラフのノードに記録日（date）が含まれる場合はその日付を参照し、古いタスクと最新のものを区別して回答してください。")]
+            )
+        )
+        chat_contents.append(
+            types.Content(role="model", parts=[types.Part(text="はい、了解しました。今日は" + today + "ですね。最新のデータを優先して回答します。")])
+        )
+
         for h in history[-12:]:  # 6往復 = 12メッセージ
             role = "user" if h.get("role") == "user" else "model"
             chat_contents.append(
@@ -198,6 +215,7 @@ def chat_knowledge(request):
                 max_output_tokens=800,
             )
         )
+
 
         answer = response.text.strip()
         return (
