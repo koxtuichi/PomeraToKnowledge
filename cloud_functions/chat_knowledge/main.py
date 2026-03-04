@@ -26,13 +26,19 @@ client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
 # インスタンス内キャッシュ（Cloud Functionの同一インスタンスで再利用）
 _cache_name: str | None = None
 _cache_expires_at: datetime.datetime | None = None
+_graph_last_updated: datetime.datetime | None = None  # GCSのグラフ更新時刻
 
 
-def _get_or_create_cache(graph_text: str) -> str:
-    """コンテキストキャッシュを取得または作成する。"""
-    global _cache_name, _cache_expires_at
+def _get_or_create_cache(graph_text: str, graph_updated_at: datetime.datetime | None = None) -> str:
+    """コンテキストキャッシュを取得または作成する。グラフが更新されていれば再作成。"""
+    global _cache_name, _cache_expires_at, _graph_last_updated
 
     now = datetime.datetime.now(datetime.timezone.utc)
+
+    # グラフが更新されていたらキャッシュを無効化
+    if graph_updated_at and _graph_last_updated and graph_updated_at > _graph_last_updated:
+        print(f"🔄 グラフが更新されました（{graph_updated_at}）。キャッシュを再作成します")
+        _cache_name = None
 
     # 有効なキャッシュがあれば再利用
     if _cache_name and _cache_expires_at and now < _cache_expires_at:
@@ -70,13 +76,14 @@ def _get_or_create_cache(graph_text: str) -> str:
     )
 
     _cache_name = cache.name
-    _cache_expires_at = now + datetime.timedelta(hours=1, minutes=50)  # 余裕を持って1時間50分
+    _cache_expires_at = now + datetime.timedelta(hours=1, minutes=50)
+    _graph_last_updated = graph_updated_at or now
     print(f"✅ キャッシュ作成完了: {_cache_name}")
     return _cache_name
 
 
-def _load_graph_from_gcs() -> str:
-    """GCSからナレッジグラフを読み込んでテキストに変換する。"""
+def _load_graph_from_gcs() -> tuple[str, datetime.datetime | None]:
+    """GCSからナレッジグラフを読み込んでテキストに変換する。更新時刻も返す。"""
     try:
         storage_client = storage.Client()
         bucket = storage_client.bucket(GCS_BUCKET)
@@ -84,15 +91,17 @@ def _load_graph_from_gcs() -> str:
         for path in ["master_graph.json", "knowledge_graph.jsonld"]:
             blob = bucket.blob(path)
             if blob.exists():
+                blob.reload()  # メタデータ最新化
+                updated_at = blob.updated  # datetime
                 content = blob.download_as_text(encoding="utf-8")
                 graph = json.loads(content)
-                print(f"✅ GCSから読み込み: {path} ({len(content)//1024}KB)")
-                return _graph_to_text(graph)
+                print(f"✅ GCSから読み込み: {path} ({len(content)//1024}KB) updated={updated_at}")
+                return _graph_to_text(graph), updated_at
 
     except Exception as e:
         print(f"⚠️ GCS読み込みエラー: {e}")
 
-    return "ナレッジグラフのデータが見つかりませんでした。"
+    return "ナレッジグラフのデータが見つかりませんでした。", None
 
 
 def _graph_to_text(graph: dict) -> str:
@@ -173,8 +182,8 @@ def chat_knowledge(request):
             return (json.dumps({"error": "質問が空です"}), 400, headers)
 
         # GCSからグラフを読み込み、キャッシュを取得/作成
-        graph_text = _load_graph_from_gcs()
-        cache_name = _get_or_create_cache(graph_text)
+        graph_text, graph_updated_at = _load_graph_from_gcs()
+        cache_name = _get_or_create_cache(graph_text, graph_updated_at)
 
         # 今日の日付を取得してコンテキストに追加
         today = datetime.datetime.now(
