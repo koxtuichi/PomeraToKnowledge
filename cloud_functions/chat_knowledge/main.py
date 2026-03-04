@@ -58,7 +58,8 @@ def _get_or_create_cache(graph_text: str, graph_updated_at: datetime.datetime | 
 - データにない場合は正直に「記録には見当たりません」と伝える
 - 200〜400文字で簡潔に答える
 - 必要に応じてリスト形式を使う
-- 語りかけは「〜ですね」「〜でしょうか」など柔らかいトーンで"""
+- 語りかけは「〜ですね」「〜でしょうか」など柔らかいトーンで
+- ノードのID（MonsterDrawingやHighQuality_MonsterDrawingなどの英語名称）はそのまま読み上げず、detailフィールドの日本語の説明で言及する"""
 
     cache = client.caches.create(
         model=MODEL,
@@ -124,18 +125,18 @@ def _graph_to_text(graph: dict) -> str:
         lines.append("\n## 重力ノード（未解決の制約・課題）")
         for n in gravity_nodes[:20]:
             g = n.get("gravity", 0)
-            detail = n.get("detail", "")
-            lines.append(f"- [{n.get('type','')}] {n.get('id','')} (G={g}): {detail}")
+            detail = n.get("detail", "") or n.get("id", "")
+            label = n.get("label", "") or n.get("id", "")
+            lines.append(f"- [{n.get('type','')}] {detail} (G={g})")
 
     # 重要ノード（重み上位）
     important = sorted(nodes, key=lambda n: n.get("weight", 0), reverse=True)[:30]
     lines.append("\n## 重要ノード（重み上位）")
     for n in important:
         t = n.get("type", "")
-        nid = n.get("id", "")
-        detail = n.get("detail", "")
+        detail = n.get("detail", "") or n.get("id", "")
         w = n.get("weight", 0)
-        lines.append(f"- [{t}] {nid} (W={w}): {detail}")
+        lines.append(f"- [{t}] {detail} (W={w})")
 
     # エッジ（関係性）
     if edges:
