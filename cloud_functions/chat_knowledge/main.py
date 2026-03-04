@@ -18,7 +18,7 @@ from google.genai import types
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "pomeradriven")
 LOCATION = "us-central1"  # コンテキストキャッシュ対応リージョン
 GCS_BUCKET = os.environ.get("GCS_BUCKET", "pomera-knowledge-data")
-MODEL = "gemini-2.0-flash-001"
+MODEL = "gemini-2.5-flash"
 
 # Vertex AI クライアント（IAM認証、APIキー不要）
 client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
