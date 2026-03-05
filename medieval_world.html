@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>異世界の自分</title>
+  <title>異世界の自分 | POMERA WORLD</title>
   <style>
     * {
       margin: 0;
@@ -12,7 +12,7 @@
     }
 
     body {
-      background: #0a0810;
+      background: #080511;
       overflow: hidden;
       height: 100vh;
       display: flex;
@@ -29,7 +29,7 @@
     #loading {
       position: fixed;
       inset: 0;
-      background: #0a0810;
+      background: #080511;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -45,29 +45,33 @@
     }
 
     .lt {
-      font-size: 20px;
+      font-size: 22px;
       color: #c8934a;
-      letter-spacing: 4px
+      letter-spacing: 5px;
+      text-shadow: 0 0 20px rgba(200, 147, 74, 0.5)
     }
 
     .ls {
       font-size: 10px;
       color: #7a5830;
-      letter-spacing: 2px
+      letter-spacing: 3px
     }
 
     .lbw {
-      width: 180px;
-      height: 5px;
-      background: #1a1420;
-      border: 1px solid #3a2810
+      width: 200px;
+      height: 6px;
+      background: #120e1c;
+      border: 1px solid rgba(80, 60, 20, 0.5);
+      border-radius: 3px;
+      overflow: hidden
     }
 
     .lb {
       height: 100%;
-      background: linear-gradient(90deg, #7a4a10, #c8934a);
+      background: linear-gradient(90deg, #6a3c10, #c8934a, #ffe090);
       width: 0;
-      transition: width 1s
+      transition: width 0.6s;
+      border-radius: 3px
     }
 
     #hud {
@@ -75,91 +79,93 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 32px;
-      background: rgba(5, 4, 12, 0.92);
-      border-bottom: 1px solid rgba(160, 120, 50, 0.2);
+      height: 34px;
+      background: rgba(4, 3, 10, 0.95);
+      border-bottom: 1px solid rgba(120, 90, 30, 0.25);
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0 12px;
+      padding: 0 14px;
       z-index: 10
     }
 
     .hback {
       font-size: 10px;
-      color: #8a7040;
-      padding: 2px 8px;
-      border: 1px solid rgba(138, 112, 64, 0.3);
+      color: #7a6030;
+      padding: 3px 10px;
+      border: 1px solid rgba(100, 75, 25, 0.4);
       border-radius: 2px;
       text-decoration: none;
       letter-spacing: 1px;
-      cursor: pointer
+      cursor: pointer;
+      transition: all 0.2s
     }
 
     .hback:hover {
       color: #c8934a;
-      border-color: rgba(200, 147, 74, 0.5)
+      border-color: rgba(200, 147, 74, 0.5);
+      background: rgba(200, 147, 74, 0.05)
     }
 
     .htitle {
-      font-size: 12px;
+      font-size: 13px;
       color: #c8934a;
-      letter-spacing: 3px;
-      text-shadow: 0 0 10px rgba(200, 147, 74, 0.4)
+      letter-spacing: 4px;
+      text-shadow: 0 0 12px rgba(200, 147, 74, 0.35)
     }
 
     .hr {
       margin-left: auto;
       display: flex;
-      gap: 12px;
+      gap: 14px;
       align-items: center;
       font-size: 10px
     }
 
     .hwx {
-      font-size: 15px
+      font-size: 16px
     }
 
     .hmood,
     .hclock {
-      color: #8a7040;
+      color: #7a6030;
       letter-spacing: 1px
     }
 
     #panel {
       position: fixed;
       right: 0;
-      top: 32px;
+      top: 34px;
       bottom: 0;
-      width: 190px;
-      background: rgba(8, 6, 18, 0.95);
-      border-left: 2px solid rgba(80, 60, 20, 0.5);
-      padding: 10px 9px;
+      width: 200px;
+      background: rgba(5, 4, 14, 0.96);
+      border-left: 1px solid rgba(60, 45, 15, 0.5);
+      padding: 12px 10px;
       overflow-y: auto;
       z-index: 5
     }
 
     .ph {
       font-size: 8px;
-      color: #6a5020;
+      color: #5a4018;
       letter-spacing: 2px;
-      border-bottom: 1px solid rgba(80, 60, 20, 0.3);
-      padding-bottom: 3px;
-      margin-bottom: 7px;
+      border-bottom: 1px solid rgba(60, 45, 15, 0.4);
+      padding-bottom: 4px;
+      margin-bottom: 8px;
       text-transform: uppercase
     }
 
     .pt {
       font-size: 10px;
-      color: #907858;
-      line-height: 1.7
+      color: #80684a;
+      line-height: 1.8
     }
 
     .er {
       display: flex;
       align-items: center;
       gap: 5px;
-      margin-bottom: 6px
+      margin-bottom: 7px
     }
 
     .ed {
@@ -171,13 +177,13 @@
 
     .el {
       font-size: 9px;
-      color: #7a6848;
+      color: #6a5838;
       flex: 1
     }
 
     .ebg {
       height: 2px;
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.06);
       border-radius: 1px;
       flex: 1
     }
@@ -189,23 +195,23 @@
 
     .pact {
       font-size: 10px;
-      color: #90c060;
-      padding: 6px;
-      line-height: 1.6;
-      background: rgba(50, 90, 20, 0.1);
-      border: 1px solid rgba(50, 90, 20, 0.25);
+      color: #80b050;
+      padding: 7px 8px;
+      line-height: 1.7;
+      background: rgba(40, 80, 15, 0.1);
+      border: 1px solid rgba(40, 80, 15, 0.2);
       border-radius: 2px
     }
 
     .psec {
-      margin-bottom: 14px
+      margin-bottom: 16px
     }
 
     #world {
       position: fixed;
-      top: 32px;
+      top: 34px;
       left: 0;
-      right: 190px;
+      right: 200px;
       bottom: 0;
       overflow: hidden;
       cursor: default
@@ -226,6 +232,7 @@
     <div class="lbw">
       <div class="lb" id="lb"></div>
     </div>
+    <div class="ls" id="lstat">素材を読み込み中...</div>
   </div>
   <div id="hud">
     <a class="hback" href="./index.html">← 戻る</a>
@@ -252,665 +259,330 @@
   </div>
   <div id="world"><canvas id="cv"></canvas></div>
   <script>
-    "use strict";
-    // ===== PALETTE (Elin-inspired earth tones) =====
-    const P = {
-      // ground
-      g0: '#4a6228', g1: '#3e5420', g2: '#567030', g3: '#627838', g4: '#384e18',
-      // stone
-      s0: '#6e6255', s1: '#5e5245', s2: '#7e7265', s3: '#4e4235', s4: '#8e8275',
-      // path
-      p0: '#8a7658', p1: '#7a6648', p2: '#9a8668', p3: '#6a5638',
-      // water
-      w0: '#2a4e8a', w1: '#1e3e7a', w2: '#3a5e9a', w3: '#4a6eaa',
-      // walls
-      wa: '#72624e', wb: '#62523e', wc: '#827060', wd: '#524232', we: '#928070',
-      // roofs
-      ra: '#7a3618', rb: '#5a2608', rc: '#8a4628', rd: '#6a2808',
-      // wood
-      o0: '#7a4e24', o1: '#6a3e14', o2: '#8a5e34',
-      // leaves
-      l0: '#2a5416', l1: '#1e4410', l2: '#3a6420', l3: '#4a7428', l4: '#567830',
-      // trunk
-      t0: '#5a3616', t1: '#4a2608',
-      // fire
-      f0: '#ff8800', f1: '#ff4400', f2: '#ffcc00', f3: '#ff6600', f4: '#fff0a0',
-      // char base
-      sk: '#deb888', ha: '#3a2010', cb: '#3e3278', ca: '#2e2260', cj: '#7a3c1e',
-      bt: '#3a2414', mt: '#a0a8b8', md: '#707888', bk: '#201010',
-      // dirt
-      d0: '#6a4e2e', d1: '#5a3e1e', d2: '#7a5e3e',
-    };
+"use st    rict";
+// ===== CONFIG =====
+const TW=96, TH=48; //     larger   ti      es for Eli       sc ale
+const  MAP _W=18, MAP _H= 18;
 
-    // ===== TILE CONFIG =====
-    const TW = 48, TH = 24; // tile width/height (bigger for Elin-like scale)
+// == ===  WORLD STA TE  =====
+const      WS={ek:'n      utr al',avg:0, emo s:[],diary :'' ,tick:0,ll :1} ;
+const MO ODS ={
+ joy_hig      :{w:'sun      y', icon:'☀',l abe l:'喜びの日',a ct: ['広場で踊っている ',' 丘から景色を眺めている      ,'酒場で歌ってい      ',' 花冠を編んでいる', '飛び 跳ねるように歩いてい る'] },
+ joy_mi d:  {w:'clear',      icon:'⛅',      abe l:'穏やかな日', act :['市場を散策して いる' ,'川辺で昼寝してい る', '本を読みながら歩い ている ','庭の花を世話して      る','ゆっくり散      してい る']},
+ neu tra l: {w:'clo udy ',icon:'☁' , l abel:'平静な日'       act:['城      を見回 っている','鍛冶場 で作業 している','地図を 広げて いる','薪を割ってい      ','道具を磨いてい      ']} ,
+ anxiety : { w:'drizzle ',i con:'🌧',l abe l:'不安な日',a ct: ['壁際でぼんやりして      る','雨の中座っ      いる' ,'石段でため息つい ている ','軒下で雨宿りして      る','水面に石      投げて いる']},
+ sa dne ss: {w:'st orm ', icon:'⛈ ',  label:'憂鬱な 日',  act:['窓から雨      見ている','毛布に包まっ      いる' ,'ろうそくを見つめ ている ','本を閉じたまま 考えて いる','暖炉の炎を 眺めて いる']},
+};
+ con st ROUTES={       jo y_high:[{x :8, y:8},{x:5, y:5 },{x:3,y:8 },{ x:5,y:11},{      :8,y:8}]      
+ j oy_mid :[{ x:8 ,y:8},{x:1 1,y :8},{x:13,y    :10}    ,{x:11,y:12},{x:8,y:8}],
+ n    eutral : [ {x: 8, y :8},{x:8,y:5},{x:5,y:5},{x:8,y:8},{x:11,y:8}],
+ anxiety     :[{x:8,y:8},{x:8,y:11},{x:    10,y:11} , { x:8 ,y:8}],
+ s adne ss  :[{x :8, y:8},{ x:8 .1,y: 8. 1}, { x:8    ,y:8}],
+};
+ 
+ //      ===== SPR I TE S =====
+const  IMG={};
+con st SPR_NAMES =['grass','s tone','water', 'house','to wer','tree' ,'char','fire' ,'w      ll'];
+let  sp rsLoaded=0;
 
-    // ===== WORLD STATE =====
-    const WS = { ek: 'neutral', avg: 0, emos: [], diary: '', tick: 0, ll: 1 };
-    const MOODS = {
-      joy_high: { w: 'sunny', icon: '☀', label: '喜びの日', act: ['広場で踊っている', '丘から景色を眺めている', '酒場で歌っている', '花冠を編んでいる', '跳ねるように歩いている'] },
-      joy_mid: { w: 'clear', icon: '⛅', label: '穏やかな日', act: ['市場を散策している', '川辺で昼寝している', '本を読みながら歩いている', '庭の花を世話している', 'ゆっくり散歩している'] },
-      neutral: { w: 'cloudy', icon: '☁', label: '平静な日', act: ['城壁を見回っている', '鍛冶場で作業している', '地図を広げている', '薪を割っている', '道具を磨いている'] },
-      anxiety: { w: 'drizzle', icon: '🌧', label: '不安な日', act: ['壁際でぼんやりしている', '雨の中座っている', '石段でため息ついている', '軒下で雨宿りしている', '水面に石を投げている'] },
-      sadness: { w: 'storm', icon: '⛈', label: '憂鬱な日', act: ['窓から雨を見ている', '毛布に包まっている', 'ろうそくを見つめている', '本を閉じたまま考えている', '暖炉の炎を眺めている'] },
-    };
-    const ROUTES = {
-      joy_high: [{ x: 10, y: 10 }, { x: 7, y: 7 }, { x: 4, y: 10 }, { x: 7, y: 13 }, { x: 10, y: 10 }],
-      joy_mid: [{ x: 10, y: 10 }, { x: 13, y: 10 }, { x: 16, y: 12 }, { x: 13, y: 15 }, { x: 10, y: 10 }],
-      neutral: [{ x: 10, y: 10 }, { x: 10, y: 7 }, { x: 7, y: 7 }, { x: 10, y: 10 }, { x: 13, y: 10 }],
-      anxiety: [{ x: 10, y: 10 }, { x: 10, y: 13 }, { x: 13, y: 13 }, { x: 10, y: 10 }],
-      sadness: [{ x: 10, y: 10 }, { x: 10.2, y: 10.2 }, { x: 10, y: 10 }],
-    };
+f unct ion lo adSprite s(cb ){
+ SPR_NAMES .forEach(n=> {
+  const img=n ew Image();
+   img.onload=( )=>      IMG[n]=img ;s prsLoaded ++;do cument.getE lementById(' lb').style.wi dth=(20+sprsL oaded/SPR_N AMES.lengt h*50)+'%';i f(s      rsLoaded== =S PR_NAMES.l ength )cb() ;};
+   img.onerror= ()=>{sprsLoaded ++;if(sprsL oaded===SPR_NA MES.length)cb ();};
+  img.s rc=      ./sprites/ '+ n+'.png';
+ }); 
+}
 
-    let cv, ctx, CW, CH, ox, oy, camX = 0, camY = 0;
-    let dragging = false, dragSX = 0, dragSY = 0, dragCX = 0, dragCY = 0;
+// ==== = CANVAS / C AMERA =====
+l et cv,ctx,CW ,CH,camX=0,cam Y=0;
+let draggi ng=false,drag SX=    0,d    ragSY=0,drag C X=      ,dragCY=0 ;
+ 
+f unc ti on  r e si ze () { 
+  c on st  e l= do c um en t. ge tE l em ent By Id ('wo      ld');
+ W =e l. cli en tW id t h; CH= el .c li e nt Hei gh t; 
+  c v. wid th =C W; c v. hei gh t= CH;
+      
+functin  g et _ox () {r et u rn  CW *0 . 5+ c am X; }
+ f un c ti on  ge t_ oy ( ){ ret ur n  CH*0      22+camY} 
 
-    function resize() {
-      const el = document.getElementById('world');
-      CW = el.clientWidth; CH = el.clientHeight;
-      cv.width = CW; cv.height = CH;
-      ox = CW * 0.5 + camX; oy = CH * 0.18 + camY;
-    }
+ fu nct io n  is o (i x,i y, iz =0 ) {
+  co ns t  ox = ge t_o x( ), oy=g      t_oy();  re tu rn{ x: ox +( i x- iy)*( TW /2), y: o y+ (ix +i y) *(TH    /2)-    iz*(TH* 0.8) };
+ }
 
-    function iso(ix, iy, iz = 0) {
-      return { x: ox + (ix - iy) * (TW / 2), y: oy + (ix + iy) * (TH / 2) - iz * TH };
-    }
+ //  === == T I LE MAP  = ===    =
+const TILE S =[];
+c onst O B JS =[];
 
-    // ===== SPRITES (offscreen canvas) =====
-    const SPR = {};
+ f un ction  b ui ldWorl d (){
+     for(let y=0;y<MA P_      ;y++){
+    for(let x=0;x<MAP_W;x++){
+   let t      'g r ass';
+   if((x> =7 & &x<=10&&y>=3&&y<=      4)||(y>= 7 &&y <=10&&x>= 3 &&x<      14 ) )t = 'st o ne';
+      if ( x>=1 4 )t='wa    ter    ';
+   TILES.push ({x ,y , t} );        }
+ } 
+  / /  t owe r  (n o rth   cor ne r) 
+  OB J S.p u sh( { t: ' to w er ',x    :2,    y:2});
+ OBJS.push({t:'tower',x:2,y:13});
+     // houses 
+  OBJS    .push({t:'house',x:3, y: 3} );
+  O      JS.push( { t:'house',x:3,y:6});
+ OBJS.push({t      'house', x :3 ,y:10});
+   OBJ      .push({t : 'house',x:12,y:3});
+       BJS.pu sh ({t:      house',x : 12,y    :6}    );
+ // well
+ OB JS .p us h( {t : 'well',x:9,y : 9} );
+ // trees
+  [[ 12 ,12 ],[    13,13],[13,11],[15,2],[15,4],[16,6],    [3,15],[4,16],[5,14]].forEa ch( ([x ,y] )=      OBJS.push({t :'t re e ', x, y} ))         // fires
+ OBJS.push({        'fire',x:8,y : 8});        OBJS.push({t:'f ire',x:10,y: 8 }) ;
+} 
 
-    function makeSpr(key, w, h, fn) {
-      const sc = document.createElement('canvas');
-      sc.width = w; sc.height = h;
-      const sx = sc.getContext('2d');
-      fn(sx, w, h);
-      SPR[key] = sc;
-    }
+// ===== CH AR A CTE R =====
+cons t  C HAR= {x:8,y:8,tx: 8, t y:8 ,dir:1,fr:0,ft: 0,ai:0,at:0        pi:0};
 
-    function px(sx, x, y, w, h, c) { sx.fillStyle = c; sx.fillRect(x, y, w, h); }
+functio        updateChar(d t ){
+         nst  c=CHA R ,m = M OOD S[WS.ek ];
+ c.a t += dt ; if( c.at> 7)          at=0;c.ai=( c .ai +1 )%m.act.le n gt h ;d o cum e nt.g et Ele me nt B yId('pact' ) .t e xt C ont e nt='→           .a ct[c.a i] ;} 
+  co n s t r t= ROUTES[WS.ek]|| RO UT ES.n        tr        ;
+ const wp=rt[c.w        %rt.length]; 
+  con         dx =wp.x- c .x , d y= wp.y -c          dist=Mat h .s q r t (dx*dx+dy*dy);
+ if(di s t<0. 0 8){c.          ++;retur n ;} 
+   c onst spd={joy_high:1. 6 ,joy _ mid:          ,n eut r a l: 0. 7 5, a n xi et y : 0. 4, s ad n es s:0.15}[WS.ek]| |0. 75 ;
+ c        +=      x/di    st*    spd*dt;c.y+=dy/dist*s    pd*dt;
+ c.dir=dx<0?-1:1;
+ c .ft +=d t;      f(c.ft>0.18) {c. fr = (c .f r+ 1)        ;c.ft=0;}
+}
+ 
+ // =        == RAIN =====
+c onst RAIN=Ar r ay .fr om({length:15 0} , ()= >({x:Math.ra n do m()* 1400,y:Math. ra n dom ()*900,s:4+Math .random()*4        );
 
-    // Grass tile sprite with dithering
-    function makeGrassTile(key, c0, c1, c2) {
-      makeSpr(key, TW, TH * 2, sx => {
-        // top face (diamond)
-        sx.fillStyle = c0;
-        sx.beginPath(); sx.moveTo(TW / 2, 0); sx.lineTo(TW, TH / 2); sx.lineTo(TW / 2, TH); sx.lineTo(0, TH / 2); sx.closePath(); sx.fill();
-        // dither dark
-        sx.fillStyle = c1;
-        for (let r = 0; r < TH; r++)for (let cc = 0; cc < TW; cc++) {
-          const inDia = (cc >= Math.abs(r - TH / 2) * (TW / TH)) && (cc <= TW - Math.abs(r - TH / 2) * (TW / TH));
-          if (inDia && (r + cc) % 4 === 0) sx.fillRect(cc, r, 1, 1);
-        }
-        // highlight dots
-        sx.fillStyle = c2;
-        for (let i = 0; i < 6; i++) {
-          const rx = TW / 2 + Math.round(Math.sin(i * 1.1) * 10);
-          const ry = TH / 2 + Math.round(Math.cos(i * 0.9) * 4);
-          if (rx > 2 && rx < TW - 2 && ry > 1 && ry < TH - 1) sx.fillRect(rx, ry, 1, 1);
-        }
-      });
-    }
+// ===== DRA        HELPERS =====
+ f unc tion lerp(c1 , c2,t)         t=Math.max(0,M ath.min(1,t) ) ;
+  c o nst  p=h=>[pars e In t (h .s l ice (1,3),16),par        Int(h.slice(3,5 ),16),parseI n t( h. s l i ce( 5,7),16)];
+  c on st[ r1,g1,b1]=p(c        ,[r2,g2,b2]=p(c2);
+ re        rn`rgb(${(r1 + (r2-r1)*t)|0},${(g1+        2-g 1)*t)| 0 }, $ { (b 1 +( b2-b1)*t)|0})`;
+} 
+ 
+f u n c t i on   d r aw Sk y( ){
+       onst     h=    (new Date()).getHours()    +((new Date()).getMinute s(      /60 );
+ le t  c 1 , c2 ;
+ c on         w=MOODS[WS.e k ]. w;
+  i f (h >= 6& &h          {const t = (h-6)/2;c1 = lerp( ' #06050          '#401808 ' ,t);c2=lerp('#0c0618','#a0 38 10 ',t);          else if(h>=8&&h<10 ){cons t t=(h-8)/2;c1=ler p('#401          ','#102040', t );c2          rp('#a03810','# 3060a0',t);} 
+  e lse  if(h>=10&&h< 17 ) {
+   if(w==='sun n y' ){c1 ='#102040';c 2= ' #38 78c0';}
+  else  if(w==='cle          ){c1='#182850';c2='          68b0';}
+  el s e if(w==='cloudy'){c1=' # 1e2030'          ='# 303848 ' ;} 
+    e lse if(w==='drizzl e ' ) { c 1 = '# 14 1 6 1 e' ;c 2='#        282e      ;}    
+      else{c1='#08080    e';c2='#10080e';}
+ }
+  else i f(      >=17&&h < 20){c on st  t=(h-1 7 )/3;c1=lerp(' # 102 0 4 0','#14061a', t );c2      lerp('#3878c 0' ,' #b 03 01        ,t);}
+ else{c1='#0        208';c2='#05 0 30a';}
+ const g=ctx.        eateLinearGradi ent(0,0,0,CH * 0. 5 ) ;
+   g .add Co lo rS top(0,c 1 );g .addColorSt        (1,c2);
+         x.fillSt y le=g;ctx.fil l R e c t (0, 0, C W,CH);
+ // h i ll silh        ette
+  ctx .fi llStyle='rgb a (15 ,18,32,0.6)' ; 
+ ct x .be ginPath        ;ctx.m ov e To (0, CH*0.42);
+ f o r(l et hx=0;hx<= C W;hx + =6) {ctx.li        To(hx,CH*0.35+Math.sin(hx*0.        1+1)*CH* 0 .04 5 +Mat h . sin(h x * 0.006 ) * CH*0. 028);} 
+  c tx.l i n eTo(C W , CH*0. 5 ) ;ctx. lineTo (0 , CH*0. 5 ) ;ctx. c l osePa t h ();ct x.fill () ; 
+ ct x . fillS t y le='r g b a(22, 26,46,0.        ';
+ ctx.beginPat h() ;ct x.m oveT o( 0,          0.46);
+ for( l et  hx=0;hx<=CW;hx+ =6){ctx.lineTo (hx ,CH *0. 4+ Ma th.sin( h x*0 .008+3)*CH*        03+M        h.sin(hx*0.004+1)*CH*0.0        );}
+ ctx.lin e To(CW,        *0. 5 );ctx . l ineTo( 0, C H*0.5 ) ; ctx.cl os e Path( ) ; ctx.fill();
+}
 
-    // Stone tile sprite
-    function makeStoneTile(key, c0, c1) {
-      makeSpr(key, TW, TH * 2, sx => {
-        sx.fillStyle = c0;
-        sx.beginPath(); sx.moveTo(TW / 2, 0); sx.lineTo(TW, TH / 2); sx.lineTo(TW / 2, TH); sx.lineTo(0, TH / 2); sx.closePath(); sx.fill();
-        // mortar lines
-        sx.strokeStyle = c1; sx.lineWidth = 0.8;
-        sx.beginPath(); sx.moveTo(TW / 4, TH / 4); sx.lineTo(3 * TW / 4, TH / 4); sx.stroke();
-        sx.beginPath(); sx.moveTo(TW / 2, TH / 2 - 2); sx.lineTo(TW / 2, 2); sx.stroke();
-        // dither shadow edge
-        sx.fillStyle = 'rgba(0,0,0,0.12)';
-        for (let i = 0; i < TH / 2; i++)sx.fillRect(i < TW / 2 ? i : TW - i - 1, i, 1, 1);
-      });
-    }
+funct ion  dr awStars(){
+ if( WS. ll >0.7)      etur    n;
+     const a=(1-WS.ll/0.7)*0.9;
+ for(let i=0;    i<120;i++){
+  const sx= ((i *17 3+      1)%CW),sy = (( i *9 7+1 3 )% ( CH*      .42));
+  co n st   tw=0.5+0.5*Math.sin(WS.t      ck*0.00 7 +i) ; 
+  c t x.f i llSty l e= ` r g ba(      55,252,230,$ {a *t w} )` ;
+        ctx.fillR e ct(        ,sy,i%5= = = 0 ?1.        0.9,i%5===0?1.5:0.9);
+ }
+}        function dra w SunMo        (){
+ const h = (n e w Dat        )).getHours()+((new Date())        etMinutes()/ 6 0);
+  if (h>=6&&        18){
+  const a=(        -6)/12)*Math. PI;
+  con         sx=CW*0.5+ M at h.cos( M at h .PI-        *CW*0.38;
+  c onst s y =CH*0        3-Math.sin(a )*CH*0 . 08 ; 
+  c        st gr=ctx.creat eRadialGrad        nt(sx,sy,0,sx,sy,44        
+  gr.addCol o rStop(0        rgba(255,235,100        .5)');gr.add ColorS t op ( 1,'r        a(255,200,50, 0)');
+    ctx.        llStyle=gr;ct x.begi n Pa t h();ctx.a        (sx,sy,44,0, Math.P I *2 ) ; c tx.fill()          ctx.fillStyle ='#ffe040';        x.beginPath();ctx.ar        sx,sy,11,0,M a th.PI*2        ctx.fill();
+  ct        fillStyle=' # ff f080'; c tx . begi        ath();ctx.arc (sx-3, s y-3,5        ,Math.PI*2);c tx.fil l () ; 
+ } else           const ah= h <6 ?h+12: h -1 8 ; 
+   const a        ah/12)*Math.PI; 
+  const mx        W*0.5+Math.cos(Math        I-a)*CW*0.38,   my=CH* 0 .1 3 -Math.si        a)*CH*0.08;
+  ctx.fillS        le='#b8b090' ; ctx.b eg inPath(        ctx.arc(mx,my,9,        Math.PI*2);ct x.fill();
+        ctx.fillSty l e= '#04030 8 '; c tx.b        inPath();ctx. arc(mx+ 3 ,my-2        ,0,Math.PI*2 );ctx.f i ll ( );
+         onst gm=ctx.cre ateRadialGr        ient(mx,my,0,        ,my,30);
+  g m .addCol        Stop(0,'rgba(200        10,255,0.14) ');gm.a d dC o lorS        p(1,'rgba(180 ,190,25 5 ,0)')          ctx.fillSty le=gm;c t x. b eginPath        ;ctx.arc(mx, my,30,0 , Ma t h . PI*2);ct        fill();
+ }
+}
 
-    // Water tile animated
-    function makeWaterTile() {
-      for (let f = 0; f < 4; f++) {
-        makeSpr('wat' + f, TW, TH * 2, sx => {
-          const wv = Math.sin(f * 1.57) * 0.15;
-          const gc = sx.createLinearGradient(0, 0, 0, TH);
-          gc.addColorStop(0, P.w2); gc.addColorStop(1, P.w0);
-          sx.fillStyle = gc;
-          sx.beginPath(); sx.moveTo(TW / 2, 0); sx.lineTo(TW, TH / 2); sx.lineTo(TW / 2, TH); sx.lineTo(0, TH / 2); sx.closePath(); sx.fill();
-          // wave highlights
-          sx.fillStyle = `rgba(160,210,255,${0.2 + wv})`;
-          for (let i = 0; i < 3; i++)sx.fillRect(TW / 4 + i * 6 + f, TH / 2 - 2, 4, 1);
-        });
-      }
-    }
+f unction dra        louds(){
+ cons        w=MOODS[WS.e k ].w;
+ c        st cnt={sunny:3,        ear:6,cloud y :1 2,drizz l e: 1 8,st        m:24}[w]||3;
+  const  a lp={s        ny:0.28,clear :0.45,c l ou d y:0.78,d        zzle:0.9,st o rm :0.98}[ w ]| | 0 . 28;
+ for        et i=0;i<cnt;i+ +){
+  const        x=((i*211+WS.tick*1.5)%CW);
+          nst cy=CH*0.03 + (i%4)*CH*0.05;
+  co nst cw=80+i* 1 8,ch=        +i% 4*9;
+    co n s t gc=c t x. cr ea          inearGradient(0,cy,0          +ch);
+  gc.addC olorStop(0,` rgba(21 5 ,2 2 0 , 240 ,${alp})`);gc .addCol o rS t op( 1,`rgba(150,1          205,${alp*0.15})`);
+           x.fillStyle=gc; ctx.beginPa t h( );ctx.e l li p s e (cx ,cy+ch/2,cw/2 ,ch/2,0 , 0, M ath .PI*2);ctx.fi        ()         }
+ if(w===        torm'){
+   c tx.fill S ty l e='rg b a(6,6        6,0.32)';ctx.fi        Rect(0,0,CW, C H);
+  if(Math.random()>0.        ){ctx.fillStyl e ='rg ba(25 5, 255,        5,0.05)';ctx.fil        ect(0,0,CW,CH ) ;} 
+  }
+ } 
 
-    // Tree sprite
-    function makeTree(key, scale) {
-      const S = scale || 1; const W = Math.round(40 * S), H = Math.round(60 * S);
-      makeSpr(key, W, H, sx => {
-        // shadow ellipse
-        sx.fillStyle = 'rgba(0,0,0,0.18)';
-        sx.beginPath(); sx.ellipse(W / 2, H - 4, W * 0.4, 5, 0, 0, Math.PI * 2); sx.fill();
-        // trunk
-        const tx = Math.round(W / 2 - 3 * S), ty = Math.round(H * 0.55);
-        px(sx, tx, ty, Math.round(6 * S), Math.round(H * 0.45 - 2), P.t0);
-        px(sx, tx + 1, ty, Math.round(4 * S), Math.round(H * 0.45 - 2), P.t1);
-        // canopy layers bottom→top
-        const lR = [[W * 0.5, H * 0.65, W * 0.45, H * 0.22, P.l1], [W * 0.5, H * 0.52, W * 0.38, H * 0.18, P.l0], [W * 0.45, H * 0.38, W * 0.28, H * 0.14, P.l2], [W * 0.5, H * 0.28, W * 0.22, H * 0.12, P.l3]];
-        lR.forEach(([ex, ey, ew, eh, ec]) => {
-          sx.fillStyle = ec; sx.beginPath(); sx.ellipse(ex, ey, ew, eh, 0, 0, Math.PI * 2); sx.fill();
-        });
-        // pixel highlight dots
-        sx.fillStyle = P.l4;
-        [[W * 0.38, H * 0.26], [W * 0.55, H * 0.32], [W * 0.48, H * 0.20]].forEach(([hx, hy]) => sx.fillRect(hx, hy, 2, 2));
-      });
-    }
+ funct io n dr        Rain(){
+        onst w=MOODS [ WS.ek ].w;
+ if(w!==' d ri zzle'&& w != = 'stor m ')ret ur n;
+ c o nst  c nt=w        ='storm'?150 : 70;const alp=w===' storm'?0.38:0. 1 6; 
+ ctx.s t ro k eStyl e =`rgb a( 160,2 1 0,255,$        lp})`;ctx.l        eWidth=w==='st o rm'?1:0.7;
+ for(let  i=0;i<cnt;i + +){         const d=RAIN[i]        .y+=d.s;d.x- =0.5;
+    if ( d.y >CH){d.y=-12; d.x=Mat h .ran dom()*CW;}
+    c tx.begi n Pa t h();        x.moveTo(d.x,        y);ctx.lineTo(d.        2,d.y+8);ctx. stroke( ) ;
+ } 
+}
 
-    // House sprite — proper isometric block
-    function makeHouse(key, wc, rc) {
-      const TW2 = TW * 2, TH2 = TH * 2;
-      const wallH = TH * 3; // wall height in px
-      const W = TW2 + 4, H = TH2 + wallH + TH * 2 + 4;
-      makeSpr(key, W, H, sx => {
-        const top = 4;
-        const cx = W / 2;
-        // -- roof ridge (top) --
-        const ridgeY = top;
-        const ridgeH = TH * 1.4;
-        // roof top face (diamond)
-        sx.fillStyle = rc[2] || rc[0];
-        sx.beginPath();
-        sx.moveTo(cx, ridgeY);
-        sx.lineTo(W - 2, ridgeY + TH / 2);
-        sx.lineTo(cx, ridgeY + TH);
-        sx.lineTo(2, ridgeY + TH / 2);
-        sx.closePath(); sx.fill();
-        // roof left slope
-        sx.fillStyle = rc[1];
-        sx.beginPath();
-        sx.moveTo(2, ridgeY + TH / 2);
-        sx.lineTo(cx, ridgeY + TH);
-        sx.lineTo(cx, ridgeY + TH + ridgeH);
-        sx.lineTo(2, ridgeY + TH / 2 + ridgeH);
-        sx.closePath(); sx.fill();
-        // roof right slope
-        sx.fillStyle = rc[0];
-        sx.beginPath();
-        sx.moveTo(W - 2, ridgeY + TH / 2);
-        sx.lineTo(cx, ridgeY + TH);
-        sx.lineTo(cx, ridgeY + TH + ridgeH);
-        sx.lineTo(W - 2, ridgeY + TH / 2 + ridgeH);
-        sx.closePath(); sx.fill();
-        // -- wall body --
-        const wallTop = ridgeY + TH + ridgeH;
-        // top surface of wall
-        sx.fillStyle = wc[2] || wc[0];
-        sx.beginPath();
-        sx.moveTo(cx, wallTop);
-        sx.lineTo(W - 2, wallTop + TH / 2);
-        sx.lineTo(cx, wallTop + TH);
-        sx.lineTo(2, wallTop + TH / 2);
-        sx.closePath(); sx.fill();
-        // left face
-        sx.fillStyle = wc[1];
-        sx.beginPath();
-        sx.moveTo(2, wallTop + TH / 2);
-        sx.lineTo(cx, wallTop + TH);
-        sx.lineTo(cx, wallTop + TH + wallH);
-        sx.lineTo(2, wallTop + TH / 2 + wallH);
-        sx.closePath(); sx.fill();
-        // right face
-        sx.fillStyle = wc[0];
-        sx.beginPath();
-        sx.moveTo(W - 2, wallTop + TH / 2);
-        sx.lineTo(cx, wallTop + TH);
-        sx.lineTo(cx, wallTop + TH + wallH);
-        sx.lineTo(W - 2, wallTop + TH / 2 + wallH);
-        sx.closePath(); sx.fill();
-        // wall texture (brick lines)
-        sx.strokeStyle = 'rgba(0,0,0,0.18)'; sx.lineWidth = 0.7;
-        for (let r = 0; r < wallH; r += 8) {
-          // left face mortar
-          sx.beginPath(); sx.moveTo(2, wallTop + TH / 2 + r); sx.lineTo(cx, wallTop + TH + r); sx.stroke();
-          // right face mortar
-          sx.beginPath(); sx.moveTo(W - 2, wallTop + TH / 2 + r); sx.lineTo(cx, wallTop + TH + r); sx.stroke();
-        }
-        // windows
-        const winY = wallTop + TH + wallH * 0.3;
-        // left window
-        sx.fillStyle = 'rgba(255,200,80,0.45)';
-        sx.fillRect(cx * 0.3, winY, 6, 5);
-        // right window
-        sx.fillRect(W - cx * 0.3 - 8, winY, 6, 5);
-        // door
-        sx.fillStyle = P.o1; sx.fillRect(cx - 4, wallTop + TH + wallH * 0.55, 8, wallH * 0.45 + 2);
-        sx.fillStyle = 'rgba(0,0,0,0.3)'; sx.fillRect(cx - 3, wallTop + TH + wallH * 0.57, 6, wallH * 0.43);
-        // outline
-        sx.strokeStyle = 'rgba(0,0,0,0.25)'; sx.lineWidth = 1;
-        sx.beginPath();
-        sx.moveTo(2, wallTop + TH / 2); sx.lineTo(cx, wallTop + TH); sx.lineTo(W - 2, wallTop + TH / 2);
-        sx.stroke();
-        sx.beginPath();
-        sx.moveTo(cx, wallTop + TH); sx.lineTo(cx, wallTop + TH + wallH);
-        sx.stroke();
-      });
-    }
+// Draw t ile wit h  l o aded spr        e (fixed TW×T       siz    e,     top corner at p)
+function dr    awTile(t,tx,ty){
+ c on      t p=iso ( tx , ty ) ; 
+  c ons       img=IMG[t];
+ i f( !i mg )r et        n;
+ // t i l e s a         diamond: dr         at TW wide,   TH tal         top-center at p        ctx.drawImage (im g,p.x-TW/2,p .y - TH/ 2,TW,TH);
+}
 
-    // Stone wall tower segment
-    function makeWall() {
-      const W = TW * 2, H = TH * 6;
-      makeSpr('wall', W, H, sx => {
-        const cx = W / 2;
-        // top face
-        sx.fillStyle = P.s2;
-        sx.beginPath();
-        sx.moveTo(cx, 0); sx.lineTo(W, TH / 2); sx.lineTo(cx, TH); sx.lineTo(0, TH / 2);
-        sx.closePath(); sx.fill();
-        // left face
-        sx.fillStyle = P.s1;
-        sx.beginPath();
-        sx.moveTo(0, TH / 2); sx.lineTo(cx, TH); sx.lineTo(cx, H); sx.lineTo(0, H - TH / 2);
-        sx.closePath(); sx.fill();
-        // right face
-        sx.fillStyle = P.s0;
-        sx.beginPath();
-        sx.moveTo(W, TH / 2); sx.lineTo(cx, TH); sx.lineTo(cx, H); sx.lineTo(W, H - TH / 2);
-        sx.closePath(); sx.fill();
-        // battlements on top
-        const bw = W / 5;
-        for (let b = 0; b < 3; b++) {
-          const bxL = b * bw * 1.5 + 2;
-          // top
-          sx.fillStyle = P.s2;
-          sx.beginPath();
-          sx.moveTo(cx - bw / 2 + b * bw, 0);
-          sx.lineTo(cx + bw / 2 - bw * 0.1 + b * bw, TH * 0.4);
-          sx.lineTo(cx - bw * 0.1 + b * bw, TH * 0.8);
-          sx.lineTo(cx - bw / 2 - bw * 0.1 + b * bw, TH * 0.4);
-          sx.closePath(); sx.fill();
-        }
-        // stone texture
-        sx.fillStyle = 'rgba(0,0,0,0.08)';
-        for (let r = TH * 1.5; r < H; r += 10) {
-          for (let c = 0; c < cx; c += 14)sx.fillRect(c + (r % 20 < 10 ? 7 : 0), r, 10, 7);
-        }
-        sx.strokeStyle = 'rgba(0,0,0,0.12)'; sx.lineWidth = 0.6;
-        for (let r = TH + 5; r < H; r += 10) {
-          sx.beginPath(); sx.moveTo(0, r + TH / 2 * ((r - TH) / H)); sx.lineTo(cx, r + TH * ((r - TH) / H) * 0.5); sx.stroke();
-          sx.beginPath(); sx.moveTo(W, r + TH / 2 * ((r - TH) / H)); sx.lineTo(cx, r + TH * ((r - TH) / H) * 0.5); sx.stroke();
-        }
-      });
-    }
+ // D raw object w it h  loa        d sprite (fixed  px sizes)
+        nst OBJ_PX={h        se:{w:120,h: 1 30},to        r:{w:90,h:200},t        e:{w:100,h:1 10 } ,fi re:{w:48,h:48 },we ll:{w:80,h:10 0}, char:{w:56,h : 7 2} } ;
+fu        tion drawObj(o) {
+ if(!o)re        rn;
+ const p=i        (o.x,o.y);
+  i f(o.t=        'char'){
+  const        mg=IMG.char; if ( !im g)return;
+  / / sp rite sheet: 3  co ls x 2 rows  =   6  f rame        (use first 5)
+   const cols        ,rows=2;
+  const fw=im        width/co l s , fh=        g.h eight/ r ow s ; 
+   con st          =CHAR.fr% 5 ; 
+    c ons t  sx          fi%cols          w,sy2=Math.f l oor(fi          ls)*fh;
+  const           h}=OBJ_PX.ch a r; 
+     c t x.s ave(            if(CHAR.di r <0 ) { c tx . tra n s l ate (p . x,p.y-          ctx.scale(-1 , 1) ; ctx . d r awI ma g e(img,          ,sy2,fw,fh,- w /2 , 0 , w, h );} 
+     els e{ c tx.dra          age(img,sx2,sy2 ,fw,fh,p.x-        2,        y-h,w,h);}
+  ctx.        store();retu r n;
+ }
+ const img=IMG        .t] ;if(!i m g) r etur n ; 
+  c on st  {w          =OB J_PX[o . t] | | {w: 8 0, h:80};
+ if(o.t== = 'f i re ' ){ 
+     //  an ima te:         ri         sheet 4 cols  x  2 rows
+  const col s=4,rows=2;
+    cons        fw= img.wi d th / co l s ,f h =i mg. he          t/rows;
+  const  fi=Math.flo o r (W S . t ick * 0.0 8 )%(c ols*rows);
+   c o ns t  sx 2 =(f i %c o ls)*f w,sy2=Math.fl          (fi/cols)*fh;
+   ctx.drawIma g e (i m g , sx2 , sy2 , fw,f h,p.x-w/2,p.y - h ,w , h); 
+   i f (W S .ll<0 .88){
+   cons        ra      =80;    
+       const gf=ctx.create    RadialGradient(p.x,p.y ,0,p.x, p.      ,rad);
+     g f . addC      lorStop(0,`r gb a( 25 5, 13        20,${0.22*        -WS.ll)})`); g f.addColorStop(1,'r gba(255,60,0,0) ');
+   ctx.f i ll S t yl e= gf ;c tx .fillRe c t(p .x-rad,p.y-        d,rad*2,rad*2)          }
+ }  e lse  {
+   c tx.drawI mage(i mg ,p. x-w /2, p.y-h+TH*        5,w,h);
+        
+}
 
-    // Character sprite
-    function makeChar(key, cloakC) {
-      const W = 24, H = 40;
-      makeSpr(key, W, H, sx => {
-        // shadow
-        sx.fillStyle = 'rgba(0,0,0,0.25)'; sx.beginPath(); sx.ellipse(W / 2, H - 2, 7, 2, 0, 0, Math.PI * 2); sx.fill();
-        // cloak/body
-        px(sx, 7, 14, 10, 18, cloakC); px(sx, 6, 16, 12, 14, cloakC);
-        // legs
-        px(sx, 8, 28, 4, 8, P.cb); px(sx, 12, 28, 4, 8, P.cb);
-        // boots
-        px(sx, 7, 34, 5, 4, P.bt); px(sx, 11, 34, 5, 4, P.bt);
-        // torso
-        px(sx, 7, 14, 10, 14, P.cb);
-        // arms
-        px(sx, 4, 15, 4, 10, P.cb); px(sx, 16, 15, 4, 10, P.cb);
-        // sword
-        px(sx, 18, 12, 2, 12, P.mt); px(sx, 17, 13, 4, 2, P.md);
-        // head
-        px(sx, 7, 5, 10, 10, P.sk);
-        // eyes
-        px(sx, 10, 9, 2, 2, P.bk); px(sx, 14, 9, 2, 2, P.bk);
-        // mouth
-        px(sx, 10, 13, 4, 1, '#c07860');
-        // hair
-        px(sx, 6, 5, 12, 4, P.ha); px(sx, 7, 3, 10, 4, P.ha);
-        // hat brim
-        px(sx, 4, 6, 16, 3, cloakC);
-        // hat top
-        px(sx, 7, 0, 10, 7, cloakC);
-        // hat highlight
-        sx.fillStyle = 'rgba(255,255,255,0.12)'; sx.fillRect(8, 1, 4, 2);
-      });
-    }
+//  = === =  MA IN REN DER == === 
+le t  lt m=0;
+fu        tion rend        (ts){
+  i f(! lt m) ltm=ts ;
+ con st  dt= Ma th .min((t        ltm)/1000        .1);lt m= ts; WS. tic k++;
+ /        light le        l
+ con st  h= (n ew  Date() ).getH our s() +( (ne w Date(        .getMinut        ()/60) ;
+  if( h> =7& &h<17) WS.ll= 1.0 ;
+  el se  if(h>=        &h<7)WS.        =0.15+ (h -5 )*0 .42 5;
+ els        if(h>=17        h<20)W S.l l= 1. 0- (h-17) *0.35; 
+ e ls e  WS .ll=0.0        
+ const w        OODS[W S.e k]. w; 
+  if(w==='stor        )WS.ll=M        h.min( WS .l l,0 .2 2);
+ e lse if (w == ='d ri zzle')W        ll=Math.min(        .ll,0. 5) ;
+  el se  if(w==='        oudy')WS.ll        ath.mi n( WS .ll ,0 .78);
 
-    // Campfire sprite
-    function makeFire(f) {
-      const W = 20, H = 24;
-      makeSpr('fire' + f, W, H, sx => {
-        // logs
-        px(sx, 2, 16, 16, 4, P.o0); px(sx, 4, 14, 12, 4, P.o1);
-        // fire layers
-        const jit = Math.sin(f * 1.8) * 1.5;
-        px(sx, 6 + jit, 10, 8, 6, P.f1); px(sx, 7, 6, 6, 6, P.f0);
-        px(sx, 8 + jit * 0.5, 3, 4, 5, P.f2); px(sx, 9, 1, 2, 4, P.f3); px(sx, 9.5, 0, 1, 2, P.f4);
-      });
-    }
+ c        .clearRect(0,0,CW        H);
+ drawSky ( );drawStars();drawSunMoon ();drawClouds( ); 
 
-    function buildSprites() {
-      makeGrassTile('gr0', P.g0, P.g4, P.g2);
-      makeGrassTile('gr1', P.g1, P.g4, P.g3);
-      makeGrassTile('gr2', P.g2, P.g1, P.g3);
-      makeStoneTile('st0', P.p0, P.p3);
-      makeStoneTile('st1', P.p1, P.p3);
-      makeWaterTile();
-      makeTree('tr0', 1.0); makeTree('tr1', 1.3); makeTree('tr2', 0.8);
-      makeHouse('ho0', [P.wc, P.wb], [P.ra, P.rd, '#a05030']);
-      makeHouse('ho1', [P.we, P.wa], [P.rc, P.rb, '#b06040']);
-      makeHouse('ho2', [P.wc, P.wd], [P.rd, P.rb, '#904030']);
-      makeWall();
-      const CLOAK_COLORS = { joy_high: '#8a3820', joy_mid: '#3e3278', neutral: '#344060', anxiety: '#243050', sadness: '#161828' };
-      Object.entries(CLOAK_COLORS).forEach(([k, c]) => makeChar('ch_' + k, c));
-      for (let i = 0; i < 4; i++)makeFire(i);
-    }
+  //       iles     so    rted by iso depth
+     const sorted=[...TIL ES      .sort(( a ,b) = > (a.x      a.y)-(b.x+b.y) ) ;
+  s or te d. fo        ach(t=>d        wTile( t. t,t .x, t. y));
 
-    // ===== TILEMAP =====
-    const MAP_W = 22, MAP_H = 22;
-    const TILES = [];
-    const OBJS = [];
+  // ob je cts  +  ch ar sort        
+ const all=[..        BJS,{t:'c h ar',x:CHAR . x,y: C HAR.y        ;
+ all . s ort( (a, b) => (a.x+a .y)-(b .x +b .y )) ;
+ all.        rEach( o = >dr a wObj (o )) ;
+ 
+ draw Rain() ;
+ 
+  //  g lobal  night  over la y
+  i f(WS.ll      0.95    ){c    tx.fillStyle=`rgba(3,3, 14      ${(1-WS.ll)*0.65})`; ctx.f illRe ct(0,0,      W,CH);}
+ // bottom f og
+ c onst  fg=ctx.      reateLinearGradient( 0,CH* 0.68, 0,CH);
+      fg.addColorStop(0,'r gba(3 ,3,14,0      ');fg.addColorStop(1 ,'rgb a(3,3,1      ,0.75)');
+ ctx.fi      lStyle=fg;ctx.f illRe ct(0,CH*0.68,CW ,CH*0 .32);
 
-    function buildWorld() {
-      for (let y = 0; y < MAP_H; y++) {
-        for (let x = 0; x < MAP_W; x++) {
-          let t = 'gr' + (((x * 7 + y * 3) % 3));
-          // paths
-          if ((x >= 9 && x <= 13 && y >= 5 && y <= 17) || (y >= 9 && y <= 13 && x >= 5 && x <= 17)) t = 'st' + (((x + y) % 2));
-          // water
-          if (x >= 17) t = 'wat0';
-          // border grass always
-          if (x === 0 || y === 0 || x === MAP_W - 1 || y === MAP_H - 1) t = 'gr0';
-          TILES.push({ x, y, t });
-        }
-      }
-      // objects
-      const O = OBJS;
-      // walls (north border)
-      for (let i = 1; i <= 5; i++)O.push({ t: 'wall', x: i, y: 2 });
-      for (let i = 1; i <= 4; i++)O.push({ t: 'wall', x: 2, y: i });
-      // houses
-      O.push({ t: 'ho', s: 'ho0', x: 3, y: 4, w: 2, h: 2 });
-      O.push({ t: 'ho', s: 'ho1', x: 3, y: 7, w: 2, h: 2 });
-      O.push({ t: 'ho', s: 'ho2', x: 3, y: 10, w: 2, h: 2 });
-      O.push({ t: 'ho', s: 'ho0', x: 15, y: 4, w: 2, h: 2 });
-      O.push({ t: 'ho', s: 'ho1', x: 15, y: 7, w: 2, h: 2 });
-      // trees
-      [[16, 16, 'tr0'], [17, 15, 'tr1'], [18, 15, 'tr0'], [17, 17, 'tr2'],
-      [1, 14, 'tr1'], [1, 16, 'tr0'], [2, 18, 'tr2'], [18, 3, 'tr0'],
-      [19, 5, 'tr1'], [20, 8, 'tr2'], [20, 10, 'tr0']
-      ].forEach(([x, y, s]) => O.push({ t: 'tree', s, x, y }));
-      // fires
-      O.push({ t: 'fire', x: 11, y: 11 });
-      O.push({ t: 'fire', x: 9, y: 9 });
-    }
+ updateC har(dt      ;
+ const nn=new  Date() ;
+ doc ument. getEl ementById('hc      ock').textConten t=`${S tring( nn.get Hours ()).padStart(      ,'0')}:${String( nn.get Minute s()).p adSta rt(2,'0')}`;
+      requestAnima      ionFrame(render);
+ } 
+ 
+// =====  DATA LOAD  =====
+a sync funct ion load Data(){
+ c onst bar =document. getEleme ntById('l b')      bar.style.width='72%';
+ document.getEleme ntB yI d('lstat').tex t Co ntent      '感情 データを解析 中 .. . ' ;
+  let emos=[],diar    y='    ';
+ try{
+  const r=awai    t fetch('./ d ail y_gra p h.js    on');if(!r. o k)th    row 0;
+  c o nst d    =await r.json();
+  em os      (d. nodes| | [] ) . filter (n=> n.        pe= =='感情' & &t y p eof n. sent im          ==='n u mber ' );
+    c o n s t  d i=(d.          es||[]).f          (n =>n .t y pe = == '日 記' ) ;d i ar y =d i?. de ta il | |' ' ;
+  } ca t ch { 
+    em os=[ { l abel : '思考整 理 のス ッ キリ感',          timent:0.          {l ab el :'進 捗 へ の不安',sen          ent:-0.2}];
+  diary='本日          整理 と作 業につ い て。 ' ;
+  } 
+  W S.e mos=e m o s; W S.d iary= d ia r y ;
+ if(e          .length){
+   co ns t  avg        mo      .r      duce((s,e)=      s+(e.se n timent      |0),0)/emos.length;
+  WS      avg =avg;
+    W S .e k= avg>=0.5?'jo y_ high':a vg >= 0. 1 ?'jo      _mi d':avg > =- 0 .1 ?' neutral':avg >= -0.4?'a nx ie ty ' :'sa      ness';
+ }
+      const m= MO ODS[W S. ek];
+  do cu me nt .g et El e ment      yId('hwx ') .text Co ntent= m. ic on ;
+  d oc um e nt.g      tElement By Id('h mo od').t ex tC on ten t= m. la b el;
+      document .g etEle me ntById (' pac t' ). te xt Co n tent      '→ '+m.a ct [0];
+  d ocumen t. get El em en tB yI d ('pd      ').textCo      tent= dia ry||'日記 データな し'; 
+ const  el= doc ument.g etEl eme ntById('      m') ;el .innerH TML ='' ;
+ emos .fo rEa ch(e=>{ 
+  c on st s=e.s      time nt ||0,pct =((s +1 )/2*100 )|0; 
+   const c      s>0.1?'#50b848 ': s<- 0. 1?'#d848 48 ':'#c09 03 0' ; 
+  el      innerHTML      =`<div c la ss="er" >< div  c la ss="      d" style =" backgro un d: ${ c }"><    /di    v><div style="flex:1"><di    v class="e l " >$ {e. la bel }</ div ><d iv  clas s= "eb g" ><d iv  cl as s=" eb f" s t yle=    "width:${pct}%;backgrou nd      ${c}">< / div>< / d iv></div></div      `;
+  }) ;
+  ba r.sty l e. w idth = '1 00%' ; 
+ set T im e out(()=>docum ent.getElementById('loading').classList.add ( 'out ' ),600);
+}
 
-    // ===== CHARACTER =====
-    const CHAR = { x: 11, y: 11, tx: 11, ty: 11, dir: 1, fr: 0, ft: 0, ai: 0, at: 0, wpi: 0 };
-
-    function updateChar(dt) {
-      const c = CHAR, m = MOODS[WS.ek];
-      c.at += dt; if (c.at > 8) { c.at = 0; c.ai = (c.ai + 1) % m.act.length; document.getElementById('pact').textContent = '→ ' + m.act[c.ai]; }
-      const rt = ROUTES[WS.ek] || ROUTES.neutral;
-      const wp = rt[c.wpi % rt.length];
-      const dx = wp.x - c.x, dy = wp.y - c.y, dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 0.1) { c.wpi++; return; }
-      const spd = { joy_high: 1.4, joy_mid: 1.0, neutral: 0.7, anxiety: 0.45, sadness: 0.18 }[WS.ek] || 0.7;
-      c.x += dx / dist * spd * dt; c.y += dy / dist * spd * dt;
-      c.dir = dx < 0 ? -1 : 1;
-      c.ft += dt; if (c.ft > 0.14) { c.fr = (c.fr + 1) % 4; c.ft = 0; }
-    }
-
-    // ===== RENDER =====
-    const RAIN = Array.from({ length: 120 }, () => ({ x: Math.random() * 1200, y: Math.random() * 800, s: 3 + Math.random() * 3 }));
-
-    function drawSky() {
-      const h = (new Date()).getHours() + ((new Date()).getMinutes() / 60);
-      let c1, c2;
-      if (h >= 6 && h < 8) { const t = (h - 6) / 2; c1 = lerp('#08071a', '#501c08', t); c2 = lerp('#100820', '#c04818', t); }
-      else if (h >= 8 && h < 10) { const t = (h - 8) / 2; c1 = lerp('#501c08', '#182858', t); c2 = lerp('#c04818', '#4070b8', t); }
-      else if (h >= 10 && h < 17) {
-        const w = MOODS[WS.ek].w;
-        if (w === 'sunny') { c1 = '#182858'; c2 = '#4888d0'; }
-        else if (w === 'clear') { c1 = '#1e3060'; c2 = '#4070b8'; }
-        else if (w === 'cloudy') { c1 = '#222840'; c2 = '#38485a'; }
-        else if (w === 'drizzle') { c1 = '#181c28'; c2 = '#28303c'; }
-        else { c1 = '#0a0a14'; c2 = '#141018'; }
-      }
-      else if (h >= 17 && h < 20) { const t = (h - 17) / 3; c1 = lerp('#182858', '#1a0820', t); c2 = lerp('#4888d0', '#c03818', t); }
-      else { c1 = '#040308'; c2 = '#07050e'; }
-      const g = ctx.createLinearGradient(0, 0, 0, CH * 0.55);
-      g.addColorStop(0, c1); g.addColorStop(1, c2);
-      ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
-      // distant hill silhouette
-      ctx.fillStyle = 'rgba(20,25,40,0.5)';
-      ctx.beginPath(); ctx.moveTo(0, CH * 0.45);
-      for (let hx = 0; hx <= CW; hx += 8) {
-        const hn = CH * 0.38 + Math.sin(hx * 0.012 + 1) * CH * 0.04 + Math.sin(hx * 0.007) * CH * 0.03;
-        ctx.lineTo(hx, hn);
-      }
-      ctx.lineTo(CW, CH * 0.55); ctx.lineTo(0, CH * 0.55); ctx.closePath(); ctx.fill();
-      // far hill lighter
-      ctx.fillStyle = 'rgba(30,35,55,0.4)';
-      ctx.beginPath(); ctx.moveTo(0, CH * 0.48);
-      for (let hx = 0; hx <= CW; hx += 8) {
-        const hn = CH * 0.42 + Math.sin(hx * 0.009 + 3) * CH * 0.035 + Math.sin(hx * 0.005 + 1) * CH * 0.025;
-        ctx.lineTo(hx, hn);
-      }
-      ctx.lineTo(CW, CH * 0.55); ctx.lineTo(0, CH * 0.55); ctx.closePath(); ctx.fill();
-    }
-
-    function drawStars() {
-      if (WS.ll > 0.7) return;
-      const a = (1 - WS.ll / 0.7) * 0.95;
-      for (let i = 0; i < 100; i++) {
-        const sx2 = ((i * 173 + 31) % CW), sy2 = ((i * 97 + 13) % (CH * 0.44));
-        const tw2 = 0.5 + 0.5 * Math.sin(WS.tick * 0.008 + i);
-        ctx.fillStyle = `rgba(255,252,220,${a * tw2})`;
-        ctx.fillRect(sx2, sy2, i % 4 === 0 ? 1.5 : 0.8, i % 4 === 0 ? 1.5 : 0.8);
-      }
-    }
-
-    function drawSunMoon() {
-      const h = (new Date()).getHours() + ((new Date()).getMinutes() / 60);
-      if (h >= 6 && h < 18) {
-        const a = ((h - 6) / 12) * Math.PI;
-        const sx2 = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.36;
-        const sy2 = CH * 0.14 - Math.sin(a) * CH * 0.1;
-        const grd = ctx.createRadialGradient(sx2, sy2, 0, sx2, sy2, 38);
-        grd.addColorStop(0, 'rgba(255,240,100,0.45)'); grd.addColorStop(1, 'rgba(255,200,50,0)');
-        ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(sx2, sy2, 38, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#ffe040'; ctx.beginPath(); ctx.arc(sx2, sy2, 10, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#fff070'; ctx.beginPath(); ctx.arc(sx2 - 2, sy2 - 2, 5, 0, Math.PI * 2); ctx.fill();
-      } else {
-        const ah = h < 6 ? h + 12 : h - 18;
-        const a = (ah / 12) * Math.PI;
-        const mx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.36;
-        const my = CH * 0.14 - Math.sin(a) * CH * 0.1;
-        ctx.fillStyle = '#b8b090'; ctx.beginPath(); ctx.arc(mx, my, 8, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#040308'; ctx.beginPath(); ctx.arc(mx + 3, my - 2, 6, 0, Math.PI * 2); ctx.fill();
-        // moon glow
-        const gm = ctx.createRadialGradient(mx, my, 0, mx, my, 25);
-        gm.addColorStop(0, 'rgba(200,210,255,0.12)'); gm.addColorStop(1, 'rgba(180,190,255,0)');
-        ctx.fillStyle = gm; ctx.beginPath(); ctx.arc(mx, my, 25, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-
-    function drawClouds() {
-      const w = MOODS[WS.ek].w;
-      const cnt = { sunny: 4, clear: 7, cloudy: 13, drizzle: 18, storm: 22 }[w] || 4;
-      const alp = { sunny: 0.32, clear: 0.5, cloudy: 0.8, drizzle: 0.92, storm: 1.0 }[w] || 0.32;
-      for (let i = 0; i < cnt; i++) {
-        const cx2 = ((i * 197 + WS.tick * 2) % CW);
-        const cy2 = CH * 0.04 + (i % 4) * CH * 0.05;
-        const cw2 = 70 + i * 15, ch2 = 20 + i % 3 * 8;
-        const gc = ctx.createLinearGradient(0, cy2, 0, cy2 + ch2);
-        gc.addColorStop(0, `rgba(220,225,240,${alp})`); gc.addColorStop(1, `rgba(160,175,210,${alp * 0.2})`);
-        ctx.fillStyle = gc; ctx.beginPath(); ctx.ellipse(cx2, cy2 + ch2 / 2, cw2 / 2, ch2 / 2, 0, 0, Math.PI * 2); ctx.fill();
-      }
-      if (w === 'storm') { ctx.fillStyle = 'rgba(8,8,20,0.3)'; ctx.fillRect(0, 0, CW, CH); if (Math.random() > 0.97) { ctx.fillStyle = 'rgba(255,255,255,0.06)'; ctx.fillRect(0, 0, CW, CH); } }
-    }
-
-    function drawRain() {
-      const w = MOODS[WS.ek].w;
-      if (w !== 'drizzle' && w !== 'storm') return;
-      const cnt = w === 'storm' ? 120 : 60;
-      const alp = w === 'storm' ? 0.4 : 0.18;
-      ctx.strokeStyle = `rgba(150,200,255,${alp})`; ctx.lineWidth = w === 'storm' ? 1 : 0.6;
-      for (let i = 0; i < cnt; i++) {
-        const d = RAIN[i]; d.y += d.s; d.x -= 0.4;
-        if (d.y > CH) { d.y = -10; d.x = Math.random() * CW; }
-        ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 2, d.y + 7); ctx.stroke();
-      }
-    }
-
-    function drawTile(t, x2, y2) {
-      const p = iso(x2, y2);
-      const spr = SPR[t]; if (!spr) return;
-      ctx.drawImage(spr, p.x - TW / 2, p.y - TH / 2);
-    }
-
-    function drawObj(o) {
-      if (o.t === 'wall') {
-        const p = iso(o.x, o.y);
-        if (SPR.wall) ctx.drawImage(SPR.wall, p.x - TW / 2, p.y - TH * 4.5);
-      } else if (o.t === 'ho') {
-        const p = iso(o.x, o.y);
-        const s = SPR[o.s]; if (!s) return;
-        ctx.drawImage(s, p.x - s.width / 2, p.y - s.height + TH);
-      } else if (o.t === 'tree') {
-        const p = iso(o.x, o.y);
-        const s = SPR[o.s]; if (!s) return;
-        ctx.drawImage(s, p.x - s.width / 2, p.y - s.height + TH / 2);
-      } else if (o.t === 'fire') {
-        const p = iso(o.x, o.y);
-        const fi = Math.floor(WS.tick * 0.15) % 4;
-        const s = SPR['fire' + fi]; if (!s) return;
-        ctx.drawImage(s, p.x - s.width / 2, p.y - s.height + TH * 0.5);
-        if (WS.ll < 0.85) {
-          const rad = 55 - WS.ll * 35;
-          const gf = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
-          gf.addColorStop(0, `rgba(255,140,20,${0.16 * (1 - WS.ll)})`); gf.addColorStop(1, 'rgba(255,80,0,0)');
-          ctx.fillStyle = gf; ctx.fillRect(p.x - rad, p.y - rad, rad * 2, rad * 2);
-        }
-      } else if (o.t === 'char') {
-        const p = iso(o.x, o.y);
-        const key = 'ch_' + WS.ek;
-        const s = SPR[key]; if (!s) return;
-        // walk bob
-        const bob = [0, -1, 0, 1][CHAR.fr] * 1.5;
-        const scx = o.dir < 0 ? -1 : 1;
-        ctx.save();
-        ctx.translate(p.x, p.y + bob);
-        ctx.scale(scx, 1);
-        ctx.drawImage(s, -s.width / 2, -s.height + TH * 0.4);
-        ctx.restore();
-        // night dim
-        if (WS.ll < 0.9) { ctx.fillStyle = `rgba(5,5,20,${(1 - WS.ll) * 0.5})`; ctx.fillRect(p.x - s.width / 2, p.y - s.height + TH * 0.4, s.width, s.height); }
-      }
-    }
-
-    let ltm = 0;
-    function render(ts) {
-      if (!ltm) ltm = ts;
-      const dt = Math.min((ts - ltm) / 1000, 0.1); ltm = ts; WS.tick++;
-      // light level
-      const h = (new Date()).getHours() + ((new Date()).getMinutes() / 60);
-      if (h >= 7 && h < 17) WS.ll = 1.0;
-      else if (h >= 5 && h < 7) WS.ll = 0.2 + (h - 5) * 0.4;
-      else if (h >= 17 && h < 20) WS.ll = 1.0 - (h - 17) * 0.33;
-      else WS.ll = 0.1;
-      const w = MOODS[WS.ek].w;
-      if (w === 'storm') WS.ll = Math.min(WS.ll, 0.25);
-      else if (w === 'drizzle') WS.ll = Math.min(WS.ll, 0.55);
-      else if (w === 'cloudy') WS.ll = Math.min(WS.ll, 0.8);
-
-      drawSky(); drawStars(); drawSunMoon(); drawClouds();
-
-      // update water frame
-      const wf = 'wat' + ((Math.floor(WS.tick / 8)) % 4);
-      TILES.forEach(t => { if (t.t.startsWith('wat')) t.t = wf; });
-
-      // sort & draw tiles
-      const sorted = [...TILES].sort((a, b) => (a.x + a.y) - (b.x + b.y));
-      sorted.forEach(t => drawTile(t.t, t.x, t.y));
-
-      // sort & draw objects + char
-      const allO = [...OBJS, { t: 'char', x: CHAR.x, y: CHAR.y, dir: CHAR.dir }];
-      allO.sort((a, b) => (a.x + a.y) - (b.x + b.y));
-      allO.forEach(o => drawObj(o));
-
-      drawRain();
-
-      // global darkness
-      if (WS.ll < 0.95) {
-        ctx.fillStyle = `rgba(4,4,16,${(1 - WS.ll) * 0.6})`; ctx.fillRect(0, 0, CW, CH);
-      }
-      // fog at bottom edge
-      const fg = ctx.createLinearGradient(0, CH * 0.7, 0, CH);
-      fg.addColorStop(0, 'rgba(5,8,20,0)'); fg.addColorStop(1, 'rgba(5,8,20,0.7)');
-      ctx.fillStyle = fg; ctx.fillRect(0, CH * 0.7, CW, CH * 0.3);
-
-      updateChar(dt);
-      // HUD
-      const nn = new Date(), hh = nn.getHours(), mm = nn.getMinutes();
-      document.getElementById('hclock').textContent = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
-      requestAnimationFrame(render);
-    }
-
-    // ===== UTILS =====
-    function lerp(c1, c2, t) {
-      t = Math.max(0, Math.min(1, t));
-      const p = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
-      const [r1, g1, b1] = p(c1), [r2, g2, b2] = p(c2);
-      return `rgb(${(r1 + (r2 - r1) * t) | 0},${(g1 + (g2 - g1) * t) | 0},${(b1 + (b2 - b1) * t) | 0})`;
-    }
-
-    // ===== DATA LOAD =====
-    async function loadData() {
-      const bar = document.getElementById('lb'); bar.style.width = '40%';
-      let emos = [], diary = '';
-      try {
-        const r = await fetch('./daily_graph.json'); if (!r.ok) throw 0;
-        const d = await r.json();
-        emos = (d.nodes || []).filter(n => n.type === '感情' && typeof n.sentiment === 'number');
-        const di = (d.nodes || []).find(n => n.type === '日記'); diary = di?.detail || '';
-      } catch {
-        emos = [{ label: '思考整理のスッキリ感', sentiment: 0.7 }, { label: '進捗への不安', sentiment: -0.2 }];
-        diary = '本日の思考整理と作業について。';
-      }
-      WS.emos = emos; WS.diary = diary;
-      if (emos.length) {
-        const avg = emos.reduce((s, e) => s + (e.sentiment || 0), 0) / emos.length;
-        WS.avg = avg;
-        WS.ek = avg >= 0.5 ? 'joy_high' : avg >= 0.1 ? 'joy_mid' : avg >= -0.1 ? 'neutral' : avg >= -0.4 ? 'anxiety' : 'sadness';
-      }
-      bar.style.width = '85%';
-      const m = MOODS[WS.ek];
-      document.getElementById('hwx').textContent = m.icon;
-      document.getElementById('hmood').textContent = m.label;
-      document.getElementById('pact').textContent = '→ ' + m.act[0];
-      document.getElementById('pdi').textContent = diary || '日記データなし';
-      const el = document.getElementById('pem'); el.innerHTML = '';
-      emos.forEach(e => {
-        const s = e.sentiment || 0, pct = ((s + 1) / 2 * 100) | 0;
-        const c = s > 0.1 ? '#5ec068' : s < -0.1 ? '#e05858' : '#c89838';
-        el.innerHTML += `<div class="er"><div class="ed" style="background:${c}"></div><div style="flex:1"><div class="el">${e.label}</div><div class="ebg"><div class="ebf" style="width:${pct}%;background:${c}"></div></div></div></div>`;
-      });
-      bar.style.width = '100%';
-      setTimeout(() => document.getElementById('loading').classList.add('out'), 500);
-    }
-
-    // ===== BOOT =====
-    cv = document.getElementById('cv'); ctx = cv.getContext('2d');
-    window.addEventListener('resize', () => { resize(); });
-    // drag to pan
-    const wd = document.getElementById('world');
-    wd.addEventListener('mousedown', e => { dragging = true; dragSX = e.clientX; dragSY = e.clientY; dragCX = camX; dragCY = camY; wd.style.cursor = 'grabbing'; });
-    wd.addEventListener('mousemove', e => { if (!dragging) return; camX = dragCX + (e.clientX - dragSX); camY = dragCY + (e.clientY - dragSY); ox = cv.width * 0.5 + camX; oy = cv.height * 0.18 + camY; });
-    wd.addEventListener('mouseup', () => { dragging = false; wd.style.cursor = 'default'; });
-    wd.addEventListener('mouseleave', () => { dragging = false; wd.style.cursor = 'default'; });
-    resize(); buildWorld(); buildSprites();
-    loadData().then(() => requestAnimationFrame(render));
+/ /       ==== BOO T  =====
+cv=doc um ent.getElementBy      d('cv'); c tx=cv.ge t Context('2d'      ;
+window . addE v entL is t ener ( 'res ize' , resize);
+con s t  w d= d ocume      t. getEl e ment B yId('wor ld');
+w d.      ddEventLi s t ener('mou sedo wn',e=>{ drag ging=tru e;dr agSX=e.c lient X;dragSY =e.c lientY;d ra gCX=c      mX; dr ag C Y=ca m Y;w d .st yle .c ur s or=' g rab b ing'      });
+w d .a d d E ve n tLi      tene r( 'mo us emove ' ,e=>{ i f(!d r aggin g )r e tu rn;c a mX =d    rag    CX+(e.clientX-dragSX);    camY=dragC Y +(e.clientY- dragSY) ;}) ;
+ wd .a dd Ev entListener(' m ouseu p' ,()=>{draggin g =fal se ; w d.style.curso r = 'defau    lt';});
+wd.addEven tL      stener( ' mouseleave',()=>{draggi n g=false;wd.style.cursor='d e fault      ;});
+re size      ); bu il d Wo r l d( ) ;
+loadS p ri t es ( () => { 
+ loadData().th en(()=>req ues tA n imationFrame(re nder));
+}) ;
   </script>
 </body>
 
