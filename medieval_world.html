@@ -2,1155 +2,916 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>異世界の自分 | Pomera World</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>異世界の自分</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
-        body {
-            background: #0d0b14;
-            color: #e8dcc8;
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            image-rendering: pixelated;
-        }
+    body {
+      background: #0a0810;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Courier New', monospace
+    }
 
-        canvas {
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            display: block;
-        }
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block
+    }
 
-        /* --- ローディング --- */
-        #loading {
-            position: fixed;
-            inset: 0;
-            background: #0d0b14;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            z-index: 999;
-            transition: opacity 1s;
-        }
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #0a0810;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 999;
+      transition: opacity 0.8s
+    }
 
-        #loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+    #loading.out {
+      opacity: 0;
+      pointer-events: none
+    }
 
-        .ld-title {
-            font-size: 22px;
-            color: #d4a84b;
-            letter-spacing: 4px;
-            font-weight: bold;
-        }
+    .lt {
+      font-size: 20px;
+      color: #c8934a;
+      letter-spacing: 4px
+    }
 
-        .ld-sub {
-            font-size: 11px;
-            color: #7a6840;
-            letter-spacing: 2px;
-        }
+    .ls {
+      font-size: 10px;
+      color: #7a5830;
+      letter-spacing: 2px
+    }
 
-        .ld-bar-wrap {
-            width: 200px;
-            height: 6px;
-            background: #1e1a2a;
-            border: 1px solid #3a3020;
-        }
+    .lbw {
+      width: 180px;
+      height: 5px;
+      background: #1a1420;
+      border: 1px solid #3a2810
+    }
 
-        .ld-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #8b6914, #d4a84b);
-            width: 0;
-            transition: width 1.2s ease;
-        }
+    .lb {
+      height: 100%;
+      background: linear-gradient(90deg, #7a4a10, #c8934a);
+      width: 0;
+      transition: width 1s
+    }
 
-        /* --- HUD --- */
-        #hud {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 6px 12px;
-            background: rgba(8, 6, 16, 0.88);
-            border-bottom: 1px solid rgba(180, 140, 60, 0.2);
-            z-index: 10;
-        }
+    #hud {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 32px;
+      background: rgba(5, 4, 12, 0.92);
+      border-bottom: 1px solid rgba(160, 120, 50, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 12px;
+      z-index: 10
+    }
 
-        .hud-btn {
-            font-size: 10px;
-            color: #9a8050;
-            padding: 3px 10px;
-            border: 1px solid rgba(154, 128, 80, 0.3);
-            border-radius: 3px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.15s;
-            letter-spacing: 1px;
-        }
+    .hback {
+      font-size: 10px;
+      color: #8a7040;
+      padding: 2px 8px;
+      border: 1px solid rgba(138, 112, 64, 0.3);
+      border-radius: 2px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      cursor: pointer
+    }
 
-        .hud-btn:hover {
-            color: #d4a84b;
-            border-color: rgba(212, 168, 75, 0.5);
-        }
+    .hback:hover {
+      color: #c8934a;
+      border-color: rgba(200, 147, 74, 0.5)
+    }
 
-        .hud-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #d4a84b;
-            letter-spacing: 3px;
-            text-shadow: 0 0 12px rgba(212, 168, 75, 0.5);
-        }
+    .htitle {
+      font-size: 12px;
+      color: #c8934a;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px rgba(200, 147, 74, 0.4)
+    }
 
-        .hud-right {
-            margin-left: auto;
-            display: flex;
-            gap: 14px;
-            align-items: center;
-        }
+    .hr {
+      margin-left: auto;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 10px
+    }
 
-        .hud-weather {
-            font-size: 14px;
-        }
+    .hwx {
+      font-size: 15px
+    }
 
-        .hud-clock {
-            font-size: 11px;
-            color: #9a8050;
-            letter-spacing: 2px;
-            font-family: 'Courier New', monospace;
-        }
+    .hmood,
+    .hclock {
+      color: #8a7040;
+      letter-spacing: 1px
+    }
 
-        .hud-mood {
-            font-size: 11px;
-            color: #9a8050;
-        }
+    #panel {
+      position: fixed;
+      right: 0;
+      top: 32px;
+      bottom: 0;
+      width: 190px;
+      background: rgba(8, 6, 18, 0.95);
+      border-left: 2px solid rgba(80, 60, 20, 0.5);
+      padding: 10px 9px;
+      overflow-y: auto;
+      z-index: 5
+    }
 
-        /* --- 右パネル (羊皮紙風) --- */
-        #panel {
-            position: fixed;
-            right: 0;
-            top: 33px;
-            bottom: 0;
-            width: 200px;
-            background: rgba(12, 9, 22, 0.92);
-            border-left: 2px solid rgba(100, 80, 40, 0.5);
-            padding: 12px 10px;
-            overflow-y: auto;
-            z-index: 5;
-        }
+    .ph {
+      font-size: 8px;
+      color: #6a5020;
+      letter-spacing: 2px;
+      border-bottom: 1px solid rgba(80, 60, 20, 0.3);
+      padding-bottom: 3px;
+      margin-bottom: 7px;
+      text-transform: uppercase
+    }
 
-        .pn-section {
-            margin-bottom: 16px;
-        }
+    .pt {
+      font-size: 10px;
+      color: #907858;
+      line-height: 1.7
+    }
 
-        .pn-header {
-            font-size: 9px;
-            color: #7a6030;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-bottom: 1px solid rgba(100, 80, 40, 0.3);
-            padding-bottom: 4px;
-            margin-bottom: 8px;
-        }
+    .er {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 6px
+    }
 
-        .pn-text {
-            font-size: 10px;
-            color: #9a8a68;
-            line-height: 1.7;
-        }
+    .ed {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
 
-        .em-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 7px;
-        }
+    .el {
+      font-size: 9px;
+      color: #7a6848;
+      flex: 1
+    }
 
-        .em-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
+    .ebg {
+      height: 2px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 1px;
+      flex: 1
+    }
 
-        .em-label {
-            font-size: 9px;
-            color: #8a7858;
-            flex: 1;
-            line-height: 1.4;
-        }
+    .ebf {
+      height: 100%;
+      border-radius: 1px
+    }
 
-        .em-bar-bg {
-            height: 3px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 2px;
-            flex: 1;
-        }
+    .pact {
+      font-size: 10px;
+      color: #90c060;
+      padding: 6px;
+      line-height: 1.6;
+      background: rgba(50, 90, 20, 0.1);
+      border: 1px solid rgba(50, 90, 20, 0.25);
+      border-radius: 2px
+    }
 
-        .em-bar-fill {
-            height: 100%;
-            border-radius: 2px;
-        }
+    .psec {
+      margin-bottom: 14px
+    }
 
-        .pn-action {
-            font-size: 10px;
-            color: #a0c870;
-            padding: 7px;
-            line-height: 1.6;
-            background: rgba(60, 100, 30, 0.1);
-            border: 1px solid rgba(60, 100, 30, 0.2);
-            border-radius: 3px;
-        }
+    #world {
+      position: fixed;
+      top: 32px;
+      left: 0;
+      right: 190px;
+      bottom: 0;
+      overflow: hidden;
+      cursor: default
+    }
 
-        /* --- canvas コンテナ --- */
-        #world {
-            position: fixed;
-            top: 33px;
-            left: 0;
-            right: 200px;
-            bottom: 0;
-            overflow: hidden;
-            cursor: default;
-        }
-
-        #world canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
+    #cv {
+      position: absolute;
+      top: 0;
+      left: 0
+    }
+  </style>
 </head>
 
 <body>
-
-    <!-- ローディング -->
-    <div id="loading">
-        <div class="ld-title">⚔ 異世界の自分 ⚔</div>
-        <div class="ld-sub">あなたの感情が世界を紡いでいる...</div>
-        <div class="ld-bar-wrap">
-            <div class="ld-bar" id="ld-bar"></div>
-        </div>
+  <div id="loading">
+    <div class="lt">⚔ 異世界の自分 ⚔</div>
+    <div class="ls">感情が世界を紡ぐ...</div>
+    <div class="lbw">
+      <div class="lb" id="lb"></div>
     </div>
-
-    <!-- HUD -->
-    <div id="hud">
-        <a class="hud-btn" href="./index.html">← 戻る</a>
-        <div class="hud-title">✦ POMERA WORLD ✦</div>
-        <div class="hud-right">
-            <span class="hud-weather" id="hud-weather">☀</span>
-            <span class="hud-mood" id="hud-mood">—</span>
-            <span class="hud-clock" id="hud-clock">--:--</span>
-        </div>
+  </div>
+  <div id="hud">
+    <a class="hback" href="./index.html">← 戻る</a>
+    <div class="htitle">✦ POMERA WORLD ✦</div>
+    <div class="hr">
+      <span class="hwx" id="hwx">☀</span>
+      <span class="hmood" id="hmood">—</span>
+      <span class="hclock" id="hclock">--:--</span>
     </div>
-
-    <!-- 右パネル -->
-    <div id="panel">
-        <div class="pn-section">
-            <div class="pn-header">◆ 今日の感情</div>
-            <div id="pn-emotions"></div>
-        </div>
-        <div class="pn-section">
-            <div class="pn-header">◆ 行動</div>
-            <div class="pn-action" id="pn-action">...</div>
-        </div>
-        <div class="pn-section">
-            <div class="pn-header">◆ 今日の日記</div>
-            <div class="pn-text" id="pn-diary">読み込み中...</div>
-        </div>
+  </div>
+  <div id="panel">
+    <div class="psec">
+      <div class="ph">◆ 今日の感情</div>
+      <div id="pem"></div>
     </div>
-
-    <!-- ゲームキャンバス -->
-    <div id="world">
-        <canvas id="cv"></canvas>
+    <div class="psec">
+      <div class="ph">◆ 行動</div>
+      <div class="pact" id="pact">...</div>
     </div>
+    <div class="psec">
+      <div class="ph">◆ 日記</div>
+      <div class="pt" id="pdi">読み込み中...</div>
+    </div>
+  </div>
+  <div id="world"><canvas id="cv"></canvas></div>
+  <script>
+    "use strict";
+    // ===== PALETTE (Elin-inspired earth tones) =====
+    const P = {
+      // ground
+      g0: '#4a6228', g1: '#3e5420', g2: '#567030', g3: '#627838', g4: '#384e18',
+      // stone
+      s0: '#6e6255', s1: '#5e5245', s2: '#7e7265', s3: '#4e4235', s4: '#8e8275',
+      // path
+      p0: '#8a7658', p1: '#7a6648', p2: '#9a8668', p3: '#6a5638',
+      // water
+      w0: '#2a4e8a', w1: '#1e3e7a', w2: '#3a5e9a', w3: '#4a6eaa',
+      // walls
+      wa: '#72624e', wb: '#62523e', wc: '#827060', wd: '#524232', we: '#928070',
+      // roofs
+      ra: '#7a3618', rb: '#5a2608', rc: '#8a4628', rd: '#6a2808',
+      // wood
+      o0: '#7a4e24', o1: '#6a3e14', o2: '#8a5e34',
+      // leaves
+      l0: '#2a5416', l1: '#1e4410', l2: '#3a6420', l3: '#4a7428', l4: '#567830',
+      // trunk
+      t0: '#5a3616', t1: '#4a2608',
+      // fire
+      f0: '#ff8800', f1: '#ff4400', f2: '#ffcc00', f3: '#ff6600', f4: '#fff0a0',
+      // char base
+      sk: '#deb888', ha: '#3a2010', cb: '#3e3278', ca: '#2e2260', cj: '#7a3c1e',
+      bt: '#3a2414', mt: '#a0a8b8', md: '#707888', bk: '#201010',
+      // dirt
+      d0: '#6a4e2e', d1: '#5a3e1e', d2: '#7a5e3e',
+    };
 
-    <script>
-        "use strict";
+    // ===== TILE CONFIG =====
+    const TW = 48, TH = 24; // tile width/height (bigger for Elin-like scale)
 
-        // ============================================================
-        //  CONSTANTS & PALETTE
-        // ============================================================
-        const TILE_W = 32; // アイソメトリックタイル幅
-        const TILE_H = 16; // アイソメトリックタイル高さ
+    // ===== WORLD STATE =====
+    const WS = { ek: 'neutral', avg: 0, emos: [], diary: '', tick: 0, ll: 1 };
+    const MOODS = {
+      joy_high: { w: 'sunny', icon: '☀', label: '喜びの日', act: ['広場で踊っている', '丘から景色を眺めている', '酒場で歌っている', '花冠を編んでいる', '跳ねるように歩いている'] },
+      joy_mid: { w: 'clear', icon: '⛅', label: '穏やかな日', act: ['市場を散策している', '川辺で昼寝している', '本を読みながら歩いている', '庭の花を世話している', 'ゆっくり散歩している'] },
+      neutral: { w: 'cloudy', icon: '☁', label: '平静な日', act: ['城壁を見回っている', '鍛冶場で作業している', '地図を広げている', '薪を割っている', '道具を磨いている'] },
+      anxiety: { w: 'drizzle', icon: '🌧', label: '不安な日', act: ['壁際でぼんやりしている', '雨の中座っている', '石段でため息ついている', '軒下で雨宿りしている', '水面に石を投げている'] },
+      sadness: { w: 'storm', icon: '⛈', label: '憂鬱な日', act: ['窓から雨を見ている', '毛布に包まっている', 'ろうそくを見つめている', '本を閉じたまま考えている', '暖炉の炎を眺めている'] },
+    };
+    const ROUTES = {
+      joy_high: [{ x: 10, y: 10 }, { x: 7, y: 7 }, { x: 4, y: 10 }, { x: 7, y: 13 }, { x: 10, y: 10 }],
+      joy_mid: [{ x: 10, y: 10 }, { x: 13, y: 10 }, { x: 16, y: 12 }, { x: 13, y: 15 }, { x: 10, y: 10 }],
+      neutral: [{ x: 10, y: 10 }, { x: 10, y: 7 }, { x: 7, y: 7 }, { x: 10, y: 10 }, { x: 13, y: 10 }],
+      anxiety: [{ x: 10, y: 10 }, { x: 10, y: 13 }, { x: 13, y: 13 }, { x: 10, y: 10 }],
+      sadness: [{ x: 10, y: 10 }, { x: 10.2, y: 10.2 }, { x: 10, y: 10 }],
+    };
 
-        // Elinライクなアースカラーパレット
-        const PAL = {
-            // 地面系
-            grass1: '#4a6830', grass2: '#3e5828', grass3: '#567840', grass4: '#405828',
-            stone1: '#706860', stone2: '#605850', stone3: '#807870', stone4: '#504840',
-            path1: '#8a7858', path2: '#7a6848', path3: '#9a8868',
-            dirt1: '#6a5038', dirt2: '#5a4028', dirt3: '#7a6048',
-            water1: '#2858a0', water2: '#1e4888', water3: '#3060a8', water4: '#4878b8',
-            // 建物系
-            wallA: '#7a6a58', wallB: '#6a5a48', wallC: '#8a7a68',
-            roofA: '#7a3818', roofB: '#5a2808', roofC: '#8a4828',
-            roofD: '#4a3818', roofE: '#3a2808',
-            woodA: '#7a5028', woodB: '#6a4018', woodC: '#8a6038',
-            shadowA: 'rgba(0,0,0,0.35)',
-            // 自然
-            leafA: '#2a5818', leafB: '#1e4810', leafC: '#3a6820', leafD: '#487830',
-            trunkA: '#5a3818', trunkB: '#4a2808',
-            // 空
-            skyDay1: '#1a3060', skyDay2: '#2040a0',
-            skyDusk1: '#600820', skyDusk2: '#c04020',
-            skyNight1: '#050810', skyNight2: '#0a1020',
-            // キャラクター
-            skin: '#e0c098', hair: '#3a2818', cloth1: '#4a3888', cloth2: '#3a2878',
-            clothJ: '#884830', clothJ2: '#6a3020',
-            boot: '#3a2818', metal: '#a0a8b0', metalD: '#707880',
-            // エフェクト
-            fireA: '#ff8c00', fireB: '#ff4400', fireC: '#ffcc00', fireD: '#ff6600',
-            smoke: 'rgba(80,80,80,0.3)',
-        };
+    let cv, ctx, CW, CH, ox, oy, camX = 0, camY = 0;
+    let dragging = false, dragSX = 0, dragSY = 0, dragCX = 0, dragCY = 0;
 
-        // ============================================================
-        //  WORLD STATE
-        // ============================================================
-        const WS = {
-            emotionKey: 'neutral',
-            avgSentiment: 0,
-            emotions: [],
-            diary: '',
-            time: 0,       // 0-24 (リアルタイム時刻)
-            tick: 0,       // ゲームティック
-            lightLevel: 1, // 0-1
-        };
+    function resize() {
+      const el = document.getElementById('world');
+      CW = el.clientWidth; CH = el.clientHeight;
+      cv.width = CW; cv.height = CH;
+      ox = CW * 0.5 + camX; oy = CH * 0.18 + camY;
+    }
 
-        const MOOD_TABLE = {
-            joy_high: { weather: 'sunny', label: '喜びの日', weatherIcon: '☀', action: ['広場で歌を歌っている', '丘に登って遠くを眺めている', '酒場で仲間と語り合っている', '花を摘んで冠を編んでいる', '踊りながら街を歩いている'] },
-            joy_mid: { weather: 'clear', label: '穏やかな日', weatherIcon: '⛅', action: ['市場で食材を選んでいる', '川のほとりで昼寝をしている', '本を読みながら散歩している', '畑の野菜を愛でている', 'ゆっくりと街を歩いている'] },
-            neutral: { weather: 'cloudy', label: '平静な日', weatherIcon: '☁', action: ['城壁の見張り台に立っている', '鍛冶場でハンマーを振っている', '地図を広げて思案している', '薪を割り続けている', '作業場で道具を磨いている'] },
-            anxiety: { weather: 'drizzle', label: '不安な日', weatherIcon: '🌧', action: ['城壁際でぼんやり見つめている', '雨の中ひとりで座っている', '石段に腰掛けてため息をついている', '教会の軒下で雨宿りしている', '水面に石を投げている'] },
-            sadness: { weather: 'storm', label: '憂鬱な日', weatherIcon: '⛈', action: ['部屋の窓から雨を見ている', '毛布に包まって動かない', 'ロウソクの前でぼんやりしている', '本を閉じたまま考えている', '暖炉の炎を見つめている'] },
-        };
+    function iso(ix, iy, iz = 0) {
+      return { x: ox + (ix - iy) * (TW / 2), y: oy + (ix + iy) * (TH / 2) - iz * TH };
+    }
 
-        // ============================================================
-        //  ISOMETRIC ENGINE
-        // ============================================================
-        let cv, ctx, CW, CH;
-        let originX, originY; // ワールド→スクリーン変換の原点
+    // ===== SPRITES (offscreen canvas) =====
+    const SPR = {};
 
-        function isoToScreen(ix, iy, iz = 0) {
-            return {
-                x: originX + (ix - iy) * (TILE_W / 2),
-                y: originY + (ix + iy) * (TILE_H / 2) - iz * TILE_H,
-            };
+    function makeSpr(key, w, h, fn) {
+      const sc = document.createElement('canvas');
+      sc.width = w; sc.height = h;
+      const sx = sc.getContext('2d');
+      fn(sx, w, h);
+      SPR[key] = sc;
+    }
+
+    function px(sx, x, y, w, h, c) { sx.fillStyle = c; sx.fillRect(x, y, w, h); }
+
+    // Grass tile sprite with dithering
+    function makeGrassTile(key, c0, c1, c2) {
+      makeSpr(key, TW, TH * 2, sx => {
+        // top face (diamond)
+        sx.fillStyle = c0;
+        sx.beginPath(); sx.moveTo(TW / 2, 0); sx.lineTo(TW, TH / 2); sx.lineTo(TW / 2, TH); sx.lineTo(0, TH / 2); sx.closePath(); sx.fill();
+        // dither dark
+        sx.fillStyle = c1;
+        for (let r = 0; r < TH; r++)for (let cc = 0; cc < TW; cc++) {
+          const inDia = (cc >= Math.abs(r - TH / 2) * (TW / TH)) && (cc <= TW - Math.abs(r - TH / 2) * (TW / TH));
+          if (inDia && (r + cc) % 4 === 0) sx.fillRect(cc, r, 1, 1);
         }
-
-        function resize() {
-            const c = document.getElementById('world');
-            CW = c.clientWidth;
-            CH = c.clientHeight;
-            cv.width = CW;
-            cv.height = CH;
-            originX = CW * 0.5;
-            originY = CH * 0.22;
+        // highlight dots
+        sx.fillStyle = c2;
+        for (let i = 0; i < 6; i++) {
+          const rx = TW / 2 + Math.round(Math.sin(i * 1.1) * 10);
+          const ry = TH / 2 + Math.round(Math.cos(i * 0.9) * 4);
+          if (rx > 2 && rx < TW - 2 && ry > 1 && ry < TH - 1) sx.fillRect(rx, ry, 1, 1);
         }
-
-        // ============================================================
-        //  PIXEL ART DRAWING PRIMITIVES
-        // ============================================================
-
-        // アイソメトリックタイル (菱形)
-        function drawIsoTile(ix, iy, iz, topColor, leftColor, rightColor) {
-            const p = isoToScreen(ix, iy, iz);
-            const tw = TILE_W, th = TILE_H;
-            const hw = tw / 2, hh = th / 2;
-
-            // 上面
-            ctx.fillStyle = topColor;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p.x + hw, p.y + hh);
-            ctx.lineTo(p.x, p.y + th);
-            ctx.lineTo(p.x - hw, p.y + hh);
-            ctx.closePath();
-            ctx.fill();
-
-            if (iz > 0) {
-                // 左面 (西)
-                ctx.fillStyle = leftColor;
-                ctx.beginPath();
-                ctx.moveTo(p.x - hw, p.y + hh);
-                ctx.lineTo(p.x, p.y + th);
-                ctx.lineTo(p.x, p.y + th + iz * TILE_H);
-                ctx.lineTo(p.x - hw, p.y + hh + iz * TILE_H);
-                ctx.closePath();
-                ctx.fill();
-
-                // 右面 (東)
-                ctx.fillStyle = rightColor;
-                ctx.beginPath();
-                ctx.moveTo(p.x + hw, p.y + hh);
-                ctx.lineTo(p.x, p.y + th);
-                ctx.lineTo(p.x, p.y + th + iz * TILE_H);
-                ctx.lineTo(p.x + hw, p.y + hh + iz * TILE_H);
-                ctx.closePath();
-                ctx.fill();
-            }
-
-            // アウトライン (ドット絵らしさ)
-            ctx.strokeStyle = 'rgba(0,0,0,0.25)';
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p.x + hw, p.y + hh);
-            ctx.lineTo(p.x, p.y + th);
-            ctx.lineTo(p.x - hw, p.y + hh);
-            ctx.closePath();
-            ctx.stroke();
-        }
-
-        // アイソメトリック壁ブロック
-        function drawIsoBlock(ix, iy, iz, h, topC, leftC, rightC) {
-            drawIsoTile(ix, iy, iz, topC, leftC, rightC);
-            const p = isoToScreen(ix, iy, iz);
-            const pb = isoToScreen(ix, iy, iz + h);
-            const hw = TILE_W / 2;
-
-            // 積み上げ左面
-            ctx.fillStyle = leftC;
-            ctx.beginPath();
-            ctx.moveTo(p.x - hw, p.y + TILE_H / 2);
-            ctx.lineTo(p.x, p.y + TILE_H);
-            ctx.lineTo(pb.x, pb.y + TILE_H);
-            ctx.lineTo(pb.x - hw, pb.y + TILE_H / 2);
-            ctx.closePath(); ctx.fill();
-
-            // 積み上げ右面
-            ctx.fillStyle = rightC;
-            ctx.beginPath();
-            ctx.moveTo(p.x + hw, p.y + TILE_H / 2);
-            ctx.lineTo(p.x, p.y + TILE_H);
-            ctx.lineTo(pb.x, pb.y + TILE_H);
-            ctx.lineTo(pb.x + hw, pb.y + TILE_H / 2);
-            ctx.closePath(); ctx.fill();
-
-            // 頂上面
-            ctx.fillStyle = topC;
-            ctx.beginPath();
-            ctx.moveTo(pb.x, pb.y);
-            ctx.lineTo(pb.x + hw, pb.y + TILE_H / 2);
-            ctx.lineTo(pb.x, pb.y + TILE_H);
-            ctx.lineTo(pb.x - hw, pb.y + TILE_H / 2);
-            ctx.closePath(); ctx.fill();
-        }
-
-        // ============================================================
-        //  WORLD OBJECTS
-        // ============================================================
-
-        // 草タイル
-        function drawGrass(ix, iy) {
-            const v = ((ix * 7 + iy * 3) % 4);
-            const c = [PAL.grass1, PAL.grass2, PAL.grass3, PAL.grass4][v];
-            const l = adjustBrightness(c, -0.18);
-            const r = adjustBrightness(c, -0.1);
-            drawIsoTile(ix, iy, 0, c, l, r);
-            // 小草ディテール
-            if ((ix + iy) % 3 === 0) {
-                const p = isoToScreen(ix, iy, 0);
-                ctx.fillStyle = adjustBrightness(PAL.grass1, 0.12);
-                ctx.fillRect(p.x - 2, p.y + 6, 1, 3);
-                ctx.fillRect(p.x + 3, p.y + 9, 1, 3);
-            }
-        }
-
-        // 石畳タイル
-        function drawStonePath(ix, iy) {
-            const v = ((ix * 5 + iy * 11) % 3);
-            const c = [PAL.path1, PAL.path2, PAL.path3][v];
-            drawIsoTile(ix, iy, 0, c, adjustBrightness(c, -0.2), adjustBrightness(c, -0.12));
-            // 石畳目地
-            const p = isoToScreen(ix, iy, 0);
-            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(p.x - 4, p.y + TILE_H / 2);
-            ctx.lineTo(p.x, p.y + 2);
-            ctx.stroke();
-        }
-
-        // 水タイル
-        function drawWater(ix, iy) {
-            const t = WS.tick * 0.04;
-            const wave = Math.sin(ix * 0.8 + iy * 0.6 + t) * 0.06;
-            const c = lerpHex(PAL.water1, PAL.water2, 0.5 + wave);
-            drawIsoTile(ix, iy, 0, c, adjustBrightness(c, -0.25), adjustBrightness(c, -0.15));
-            // 波ハイライト
-            if (WS.lightLevel > 0.3 && Math.sin(ix * 1.2 + t * 1.5) > 0.5) {
-                const p = isoToScreen(ix, iy, 0);
-                ctx.fillStyle = `rgba(180,220,255,${0.25 * WS.lightLevel})`;
-                ctx.fillRect(p.x - 3, p.y + 5, 5, 1);
-            }
-        }
-
-        // 家 (詳細アイソメトリック)
-        function drawHouse(ix, iy, style) {
-            const s = style || 0;
-            const walls = [[PAL.wallA, PAL.wallB, PAL.wallC], [PAL.wallB, PAL.stone2, PAL.wallA], [PAL.wallC, PAL.wallA, PAL.wallB]][s % 3];
-            const roofs = [[PAL.roofA, PAL.roofB, PAL.roofC], [PAL.roofD, PAL.roofE, PAL.roofA]][s % 2];
-
-            const p = isoToScreen(ix, iy, 0);
-            const hw = TILE_W / 2;
-
-            // 基礎
-            drawIsoBlock(ix, iy, 0, 0.3, PAL.stone1, PAL.stone2, PAL.stone3);
-
-            // 壁本体 (2x2 フットプリント、高さ3)
-            for (let dy of [0, 1]) {
-                for (let dx of [0, 1]) {
-                    const pp = isoToScreen(ix + dx, iy + dy, 0.3);
-                    // 左右の壁面のみ描画 (端だけ)
-                    if (dx === 0 || dy === 0) {
-                        ctx.fillStyle = walls[0];
-                        ctx.beginPath();
-                        ctx.moveTo(pp.x - hw, pp.y + TILE_H / 2);
-                        ctx.lineTo(pp.x, pp.y + TILE_H);
-                        ctx.lineTo(pp.x, pp.y + TILE_H + 3 * TILE_H * 0.7);
-                        ctx.lineTo(pp.x - hw, pp.y + TILE_H / 2 + 3 * TILE_H * 0.7);
-                        ctx.closePath(); ctx.fill();
-                        ctx.fillStyle = walls[1];
-                        ctx.beginPath();
-                        ctx.moveTo(pp.x + hw, pp.y + TILE_H / 2);
-                        ctx.lineTo(pp.x, pp.y + TILE_H);
-                        ctx.lineTo(pp.x, pp.y + TILE_H + 3 * TILE_H * 0.7);
-                        ctx.lineTo(pp.x + hw, pp.y + TILE_H / 2 + 3 * TILE_H * 0.7);
-                        ctx.closePath(); ctx.fill();
-                    }
-                }
-            }
-
-            // 屋根 ▲
-            const roofBase = isoToScreen(ix, iy, 0.3 + 3 * 0.7);
-            const roofPeak = { x: roofBase.x, y: roofBase.y - TILE_H * 1.2 };
-
-            // 屋根左面
-            ctx.fillStyle = roofs[1];
-            ctx.beginPath();
-            ctx.moveTo(roofBase.x - hw * 2, roofBase.y + TILE_H);
-            ctx.lineTo(roofBase.x, roofBase.y + TILE_H * 2);
-            ctx.lineTo(roofPeak.x, roofPeak.y + TILE_H * 2);
-            ctx.lineTo(roofPeak.x - hw * 2, roofPeak.y + TILE_H);
-            ctx.closePath(); ctx.fill();
-
-            // 屋根右面
-            ctx.fillStyle = roofs[0];
-            ctx.beginPath();
-            ctx.moveTo(roofBase.x + hw * 2, roofBase.y + TILE_H);
-            ctx.lineTo(roofBase.x, roofBase.y + TILE_H * 2);
-            ctx.lineTo(roofPeak.x, roofPeak.y + TILE_H * 2);
-            ctx.lineTo(roofPeak.x + hw * 2, roofPeak.y + TILE_H);
-            ctx.closePath(); ctx.fill();
-
-            // 窓 (光の加減で黄色く光る)
-            const winAlpha = WS.lightLevel < 0.5 ? 0.8 : 0.3;
-            const winColor = WS.lightLevel < 0.5 ? `rgba(255,210,80,${winAlpha})` : `rgba(180,160,100,0.4)`;
-            const wp1 = isoToScreen(ix, iy + 0.6, 0.3 + 1.2);
-            ctx.fillStyle = winColor;
-            ctx.fillRect(wp1.x - 3, wp1.y, 6, 4);
-            if (WS.lightLevel < 0.5) {
-                // 窓の光ハロー
-                const grd = ctx.createRadialGradient(wp1.x, wp1.y + 2, 0, wp1.x, wp1.y + 2, 18);
-                grd.addColorStop(0, `rgba(255,200,50,${0.15 * (1 - WS.lightLevel)})`);
-                grd.addColorStop(1, 'rgba(255,150,0,0)');
-                ctx.fillStyle = grd;
-                ctx.fillRect(wp1.x - 18, wp1.y - 16, 36, 36);
-            }
-        }
-
-        // 木 (詳細)
-        function drawTree(ix, iy, size) {
-            size = size || 1;
-            const p = isoToScreen(ix, iy, 0);
-            const s = size;
-
-            // 根元幹
-            ctx.fillStyle = PAL.trunkB;
-            ctx.fillRect(p.x - 2 * s, p.y + TILE_H * 0.3, 4 * s, 3 * s);
-            ctx.fillStyle = PAL.trunkA;
-            ctx.fillRect(p.x - 1 * s, p.y + TILE_H * 0.3 - 2 * s, 2 * s, 5 * s);
-
-            // 樹冠 (重ね描きでリッチ感)
-            const leafColors = [PAL.leafA, PAL.leafB, PAL.leafC, PAL.leafD];
-            const lp = { x: p.x, y: p.y - 12 * s };
-
-            // 影
-            ctx.fillStyle = 'rgba(0,0,0,0.2)';
-            ctx.beginPath();
-            ctx.ellipse(p.x, p.y + 4, 12 * s, 4 * s, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            // 下層
-            ctx.fillStyle = leafColors[1];
-            ctx.beginPath();
-            ctx.ellipse(lp.x, lp.y + 6 * s, 12 * s, 8 * s, 0, 0, Math.PI * 2);
-            ctx.fill();
-            // 中層
-            ctx.fillStyle = leafColors[0];
-            ctx.beginPath();
-            ctx.ellipse(lp.x, lp.y, 9 * s, 7 * s, 0, 0, Math.PI * 2);
-            ctx.fill();
-            // 上層ハイライト
-            ctx.fillStyle = leafColors[2];
-            ctx.beginPath();
-            ctx.ellipse(lp.x - 2 * s, lp.y - 3 * s, 5 * s, 4 * s, 0, 0, Math.PI * 2);
-            ctx.fill();
-            // 個別葉ドット
-            ctx.fillStyle = leafColors[3];
-            for (let i = 0; i < 6; i++) {
-                ctx.fillRect(
-                    lp.x + Math.round(Math.sin(i * 1.1) * 8 * s),
-                    lp.y + Math.round(Math.cos(i * 0.9) * 6 * s) - 2 * s,
-                    2 * s, 2 * s
-                );
-            }
-        }
-
-        // 城壁セグメント
-        function drawWallSegment(ix, iy, dir) {
-            const p = isoToScreen(ix, iy, 0);
-            const hw = TILE_W / 2;
-
-            drawIsoBlock(ix, iy, 0, 4, PAL.stone3, PAL.stone2, PAL.stone4);
-
-            // 銃眼 (頂部の凸凹)
-            const topP = isoToScreen(ix, iy, 4);
-            for (let m = 0; m < 3; m++) {
-                const mx = topP.x - hw + m * (hw * 2 / 3) + hw / 6;
-                const my = topP.y + TILE_H / 2;
-                ctx.fillStyle = PAL.stone1;
-                ctx.fillRect(mx - 3, my - 6, 6, 7);
-                // 溝
-                ctx.fillStyle = PAL.stone2;
-                ctx.fillRect(mx - 1, my - 6, 2, 7);
-            }
-        }
-
-        // 焚き火
-        let fireT = 0;
-        function drawFire(ix, iy) {
-            fireT += 0.15;
-            const p = isoToScreen(ix, iy, 0);
-            const fl = Math.sin(fireT) * 0.4 + 0.6;
-
-            // 薪
-            ctx.fillStyle = PAL.trunkA;
-            ctx.fillRect(p.x - 5, p.y + TILE_H * 0.7, 10, 3);
-            ctx.fillRect(p.x - 3, p.y + TILE_H * 0.5, 6, 3);
-
-            // 炎 (レイヤー重ね)
-            [[-1, -3, 3, 4, PAL.fireD], [0, 0, 4, 5, PAL.fireB], [1, -2, 2, 3, PAL.fireA], [0, -5, 2, 2, PAL.fireC], [0, -7, 1, 2, '#ffffff']].forEach(([ox, oy, w, h, c]) => {
-                ctx.fillStyle = c;
-                const jx = ox + (Math.random() - 0.5) * 1.5;
-                const jy = oy - fl * 2;
-                ctx.fillRect(p.x + jx - w / 2, p.y + TILE_H * 0.4 + jy, w, h);
-            });
-
-            // 光ハロー
-            if (WS.lightLevel < 0.7) {
-                const radius = 40 - WS.lightLevel * 30;
-                const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
-                grd.addColorStop(0, `rgba(255,140,20,${0.18 * (1 - WS.lightLevel)})`);
-                grd.addColorStop(1, 'rgba(255,80,0,0)');
-                ctx.fillStyle = grd;
-                ctx.fillRect(p.x - radius, p.y - radius, radius * 2, radius * 2);
-            }
-
-            // 煙
-            for (let s = 0; s < 3; s++) {
-                const st = fireT * 0.3 + s;
-                const sy = (st % 2) * 20;
-                ctx.fillStyle = `rgba(80,80,80,${0.06 - sy / 700})`;
-                ctx.beginPath();
-                ctx.arc(p.x + Math.sin(st) * 3, p.y - sy - 8, 4 + sy * 0.3, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        // ============================================================
-        //  PIXEL ART CHARACTER
-        // ============================================================
-        const charState = {
-            x: 5, y: 5,      // ワールド座標 (float)
-            tx: 5, ty: 5,     // 目標座標
-            dir: 1,           // 1=右向き -1=左向き
-            frame: 0,         // 歩行フレーム 0-3
-            frameT: 0,
-            actionIdx: 0,
-            actionT: 0,
-            wpIdx: 0,
-        };
-
-        // 感情別ルート
-        const ROUTES = {
-            joy_high: [{ x: 5, y: 5 }, { x: 3, y: 3 }, { x: 1, y: 5 }, { x: 3, y: 7 }, { x: 5, y: 5 }],
-            joy_mid: [{ x: 5, y: 5 }, { x: 7, y: 5 }, { x: 9, y: 7 }, { x: 7, y: 9 }, { x: 5, y: 5 }],
-            neutral: [{ x: 5, y: 5 }, { x: 5, y: 3 }, { x: 3, y: 3 }, { x: 5, y: 5 }, { x: 7, y: 5 }],
-            anxiety: [{ x: 5, y: 5 }, { x: 5, y: 7 }, { x: 7, y: 7 }, { x: 5, y: 5 }],
-            sadness: [{ x: 5, y: 5 }, { x: 5, y: 5.3 }, { x: 5, y: 5 }],
-        };
-
-        function getRoute() {
-            return ROUTES[WS.emotionKey] || ROUTES.neutral;
-        }
-
-        function updateChar(dt) {
-            const c = charState;
-
-            // アクション切り替え
-            c.actionT += dt;
-            if (c.actionT > 7) {
-                c.actionT = 0;
-                const actions = MOOD_TABLE[WS.emotionKey].action;
-                c.actionIdx = (c.actionIdx + 1) % actions.length;
-                document.getElementById('pn-action').textContent =
-                    '→ ' + actions[c.actionIdx];
-            }
-
-            // ルート移動
-            const route = getRoute();
-            const wp = route[c.wpIdx % route.length];
-            const dx = wp.x - c.x, dy = wp.y - c.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 0.12) {
-                c.wpIdx = (c.wpIdx + 1) % route.length;
-            } else {
-                const spd = { joy_high: 1.5, joy_mid: 1.0, neutral: 0.8, anxiety: 0.5, sadness: 0.25 }[WS.emotionKey] || 0.8;
-                c.x += (dx / dist) * spd * dt;
-                c.y += (dy / dist) * spd * dt;
-                c.dir = dx < 0 ? -1 : 1;
-
-                c.frameT += dt;
-                if (c.frameT > 0.12) { c.frame = (c.frame + 1) % 4; c.frameT = 0; }
-            }
-        }
-
-        // キャラクター描画 (アイソメトリック・ドット絵)
-        function drawChar(wx, wy) {
-            const p = isoToScreen(wx, wy, 0);
-            const c = charState;
-            const d = c.dir;
-            const f = c.frame;
-            const ll = WS.lightLevel;
-
-            // ピクセルサイズ
-            const S = 2; // 1ピクセル = 2px
-
-            function px(ox, oy, w, h, col) {
-                const lc = dimColor(col, ll);
-                ctx.fillStyle = lc;
-                ctx.fillRect(p.x + ox * S * d, p.y + oy * S, w * S, h * S);
-            }
-
-            // 影
-            ctx.fillStyle = `rgba(0,0,0,${0.3 * ll})`;
-            ctx.beginPath();
-            ctx.ellipse(p.x, p.y + TILE_H * 0.7, 10, 3, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            // マント/クローク (後ろ) — 感情ごとに色変える
-            const cloakC = { joy_high: '#883820', joy_mid: '#4a3888', neutral: '#3a4858', anxiety: '#2a3448', sadness: '#1e2030' }[WS.emotionKey] || '#3a3020';
-            px(-3, -2, 6, 10, cloakC);
-            px(-2, -4, 4, 12, cloakC);
-
-            // 足 (歩行アニメーション)
-            const legY = [0, 1, 0, -1][f];
-            px(-2, 4, 2, 5, PAL.cloth2);
-            px(0, 4 + legY, 2, 5 - legY, PAL.cloth2);
-            px(-2, 8, 2, 3, PAL.boot);
-            px(0, 8 + legY, 2, 3, PAL.boot);
-
-            // 胴体
-            px(-2, -2, 4, 6, PAL.cloth1);
-            // 腰ベルト
-            px(-2, 3, 4, 1, '#6a5030');
-
-            // 腕
-            const armY = [0, 1, 0, -1][f];
-            px(-3, -1, 2, 4, PAL.cloth1);
-            px(1, -1 + armY, 2, 4, PAL.cloth1);
-
-            // 剣 (右手)
-            if (WS.emotionKey !== 'sadness') {
-                px(3, 0, 1, 6, PAL.metal);
-                px(3, -1, 1, 2, PAL.metalD);
-                px(2, -1, 3, 1, PAL.metalD);
-            }
-
-            // 頭
-            px(-2, -8, 4, 5, PAL.skin);
-            // 目 (方向に応じて)
-            if (d > 0) {
-                px(0, -6, 1, 1, '#1a1010');
-            } else {
-                px(-1, -6, 1, 1, '#1a1010');
-            }
-            // 口
-            const moodMouth = WS.avgSentiment > 0.2 ? '#c08060' : WS.avgSentiment < -0.2 ? '#906050' : '#a07060';
-            px(-1, -5, 2, 1, moodMouth);
-
-            // 髪 (帽子)
-            px(-3, -8, 6, 2, PAL.hair);
-            px(-2, -10, 4, 2, PAL.hair);
-            px(-1, -11, 2, 1, PAL.hair);
-            // 帽子つば
-            const hatC = WS.emotionKey === 'joy_high' ? '#8a3020' : WS.emotionKey === 'sadness' ? '#1a1828' : '#4a3828';
-            px(-4, -9, 8, 2, hatC);
-            px(-2, -14, 4, 5, hatC);
-        }
-
-        // ============================================================
-        //  WEATHER & SKY
-        // ============================================================
-        const rainDrops = Array.from({ length: 100 }, () => ({ x: Math.random() * 800, y: Math.random() * 600, spd: 4 + Math.random() * 2 }));
-        const snowFlakes = Array.from({ length: 60 }, () => ({ x: Math.random() * 800, y: Math.random() * 600, spd: 0.5 + Math.random() * 0.8 }));
-
-        function drawSky() {
-            const wt = MOOD_TABLE[WS.emotionKey].weather;
-            const h = WS.time;
-            let c1, c2;
-
-            if (h >= 5 && h < 7) {
-                const t = (h - 5) / 2;
-                c1 = lerpHex('#0a0818', '#502010', t);
-                c2 = lerpHex('#101828', '#d06030', t);
-            } else if (h >= 7 && h < 10) {
-                const t = (h - 7) / 3;
-                c1 = lerpHex('#502010', '#1a3060', t);
-                c2 = lerpHex('#d06030', '#4080d0', t);
-            } else if (h >= 10 && h < 17) {
-                if (wt === 'sunny') { c1 = '#1a3060'; c2 = '#4a90e0'; }
-                else if (wt === 'clear') { c1 = '#1e3870'; c2 = '#4080c0'; }
-                else if (wt === 'cloudy') { c1 = '#252b40'; c2 = '#404860'; }
-                else if (wt === 'drizzle') { c1 = '#1a2030'; c2 = '#2a3040'; }
-                else { c1 = '#0e0d18'; c2 = '#181520'; }
-            } else if (h >= 17 && h < 20) {
-                const t = (h - 17) / 3;
-                c1 = lerpHex('#1a3060', '#1a0828', t);
-                c2 = lerpHex('#4a90e0', '#c04020', t);
-            } else {
-                c1 = '#04030c'; c2 = '#080618';
-            }
-
-            const grd = ctx.createLinearGradient(0, 0, 0, CH * 0.6);
-            grd.addColorStop(0, c1);
-            grd.addColorStop(1, c2);
-            ctx.fillStyle = grd;
-            ctx.fillRect(0, 0, CW, CH);
-        }
-
-        function drawStars() {
-            if (WS.lightLevel > 0.7) return;
-            const alpha = (1 - WS.lightLevel / 0.7) * 0.9;
-            for (let i = 0; i < 80; i++) {
-                const sx = ((i * 137 + 31) % CW);
-                const sy = ((i * 97 + 13) % (CH * 0.45));
-                const size = (i % 3 === 0) ? 1.5 : 0.8;
-                const tw = WS.tick * 0.001;
-                const twinkle = 0.5 + 0.5 * Math.sin(tw * 2 + i);
-                ctx.fillStyle = `rgba(255,255,220,${alpha * twinkle})`;
-                ctx.fillRect(sx, sy, size, size);
-            }
-        }
-
-        function drawSunMoon() {
-            const h = WS.time;
-            if (h >= 6 && h < 18) {
-                // 太陽
-                const a = ((h - 6) / 12) * Math.PI;
-                const sx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.35;
-                const sy = CH * 0.15 - Math.sin(a) * CH * 0.12;
-                // 光輪
-                const grd = ctx.createRadialGradient(sx, sy, 0, sx, sy, 40);
-                grd.addColorStop(0, 'rgba(255,240,100,0.5)');
-                grd.addColorStop(1, 'rgba(255,200,50,0)');
-                ctx.fillStyle = grd;
-                ctx.beginPath(); ctx.arc(sx, sy, 40, 0, Math.PI * 2); ctx.fill();
-                // 本体
-                ctx.fillStyle = '#ffe040';
-                ctx.beginPath(); ctx.arc(sx, sy, 10, 0, Math.PI * 2); ctx.fill();
-                ctx.fillStyle = '#fff080';
-                ctx.beginPath(); ctx.arc(sx - 2, sy - 2, 5, 0, Math.PI * 2); ctx.fill();
-            } else {
-                // 月
-                const ah = h < 6 ? h + 12 : h - 18;
-                const a = (ah / 12) * Math.PI;
-                const mx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.35;
-                const my = CH * 0.15 - Math.sin(a) * CH * 0.12;
-                ctx.fillStyle = '#d0c8a0';
-                ctx.beginPath(); ctx.arc(mx, my, 8, 0, Math.PI * 2); ctx.fill();
-                ctx.fillStyle = '#0a0818';
-                ctx.beginPath(); ctx.arc(mx + 3, my - 2, 6, 0, Math.PI * 2); ctx.fill();
-            }
-        }
-
-        function drawClouds() {
-            const wt = MOOD_TABLE[WS.emotionKey].weather;
-            if (wt === 'storm') {
-                ctx.fillStyle = 'rgba(10,10,25,0.35)';
-                ctx.fillRect(0, 0, CW, CH);
-                if (Math.random() > 0.97) { ctx.fillStyle = 'rgba(255,255,255,0.07)'; ctx.fillRect(0, 0, CW, CH); }
-                return;
-            }
-            const count = { sunny: 3, clear: 5, cloudy: 9, drizzle: 12 }[wt] || 0;
-            const alpha = { sunny: 0.3, clear: 0.45, cloudy: 0.75, drizzle: 0.85 }[wt] || 0;
-            for (let i = 0; i < count; i++) {
-                const t = WS.tick * 0.003;
-                const cx = ((i * 173 + t * 20) % CW);
-                const cy = CH * 0.05 + (i % 3) * CH * 0.06;
-                const w = 60 + i * 20, h2 = 18 + i % 3 * 6;
-                const grd = ctx.createLinearGradient(0, cy, 0, cy + h2);
-                grd.addColorStop(0, `rgba(230,235,255,${alpha})`);
-                grd.addColorStop(1, `rgba(180,190,220,${alpha * 0.3})`);
-                ctx.fillStyle = grd;
-                ctx.beginPath();
-                ctx.ellipse(cx, cy + h2 / 2, w / 2, h2 / 2, 0, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function drawRain() {
-            const wt = MOOD_TABLE[WS.emotionKey].weather;
-            if (wt !== 'drizzle' && wt !== 'storm') return;
-            const cnt = wt === 'storm' ? 100 : 50;
-            const alpha = wt === 'storm' ? 0.45 : 0.2;
-            ctx.strokeStyle = `rgba(160,200,255,${alpha})`;
-            ctx.lineWidth = wt === 'storm' ? 1 : 0.6;
-            for (let i = 0; i < cnt; i++) {
-                const d = rainDrops[i];
-                d.y += d.spd; d.x -= 0.5;
-                if (d.y > CH) { d.y = -10; d.x = Math.random() * CW; }
-                ctx.beginPath();
-                ctx.moveTo(d.x, d.y);
-                ctx.lineTo(d.x + 2, d.y + 6);
-                ctx.stroke();
-            }
-        }
-
-        // ============================================================
-        //  TILEMAP LAYOUT
-        // ============================================================
-
-        // タイルマップ定義
-        // t=terrain: 0=grass,1=path,2=water,3=dirt
-        // obj: 'house0','house1','tree','wall','fire'
-        const TILES = [];
-        const OBJECTS = [];
-
-        function buildWorld() {
-            const W2 = 13, H2 = 13;
-            for (let y = 0; y < H2; y++) for (let x = 0; x < W2; x++) {
-                let t = 0;
-                // 石畳の道 (十字)
-                if (x >= 4 && x <= 8 && y >= 4 && y <= 8) t = 1;
-                if (x >= 5 && x <= 7) t = 1;
-                if (y >= 5 && y <= 7) t = 1;
-                // 川
-                if (x >= 10) t = 2;
-                // 端は草
-                if (x === 0 || y === 0 || x === W2 - 1 || y === H2 - 1) t = 0;
-                TILES.push({ x, y, t });
-            }
-
-            // オブジェクト
-            OBJECTS.push(
-                { type: 'wall', x: 1, y: 1 }, { type: 'wall', x: 1, y: 2 }, { type: 'wall', x: 1, y: 3 },
-                { type: 'wall', x: 2, y: 1 }, { type: 'wall', x: 3, y: 1 },
-                { type: 'house', x: 1, y: 4, s: 0 }, { type: 'house', x: 1, y: 6, s: 1 }, { type: 'house', x: 1, y: 8, s: 2 },
-                { type: 'house', x: 3, y: 9, s: 0 }, { type: 'house', x: 9, y: 3, s: 1 },
-                { type: 'tree', x: 9, y: 9, sz: 1.2 }, { type: 'tree', x: 10, y: 8, sz: 1 }, { type: 'tree', x: 11, y: 9, sz: 0.9 },
-                { type: 'tree', x: 8, y: 11, sz: 1.1 }, { type: 'tree', x: 0, y: 5, sz: 1 }, { type: 'tree', x: 0, y: 8, sz: 1.3 },
-                { type: 'fire', x: 5, y: 5 }, { type: 'fire', x: 7, y: 7 },
-            );
-        }
-
-        // ============================================================
-        //  RENDER LOOP
-        // ============================================================
-        let lastT = 0;
-
-        function render(ts) {
-            if (!lastT) lastT = ts;
-            const dt = Math.min((ts - lastT) / 1000, 0.1);
-            lastT = ts;
-            WS.tick++;
-
-            // 時刻
-            const now = new Date();
-            WS.time = now.getHours() + now.getMinutes() / 60;
-            {
-                const h2 = now.getHours(), m2 = now.getMinutes();
-                if (h2 >= 7 && h2 < 17) WS.lightLevel = 1.0;
-                else if (h2 >= 5 && h2 < 7) WS.lightLevel = 0.3 + (h2 - 5) * 0.35;
-                else if (h2 >= 17 && h2 < 20) WS.lightLevel = 1.0 - (h2 - 17) * 0.33;
-                else WS.lightLevel = 0.12;
-
-                const wt = MOOD_TABLE[WS.emotionKey].weather;
-                if (wt === 'storm') WS.lightLevel = Math.min(WS.lightLevel, 0.3);
-                else if (wt === 'drizzle') WS.lightLevel = Math.min(WS.lightLevel, 0.6);
-                else if (wt === 'cloudy') WS.lightLevel = Math.min(WS.lightLevel, 0.85);
-            }
-
-            // 空
-            drawSky();
-            drawStars();
-            drawSunMoon();
-            drawClouds();
-
-            // タイル (Y→X順でソートしてアイソメ描画)
-            TILES.sort((a, b) => (a.x + a.y) - (b.x + b.y));
-            for (const t of TILES) {
-                if (t.t === 0) drawGrass(t.x, t.y);
-                else if (t.t === 1) drawStonePath(t.x, t.y);
-                else if (t.t === 2) drawWater(t.x, t.y);
-                else drawIsoTile(t.x, t.y, 0, PAL.dirt1, PAL.dirt2, PAL.dirt3);
-            }
-
-            // オブジェクト (Y+X昇順でソート)
-            const allObj = [...OBJECTS, { type: 'char', x: charState.x, y: charState.y }];
-            allObj.sort((a, b) => (a.x + a.y) - (b.x + b.y));
-
-            for (const o of allObj) {
-                if (o.type === 'house') drawHouse(o.x, o.y, o.s);
-                else if (o.type === 'tree') drawTree(o.x, o.y, o.sz);
-                else if (o.type === 'wall') drawWallSegment(o.x, o.y);
-                else if (o.type === 'fire') drawFire(o.x, o.y);
-                else if (o.type === 'char') drawChar(o.x, o.y);
-            }
-
-            drawRain();
-
-            // 夜の全体暗転
-            if (WS.lightLevel < 0.9) {
-                const darkness = (1 - WS.lightLevel) * 0.55;
-                ctx.fillStyle = `rgba(5,5,20,${darkness})`;
-                ctx.fillRect(0, 0, CW, CH);
-            }
-
-            updateChar(dt);
-
-            // HUD更新
-            const h = now.getHours(), m = now.getMinutes();
-            document.getElementById('hud-clock').textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-
-            requestAnimationFrame(render);
-        }
-
-        // ============================================================
-        //  UTILITIES
-        // ============================================================
-        function adjustBrightness(hex, factor) {
-            const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-            const f = 1 + factor;
-            return `rgb(${Math.max(0, Math.min(255, r * f | 0))},${Math.max(0, Math.min(255, g * f | 0))},${Math.max(0, Math.min(255, b * f | 0))})`;
-        }
-
-        function dimColor(hex, light) {
-            if (typeof hex !== 'string' || !hex.startsWith('#')) return hex;
-            const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-            const l = Math.max(0.08, light);
-            return `rgb(${r * l | 0},${g * l | 0},${b * l | 0})`;
-        }
-
-        function lerpHex(c1, c2, t) {
-            t = Math.max(0, Math.min(1, t));
-            const p = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
-            const [r1, g1, b1] = p(c1), [r2, g2, b2] = p(c2);
-            return `rgb(${(r1 + (r2 - r1) * t) | 0},${(g1 + (g2 - g1) * t) | 0},${(b1 + (b2 - b1) * t) | 0})`;
-        }
-
-        // ============================================================
-        //  DATA LOAD & UI
-        // ============================================================
-        async function loadData() {
-            const bar = document.getElementById('ld-bar');
-            bar.style.width = '40%';
-
-            let emotions = [], diary = '';
-            try {
-                const r = await fetch('./daily_graph.json');
-                if (!r.ok) throw 0;
-                const data = await r.json();
-                emotions = (data.nodes || []).filter(n => n.type === '感情' && typeof n.sentiment === 'number');
-                const d = (data.nodes || []).find(n => n.type === '日記');
-                diary = d?.detail || '';
-            } catch {
-                emotions = [{ label: '思考整理によるスッキリ感', sentiment: 0.7 }, { label: '独断進捗への不安', sentiment: -0.2 }];
-                diary = '朝の思考整理、パイプライン構築報告、定例準備について。';
-            }
-
-            WS.emotions = emotions;
-            WS.diary = diary;
-
-            // 感情スコア算出
-            if (emotions.length) {
-                const avg = emotions.reduce((s, e) => s + (e.sentiment || 0), 0) / emotions.length;
-                WS.avgSentiment = avg;
-                if (avg >= 0.5) WS.emotionKey = 'joy_high';
-                else if (avg >= 0.1) WS.emotionKey = 'joy_mid';
-                else if (avg >= -0.1) WS.emotionKey = 'neutral';
-                else if (avg >= -0.4) WS.emotionKey = 'anxiety';
-                else WS.emotionKey = 'sadness';
-            }
-
-            bar.style.width = '80%';
-
-            // HUD & パネル更新
-            const mood = MOOD_TABLE[WS.emotionKey];
-            document.getElementById('hud-weather').textContent = mood.weatherIcon;
-            document.getElementById('hud-mood').textContent = mood.label;
-            document.getElementById('pn-action').textContent = '→ ' + mood.action[0];
-            document.getElementById('pn-diary').textContent = diary || '日記データなし';
-
-            const emList = document.getElementById('pn-emotions');
-            emList.innerHTML = '';
-            emotions.forEach(e => {
-                const s = e.sentiment || 0;
-                const pct = ((s + 1) / 2 * 100) | 0;
-                const col = s > 0.1 ? '#5ec870' : s < -0.1 ? '#e86060' : '#c8a040';
-                emList.innerHTML += `
-      <div class="em-row">
-        <div class="em-dot" style="background:${col}"></div>
-        <div style="flex:1">
-          <div class="em-label">${e.label}</div>
-          <div class="em-bar-bg"><div class="em-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-        </div>
-      </div>`;
-            });
-
-            bar.style.width = '100%';
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-            }, 600);
-        }
-
-        // ============================================================
-        //  BOOT
-        // ============================================================
-        cv = document.getElementById('cv');
-        ctx = cv.getContext('2d');
-        window.addEventListener('resize', () => { resize(); });
-        resize();
-        buildWorld();
-        loadData().then(() => {
-            requestAnimationFrame(render);
+      });
+    }
+
+    // Stone tile sprite
+    function makeStoneTile(key, c0, c1) {
+      makeSpr(key, TW, TH * 2, sx => {
+        sx.fillStyle = c0;
+        sx.beginPath(); sx.moveTo(TW / 2, 0); sx.lineTo(TW, TH / 2); sx.lineTo(TW / 2, TH); sx.lineTo(0, TH / 2); sx.closePath(); sx.fill();
+        // mortar lines
+        sx.strokeStyle = c1; sx.lineWidth = 0.8;
+        sx.beginPath(); sx.moveTo(TW / 4, TH / 4); sx.lineTo(3 * TW / 4, TH / 4); sx.stroke();
+        sx.beginPath(); sx.moveTo(TW / 2, TH / 2 - 2); sx.lineTo(TW / 2, 2); sx.stroke();
+        // dither shadow edge
+        sx.fillStyle = 'rgba(0,0,0,0.12)';
+        for (let i = 0; i < TH / 2; i++)sx.fillRect(i < TW / 2 ? i : TW - i - 1, i, 1, 1);
+      });
+    }
+
+    // Water tile animated
+    function makeWaterTile() {
+      for (let f = 0; f < 4; f++) {
+        makeSpr('wat' + f, TW, TH * 2, sx => {
+          const wv = Math.sin(f * 1.57) * 0.15;
+          const gc = sx.createLinearGradient(0, 0, 0, TH);
+          gc.addColorStop(0, P.w2); gc.addColorStop(1, P.w0);
+          sx.fillStyle = gc;
+          sx.beginPath(); sx.moveTo(TW / 2, 0); sx.lineTo(TW, TH / 2); sx.lineTo(TW / 2, TH); sx.lineTo(0, TH / 2); sx.closePath(); sx.fill();
+          // wave highlights
+          sx.fillStyle = `rgba(160,210,255,${0.2 + wv})`;
+          for (let i = 0; i < 3; i++)sx.fillRect(TW / 4 + i * 6 + f, TH / 2 - 2, 4, 1);
         });
-    </script>
+      }
+    }
+
+    // Tree sprite
+    function makeTree(key, scale) {
+      const S = scale || 1; const W = Math.round(40 * S), H = Math.round(60 * S);
+      makeSpr(key, W, H, sx => {
+        // shadow ellipse
+        sx.fillStyle = 'rgba(0,0,0,0.18)';
+        sx.beginPath(); sx.ellipse(W / 2, H - 4, W * 0.4, 5, 0, 0, Math.PI * 2); sx.fill();
+        // trunk
+        const tx = Math.round(W / 2 - 3 * S), ty = Math.round(H * 0.55);
+        px(sx, tx, ty, Math.round(6 * S), Math.round(H * 0.45 - 2), P.t0);
+        px(sx, tx + 1, ty, Math.round(4 * S), Math.round(H * 0.45 - 2), P.t1);
+        // canopy layers bottom→top
+        const lR = [[W * 0.5, H * 0.65, W * 0.45, H * 0.22, P.l1], [W * 0.5, H * 0.52, W * 0.38, H * 0.18, P.l0], [W * 0.45, H * 0.38, W * 0.28, H * 0.14, P.l2], [W * 0.5, H * 0.28, W * 0.22, H * 0.12, P.l3]];
+        lR.forEach(([ex, ey, ew, eh, ec]) => {
+          sx.fillStyle = ec; sx.beginPath(); sx.ellipse(ex, ey, ew, eh, 0, 0, Math.PI * 2); sx.fill();
+        });
+        // pixel highlight dots
+        sx.fillStyle = P.l4;
+        [[W * 0.38, H * 0.26], [W * 0.55, H * 0.32], [W * 0.48, H * 0.20]].forEach(([hx, hy]) => sx.fillRect(hx, hy, 2, 2));
+      });
+    }
+
+    // House sprite — proper isometric block
+    function makeHouse(key, wc, rc) {
+      const TW2 = TW * 2, TH2 = TH * 2;
+      const wallH = TH * 3; // wall height in px
+      const W = TW2 + 4, H = TH2 + wallH + TH * 2 + 4;
+      makeSpr(key, W, H, sx => {
+        const top = 4;
+        const cx = W / 2;
+        // -- roof ridge (top) --
+        const ridgeY = top;
+        const ridgeH = TH * 1.4;
+        // roof top face (diamond)
+        sx.fillStyle = rc[2] || rc[0];
+        sx.beginPath();
+        sx.moveTo(cx, ridgeY);
+        sx.lineTo(W - 2, ridgeY + TH / 2);
+        sx.lineTo(cx, ridgeY + TH);
+        sx.lineTo(2, ridgeY + TH / 2);
+        sx.closePath(); sx.fill();
+        // roof left slope
+        sx.fillStyle = rc[1];
+        sx.beginPath();
+        sx.moveTo(2, ridgeY + TH / 2);
+        sx.lineTo(cx, ridgeY + TH);
+        sx.lineTo(cx, ridgeY + TH + ridgeH);
+        sx.lineTo(2, ridgeY + TH / 2 + ridgeH);
+        sx.closePath(); sx.fill();
+        // roof right slope
+        sx.fillStyle = rc[0];
+        sx.beginPath();
+        sx.moveTo(W - 2, ridgeY + TH / 2);
+        sx.lineTo(cx, ridgeY + TH);
+        sx.lineTo(cx, ridgeY + TH + ridgeH);
+        sx.lineTo(W - 2, ridgeY + TH / 2 + ridgeH);
+        sx.closePath(); sx.fill();
+        // -- wall body --
+        const wallTop = ridgeY + TH + ridgeH;
+        // top surface of wall
+        sx.fillStyle = wc[2] || wc[0];
+        sx.beginPath();
+        sx.moveTo(cx, wallTop);
+        sx.lineTo(W - 2, wallTop + TH / 2);
+        sx.lineTo(cx, wallTop + TH);
+        sx.lineTo(2, wallTop + TH / 2);
+        sx.closePath(); sx.fill();
+        // left face
+        sx.fillStyle = wc[1];
+        sx.beginPath();
+        sx.moveTo(2, wallTop + TH / 2);
+        sx.lineTo(cx, wallTop + TH);
+        sx.lineTo(cx, wallTop + TH + wallH);
+        sx.lineTo(2, wallTop + TH / 2 + wallH);
+        sx.closePath(); sx.fill();
+        // right face
+        sx.fillStyle = wc[0];
+        sx.beginPath();
+        sx.moveTo(W - 2, wallTop + TH / 2);
+        sx.lineTo(cx, wallTop + TH);
+        sx.lineTo(cx, wallTop + TH + wallH);
+        sx.lineTo(W - 2, wallTop + TH / 2 + wallH);
+        sx.closePath(); sx.fill();
+        // wall texture (brick lines)
+        sx.strokeStyle = 'rgba(0,0,0,0.18)'; sx.lineWidth = 0.7;
+        for (let r = 0; r < wallH; r += 8) {
+          // left face mortar
+          sx.beginPath(); sx.moveTo(2, wallTop + TH / 2 + r); sx.lineTo(cx, wallTop + TH + r); sx.stroke();
+          // right face mortar
+          sx.beginPath(); sx.moveTo(W - 2, wallTop + TH / 2 + r); sx.lineTo(cx, wallTop + TH + r); sx.stroke();
+        }
+        // windows
+        const winY = wallTop + TH + wallH * 0.3;
+        // left window
+        sx.fillStyle = 'rgba(255,200,80,0.45)';
+        sx.fillRect(cx * 0.3, winY, 6, 5);
+        // right window
+        sx.fillRect(W - cx * 0.3 - 8, winY, 6, 5);
+        // door
+        sx.fillStyle = P.o1; sx.fillRect(cx - 4, wallTop + TH + wallH * 0.55, 8, wallH * 0.45 + 2);
+        sx.fillStyle = 'rgba(0,0,0,0.3)'; sx.fillRect(cx - 3, wallTop + TH + wallH * 0.57, 6, wallH * 0.43);
+        // outline
+        sx.strokeStyle = 'rgba(0,0,0,0.25)'; sx.lineWidth = 1;
+        sx.beginPath();
+        sx.moveTo(2, wallTop + TH / 2); sx.lineTo(cx, wallTop + TH); sx.lineTo(W - 2, wallTop + TH / 2);
+        sx.stroke();
+        sx.beginPath();
+        sx.moveTo(cx, wallTop + TH); sx.lineTo(cx, wallTop + TH + wallH);
+        sx.stroke();
+      });
+    }
+
+    // Stone wall tower segment
+    function makeWall() {
+      const W = TW * 2, H = TH * 6;
+      makeSpr('wall', W, H, sx => {
+        const cx = W / 2;
+        // top face
+        sx.fillStyle = P.s2;
+        sx.beginPath();
+        sx.moveTo(cx, 0); sx.lineTo(W, TH / 2); sx.lineTo(cx, TH); sx.lineTo(0, TH / 2);
+        sx.closePath(); sx.fill();
+        // left face
+        sx.fillStyle = P.s1;
+        sx.beginPath();
+        sx.moveTo(0, TH / 2); sx.lineTo(cx, TH); sx.lineTo(cx, H); sx.lineTo(0, H - TH / 2);
+        sx.closePath(); sx.fill();
+        // right face
+        sx.fillStyle = P.s0;
+        sx.beginPath();
+        sx.moveTo(W, TH / 2); sx.lineTo(cx, TH); sx.lineTo(cx, H); sx.lineTo(W, H - TH / 2);
+        sx.closePath(); sx.fill();
+        // battlements on top
+        const bw = W / 5;
+        for (let b = 0; b < 3; b++) {
+          const bxL = b * bw * 1.5 + 2;
+          // top
+          sx.fillStyle = P.s2;
+          sx.beginPath();
+          sx.moveTo(cx - bw / 2 + b * bw, 0);
+          sx.lineTo(cx + bw / 2 - bw * 0.1 + b * bw, TH * 0.4);
+          sx.lineTo(cx - bw * 0.1 + b * bw, TH * 0.8);
+          sx.lineTo(cx - bw / 2 - bw * 0.1 + b * bw, TH * 0.4);
+          sx.closePath(); sx.fill();
+        }
+        // stone texture
+        sx.fillStyle = 'rgba(0,0,0,0.08)';
+        for (let r = TH * 1.5; r < H; r += 10) {
+          for (let c = 0; c < cx; c += 14)sx.fillRect(c + (r % 20 < 10 ? 7 : 0), r, 10, 7);
+        }
+        sx.strokeStyle = 'rgba(0,0,0,0.12)'; sx.lineWidth = 0.6;
+        for (let r = TH + 5; r < H; r += 10) {
+          sx.beginPath(); sx.moveTo(0, r + TH / 2 * ((r - TH) / H)); sx.lineTo(cx, r + TH * ((r - TH) / H) * 0.5); sx.stroke();
+          sx.beginPath(); sx.moveTo(W, r + TH / 2 * ((r - TH) / H)); sx.lineTo(cx, r + TH * ((r - TH) / H) * 0.5); sx.stroke();
+        }
+      });
+    }
+
+    // Character sprite
+    function makeChar(key, cloakC) {
+      const W = 24, H = 40;
+      makeSpr(key, W, H, sx => {
+        // shadow
+        sx.fillStyle = 'rgba(0,0,0,0.25)'; sx.beginPath(); sx.ellipse(W / 2, H - 2, 7, 2, 0, 0, Math.PI * 2); sx.fill();
+        // cloak/body
+        px(sx, 7, 14, 10, 18, cloakC); px(sx, 6, 16, 12, 14, cloakC);
+        // legs
+        px(sx, 8, 28, 4, 8, P.cb); px(sx, 12, 28, 4, 8, P.cb);
+        // boots
+        px(sx, 7, 34, 5, 4, P.bt); px(sx, 11, 34, 5, 4, P.bt);
+        // torso
+        px(sx, 7, 14, 10, 14, P.cb);
+        // arms
+        px(sx, 4, 15, 4, 10, P.cb); px(sx, 16, 15, 4, 10, P.cb);
+        // sword
+        px(sx, 18, 12, 2, 12, P.mt); px(sx, 17, 13, 4, 2, P.md);
+        // head
+        px(sx, 7, 5, 10, 10, P.sk);
+        // eyes
+        px(sx, 10, 9, 2, 2, P.bk); px(sx, 14, 9, 2, 2, P.bk);
+        // mouth
+        px(sx, 10, 13, 4, 1, '#c07860');
+        // hair
+        px(sx, 6, 5, 12, 4, P.ha); px(sx, 7, 3, 10, 4, P.ha);
+        // hat brim
+        px(sx, 4, 6, 16, 3, cloakC);
+        // hat top
+        px(sx, 7, 0, 10, 7, cloakC);
+        // hat highlight
+        sx.fillStyle = 'rgba(255,255,255,0.12)'; sx.fillRect(8, 1, 4, 2);
+      });
+    }
+
+    // Campfire sprite
+    function makeFire(f) {
+      const W = 20, H = 24;
+      makeSpr('fire' + f, W, H, sx => {
+        // logs
+        px(sx, 2, 16, 16, 4, P.o0); px(sx, 4, 14, 12, 4, P.o1);
+        // fire layers
+        const jit = Math.sin(f * 1.8) * 1.5;
+        px(sx, 6 + jit, 10, 8, 6, P.f1); px(sx, 7, 6, 6, 6, P.f0);
+        px(sx, 8 + jit * 0.5, 3, 4, 5, P.f2); px(sx, 9, 1, 2, 4, P.f3); px(sx, 9.5, 0, 1, 2, P.f4);
+      });
+    }
+
+    function buildSprites() {
+      makeGrassTile('gr0', P.g0, P.g4, P.g2);
+      makeGrassTile('gr1', P.g1, P.g4, P.g3);
+      makeGrassTile('gr2', P.g2, P.g1, P.g3);
+      makeStoneTile('st0', P.p0, P.p3);
+      makeStoneTile('st1', P.p1, P.p3);
+      makeWaterTile();
+      makeTree('tr0', 1.0); makeTree('tr1', 1.3); makeTree('tr2', 0.8);
+      makeHouse('ho0', [P.wc, P.wb], [P.ra, P.rd, '#a05030']);
+      makeHouse('ho1', [P.we, P.wa], [P.rc, P.rb, '#b06040']);
+      makeHouse('ho2', [P.wc, P.wd], [P.rd, P.rb, '#904030']);
+      makeWall();
+      const CLOAK_COLORS = { joy_high: '#8a3820', joy_mid: '#3e3278', neutral: '#344060', anxiety: '#243050', sadness: '#161828' };
+      Object.entries(CLOAK_COLORS).forEach(([k, c]) => makeChar('ch_' + k, c));
+      for (let i = 0; i < 4; i++)makeFire(i);
+    }
+
+    // ===== TILEMAP =====
+    const MAP_W = 22, MAP_H = 22;
+    const TILES = [];
+    const OBJS = [];
+
+    function buildWorld() {
+      for (let y = 0; y < MAP_H; y++) {
+        for (let x = 0; x < MAP_W; x++) {
+          let t = 'gr' + (((x * 7 + y * 3) % 3));
+          // paths
+          if ((x >= 9 && x <= 13 && y >= 5 && y <= 17) || (y >= 9 && y <= 13 && x >= 5 && x <= 17)) t = 'st' + (((x + y) % 2));
+          // water
+          if (x >= 17) t = 'wat0';
+          // border grass always
+          if (x === 0 || y === 0 || x === MAP_W - 1 || y === MAP_H - 1) t = 'gr0';
+          TILES.push({ x, y, t });
+        }
+      }
+      // objects
+      const O = OBJS;
+      // walls (north border)
+      for (let i = 1; i <= 5; i++)O.push({ t: 'wall', x: i, y: 2 });
+      for (let i = 1; i <= 4; i++)O.push({ t: 'wall', x: 2, y: i });
+      // houses
+      O.push({ t: 'ho', s: 'ho0', x: 3, y: 4, w: 2, h: 2 });
+      O.push({ t: 'ho', s: 'ho1', x: 3, y: 7, w: 2, h: 2 });
+      O.push({ t: 'ho', s: 'ho2', x: 3, y: 10, w: 2, h: 2 });
+      O.push({ t: 'ho', s: 'ho0', x: 15, y: 4, w: 2, h: 2 });
+      O.push({ t: 'ho', s: 'ho1', x: 15, y: 7, w: 2, h: 2 });
+      // trees
+      [[16, 16, 'tr0'], [17, 15, 'tr1'], [18, 15, 'tr0'], [17, 17, 'tr2'],
+      [1, 14, 'tr1'], [1, 16, 'tr0'], [2, 18, 'tr2'], [18, 3, 'tr0'],
+      [19, 5, 'tr1'], [20, 8, 'tr2'], [20, 10, 'tr0']
+      ].forEach(([x, y, s]) => O.push({ t: 'tree', s, x, y }));
+      // fires
+      O.push({ t: 'fire', x: 11, y: 11 });
+      O.push({ t: 'fire', x: 9, y: 9 });
+    }
+
+    // ===== CHARACTER =====
+    const CHAR = { x: 11, y: 11, tx: 11, ty: 11, dir: 1, fr: 0, ft: 0, ai: 0, at: 0, wpi: 0 };
+
+    function updateChar(dt) {
+      const c = CHAR, m = MOODS[WS.ek];
+      c.at += dt; if (c.at > 8) { c.at = 0; c.ai = (c.ai + 1) % m.act.length; document.getElementById('pact').textContent = '→ ' + m.act[c.ai]; }
+      const rt = ROUTES[WS.ek] || ROUTES.neutral;
+      const wp = rt[c.wpi % rt.length];
+      const dx = wp.x - c.x, dy = wp.y - c.y, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 0.1) { c.wpi++; return; }
+      const spd = { joy_high: 1.4, joy_mid: 1.0, neutral: 0.7, anxiety: 0.45, sadness: 0.18 }[WS.ek] || 0.7;
+      c.x += dx / dist * spd * dt; c.y += dy / dist * spd * dt;
+      c.dir = dx < 0 ? -1 : 1;
+      c.ft += dt; if (c.ft > 0.14) { c.fr = (c.fr + 1) % 4; c.ft = 0; }
+    }
+
+    // ===== RENDER =====
+    const RAIN = Array.from({ length: 120 }, () => ({ x: Math.random() * 1200, y: Math.random() * 800, s: 3 + Math.random() * 3 }));
+
+    function drawSky() {
+      const h = (new Date()).getHours() + ((new Date()).getMinutes() / 60);
+      let c1, c2;
+      if (h >= 6 && h < 8) { const t = (h - 6) / 2; c1 = lerp('#08071a', '#501c08', t); c2 = lerp('#100820', '#c04818', t); }
+      else if (h >= 8 && h < 10) { const t = (h - 8) / 2; c1 = lerp('#501c08', '#182858', t); c2 = lerp('#c04818', '#4070b8', t); }
+      else if (h >= 10 && h < 17) {
+        const w = MOODS[WS.ek].w;
+        if (w === 'sunny') { c1 = '#182858'; c2 = '#4888d0'; }
+        else if (w === 'clear') { c1 = '#1e3060'; c2 = '#4070b8'; }
+        else if (w === 'cloudy') { c1 = '#222840'; c2 = '#38485a'; }
+        else if (w === 'drizzle') { c1 = '#181c28'; c2 = '#28303c'; }
+        else { c1 = '#0a0a14'; c2 = '#141018'; }
+      }
+      else if (h >= 17 && h < 20) { const t = (h - 17) / 3; c1 = lerp('#182858', '#1a0820', t); c2 = lerp('#4888d0', '#c03818', t); }
+      else { c1 = '#040308'; c2 = '#07050e'; }
+      const g = ctx.createLinearGradient(0, 0, 0, CH * 0.55);
+      g.addColorStop(0, c1); g.addColorStop(1, c2);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
+      // distant hill silhouette
+      ctx.fillStyle = 'rgba(20,25,40,0.5)';
+      ctx.beginPath(); ctx.moveTo(0, CH * 0.45);
+      for (let hx = 0; hx <= CW; hx += 8) {
+        const hn = CH * 0.38 + Math.sin(hx * 0.012 + 1) * CH * 0.04 + Math.sin(hx * 0.007) * CH * 0.03;
+        ctx.lineTo(hx, hn);
+      }
+      ctx.lineTo(CW, CH * 0.55); ctx.lineTo(0, CH * 0.55); ctx.closePath(); ctx.fill();
+      // far hill lighter
+      ctx.fillStyle = 'rgba(30,35,55,0.4)';
+      ctx.beginPath(); ctx.moveTo(0, CH * 0.48);
+      for (let hx = 0; hx <= CW; hx += 8) {
+        const hn = CH * 0.42 + Math.sin(hx * 0.009 + 3) * CH * 0.035 + Math.sin(hx * 0.005 + 1) * CH * 0.025;
+        ctx.lineTo(hx, hn);
+      }
+      ctx.lineTo(CW, CH * 0.55); ctx.lineTo(0, CH * 0.55); ctx.closePath(); ctx.fill();
+    }
+
+    function drawStars() {
+      if (WS.ll > 0.7) return;
+      const a = (1 - WS.ll / 0.7) * 0.95;
+      for (let i = 0; i < 100; i++) {
+        const sx2 = ((i * 173 + 31) % CW), sy2 = ((i * 97 + 13) % (CH * 0.44));
+        const tw2 = 0.5 + 0.5 * Math.sin(WS.tick * 0.008 + i);
+        ctx.fillStyle = `rgba(255,252,220,${a * tw2})`;
+        ctx.fillRect(sx2, sy2, i % 4 === 0 ? 1.5 : 0.8, i % 4 === 0 ? 1.5 : 0.8);
+      }
+    }
+
+    function drawSunMoon() {
+      const h = (new Date()).getHours() + ((new Date()).getMinutes() / 60);
+      if (h >= 6 && h < 18) {
+        const a = ((h - 6) / 12) * Math.PI;
+        const sx2 = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.36;
+        const sy2 = CH * 0.14 - Math.sin(a) * CH * 0.1;
+        const grd = ctx.createRadialGradient(sx2, sy2, 0, sx2, sy2, 38);
+        grd.addColorStop(0, 'rgba(255,240,100,0.45)'); grd.addColorStop(1, 'rgba(255,200,50,0)');
+        ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(sx2, sy2, 38, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffe040'; ctx.beginPath(); ctx.arc(sx2, sy2, 10, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff070'; ctx.beginPath(); ctx.arc(sx2 - 2, sy2 - 2, 5, 0, Math.PI * 2); ctx.fill();
+      } else {
+        const ah = h < 6 ? h + 12 : h - 18;
+        const a = (ah / 12) * Math.PI;
+        const mx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.36;
+        const my = CH * 0.14 - Math.sin(a) * CH * 0.1;
+        ctx.fillStyle = '#b8b090'; ctx.beginPath(); ctx.arc(mx, my, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#040308'; ctx.beginPath(); ctx.arc(mx + 3, my - 2, 6, 0, Math.PI * 2); ctx.fill();
+        // moon glow
+        const gm = ctx.createRadialGradient(mx, my, 0, mx, my, 25);
+        gm.addColorStop(0, 'rgba(200,210,255,0.12)'); gm.addColorStop(1, 'rgba(180,190,255,0)');
+        ctx.fillStyle = gm; ctx.beginPath(); ctx.arc(mx, my, 25, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    function drawClouds() {
+      const w = MOODS[WS.ek].w;
+      const cnt = { sunny: 4, clear: 7, cloudy: 13, drizzle: 18, storm: 22 }[w] || 4;
+      const alp = { sunny: 0.32, clear: 0.5, cloudy: 0.8, drizzle: 0.92, storm: 1.0 }[w] || 0.32;
+      for (let i = 0; i < cnt; i++) {
+        const cx2 = ((i * 197 + WS.tick * 2) % CW);
+        const cy2 = CH * 0.04 + (i % 4) * CH * 0.05;
+        const cw2 = 70 + i * 15, ch2 = 20 + i % 3 * 8;
+        const gc = ctx.createLinearGradient(0, cy2, 0, cy2 + ch2);
+        gc.addColorStop(0, `rgba(220,225,240,${alp})`); gc.addColorStop(1, `rgba(160,175,210,${alp * 0.2})`);
+        ctx.fillStyle = gc; ctx.beginPath(); ctx.ellipse(cx2, cy2 + ch2 / 2, cw2 / 2, ch2 / 2, 0, 0, Math.PI * 2); ctx.fill();
+      }
+      if (w === 'storm') { ctx.fillStyle = 'rgba(8,8,20,0.3)'; ctx.fillRect(0, 0, CW, CH); if (Math.random() > 0.97) { ctx.fillStyle = 'rgba(255,255,255,0.06)'; ctx.fillRect(0, 0, CW, CH); } }
+    }
+
+    function drawRain() {
+      const w = MOODS[WS.ek].w;
+      if (w !== 'drizzle' && w !== 'storm') return;
+      const cnt = w === 'storm' ? 120 : 60;
+      const alp = w === 'storm' ? 0.4 : 0.18;
+      ctx.strokeStyle = `rgba(150,200,255,${alp})`; ctx.lineWidth = w === 'storm' ? 1 : 0.6;
+      for (let i = 0; i < cnt; i++) {
+        const d = RAIN[i]; d.y += d.s; d.x -= 0.4;
+        if (d.y > CH) { d.y = -10; d.x = Math.random() * CW; }
+        ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 2, d.y + 7); ctx.stroke();
+      }
+    }
+
+    function drawTile(t, x2, y2) {
+      const p = iso(x2, y2);
+      const spr = SPR[t]; if (!spr) return;
+      ctx.drawImage(spr, p.x - TW / 2, p.y - TH / 2);
+    }
+
+    function drawObj(o) {
+      if (o.t === 'wall') {
+        const p = iso(o.x, o.y);
+        if (SPR.wall) ctx.drawImage(SPR.wall, p.x - TW / 2, p.y - TH * 4.5);
+      } else if (o.t === 'ho') {
+        const p = iso(o.x, o.y);
+        const s = SPR[o.s]; if (!s) return;
+        ctx.drawImage(s, p.x - s.width / 2, p.y - s.height + TH);
+      } else if (o.t === 'tree') {
+        const p = iso(o.x, o.y);
+        const s = SPR[o.s]; if (!s) return;
+        ctx.drawImage(s, p.x - s.width / 2, p.y - s.height + TH / 2);
+      } else if (o.t === 'fire') {
+        const p = iso(o.x, o.y);
+        const fi = Math.floor(WS.tick * 0.15) % 4;
+        const s = SPR['fire' + fi]; if (!s) return;
+        ctx.drawImage(s, p.x - s.width / 2, p.y - s.height + TH * 0.5);
+        if (WS.ll < 0.85) {
+          const rad = 55 - WS.ll * 35;
+          const gf = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
+          gf.addColorStop(0, `rgba(255,140,20,${0.16 * (1 - WS.ll)})`); gf.addColorStop(1, 'rgba(255,80,0,0)');
+          ctx.fillStyle = gf; ctx.fillRect(p.x - rad, p.y - rad, rad * 2, rad * 2);
+        }
+      } else if (o.t === 'char') {
+        const p = iso(o.x, o.y);
+        const key = 'ch_' + WS.ek;
+        const s = SPR[key]; if (!s) return;
+        // walk bob
+        const bob = [0, -1, 0, 1][CHAR.fr] * 1.5;
+        const scx = o.dir < 0 ? -1 : 1;
+        ctx.save();
+        ctx.translate(p.x, p.y + bob);
+        ctx.scale(scx, 1);
+        ctx.drawImage(s, -s.width / 2, -s.height + TH * 0.4);
+        ctx.restore();
+        // night dim
+        if (WS.ll < 0.9) { ctx.fillStyle = `rgba(5,5,20,${(1 - WS.ll) * 0.5})`; ctx.fillRect(p.x - s.width / 2, p.y - s.height + TH * 0.4, s.width, s.height); }
+      }
+    }
+
+    let ltm = 0;
+    function render(ts) {
+      if (!ltm) ltm = ts;
+      const dt = Math.min((ts - ltm) / 1000, 0.1); ltm = ts; WS.tick++;
+      // light level
+      const h = (new Date()).getHours() + ((new Date()).getMinutes() / 60);
+      if (h >= 7 && h < 17) WS.ll = 1.0;
+      else if (h >= 5 && h < 7) WS.ll = 0.2 + (h - 5) * 0.4;
+      else if (h >= 17 && h < 20) WS.ll = 1.0 - (h - 17) * 0.33;
+      else WS.ll = 0.1;
+      const w = MOODS[WS.ek].w;
+      if (w === 'storm') WS.ll = Math.min(WS.ll, 0.25);
+      else if (w === 'drizzle') WS.ll = Math.min(WS.ll, 0.55);
+      else if (w === 'cloudy') WS.ll = Math.min(WS.ll, 0.8);
+
+      drawSky(); drawStars(); drawSunMoon(); drawClouds();
+
+      // update water frame
+      const wf = 'wat' + ((Math.floor(WS.tick / 8)) % 4);
+      TILES.forEach(t => { if (t.t.startsWith('wat')) t.t = wf; });
+
+      // sort & draw tiles
+      const sorted = [...TILES].sort((a, b) => (a.x + a.y) - (b.x + b.y));
+      sorted.forEach(t => drawTile(t.t, t.x, t.y));
+
+      // sort & draw objects + char
+      const allO = [...OBJS, { t: 'char', x: CHAR.x, y: CHAR.y, dir: CHAR.dir }];
+      allO.sort((a, b) => (a.x + a.y) - (b.x + b.y));
+      allO.forEach(o => drawObj(o));
+
+      drawRain();
+
+      // global darkness
+      if (WS.ll < 0.95) {
+        ctx.fillStyle = `rgba(4,4,16,${(1 - WS.ll) * 0.6})`; ctx.fillRect(0, 0, CW, CH);
+      }
+      // fog at bottom edge
+      const fg = ctx.createLinearGradient(0, CH * 0.7, 0, CH);
+      fg.addColorStop(0, 'rgba(5,8,20,0)'); fg.addColorStop(1, 'rgba(5,8,20,0.7)');
+      ctx.fillStyle = fg; ctx.fillRect(0, CH * 0.7, CW, CH * 0.3);
+
+      updateChar(dt);
+      // HUD
+      const nn = new Date(), hh = nn.getHours(), mm = nn.getMinutes();
+      document.getElementById('hclock').textContent = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+      requestAnimationFrame(render);
+    }
+
+    // ===== UTILS =====
+    function lerp(c1, c2, t) {
+      t = Math.max(0, Math.min(1, t));
+      const p = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+      const [r1, g1, b1] = p(c1), [r2, g2, b2] = p(c2);
+      return `rgb(${(r1 + (r2 - r1) * t) | 0},${(g1 + (g2 - g1) * t) | 0},${(b1 + (b2 - b1) * t) | 0})`;
+    }
+
+    // ===== DATA LOAD =====
+    async function loadData() {
+      const bar = document.getElementById('lb'); bar.style.width = '40%';
+      let emos = [], diary = '';
+      try {
+        const r = await fetch('./daily_graph.json'); if (!r.ok) throw 0;
+        const d = await r.json();
+        emos = (d.nodes || []).filter(n => n.type === '感情' && typeof n.sentiment === 'number');
+        const di = (d.nodes || []).find(n => n.type === '日記'); diary = di?.detail || '';
+      } catch {
+        emos = [{ label: '思考整理のスッキリ感', sentiment: 0.7 }, { label: '進捗への不安', sentiment: -0.2 }];
+        diary = '本日の思考整理と作業について。';
+      }
+      WS.emos = emos; WS.diary = diary;
+      if (emos.length) {
+        const avg = emos.reduce((s, e) => s + (e.sentiment || 0), 0) / emos.length;
+        WS.avg = avg;
+        WS.ek = avg >= 0.5 ? 'joy_high' : avg >= 0.1 ? 'joy_mid' : avg >= -0.1 ? 'neutral' : avg >= -0.4 ? 'anxiety' : 'sadness';
+      }
+      bar.style.width = '85%';
+      const m = MOODS[WS.ek];
+      document.getElementById('hwx').textContent = m.icon;
+      document.getElementById('hmood').textContent = m.label;
+      document.getElementById('pact').textContent = '→ ' + m.act[0];
+      document.getElementById('pdi').textContent = diary || '日記データなし';
+      const el = document.getElementById('pem'); el.innerHTML = '';
+      emos.forEach(e => {
+        const s = e.sentiment || 0, pct = ((s + 1) / 2 * 100) | 0;
+        const c = s > 0.1 ? '#5ec068' : s < -0.1 ? '#e05858' : '#c89838';
+        el.innerHTML += `<div class="er"><div class="ed" style="background:${c}"></div><div style="flex:1"><div class="el">${e.label}</div><div class="ebg"><div class="ebf" style="width:${pct}%;background:${c}"></div></div></div></div>`;
+      });
+      bar.style.width = '100%';
+      setTimeout(() => document.getElementById('loading').classList.add('out'), 500);
+    }
+
+    // ===== BOOT =====
+    cv = document.getElementById('cv'); ctx = cv.getContext('2d');
+    window.addEventListener('resize', () => { resize(); });
+    // drag to pan
+    const wd = document.getElementById('world');
+    wd.addEventListener('mousedown', e => { dragging = true; dragSX = e.clientX; dragSY = e.clientY; dragCX = camX; dragCY = camY; wd.style.cursor = 'grabbing'; });
+    wd.addEventListener('mousemove', e => { if (!dragging) return; camX = dragCX + (e.clientX - dragSX); camY = dragCY + (e.clientY - dragSY); ox = cv.width * 0.5 + camX; oy = cv.height * 0.18 + camY; });
+    wd.addEventListener('mouseup', () => { dragging = false; wd.style.cursor = 'default'; });
+    wd.addEventListener('mouseleave', () => { dragging = false; wd.style.cursor = 'default'; });
+    resize(); buildWorld(); buildSprites();
+    loadData().then(() => requestAnimationFrame(render));
+  </script>
 </body>
 
 </html>
