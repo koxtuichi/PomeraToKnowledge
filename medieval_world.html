@@ -319,6 +319,23 @@
       char: './sprites/char.png'
     };
 
+    // 白背景を透明化する関数
+    function removeWhiteBg(img, thres) {
+      const oc = document.createElement('canvas');
+      oc.width = img.width; oc.height = img.height;
+      const ox = oc.getContext('2d');
+      ox.drawImage(img, 0, 0);
+      const d = ox.getImageData(0, 0, oc.width, oc.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > thres && px[i + 1] > thres && px[i + 2] > thres) px[i + 3] = 0;
+      }
+      ox.putImageData(d, 0, 0);
+      return oc;
+    }
+
+    const TILE_KEYS = new Set(['grass', 'stone', 'water']);
+
     function loadSprites(cb) {
       let done = 0;
       const total = SPR_KEYS.length;
@@ -327,14 +344,17 @@
       SPR_KEYS.forEach(function (key) {
         const img = new Image();
         img.onload = function () {
-          IMG[key] = img;
+          if (TILE_KEYS.has(key)) {
+            IMG[key] = img;
+          } else {
+            IMG[key] = removeWhiteBg(img, 220);
+          }
           done++;
           lb.style.width = (done / total * 100) + '%';
           lstat.textContent = key + ' 読み込み完了 (' + done + '/' + total + ')';
           if (done === total) cb();
         };
         img.onerror = function () {
-          // 読み込み失敗してもカウント進める
           done++;
           lb.style.width = (done / total * 100) + '%';
           lstat.textContent = key + ' 読み込み失敗 (' + done + '/' + total + ')';
