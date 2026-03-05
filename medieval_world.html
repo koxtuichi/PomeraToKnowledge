@@ -319,7 +319,7 @@
       char: './sprites/char.png'
     };
 
-    // 白背景を透明化する関数
+    // 四隅からフラッドフィルで背景(白～明るいグレー)を透明化
     function removeWhiteBg(img, thres) {
       const oc = document.createElement('canvas');
       oc.width = img.width; oc.height = img.height;
@@ -327,9 +327,35 @@
       ox.drawImage(img, 0, 0);
       const d = ox.getImageData(0, 0, oc.width, oc.height);
       const px = d.data;
-      for (let i = 0; i < px.length; i += 4) {
-        if (px[i] > thres && px[i + 1] > thres && px[i + 2] > thres) px[i + 3] = 0;
+      const W = oc.width, H = oc.height;
+      const visited = new Uint8Array(W * H);
+
+      function isLight(i) {
+        return px[i] > thres && px[i + 1] > thres && px[i + 2] > thres && px[i + 3] > 10;
       }
+      function flood(sx, sy) {
+        const stack = [sx + sy * W];
+        while (stack.length) {
+          const idx = stack.pop();
+          if (idx < 0 || idx >= W * H || visited[idx]) continue;
+          visited[idx] = 1;
+          const pi = idx * 4;
+          if (px[pi + 3] < 10) continue; // already transparent
+          if (!isLight(pi)) continue;
+          px[pi + 3] = 0;
+          const x = idx % W, y = Math.floor(idx / W);
+          if (x > 0) stack.push(idx - 1);
+          if (x < W - 1) stack.push(idx + 1);
+          if (y > 0) stack.push(idx - W);
+          if (y < H - 1) stack.push(idx + W);
+        }
+      }
+      // 四隅からフラッドフィル
+      flood(0, 0);
+      flood(W - 1, 0);
+      flood(0, H - 1);
+      flood(W - 1, H - 1);
+
       ox.putImageData(d, 0, 0);
       return oc;
     }
