@@ -15,8 +15,6 @@
       background: #080511;
       overflow: hidden;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
       font-family: 'Courier New', monospace
     }
 
@@ -96,86 +94,57 @@
       border: 1px solid rgba(100, 75, 25, 0.4);
       border-radius: 2px;
       text-decoration: none;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.2s
-    }
-
-    .hback:hover {
-      color: #c8934a;
-      border-color: rgba(200, 147, 74, 0.5);
-      background: rgba(200, 147, 74, 0.05)
+      letter-spacing: 1px
     }
 
     .htitle {
-      font-size: 13px;
-      color: #c8934a;
+      font-size: 12px;
+      color: #9a7040;
       letter-spacing: 4px;
-      text-shadow: 0 0 12px rgba(200, 147, 74, 0.35)
+      flex: 1;
+      text-align: center
     }
 
     .hr {
-      margin-left: auto;
       display: flex;
-      gap: 14px;
       align-items: center;
-      font-size: 10px
+      gap: 12px
     }
 
-    .hwx {
-      font-size: 16px
+    .hwx,
+    .hmood {
+      font-size: 12px;
+      color: #9a7040
     }
 
-    .hmood,
     .hclock {
+      font-size: 11px;
       color: #7a6030;
-      letter-spacing: 1px
+      letter-spacing: 2px
     }
 
     #panel {
       position: fixed;
-      right: 0;
       top: 34px;
-      bottom: 0;
+      right: 0;
       width: 200px;
-      background: rgba(5, 4, 14, 0.96);
-      border-left: 1px solid rgba(60, 45, 15, 0.5);
+      bottom: 0;
+      background: rgba(4, 3, 10, 0.92);
+      border-left: 1px solid rgba(80, 60, 20, 0.2);
       padding: 12px 10px;
-      overflow-y: auto;
-      z-index: 5
+      overflow-y: auto
     }
 
     .ph {
-      font-size: 8px;
-      color: #5a4018;
-      letter-spacing: 2px;
-      border-bottom: 1px solid rgba(60, 45, 15, 0.4);
-      padding-bottom: 4px;
+      font-size: 9px;
+      color: #6a5030;
+      letter-spacing: 3px;
       margin-bottom: 8px;
-      text-transform: uppercase
+      border-bottom: 1px solid rgba(80, 60, 20, 0.2);
+      padding-bottom: 4px
     }
 
     .pt {
-      font-size: 10px;
-      color: #80684a;
-      line-height: 1.8
-    }
-
-    .er {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 7px
-    }
-
-    .ed {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      flex-shrink: 0
-    }
-
-    .el {
       font-size: 9px;
       color: #6a5838;
       flex: 1
@@ -258,331 +227,438 @@
     </div>
   </div>
   <div id="world"><canvas id="cv"></canvas></div>
+
   <script>
-"use st    rict";
-// ===== CONFIG =====
-const TW=96, TH=48; //     larger   ti      es for Eli       sc ale
-const  MAP _W=18, MAP _H= 18;
+    // ===== CONFIG =====
+    const TW = 96, TH = 48;
+    const MAP_W = 18, MAP_H = 18;
 
-// == ===  WORLD STA TE  =====
-const      WS={ek:'n      utr al',avg:0, emo s:[],diary :'' ,tick:0,ll :1} ;
-const MO ODS ={
- joy_hig      :{w:'sun      y', icon:'☀',l abe l:'喜びの日',a ct: ['広場で踊っている ',' 丘から景色を眺めている      ,'酒場で歌ってい      ',' 花冠を編んでいる', '飛び 跳ねるように歩いてい る'] },
- joy_mi d:  {w:'clear',      icon:'⛅',      abe l:'穏やかな日', act :['市場を散策して いる' ,'川辺で昼寝してい る', '本を読みながら歩い ている ','庭の花を世話して      る','ゆっくり散      してい る']},
- neu tra l: {w:'clo udy ',icon:'☁' , l abel:'平静な日'       act:['城      を見回 っている','鍛冶場 で作業 している','地図を 広げて いる','薪を割ってい      ','道具を磨いてい      ']} ,
- anxiety : { w:'drizzle ',i con:'🌧',l abe l:'不安な日',a ct: ['壁際でぼんやりして      る','雨の中座っ      いる' ,'石段でため息つい ている ','軒下で雨宿りして      る','水面に石      投げて いる']},
- sa dne ss: {w:'st orm ', icon:'⛈ ',  label:'憂鬱な 日',  act:['窓から雨      見ている','毛布に包まっ      いる' ,'ろうそくを見つめ ている ','本を閉じたまま 考えて いる','暖炉の炎を 眺めて いる']},
-};
- con st ROUTES={       jo y_high:[{x :8, y:8},{x:5, y:5 },{x:3,y:8 },{ x:5,y:11},{      :8,y:8}]      
- j oy_mid :[{ x:8 ,y:8},{x:1 1,y :8},{x:13,y    :10}    ,{x:11,y:12},{x:8,y:8}],
- n    eutral : [ {x: 8, y :8},{x:8,y:5},{x:5,y:5},{x:8,y:8},{x:11,y:8}],
- anxiety     :[{x:8,y:8},{x:8,y:11},{x:    10,y:11} , { x:8 ,y:8}],
- s adne ss  :[{x :8, y:8},{ x:8 .1,y: 8. 1}, { x:8    ,y:8}],
-};
- 
- //      ===== SPR I TE S =====
-const  IMG={};
-con st SPR_NAMES =['grass','s tone','water', 'house','to wer','tree' ,'char','fire' ,'w      ll'];
-let  sp rsLoaded=0;
+    // ===== WORLD STATE =====
+    const MOODS = {
+      joy: { label: '喜び', color: '#ffe090', sky: 'sunny', w: 'sunny', icon: '☀' },
+      trust: { label: '信頼', color: '#90d080', sky: 'clear', w: 'clear', icon: '🌤' },
+      fear: { label: '恐れ', color: '#8070b0', sky: 'cloudy', w: 'storm', icon: '⛈' },
+      surprise: { label: '驚き', color: '#f0a030', sky: 'clear', w: 'clear', icon: '✨' },
+      sadness: { label: '悲しみ', color: '#7090c0', sky: 'cloudy', w: 'drizzle', icon: '🌧' },
+      disgust: { label: '嫌悪', color: '#a0a060', sky: 'cloudy', w: 'cloudy', icon: '☁' },
+      anger: { label: '怒り', color: '#e05030', sky: 'storm', w: 'storm', icon: '⛈' },
+      neutral: { label: '平静', color: '#c8a870', sky: 'clear', w: 'clear', icon: '🌤' }
+    };
 
-f unct ion lo adSprite s(cb ){
- SPR_NAMES .forEach(n=> {
-  const img=n ew Image();
-   img.onload=( )=>      IMG[n]=img ;s prsLoaded ++;do cument.getE lementById(' lb').style.wi dth=(20+sprsL oaded/SPR_N AMES.lengt h*50)+'%';i f(s      rsLoaded== =S PR_NAMES.l ength )cb() ;};
-   img.onerror= ()=>{sprsLoaded ++;if(sprsL oaded===SPR_NA MES.length)cb ();};
-  img.s rc=      ./sprites/ '+ n+'.png';
- }); 
-}
+    const WS = {
+      ek: 'neutral',
+      tick: 0,
+      ll: 1.0
+    };
 
-// ==== = CANVAS / C AMERA =====
-l et cv,ctx,CW ,CH,camX=0,cam Y=0;
-let draggi ng=false,drag SX=    0,d    ragSY=0,drag C X=      ,dragCY=0 ;
- 
-f unc ti on  r e si ze () { 
-  c on st  e l= do c um en t. ge tE l em ent By Id ('wo      ld');
- W =e l. cli en tW id t h; CH= el .c li e nt Hei gh t; 
-  c v. wid th =C W; c v. hei gh t= CH;
-      
-functin  g et _ox () {r et u rn  CW *0 . 5+ c am X; }
- f un c ti on  ge t_ oy ( ){ ret ur n  CH*0      22+camY} 
+    // ===== TILE MAP =====
+    const TILE = { GRASS: 0, STONE: 1, WATER: 2 };
+    const MAP = [];
+    for (let y = 0; y < MAP_H; y++) {
+      MAP[y] = [];
+      for (let x = 0; x < MAP_W; x++) {
+        const r = Math.random();
+        if ((x === 4 || x === 5) && y > 3 && y < 14) MAP[y][x] = TILE.STONE;
+        else if (x > 7 && x < 11 && y > 7 && y < 11) MAP[y][x] = TILE.WATER;
+        else if (r < 0.05) MAP[y][x] = TILE.WATER;
+        else MAP[y][x] = TILE.GRASS;
+      }
+    }
 
- fu nct io n  is o (i x,i y, iz =0 ) {
-  co ns t  ox = ge t_o x( ), oy=g      t_oy();  re tu rn{ x: ox +( i x- iy)*( TW /2), y: o y+ (ix +i y) *(TH    /2)-    iz*(TH* 0.8) };
- }
+    // ===== OBJECTS =====
+    const OBJS = [
+      { t: 'house', x: 8, y: 4 },
+      { t: 'house', x: 11, y: 5 },
+      { t: 'tower', x: 2, y: 2 },
+      { t: 'tower', x: 14, y: 2 },
+      { t: 'tree', x: 6, y: 6 },
+      { t: 'tree', x: 13, y: 8 },
+      { t: 'tree', x: 7, y: 13 },
+      { t: 'well', x: 9, y: 9 },
+      { t: 'fire', x: 10, y: 10 }
+    ];
 
- //  === == T I LE MAP  = ===    =
-const TILE S =[];
-c onst O B JS =[];
+    const CHAR = { x: 9, y: 8, dx: 0, dy: 0, fr: 0, dir: 1, act: 'wandering', timer: 0 };
 
- f un ction  b ui ldWorl d (){
-     for(let y=0;y<MA P_      ;y++){
-    for(let x=0;x<MAP_W;x++){
-   let t      'g r ass';
-   if((x> =7 & &x<=10&&y>=3&&y<=      4)||(y>= 7 &&y <=10&&x>= 3 &&x<      14 ) )t = 'st o ne';
-      if ( x>=1 4 )t='wa    ter    ';
-   TILES.push ({x ,y , t} );        }
- } 
-  / /  t owe r  (n o rth   cor ne r) 
-  OB J S.p u sh( { t: ' to w er ',x    :2,    y:2});
- OBJS.push({t:'tower',x:2,y:13});
-     // houses 
-  OBJS    .push({t:'house',x:3, y: 3} );
-  O      JS.push( { t:'house',x:3,y:6});
- OBJS.push({t      'house', x :3 ,y:10});
-   OBJ      .push({t : 'house',x:12,y:3});
-       BJS.pu sh ({t:      house',x : 12,y    :6}    );
- // well
- OB JS .p us h( {t : 'well',x:9,y : 9} );
- // trees
-  [[ 12 ,12 ],[    13,13],[13,11],[15,2],[15,4],[16,6],    [3,15],[4,16],[5,14]].forEa ch( ([x ,y] )=      OBJS.push({t :'t re e ', x, y} ))         // fires
- OBJS.push({        'fire',x:8,y : 8});        OBJS.push({t:'f ire',x:10,y: 8 }) ;
-} 
+    // ===== CANVAS SETUP =====
+    const world = document.getElementById('world');
+    const cv = document.getElementById('cv');
+    const ctx = cv.getContext('2d');
+    let CW, CH;
+    function resize() {
+      CW = world.offsetWidth;
+      CH = world.offsetHeight;
+      cv.width = CW;
+      cv.height = CH;
+    }
+    resize();
+    window.addEventListener('resize', resize);
 
-// ===== CH AR A CTE R =====
-cons t  C HAR= {x:8,y:8,tx: 8, t y:8 ,dir:1,fr:0,ft: 0,ai:0,at:0        pi:0};
+    // ===== ISO PROJECTION =====
+    function iso(tx, ty) {
+      const ox = CW / 2;
+      const oy = CH * 0.2;
+      return {
+        x: ox + (tx - ty) * TW / 2,
+        y: oy + (tx + ty) * TH / 2
+      };
+    }
 
-functio        updateChar(d t ){
-         nst  c=CHA R ,m = M OOD S[WS.ek ];
- c.a t += dt ; if( c.at> 7)          at=0;c.ai=( c .ai +1 )%m.act.le n gt h ;d o cum e nt.g et Ele me nt B yId('pact' ) .t e xt C ont e nt='→           .a ct[c.a i] ;} 
-  co n s t r t= ROUTES[WS.ek]|| RO UT ES.n        tr        ;
- const wp=rt[c.w        %rt.length]; 
-  con         dx =wp.x- c .x , d y= wp.y -c          dist=Mat h .s q r t (dx*dx+dy*dy);
- if(di s t<0. 0 8){c.          ++;retur n ;} 
-   c onst spd={joy_high:1. 6 ,joy _ mid:          ,n eut r a l: 0. 7 5, a n xi et y : 0. 4, s ad n es s:0.15}[WS.ek]| |0. 75 ;
- c        +=      x/di    st*    spd*dt;c.y+=dy/dist*s    pd*dt;
- c.dir=dx<0?-1:1;
- c .ft +=d t;      f(c.ft>0.18) {c. fr = (c .f r+ 1)        ;c.ft=0;}
-}
- 
- // =        == RAIN =====
-c onst RAIN=Ar r ay .fr om({length:15 0} , ()= >({x:Math.ra n do m()* 1400,y:Math. ra n dom ()*900,s:4+Math .random()*4        );
+    // ===== IMAGE LOADING =====
+    const IMG = {};
+    const SPR_KEYS = ['grass', 'stone', 'water', 'house', 'tower', 'tree', 'fire', 'well', 'char'];
+    const SPR_PATHS = {
+      grass: './sprites/grass.png',
+      stone: './sprites/stone.png',
+      water: './sprites/water.png',
+      house: './sprites/house.png',
+      tower: './sprites/tower.png',
+      tree: './sprites/tree.png',
+      fire: './sprites/fire.png',
+      well: './sprites/well.png',
+      char: './sprites/char.png'
+    };
 
-// ===== DRA        HELPERS =====
- f unc tion lerp(c1 , c2,t)         t=Math.max(0,M ath.min(1,t) ) ;
-  c o nst  p=h=>[pars e In t (h .s l ice (1,3),16),par        Int(h.slice(3,5 ),16),parseI n t( h. s l i ce( 5,7),16)];
-  c on st[ r1,g1,b1]=p(c        ,[r2,g2,b2]=p(c2);
- re        rn`rgb(${(r1 + (r2-r1)*t)|0},${(g1+        2-g 1)*t)| 0 }, $ { (b 1 +( b2-b1)*t)|0})`;
-} 
- 
-f u n c t i on   d r aw Sk y( ){
-       onst     h=    (new Date()).getHours()    +((new Date()).getMinute s(      /60 );
- le t  c 1 , c2 ;
- c on         w=MOODS[WS.e k ]. w;
-  i f (h >= 6& &h          {const t = (h-6)/2;c1 = lerp( ' #06050          '#401808 ' ,t);c2=lerp('#0c0618','#a0 38 10 ',t);          else if(h>=8&&h<10 ){cons t t=(h-8)/2;c1=ler p('#401          ','#102040', t );c2          rp('#a03810','# 3060a0',t);} 
-  e lse  if(h>=10&&h< 17 ) {
-   if(w==='sun n y' ){c1 ='#102040';c 2= ' #38 78c0';}
-  else  if(w==='cle          ){c1='#182850';c2='          68b0';}
-  el s e if(w==='cloudy'){c1=' # 1e2030'          ='# 303848 ' ;} 
-    e lse if(w==='drizzl e ' ) { c 1 = '# 14 1 6 1 e' ;c 2='#        282e      ;}    
-      else{c1='#08080    e';c2='#10080e';}
- }
-  else i f(      >=17&&h < 20){c on st  t=(h-1 7 )/3;c1=lerp(' # 102 0 4 0','#14061a', t );c2      lerp('#3878c 0' ,' #b 03 01        ,t);}
- else{c1='#0        208';c2='#05 0 30a';}
- const g=ctx.        eateLinearGradi ent(0,0,0,CH * 0. 5 ) ;
-   g .add Co lo rS top(0,c 1 );g .addColorSt        (1,c2);
-         x.fillSt y le=g;ctx.fil l R e c t (0, 0, C W,CH);
- // h i ll silh        ette
-  ctx .fi llStyle='rgb a (15 ,18,32,0.6)' ; 
- ct x .be ginPath        ;ctx.m ov e To (0, CH*0.42);
- f o r(l et hx=0;hx<= C W;hx + =6) {ctx.li        To(hx,CH*0.35+Math.sin(hx*0.        1+1)*CH* 0 .04 5 +Mat h . sin(h x * 0.006 ) * CH*0. 028);} 
-  c tx.l i n eTo(C W , CH*0. 5 ) ;ctx. lineTo (0 , CH*0. 5 ) ;ctx. c l osePa t h ();ct x.fill () ; 
- ct x . fillS t y le='r g b a(22, 26,46,0.        ';
- ctx.beginPat h() ;ct x.m oveT o( 0,          0.46);
- for( l et  hx=0;hx<=CW;hx+ =6){ctx.lineTo (hx ,CH *0. 4+ Ma th.sin( h x*0 .008+3)*CH*        03+M        h.sin(hx*0.004+1)*CH*0.0        );}
- ctx.lin e To(CW,        *0. 5 );ctx . l ineTo( 0, C H*0.5 ) ; ctx.cl os e Path( ) ; ctx.fill();
-}
+    function loadSprites(cb) {
+      let done = 0;
+      const total = SPR_KEYS.length;
+      const lb = document.getElementById('lb');
+      const lstat = document.getElementById('lstat');
+      SPR_KEYS.forEach(function (key) {
+        const img = new Image();
+        img.onload = function () {
+          IMG[key] = img;
+          done++;
+          lb.style.width = (done / total * 100) + '%';
+          lstat.textContent = key + ' 読み込み完了 (' + done + '/' + total + ')';
+          if (done === total) cb();
+        };
+        img.onerror = function () {
+          // 読み込み失敗してもカウント進める
+          done++;
+          lb.style.width = (done / total * 100) + '%';
+          lstat.textContent = key + ' 読み込み失敗 (' + done + '/' + total + ')';
+          if (done === total) cb();
+        };
+        img.src = SPR_PATHS[key];
+      });
+    }
 
-funct ion  dr awStars(){
- if( WS. ll >0.7)      etur    n;
-     const a=(1-WS.ll/0.7)*0.9;
- for(let i=0;    i<120;i++){
-  const sx= ((i *17 3+      1)%CW),sy = (( i *9 7+1 3 )% ( CH*      .42));
-  co n st   tw=0.5+0.5*Math.sin(WS.t      ck*0.00 7 +i) ; 
-  c t x.f i llSty l e= ` r g ba(      55,252,230,$ {a *t w} )` ;
-        ctx.fillR e ct(        ,sy,i%5= = = 0 ?1.        0.9,i%5===0?1.5:0.9);
- }
-}        function dra w SunMo        (){
- const h = (n e w Dat        )).getHours()+((new Date())        etMinutes()/ 6 0);
-  if (h>=6&&        18){
-  const a=(        -6)/12)*Math. PI;
-  con         sx=CW*0.5+ M at h.cos( M at h .PI-        *CW*0.38;
-  c onst s y =CH*0        3-Math.sin(a )*CH*0 . 08 ; 
-  c        st gr=ctx.creat eRadialGrad        nt(sx,sy,0,sx,sy,44        
-  gr.addCol o rStop(0        rgba(255,235,100        .5)');gr.add ColorS t op ( 1,'r        a(255,200,50, 0)');
-    ctx.        llStyle=gr;ct x.begi n Pa t h();ctx.a        (sx,sy,44,0, Math.P I *2 ) ; c tx.fill()          ctx.fillStyle ='#ffe040';        x.beginPath();ctx.ar        sx,sy,11,0,M a th.PI*2        ctx.fill();
-  ct        fillStyle=' # ff f080'; c tx . begi        ath();ctx.arc (sx-3, s y-3,5        ,Math.PI*2);c tx.fil l () ; 
- } else           const ah= h <6 ?h+12: h -1 8 ; 
-   const a        ah/12)*Math.PI; 
-  const mx        W*0.5+Math.cos(Math        I-a)*CW*0.38,   my=CH* 0 .1 3 -Math.si        a)*CH*0.08;
-  ctx.fillS        le='#b8b090' ; ctx.b eg inPath(        ctx.arc(mx,my,9,        Math.PI*2);ct x.fill();
-        ctx.fillSty l e= '#04030 8 '; c tx.b        inPath();ctx. arc(mx+ 3 ,my-2        ,0,Math.PI*2 );ctx.f i ll ( );
-         onst gm=ctx.cre ateRadialGr        ient(mx,my,0,        ,my,30);
-  g m .addCol        Stop(0,'rgba(200        10,255,0.14) ');gm.a d dC o lorS        p(1,'rgba(180 ,190,25 5 ,0)')          ctx.fillSty le=gm;c t x. b eginPath        ;ctx.arc(mx, my,30,0 , Ma t h . PI*2);ct        fill();
- }
-}
+    // ===== DRAW TILE =====
+    const OBJ_PX = {
+      house: { w: 120, h: 130 },
+      tower: { w: 90, h: 200 },
+      tree: { w: 100, h: 110 },
+      fire: { w: 48, h: 48 },
+      well: { w: 80, h: 100 },
+      char: { w: 56, h: 72 }
+    };
 
-f unction dra        louds(){
- cons        w=MOODS[WS.e k ].w;
- c        st cnt={sunny:3,        ear:6,cloud y :1 2,drizz l e: 1 8,st        m:24}[w]||3;
-  const  a lp={s        ny:0.28,clear :0.45,c l ou d y:0.78,d        zzle:0.9,st o rm :0.98}[ w ]| | 0 . 28;
- for        et i=0;i<cnt;i+ +){
-  const        x=((i*211+WS.tick*1.5)%CW);
-          nst cy=CH*0.03 + (i%4)*CH*0.05;
-  co nst cw=80+i* 1 8,ch=        +i% 4*9;
-    co n s t gc=c t x. cr ea          inearGradient(0,cy,0          +ch);
-  gc.addC olorStop(0,` rgba(21 5 ,2 2 0 , 240 ,${alp})`);gc .addCol o rS t op( 1,`rgba(150,1          205,${alp*0.15})`);
-           x.fillStyle=gc; ctx.beginPa t h( );ctx.e l li p s e (cx ,cy+ch/2,cw/2 ,ch/2,0 , 0, M ath .PI*2);ctx.fi        ()         }
- if(w===        torm'){
-   c tx.fill S ty l e='rg b a(6,6        6,0.32)';ctx.fi        Rect(0,0,CW, C H);
-  if(Math.random()>0.        ){ctx.fillStyl e ='rg ba(25 5, 255,        5,0.05)';ctx.fil        ect(0,0,CW,CH ) ;} 
-  }
- } 
+    function drawTile(t, tx, ty) {
+      const p = iso(tx, ty);
+      const key = ['grass', 'stone', 'water'][t];
+      const img = IMG[key];
+      if (!img) return;
+      // ダイヤモンド形にクリップして白背景を隠す
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y - TH / 2);
+      ctx.lineTo(p.x + TW / 2, p.y);
+      ctx.lineTo(p.x, p.y + TH / 2);
+      ctx.lineTo(p.x - TW / 2, p.y);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, p.x - TW / 2, p.y - TH / 2, TW, TH);
+      ctx.restore();
+    }
 
- funct io n dr        Rain(){
-        onst w=MOODS [ WS.ek ].w;
- if(w!==' d ri zzle'&& w != = 'stor m ')ret ur n;
- c o nst  c nt=w        ='storm'?150 : 70;const alp=w===' storm'?0.38:0. 1 6; 
- ctx.s t ro k eStyl e =`rgb a( 160,2 1 0,255,$        lp})`;ctx.l        eWidth=w==='st o rm'?1:0.7;
- for(let  i=0;i<cnt;i + +){         const d=RAIN[i]        .y+=d.s;d.x- =0.5;
-    if ( d.y >CH){d.y=-12; d.x=Mat h .ran dom()*CW;}
-    c tx.begi n Pa t h();        x.moveTo(d.x,        y);ctx.lineTo(d.        2,d.y+8);ctx. stroke( ) ;
- } 
-}
+    function drawObj(o) {
+      if (!o) return;
+      const p = iso(o.x, o.y);
+      const sz = OBJ_PX[o.t] || { w: 80, h: 80 };
+      const img = IMG[o.t];
+      if (!img) return;
 
-// Draw t ile wit h  l o aded spr        e (fixed TW×T       siz    e,     top corner at p)
-function dr    awTile(t,tx,ty){
- c on      t p=iso ( tx , ty ) ; 
-  c ons       img=IMG[t];
- i f( !i mg )r et        n;
- // t i l e s a         diamond: dr         at TW wide,   TH tal         top-center at p        ctx.drawImage (im g,p.x-TW/2,p .y - TH/ 2,TW,TH);
-}
+      if (o.t === 'char') {
+        const cols = 3, rows = 2;
+        const fw = img.width / cols, fh = img.height / rows;
+        const fi = CHAR.fr % 5;
+        const sx = (fi % cols) * fw, sy = Math.floor(fi / cols) * fh;
+        ctx.save();
+        if (CHAR.dir < 0) {
+          ctx.translate(p.x, p.y - sz.h);
+          ctx.scale(-1, 1);
+          ctx.drawImage(img, sx, sy, fw, fh, -sz.w / 2, 0, sz.w, sz.h);
+        } else {
+          ctx.drawImage(img, sx, sy, fw, fh, p.x - sz.w / 2, p.y - sz.h, sz.w, sz.h);
+        }
+        ctx.restore();
+        return;
+      }
 
- // D raw object w it h  loa        d sprite (fixed  px sizes)
-        nst OBJ_PX={h        se:{w:120,h: 1 30},to        r:{w:90,h:200},t        e:{w:100,h:1 10 } ,fi re:{w:48,h:48 },we ll:{w:80,h:10 0}, char:{w:56,h : 7 2} } ;
-fu        tion drawObj(o) {
- if(!o)re        rn;
- const p=i        (o.x,o.y);
-  i f(o.t=        'char'){
-  const        mg=IMG.char; if ( !im g)return;
-  / / sp rite sheet: 3  co ls x 2 rows  =   6  f rame        (use first 5)
-   const cols        ,rows=2;
-  const fw=im        width/co l s , fh=        g.h eight/ r ow s ; 
-   con st          =CHAR.fr% 5 ; 
-    c ons t  sx          fi%cols          w,sy2=Math.f l oor(fi          ls)*fh;
-  const           h}=OBJ_PX.ch a r; 
-     c t x.s ave(            if(CHAR.di r <0 ) { c tx . tra n s l ate (p . x,p.y-          ctx.scale(-1 , 1) ; ctx . d r awI ma g e(img,          ,sy2,fw,fh,- w /2 , 0 , w, h );} 
-     els e{ c tx.dra          age(img,sx2,sy2 ,fw,fh,p.x-        2,        y-h,w,h);}
-  ctx.        store();retu r n;
- }
- const img=IMG        .t] ;if(!i m g) r etur n ; 
-  c on st  {w          =OB J_PX[o . t] | | {w: 8 0, h:80};
- if(o.t== = 'f i re ' ){ 
-     //  an ima te:         ri         sheet 4 cols  x  2 rows
-  const col s=4,rows=2;
-    cons        fw= img.wi d th / co l s ,f h =i mg. he          t/rows;
-  const  fi=Math.flo o r (W S . t ick * 0.0 8 )%(c ols*rows);
-   c o ns t  sx 2 =(f i %c o ls)*f w,sy2=Math.fl          (fi/cols)*fh;
-   ctx.drawIma g e (i m g , sx2 , sy2 , fw,f h,p.x-w/2,p.y - h ,w , h); 
-   i f (W S .ll<0 .88){
-   cons        ra      =80;    
-       const gf=ctx.create    RadialGradient(p.x,p.y ,0,p.x, p.      ,rad);
-     g f . addC      lorStop(0,`r gb a( 25 5, 13        20,${0.22*        -WS.ll)})`); g f.addColorStop(1,'r gba(255,60,0,0) ');
-   ctx.f i ll S t yl e= gf ;c tx .fillRe c t(p .x-rad,p.y-        d,rad*2,rad*2)          }
- }  e lse  {
-   c tx.drawI mage(i mg ,p. x-w /2, p.y-h+TH*        5,w,h);
-        
-}
+      if (o.t === 'fire') {
+        const cols = 4, rows = 2;
+        const fw = img.width / cols, fh = img.height / rows;
+        const fi = Math.floor(WS.tick * 0.08) % (cols * rows);
+        const sx = (fi % cols) * fw, sy = Math.floor(fi / cols) * fh;
+        ctx.drawImage(img, sx, sy, fw, fh, p.x - sz.w / 2, p.y - sz.h, sz.w, sz.h);
+        if (WS.ll < 0.88) {
+          const rad = 80;
+          const gf = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
+          gf.addColorStop(0, 'rgba(255,130,20,' + (0.22 * (1 - WS.ll)) + ')');
+          gf.addColorStop(1, 'rgba(255,60,0,0)');
+          ctx.fillStyle = gf;
+          ctx.fillRect(p.x - rad, p.y - rad, rad * 2, rad * 2);
+        }
+        return;
+      }
 
-//  = === =  MA IN REN DER == === 
-le t  lt m=0;
-fu        tion rend        (ts){
-  i f(! lt m) ltm=ts ;
- con st  dt= Ma th .min((t        ltm)/1000        .1);lt m= ts; WS. tic k++;
- /        light le        l
- con st  h= (n ew  Date() ).getH our s() +( (ne w Date(        .getMinut        ()/60) ;
-  if( h> =7& &h<17) WS.ll= 1.0 ;
-  el se  if(h>=        &h<7)WS.        =0.15+ (h -5 )*0 .42 5;
- els        if(h>=17        h<20)W S.l l= 1. 0- (h-17) *0.35; 
- e ls e  WS .ll=0.0        
- const w        OODS[W S.e k]. w; 
-  if(w==='stor        )WS.ll=M        h.min( WS .l l,0 .2 2);
- e lse if (w == ='d ri zzle')W        ll=Math.min(        .ll,0. 5) ;
-  el se  if(w==='        oudy')WS.ll        ath.mi n( WS .ll ,0 .78);
+      ctx.drawImage(img, p.x - sz.w / 2, p.y - sz.h + TH * 0.5, sz.w, sz.h);
+    }
 
- c        .clearRect(0,0,CW        H);
- drawSky ( );drawStars();drawSunMoon ();drawClouds( ); 
+    // ===== SKY / STARS / SUN =====
+    function lerp(a, b, t) {
+      // hex color lerp
+      const ah = parseInt(a.slice(1), 16);
+      const bh = parseInt(b.slice(1), 16);
+      const r = Math.round(((ah >> 16) & 0xff) * (1 - t) + ((bh >> 16) & 0xff) * t);
+      const g = Math.round(((ah >> 8) & 0xff) * (1 - t) + ((bh >> 8) & 0xff) * t);
+      const bl = Math.round((ah & 0xff) * (1 - t) + (bh & 0xff) * t);
+      return '#' + ((r << 16) | (g << 8) | bl).toString(16).padStart(6, '0');
+    }
 
-  //       iles     so    rted by iso depth
-     const sorted=[...TIL ES      .sort(( a ,b) = > (a.x      a.y)-(b.x+b.y) ) ;
-  s or te d. fo        ach(t=>d        wTile( t. t,t .x, t. y));
+    function drawSky() {
+      const h = new Date().getHours() + new Date().getMinutes() / 60;
+      const w = MOODS[WS.ek].w;
+      let c1, c2;
+      if (h >= 6 && h < 8) { const t = (h - 6) / 2; c1 = lerp('#060508', '#401808', t); c2 = lerp('#0c0618', '#a03810', t); }
+      else if (h >= 8 && h < 10) { const t = (h - 8) / 2; c1 = lerp('#401808', '#102040', t); c2 = lerp('#a03810', '#3060a0', t); }
+      else if (h >= 10 && h < 17) {
+        if (w === 'sunny') { c1 = '#102040'; c2 = '#3878c0'; }
+        else if (w === 'clear') { c1 = '#182850'; c2 = '#2868b0'; }
+        else if (w === 'cloudy') { c1 = '#1e2030'; c2 = '#303848'; }
+        else if (w === 'drizzle') { c1 = '#141618'; c2 = '#20282e'; }
+        else { c1 = '#08080e'; c2 = '#100810'; }
+      }
+      else if (h >= 17 && h < 20) { const t = (h - 17) / 3; c1 = lerp('#102040', '#14061a', t); c2 = lerp('#3878c0', '#b03010', t); }
+      else { c1 = '#060208'; c2 = '#05030a'; }
 
-  // ob je cts  +  ch ar sort        
- const all=[..        BJS,{t:'c h ar',x:CHAR . x,y: C HAR.y        ;
- all . s ort( (a, b) => (a.x+a .y)-(b .x +b .y )) ;
- all.        rEach( o = >dr a wObj (o )) ;
- 
- draw Rain() ;
- 
-  //  g lobal  night  over la y
-  i f(WS.ll      0.95    ){c    tx.fillStyle=`rgba(3,3, 14      ${(1-WS.ll)*0.65})`; ctx.f illRe ct(0,0,      W,CH);}
- // bottom f og
- c onst  fg=ctx.      reateLinearGradient( 0,CH* 0.68, 0,CH);
-      fg.addColorStop(0,'r gba(3 ,3,14,0      ');fg.addColorStop(1 ,'rgb a(3,3,1      ,0.75)');
- ctx.fi      lStyle=fg;ctx.f illRe ct(0,CH*0.68,CW ,CH*0 .32);
+      const g = ctx.createLinearGradient(0, 0, 0, CH * 0.5);
+      g.addColorStop(0, c1);
+      g.addColorStop(1, c2);
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, CW, CH);
 
- updateC har(dt      ;
- const nn=new  Date() ;
- doc ument. getEl ementById('hc      ock').textConten t=`${S tring( nn.get Hours ()).padStart(      ,'0')}:${String( nn.get Minute s()).p adSta rt(2,'0')}`;
-      requestAnima      ionFrame(render);
- } 
- 
-// =====  DATA LOAD  =====
-a sync funct ion load Data(){
- c onst bar =document. getEleme ntById('l b')      bar.style.width='72%';
- document.getEleme ntB yI d('lstat').tex t Co ntent      '感情 データを解析 中 .. . ' ;
-  let emos=[],diar    y='    ';
- try{
-  const r=awai    t fetch('./ d ail y_gra p h.js    on');if(!r. o k)th    row 0;
-  c o nst d    =await r.json();
-  em os      (d. nodes| | [] ) . filter (n=> n.        pe= =='感情' & &t y p eof n. sent im          ==='n u mber ' );
-    c o n s t  d i=(d.          es||[]).f          (n =>n .t y pe = == '日 記' ) ;d i ar y =d i?. de ta il | |' ' ;
-  } ca t ch { 
-    em os=[ { l abel : '思考整 理 のス ッ キリ感',          timent:0.          {l ab el :'進 捗 へ の不安',sen          ent:-0.2}];
-  diary='本日          整理 と作 業につ い て。 ' ;
-  } 
-  W S.e mos=e m o s; W S.d iary= d ia r y ;
- if(e          .length){
-   co ns t  avg        mo      .r      duce((s,e)=      s+(e.se n timent      |0),0)/emos.length;
-  WS      avg =avg;
-    W S .e k= avg>=0.5?'jo y_ high':a vg >= 0. 1 ?'jo      _mi d':avg > =- 0 .1 ?' neutral':avg >= -0.4?'a nx ie ty ' :'sa      ness';
- }
-      const m= MO ODS[W S. ek];
-  do cu me nt .g et El e ment      yId('hwx ') .text Co ntent= m. ic on ;
-  d oc um e nt.g      tElement By Id('h mo od').t ex tC on ten t= m. la b el;
-      document .g etEle me ntById (' pac t' ). te xt Co n tent      '→ '+m.a ct [0];
-  d ocumen t. get El em en tB yI d ('pd      ').textCo      tent= dia ry||'日記 データな し'; 
- const  el= doc ument.g etEl eme ntById('      m') ;el .innerH TML ='' ;
- emos .fo rEa ch(e=>{ 
-  c on st s=e.s      time nt ||0,pct =((s +1 )/2*100 )|0; 
-   const c      s>0.1?'#50b848 ': s<- 0. 1?'#d848 48 ':'#c09 03 0' ; 
-  el      innerHTML      =`<div c la ss="er" >< div  c la ss="      d" style =" backgro un d: ${ c }"><    /di    v><div style="flex:1"><di    v class="e l " >$ {e. la bel }</ div ><d iv  clas s= "eb g" ><d iv  cl as s=" eb f" s t yle=    "width:${pct}%;backgrou nd      ${c}">< / div>< / d iv></div></div      `;
-  }) ;
-  ba r.sty l e. w idth = '1 00%' ; 
- set T im e out(()=>docum ent.getElementById('loading').classList.add ( 'out ' ),600);
-}
+      ctx.fillStyle = 'rgba(15,18,32,0.6)';
+      ctx.beginPath();
+      ctx.moveTo(0, CH * 0.42);
+      for (let hx = 0; hx <= CW; hx += 6) {
+        ctx.lineTo(hx, CH * 0.35 + Math.sin(hx * 0.011 + 1) * CH * 0.045 + Math.sin(hx * 0.006) * CH * 0.028);
+      }
+      ctx.lineTo(CW, CH * 0.5);
+      ctx.lineTo(0, CH * 0.5);
+      ctx.closePath();
+      ctx.fill();
+    }
 
-/ /       ==== BOO T  =====
-cv=doc um ent.getElementBy      d('cv'); c tx=cv.ge t Context('2d'      ;
-window . addE v entL is t ener ( 'res ize' , resize);
-con s t  w d= d ocume      t. getEl e ment B yId('wor ld');
-w d.      ddEventLi s t ener('mou sedo wn',e=>{ drag ging=tru e;dr agSX=e.c lient X;dragSY =e.c lientY;d ra gCX=c      mX; dr ag C Y=ca m Y;w d .st yle .c ur s or=' g rab b ing'      });
-w d .a d d E ve n tLi      tene r( 'mo us emove ' ,e=>{ i f(!d r aggin g )r e tu rn;c a mX =d    rag    CX+(e.clientX-dragSX);    camY=dragC Y +(e.clientY- dragSY) ;}) ;
- wd .a dd Ev entListener(' m ouseu p' ,()=>{draggin g =fal se ; w d.style.curso r = 'defau    lt';});
-wd.addEven tL      stener( ' mouseleave',()=>{draggi n g=false;wd.style.cursor='d e fault      ;});
-re size      ); bu il d Wo r l d( ) ;
-loadS p ri t es ( () => { 
- loadData().th en(()=>req ues tA n imationFrame(re nder));
-}) ;
+    function drawStars() {
+      if (WS.ll > 0.7) return;
+      const a = (1 - WS.ll / 0.7) * 0.9;
+      for (let i = 0; i < 120; i++) {
+        const sx = (i * 173 + 11) % CW;
+        const sy = (i * 97 + 13) % (CH * 0.42);
+        const tw = 0.5 + 0.5 * Math.sin(WS.tick * 0.007 + i);
+        ctx.fillStyle = 'rgba(255,252,230,' + (a * tw) + ')';
+        ctx.fillRect(sx, sy, i % 5 === 0 ? 1.5 : 0.9, i % 5 === 0 ? 1.5 : 0.9);
+      }
+    }
+
+    function drawSunMoon() {
+      const h = new Date().getHours() + new Date().getMinutes() / 60;
+      if (h >= 6 && h < 18) {
+        const a = ((h - 6) / 12) * Math.PI;
+        const sx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.38;
+        const sy = CH * 0.13 - Math.sin(a) * CH * 0.08;
+        const gr = ctx.createRadialGradient(sx, sy, 0, sx, sy, 44);
+        gr.addColorStop(0, 'rgba(255,235,100,0.5)');
+        gr.addColorStop(1, 'rgba(255,200,50,0)');
+        ctx.fillStyle = gr;
+        ctx.beginPath(); ctx.arc(sx, sy, 44, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffe040';
+        ctx.beginPath(); ctx.arc(sx, sy, 11, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff080';
+        ctx.beginPath(); ctx.arc(sx - 3, sy - 3, 5, 0, Math.PI * 2); ctx.fill();
+      } else {
+        const ah = h < 6 ? h + 12 : h - 18;
+        const a = (ah / 12) * Math.PI;
+        const mx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.38;
+        const my = CH * 0.13 - Math.sin(a) * CH * 0.08;
+        ctx.fillStyle = '#b8b090';
+        ctx.beginPath(); ctx.arc(mx, my, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#040308';
+        ctx.beginPath(); ctx.arc(mx + 3, my - 2, 7, 0, Math.PI * 2); ctx.fill();
+        const gm = ctx.createRadialGradient(mx, my, 0, mx, my, 30);
+        gm.addColorStop(0, 'rgba(200,210,255,0.14)');
+        gm.addColorStop(1, 'rgba(180,190,255,0)');
+        ctx.fillStyle = gm;
+        ctx.beginPath(); ctx.arc(mx, my, 30, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    function drawClouds() {
+      const w = MOODS[WS.ek].w;
+      const cnt = { sunny: 3, clear: 6, cloudy: 12, drizzle: 18, storm: 24 }[w] || 3;
+      const alp = { sunny: 0.28, clear: 0.45, cloudy: 0.78, drizzle: 0.9, storm: 0.98 }[w] || 0.28;
+      for (let i = 0; i < cnt; i++) {
+        const cx = ((i * 211 + WS.tick * 1.5) % CW);
+        const cy = CH * 0.03 + (i % 4) * CH * 0.05;
+        const cw = 60 + (i % 3) * 30;
+        const gc = ctx.createRadialGradient(cx, cy, 0, cx, cy, cw);
+        gc.addColorStop(0, 'rgba(200,210,230,' + alp + ')');
+        gc.addColorStop(1, 'rgba(180,190,220,0)');
+        ctx.fillStyle = gc;
+        ctx.beginPath(); ctx.ellipse(cx, cy, cw, cw * 0.5, 0, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    function drawRain() {
+      const w = MOODS[WS.ek].w;
+      if (w !== 'drizzle' && w !== 'storm') return;
+      const cnt = w === 'storm' ? 200 : 80;
+      ctx.strokeStyle = 'rgba(180,200,255,0.3)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      for (let i = 0; i < cnt; i++) {
+        const rx = ((i * 173 + WS.tick * 8) % CW);
+        const ry = ((i * 97 + WS.tick * 6) % CH);
+        ctx.moveTo(rx, ry);
+        ctx.lineTo(rx - 2, ry + 12);
+      }
+      ctx.stroke();
+    }
+
+    // ===== LIGHTING =====
+    function applyNight() {
+      if (WS.ll >= 1.0) return;
+      ctx.fillStyle = 'rgba(0,0,8,' + (1 - WS.ll) * 0.82 + ')';
+      ctx.fillRect(0, 0, CW, CH);
+    }
+
+    // ===== RENDER =====
+    let ltm = 0;
+    function render(ts) {
+      if (!ltm) ltm = ts;
+      const dt = Math.min((ts - ltm) / 1000, 0.1);
+      ltm = ts;
+      WS.tick++;
+
+      // light level
+      const h = new Date().getHours() + new Date().getMinutes() / 60;
+      if (h >= 7 && h < 17) WS.ll = 1.0;
+      else if (h >= 5 && h < 7) WS.ll = 0.15 + (h - 5) * 0.425;
+      else if (h >= 17 && h < 20) WS.ll = 1.0 - (h - 17) * 0.35;
+      else WS.ll = 0.08;
+      const wt = MOODS[WS.ek].w;
+      if (wt === 'storm') WS.ll = Math.min(WS.ll, 0.22);
+      else if (wt === 'drizzle') WS.ll = Math.min(WS.ll, 0.5);
+      else if (wt === 'cloudy') WS.ll = Math.min(WS.ll, 0.78);
+
+      ctx.clearRect(0, 0, CW, CH);
+      drawSky(); drawStars(); drawSunMoon(); drawClouds();
+
+      // tiles
+      for (let ty = 0; ty < MAP_H; ty++) {
+        for (let tx = 0; tx < MAP_W; tx++) {
+          drawTile(MAP[ty][tx], tx, ty);
+        }
+      }
+
+      // objects + char (painter's order)
+      const all = OBJS.map(function (o) { return { obj: o }; });
+      all.push({ obj: { t: 'char', x: CHAR.x, y: CHAR.y }, isChar: true });
+      all.sort(function (a, b) { return (a.obj.x + a.obj.y) - (b.obj.x + b.obj.y); });
+      all.forEach(function (item) {
+        if (item.isChar) drawObj({ t: 'char', x: CHAR.x, y: CHAR.y });
+        else drawObj(item.obj);
+      });
+
+      drawRain();
+      applyNight();
+
+      // character AI
+      updateChar(dt);
+      updateHUD();
+      requestAnimationFrame(render);
+    }
+
+    // ===== CHARACTER AI =====
+    const ACTIONS = {
+      joy: ['広場で踊っている', 'くるくる回っている', '鼻歌を歌っている'],
+      trust: ['井戸で水を汲んでいる', '庭を手入れしている', '読書をしている'],
+      fear: ['物陰に隠れている', '辺りをうかがっている', 'そろそろと移動している'],
+      surprise: ['立ち止まって空を見上げている', '辺りを見渡している'],
+      sadness: ['ゆっくり歩いている', '焚き火の前に座っている', '川を眺めている'],
+      disgust: ['ぼんやり歩いている', '何か考え込んでいる'],
+      anger: ['早足で歩き回っている', '一人で剣の稽古をしている'],
+      neutral: ['散歩をしている', 'か通りを歩いている', '空を見上げている']
+    };
+
+    function updateChar(dt) {
+      CHAR.timer -= dt;
+      if (CHAR.timer <= 0) {
+        CHAR.timer = 2 + Math.random() * 4;
+        const speed = WS.ek === 'anger' ? 1.5 : WS.ek === 'fear' ? 0.4 : 0.8;
+        CHAR.dx = (Math.random() - 0.5) * speed;
+        CHAR.dy = (Math.random() - 0.5) * speed;
+        if (CHAR.dx !== 0) CHAR.dir = CHAR.dx > 0 ? 1 : -1;
+        const acts = ACTIONS[WS.ek] || ACTIONS.neutral;
+        document.getElementById('pact').textContent = acts[Math.floor(Math.random() * acts.length)];
+      }
+
+      const nx = CHAR.x + CHAR.dx * dt;
+      const ny = CHAR.y + CHAR.dy * dt;
+      if (nx >= 0 && nx < MAP_W && ny >= 0 && ny < MAP_H) {
+        if (MAP[Math.floor(ny)][Math.floor(nx)] !== TILE.WATER) {
+          CHAR.x = nx; CHAR.y = ny;
+        } else {
+          CHAR.dx = -CHAR.dx; CHAR.dy = -CHAR.dy;
+        }
+      } else {
+        CHAR.dx = -CHAR.dx; CHAR.dy = -CHAR.dy;
+      }
+
+      if (Math.abs(CHAR.dx) > 0.05 || Math.abs(CHAR.dy) > 0.05) {
+        if (WS.tick % 8 === 0) CHAR.fr = (CHAR.fr + 1) % 5;
+      }
+    }
+
+    // ===== HUD =====
+    function updateHUD() {
+      const m = MOODS[WS.ek];
+      document.getElementById('hwx').textContent = m.icon;
+      document.getElementById('hmood').textContent = m.label;
+      const now = new Date();
+      document.getElementById('hclock').textContent =
+        String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('pem').innerHTML =
+        '<div style="font-size:24px;text-align:center;margin:8px 0">' + m.icon + '</div>' +
+        '<div style="font-size:11px;color:' + m.color + ';text-align:center;letter-spacing:2px">' + m.label + '</div>';
+    }
+
+    // ===== PANEL =====
+    function updatePanel() {
+      const diEl = document.getElementById('pdi');
+      diEl.textContent = '今日も自分らしく生きる一日。感情が世界を動かしている。';
+    }
+
+    // ===== START =====
+    loadSprites(function () {
+      const loading = document.getElementById('loading');
+      loading.classList.add('out');
+      setTimeout(function () { loading.style.display = 'none'; }, 900);
+      updatePanel();
+      requestAnimationFrame(render);
+    });
   </script>
 </body>
 
