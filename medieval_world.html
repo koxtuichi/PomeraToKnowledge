@@ -609,7 +609,8 @@
       else if (wt === 'drizzle') WS.ll = Math.min(WS.ll, 0.5);
       else if (wt === 'cloudy') WS.ll = Math.min(WS.ll, 0.78);
 
-      ctx.clearRect(0, 0, CW, CH);
+      ctx.fillStyle = '#080511';
+      ctx.fillRect(0, 0, CW, CH);
       drawSky(); drawStars(); drawSunMoon(); drawClouds();
 
       // tiles
