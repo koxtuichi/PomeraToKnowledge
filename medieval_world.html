@@ -4,192 +4,277 @@
 <head>
   <meta charset="UTF-8">
   <title>異世界の自分 | POMERA WORLD</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box
+      box-sizing: border-box;
     }
 
     body {
-      background: #080511;
+      background: #1a1208;
       overflow: hidden;
       height: 100vh;
-      font-family: 'Courier New', monospace
+      font-family: 'Noto Serif JP', 'Yu Mincho', serif;
     }
 
-    canvas {
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
-      display: block
-    }
-
-    #loading {
-      position: fixed;
-      inset: 0;
-      background: #080511;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      z-index: 999;
-      transition: opacity 0.8s
-    }
-
-    #loading.out {
-      opacity: 0;
-      pointer-events: none
-    }
-
-    .lt {
-      font-size: 22px;
-      color: #c8934a;
-      letter-spacing: 5px;
-      text-shadow: 0 0 20px rgba(200, 147, 74, 0.5)
-    }
-
-    .ls {
-      font-size: 10px;
-      color: #7a5830;
-      letter-spacing: 3px
-    }
-
-    .lbw {
-      width: 200px;
-      height: 6px;
-      background: #120e1c;
-      border: 1px solid rgba(80, 60, 20, 0.5);
-      border-radius: 3px;
-      overflow: hidden
-    }
-
-    .lb {
-      height: 100%;
-      background: linear-gradient(90deg, #6a3c10, #c8934a, #ffe090);
-      width: 0;
-      transition: width 0.6s;
-      border-radius: 3px
-    }
-
+    /* ===== HUD ===== */
     #hud {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 34px;
-      background: rgba(4, 3, 10, 0.95);
-      border-bottom: 1px solid rgba(120, 90, 30, 0.25);
+      height: 38px;
+      background: linear-gradient(180deg, #1c1005 0%, #231508 100%);
+      border-bottom: 2px solid #7a5020;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(200, 140, 40, 0.15);
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 0 14px;
-      z-index: 10
+      gap: 0;
+      padding: 0;
+      z-index: 10;
     }
 
     .hback {
       font-size: 10px;
-      color: #7a6030;
-      padding: 3px 10px;
-      border: 1px solid rgba(100, 75, 25, 0.4);
-      border-radius: 2px;
+      color: #c8a050;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
       text-decoration: none;
-      letter-spacing: 1px
+      letter-spacing: 1px;
+      border-right: 1px solid #5a3a10;
+      background: rgba(80, 40, 5, 0.3);
+      transition: background 0.2s;
+    }
+
+    .hback:hover {
+      background: rgba(120, 70, 15, 0.5);
     }
 
     .htitle {
-      font-size: 12px;
-      color: #9a7040;
-      letter-spacing: 4px;
+      font-size: 13px;
+      color: #e8c060;
+      letter-spacing: 5px;
       flex: 1;
-      text-align: center
+      text-align: center;
+      text-shadow: 0 0 12px rgba(230, 180, 60, 0.5);
+      font-weight: 700;
     }
 
     .hr {
       display: flex;
       align-items: center;
-      gap: 12px
+      gap: 0;
+      border-left: 1px solid #5a3a10;
+      height: 100%;
     }
 
-    .hwx,
+    .hstat {
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      height: 100%;
+      border-right: 1px solid #5a3a10;
+      gap: 5px;
+    }
+
+    .hwx {
+      font-size: 14px;
+    }
+
     .hmood {
-      font-size: 12px;
-      color: #9a7040
+      font-size: 10px;
+      color: #d4a040;
+      letter-spacing: 1px;
     }
 
     .hclock {
       font-size: 11px;
-      color: #7a6030;
-      letter-spacing: 2px
+      color: #b89040;
+      letter-spacing: 2px;
+      padding: 0 12px;
+      font-family: 'Courier New', monospace;
     }
 
+    /* ===== サイドパネル ===== */
     #panel {
       position: fixed;
-      top: 34px;
+      top: 38px;
       right: 0;
-      width: 200px;
+      width: 210px;
       bottom: 0;
-      background: rgba(4, 3, 10, 0.92);
-      border-left: 1px solid rgba(80, 60, 20, 0.2);
-      padding: 12px 10px;
-      overflow-y: auto
+      background: linear-gradient(180deg, #180f04 0%, #1e1208 100%);
+      border-left: 2px solid #7a5020;
+      box-shadow: -3px 0 12px rgba(0, 0, 0, 0.6);
+      padding: 0;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    /* 木目テクスチャ風の装飾ライン */
+    #panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 3px;
+      right: 3px;
+      height: 100%;
+      background: repeating-linear-gradient(180deg,
+          transparent 0px,
+          transparent 22px,
+          rgba(100, 60, 10, 0.04) 22px,
+          rgba(100, 60, 10, 0.04) 23px);
+      pointer-events: none;
+    }
+
+    .psec {
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(120, 80, 20, 0.3);
     }
 
     .ph {
       font-size: 9px;
-      color: #6a5030;
+      color: #c89040;
       letter-spacing: 3px;
-      margin-bottom: 8px;
-      border-bottom: 1px solid rgba(80, 60, 20, 0.2);
-      padding-bottom: 4px
+      padding: 8px 12px 6px;
+      background: linear-gradient(90deg, rgba(80, 45, 5, 0.6) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(120, 80, 20, 0.2);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ph::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: #c89040;
+      transform: rotate(45deg);
+      flex-shrink: 0;
     }
 
     .pt {
       font-size: 9px;
-      color: #6a5838;
-      flex: 1
-    }
-
-    .ebg {
-      height: 2px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 1px;
-      flex: 1
-    }
-
-    .ebf {
-      height: 100%;
-      border-radius: 1px
+      color: #b09060;
+      line-height: 1.7;
+      padding: 8px 12px;
     }
 
     .pact {
       font-size: 10px;
-      color: #80b050;
-      padding: 7px 8px;
-      line-height: 1.7;
-      background: rgba(40, 80, 15, 0.1);
-      border: 1px solid rgba(40, 80, 15, 0.2);
-      border-radius: 2px
+      color: #90c860;
+      padding: 8px 12px;
+      line-height: 1.6;
+      background: rgba(30, 60, 10, 0.15);
+      border-left: 2px solid rgba(100, 180, 40, 0.3);
+      margin: 0;
     }
 
-    .psec {
-      margin-bottom: 16px
+    /* 感情アイコン表示 */
+    #pem {
+      padding: 8px 12px 10px;
     }
 
-    #world {
+    /* ===== ゲームコンテナ ===== */
+    #game-container {
       position: fixed;
-      top: 34px;
+      top: 38px;
       left: 0;
-      right: 200px;
+      right: 210px;
       bottom: 0;
-      overflow: hidden;
-      cursor: default
     }
 
-    #cv {
-      position: absolute;
-      top: 0;
-      left: 0
+    /* ===== ローディング ===== */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #0e0904;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      z-index: 999;
+      transition: opacity 1.0s;
+    }
+
+    #loading.out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lt {
+      font-size: 24px;
+      color: #e8c060;
+      letter-spacing: 6px;
+      text-shadow: 0 0 24px rgba(230, 180, 60, 0.6), 0 0 60px rgba(180, 100, 20, 0.3);
+      font-weight: 700;
+    }
+
+    .ls {
+      font-size: 10px;
+      color: #907040;
+      letter-spacing: 3px;
+    }
+
+    .lbw {
+      width: 220px;
+      height: 8px;
+      background: #0a0604;
+      border: 1px solid #7a5020;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(120, 80, 20, 0.4);
+    }
+
+    .lb {
+      height: 100%;
+      background: linear-gradient(90deg, #5a2c08, #c87020, #f0b040);
+      width: 0;
+      transition: width 0.4s;
+    }
+
+    /* ===== ログウィンドウ (Elin風の下部テキストログ) ===== */
+    #log-window {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 210px;
+      height: 72px;
+      background: linear-gradient(180deg, rgba(14, 9, 4, 0.0) 0%, rgba(14, 9, 4, 0.85) 30%, rgba(14, 9, 4, 0.95) 100%);
+      border-top: 1px solid rgba(120, 80, 20, 0.3);
+      padding: 8px 14px;
+      z-index: 9;
+      pointer-events: none;
+    }
+
+    #log-text {
+      font-size: 9px;
+      color: #b09060;
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 1);
+    }
+
+    /* ===== スクロールバー ===== */
+    #panel::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    #panel::-webkit-scrollbar-track {
+      background: #120a02;
+    }
+
+    #panel::-webkit-scrollbar-thumb {
+      background: #7a5020;
+      border-radius: 2px;
     }
   </style>
 </head>
@@ -203,442 +288,57 @@
     </div>
     <div class="ls" id="lstat">素材を読み込み中...</div>
   </div>
+
   <div id="hud">
     <a class="hback" href="./index.html">← 戻る</a>
     <div class="htitle">✦ POMERA WORLD ✦</div>
     <div class="hr">
-      <span class="hwx" id="hwx">☀</span>
-      <span class="hmood" id="hmood">—</span>
+      <div class="hstat">
+        <span class="hwx" id="hwx">🌤</span>
+        <span class="hmood" id="hmood">—</span>
+      </div>
       <span class="hclock" id="hclock">--:--</span>
     </div>
   </div>
+
   <div id="panel">
     <div class="psec">
-      <div class="ph">◆ 今日の感情</div>
+      <div class="ph">今日の感情</div>
       <div id="pem"></div>
     </div>
     <div class="psec">
-      <div class="ph">◆ 行動</div>
+      <div class="ph">行動</div>
       <div class="pact" id="pact">...</div>
     </div>
     <div class="psec">
-      <div class="ph">◆ 日記</div>
+      <div class="ph">日記</div>
       <div class="pt" id="pdi">読み込み中...</div>
     </div>
   </div>
-  <div id="world"><canvas id="cv"></canvas></div>
+
+  <div id="game-container"></div>
+
+  <div id="log-window">
+    <div id="log-text">イルヴァの風が草原を揺らす...</div>
+  </div>
 
   <script>
-    // ===== CONFIG =====
-    const TW = 96, TH = 48;
+    // ===== 定数 =====
+    const TW = 96, TH = 96;
     const MAP_W = 18, MAP_H = 18;
 
-    // ===== WORLD STATE =====
+    // ===== 世界状態 =====
     const MOODS = {
-      joy: { label: '喜び', color: '#ffe090', sky: 'sunny', w: 'sunny', icon: '☀' },
-      trust: { label: '信頼', color: '#90d080', sky: 'clear', w: 'clear', icon: '🌤' },
-      fear: { label: '恐れ', color: '#8070b0', sky: 'cloudy', w: 'storm', icon: '⛈' },
-      surprise: { label: '驚き', color: '#f0a030', sky: 'clear', w: 'clear', icon: '✨' },
-      sadness: { label: '悲しみ', color: '#7090c0', sky: 'cloudy', w: 'drizzle', icon: '🌧' },
-      disgust: { label: '嫌悪', color: '#a0a060', sky: 'cloudy', w: 'cloudy', icon: '☁' },
-      anger: { label: '怒り', color: '#e05030', sky: 'storm', w: 'storm', icon: '⛈' },
-      neutral: { label: '平静', color: '#c8a870', sky: 'clear', w: 'clear', icon: '🌤' }
+      joy: { label: '喜び', color: '#ffe090', w: 'sunny', icon: '☀' },
+      trust: { label: '信頼', color: '#90d080', w: 'clear', icon: '🌤' },
+      fear: { label: '恐れ', color: '#8070b0', w: 'storm', icon: '⛈' },
+      surprise: { label: '驚き', color: '#f0a030', w: 'clear', icon: '✨' },
+      sadness: { label: '悲しみ', color: '#7090c0', w: 'drizzle', icon: '🌧' },
+      disgust: { label: '嫌悪', color: '#a0a060', w: 'cloudy', icon: '☁' },
+      anger: { label: '怒り', color: '#e05030', w: 'storm', icon: '⛈' },
+      neutral: { label: '平静', color: '#c8a870', w: 'clear', icon: '🌤' }
     };
 
-    const WS = {
-      ek: 'neutral',
-      tick: 0,
-      ll: 1.0
-    };
-
-    // ===== TILE MAP =====
-    const TILE = { GRASS: 0, STONE: 1, WATER: 2 };
-    const MAP = [];
-    for (let y = 0; y < MAP_H; y++) {
-      MAP[y] = [];
-      for (let x = 0; x < MAP_W; x++) {
-        const r = Math.random();
-        if ((x === 4 || x === 5) && y > 3 && y < 14) MAP[y][x] = TILE.STONE;
-        else if (x > 7 && x < 11 && y > 7 && y < 11) MAP[y][x] = TILE.WATER;
-        else if (r < 0.05) MAP[y][x] = TILE.WATER;
-        else MAP[y][x] = TILE.GRASS;
-      }
-    }
-
-    // ===== OBJECTS =====
-    const OBJS = [
-      { t: 'house', x: 8, y: 4 },
-      { t: 'house', x: 11, y: 5 },
-      { t: 'tower', x: 2, y: 2 },
-      { t: 'tower', x: 14, y: 2 },
-      { t: 'tree', x: 6, y: 6 },
-      { t: 'tree', x: 13, y: 8 },
-      { t: 'tree', x: 7, y: 13 },
-      { t: 'well', x: 9, y: 9 },
-      { t: 'fire', x: 10, y: 10 }
-    ];
-
-    const CHAR = { x: 9, y: 8, dx: 0, dy: 0, fr: 0, dir: 1, act: 'wandering', timer: 0 };
-
-    // ===== CANVAS SETUP =====
-    const world = document.getElementById('world');
-    const cv = document.getElementById('cv');
-    const ctx = cv.getContext('2d');
-    let CW, CH;
-    function resize() {
-      CW = world.offsetWidth;
-      CH = world.offsetHeight;
-      cv.width = CW;
-      cv.height = CH;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // ===== ISO PROJECTION =====
-    function iso(tx, ty) {
-      const ox = CW / 2;
-      const oy = CH * 0.2;
-      return {
-        x: ox + (tx - ty) * TW / 2,
-        y: oy + (tx + ty) * TH / 2
-      };
-    }
-
-    // ===== IMAGE LOADING =====
-    const IMG = {};
-    const SPR_KEYS = ['grass', 'stone', 'water', 'house', 'tower', 'tree', 'fire', 'well', 'char'];
-    const SPR_PATHS = {
-      grass: './sprites/grass.png',
-      stone: './sprites/stone.png',
-      water: './sprites/water.png',
-      house: './sprites/house.png',
-      tower: './sprites/tower.png',
-      tree: './sprites/tree.png',
-      fire: './sprites/fire.png',
-      well: './sprites/well.png',
-      char: './sprites/char.png'
-    };
-
-    // 四隅からフラッドフィルで背景(白～明るいグレー)を透明化
-    function removeWhiteBg(img, thres) {
-      const oc = document.createElement('canvas');
-      oc.width = img.width; oc.height = img.height;
-      const ox = oc.getContext('2d');
-      ox.drawImage(img, 0, 0);
-      const d = ox.getImageData(0, 0, oc.width, oc.height);
-      const px = d.data;
-      const W = oc.width, H = oc.height;
-      const visited = new Uint8Array(W * H);
-
-      function isLight(i) {
-        return px[i] > thres && px[i + 1] > thres && px[i + 2] > thres && px[i + 3] > 10;
-      }
-      function flood(sx, sy) {
-        const stack = [sx + sy * W];
-        while (stack.length) {
-          const idx = stack.pop();
-          if (idx < 0 || idx >= W * H || visited[idx]) continue;
-          visited[idx] = 1;
-          const pi = idx * 4;
-          if (px[pi + 3] < 10) continue; // already transparent
-          if (!isLight(pi)) continue;
-          px[pi + 3] = 0;
-          const x = idx % W, y = Math.floor(idx / W);
-          if (x > 0) stack.push(idx - 1);
-          if (x < W - 1) stack.push(idx + 1);
-          if (y > 0) stack.push(idx - W);
-          if (y < H - 1) stack.push(idx + W);
-        }
-      }
-      // 四隅からフラッドフィル
-      flood(0, 0);
-      flood(W - 1, 0);
-      flood(0, H - 1);
-      flood(W - 1, H - 1);
-
-      ox.putImageData(d, 0, 0);
-      return oc;
-    }
-
-    const TILE_KEYS = new Set(['grass', 'stone', 'water']);
-
-    function loadSprites(cb) {
-      let done = 0;
-      const total = SPR_KEYS.length;
-      const lb = document.getElementById('lb');
-      const lstat = document.getElementById('lstat');
-      SPR_KEYS.forEach(function (key) {
-        const img = new Image();
-        img.onload = function () {
-          if (TILE_KEYS.has(key)) {
-            IMG[key] = img;
-          } else {
-            IMG[key] = removeWhiteBg(img, 220);
-          }
-          done++;
-          lb.style.width = (done / total * 100) + '%';
-          lstat.textContent = key + ' 読み込み完了 (' + done + '/' + total + ')';
-          if (done === total) cb();
-        };
-        img.onerror = function () {
-          done++;
-          lb.style.width = (done / total * 100) + '%';
-          lstat.textContent = key + ' 読み込み失敗 (' + done + '/' + total + ')';
-          if (done === total) cb();
-        };
-        img.src = SPR_PATHS[key];
-      });
-    }
-
-    // ===== DRAW TILE =====
-    const OBJ_PX = {
-      house: { w: 120, h: 130 },
-      tower: { w: 90, h: 200 },
-      tree: { w: 100, h: 110 },
-      fire: { w: 48, h: 48 },
-      well: { w: 80, h: 100 },
-      char: { w: 56, h: 72 }
-    };
-
-    function drawTile(t, tx, ty) {
-      const p = iso(tx, ty);
-      const key = ['grass', 'stone', 'water'][t];
-      const img = IMG[key];
-      if (!img) return;
-      // ダイヤモンド形にクリップして白背景を隠す
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(p.x, p.y - TH / 2);
-      ctx.lineTo(p.x + TW / 2, p.y);
-      ctx.lineTo(p.x, p.y + TH / 2);
-      ctx.lineTo(p.x - TW / 2, p.y);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(img, p.x - TW / 2, p.y - TH / 2, TW, TH);
-      ctx.restore();
-    }
-
-    function drawObj(o) {
-      if (!o) return;
-      const p = iso(o.x, o.y);
-      const sz = OBJ_PX[o.t] || { w: 80, h: 80 };
-      const img = IMG[o.t];
-      if (!img) return;
-
-      if (o.t === 'char') {
-        const cols = 3, rows = 2;
-        const fw = img.width / cols, fh = img.height / rows;
-        const fi = CHAR.fr % 5;
-        const sx = (fi % cols) * fw, sy = Math.floor(fi / cols) * fh;
-        ctx.save();
-        if (CHAR.dir < 0) {
-          ctx.translate(p.x, p.y - sz.h);
-          ctx.scale(-1, 1);
-          ctx.drawImage(img, sx, sy, fw, fh, -sz.w / 2, 0, sz.w, sz.h);
-        } else {
-          ctx.drawImage(img, sx, sy, fw, fh, p.x - sz.w / 2, p.y - sz.h, sz.w, sz.h);
-        }
-        ctx.restore();
-        return;
-      }
-
-      if (o.t === 'fire') {
-        const cols = 4, rows = 2;
-        const fw = img.width / cols, fh = img.height / rows;
-        const fi = Math.floor(WS.tick * 0.08) % (cols * rows);
-        const sx = (fi % cols) * fw, sy = Math.floor(fi / cols) * fh;
-        ctx.drawImage(img, sx, sy, fw, fh, p.x - sz.w / 2, p.y - sz.h, sz.w, sz.h);
-        if (WS.ll < 0.88) {
-          const rad = 80;
-          const gf = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
-          gf.addColorStop(0, 'rgba(255,130,20,' + (0.22 * (1 - WS.ll)) + ')');
-          gf.addColorStop(1, 'rgba(255,60,0,0)');
-          ctx.fillStyle = gf;
-          ctx.fillRect(p.x - rad, p.y - rad, rad * 2, rad * 2);
-        }
-        return;
-      }
-
-      ctx.drawImage(img, p.x - sz.w / 2, p.y - sz.h + TH * 0.5, sz.w, sz.h);
-    }
-
-    // ===== SKY / STARS / SUN =====
-    function lerp(a, b, t) {
-      // hex color lerp
-      const ah = parseInt(a.slice(1), 16);
-      const bh = parseInt(b.slice(1), 16);
-      const r = Math.round(((ah >> 16) & 0xff) * (1 - t) + ((bh >> 16) & 0xff) * t);
-      const g = Math.round(((ah >> 8) & 0xff) * (1 - t) + ((bh >> 8) & 0xff) * t);
-      const bl = Math.round((ah & 0xff) * (1 - t) + (bh & 0xff) * t);
-      return '#' + ((r << 16) | (g << 8) | bl).toString(16).padStart(6, '0');
-    }
-
-    function drawSky() {
-      const h = new Date().getHours() + new Date().getMinutes() / 60;
-      const w = MOODS[WS.ek].w;
-      let c1, c2;
-      if (h >= 6 && h < 8) { const t = (h - 6) / 2; c1 = lerp('#060508', '#401808', t); c2 = lerp('#0c0618', '#a03810', t); }
-      else if (h >= 8 && h < 10) { const t = (h - 8) / 2; c1 = lerp('#401808', '#102040', t); c2 = lerp('#a03810', '#3060a0', t); }
-      else if (h >= 10 && h < 17) {
-        if (w === 'sunny') { c1 = '#102040'; c2 = '#3878c0'; }
-        else if (w === 'clear') { c1 = '#182850'; c2 = '#2868b0'; }
-        else if (w === 'cloudy') { c1 = '#1e2030'; c2 = '#303848'; }
-        else if (w === 'drizzle') { c1 = '#141618'; c2 = '#20282e'; }
-        else { c1 = '#08080e'; c2 = '#100810'; }
-      }
-      else if (h >= 17 && h < 20) { const t = (h - 17) / 3; c1 = lerp('#102040', '#14061a', t); c2 = lerp('#3878c0', '#b03010', t); }
-      else { c1 = '#060208'; c2 = '#05030a'; }
-
-      const g = ctx.createLinearGradient(0, 0, 0, CH * 0.5);
-      g.addColorStop(0, c1);
-      g.addColorStop(1, c2);
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, CW, CH);
-
-      ctx.fillStyle = 'rgba(15,18,32,0.6)';
-      ctx.beginPath();
-      ctx.moveTo(0, CH * 0.42);
-      for (let hx = 0; hx <= CW; hx += 6) {
-        ctx.lineTo(hx, CH * 0.35 + Math.sin(hx * 0.011 + 1) * CH * 0.045 + Math.sin(hx * 0.006) * CH * 0.028);
-      }
-      ctx.lineTo(CW, CH * 0.5);
-      ctx.lineTo(0, CH * 0.5);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    function drawStars() {
-      if (WS.ll > 0.7) return;
-      const a = (1 - WS.ll / 0.7) * 0.9;
-      for (let i = 0; i < 120; i++) {
-        const sx = (i * 173 + 11) % CW;
-        const sy = (i * 97 + 13) % (CH * 0.42);
-        const tw = 0.5 + 0.5 * Math.sin(WS.tick * 0.007 + i);
-        ctx.fillStyle = 'rgba(255,252,230,' + (a * tw) + ')';
-        ctx.fillRect(sx, sy, i % 5 === 0 ? 1.5 : 0.9, i % 5 === 0 ? 1.5 : 0.9);
-      }
-    }
-
-    function drawSunMoon() {
-      const h = new Date().getHours() + new Date().getMinutes() / 60;
-      if (h >= 6 && h < 18) {
-        const a = ((h - 6) / 12) * Math.PI;
-        const sx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.38;
-        const sy = CH * 0.13 - Math.sin(a) * CH * 0.08;
-        const gr = ctx.createRadialGradient(sx, sy, 0, sx, sy, 44);
-        gr.addColorStop(0, 'rgba(255,235,100,0.5)');
-        gr.addColorStop(1, 'rgba(255,200,50,0)');
-        ctx.fillStyle = gr;
-        ctx.beginPath(); ctx.arc(sx, sy, 44, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#ffe040';
-        ctx.beginPath(); ctx.arc(sx, sy, 11, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#fff080';
-        ctx.beginPath(); ctx.arc(sx - 3, sy - 3, 5, 0, Math.PI * 2); ctx.fill();
-      } else {
-        const ah = h < 6 ? h + 12 : h - 18;
-        const a = (ah / 12) * Math.PI;
-        const mx = CW * 0.5 + Math.cos(Math.PI - a) * CW * 0.38;
-        const my = CH * 0.13 - Math.sin(a) * CH * 0.08;
-        ctx.fillStyle = '#b8b090';
-        ctx.beginPath(); ctx.arc(mx, my, 9, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#040308';
-        ctx.beginPath(); ctx.arc(mx + 3, my - 2, 7, 0, Math.PI * 2); ctx.fill();
-        const gm = ctx.createRadialGradient(mx, my, 0, mx, my, 30);
-        gm.addColorStop(0, 'rgba(200,210,255,0.14)');
-        gm.addColorStop(1, 'rgba(180,190,255,0)');
-        ctx.fillStyle = gm;
-        ctx.beginPath(); ctx.arc(mx, my, 30, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-
-    function drawClouds() {
-      const w = MOODS[WS.ek].w;
-      const cnt = { sunny: 3, clear: 6, cloudy: 12, drizzle: 18, storm: 24 }[w] || 3;
-      const alp = { sunny: 0.28, clear: 0.45, cloudy: 0.78, drizzle: 0.9, storm: 0.98 }[w] || 0.28;
-      for (let i = 0; i < cnt; i++) {
-        const cx = ((i * 211 + WS.tick * 1.5) % CW);
-        const cy = CH * 0.03 + (i % 4) * CH * 0.05;
-        const cw = 60 + (i % 3) * 30;
-        const gc = ctx.createRadialGradient(cx, cy, 0, cx, cy, cw);
-        gc.addColorStop(0, 'rgba(200,210,230,' + alp + ')');
-        gc.addColorStop(1, 'rgba(180,190,220,0)');
-        ctx.fillStyle = gc;
-        ctx.beginPath(); ctx.ellipse(cx, cy, cw, cw * 0.5, 0, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-
-    function drawRain() {
-      const w = MOODS[WS.ek].w;
-      if (w !== 'drizzle' && w !== 'storm') return;
-      const cnt = w === 'storm' ? 200 : 80;
-      ctx.strokeStyle = 'rgba(180,200,255,0.3)';
-      ctx.lineWidth = 0.8;
-      ctx.beginPath();
-      for (let i = 0; i < cnt; i++) {
-        const rx = ((i * 173 + WS.tick * 8) % CW);
-        const ry = ((i * 97 + WS.tick * 6) % CH);
-        ctx.moveTo(rx, ry);
-        ctx.lineTo(rx - 2, ry + 12);
-      }
-      ctx.stroke();
-    }
-
-    // ===== LIGHTING =====
-    function applyNight() {
-      if (WS.ll >= 1.0) return;
-      ctx.fillStyle = 'rgba(0,0,8,' + (1 - WS.ll) * 0.82 + ')';
-      ctx.fillRect(0, 0, CW, CH);
-    }
-
-    // ===== RENDER =====
-    let ltm = 0;
-    function render(ts) {
-      if (!ltm) ltm = ts;
-      const dt = Math.min((ts - ltm) / 1000, 0.1);
-      ltm = ts;
-      WS.tick++;
-
-      // light level
-      const h = new Date().getHours() + new Date().getMinutes() / 60;
-      if (h >= 7 && h < 17) WS.ll = 1.0;
-      else if (h >= 5 && h < 7) WS.ll = 0.15 + (h - 5) * 0.425;
-      else if (h >= 17 && h < 20) WS.ll = 1.0 - (h - 17) * 0.35;
-      else WS.ll = 0.08;
-      const wt = MOODS[WS.ek].w;
-      if (wt === 'storm') WS.ll = Math.min(WS.ll, 0.22);
-      else if (wt === 'drizzle') WS.ll = Math.min(WS.ll, 0.5);
-      else if (wt === 'cloudy') WS.ll = Math.min(WS.ll, 0.78);
-
-      ctx.fillStyle = '#080511';
-      ctx.fillRect(0, 0, CW, CH);
-      drawSky(); drawStars(); drawSunMoon(); drawClouds();
-
-      // tiles
-      for (let ty = 0; ty < MAP_H; ty++) {
-        for (let tx = 0; tx < MAP_W; tx++) {
-          drawTile(MAP[ty][tx], tx, ty);
-        }
-      }
-
-      // objects + char (painter's order)
-      const all = OBJS.map(function (o) { return { obj: o }; });
-      all.push({ obj: { t: 'char', x: CHAR.x, y: CHAR.y }, isChar: true });
-      all.sort(function (a, b) { return (a.obj.x + a.obj.y) - (b.obj.x + b.obj.y); });
-      all.forEach(function (item) {
-        if (item.isChar) drawObj({ t: 'char', x: CHAR.x, y: CHAR.y });
-        else drawObj(item.obj);
-      });
-
-      drawRain();
-      applyNight();
-
-      // character AI
-      updateChar(dt);
-      updateHUD();
-      requestAnimationFrame(render);
-    }
-
-    // ===== CHARACTER AI =====
     const ACTIONS = {
       joy: ['広場で踊っている', 'くるくる回っている', '鼻歌を歌っている'],
       trust: ['井戸で水を汲んでいる', '庭を手入れしている', '読書をしている'],
@@ -647,65 +347,543 @@
       sadness: ['ゆっくり歩いている', '焚き火の前に座っている', '川を眺めている'],
       disgust: ['ぼんやり歩いている', '何か考え込んでいる'],
       anger: ['早足で歩き回っている', '一人で剣の稽古をしている'],
-      neutral: ['散歩をしている', 'か通りを歩いている', '空を見上げている']
+      neutral: ['散歩をしている', '通りを歩いている', '空を見上げている']
     };
 
-    function updateChar(dt) {
-      CHAR.timer -= dt;
-      if (CHAR.timer <= 0) {
-        CHAR.timer = 2 + Math.random() * 4;
-        const speed = WS.ek === 'anger' ? 1.5 : WS.ek === 'fear' ? 0.4 : 0.8;
-        CHAR.dx = (Math.random() - 0.5) * speed;
-        CHAR.dy = (Math.random() - 0.5) * speed;
-        if (CHAR.dx !== 0) CHAR.dir = CHAR.dx > 0 ? 1 : -1;
-        const acts = ACTIONS[WS.ek] || ACTIONS.neutral;
-        document.getElementById('pact').textContent = acts[Math.floor(Math.random() * acts.length)];
+    const LOG_MESSAGES = [
+      'イルヴァの風が草原を揺らす...',
+      '遠くで狼の遠吠えが聞こえる。',
+      '焚き火が夜風に揺れている。',
+      '石畳の道に月明かりが注いでいる。',
+      '旅人が宿屋へと消えていく。',
+      '魔法使いは杖を握り直した。',
+      '古い井戸から水を汲む音がする。',
+      'どこかで扉が軋む音がした。',
+      '空に星が瞬き始めた。',
+    ];
+
+    let currentMood = 'neutral';
+    let logIdx = 0;
+
+    // タイルマップ生成
+    const MAP = [];
+    for (let y = 0; y < MAP_H; y++) {
+      MAP[y] = [];
+      for (let x = 0; x < MAP_W; x++) {
+        if ((x === 4 || x === 5) && y > 3 && y < 14) MAP[y][x] = 'stone';
+        else if (x > 7 && x < 11 && y > 7 && y < 11) MAP[y][x] = 'water';
+        else if (Math.random() < 0.04) MAP[y][x] = 'water';
+        else MAP[y][x] = 'grass';
+      }
+    }
+
+    // アイソメ座標変換
+    function isoToScreen(tx, ty, cx, cy) {
+      return {
+        x: cx + (tx - ty) * TW / 2,
+        y: cy + (tx + ty) * TH / 2
+      };
+    }
+
+    // ===== Phaser シーン =====
+    class MainScene extends Phaser.Scene {
+      constructor() {
+        super({ key: 'MainScene' });
+        this.tileImages = [];
+        this.objImages = [];
+        this.charSprite = null;
+        this.fireSprite = null;
+        this.skyGfx = null;
+        this.overlayGfx = null;
+        this.charTx = 9;
+        this.charTy = 8;
+        this.charDir = 1;
+        this.charTargetX = 9;
+        this.charTargetY = 8;
+        this.charMoving = false;
+        this.tick = 0;
+        this.cx = 0;
+        this.cy = 0;
       }
 
-      const nx = CHAR.x + CHAR.dx * dt;
-      const ny = CHAR.y + CHAR.dy * dt;
-      if (nx >= 0 && nx < MAP_W && ny >= 0 && ny < MAP_H) {
-        if (MAP[Math.floor(ny)][Math.floor(nx)] !== TILE.WATER) {
-          CHAR.x = nx; CHAR.y = ny;
-        } else {
-          CHAR.dx = -CHAR.dx; CHAR.dy = -CHAR.dy;
+      preload() {
+        const lb = document.getElementById('lb');
+        const lstat = document.getElementById('lstat');
+        this.load.on('progress', v => { lb.style.width = (v * 100) + '%'; });
+        this.load.on('fileprogress', f => { lstat.textContent = f.key + ' 読み込み中...'; });
+        this.load.on('complete', () => { lstat.textContent = '完了!'; });
+
+        const ts = Date.now();
+        this.load.image('grass', `./sprites/grass.png?v=${ts}`);
+        this.load.image('stone', `./sprites/stone.png?v=${ts}`);
+        this.load.image('water', `./sprites/water.png?v=${ts}`);
+        this.load.image('house', `./sprites/house.png?v=${ts}`);
+        this.load.image('tower', `./sprites/tower.png?v=${ts}`);
+        this.load.image('tree', `./sprites/tree.png?v=${ts}`);
+        this.load.image('well', `./sprites/well.png?v=${ts}`);
+        this.load.spritesheet('char', `./sprites/char.png?v=${ts}`,
+          { frameWidth: Math.round(640 / 3), frameHeight: Math.round(640 / 2) });
+        this.load.spritesheet('fire', `./sprites/fire.png?v=${ts}`,
+          { frameWidth: Math.round(640 / 4), frameHeight: Math.round(640 / 2) });
+
+        this.load.json('daily', './daily_graph.json');
+      }
+
+      create() {
+        const W = this.scale.width;
+        const H = this.scale.height;
+        this.cx = W / 2;
+        this.cy = H * 0.05;
+
+        // 感情ロード
+        const data = this.cache.json.get('daily');
+        if (data) {
+          const em = this.extractEmotion(data);
+          if (em) currentMood = em;
         }
-      } else {
-        CHAR.dx = -CHAR.dx; CHAR.dy = -CHAR.dy;
+        this.updateHUD();
+
+        // 背景グラフィクス
+        this.bgGfx = this.add.graphics().setDepth(-200);
+        this.skyGfx = this.add.graphics().setDepth(-100);
+        this.hillGfx = this.add.graphics().setDepth(-99);
+        this.starGfx = this.add.graphics().setDepth(-98);
+        this.sunGfx = this.add.graphics().setDepth(-97);
+        this.cloudGfx = this.add.graphics().setDepth(-96);
+        this.overlayGfx = this.add.graphics().setDepth(9000);
+
+        // タイル配置
+        for (let ty = 0; ty < MAP_H; ty++) {
+          for (let tx = 0; tx < MAP_W; tx++) {
+            const p = isoToScreen(tx, ty, this.cx, this.cy);
+            const key = MAP[ty][tx];
+            const img = this.add.image(p.x, p.y, key);
+            img.setDisplaySize(TW * 2, TW);
+            img.setDepth(tx + ty - 100);
+          }
+        }
+
+        // オブジェクト配置
+        const OBJS = [
+          { t: 'house', x: 8, y: 4, scale: 0.38 },
+          { t: 'house', x: 11, y: 5, scale: 0.38 },
+          { t: 'tower', x: 2, y: 2, scale: 0.30 },
+          { t: 'tower', x: 14, y: 2, scale: 0.30 },
+          { t: 'tree', x: 6, y: 6, scale: 0.32 },
+          { t: 'tree', x: 13, y: 8, scale: 0.32 },
+          { t: 'tree', x: 7, y: 13, scale: 0.32 },
+          { t: 'well', x: 9, y: 9, scale: 0.28 },
+        ];
+        OBJS.forEach(o => {
+          const p = isoToScreen(o.x, o.y, this.cx, this.cy);
+          const img = this.add.image(p.x, p.y + TH * 0.25, o.t);
+          const tex = this.textures.get(o.t);
+          const src = tex.getSourceImage();
+          img.setDisplaySize(src.width * o.scale, src.height * o.scale);
+          img.setOrigin(0.5, 1.0);
+          img.setDepth(o.x + o.y);
+        });
+
+        // 焚き火アニメーション
+        this.anims.create({
+          key: 'burn',
+          frames: this.anims.generateFrameNumbers('fire', { start: 0, end: 7 }),
+          frameRate: 8,
+          repeat: -1
+        });
+        const fp = isoToScreen(10, 10, this.cx, this.cy);
+        this.fireSprite = this.add.sprite(fp.x, fp.y + TH * 0.25, 'fire');
+        this.fireSprite.setDisplaySize(72, 72);
+        this.fireSprite.setOrigin(0.5, 1.0);
+        this.fireSprite.setDepth(10 + 10 + 0.5);
+        this.fireSprite.play('burn');
+
+        // キャラクター
+        this.anims.create({
+          key: 'walk_right',
+          frames: this.anims.generateFrameNumbers('char', { start: 0, end: 4 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: 'idle',
+          frames: this.anims.generateFrameNumbers('char', { start: 0, end: 0 }),
+          frameRate: 1,
+          repeat: -1
+        });
+        const cp = isoToScreen(this.charTx, this.charTy, this.cx, this.cy);
+        this.charSprite = this.add.sprite(cp.x, cp.y + TH * 0.25, 'char');
+        this.charSprite.setDisplaySize(64, 80);
+        this.charSprite.setOrigin(0.5, 1.0);
+        this.charSprite.setDepth(this.charTx + this.charTy + 0.5);
+        this.charSprite.play('idle');
+
+        // 雨パーティクル
+        this.rainGfx = this.add.graphics().setDepth(8000);
+
+        // ローディング画面を消す
+        const loading = document.getElementById('loading');
+        this.time.delayedCall(300, () => {
+          loading.classList.add('out');
+          setTimeout(() => { loading.style.display = 'none'; }, 1100);
+        });
+
+        this.updatePanel(data);
+
+        // キャラAIタイマー
+        this.time.addEvent({ delay: 3000, loop: true, callback: this.pickNewTarget, callbackScope: this });
+
+        // ログメッセージローテーション
+        this.time.addEvent({ delay: 6000, loop: true, callback: this.rotateLog, callbackScope: this });
+
+        // 初回描画
+        this.drawSky();
+        this.drawStars();
+        this.drawSunMoon();
+        this.drawClouds();
       }
 
-      if (Math.abs(CHAR.dx) > 0.05 || Math.abs(CHAR.dy) > 0.05) {
-        if (WS.tick % 8 === 0) CHAR.fr = (CHAR.fr + 1) % 5;
+      extractEmotion(data) {
+        const order = ['joy', 'trust', 'fear', 'surprise', 'sadness', 'disgust', 'anger', 'neutral'];
+        if (!data || !data.nodes) return null;
+        let best = null, bestScore = -1;
+        data.nodes.forEach(n => {
+          if (n.emotion) {
+            const idx = order.indexOf(n.emotion);
+            if (idx === -1) return;
+            const score = (n.weight || 1) * (1 / (idx + 1));
+            if (score > bestScore) { bestScore = score; best = n.emotion; }
+          }
+        });
+        return best;
+      }
+
+      updateHUD() {
+        const m = MOODS[currentMood];
+        document.getElementById('hwx').textContent = m.icon;
+        document.getElementById('hmood').textContent = m.label;
+        const now = new Date();
+        document.getElementById('hclock').textContent =
+          String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('pem').innerHTML =
+          '<div style="font-size:28px;text-align:center;margin:6px 0 4px;text-shadow:0 0 12px rgba(255,200,80,0.4)">' + m.icon + '</div>' +
+          '<div style="font-size:11px;color:' + m.color + ';text-align:center;letter-spacing:3px;text-shadow:0 0 8px rgba(0,0,0,0.8)">' + m.label + '</div>';
+      }
+
+      updatePanel(data) {
+        const diEl = document.getElementById('pdi');
+        if (data && data.nodes) {
+          const recent = data.nodes
+            .filter(n => n.date)
+            .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+            .slice(0, 1);
+          diEl.textContent = recent.length ? recent[0].label || '—' : '感情が世界を紡いでいる。';
+        } else {
+          diEl.textContent = '感情が世界を紡いでいる。';
+        }
+      }
+
+      rotateLog() {
+        logIdx = (logIdx + 1) % LOG_MESSAGES.length;
+        const logEl = document.getElementById('log-text');
+        if (logEl) {
+          logEl.style.opacity = '0';
+          setTimeout(() => {
+            logEl.textContent = LOG_MESSAGES[logIdx];
+            logEl.style.opacity = '1';
+            logEl.style.transition = 'opacity 0.8s';
+          }, 400);
+        }
+      }
+
+      pickNewTarget() {
+        const acts = ACTIONS[currentMood] || ACTIONS.neutral;
+        const act = acts[Math.floor(Math.random() * acts.length)];
+        document.getElementById('pact').textContent = act;
+
+        // ログに行動を追加
+        const logEl = document.getElementById('log-text');
+        if (logEl && Math.random() < 0.5) {
+          logEl.style.opacity = '0';
+          setTimeout(() => {
+            logEl.textContent = '魔法使いが' + act + '。';
+            logEl.style.opacity = '1';
+            logEl.style.transition = 'opacity 0.8s';
+          }, 300);
+        }
+
+        let nx, ny, tries = 0;
+        do {
+          const speed = currentMood === 'anger' ? 3 : currentMood === 'fear' ? 1 : 2;
+          nx = Math.max(0, Math.min(MAP_W - 1, Math.round(this.charTx + (Math.random() - 0.5) * speed * 2)));
+          ny = Math.max(0, Math.min(MAP_H - 1, Math.round(this.charTy + (Math.random() - 0.5) * speed * 2)));
+          tries++;
+        } while (MAP[ny][nx] === 'water' && tries < 10);
+        if (MAP[ny][nx] === 'water') return;
+
+        this.charTargetX = nx;
+        this.charTargetY = ny;
+        this.charDir = nx >= this.charTx ? 1 : -1;
+
+        const duration = 2500 + Math.random() * 2000;
+        const tp = isoToScreen(nx, ny, this.cx, this.cy);
+
+        this.charSprite.setFlipX(this.charDir < 0);
+        if (nx !== this.charTx || ny !== this.charTy) {
+          this.charSprite.play('walk_right', true);
+          this.tweens.add({
+            targets: this.charSprite,
+            x: tp.x,
+            y: tp.y + TH * 0.25,
+            duration: duration,
+            ease: 'Linear',
+            onUpdate: () => {
+              this.charSprite.setDepth(this.charTx + this.charTy + 0.5);
+            },
+            onComplete: () => {
+              this.charTx = nx;
+              this.charTy = ny;
+              this.charSprite.play('idle', true);
+            }
+          });
+        }
+      }
+
+      drawSky() {
+        const gfx = this.skyGfx;
+        const W = this.scale.width;
+        const H = this.scale.height;
+        const h = new Date().getHours() + new Date().getMinutes() / 60;
+        const w = MOODS[currentMood].w;
+
+        // Elin風の空: 暖かみのあるアーストーン系
+        let t1 = 0x0a0604, t2 = 0x12090c;
+        if (h >= 5 && h < 7) {
+          // 夜明け: 暗い藍から朝焼けオレンジへ
+          const t = (h - 5) / 2;
+          t1 = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(0x0a0604), Phaser.Display.Color.IntegerToColor(0x5a2008), 100, t * 100).color;
+          t2 = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(0x12090c), Phaser.Display.Color.IntegerToColor(0xc05020), 100, t * 100).color;
+        } else if (h >= 7 && h < 10) {
+          // 朝: 朝焼けから昼空へ
+          const t = (h - 7) / 3;
+          t1 = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(0x5a2008), Phaser.Display.Color.IntegerToColor(0x203050), 100, t * 100).color;
+          t2 = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(0xc05020), Phaser.Display.Color.IntegerToColor(0x5888c0), 100, t * 100).color;
+        } else if (h >= 10 && h < 17) {
+          // 昼: 天気によって変化、Elin風の落ち着いた青空
+          const c = {
+            sunny: [0x1a2a40, 0x4070a8],
+            clear: [0x1e2e48, 0x3860a0],
+            cloudy: [0x202030, 0x383848],
+            drizzle: [0x141820, 0x20282e],
+            storm: [0x08080e, 0x10100e]
+          };
+          [t1, t2] = c[w] || c.clear;
+        } else if (h >= 17 && h < 20) {
+          // 夕焼け: Elin風の深いオレンジ
+          const t = (h - 17) / 3;
+          t1 = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(0x203050), Phaser.Display.Color.IntegerToColor(0x12060e), 100, t * 100).color;
+          t2 = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(0x4070a8), Phaser.Display.Color.IntegerToColor(0xc04010), 100, t * 100).color;
+        } else {
+          // 夜: 深い藍・紫
+          t1 = 0x060408; t2 = 0x080510;
+        }
+
+        gfx.clear();
+        const steps = 24;
+        for (let i = 0; i < steps; i++) {
+          const frac = i / steps;
+          const c = Phaser.Display.Color.Interpolate.ColorWithColor(
+            Phaser.Display.Color.IntegerToColor(t1), Phaser.Display.Color.IntegerToColor(t2), 100, frac * 100);
+          gfx.fillStyle(c.color, 1);
+          gfx.fillRect(0, (H * 0.5 / steps) * i, W, H * 0.5 / steps + 1);
+        }
+
+        // 丘のシルエット (Elin風のなだらかな地平線)
+        this.hillGfx.clear();
+        this.hillGfx.fillStyle(0x0c0e0a, 0.7);
+        this.hillGfx.beginPath();
+        this.hillGfx.moveTo(0, H * 0.45);
+        for (let hx = 0; hx <= W; hx += 6) {
+          const hy = H * 0.36 + Math.sin(hx * 0.009 + 0.8) * H * 0.05
+            + Math.sin(hx * 0.005 + 2.1) * H * 0.03
+            + Math.cos(hx * 0.014 + 1.2) * H * 0.02;
+          this.hillGfx.lineTo(hx, hy);
+        }
+        this.hillGfx.lineTo(W, H * 0.5);
+        this.hillGfx.lineTo(0, H * 0.5);
+        this.hillGfx.closePath();
+        this.hillGfx.fillPath();
+
+        // 手前の丘
+        this.hillGfx.fillStyle(0x080a06, 0.5);
+        this.hillGfx.beginPath();
+        this.hillGfx.moveTo(0, H * 0.5);
+        for (let hx = 0; hx <= W; hx += 6) {
+          const hy = H * 0.42 + Math.sin(hx * 0.007 + 3.0) * H * 0.03
+            + Math.cos(hx * 0.012 + 0.5) * H * 0.02;
+          this.hillGfx.lineTo(hx, hy);
+        }
+        this.hillGfx.lineTo(W, H * 0.5);
+        this.hillGfx.closePath();
+        this.hillGfx.fillPath();
+      }
+
+      drawStars() {
+        const h = new Date().getHours() + new Date().getMinutes() / 60;
+        const W = this.scale.width;
+        const H = this.scale.height;
+        let ll = 1.0;
+        if (h >= 7 && h < 17) ll = 1.0;
+        else if (h >= 5 && h < 7) ll = 0.15 + (h - 5) * 0.425;
+        else if (h >= 17 && h < 20) ll = 1.0 - (h - 17) * 0.35;
+        else ll = 0.05;
+
+        this.starGfx.clear();
+        if (ll >= 0.7) return;
+        const a = (1 - ll / 0.7) * 0.95;
+        for (let i = 0; i < 140; i++) {
+          const sx = (i * 173 + 11) % W;
+          const sy = (i * 97 + 13) % (H * 0.38);
+          const tw = 0.5 + 0.5 * Math.sin(this.tick * 0.006 + i * 0.7);
+          const sz = i % 7 === 0 ? 2.0 : i % 3 === 0 ? 1.2 : 0.8;
+          // Elin風: わずかに黄みがかった白
+          this.starGfx.fillStyle(0xfff8e0, a * tw);
+          this.starGfx.fillRect(sx, sy, sz, sz);
+        }
+      }
+
+      drawSunMoon() {
+        const h = new Date().getHours() + new Date().getMinutes() / 60;
+        const W = this.scale.width;
+        const H = this.scale.height;
+        this.sunGfx.clear();
+        if (h >= 6 && h < 18) {
+          // 太陽: Elin風の温かいゴールド
+          const a = ((h - 6) / 12) * Math.PI;
+          const sx = W * 0.5 + Math.cos(Math.PI - a) * W * 0.38;
+          const sy = H * 0.12 - Math.sin(a) * H * 0.09;
+          // 光のコロナ
+          this.sunGfx.fillStyle(0xf0a020, 0.12);
+          this.sunGfx.fillCircle(sx, sy, 22);
+          this.sunGfx.fillStyle(0xf8c040, 0.25);
+          this.sunGfx.fillCircle(sx, sy, 16);
+          this.sunGfx.fillStyle(0xffe060, 1);
+          this.sunGfx.fillCircle(sx, sy, 10);
+          this.sunGfx.fillStyle(0xfff090, 1);
+          this.sunGfx.fillCircle(sx - 2, sy - 2, 5);
+        } else {
+          // 月: Elin風の青みがかった白
+          const ah = h < 6 ? h + 12 : h - 18;
+          const a = (ah / 12) * Math.PI;
+          const mx = W * 0.5 + Math.cos(Math.PI - a) * W * 0.38;
+          const my = H * 0.12 - Math.sin(a) * H * 0.09;
+          this.sunGfx.fillStyle(0xd0d8c0, 0.15);
+          this.sunGfx.fillCircle(mx, my, 16);
+          this.sunGfx.fillStyle(0xd8e0c8, 1);
+          this.sunGfx.fillCircle(mx, my, 9);
+          // クレーター風の影
+          this.sunGfx.fillStyle(0x04030a, 1);
+          this.sunGfx.fillCircle(mx + 3, my - 2, 7);
+        }
+      }
+
+      drawClouds() {
+        const w = MOODS[currentMood].w;
+        const W = this.scale.width;
+        const H = this.scale.height;
+        const cnt = { sunny: 3, clear: 6, cloudy: 14, drizzle: 20, storm: 26 }[w] || 3;
+        const alp = { sunny: 0.18, clear: 0.32, cloudy: 0.65, drizzle: 0.82, storm: 0.92 }[w] || 0.18;
+        this.cloudGfx.clear();
+        for (let i = 0; i < cnt; i++) {
+          const cx2 = ((i * 211 + this.tick * 1.2) % W);
+          const cy2 = H * 0.03 + (i % 5) * H * 0.045;
+          const cw = 50 + (i % 4) * 35;
+          // Elin風: わずかに温かみのある雲
+          const ccolor = MOODS[currentMood].w === 'storm' ? 0x606070 : 0xc8ccd8;
+          this.cloudGfx.fillStyle(ccolor, alp);
+          this.cloudGfx.fillEllipse(cx2, cy2, cw * 2.2, cw * 0.9);
+          this.cloudGfx.fillEllipse(cx2 - cw * 0.4, cy2 + cw * 0.1, cw * 1.2, cw * 0.7);
+          this.cloudGfx.fillEllipse(cx2 + cw * 0.4, cy2 + cw * 0.1, cw * 1.2, cw * 0.7);
+        }
+      }
+
+      drawRain() {
+        const w = MOODS[currentMood].w;
+        const W = this.scale.width;
+        const H = this.scale.height;
+        this.rainGfx.clear();
+        if (w !== 'drizzle' && w !== 'storm') return;
+        const cnt = w === 'storm' ? 220 : 90;
+        // Elin風の雨: わずかに青みがかった白
+        this.rainGfx.lineStyle(0.7, 0xc8d8f0, 0.28);
+        for (let i = 0; i < cnt; i++) {
+          const rx = ((i * 173 + this.tick * 9) % W);
+          const ry = ((i * 97 + this.tick * 7) % H);
+          this.rainGfx.lineBetween(rx, ry, rx - 2, ry + 14);
+        }
+      }
+
+      drawNight() {
+        const h = new Date().getHours() + new Date().getMinutes() / 60;
+        const W = this.scale.width;
+        const H = this.scale.height;
+        let ll = 1.0;
+        if (h >= 7 && h < 17) ll = 1.0;
+        else if (h >= 5 && h < 7) ll = 0.15 + (h - 5) * 0.425;
+        else if (h >= 17 && h < 20) ll = 1.0 - (h - 17) * 0.35;
+        else ll = 0.06;
+        const wt = MOODS[currentMood].w;
+        if (wt === 'storm') ll = Math.min(ll, 0.2);
+        else if (wt === 'drizzle') ll = Math.min(ll, 0.45);
+        else if (wt === 'cloudy') ll = Math.min(ll, 0.75);
+        this.overlayGfx.clear();
+        if (ll < 1.0) {
+          // Elin風: わずかに青みがかった夜オーバーレイ
+          this.overlayGfx.fillStyle(0x020308, (1 - ll) * 0.62);
+          this.overlayGfx.fillRect(0, 0, W, H);
+        }
+      }
+
+      update() {
+        this.tick++;
+        if (this.tick % 60 === 0) this.updateHUD();
+
+        const W = this.scale.width, H = this.scale.height;
+        this.bgGfx.clear();
+        // Elin風の深い背景色
+        this.bgGfx.fillStyle(0x0e0904, 1);
+        this.bgGfx.fillRect(0, 0, W, H);
+
+        this.drawSky();
+        this.drawStars();
+        this.drawSunMoon();
+        this.drawClouds();
+        this.drawRain();
+        this.drawNight();
       }
     }
 
-    // ===== HUD =====
-    function updateHUD() {
-      const m = MOODS[WS.ek];
-      document.getElementById('hwx').textContent = m.icon;
-      document.getElementById('hmood').textContent = m.label;
-      const now = new Date();
-      document.getElementById('hclock').textContent =
-        String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('pem').innerHTML =
-        '<div style="font-size:24px;text-align:center;margin:8px 0">' + m.icon + '</div>' +
-        '<div style="font-size:11px;color:' + m.color + ';text-align:center;letter-spacing:2px">' + m.label + '</div>';
-    }
-
-    // ===== PANEL =====
-    function updatePanel() {
-      const diEl = document.getElementById('pdi');
-      diEl.textContent = '今日も自分らしく生きる一日。感情が世界を動かしている。';
-    }
-
-    // ===== START =====
-    loadSprites(function () {
-      const loading = document.getElementById('loading');
-      loading.classList.add('out');
-      setTimeout(function () { loading.style.display = 'none'; }, 900);
-      updatePanel();
-      requestAnimationFrame(render);
-    });
+    // ===== Phaser 起動 =====
+    const config = {
+      type: Phaser.AUTO,
+      parent: 'game-container',
+      backgroundColor: '#0e0904',
+      scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: '100%',
+        height: '100%'
+      },
+      scene: MainScene,
+      pixelArt: true
+    };
+    const game = new Phaser.Game(config);
   </script>
 </body>
 
