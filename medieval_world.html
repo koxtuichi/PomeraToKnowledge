@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>異世界の自分 | Pomera World</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a12;
+            color: #e8dcc8;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #topbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: rgba(10, 10, 20, 0.95);
+            border-bottom: 1px solid rgba(255, 220, 150, 0.15);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        #back-btn {
+            text-decoration: none;
+            color: #c8a96e;
+            font-size: 12px;
+            padding: 4px 10px;
+            border: 1px solid rgba(200, 169, 110, 0.3);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        #back-btn:hover {
+            background: rgba(200, 169, 110, 0.1);
+        }
+
+        #topbar-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f0dca0;
+            letter-spacing: 2px;
+        }
+
+        #topbar-emotion {
+            margin-left: auto;
+            font-size: 12px;
+            color: #a89878;
+        }
+
+        #world-clock {
+            font-size: 12px;
+            color: #c8a96e;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        #main-area {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #world-canvas {
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        #info-panel {
+            width: 220px;
+            flex-shrink: 0;
+            background: rgba(10, 8, 18, 0.92);
+            border-left: 1px solid rgba(255, 220, 150, 0.12);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            overflow-y: auto;
+            padding: 16px 14px;
+        }
+
+        .panel-section {
+            margin-bottom: 18px;
+        }
+
+        .panel-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #8a7550;
+            margin-bottom: 8px;
+        }
+
+        .emotion-bar-wrap {
+            margin-bottom: 8px;
+        }
+
+        .emotion-bar-name {
+            font-size: 11px;
+            color: #d4b87a;
+            margin-bottom: 3px;
+        }
+
+        .emotion-bar-track {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .emotion-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.5s ease;
+        }
+
+        #weather-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #c8b07a;
+        }
+
+        #weather-icon {
+            font-size: 20px;
+        }
+
+        #diary-summary {
+            font-size: 11px;
+            color: #9a8a6a;
+            line-height: 1.7;
+        }
+
+        #character-action {
+            font-size: 12px;
+            color: #c8d8b0;
+            line-height: 1.6;
+            padding: 8px;
+            background: rgba(100, 140, 80, 0.08);
+            border: 1px solid rgba(100, 140, 80, 0.15);
+            border-radius: 6px;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 999;
+            transition: opacity 0.8s;
+        }
+
+        #loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f0dca0;
+            letter-spacing: 3px;
+        }
+
+        .loading-sub {
+            font-size: 12px;
+            color: #8a7550;
+        }
+
+        .loading-dots span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #c8a96e;
+            margin: 0 3px;
+            animation: bounce 1.2s infinite;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loading-overlay">
+        <div class="loading-title">⚔️ 異世界への扉</div>
+        <div class="loading-sub">あなたの感情が世界を紡いでいる...</div>
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+
+    <div id="topbar">
+        <a id="back-btn" href="./index.html">← 戻る</a>
+        <span id="topbar-title">✦ 異世界の自分 ✦</span>
+        <span id="topbar-emotion"></span>
+        <span id="world-clock"></span>
+    </div>
+
+    <div id="main-area">
+        <div id="canvas-container">
+            <canvas id="world-canvas"></canvas>
+        </div>
+        <div id="info-panel">
+            <div class="panel-section">
+                <div class="panel-label">今日の感情</div>
+                <div id="emotions-list"></div>
+            </div>
+            <div class="panel-section">
+                <div class="panel-label">天候</div>
+                <div id="weather-display">
+                    <span id="weather-icon">☀️</span>
+                    <span id="weather-text">晴れ</span>
+                </div>
+            </div>
+            <div class="panel-section">
+                <div class="panel-label">主人公の行動</div>
+                <div id="character-action">...</div>
+            </div>
+            <div class="panel-section">
+                <div class="panel-label">今日の日記より</div>
+                <div id="diary-summary">読み込み中...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== 感情ステートマシン =====
+        const EMOTION_STATES = {
+            joy_high: { weather: 'sunny', skyTop: '#1a3a6e', skyBot: '#4a8ad0', label: '喜び', icon: '🌞', actions: ['広場で踊る', '歌いながら歩く', '花を摘む', '酒場で談笑する', '丘で昼寝する'] },
+            joy_mid: { weather: 'clear', skyTop: '#1e3c72', skyBot: '#4f86c6', label: '穏やか', icon: '⛅', actions: ['散歩する', '市場を歩く', '本を読む', '庭を整える', '川を眺める'] },
+            neutral: { weather: 'cloudy', skyTop: '#2a2f45', skyBot: '#4a5170', label: '平静', icon: '☁️', actions: ['鍛冶仕事をする', '畑を耕す', '城壁を見張る', '薪割りをする', '地図を広げる'] },
+            anxiety: { weather: 'drizzle', skyTop: '#1e2235', skyBot: '#2e3550', label: '不安', icon: '🌧', actions: ['城壁際で遠くを見る', '一人でベンチに座る', '雨宿りする', 'ため息をつく', '石段に腰掛ける'] },
+            sadness: { weather: 'storm', skyTop: '#0f1120', skyBot: '#1a1f35', label: '憂鬱', icon: '⛈', actions: ['部屋に引きこもる', '雨を眺める', '燭台の前で考える', '本を閉じる', '毛布に包まる'] },
+        };
+
+        // ===== フォールバック感情データ =====
+        const FALLBACK_DATA = {
+            emotions: [
+                { label: '思考整理によるスッキリ感', sentiment: 0.7, emotion_category: '喜び' },
+                { label: '独断進捗への不安', sentiment: -0.2, emotion_category: '不安' },
+            ],
+            diary_detail: '朝の思考整理、Saitekiのパイプライン構築報告、Knowbeの定例準備について。',
+            date: new Date().toLocaleDateString('ja-JP'),
+        };
+
+        // ===== ワールドステート =====
+        let worldState = {
+            emotionKey: 'neutral',
+            avgSentiment: 0,
+            emotions: [],
+            diaryDetail: '',
+            date: '',
+            time: 0,
+            actionIndex: 0,
+            actionTimer: 0,
+        };
+
+        // ===== 感情スコア計算 =====
+        function computeEmotionKey(emotions) {
+            if (!emotions.length) return 'neutral';
+            const avg = emotions.reduce((s, e) => s + (e.sentiment || 0), 0) / emotions.length;
+            worldState.avgSentiment = avg;
+            if (avg >= 0.5) return 'joy_high';
+            if (avg >= 0.1) return 'joy_mid';
+            if (avg >= -0.1) return 'neutral';
+            if (avg >= -0.4) return 'anxiety';
+            return 'sadness';
+        }
+
+        // ===== データ読み込み =====
+        async function loadData() {
+            try {
+                const r = await fetch('./daily_graph.json');
+                if (!r.ok) throw new Error('fetch failed');
+                const data = await r.json();
+                const emotions = (data.nodes || []).filter(n => n.type === '感情' && typeof n.sentiment === 'number');
+                const diary = (data.nodes || []).find(n => n.type === '日記');
+                worldState.emotions = emotions;
+                worldState.diaryDetail = diary?.detail || '';
+                worldState.date = diary?.date || '';
+            } catch {
+                worldState.emotions = FALLBACK_DATA.emotions;
+                worldState.diaryDetail = FALLBACK_DATA.diary_detail;
+                worldState.date = FALLBACK_DATA.date;
+            }
+            worldState.emotionKey = computeEmotionKey(worldState.emotions);
+            updateUI();
+        }
+
+        function updateUI() {
+            const state = EMOTION_STATES[worldState.emotionKey];
+            document.getElementById('topbar-emotion').textContent = `${state.icon} ${state.label}な日`;
+            document.getElementById('weather-icon').textContent = state.icon;
+            document.getElementById('weather-text').textContent = {
+                sunny: '快晴', clear: '晴れ', cloudy: '曇り', drizzle: '小雨', storm: '嵐',
+            }[state.weather];
+            document.getElementById('diary-summary').textContent = worldState.diaryDetail || '日記データなし';
+
+            const list = document.getElementById('emotions-list');
+            list.innerHTML = '';
+            worldState.emotions.forEach(e => {
+                const s = e.sentiment || 0;
+                const pct = Math.round(((s + 1) / 2) * 100);
+                const color = s > 0.2 ? '#5ec87a' : s < -0.2 ? '#e87070' : '#c8b06a';
+                list.innerHTML += `
+      <div class="emotion-bar-wrap">
+        <div class="emotion-bar-name">${e.label}</div>
+        <div class="emotion-bar-track">
+          <div class="emotion-bar-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+      </div>`;
+            });
+        }
+
+        // ===== CANVAS ENGINE =====
+        const canvas = document.getElementById('world-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, SCALE;
+
+        function resizeCanvas() {
+            const container = document.getElementById('canvas-container');
+            W = container.clientWidth;
+            H = container.clientHeight;
+            canvas.width = W;
+            canvas.height = H;
+            SCALE = Math.max(2, Math.floor(H / 160));
+        }
+
+        // ===== 描画ヘルパー =====
+        function px(x) { return Math.floor(x * SCALE); }
+        function rect(x, y, w, h, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(px(x), px(y), px(w), px(h));
+        }
+        function circle(x, y, r, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(px(x), px(y), px(r), 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // ===== 時刻計算 =====
+        function getGameTime() {
+            const now = new Date();
+            const h = now.getHours() + now.getMinutes() / 60;
+            // ゲーム内時刻: 0-24
+            return h;
+        }
+
+        function getSkyColors(h) {
+            const state = EMOTION_STATES[worldState.emotionKey];
+            // 時刻による色変化
+            if (h >= 5 && h < 7) return ['#1a1040', '#e05030']; // 夜明け
+            if (h >= 7 && h < 10) return ['#1e3060', '#f09040']; // 朝
+            if (h >= 10 && h < 17) {
+                if (state.weather === 'sunny') return ['#1a3a6e', '#4a8ad0'];
+                if (state.weather === 'clear') return ['#1e3c72', '#5a96c0'];
+                if (state.weather === 'cloudy') return ['#2a2f45', '#4a5170'];
+                if (state.weather === 'drizzle') return ['#1e2235', '#2e3a50'];
+                return ['#0f1120', '#1a1f35'];
+            }
+            if (h >= 17 && h < 19) return ['#1a1840', '#d04820']; // 夕方
+            return ['#050510', '#0a0820']; // 夜
+        }
+
+        function getLightLevel(h) {
+            if (h >= 7 && h < 17) return 1.0;
+            if (h >= 5 && h < 7) return 0.4 + (h - 5) * 0.3;
+            if (h >= 17 && h < 19) return 1.0 - (h - 17) * 0.4;
+            return 0.15;
+        }
+
+        // ===== 星描画 =====
+        const stars = Array.from({ length: 60 }, () => ({
+            x: Math.random() * 300, y: Math.random() * 60, r: Math.random() * 0.8 + 0.3,
+        }));
+        function drawStars(light) {
+            if (light > 0.6) return;
+            const alpha = 1 - light / 0.6;
+            stars.forEach(s => {
+                ctx.fillStyle = `rgba(255,255,220,${alpha * (0.4 + Math.random() * 0.3)})`;
+                ctx.fillRect(px(s.x), px(s.y), px(s.r), px(s.r));
+            });
+        }
+
+        // ===== 雲 =====
+        const clouds = [
+            { x: 20, y: 12, w: 30, speed: 0.008 },
+            { x: 80, y: 8, w: 20, speed: 0.005 },
+            { x: 150, y: 15, w: 25, speed: 0.007 },
+            { x: 220, y: 10, w: 18, speed: 0.006 },
+        ];
+        function drawClouds(state, light) {
+            if (state.weather === 'storm' || light < 0.3) return;
+            const alpha = state.weather === 'cloudy' ? 0.7 : state.weather === 'drizzle' ? 0.85 : 0.45;
+            clouds.forEach(c => {
+                c.x = (c.x + c.speed) % 310;
+                const grd = ctx.createLinearGradient(0, px(c.y), 0, px(c.y + 8));
+                grd.addColorStop(0, `rgba(220,230,255,${alpha})`);
+                grd.addColorStop(1, `rgba(180,190,220,${alpha * 0.4})`);
+                ctx.fillStyle = grd;
+                ctx.beginPath();
+                ctx.ellipse(px(c.x + c.w / 2), px(c.y + 4), px(c.w / 2), px(4), 0, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        // ===== 雨パーティクル =====
+        const rainDrops = Array.from({ length: 80 }, () => ({
+            x: Math.random() * 320, y: Math.random() * 200, speed: 2 + Math.random() * 1.5,
+        }));
+        function drawRain(state) {
+            if (state.weather !== 'drizzle' && state.weather !== 'storm') return;
+            const alpha = state.weather === 'storm' ? 0.5 : 0.25;
+            const count = state.weather === 'storm' ? 80 : 40;
+            ctx.strokeStyle = `rgba(160,200,255,${alpha})`;
+            ctx.lineWidth = SCALE * 0.6;
+            for (let i = 0; i < count; i++) {
+                const d = rainDrops[i];
+                d.y += d.speed;
+                d.x -= 0.3;
+                if (d.y > 200) { d.y = -5; d.x = Math.random() * 320; }
+                ctx.beginPath();
+                ctx.moveTo(px(d.x), px(d.y));
+                ctx.lineTo(px(d.x + 0.5), px(d.y + 2.5));
+                ctx.stroke();
+            }
+        }
+
+        // ===== 太陽/月 =====
+        function drawSunMoon(h, light) {
+            const angle = ((h - 6) / 12) * Math.PI; // 6時〜18時で180度
+            if (h >= 6 && h < 18) {
+                const sunX = 30 + Math.cos(Math.PI - angle) * 60;
+                const sunY = 55 - Math.sin(angle) * 40;
+                // 光輪
+                const grd = ctx.createRadialGradient(px(sunX), px(sunY), 0, px(sunX), px(sunY), px(10));
+                grd.addColorStop(0, 'rgba(255,240,160,0.6)');
+                grd.addColorStop(1, 'rgba(255,220,80,0)');
+                ctx.fillStyle = grd;
+                ctx.beginPath(); ctx.arc(px(sunX), px(sunY), px(10), 0, Math.PI * 2); ctx.fill();
+                circle(sunX, sunY, 4, '#ffd040');
+            } else {
+                const moonAngle = ((h < 6 ? h + 12 : h - 18) / 12) * Math.PI;
+                const mx = 30 + Math.cos(Math.PI - moonAngle) * 60;
+                const my = 55 - Math.sin(moonAngle) * 40;
+                circle(mx, my, 3, '#d8d0c0');
+                circle(mx + 1.5, my - 0.5, 2.5, '#0f1120');
+            }
+        }
+
+        // ===== タイル描画: 地面 =====
+        function drawGround(light) {
+            const l = Math.min(1, light);
+            const gc = `rgb(${Math.floor(50 * l)},${Math.floor(80 * l)},${Math.floor(35 * l)})`;
+            rect(0, 105, 300, 95, gc); // 草地
+
+            // 石畳の道
+            const roadColor = `rgb(${Math.floor(80 * l)},${Math.floor(75 * l)},${Math.floor(65 * l)})`;
+            rect(60, 110, 80, 90, roadColor);
+            rect(170, 120, 30, 80, roadColor);
+            // 石畳の目地
+            ctx.fillStyle = `rgba(0,0,0,${0.15 * l})`;
+            for (let gy = 110; gy < 200; gy += 4) {
+                for (let gx = 60; gx < 140; gx += 6) {
+                    ctx.fillRect(px(gx), px(gy), px(5.5), px(3.5));
+                }
+            }
+        }
+
+        // ===== 建物: 民家 =====
+        function drawHouse(bx, by, w, h, roofColor, wallColor, light) {
+            const l = Math.min(1, light);
+            const wc = lerpColor(wallColor, '#000', 1 - l);
+            const rc = lerpColor(roofColor, '#000', 1 - l);
+            // 壁
+            rect(bx, by + h / 3, w, h * 2 / 3, wc);
+            // 屋根
+            ctx.fillStyle = rc;
+            ctx.beginPath();
+            ctx.moveTo(px(bx - 2), px(by + h / 3));
+            ctx.lineTo(px(bx + w / 2), px(by));
+            ctx.lineTo(px(bx + w + 2), px(by + h / 3));
+            ctx.closePath();
+            ctx.fill();
+            // ドア
+            rect(bx + w / 2 - 2, by + h * 2 / 3 - 1, 4, h / 3 + 1, lerpColor('#5a3a20', '#000', 1 - l * 0.8));
+            // 窓
+            rect(bx + 2, by + h / 3 + 3, 4, 3, lerpColor('#c8c060', '#222210', 1 - l));
+            if (w > 14) rect(bx + w - 6, by + h / 3 + 3, 4, 3, lerpColor('#c8c060', '#222210', 1 - l));
+        }
+
+        // ===== 建物: 教会 =====
+        function drawChurch(bx, by, light) {
+            const l = Math.min(1, light);
+            const wc = lerpColor('#b0a898', '#000', 1 - l);
+            const rc = lerpColor('#7a5a40', '#000', 1 - l);
+            rect(bx, by + 30, 30, 25, wc); // 本体
+            // 屋根
+            ctx.fillStyle = rc;
+            ctx.beginPath();
+            ctx.moveTo(px(bx - 2), px(by + 30));
+            ctx.lineTo(px(bx + 15), px(by + 10));
+            ctx.lineTo(px(bx + 32), px(by + 30));
+            ctx.closePath(); ctx.fill();
+            // 鐘楼
+            rect(bx + 11, by + 10, 8, 20, wc);
+            rect(bx + 11, by + 4, 8, 8, rc);
+            // 十字架
+            ctx.fillStyle = lerpColor('#d4c090', '#333', 1 - l);
+            ctx.fillRect(px(bx + 14), px(by), px(2), px(6));
+            ctx.fillRect(px(bx + 12), px(by + 2), px(6), px(2));
+            // 窓
+            ctx.fillStyle = lerpColor('#c8a020', '#111100', 1 - l);
+            ctx.beginPath();
+            ctx.arc(px(bx + 15), px(by + 35), px(3), 0, Math.PI * 2); ctx.fill();
+        }
+
+        // ===== 建物: 城壁 =====
+        function drawCastle(bx, by, light) {
+            const l = Math.min(1, light);
+            const wc = lerpColor('#8a8278', '#000', 1 - l);
+            const mc = lerpColor('#706860', '#000', 1 - l);
+            // 城壁
+            rect(bx, by + 20, 50, 35, wc);
+            // 銃眼
+            for (let ci = 0; ci < 5; ci++) {
+                rect(bx + ci * 10 + 1, by + 16, 6, 6, mc);
+            }
+            // 塔
+            rect(bx - 4, by, 12, 55, wc);
+            rect(bx + 42, by, 12, 55, wc);
+            // 塔の銃眼
+            for (let ci = 0; ci < 3; ci++) {
+                rect(bx - 3 + ci * 4, by - 3, 3, 5, mc);
+                rect(bx + 43 + ci * 4, by - 3, 3, 5, mc);
+            }
+            // 門
+            rect(bx + 18, by + 30, 14, 25, mc);
+            // アーチ
+            ctx.fillStyle = mc;
+            ctx.beginPath();
+            ctx.arc(px(bx + 25), px(by + 30), px(7), Math.PI, 0);
+            ctx.fill();
+        }
+
+        // ===== 木 =====
+        function drawTree(tx, ty, light) {
+            const l = Math.min(1, light);
+            rect(tx - 1, ty + 8, 2, 8, lerpColor('#5a3a18', '#000', 1 - l));
+            circle(tx, ty + 6, 6, lerpColor('#2a6020', '#000', 1 - l));
+            circle(tx - 3, ty + 8, 4, lerpColor('#1e5018', '#000', 1 - l * 0.9));
+            circle(tx + 3, ty + 9, 4, lerpColor('#346028', '#000', 1 - l * 0.9));
+        }
+
+        // ===== 色補間 =====
+        function lerpColor(c1, c2, t) {
+            t = Math.max(0, Math.min(1, t));
+            const p = (hex) => [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)];
+            const [r1, g1, b1] = p(c1); const [r2, g2, b2] = p(c2);
+            return `rgb(${Math.floor(r1 + (r2 - r1) * t)},${Math.floor(g1 + (g2 - g1) * t)},${Math.floor(b1 + (b2 - b1) * t)})`;
+        }
+
+        // ===== キャラクター =====
+        const character = {
+            x: 95, y: 130, tx: 95, ty: 130,
+            dir: 1, frame: 0, frameTimer: 0,
+            actionIdx: 0, actionTimer: 0,
+            phase: 'idle', phaseTimer: 0,
+            moving: false,
+            waypoints: [],
+            wpIdx: 0,
+        };
+
+        // 行動ルート定義
+        const ACTION_ROUTES = {
+            joy_high: [{ x: 95, y: 130 }, { x: 80, y: 125 }, { x: 70, y: 130 }, { x: 80, y: 135 }, { x: 95, y: 130 }], // 広場へ
+            joy_mid: [{ x: 95, y: 130 }, { x: 110, y: 128 }, { x: 130, y: 130 }, { x: 110, y: 132 }, { x: 95, y: 130 }], // 市場散歩
+            neutral: [{ x: 95, y: 130 }, { x: 95, y: 120 }, { x: 100, y: 115 }, { x: 95, y: 120 }, { x: 95, y: 130 }], // 城壁へ
+            anxiety: [{ x: 95, y: 130 }, { x: 75, y: 140 }, { x: 65, y: 145 }, { x: 75, y: 140 }, { x: 95, y: 130 }], // 城壁際
+            sadness: [{ x: 95, y: 130 }, { x: 95, y: 132 }, { x: 95, y: 130 }], // 微動
+        };
+
+        function getRoute() { return ACTION_ROUTES[worldState.emotionKey] || ACTION_ROUTES.neutral; }
+
+        function updateCharacter(dt) {
+            const c = character;
+            c.frameTimer += dt;
+            if (c.frameTimer > 0.2) { c.frame = 1 - c.frame; c.frameTimer = 0; }
+
+            c.actionTimer += dt;
+            if (c.actionTimer > 8) {
+                c.actionTimer = 0;
+                c.actionIdx = (c.actionIdx + 1) % (EMOTION_STATES[worldState.emotionKey].actions.length);
+                document.getElementById('character-action').textContent =
+                    '⚔️ ' + EMOTION_STATES[worldState.emotionKey].actions[c.actionIdx];
+            }
+
+            // ルート移動
+            c.phaseTimer += dt;
+            if (c.phaseTimer > 0.05) {
+                c.phaseTimer = 0;
+                const route = getRoute();
+                const wp = route[c.wpIdx % route.length];
+                const dx = wp.x - c.x, dy = wp.y - c.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 0.8) {
+                    c.wpIdx = (c.wpIdx + 1) % route.length;
+                } else {
+                    const speed = worldState.emotionKey === 'sadness' ? 0.1 : worldState.emotionKey === 'joy_high' ? 0.35 : 0.2;
+                    c.x += (dx / dist) * speed;
+                    c.y += (dy / dist) * speed;
+                    c.dir = dx < 0 ? -1 : 1;
+                    c.moving = true;
+                }
+            }
+        }
+
+        function drawCharacter(light) {
+            const c = character;
+            const l = Math.min(1, light);
+            const px2 = (v) => Math.floor(v * SCALE);
+            const x = c.x, y = c.y;
+            const leg = c.moving && c.frame === 1;
+
+            // 影
+            ctx.fillStyle = `rgba(0,0,0,${0.2 * l})`;
+            ctx.beginPath();
+            ctx.ellipse(px2(x), px2(y + 9), px2(3), px2(1), 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // マント
+            const cloakColor = worldState.emotionKey === 'sadness' ? '#2a2035' :
+                worldState.emotionKey === 'anxiety' ? '#2a3040' :
+                    worldState.emotionKey === 'joy_high' ? '#503020' : '#3a3020';
+            ctx.fillStyle = lerpColor(cloakColor, '#000', 1 - l);
+            ctx.beginPath();
+            ctx.moveTo(px2(x - 3), px2(y - 2));
+            ctx.lineTo(px2(x + 3), px2(y - 2));
+            ctx.lineTo(px2(x + 4 + c.dir), px2(y + 6));
+            ctx.lineTo(px2(x - 4 + c.dir), px2(y + 6));
+            ctx.closePath(); ctx.fill();
+
+            // 体
+            ctx.fillStyle = lerpColor('#7a6050', '#000', 1 - l);
+            ctx.fillRect(px2(x - 2), px2(y - 2), px2(4), px2(6));
+
+            // 脚
+            ctx.fillStyle = lerpColor('#5a4a38', '#000', 1 - l);
+            if (leg) {
+                ctx.fillRect(px2(x - 2), px2(y + 4), px2(2), px2(4));
+                ctx.fillRect(px2(x), px2(y + 4 + 1), px2(2), px2(3));
+            } else {
+                ctx.fillRect(px2(x - 2), px2(y + 4), px2(2), px2(4));
+                ctx.fillRect(px2(x), px2(y + 4), px2(2), px2(4));
+            }
+
+            // 頭
+            ctx.fillStyle = lerpColor('#c8a878', '#000', 1 - l);
+            ctx.fillRect(px2(x - 2), px2(y - 6), px2(4), px2(4));
+
+            // 帽子
+            ctx.fillStyle = lerpColor('#4a3828', '#000', 1 - l);
+            ctx.fillRect(px2(x - 3), px2(y - 7), px2(6), px2(2));
+            ctx.fillRect(px2(x - 1.5), px2(y - 10), px2(3), px2(3));
+
+            // 目
+            ctx.fillStyle = lerpColor('#f0e0c0', '#000', 1 - l);
+            ctx.fillRect(px2(x + (c.dir > 0 ? 0.5 : -1.5)), px2(y - 5), px2(1), px2(1));
+
+            // 剣/道具
+            if (worldState.emotionKey !== 'sadness') {
+                ctx.fillStyle = lerpColor('#c0c8d0', '#000', 1 - l * 0.7);
+                ctx.fillRect(px2(x + c.dir * 3), px2(y - 1), px2(1), px2(5));
+            }
+        }
+
+        // ===== 焚き火 =====
+        let fireFrame = 0;
+        function drawFireplace(fx, fy, light) {
+            const l = Math.min(1, light);
+            // 薪台
+            rect(fx - 3, fy + 2, 6, 2, lerpColor('#5a3020', '#000', 1 - l));
+            // 炎 (アニメーション)
+            fireFrame = Date.now() / 120;
+            const flicker = Math.sin(fireFrame) * 0.5 + 0.5;
+            if (light > 0.15) {
+                [[0, -3, 2, '#ff8020'], [-1, -2, 1, '#ff4010'], [1, -2, 1, '#ffa030'], [0, -5, 1, '#ffcc40']].forEach(([ox, oy, r, c]) => {
+                    const jit = (Math.random() - 0.5) * 0.5;
+                    circle(fx + ox + jit, fy + oy, r * (0.8 + flicker * 0.4), c);
+                });
+                // 炎の光
+                if (light < 0.6) {
+                    const grd = ctx.createRadialGradient(px(fx), px(fy - 2), 0, px(fx), px(fy - 2), px(20));
+                    grd.addColorStop(0, `rgba(255,120,20,${0.12 * (1 - light)})`);
+                    grd.addColorStop(1, 'rgba(255,80,0,0)');
+                    ctx.fillStyle = grd;
+                    ctx.beginPath(); ctx.arc(px(fx), px(fy - 2), px(20), 0, Math.PI * 2); ctx.fill();
+                }
+            }
+        }
+
+        // ===== 川 =====
+        let riverWave = 0;
+        function drawRiver(light) {
+            const l = Math.min(1, light);
+            riverWave += 0.02;
+            for (let rx = 200; rx < 300; rx += 1) {
+                const wy = 158 + Math.sin(rx * 0.15 + riverWave) * 0.8;
+                ctx.fillStyle = lerpColor('#2060a0', '#050a12', 1 - l);
+                ctx.fillRect(px(rx), px(wy), px(1), px(8));
+                // ハイライト
+                if (l > 0.3 && Math.sin(rx * 0.3 + riverWave * 2) > 0.6) {
+                    ctx.fillStyle = `rgba(180,220,255,${0.3 * l})`;
+                    ctx.fillRect(px(rx), px(wy + 1), px(1), px(1));
+                }
+            }
+        }
+
+        // ===== メインレンダーループ =====
+        let lastTime = 0;
+        function render(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const dt = (timestamp - lastTime) / 1000;
+            lastTime = timestamp;
+
+            const h = getGameTime();
+            const [skyTop, skyBot] = getSkyColors(h);
+            const light = getLightLevel(h);
+            const state = EMOTION_STATES[worldState.emotionKey];
+
+            // 空のグラデーション
+            const skyGrd = ctx.createLinearGradient(0, 0, 0, px(110));
+            skyGrd.addColorStop(0, skyTop);
+            skyGrd.addColorStop(1, skyBot);
+            ctx.fillStyle = skyGrd;
+            ctx.fillRect(0, 0, W, H);
+
+            drawStars(light);
+            drawSunMoon(h, light);
+            drawClouds(state, light);
+
+            // 嵐エフェクト
+            if (state.weather === 'storm') {
+                ctx.fillStyle = `rgba(10,10,30,0.25)`;
+                ctx.fillRect(0, 0, W, H);
+                if (Math.random() > 0.97) {
+                    ctx.fillStyle = 'rgba(200,220,255,0.3)';
+                    ctx.fillRect(0, 0, W, H);
+                }
+            }
+
+            drawGround(light);
+            drawRiver(light);
+
+            // 木々
+            drawTree(195, 98, light);
+            drawTree(220, 102, light);
+            drawTree(240, 97, light);
+            drawTree(265, 99, light);
+            drawTree(155, 110, light);
+            drawTree(175, 107, light);
+
+            // 城壁 (背景)
+            drawCastle(5, 70, light);
+
+            // 教会
+            drawChurch(200, 72, light);
+
+            // 民家群
+            drawHouse(60, 95, 20, 25, '#6a3a1a', '#c0a888', light);
+            drawHouse(88, 98, 18, 22, '#5a2a1a', '#b8a080', light);
+            drawHouse(115, 96, 22, 26, '#7a4a20', '#c0a870', light);
+            drawHouse(145, 100, 16, 20, '#5e3820', '#b0987a', light);
+
+            // 焚き火
+            drawFireplace(98, 150, light);
+            drawFireplace(130, 148, light);
+
+            drawRain(state);
+            updateCharacter(dt);
+            drawCharacter(light);
+
+            // 時刻表示更新
+            const hh = String(Math.floor(h)).padStart(2, '0');
+            const mm = String(Math.floor((h % 1) * 60)).padStart(2, '0');
+            document.getElementById('world-clock').textContent = `${hh}:${mm}`;
+
+            requestAnimationFrame(render);
+        }
+
+        // ===== 起動 =====
+        window.addEventListener('resize', () => { resizeCanvas(); });
+        resizeCanvas();
+
+        loadData().then(() => {
+            document.getElementById('character-action').textContent =
+                '⚔️ ' + EMOTION_STATES[worldState.emotionKey].actions[0];
+            setTimeout(() => {
+                document.getElementById('loading-overlay').classList.add('hidden');
+                requestAnimationFrame(render);
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>
