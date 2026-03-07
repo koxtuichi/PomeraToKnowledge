@@ -31,7 +31,45 @@ SPRITE_REPO_PREFIX = "sprites/characters/nodes"  # GitHub Pages / rawコンテ�
 
 API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 
-# ノード type → Elinスタイルキャラクタープロンプト設定
+# ===== レア度定義 =====
+# ノードtypeからレア度を決定
+RARITY_BY_TYPE = {
+    "人物": "UR",  # 必殺技シーン
+    "知見": "SR",  # 技発動シーン
+    "出来事": "SR",  # ドラマチックシーン
+    "タスク": "R",   # 戦闘構えポーズ
+    "日記": "N",    # 立ち絵
+}
+
+# レア度 → ポーズ/背景プロンプト
+RARITY_POSE = {
+    "N": (
+        "neutral standing pose, front facing, calm relaxed stance, "
+        "simple parchment/washi paper background with subtle texture"
+    ),
+    "R": (
+        "battle-ready stance, hand gripping weapon, slight crouch, "
+        "determined fierce expression, dynamic pose ready to strike, "
+        "stone dungeon or forest background with moody lighting"
+    ),
+    "SR": (
+        "mid-action dynamic pose, actively casting spell or attacking, "
+        "motion lines, glowing magical aura or weapon trail effect, "
+        "dramatic speed lines background, intense expression, "
+        "skill activation scene like a trading card"
+    ),
+    "UR": (
+        "ultimate special skill cinematic pose, enormous dramatic aura and energy explosion, "
+        "full-art vertical trading card illustration, "
+        "character at center of massive power release, light rays and particle effects, "
+        "epic legendary scene, Yu-Gi-Oh card art style ultra dramatic composition, "
+        "glowing eyes, ultimate technique moment"
+    ),
+}
+
+RARITY_LABEL = {"N": "N", "R": "R", "SR": "SR", "UR": "UR"}
+
+# ノード type → キャラクタービジュアル設定
 TYPE_PROMPTS = {
     "日記": {
         "class_hint": "traveler scribe chronicler",
@@ -40,23 +78,23 @@ TYPE_PROMPTS = {
     },
     "タスク": {
         "class_hint": "warrior soldier mercenary",
-        "visual":     "iron armor, sword or tool, determined resolute stance, utility belt",
+        "visual":     "iron armor, sword and shield, battle-scarred equipment",
         "palette":    "steel blue, dark iron, rust orange",
     },
     "知見": {
-        "class_hint": "sage scholar mage",
-        "visual":     "wide brimmed hat, open ancient tome, spectacles, calm knowing eyes, robes with runes",
-        "palette":    "ivory white, soft blue, silver",
+        "class_hint": "sage scholar archmage",
+        "visual":     "wide brimmed hat, ancient tome, spectacles, robes with glowing runes",
+        "palette":    "ivory white, soft blue, silver, glowing cyan accents",
     },
     "出来事": {
         "class_hint": "bard scout ranger",
-        "visual":     "hooded cloak, lute or map scroll, curious expression, adventurer gear",
+        "visual":     "hooded cloak, lute or map scroll, adventurer gear, quick agile build",
         "palette":    "forest green, deep brown, gold accent",
     },
     "人物": {
-        "class_hint": "hero champion",
-        "visual":     "noble bearing, distinct costume, confident gaze, unique identity",
-        "palette":    "golden, royal purple, warm highlights",
+        "class_hint": "legendary hero champion",
+        "visual":     "ornate noble armor, divine weapon, flowing cape, intense charismatic presence",
+        "palette":    "golden, royal purple, radiant warm highlights",
     },
 }
 
@@ -65,6 +103,12 @@ DEFAULT_TYPE_PROMPT = {
     "visual":     "simple traveling clothes, small pack, open friendly expression",
     "palette":    "muted warm browns and greens",
 }
+
+
+def get_rarity(node: dict) -> str:
+    """ノードのtypeからレア度を返す"""
+    return RARITY_BY_TYPE.get(node.get("type", ""), "N")
+
 
 
 def node_to_sprite_id(node_id: str) -> str:
@@ -78,29 +122,26 @@ def node_to_sprite_id(node_id: str) -> str:
 
 
 def build_prompt(node: dict) -> str:
-    """ノード情報からElinキャラ作成画面風縦長ポートレートのプロンプトを構築"""
+    """ノード情報からレア度連動のキャラクターアートプロンプトを構築"""
     tp = TYPE_PROMPTS.get(node.get("type", ""), DEFAULT_TYPE_PROMPT)
-    label  = node.get("label", "")
+    rarity = get_rarity(node)
+    pose_bg = RARITY_POSE[rarity]
     detail = node.get("detail", "")
-
-    # detail が長い場合は先頭60文字だけ使う
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
     prompt = (
-        f"Elin RPG game character creation screen portrait, vertical portrait format, "
-        f"showing face and upper body from waist up, "
-        f"{tp['class_hint']} character type, "
+        f"Pixel art RPG character card art, Elin game style, medieval fantasy, "
+        f"vertical portrait format 3:4 aspect ratio, "
+        f"{tp['class_hint']} character, "
         f"{tp['visual']}, "
         f"personality hint: {detail_snippet}, "
         f"color palette: {tp['palette']}, "
-        f"soft anime-style illustration with fine clean lineart and cel-shading, "
-        f"washi paper / parchment texture background, warm candlelight atmospheric glow, "
-        f"high detail: visible fabric folds, hair strands, small accessory details, "
-        f"Elin RPG portrait art style, professional game illustration quality, "
-        f"NO text, NO letters, NO writing, NO labels, NO words, NO title, NO name plate, "
-        f"pure illustration only, no UI elements, no decorative text borders"
+        f"{pose_bg}, "
+        f"high quality detailed pixel art, rich color depth, expressive character design, "
+        f"NO text, NO letters, NO writing, NO labels, NO numbers, NO UI elements"
     )
     return prompt
+
 def build_story_prompt(node: dict) -> str:
     """ノード情報からキャラクターの背景ストーリープロンプトを構築"""
     tp = TYPE_PROMPTS.get(node.get("type", ""), DEFAULT_TYPE_PROMPT)
@@ -203,10 +244,11 @@ def process_nodes(force: bool = False) -> int:
         sprite_filename = node_to_sprite_id(node_id) + ".png"
         sprite_path = SPRITE_DIR / sprite_filename
 
-        # ファイルが既に存在する場合も spriteUrl だけ付与してスキップ
+        # ファイルが既に存在する場合も spriteUrl / rarity だけ付与してスキップ
         if sprite_path.exists() and not force:
             rel = f"{SPRITE_REPO_PREFIX}/{sprite_filename}"
             node["spriteUrl"] = rel
+            node["rarity"] = get_rarity(node)
             print(f"  ✅ 既存ファイルを使用: {rel}")
             continue
 
@@ -219,7 +261,8 @@ def process_nodes(force: bool = False) -> int:
             sprite_path.write_bytes(img_bytes)
             rel = f"{SPRITE_REPO_PREFIX}/{sprite_filename}"
             node["spriteUrl"] = rel
-            print(f"   💾 保存: {rel}")
+            node["rarity"] = get_rarity(node)
+            print(f"   💾 保存: {rel} [{get_rarity(node)}]")
             generated += 1
         else:
             print(f"   ⚠️  {node_id} の画像生成をスキップ")

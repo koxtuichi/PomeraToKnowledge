@@ -1,136 +1,190 @@
 {
   "nodes": [
     {
-      "id": "日記:2026-03-06",
-      "label": "2026年3月6日の日記",
+      "id": "日記:2026-03-08",
+      "label": "2026年3月8日の日記",
       "type": "日記",
-      "detail": "江頭さんとのMTGに備え、Knowbeでの役割や現在のタスク（資料更新、改善タスク運用フロー）を整理した記録。",
-      "date": "2026-03-06",
-      "context": "shared",
-      "spriteUrl": "sprites/characters/nodes/日記_2026-03-06.png",
-      "story": "旅路の合間、彼は世界の記憶を編み、古き教えを整頓する。その琥珀色の瞳は、未来への道標を静かに見つめている。"
+      "detail": "WBC日韓戦や七原くんの配信を妻と一緒に楽しみ、共有体験の喜びを感じた記録。",
+      "date": "2026-03-08",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/日記_2026-03-08.png",
+      "rarity": "N",
+      "story": "彼は旅路の書記、古き詩と分かち合った魂の調べを、温かな筆跡に宿す者。彼の心には、琥珀色の光を放つ喜びの記憶が灯るだろう。"
     },
     {
-      "id": "タスク:Knowbe_TeamMaterialUpdate",
-      "label": "チーム内資料の更新と統合",
-      "type": "タスク",
-      "detail": "電子サインの振り返りを受け、不要な資料の整理や、案件ページへ統合すべき資料の更新作業を行う。",
-      "status": "進行中",
-      "category": "エンジニア",
-      "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamMaterialUpdate.png",
-      "story": "スチールブルーの瞳は古き契約を、錆びた鎧は過ぎし戦を語る。彼は不要な過去を断ち切り、真実を統合する旅人。"
-    },
-    {
-      "id": "知見:ImprovementTaskReflection",
-      "label": "改善タスク主導の課題と対策",
-      "type": "知見",
-      "detail": "メンバー主導で改善タスクを進める際のボトルネックを振り返りから特定し、運用のための改善案をまとめた。",
-      "category": "エンジニア",
-      "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/知見_ImprovementTaskReflection.png",
-      "story": "象牙と薄青の衣を纏い、銀の光を宿す彼は、世界の理に潜む澱みや綻びを静かに見つめる。その叡智は、停滞した流れを解き放ち、新たな道筋を紡ぎ出すだろう。"
-    },
-    {
-      "id": "タスク:Knowbe_TeamStatusGrasp",
-      "label": "2チームの進捗把握状態の構築",
-      "type": "タスク",
-      "detail": "2つのチームの進捗把握に加え、電子サイン関連の振り返りに基づく資料更新や案件ページへの統合を管理業務として遂行する。",
-      "status": "進行中",
-      "category": "エンジニア",
-      "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamStatusGrasp.png",
-      "story": "鋼青の瞳は冷徹に戦局を測り、暗鉄の筆は古き盟約の錆を払う。彼は、散逸した歴史を巡り、血と灰に埋もれた真実を一つに編み上げる旅人。"
-    },
-    {
-      "id": "タスク:ImprovementTaskFlow",
-      "label": "改善タスクの運用フロー構築",
-      "type": "タスク",
-      "detail": "メンバー中心に対応できるフローを構築するため、策定した改善策を実際の運用フローに落とし込む。",
-      "status": "進行中",
-      "category": "エンジニア",
-      "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/タスク_ImprovementTaskFlow.png",
-      "story": "錆と鋼の狭間、彼は静かに佇む。古き混沌を正し、新たな理を紡ぐため、その瞳は研ぎ澄まされた青を宿す。"
-    },
-    {
-      "id": "出来事:Knowbe_1on1_江頭_20260306",
-      "label": "江頭さんとの1on1（3/6）",
+      "id": "出来事:WBC日韓戦の視聴",
+      "label": "WBC日韓戦の視聴",
       "type": "出来事",
-      "detail": "15時からのMTG。Knowbeでの役割（フロント2チームの管理）や現在の取り組みについて共有・対話する。",
-      "status": "予定",
-      "date": "2026-03-06",
-      "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/出来事_Knowbe_1on1_江頭_20260306.png",
-      "story": "深き森の衣を纏い、黄金の眼差しで道なき道を識る者。彼は秘められた物語を紡ぎ、迷える旅人を導く森の賢者である。"
+      "detail": "妻の沙也香と一緒にWBCの日韓戦を視聴した。非常に盛り上がった。",
+      "status": "完了",
+      "date": "2026-03-08",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/出来事_WBC日韓戦の視聴.png",
+      "rarity": "SR",
+      "story": "古の術が映し出す遠き地の熱狂に、妻と魂を震わせた夜。\n森の緑と深き茶を纏い、黄金の歌声を響かせながら、彼は今も未知の物語を追う。"
+    },
+    {
+      "id": "出来事:七原くんの配信視聴",
+      "label": "七原くんの配信視聴",
+      "type": "出来事",
+      "detail": "七原くんの配信を妻と一緒に視聴した。沙也香も一緒に笑ってくれたことが嬉しかった。",
+      "status": "完了",
+      "date": "2026-03-08",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/出来事_七原くんの配信視聴.png",
+      "rarity": "SR",
+      "story": "深き森の色を纏いし吟遊斥候。愛する者と共に笑い合った遠い地の物語が、彼の心に金色の調べを奏でる。"
+    },
+    {
+      "id": "感情:共有体験の喜び_20260308",
+      "label": "共有体験の喜び",
+      "type": "感情",
+      "sentiment": 0.9,
+      "emotion_category": "喜び",
+      "trigger": "WBCや配信視聴を通じて、妻と一緒に笑い、時間を共有できたこと。",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/感情_共有体験の喜び_20260308.png",
+      "rarity": "N",
+      "story": "幾千の旅路を分かち合った彼の瞳は、出会う度に静かな喜びを灯す。その温かさは、焚き火の残り火のように心を癒すだろう。"
+    },
+    {
+      "id": "知見:共有体験による幸福感の向上",
+      "label": "共有体験による幸福感の向上",
+      "type": "知見",
+      "detail": "無理に何かをさせるのではなく、一緒になにかをやったり見たりできることが増えるだけで、幸福感は大きく高まる。",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/知見_共有体験による幸福感の向上.png",
+      "rarity": "SR",
+      "story": "白銀と淡青の衣を纏い、古の知識を宿す賢者。彼が望むは、あなたと分かち合う幸福の調べ。共に世界を旅し、輝きを見つけよう。"
+    },
+    {
+      "id": "人物:七原くん",
+      "label": "七原くん",
+      "type": "人物",
+      "detail": "配信者。ユーザーが好んで視聴しており、妻もその面白さを共有し始めている。",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/人物_七原くん.png",
+      "rarity": "UR",
+      "story": "黄金の光と王家の紫を宿す伝説の語り部。その声は民の心を温め、妻までもがその物語の虜となる。"
+    },
+    {
+      "id": "人物:沙也香",
+      "label": "沙也香",
+      "type": "人物",
+      "detail": "ユーザーの妻。WBCや配信を一緒に楽しんだ。",
+      "context": "private",
+      "spriteUrl": "sprites/characters/nodes/人物_沙也香.png",
+      "rarity": "UR",
+      "story": "共に勝利を分かち合った記憶が、彼女の黄金の瞳に輝く。暖かな光を放つその姿は、高貴な紫を纏う伝説の英雄だ。"
     },
     {
       "id": "人物:自分",
       "label": "自分",
       "type": "人物",
       "detail": "日記の作成者",
-      "first_seen": "2026-03-06T14:21:19.641949",
-      "last_seen": "2026-03-06T14:21:19.641954",
+      "first_seen": "2026-03-08T01:35:21.556618",
+      "last_seen": "2026-03-08T01:35:21.556623",
       "weight": 1,
       "spriteUrl": "sprites/characters/nodes/人物_自分.png",
-      "story": "黄金と王紫の光を纏いし旅路の記録者。その魂の輝きは古き書に記され、出会う全てに温かな希望を灯す。"
+      "rarity": "UR",
+      "story": "黄金と紫紺の衣を纏いし、古き栄光の英雄。その日記には、かつて世界を照らした輝きが、今なお静かにまどろむ。"
     }
   ],
   "edges": [
     {
-      "source": "日記:2026-03-06",
-      "target": "出来事:Knowbe_1on1_江頭_20260306",
+      "source": "日記:2026-03-08",
+      "target": "出来事:WBC日韓戦の視聴",
       "type": "言及する",
-      "label": "MTGに備えて内容を整理"
+      "label": "試合の視聴に言及"
     },
     {
-      "source": "日記:2026-03-06",
-      "target": "タスク:Knowbe_TeamMaterialUpdate",
+      "source": "日記:2026-03-08",
+      "target": "出来事:七原くんの配信視聴",
       "type": "言及する",
-      "label": "現在取り組んでいる作業として記述"
+      "label": "配信の視聴に言及"
     },
     {
-      "source": "日記:2026-03-06",
-      "target": "タスク:ImprovementTaskFlow",
+      "source": "日記:2026-03-08",
+      "target": "目標:家族第一の父親",
       "type": "言及する",
-      "label": "改善策の運用フロー化について記述"
+      "label": "家族との共有時間の記録"
     },
     {
-      "source": "日記:2026-03-06",
-      "target": "タスク:Knowbe_TeamStatusGrasp",
-      "type": "言及する",
-      "label": "自身の役割の再確認"
+      "source": "出来事:WBC日韓戦の視聴",
+      "target": "感情:共有体験の喜び_20260308",
+      "type": "引き起こす",
+      "label": "盛り上がりと共有による喜び"
     },
     {
-      "source": "知見:ImprovementTaskReflection",
-      "target": "タスク:ImprovementTaskFlow",
-      "type": "原動力になる",
-      "label": "振り返りから得た改善案をフローに反映する"
+      "source": "出来事:七原くんの配信視聴",
+      "target": "感情:共有体験の喜び_20260308",
+      "type": "引き起こす",
+      "label": "妻の笑いによる喜び"
     },
     {
-      "source": "タスク:Knowbe_TeamMaterialUpdate",
-      "target": "タスク:Knowbe_TeamStatusGrasp",
-      "type": "一部である",
-      "label": "チーム管理業務の一環"
+      "source": "感情:共有体験の喜び_20260308",
+      "target": "知見:共有体験による幸福感の向上",
+      "type": "引き起こす",
+      "label": "感情からの気づき"
     },
     {
-      "source": "日記:2026-03-06",
-      "target": "知見:ImprovementTaskReflection",
-      "type": "言及する",
-      "label": "改善案をまとめたことへの言及"
+      "source": "人物:沙也香",
+      "target": "出来事:WBC日韓戦の視聴",
+      "type": "参加する",
+      "label": "一緒に視聴"
+    },
+    {
+      "source": "人物:沙也香",
+      "target": "出来事:七原くんの配信視聴",
+      "type": "参加する",
+      "label": "一緒に視聴"
+    },
+    {
+      "source": "人物:七原くん",
+      "target": "出来事:七原くんの配信視聴",
+      "type": "参加する",
+      "label": "配信の主体"
     },
     {
       "source": "人物:自分",
-      "target": "日記:2026-03-06",
+      "target": "日記:2026-03-08",
       "type": "関連する",
       "label": "書いた",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-08",
+      "target": "感情:共有体験の喜び_20260308",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-08",
+      "target": "知見:共有体験による幸福感の向上",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-08",
+      "target": "人物:七原くん",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-08",
+      "target": "人物:沙也香",
+      "type": "言及する",
+      "label": "言及",
       "weight": 1
     }
   ],
   "metadata": {
-    "generated_at": "2026-03-06T14:21:19.641799",
-    "source_file": "diary/20260306_[POMERA]2026年3月6日.txt",
-    "node_count": 6,
-    "edge_count": 7
+    "generated_at": "2026-03-08T01:35:21.556546",
+    "source_file": "diary/20260308_[POMERA]2026年3月8日.txt",
+    "node_count": 7,
+    "edge_count": 9
   }
 }
