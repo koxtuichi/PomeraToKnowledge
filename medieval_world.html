@@ -2715,19 +2715,30 @@
       if (!item) return;
       const modal = document.getElementById('equip-modal');
       const content = document.getElementById('equip-modal-content');
-      const rd = item.rarityData;
-      const statStr = Object.entries(item.stat).map(([k, v]) => '+' + k + ':' + v).join(' ');
+      const rd = item.rarityData || EQ_RARITY.find(r => r.id === item.rarity) || EQ_RARITY[0];
+      const statStr = Object.entries(item.stat || {}).map(([k, v]) => '+' + k + ':' + v).join(' ');
       const enchStr = item.enchant ? '　' + item.enchant.label + '：' + item.enchant.desc : '';
+
+      // パーティメンバーのみ表示（採用済み全員ではなく）
+      const targets = PARTY.length > 0 ? PARTY : ALL_TRAVELERS.filter(c => RECRUITED.has(c.id));
       let charButtons = '';
-      const recruits = ALL_TRAVELERS.filter(c => RECRUITED.has(c.id));
-      if (recruits.length === 0) {
-        charButtons = '<div style="color:#806040;font-size:10px;padding:8px">採用済みの仲間がいません</div>';
+      if (targets.length === 0) {
+        charButtons = '<div style="color:#806040;font-size:10px;padding:8px">パーティに仲間がいません</div>';
       } else {
-        charButtons = recruits.map(c => {
+        charButtons = targets.map(c => {
           const eq = (EQUIPPED[c.id] || {})[item.slot];
-          const current = eq ? '装備中: ' + eq.name : '空きスロット';
-          return '<button onclick="equipItem(\'' + eqId + '\',\'' + c.id + '\')" class="equip-target-btn">'
-            + c.icon + ' ' + c.name + '<br><span style="font-size:9px;color:#807050">' + current + '</span></button>';
+          const current = eq
+            ? '<span style="color:#d06040">現在: ' + eq.name + '</span>'
+            : '<span style="color:#608050">空きスロット</span>';
+          const spriteUrl = (typeof getCharSpriteUrl === 'function') ? getCharSpriteUrl(c) : null;
+          const avatar = spriteUrl
+            ? '<img src="' + spriteUrl + '" style="width:36px;height:36px;object-fit:cover;object-position:top;border-radius:4px;margin-right:6px">'
+            : '<span style="font-size:24px;margin-right:6px">' + c.icon + '</span>';
+          return '<button onclick="equipItem(\'' + eqId + '\',\'' + c.id + '\')" class="equip-target-btn" style="display:flex;align-items:center;gap:0;text-align:left">'
+            + avatar
+            + '<span><span style="font-size:11px">' + c.name + '</span><br>'
+            + '<span style="font-size:9px">' + current + '</span></span>'
+            + '</button>';
         }).join('');
       }
       content.innerHTML = '<div style="font-size:11px;color:' + rd.color + ';font-weight:700;margin-bottom:6px">'
@@ -2735,7 +2746,7 @@
         + '<div style="font-size:10px;color:#c0a060;margin-bottom:4px">' + item.icon + ' ' + (item.slot === 'weapon' ? '武器' : item.slot === 'armor' ? '防具' : 'アクセサリ') + '</div>'
         + '<div style="font-size:10px;color:#e0d080;margin-bottom:4px">' + statStr + '</div>'
         + (enchStr ? '<div style="font-size:9px;color:#d0b040;margin-bottom:8px">✨ ' + enchStr + '</div>' : '')
-        + '<div style="font-size:9px;color:#907060;margin-bottom:8px">誰に装備しますか？</div>'
+        + '<div style="font-size:9px;color:#907060;margin-bottom:8px">パーティのだれに装備しますか？</div>'
         + '<div class="equip-target-list">' + charButtons + '</div>';
       modal.style.display = 'flex';
     }
