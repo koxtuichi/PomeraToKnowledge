@@ -2909,7 +2909,7 @@
               : 'drop-shadow(0 5px 10px rgba(0,0,0,0.85))';
           const animName = palName === 'hero' ? 'charIdle 2.4s ease-in-out infinite'
             : (palName === 'mage' || palName === 'sage' || palName === 'alchemist') ? 'charIdle 3.2s ease-in-out infinite'
-              : 'charIdleSlow ' + (2.8 + idx * 0.3) + 's ease-in-out infinite';
+              : 'charIdleSlow ' + (2.8 + i * 0.3) + 's ease-in-out infinite';
 
           html += '<div class="party-slot filled" data-sprite-id="' + member.id + '" style="position:relative">'
             + '<button class="party-remove" style="position:absolute;top:6px;right:6px" onclick="removeFromParty(\'' + member.id + '\')">✕</button>'
