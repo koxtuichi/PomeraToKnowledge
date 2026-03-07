@@ -2898,11 +2898,28 @@
           const lv = getCharLv(member.id);
           const badge = sp.slot1 ? (' <span style="font-size:9px;color:#9060c0">' + (SKILL_PATH_DEF.find(p => p.id === sp.slot1)?.icon || '') + (sp.slot2 ? '+' + (SKILL_PATH_DEF.find(p => p.id === sp.slot2)?.icon || '') : '') + '</span>') : '';
 
+          // Elinスタイルスプライト画像URL取得
+          const spriteUrl = (typeof getCharSpriteUrl === 'function') ? getCharSpriteUrl(member) : 'sprites/characters/default_char.png';
+          const palName = (typeof CHAR_PALETTE_MAP !== 'undefined' && CHAR_PALETTE_MAP[member.cls]) || 'default_char';
+          // クラス別グロースタイル
+          const glowStyle = palName === 'hero'
+            ? 'drop-shadow(0 6px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 8px rgba(240,200,40,0.5))'
+            : (palName === 'mage' || palName === 'sage' || palName === 'alchemist')
+              ? 'drop-shadow(0 6px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 6px rgba(140,80,255,0.4))'
+              : 'drop-shadow(0 5px 10px rgba(0,0,0,0.85))';
+          const animName = palName === 'hero' ? 'charIdle 2.4s ease-in-out infinite'
+            : (palName === 'mage' || palName === 'sage' || palName === 'alchemist') ? 'charIdle 3.2s ease-in-out infinite'
+              : 'charIdleSlow ' + (2.8 + idx * 0.3) + 's ease-in-out infinite';
+
           html += '<div class="party-slot filled" data-sprite-id="' + member.id + '" style="position:relative">'
             + '<button class="party-remove" style="position:absolute;top:6px;right:6px" onclick="removeFromParty(\'' + member.id + '\')">✕</button>'
-            // ドット絵エリア（Canvas差し込みターゲット）
+            // Elinスタイル画像スプライトエリア
             + '<div class="party-sprite-area" id="psprite-' + member.id + '">'
-            + '<span style="font-size:48px;line-height:1">' + member.icon + '</span>'
+            + '<img src="' + spriteUrl + '" alt="' + member.cls + '"'
+            + ' style="width:80px;height:80px;object-fit:contain;animation:' + animName + ';filter:' + glowStyle + ';image-rendering:pixelated"'
+            + ' onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"'
+            + '>'
+            + '<span style="display:none;font-size:48px;line-height:1">' + member.icon + '</span>'
             + '</div>'
             + '<div class="party-slot-name">' + member.name + ' <span class="lv-badge">Lv' + lv + '</span></div>'
             + '<div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:' + Math.round(getCharXp(member.id) / getXpToNextLv(lv) * 100) + '%"></div></div>'
@@ -2938,31 +2955,6 @@
         }
       }
       el.innerHTML = html;
-
-      // ドット絵Canvasを差し込む
-      PARTY.forEach((member, idx) => {
-        const spriteEl = document.getElementById('psprite-' + member.id);
-        if (spriteEl && typeof createCharCanvas === 'function') {
-          const canvas = createCharCanvas(member, 72);
-          if (canvas) {
-            spriteEl.innerHTML = '';
-            canvas.style.cssText += ';image-rendering:pixelated;image-rendering:crisp-edges;';
-            // クラス別アニメーション（英雄はグロー付き）
-            const palName = (typeof CHAR_PALETTE_MAP !== 'undefined' && CHAR_PALETTE_MAP[member.cls]) || 'default_char';
-            if (palName === 'hero') {
-              canvas.style.animation = 'charIdle 2.4s ease-in-out infinite';
-              canvas.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.8)) drop-shadow(0 0 6px rgba(240,200,40,0.4))';
-            } else if (palName === 'mage' || palName === 'sage' || palName === 'alchemist') {
-              canvas.style.animation = 'charIdle 3.2s ease-in-out infinite';
-              canvas.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.8)) drop-shadow(0 0 5px rgba(160,80,255,0.3))';
-            } else {
-              canvas.style.animation = 'charIdleSlow ' + (2.8 + idx * 0.3) + 's ease-in-out infinite';
-              canvas.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.8))';
-            }
-            spriteEl.appendChild(canvas);
-          }
-        }
-      });
 
       refreshDungeonBtn();
     }
@@ -5297,7 +5289,7 @@
       '古代竜アンシェント': 'ancient_dragon',
     };
 
-    // キャラクタークラス → パレット名マッピング
+    // キャラクタークラス → パレット名マッピング（Canvas描画フォールバック用）
     const CHAR_PALETTE_MAP = {
       '戦士': 'warrior', '傭兵': 'warrior', '鍛冶師': 'warrior',
       '英雄': 'hero',
@@ -5307,6 +5299,30 @@
       '斥候': 'scout', '忍者': 'scout', '盗賊': 'scout', '狩人': 'scout',
       '暇人': 'default_char',
     };
+
+    // キャラクタークラス → Elinスタイルスプライト画像マッピング
+    // customSpriteUrl（日記から動的生成した画像URL）があればそちらを優先
+    const CHAR_SPRITE_MAP = {
+      '戦士': 'sprites/characters/warrior.png',
+      '傭兵': 'sprites/characters/warrior.png',
+      '鍛冶師': 'sprites/characters/warrior.png',
+      '英雄': 'sprites/characters/hero.png',
+      '魔法使い': 'sprites/characters/mage.png',
+      '学者': 'sprites/characters/mage.png',
+      '錬金術師': 'sprites/characters/alchemist.png',
+      '賢者': 'sprites/characters/sage.png',
+      '斥候': 'sprites/characters/scout.png',
+      '忍者': 'sprites/characters/scout.png',
+      '盗賊': 'sprites/characters/scout.png',
+      '狩人': 'sprites/characters/scout.png',
+      '暇人': 'sprites/characters/default_char.png',
+    };
+
+    // キャラクターのスプライト画像URLを取得（動的生成URLがあればそちらを優先）
+    function getCharSpriteUrl(member) {
+      if (member.customSpriteUrl) return member.customSpriteUrl;
+      return CHAR_SPRITE_MAP[member.cls] || 'sprites/characters/default_char.png';
+    }
 
     // Canvasにモンスタードット絵を描画
     function createMonsterCanvas(monster, size) {
