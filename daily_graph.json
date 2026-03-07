@@ -8,7 +8,7 @@
       "date": "2026-03-06",
       "context": "shared",
       "spriteUrl": "sprites/characters/nodes/日記_2026-03-06.png",
-      "story": "**キャラクター背景ストーリー**\n彼の旅路は、世界の真実を綴るための終わりなき探求。土色の衣を纏い、琥珀の瞳は古き巻物を読み解き、遠い記憶の図書館で世界の理を静かに整理する。やがて紡がれる大いなる物語の序章を記すため、自らの使命を再確認しているかのようだ。\n\n**旅人紹介文**\n土色の衣を纏い、琥珀の瞳に世界の記憶を宿す旅の書記。彼は古き真実を探し綴り、失われた物語を紐解く。出会いは新たな歴史の始まりか。"
+      "story": "彼の瞳は古き知恵を映し、旅路で拾い集めた時の欠片を編む。来るべき賢者との語らいに備え、歴史の脈動を繊細な筆致で整える、流浪の書記。"
     },
     {
       "id": "タスク:Knowbe_TeamMaterialUpdate",
@@ -19,7 +19,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamMaterialUpdate.png",
-      "story": "鋼青の瞳は戦場の幻影を映し、錆色に染まる鎧は旅路の証。暗鉄の如き寡黙な影は、遥か彼方の荒野を渡る。"
+      "story": "錆びた記憶と、鋼青の誓約を心に編む者。闇鉄の背に過去の軌跡を秘め、静かに運命を更新する旅人。"
     },
     {
       "id": "知見:ImprovementTaskReflection",
@@ -29,7 +29,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/知見_ImprovementTaskReflection.png",
-      "story": "象牙と銀の輝きを纏い、柔らかな青の光を瞳に宿す。停滞する世界の理を見抜き、新たな改善の光で未来を照らす賢者。"
+      "story": "星の光を宿した蒼き瞳は、世界の理に潜む結び目を見通す。象牙の知を紡ぎ、銀の魔力で万物の淀みを清める旅人。"
     },
     {
       "id": "タスク:Knowbe_TeamStatusGrasp",
@@ -40,7 +40,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamStatusGrasp.png",
-      "story": "二つの世界の均衡を測るかのように、彼は古き盟約の真実を追う。鋼と錆に彩られた甲冑は、彼が紡ぐ世界の記録を映す。"
+      "story": "鋼鉄の青に染まる鎧を纏い、彼は戦場の混沌を秩序へと導いた。錆びた鉄の輝きは、失われた誓約の痕跡を追う旅路を語る。"
     },
     {
       "id": "タスク:ImprovementTaskFlow",
@@ -51,7 +51,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/タスク_ImprovementTaskFlow.png",
-      "story": "古き錆色が滲む鋼の甲冑を纏いし戦士。崩れし秩序を再建する策を胸に、血塗られた道を切り拓く。その蒼き眼差しは、常に先を見据えている。"
+      "story": "鋼青の甲冑を纏い、深き鉄の匂いをまとう旅人。荒廃した流れを正し、途絶えた絆を紡ぐ決意が、その瞳に錆色の炎を揺らす。"
     },
     {
       "id": "出来事:Knowbe_1on1_江頭_20260306",
@@ -62,7 +62,7 @@
       "date": "2026-03-06",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/出来事_Knowbe_1on1_江頭_20260306.png",
-      "story": "深き森の衣を纏い、金色の装飾が微かにきらめく。彼の歌は道を照らし、その足跡は遥かなる未踏の地へ続く。"
+      "story": "深き森の色を纏い、辺境の監視者を務める吟遊の斥候。金色の飾りは、彼が紡ぐ知恵と勇気の物語を静かに語る。"
     },
     {
       "id": "人物:自分",
@@ -73,7 +73,7 @@
       "last_seen": "2026-03-06T14:21:19.641954",
       "weight": 1,
       "spriteUrl": "sprites/characters/nodes/人物_自分.png",
-      "story": "暁の光を宿す黄金の英雄。深遠なる紫紺を纏い、記されし運命を辿るその姿は、温かな希望に満ちている。"
+      "story": "黄金の光と深紫の威厳を纏いし英雄。彼が記す日記は、魂の熱き煌めきを映し、出会う者に新たな物語の予感を与えるだろう。"
     }
   ],
   "edges": [

@@ -78,22 +78,24 @@ def node_to_sprite_id(node_id: str) -> str:
 
 
 def build_prompt(node: dict) -> str:
-    """ノード情報からElinスタイルのキャラクター画像生成プロンプトを構築"""
+    """ノード情報からElinウィキポートレートスタイルのキャラクター画像生成プロンプトを構築"""
     tp = TYPE_PROMPTS.get(node.get("type", ""), DEFAULT_TYPE_PROMPT)
     label  = node.get("label", "")
     detail = node.get("detail", "")
 
-    # detail が長い場合は先頭50文字だけ使う
+    # detail が長い場合は先頭60文字だけ使う
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
     prompt = (
-        f"Pixel art RPG character sprite, Elin game style, medieval fantasy, "
-        f"small chibi proportions 2-3 head height, front facing, "
+        f"Anime-style character portrait illustration, Elin RPG game aesthetic, medieval fantasy, "
+        f"bust-up portrait from chest upward, facing slightly forward with soft confident gaze, "
         f"{tp['visual']}, "
         f"name theme: {label}, personality hint: {detail_snippet}, "
         f"color palette: {tp['palette']}, "
-        f"transparent background, detailed equipment, warm atmospheric lighting, "
-        f"game sprite style, high quality pixel art"
+        f"soft watercolor-like shading, thin clean lineart, "
+        f"subtle washi paper texture in background, warm atmospheric glow, "
+        f"muted pastel tones with rich detail, Elin game portrait style, "
+        f"high quality illustration, game character art"
     )
     return prompt
 def build_story_prompt(node: dict) -> str:
@@ -149,7 +151,7 @@ def generate_image_with_gemini(prompt: str) -> Optional[bytes]:
         client = genai.Client(api_key=API_KEY)
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash-image",
+            model="gemini-3.1-flash-image-preview",
             contents=prompt,
             config=genai_types.GenerateContentConfig(
                 response_modalities=["IMAGE"],
