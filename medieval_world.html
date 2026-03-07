@@ -2765,9 +2765,9 @@
         const isDead = DEAD_CHARS.has(char.id);
         const canAfford = cp >= char.cost;
         return `<div class="traveler-card" data-char-id="${char.id}">
-          <div class="traveler-head">
-            <div class="traveler-icon" data-char-id="${char.id}">${char.icon}</div>
-            <div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:8px">
+            <div class="traveler-icon" data-char-id="${char.id}" style="width:96px;height:96px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">${char.icon}</div>
+            <div style="text-align:center">
               <div class="traveler-name">${char.name}</div>
               <div class="traveler-class">${char.race} / ${char.cls}${char.isIdle ? ' ✧潜在力あり' : ''}</div>
             </div>
@@ -2811,16 +2811,16 @@
         const spriteUrl = (typeof getCharSpriteUrl === 'function') ? getCharSpriteUrl(char) : null;
         if (spriteUrl) {
           iconEl.textContent = '';
-          iconEl.style.cssText = 'display:flex;align-items:center;justify-content:center;width:56px;height:56px;flex-shrink:0;';
+          iconEl.style.cssText = 'display:flex;align-items:center;justify-content:center;width:96px;height:96px;flex-shrink:0;';
           const img = document.createElement('img');
           img.src = spriteUrl;
           img.alt = char.cls;
           const hue = char.colorHue || 0;
-          img.style.cssText = `width:52px;height:52px;object-fit:contain;image-rendering:pixelated;filter:hue-rotate(${hue}deg) drop-shadow(0 3px 6px rgba(0,0,0,0.8));animation:charIdleSlow 3s ease-in-out infinite;`;
+          img.style.cssText = `width:92px;height:92px;object-fit:contain;image-rendering:pixelated;filter:hue-rotate(${hue}deg) drop-shadow(0 4px 8px rgba(0,0,0,0.9));animation:charIdleSlow 3s ease-in-out infinite;`;
           img.onerror = () => {
             img.style.display = 'none';
             iconEl.textContent = char.icon;
-            iconEl.style.fontSize = '32px';
+            iconEl.style.fontSize = '52px';
           };
           iconEl.appendChild(img);
         }

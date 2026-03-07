@@ -96,6 +96,45 @@ def build_prompt(node: dict) -> str:
         f"game sprite style, high quality pixel art"
     )
     return prompt
+def build_story_prompt(node: dict) -> str:
+    """ノード情報からキャラクターの背景ストーリープロンプトを構築"""
+    tp = TYPE_PROMPTS.get(node.get("type", ""), DEFAULT_TYPE_PROMPT)
+    label  = node.get("label", "")
+    detail = node.get("detail", "")
+    node_type = node.get("type", "旅人")
+
+    prompt = (
+        f"あなたは中世ファンタジーRPGのゲームシナリオライターです。\n"
+        f"以下の情報をもとに、このキャラクターの短い背景ストーリーを日本語で2〜3文生成してください。\n"
+        f"文体は詩的で幻想的に。プレイヤーがこのキャラに出会ったときの感覚が伝わるように書いてください。\n\n"
+        f"ノードタイプ: {node_type}\n"
+        f"ラベル: {label}\n"
+        f"内容: {detail}\n\n"
+        f"このキャラは {tp['class_hint']} の系統で、色合いは {tp['palette']} のイメージ。\n"
+        f"ゲーム内の旅人紹介文として、50〜80文字程度で出力してください。"
+    )
+    return prompt
+
+
+def generate_story_with_gemini(prompt: str) -> Optional[str]:
+    """
+    Gemini 2.5 Flash でキャラクターの背景ストーリーを生成し文字列を返す。
+    失敗時は None を返す。
+    """
+    try:
+        from google import genai
+
+        client = genai.Client(api_key=API_KEY)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+        )
+        text = response.text.strip()
+        return text
+    except Exception as e:
+        print(f"  ❌ ストーリー生成エラー: {e}")
+        return None
+
 
 
 def generate_image_with_gemini(prompt: str) -> Optional[bytes]:
@@ -180,8 +219,17 @@ def process_nodes(force: bool = False) -> int:
         else:
             print(f"   ⚠️  {node_id} の画像生成をスキップ")
 
+        # ストーリー生成（未取得もしくは強制再生成の場合）
+        if not node.get("story") or force:
+            print(f"📖 ストーリー生成中: {node_id}")
+            story_prompt = build_story_prompt(node)
+            story = generate_story_with_gemini(story_prompt)
+            if story:
+                node["story"] = story
+                print(f"   📝 ストーリー: {story[:60]}…")
+
         # レート制限対策
-        time.sleep(3)
+        time.sleep(2)
 
     # daily_graph.json を更新して保存
     with open(GRAPH_PATH, "w", encoding="utf-8") as f:

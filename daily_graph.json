@@ -7,7 +7,8 @@
       "detail": "江頭さんとのMTGに備え、Knowbeでの役割や現在のタスク（資料更新、改善タスク運用フロー）を整理した記録。",
       "date": "2026-03-06",
       "context": "shared",
-      "spriteUrl": "sprites/characters/nodes/日記_2026-03-06.png"
+      "spriteUrl": "sprites/characters/nodes/日記_2026-03-06.png",
+      "story": "**キャラクター背景ストーリー**\n彼の旅路は、世界の真実を綴るための終わりなき探求。土色の衣を纏い、琥珀の瞳は古き巻物を読み解き、遠い記憶の図書館で世界の理を静かに整理する。やがて紡がれる大いなる物語の序章を記すため、自らの使命を再確認しているかのようだ。\n\n**旅人紹介文**\n土色の衣を纏い、琥珀の瞳に世界の記憶を宿す旅の書記。彼は古き真実を探し綴り、失われた物語を紐解く。出会いは新たな歴史の始まりか。"
     },
     {
       "id": "タスク:Knowbe_TeamMaterialUpdate",
@@ -17,7 +18,8 @@
       "status": "進行中",
       "category": "エンジニア",
       "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamMaterialUpdate.png"
+      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamMaterialUpdate.png",
+      "story": "鋼青の瞳は戦場の幻影を映し、錆色に染まる鎧は旅路の証。暗鉄の如き寡黙な影は、遥か彼方の荒野を渡る。"
     },
     {
       "id": "知見:ImprovementTaskReflection",
@@ -26,7 +28,8 @@
       "detail": "メンバー主導で改善タスクを進める際のボトルネックを振り返りから特定し、運用のための改善案をまとめた。",
       "category": "エンジニア",
       "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/知見_ImprovementTaskReflection.png"
+      "spriteUrl": "sprites/characters/nodes/知見_ImprovementTaskReflection.png",
+      "story": "象牙と銀の輝きを纏い、柔らかな青の光を瞳に宿す。停滞する世界の理を見抜き、新たな改善の光で未来を照らす賢者。"
     },
     {
       "id": "タスク:Knowbe_TeamStatusGrasp",
@@ -36,7 +39,8 @@
       "status": "進行中",
       "category": "エンジニア",
       "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamStatusGrasp.png"
+      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamStatusGrasp.png",
+      "story": "二つの世界の均衡を測るかのように、彼は古き盟約の真実を追う。鋼と錆に彩られた甲冑は、彼が紡ぐ世界の記録を映す。"
     },
     {
       "id": "タスク:ImprovementTaskFlow",
@@ -46,7 +50,8 @@
       "status": "進行中",
       "category": "エンジニア",
       "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/タスク_ImprovementTaskFlow.png"
+      "spriteUrl": "sprites/characters/nodes/タスク_ImprovementTaskFlow.png",
+      "story": "古き錆色が滲む鋼の甲冑を纏いし戦士。崩れし秩序を再建する策を胸に、血塗られた道を切り拓く。その蒼き眼差しは、常に先を見据えている。"
     },
     {
       "id": "出来事:Knowbe_1on1_江頭_20260306",
@@ -56,7 +61,8 @@
       "status": "予定",
       "date": "2026-03-06",
       "context": "knowbe",
-      "spriteUrl": "sprites/characters/nodes/出来事_Knowbe_1on1_江頭_20260306.png"
+      "spriteUrl": "sprites/characters/nodes/出来事_Knowbe_1on1_江頭_20260306.png",
+      "story": "深き森の衣を纏い、金色の装飾が微かにきらめく。彼の歌は道を照らし、その足跡は遥かなる未踏の地へ続く。"
     },
     {
       "id": "人物:自分",
@@ -66,7 +72,8 @@
       "first_seen": "2026-03-06T14:21:19.641949",
       "last_seen": "2026-03-06T14:21:19.641954",
       "weight": 1,
-      "spriteUrl": "sprites/characters/nodes/人物_自分.png"
+      "spriteUrl": "sprites/characters/nodes/人物_自分.png",
+      "story": "暁の光を宿す黄金の英雄。深遠なる紫紺を纏い、記されし運命を辿るその姿は、温かな希望に満ちている。"
     }
   ],
   "edges": [
