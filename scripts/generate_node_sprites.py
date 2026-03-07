@@ -41,67 +41,65 @@ RARITY_BY_TYPE = {
     "日記": "N",    # 立ち絵
 }
 
-# レア度 → ポーズ/背景プロンプト
+# レア度 → ポーズ/背景プロンプト（Elinチビキャラ版）
 RARITY_POSE = {
     "N": (
-        "neutral standing pose, front facing, calm relaxed stance, "
-        "simple parchment/washi paper background with subtle texture"
+        "chibi character standing pose, front facing, peaceful calm expression, "
+        "simple clean white or soft parchment background"
     ),
     "R": (
-        "battle-ready stance, hand gripping weapon, slight crouch, "
-        "determined fierce expression, dynamic pose ready to strike, "
-        "stone dungeon or forest background with moody lighting"
+        "chibi character ready pose, holding weapon or tool with both hands, "
+        "slightly puffed up chest, determined expression, "
+        "soft outdoor grassy meadow or stone path background"
     ),
     "SR": (
-        "mid-action dynamic pose, actively casting spell or attacking, "
-        "motion lines, glowing magical aura or weapon trail effect, "
-        "dramatic speed lines background, intense expression, "
-        "skill activation scene like a trading card"
+        "chibi character action pose, leaping or casting small sparkly magic, "
+        "tiny cute glowing aura, whimsical star and sparkle effects, "
+        "soft dungeon or forest clearing background with warm ambient light"
     ),
     "UR": (
-        "ultimate special skill cinematic pose, enormous dramatic aura and energy explosion, "
-        "full-art vertical trading card illustration, "
-        "character at center of massive power release, light rays and particle effects, "
-        "epic legendary scene, Yu-Gi-Oh card art style ultra dramatic composition, "
-        "glowing eyes, ultimate technique moment"
+        "chibi character dramatic heroic pose, striking a powerful stance, "
+        "surrounded by playful swirling magical energy and tiny cute sparks, "
+        "glowing elemental aura, vibrant colorful backdrop, "
+        "Elin-game ultimate art style, charming yet epic card illustration"
     ),
 }
 
 RARITY_LABEL = {"N": "N", "R": "R", "SR": "SR", "UR": "UR"}
 
-# ノード type → キャラクタービジュアル設定
+# ノード type → キャラクタービジュアル設定（Elinライクかわいい版）
 TYPE_PROMPTS = {
     "日記": {
-        "class_hint": "traveler scribe chronicler",
-        "visual":     "brown leather journal book, quill pen, worn travel cloak, thoughtful expression",
-        "palette":    "warm earthy brown, amber, cream",
+        "class_hint": "tiny chibi scribe traveler",
+        "visual":     "big round head, small chubby body, holding a tiny leather journal, simple traveler cloak, soft friendly smile",
+        "palette":    "muted moss green, warm beige, soft brown",
     },
     "タスク": {
-        "class_hint": "warrior soldier mercenary",
-        "visual":     "iron armor, sword and shield, battle-scarred equipment",
-        "palette":    "steel blue, dark iron, rust orange",
+        "class_hint": "tiny chibi warrior",
+        "visual":     "big head with cute helmet, round chubby body in simple iron armor, holding a small sword, determined face",
+        "palette":    "cool steel gray, muted rust, cream",
     },
     "知見": {
-        "class_hint": "sage scholar archmage",
-        "visual":     "wide brimmed hat, ancient tome, spectacles, robes with glowing runes",
-        "palette":    "ivory white, soft blue, silver, glowing cyan accents",
+        "class_hint": "tiny chibi scholar mage",
+        "visual":     "big round head with oversized pointy hat, round body in layered robes, holding a glowing book, cute round glasses",
+        "palette":    "soft lavender, ivory white, warm gold accent",
     },
     "出来事": {
-        "class_hint": "bard scout ranger",
-        "visual":     "hooded cloak, lute or map scroll, adventurer gear, quick agile build",
-        "palette":    "forest green, deep brown, gold accent",
+        "class_hint": "tiny chibi bard ranger",
+        "visual":     "big head with small hood, chubby body with adventure satchel, holding a tiny lute or scroll, cheerful grin",
+        "palette":    "forest green, earthy brown, soft amber",
     },
     "人物": {
-        "class_hint": "legendary hero champion",
-        "visual":     "ornate noble armor, divine weapon, flowing cape, intense charismatic presence",
-        "palette":    "golden, royal purple, radiant warm highlights",
+        "class_hint": "tiny chibi legendary hero",
+        "visual":     "big round head, plump heroic body in ornate miniature armor, tiny flowing cape, confident proud expression, sparkling eyes",
+        "palette":    "warm gold, rich violet, soft cream highlights",
     },
 }
 
 DEFAULT_TYPE_PROMPT = {
-    "class_hint": "traveler adventurer",
-    "visual":     "simple traveling clothes, small pack, open friendly expression",
-    "palette":    "muted warm browns and greens",
+    "class_hint": "tiny chibi adventurer",
+    "visual":     "big round head, small chubby body, simple traveling clothes, tiny backpack, cheerful open expression",
+    "palette":    "soft warm greens and browns",
 }
 
 
@@ -129,28 +127,26 @@ def build_prompt(node: dict) -> str:
     detail = node.get("detail", "")
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
-    # ===== マスタースタイルガイド（全キャラ共通 / 最優先） =====
+    # ===== マスタースタイルガイド（全キャラ共通 / 最優先 / Elin路線） =====
+    # 「全員同じアーティストが描いた」統一感・かわいいチビキャラ縛り
     master_style = (
-        "Pixel art RPG trading card character portrait, "
-        "Elin game aesthetic, medieval European fantasy, "
-        "clean neutral lighting, pure white highlights, cool-to-neutral shadows, "
-        "NOT yellow, NOT sepia, NOT warm-tinted — clean and crisp color rendition, "
-        "muted medieval color palette: stone gray, forest green, dark leather brown, cool steel blue, "
-        "deep desaturated backgrounds, high contrast pixel art, "
-        "professional game card illustration quality, "
-        "fine detailed pixel art, clean anti-aliased outlines, "
+        "Elin game style chibi character card art, "
+        "super deformed SD chibi proportions: very large round head, small chubby round body, short stubby limbs, "
+        "kawaii cute medieval fantasy RPG character, "
+        "CONSISTENT art style as if drawn by the same single artist for ALL characters, "
+        "warm soft color palette: muted pastels, gentle earth tones, clean desaturated hues, "
+        "NOT photorealistic, NOT western comic, NOT anime screenshot — chibi game card art ONLY, "
+        "clean simple backgrounds that match Elin game aesthetic: soft parchment, mossy stone, gentle meadow, "
+        "hand-crafted pixel art quality, warm friendly atmosphere, "
         "vertical 3:4 portrait card format"
     )
 
-    # タイプ別アクセント色（基調は変えず、アクセント小物・装備の差し色として使う）
-    accent = f"accent color hint — {tp['palette']}"
-
     prompt = (
         f"{master_style}, "
-        f"{tp['class_hint']} character archetype, "
+        f"{tp['class_hint']}, "
         f"{tp['visual']}, "
-        f"{accent}, "
-        f"personality inspired by: {detail_snippet}, "
+        f"color palette: {tp['palette']}, "
+        f"character inspired by: {detail_snippet}, "
         f"{pose_bg}, "
         f"NO text, NO letters, NO writing, NO labels, NO numbers, NO UI elements"
     )
