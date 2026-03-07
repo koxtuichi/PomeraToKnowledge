@@ -2804,17 +2804,24 @@
           </div>
         </div>`;
       }).join('');
-      // アイコンをドット絵Canvasに差し替え
+      // アイコンをElinスタイル画像に差し替え
       ALL_TRAVELERS.forEach(char => {
         const iconEl = el.querySelector(`.traveler-icon[data-char-id="${char.id}"]`);
         if (!iconEl) return;
-        if (typeof createCharCanvas === 'function') {
-          const canvas = createCharCanvas(char, 40);
-          if (canvas) {
-            iconEl.textContent = '';
-            iconEl.style.cssText = 'display:flex;align-items:center;justify-content:center;width:44px;height:44px;';
-            iconEl.appendChild(canvas);
-          }
+        const spriteUrl = (typeof getCharSpriteUrl === 'function') ? getCharSpriteUrl(char) : null;
+        if (spriteUrl) {
+          iconEl.textContent = '';
+          iconEl.style.cssText = 'display:flex;align-items:center;justify-content:center;width:56px;height:56px;flex-shrink:0;';
+          const img = document.createElement('img');
+          img.src = spriteUrl;
+          img.alt = char.cls;
+          img.style.cssText = 'width:52px;height:52px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.8));animation:charIdleSlow 3s ease-in-out infinite;';
+          img.onerror = () => {
+            img.style.display = 'none';
+            iconEl.textContent = char.icon;
+            iconEl.style.fontSize = '32px';
+          };
+          iconEl.appendChild(img);
         }
       });
     }
