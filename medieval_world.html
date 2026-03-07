@@ -2766,7 +2766,7 @@
         const canAfford = cp >= char.cost;
         return `<div class="traveler-card" data-char-id="${char.id}">
           <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:8px">
-            <div class="traveler-icon" data-char-id="${char.id}" style="width:96px;height:96px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">${char.icon}</div>
+            <div class="traveler-icon" data-char-id="${char.id}" style="width:100%;height:240px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:8px 8px 0 0;background:rgba(30,20,5,0.4);">${char.icon}</div>
             <div style="text-align:center">
               <div class="traveler-name">${char.name}</div>
               <div class="traveler-class">${char.race} / ${char.cls}${char.isIdle ? ' ✧潜在力あり' : ''}</div>
@@ -2811,12 +2811,12 @@
         const spriteUrl = (typeof getCharSpriteUrl === 'function') ? getCharSpriteUrl(char) : null;
         if (spriteUrl) {
           iconEl.textContent = '';
-          iconEl.style.cssText = 'display:flex;align-items:center;justify-content:center;width:96px;height:96px;flex-shrink:0;';
+          iconEl.style.cssText = 'display:flex;align-items:flex-start;justify-content:center;width:100%;height:240px;overflow:hidden;flex-shrink:0;border-radius:8px 8px 0 0;';
           const img = document.createElement('img');
           img.src = spriteUrl;
           img.alt = char.cls;
           const hue = char.colorHue || 0;
-          img.style.cssText = `width:92px;height:92px;object-fit:contain;image-rendering:pixelated;filter:hue-rotate(${hue}deg) drop-shadow(0 4px 8px rgba(0,0,0,0.9));animation:charIdleSlow 3s ease-in-out infinite;`;
+          img.style.cssText = `width:100%;height:100%;object-fit:cover;object-position:top center;filter:hue-rotate(${hue}deg) drop-shadow(0 4px 8px rgba(0,0,0,0.5));`;
           img.onerror = () => {
             img.style.display = 'none';
             iconEl.textContent = char.icon;

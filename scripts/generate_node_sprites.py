@@ -78,7 +78,7 @@ def node_to_sprite_id(node_id: str) -> str:
 
 
 def build_prompt(node: dict) -> str:
-    """ノード情報からElinウィキポートレートスタイルのキャラクター画像生成プロンプトを構築"""
+    """ノード情報からElinキャラ作成画面風縦長ポートレートのプロンプトを構築"""
     tp = TYPE_PROMPTS.get(node.get("type", ""), DEFAULT_TYPE_PROMPT)
     label  = node.get("label", "")
     detail = node.get("detail", "")
@@ -87,15 +87,18 @@ def build_prompt(node: dict) -> str:
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
     prompt = (
-        f"Anime-style character portrait illustration, Elin RPG game aesthetic, medieval fantasy, "
-        f"bust-up portrait from chest upward, facing slightly forward with soft confident gaze, "
+        f"Elin RPG game character creation screen portrait, vertical portrait format, "
+        f"showing face and upper body from waist up, "
+        f"{tp['class_hint']} character type, "
         f"{tp['visual']}, "
-        f"name theme: {label}, personality hint: {detail_snippet}, "
+        f"personality hint: {detail_snippet}, "
         f"color palette: {tp['palette']}, "
-        f"soft watercolor-like shading, thin clean lineart, "
-        f"subtle washi paper texture in background, warm atmospheric glow, "
-        f"muted pastel tones with rich detail, Elin game portrait style, "
-        f"high quality illustration, game character art"
+        f"soft anime-style illustration with fine clean lineart and cel-shading, "
+        f"washi paper / parchment texture background, warm candlelight atmospheric glow, "
+        f"high detail: visible fabric folds, hair strands, small accessory details, "
+        f"Elin RPG portrait art style, professional game illustration quality, "
+        f"NO text, NO letters, NO writing, NO labels, NO words, NO title, NO name plate, "
+        f"pure illustration only, no UI elements, no decorative text borders"
     )
     return prompt
 def build_story_prompt(node: dict) -> str:

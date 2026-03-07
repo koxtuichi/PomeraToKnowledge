@@ -8,7 +8,7 @@
       "date": "2026-03-06",
       "context": "shared",
       "spriteUrl": "sprites/characters/nodes/日記_2026-03-06.png",
-      "story": "彼の瞳は古き知恵を映し、旅路で拾い集めた時の欠片を編む。来るべき賢者との語らいに備え、歴史の脈動を繊細な筆致で整える、流浪の書記。"
+      "story": "旅路の合間、彼は世界の記憶を編み、古き教えを整頓する。その琥珀色の瞳は、未来への道標を静かに見つめている。"
     },
     {
       "id": "タスク:Knowbe_TeamMaterialUpdate",
@@ -19,7 +19,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamMaterialUpdate.png",
-      "story": "錆びた記憶と、鋼青の誓約を心に編む者。闇鉄の背に過去の軌跡を秘め、静かに運命を更新する旅人。"
+      "story": "スチールブルーの瞳は古き契約を、錆びた鎧は過ぎし戦を語る。彼は不要な過去を断ち切り、真実を統合する旅人。"
     },
     {
       "id": "知見:ImprovementTaskReflection",
@@ -29,7 +29,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/知見_ImprovementTaskReflection.png",
-      "story": "星の光を宿した蒼き瞳は、世界の理に潜む結び目を見通す。象牙の知を紡ぎ、銀の魔力で万物の淀みを清める旅人。"
+      "story": "象牙と薄青の衣を纏い、銀の光を宿す彼は、世界の理に潜む澱みや綻びを静かに見つめる。その叡智は、停滞した流れを解き放ち、新たな道筋を紡ぎ出すだろう。"
     },
     {
       "id": "タスク:Knowbe_TeamStatusGrasp",
@@ -40,7 +40,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamStatusGrasp.png",
-      "story": "鋼鉄の青に染まる鎧を纏い、彼は戦場の混沌を秩序へと導いた。錆びた鉄の輝きは、失われた誓約の痕跡を追う旅路を語る。"
+      "story": "鋼青の瞳は冷徹に戦局を測り、暗鉄の筆は古き盟約の錆を払う。彼は、散逸した歴史を巡り、血と灰に埋もれた真実を一つに編み上げる旅人。"
     },
     {
       "id": "タスク:ImprovementTaskFlow",
@@ -51,7 +51,7 @@
       "category": "エンジニア",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/タスク_ImprovementTaskFlow.png",
-      "story": "鋼青の甲冑を纏い、深き鉄の匂いをまとう旅人。荒廃した流れを正し、途絶えた絆を紡ぐ決意が、その瞳に錆色の炎を揺らす。"
+      "story": "錆と鋼の狭間、彼は静かに佇む。古き混沌を正し、新たな理を紡ぐため、その瞳は研ぎ澄まされた青を宿す。"
     },
     {
       "id": "出来事:Knowbe_1on1_江頭_20260306",
@@ -62,7 +62,7 @@
       "date": "2026-03-06",
       "context": "knowbe",
       "spriteUrl": "sprites/characters/nodes/出来事_Knowbe_1on1_江頭_20260306.png",
-      "story": "深き森の色を纏い、辺境の監視者を務める吟遊の斥候。金色の飾りは、彼が紡ぐ知恵と勇気の物語を静かに語る。"
+      "story": "深き森の衣を纏い、黄金の眼差しで道なき道を識る者。彼は秘められた物語を紡ぎ、迷える旅人を導く森の賢者である。"
     },
     {
       "id": "人物:自分",
@@ -73,7 +73,7 @@
       "last_seen": "2026-03-06T14:21:19.641954",
       "weight": 1,
       "spriteUrl": "sprites/characters/nodes/人物_自分.png",
-      "story": "黄金の光と深紫の威厳を纏いし英雄。彼が記す日記は、魂の熱き煌めきを映し、出会う者に新たな物語の予感を与えるだろう。"
+      "story": "黄金と王紫の光を纏いし旅路の記録者。その魂の輝きは古き書に記され、出会う全てに温かな希望を灯す。"
     }
   ],
   "edges": [
