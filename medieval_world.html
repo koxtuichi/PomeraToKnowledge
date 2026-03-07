@@ -101,36 +101,126 @@
       font-family: 'Courier New', monospace;
     }
 
-    /* ===== サイドパネル ===== */
-    #panel {
+    /* ===== 左ナビ（アイコン+ラベルのみ） ===== */
+    #left-nav {
       position: fixed;
       top: 38px;
-      right: 0;
-      width: 210px;
+      left: 0;
+      width: 100px;
       bottom: 0;
-      background: linear-gradient(180deg, #180f04 0%, #1e1208 100%);
-      border-left: 2px solid #7a5020;
-      box-shadow: -3px 0 12px rgba(0, 0, 0, 0.6);
-      padding: 0;
+      background: linear-gradient(180deg, #140c04 0%, #1a1008 100%);
+      border-right: 2px solid #7a5020;
+      box-shadow: 3px 0 12px rgba(0, 0, 0, 0.6);
+      padding: 8px 0;
       overflow-y: auto;
       z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    /* 木目テクスチャ風の装飾ライン */
-    #panel::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 3px;
-      right: 3px;
-      height: 100%;
-      background: repeating-linear-gradient(180deg,
-          transparent 0px,
-          transparent 22px,
-          rgba(100, 60, 10, 0.04) 22px,
-          rgba(100, 60, 10, 0.04) 23px);
-      pointer-events: none;
+    .nav-tab {
+      width: 100%;
+      padding: 14px 8px;
+      background: none;
+      border: none;
+      border-left: 3px solid transparent;
+      color: #806040;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+      font-family: inherit;
     }
+
+    .nav-tab:hover {
+      background: rgba(80, 45, 10, 0.4);
+      color: #d0a050;
+    }
+
+    .nav-tab.active {
+      background: rgba(80, 45, 10, 0.6);
+      border-left-color: #c08040;
+      color: #f0c060;
+    }
+
+    .nav-icon {
+      font-size: 22px;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== 中央コンテンツエリア ===== */
+    #center-content {
+      position: fixed;
+      top: 38px;
+      left: 100px;
+      right: 380px;
+      bottom: 0;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #120a04 0%, #1a1008 100%);
+      z-index: 5;
+    }
+
+    .center-panel {
+      padding: 20px 24px;
+      min-height: 100%;
+    }
+
+    .cp-header {
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(120, 70, 20, 0.35);
+    }
+
+    .cp-title {
+      font-size: 16px;
+      color: #e8c060;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .cp-sub {
+      font-size: 11px;
+      color: #806040;
+    }
+
+    /* 旅人グリッド（2カラム） */
+    .traveler-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    /* クエストグリッド */
+    .quest-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    /* パーティーグリッド（4スロット横並び） */
+    .party-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* インベントリグリッド（3カラム） */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+
 
     .psec {
       margin-bottom: 0;
@@ -138,10 +228,10 @@
     }
 
     .ph {
-      font-size: 9px;
+      font-size: 11px;
       color: #c89040;
-      letter-spacing: 3px;
-      padding: 8px 12px 6px;
+      letter-spacing: 2px;
+      padding: 10px 14px 8px;
       background: linear-gradient(90deg, rgba(80, 45, 5, 0.6) 0%, transparent 100%);
       border-bottom: 1px solid rgba(120, 80, 20, 0.2);
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
@@ -186,9 +276,12 @@
     #game-container {
       position: fixed;
       top: 38px;
-      left: 0;
-      right: 210px;
-      bottom: 0;
+      left: 100px;
+      right: 0;
+      bottom: 64px;
+      background: #0c0808;
+      /* Elin風マップ外周フォグ */
+      box-shadow: inset 0 0 120px 80px #0e0904, inset 0 0 60px 30px rgba(14, 9, 4, 0.7);
     }
 
     /* ===== ローディング ===== */
@@ -276,10 +369,1506 @@
       background: #7a5020;
       border-radius: 2px;
     }
+
+    /* ===== NPCダイアログ ===== */
+    #npc-dialog {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 520px;
+      background: linear-gradient(180deg, #1e1208 0%, #160e04 100%);
+      border: 2px solid #8a6030;
+      border-radius: 4px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(200, 150, 50, 0.15);
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    #npc-dialog::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 4px;
+      right: 4px;
+      height: 100%;
+      background: repeating-linear-gradient(180deg,
+          transparent 0px, transparent 20px,
+          rgba(100, 60, 10, 0.05) 20px, rgba(100, 60, 10, 0.05) 21px);
+      pointer-events: none;
+    }
+
+    #npc-dialog-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid rgba(120, 80, 20, 0.4);
+      background: linear-gradient(90deg, rgba(80, 45, 5, 0.7) 0%, transparent 100%);
+    }
+
+    #npc-dialog-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    #npc-dialog-name {
+      font-size: 11px;
+      color: #e8c060;
+      letter-spacing: 3px;
+      font-weight: 700;
+      flex: 1;
+    }
+
+    #npc-dialog-role {
+      font-size: 9px;
+      color: #907040;
+      letter-spacing: 2px;
+    }
+
+    #npc-dialog-body {
+      padding: 14px 16px 16px;
+      font-size: 11px;
+      color: #c8a870;
+      line-height: 2;
+      letter-spacing: 0.5px;
+      min-height: 60px;
+    }
+
+    #npc-dialog-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 14px;
+      color: #7a5030;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 2px 6px;
+      transition: color 0.2s;
+    }
+
+    #npc-dialog-close:hover {
+      color: #e8c060;
+    }
+
+    .npc-label {
+      position: absolute;
+      font-size: 9px;
+      color: #e8c060;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 1);
+      pointer-events: none;
+      text-align: center;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    /* ===== CPカウンター ===== */
+    .hcp {
+      font-size: 11px;
+      color: #f0d060;
+      letter-spacing: 1px;
+      background: rgba(120, 80, 0, 0.35);
+      border: 1px solid rgba(200, 160, 40, 0.4);
+      border-radius: 4px;
+      padding: 3px 8px;
+      margin: 0 8px;
+      min-width: 60px;
+      text-align: center;
+      transition: all 0.4s;
+    }
+
+    .hcp.gain {
+      color: #ffe840;
+      text-shadow: 0 0 8px #ffd020, 0 0 20px #ffa000;
+    }
+
+    /* ===== タブ ===== */
+    .ptabs {
+      display: flex;
+      gap: 2px;
+      padding: 6px 6px 0;
+      border-bottom: 1px solid rgba(120, 80, 10, 0.3);
+      margin-bottom: 6px;
+    }
+
+    .ptab {
+      flex: 1;
+      font-size: 9px;
+      padding: 5px 2px;
+      background: rgba(60, 35, 5, 0.4);
+      border: 1px solid rgba(120, 80, 10, 0.3);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      color: #907050;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ptab.active {
+      background: rgba(100, 60, 10, 0.7);
+      color: #e8c060;
+      border-color: rgba(180, 130, 30, 0.5);
+    }
+
+    .ptab:hover:not(.active) {
+      color: #c8a040;
+    }
+
+    /* ===== 旅人カード ===== */
+    .traveler-card {
+      background: rgba(60, 35, 5, 0.5);
+      border: 1px solid rgba(120, 80, 10, 0.35);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .traveler-card:hover {
+      border-color: rgba(200, 150, 40, 0.6);
+    }
+
+    .traveler-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .traveler-icon {
+      font-size: 26px;
+    }
+
+    .traveler-name {
+      font-size: 14px;
+      color: #e8c060;
+      font-weight: 700;
+      flex: 1;
+    }
+
+    .traveler-class {
+      font-size: 11px;
+      color: #a08050;
+      letter-spacing: 1px;
+    }
+
+    .traveler-stats {
+      display: flex;
+      gap: 6px;
+      font-size: 10px;
+      color: #806040;
+      margin-bottom: 5px;
+      flex-wrap: wrap;
+    }
+
+    .tstat {
+      background: rgba(50, 30, 5, 0.6);
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: #c8a060;
+      font-size: 10px;
+    }
+
+    .traveler-story {
+      font-size: 10px;
+      color: #806048;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .recruit-btn {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-size: 11px;
+      padding: 6px 12px;
+      background: rgba(120, 80, 10, 0.7);
+      border: 1px solid rgba(200, 150, 30, 0.5);
+      border-radius: 4px;
+      color: #e8c060;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .recruit-btn:hover:not(:disabled):not(.recruited) {
+      background: rgba(160, 110, 20, 0.9);
+    }
+
+    .recruit-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .recruit-btn.recruited {
+      background: rgba(30, 80, 30, 0.7);
+      border-color: rgba(50, 160, 50, 0.5);
+      color: #80d060;
+      cursor: default;
+    }
+
+    /* ===== クエスト ===== */
+    .quest-card {
+      background: rgba(60, 35, 5, 0.5);
+      border-left: 4px solid #c04020;
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+
+    .quest-card.done {
+      border-left-color: #206080;
+      opacity: 0.6;
+    }
+
+    .quest-title {
+      font-size: 13px;
+      color: #d09050;
+      margin-bottom: 4px;
+    }
+
+    .quest-meta {
+      font-size: 11px;
+      color: #806040;
+    }
+
+    .quest-reward {
+      font-size: 11px;
+      color: #c0a020;
+      margin-top: 5px;
+    }
+
+    /* ===== パーティー ===== */
+    .party-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      padding: 12px 10px 10px;
+      background: rgba(24, 14, 3, 0.7);
+      border: 1px dashed rgba(100, 70, 20, 0.4);
+      border-radius: 10px;
+      min-height: 220px;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .party-slot.filled {
+      border-style: solid;
+      border-color: rgba(180, 130, 40, 0.6);
+      background: rgba(30, 18, 5, 0.8);
+      box-shadow: 0 0 16px rgba(180, 120, 20, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .party-slot.filled:hover {
+      border-color: rgba(220, 170, 60, 0.9);
+      box-shadow: 0 0 24px rgba(200, 140, 30, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ドット絵表示エリア */
+    .party-sprite-area {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: 80px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .party-sprite-area canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7));
+    }
+
+    /* キャラアイドル浮遊アニメーション */
+    @keyframes charIdle {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes charIdleSlow {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    @keyframes charGlow {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 0px rgba(200, 150, 40, 0));
+      }
+
+      50% {
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 8px rgba(200, 150, 40, 0.4));
+      }
+    }
+
+    .party-slot-icon {
+      font-size: 36px;
+      text-align: center;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .party-slot-name {
+      font-size: 12px;
+      color: #e8c060;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .party-slot-class {
+      font-size: 9px;
+      color: #a08050;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .party-remove {
+      font-size: 10px;
+      color: #804040;
+      cursor: pointer;
+      padding: 2px 4px;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+
+    .party-remove:hover {
+      color: #e06040;
+    }
+
+    .dungeon-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 14px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, rgba(80, 20, 20, .9), rgba(120, 40, 10, .9));
+      border: 1px solid rgba(200, 80, 40, .5);
+      border-radius: 6px;
+      color: #f0c060;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dungeon-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, rgba(120, 30, 30, .9), rgba(160, 60, 20, .9));
+      transform: translateY(-1px);
+    }
+
+    .dungeon-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ===== 戦闘ログ ===== */
+
+    #battle-log {
+      position: fixed;
+      right: 0;
+      top: 38px;
+      bottom: 0;
+      width: 380px;
+      background: rgba(6, 4, 2, 0.97);
+      border-left: 2px solid rgba(120, 70, 10, 0.4);
+      overflow: hidden;
+      padding: 0;
+      font-size: 12px;
+      color: #c8a870;
+      line-height: 1.9;
+      display: flex;
+      flex-direction: column;
+      z-index: 200;
+    }
+
+    #battle-log-actions {
+      flex-shrink: 0;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(100, 60, 10, 0.3);
+    }
+
+    #battle-log-actions .dungeon-btn {
+      width: 100%;
+      margin-top: 0;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+
+
+    /* ===== 戦闘ビジュアル（HPバー） ===== */
+    #battle-visual {
+      flex-shrink: 0;
+      padding: 12px 14px 8px;
+      border-bottom: 1px solid rgba(100, 60, 10, 0.3);
+      display: none;
+    }
+
+    #battle-visual.active {
+      display: block;
+    }
+
+    .bv-monster-name {
+      font-size: 11px;
+      color: #e0a060;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bv-monster-hp-wrap {
+      height: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 1px solid rgba(200, 60, 20, 0.4);
+    }
+
+    .bv-monster-hp-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #8b0000, #ff3030);
+      transition: width 0.5s ease-out;
+    }
+
+    .bv-member-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .bv-member-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .bv-member-name {
+      font-size: 9px;
+      color: #a08060;
+      width: 60px;
+      flex-shrink: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .bv-hp-wrap {
+      flex: 1;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(40, 160, 40, 0.3);
+    }
+
+    .bv-hp-bar {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #1a6030, #40c060);
+      transition: width 0.5s ease-out;
+    }
+
+    .bv-hp-bar.danger {
+      background: linear-gradient(90deg, #804010, #e06020);
+    }
+
+    .bv-hp-bar.dead {
+      background: #333;
+    }
+
+    .bv-hp-num {
+      font-size: 9px;
+      color: #806040;
+      width: 36px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* EXPバー */
+    .char-exp-bar-wrap {
+      height: 4px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .char-exp-bar {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #4040c0, #8080ff);
+      transition: width 0.6s ease-out;
+    }
+
+    .char-level-badge {
+      display: inline-block;
+      background: rgba(60, 40, 100, 0.7);
+      border: 1px solid rgba(100, 80, 200, 0.5);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 9px;
+      color: #a0a0ff;
+      margin-right: 4px;
+    }
+
+    /* パーマデス */
+    .traveler-card.dead-char {
+      opacity: 0.35;
+      pointer-events: none;
+      border-color: rgba(80, 40, 40, 0.4) !important;
+    }
+
+    .traveler-card.dead-char::after {
+      content: '💀 戦死';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      color: rgba(200, 60, 60, 0.8);
+      letter-spacing: 4px;
+      pointer-events: none;
+    }
+
+    /* D&D 装備 */
+    .eq-drop-zone {
+      border: 1px dashed rgba(100, 70, 20, 0.5);
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 9px;
+      color: #706040;
+      cursor: default;
+      transition: all 0.2s;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .eq-drop-zone.dragover {
+      border-color: #f0c020;
+      background: rgba(80, 60, 0, 0.3);
+      color: #f0c020;
+    }
+
+    .eq-drop-zone.has-item {
+      border-style: solid;
+      border-color: rgba(160, 120, 40, 0.6);
+      color: #c0a040;
+      cursor: pointer;
+    }
+
+    .inv-drag-card {
+      cursor: grab;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(40, 25, 5, 0.7);
+      border: 1px solid rgba(120, 80, 20, 0.4);
+      font-size: 10px;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .inv-drag-card:hover {
+      border-color: rgba(200, 150, 40, 0.7);
+    }
+
+    .inv-drag-card.dragging {
+      opacity: 0.4;
+    }
+
+    .party-inv-mini {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(100, 70, 20, 0.3);
+    }
+
+    .party-inv-mini-title {
+      font-size: 11px;
+      color: #c0a060;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .party-inv-mini-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* バトルログのタイトルバー */
+    #battle-log-title {
+      display: none;
+    }
+
+    #battle-log-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+
+
+
+    .log-line {
+      animation: logIn 0.3s ease;
+    }
+
+    .log-hit {
+      color: #f09050;
+    }
+
+    .log-crit {
+      color: #ff6020;
+      font-weight: bold;
+    }
+
+    .log-heal {
+      color: #60d060;
+    }
+
+    .log-system {
+      color: #708090;
+      font-style: italic;
+    }
+
+    .log-victory {
+      color: #f0d020;
+      font-weight: bold;
+    }
+
+    @keyframes logIn {
+      from {
+        opacity: 0;
+        transform: translateX(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* ===== サブタブ ===== */
+    .sub-tab {
+      flex: 1;
+      padding: 8px 6px;
+      font-size: 11px;
+      font-family: inherit;
+      background: rgba(40, 25, 10, .7);
+      border: 1px solid rgba(120, 70, 20, .4);
+      border-radius: 5px;
+      color: #a08050;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .sub-tab.active {
+      background: rgba(80, 40, 10, .9);
+      border-color: rgba(200, 120, 40, .7);
+      color: #f0c060;
+    }
+
+    .sub-panel {
+      display: block;
+    }
+
+
+    /* ===== インベントリカード ===== */
+    .inv-card {
+      background: rgba(30, 18, 8, .85);
+      border: 1px solid rgba(120, 70, 20, .35);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 7px;
+    }
+
+    .inv-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .inv-slot {
+      font-size: 11px;
+      color: #806040;
+    }
+
+    .inv-stat {
+      font-size: 11px;
+      color: #c0d090;
+      margin-bottom: 5px;
+    }
+
+    .inv-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .inv-btn {
+      flex: 1;
+      padding: 3px 6px;
+      font-size: 9px;
+      font-family: inherit;
+      background: rgba(60, 30, 10, .9);
+      border: 1px solid rgba(160, 100, 30, .5);
+      border-radius: 4px;
+      color: #f0c060;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .inv-btn:hover {
+      background: rgba(100, 50, 10, .9);
+    }
+
+    .inv-discard {
+      padding: 3px 6px;
+      font-size: 9px;
+      font-family: inherit;
+      background: rgba(40, 10, 10, .7);
+      border: 1px solid rgba(120, 40, 20, .4);
+      border-radius: 4px;
+      color: #a06040;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .inv-discard:hover {
+      color: #e06040;
+    }
+
+    /* ===== 装備スロット（パーティー編成内） ===== */
+    .eq-slots {
+      margin-top: 5px;
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+    }
+
+    .eq-slot-item {
+      font-size: 8px;
+      padding: 2px 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      background: rgba(30, 20, 8, .8);
+      border: 1px solid rgba(100, 60, 15, .3);
+      color: #906030;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .eq-slot-item.equipped {
+      border-color: rgba(160, 100, 30, .6);
+      color: #c0a050;
+    }
+
+    .eq-slot-item:hover {
+      background: rgba(60, 35, 10, .9);
+    }
+
+    .eq-unequip-btn {
+      font-size: 7px;
+      padding: 1px 4px;
+      background: rgba(60, 10, 10, .7);
+      border: 1px solid rgba(120, 40, 20, .4);
+      border-radius: 3px;
+      color: #906040;
+      cursor: pointer;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+
+    /* ===== 装備ターゲットリスト（モーダル内） ===== */
+    .equip-target-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .equip-target-btn {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 10px;
+      font-family: inherit;
+      text-align: left;
+      background: rgba(40, 25, 8, .9);
+      border: 1px solid rgba(140, 80, 20, .4);
+      border-radius: 6px;
+      color: #d0b060;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1.5;
+    }
+
+    .equip-target-btn:hover {
+      background: rgba(80, 45, 10, .9);
+      border-color: rgba(200, 120, 40, .7);
+    }
+
+    /* ===== バトルオーバーレイ ===== */
+    #battle-overlay {
+      display: none;
+      position: fixed;
+      top: 38px;
+      left: 100px;
+      right: 380px;
+      bottom: 0;
+      background: rgba(6, 3, 1, 0.97);
+      z-index: 500;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    #battle-overlay.active {
+      display: flex;
+    }
+
+    .bo-header {
+      flex-shrink: 0;
+      padding: 14px 20px 10px;
+      border-bottom: 1px solid rgba(140, 80, 10, 0.35);
+      background: linear-gradient(90deg, rgba(60, 30, 5, 0.7) 0%, transparent 100%);
+    }
+
+    .bo-floor {
+      font-size: 10px;
+      color: #907040;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+
+    .bo-monster-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bo-monster-icon {
+      font-size: 32px;
+    }
+
+    .bo-monster-info {
+      flex: 1;
+    }
+
+    .bo-monster-name {
+      font-size: 16px;
+      color: #e8c060;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .hp-bar-wrap {
+      height: 10px;
+      background: rgba(20, 10, 2, 0.8);
+      border: 1px solid rgba(120, 60, 10, 0.4);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .hp-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+
+    .hp-bar-fill.enemy {
+      background: linear-gradient(90deg, #802020, #c04040);
+    }
+
+    .hp-bar-fill.party {
+      background: linear-gradient(90deg, #208040, #40c060);
+    }
+
+    .hp-bar-fill.party.low {
+      background: linear-gradient(90deg, #804020, #c06030);
+    }
+
+    .hp-bar-fill.party.critical {
+      background: linear-gradient(90deg, #802020, #c03030);
+    }
+
+    .hp-num {
+      font-size: 10px;
+      color: #a08050;
+      margin-top: 2px;
+      text-align: right;
+    }
+
+    .bo-party-area {
+      flex-shrink: 0;
+      padding: 12px 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      border-bottom: 1px solid rgba(100, 60, 10, 0.2);
+    }
+
+    .bo-member {
+      background: rgba(30, 18, 5, 0.7);
+      border: 1px solid rgba(100, 65, 15, 0.3);
+      border-radius: 6px;
+      padding: 8px 10px;
+      transition: border-color 0.3s;
+    }
+
+    .bo-member.acting {
+      border-color: rgba(220, 160, 40, 0.8);
+      box-shadow: 0 0 8px rgba(200, 140, 20, 0.3);
+    }
+
+    .bo-member.dead {
+      opacity: 0.3;
+      filter: grayscale(1);
+    }
+
+    .bo-member-icon {
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 3px;
+    }
+
+    .bo-member-name {
+      font-size: 10px;
+      color: #c0a060;
+      text-align: center;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .bo-log-area {
+      flex: 1;
+      padding: 14px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .bo-log-entry {
+      font-size: 12px;
+      color: #c0a870;
+      line-height: 1.7;
+      padding: 2px 0;
+      border-bottom: 1px solid rgba(80, 50, 10, 0.1);
+      animation: logFadeIn 0.3s ease;
+    }
+
+    @keyframes logFadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .bo-log-entry.log-crit {
+      color: #f0c040;
+      font-weight: 700;
+    }
+
+    .bo-log-entry.log-combo {
+      color: #c060f0;
+      font-weight: 700;
+    }
+
+    .bo-log-entry.log-magic {
+      color: #60c0f0;
+    }
+
+    .bo-log-entry.log-heal {
+      color: #60d080;
+    }
+
+    .bo-log-entry.log-enemy {
+      color: #d08080;
+    }
+
+    .bo-log-entry.log-system {
+      color: #807060;
+      font-size: 10px;
+    }
+
+    .bo-log-entry.log-victory {
+      color: #f0e060;
+      font-weight: 700;
+    }
+
+    .bo-log-entry.log-defeat {
+      color: #d04040;
+    }
+
+    .bo-log-entry.log-death {
+      color: #ff4040;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .bo-log-entry.log-levelup {
+      color: #ffe060;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .bo-log-entry.log-damage {
+      color: #f07040;
+    }
+
+    .dmg-num {
+      font-weight: 700;
+      color: inherit;
+      text-shadow: 0 0 6px currentColor;
+    }
+
+    .bo-log-entry.log-enemy .dmg-num {
+      color: #ff6060;
+    }
+
+    .bo-log-entry.log-crit .dmg-num {
+      color: #ffe040;
+      font-size: 1.1em;
+    }
+
+    .bo-log-entry.log-heal .dmg-num {
+      color: #60ff90;
+    }
+
+    /* ===== 戦闘エフェクト ===== */
+    @keyframes slash-effect {
+      0% {
+        opacity: 0;
+        transform: rotate(-40deg) scaleX(0);
+      }
+
+      20% {
+        opacity: 1;
+        transform: rotate(-40deg) scaleX(1.2);
+      }
+
+      50% {
+        opacity: 0.8;
+        transform: rotate(-40deg) scaleX(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: rotate(-40deg) scaleX(0.5);
+      }
+    }
+
+    @keyframes magic-burst {
+      0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+      }
+
+      30% {
+        opacity: 1;
+        transform: scale(1.5) rotate(120deg);
+      }
+
+      70% {
+        opacity: 0.6;
+        transform: scale(1.8) rotate(240deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(2.5) rotate(360deg);
+      }
+    }
+
+    @keyframes crit-flash {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      25% {
+        opacity: 1;
+        transform: scale(1.4);
+      }
+
+      60% {
+        opacity: 0.9;
+        transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.6);
+      }
+    }
+
+    @keyframes heal-bloom {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+      }
+
+      40% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.2);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.8);
+      }
+    }
+
+    @keyframes card-shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-4px) rotate(-1deg);
+      }
+
+      40% {
+        transform: translateX(4px) rotate(1deg);
+      }
+
+      60% {
+        transform: translateX(-3px);
+      }
+
+      80% {
+        transform: translateX(3px);
+      }
+    }
+
+    @keyframes card-hit {
+
+      0%,
+      100% {
+        filter: brightness(1);
+      }
+
+      30% {
+        filter: brightness(2.5) saturate(0.2);
+      }
+
+      60% {
+        filter: brightness(1.4);
+      }
+    }
+
+    @keyframes float-dmg {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      40% {
+        opacity: 1;
+        transform: translateY(-18px) scale(1.3);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-36px) scale(0.9);
+      }
+    }
+
+    .battle-effect-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .effect-slash {
+      position: absolute;
+      width: 110%;
+      height: 6px;
+      left: -5%;
+      top: 40%;
+      background: linear-gradient(90deg, transparent 0%, #fff8a0 30%, #ffe060 60%, transparent 100%);
+      border-radius: 3px;
+      box-shadow: 0 0 12px 4px rgba(255, 220, 80, 0.6);
+      animation: slash-effect 0.35s ease-out forwards;
+    }
+
+    .effect-magic {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      left: 50%;
+      top: 30%;
+      margin-left: -30px;
+      margin-top: -30px;
+      background: radial-gradient(ellipse at center, #e0a0ff 0%, #8040ff 40%, transparent 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 24px 8px rgba(160, 80, 255, 0.7);
+      animation: magic-burst 0.5s ease-out forwards;
+    }
+
+    .effect-crit {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      left: 50%;
+      top: 20%;
+      margin-left: -40px;
+      margin-top: -40px;
+      background: radial-gradient(ellipse at center, #fff5a0 0%, #ff9000 40%, #ff3000 70%, transparent 90%);
+      border-radius: 50%;
+      box-shadow: 0 0 32px 12px rgba(255, 140, 0, 0.8);
+      animation: crit-flash 0.45s ease-out forwards;
+    }
+
+    .effect-heal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      font-size: 28px;
+      margin-left: -14px;
+      margin-top: -14px;
+      animation: heal-bloom 0.7s ease-out forwards;
+      text-shadow: 0 0 8px #40ff80;
+    }
+
+    .float-dmg-num {
+      position: absolute;
+      font-size: 18px;
+      font-weight: 900;
+      text-shadow: 0 2px 4px #000, 0 0 12px currentColor;
+      animation: float-dmg 0.9s ease-out forwards;
+      pointer-events: none;
+      z-index: 20;
+      white-space: nowrap;
+    }
+
+    .bo-hp-card.shaking {
+      animation: card-shake 0.35s ease-out;
+    }
+
+    .bo-hp-card.hit {
+      animation: card-hit 0.35s ease-out;
+    }
+
+    .bo-footer {
+      flex-shrink: 0;
+      padding: 10px 20px;
+      border-top: 1px solid rgba(100, 60, 10, 0.3);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .bo-close-btn {
+      padding: 8px 24px;
+      background: rgba(80, 50, 10, 0.7);
+      border: 1px solid rgba(160, 110, 30, 0.5);
+      border-radius: 6px;
+      color: #e8c060;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .bo-close-btn:hover {
+      background: rgba(120, 80, 15, 0.9);
+    }
+
+    .bo-skill-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    .bo-skill-badge.phys {
+      background: rgba(180, 80, 20, 0.3);
+      color: #e09050;
+    }
+
+    .bo-skill-badge.magic {
+      background: rgba(60, 80, 200, 0.3);
+      color: #80a0f0;
+    }
+
+    .bo-skill-badge.combo {
+      background: rgba(140, 40, 200, 0.3);
+      color: #c080f0;
+    }
+
+    .bo-skill-badge.heal {
+      background: rgba(20, 140, 60, 0.3);
+      color: #60e090;
+    }
+
+    /* 死亡エフェクト */
+    .death-flash {
+      position: fixed;
+      inset: 0;
+      background: rgba(180, 20, 20, 0.25);
+      z-index: 600;
+      pointer-events: none;
+      animation: deathFlash 0.8s ease forwards;
+    }
+
+    @keyframes deathFlash {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* レベルアップエフェクト */
+    .levelup-flash {
+      position: fixed;
+      inset: 0;
+      background: rgba(220, 180, 20, 0.2);
+      z-index: 600;
+      pointer-events: none;
+      animation: lvFlash 1.0s ease forwards;
+    }
+
+    @keyframes lvFlash {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* === D&D ドラッグ関連 === */
+    .inv-item[draggable=true] {
+      cursor: grab;
+    }
+
+    .inv-item[draggable=true]:active {
+      cursor: grabbing;
+    }
+
+    .inv-item.dragging {
+      opacity: 0.5;
+    }
+
+    .eq-slot-drop {
+      border: 1px dashed rgba(100, 70, 20, 0.4);
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 10px;
+      color: #706040;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .eq-slot-drop.drag-over {
+      border-color: rgba(220, 160, 40, 0.8);
+      background: rgba(100, 60, 10, 0.3);
+      color: #e8c060;
+    }
+
+    /* LVバッジ */
+    .lv-badge {
+      display: inline-block;
+      font-size: 9px;
+      background: rgba(60, 40, 5, 0.7);
+      border: 1px solid rgba(140, 100, 20, 0.4);
+      border-radius: 3px;
+      padding: 1px 4px;
+      color: #c8a040;
+      margin-left: 4px;
+    }
+
+    /* XPバー */
+    .xp-bar-wrap {
+      height: 3px;
+      background: rgba(20, 12, 3, 0.8);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #a06010, #f0c030);
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- 装備変更モーダル -->
+  <div id="equip-modal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9000;align-items:center;justify-content:center;">
+    <div
+      style="background:#2a1e10;border:2px solid #806040;border-radius:10px;padding:18px;min-width:260px;max-width:340px;position:relative;">
+      <button onclick="document.getElementById('equip-modal').style.display='none'"
+        style="position:absolute;top:8px;right:10px;background:none;border:none;color:#c08040;font-size:16px;cursor:pointer;">✕</button>
+      <div id="equip-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- スキルツリーモーダル -->
+  <div id="skill-tree-modal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9100;align-items:center;justify-content:center;">
+    <div
+      style="background:#1a1228;border:2px solid #8060c0;border-radius:12px;padding:20px;min-width:300px;max-width:380px;position:relative;">
+      <button onclick="document.getElementById('skill-tree-modal').style.display='none'"
+        style="position:absolute;top:8px;right:10px;background:none;border:none;color:#a080e0;font-size:18px;cursor:pointer;">✕</button>
+      <div id="skill-tree-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- 旅人会話モーダル -->
+  <div id="traveler-talk-modal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9200;align-items:center;justify-content:center;">
+    <div
+      style="background:#1c1a14;border:2px solid #a09050;border-radius:14px;padding:22px;min-width:280px;max-width:360px;position:relative;">
+      <button onclick="document.getElementById('traveler-talk-modal').style.display='none'"
+        style="position:absolute;top:8px;right:10px;background:none;border:none;color:#c0a040;font-size:18px;cursor:pointer;">✕</button>
+      <div id="traveler-talk-content"></div>
+    </div>
+  </div>
+
   <div id="loading">
     <div class="lt">⚔ 異世界の自分 ⚔</div>
     <div class="ls">感情が世界を紡ぐ...</div>
@@ -297,35 +1886,2038 @@
         <span class="hwx" id="hwx">🌤</span>
         <span class="hmood" id="hmood">—</span>
       </div>
+      <div class="hstat" id="hud-floor" style="gap:4px;border-right:1px solid #5a3a10">
+        <span style="font-size:12px">⚔</span>
+        <span style="font-size:10px;color:#c0a050;letter-spacing:1px">F<span id="hud-floor-num">1</span></span>
+        <span style="font-size:9px;color:#706050" id="hud-floor-rank">浅層</span>
+      </div>
+      <div class="hcp" id="hcp" title="Chronicle Points">📜 <span id="cpval">0</span> CP</div>
       <span class="hclock" id="hclock">--:--</span>
     </div>
+
   </div>
 
-  <div id="panel">
-    <div class="psec">
-      <div class="ph">今日の感情</div>
-      <div id="pem"></div>
+  <!-- 左ナビ（タブボタンのみ） -->
+  <div id="left-nav">
+    <button class="nav-tab active" id="nav-travelers" onclick="switchTab('travelers')">
+      <span class="nav-icon">🧳</span>
+      <span class="nav-label">旅人</span>
+    </button>
+    <button class="nav-tab" id="nav-party" onclick="switchTab('party')">
+      <span class="nav-icon">⚔️</span>
+      <span class="nav-label">パーティー</span>
+    </button>
+    <button class="nav-tab" id="nav-inventory" onclick="switchTab('inventory')">
+      <span class="nav-icon">📦</span>
+      <span class="nav-label">装備品</span>
+    </button>
+  </div>
+
+  <!-- 中央コンテンツ（タブ選択で切り替わる大エリア） -->
+  <div id="center-content">
+
+    <!-- 旅人リスト -->
+    <div class="center-panel" id="tab-travelers">
+      <div class="cp-header">
+        <div class="cp-title">🧳 記憶から生まれた旅人たち</div>
+        <div class="cp-sub">採用にはCPが必要です</div>
+      </div>
+      <div id="traveler-list" class="traveler-grid">読み込み中...</div>
     </div>
-    <div class="psec">
-      <div class="ph">行動</div>
-      <div class="pact" id="pact">...</div>
+
+    <!-- パーティー編成 -->
+    <div class="center-panel" id="tab-party" style="display:none">
+      <div class="cp-header">
+        <div class="cp-title">⚔️ 冒険パーティー編成</div>
+        <div class="cp-sub">最大4人 <span id="floor-label" style="color:#c08040;margin-left:12px">F1</span></div>
+      </div>
+      <div id="party-list" class="party-grid"></div>
     </div>
-    <div class="psec">
-      <div class="ph">日記</div>
-      <div class="pt" id="pdi">読み込み中...</div>
+
+    <!-- インベントリ -->
+    <div class="center-panel" id="tab-inventory" style="display:none">
+      <div class="cp-header">
+        <div class="cp-title">📦 装備品インベントリ</div>
+        <span id="inv-count" class="cp-sub">0/50</span>
+      </div>
+      <div id="inventory-list" class="inventory-grid"></div>
+    </div>
+
+  </div>
+
+  <!-- 装備変更モーダル -->
+  <div id="equip-modal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9000;align-items:center;justify-content:center;">
+    <div
+      style="background:#2a1e10;border:2px solid #806040;border-radius:10px;padding:18px;min-width:260px;max-width:340px;position:relative;box-shadow:0 0 30px rgba(120,60,10,0.6);">
+      <button onclick="document.getElementById('equip-modal').style.display='none'"
+        style="position:absolute;top:8px;right:10px;background:none;border:none;color:#c08040;font-size:16px;cursor:pointer;">✕</button>
+      <div id="equip-modal-content"></div>
     </div>
   </div>
 
   <div id="game-container"></div>
 
+  <!-- バトルオーバーレイ -->
+  <div id="battle-overlay">
+    <div class="bo-header">
+      <div class="bo-floor" id="bo-floor-label">── フロア1 ──</div>
+      <div class="bo-monster-row">
+        <div class="bo-monster-icon" id="bo-mon-icon">👹</div>
+        <div class="bo-monster-info">
+          <div class="bo-monster-name" id="bo-mon-name">モンスター</div>
+          <div class="hp-bar-wrap" style="width:300px">
+            <div class="hp-bar-fill enemy" id="bo-mon-hp-bar" style="width:100%"></div>
+          </div>
+          <div class="hp-num" id="bo-mon-hp-num">100/100</div>
+        </div>
+      </div>
+    </div>
+    <div class="bo-party-area" id="bo-party-area"></div>
+    <div class="bo-log-area" id="bo-log-area"></div>
+    <div class="bo-footer">
+      <button class="bo-close-btn" id="bo-close-btn" style="display:none" onclick="closeBattleOverlay()">✓
+        結果を確認</button>
+    </div>
+  </div>
+
+  <div id="battle-log">
+    <div id="battle-log-actions">
+      <button class="dungeon-btn" id="dungeon-btn" onclick="startDungeon()" disabled>⚔ ダンジョンへ</button>
+    </div>
+    <div id="battle-visual"></div>
+    <div id="battle-log-body"></div>
+  </div>
+  <div id="npc-dialog">
+    <div id="npc-dialog-header">
+      <div id="npc-dialog-icon">🧙</div>
+      <div id="npc-dialog-name">名前</div>
+      <div id="npc-dialog-role">専門</div>
+    </div>
+    <div id="npc-dialog-body"></div>
+    <button id="npc-dialog-close" onclick="closeNpcDialog()">✕</button>
+  </div>
+
   <div id="log-window">
-    <div id="log-text">イルヴァの風が草原を揺らす...</div>
+    <div id="log-text">風が草原を揺らす...</div>
   </div>
 
   <script>
     // ===== 定数 =====
-    const TW = 96, TH = 96;
+    const TW = 64, TH = 64;
     const MAP_W = 18, MAP_H = 18;
+
+    // ===== POMERA WORLD: フェーズ1 ゲームシステム =====
+
+    // ---------- 辞書データ ----------
+    const FIRST_NAMES = ['アシュ', 'カイン', 'フェリス', 'ルイン', 'ソラグ', 'ミレア', 'エルヴァ', 'クラウス',
+      'シルヴァ', 'テライン', 'ノアム', 'セドラ', 'ヴィレン', 'ガウロ', 'アイリス', 'レムノ',
+      'ファリス', 'ロイテル', 'セリア', 'ドルネ', 'カルナ', 'グリモ', 'ライア', 'ヴァン'];
+    const ATTR = ['炎', '水', '土', '風', '光', '影', '記憶', '時', '星', '夢'];
+    const RACES = ['人間', 'エルフ', 'ドワーフ', 'ノーム', '半竜人', '幽鬼族'];
+    const RACE_BONUS = {
+      '人間': '全ステ均等', 'エルフ': 'MAG+3', 'ドワーフ': 'DEF+3 ATK+2',
+      'ノーム': 'SPD+4', '半竜人': 'ATK+5 DEF-1', '幽鬼族': 'MAG+2 HP-5'
+    };
+    const CLASSES_BY_TYPE = {
+      'タスク': ['戦士', '傭兵', '職人', '鍛冶師'],
+      'タスク完了': ['英雄', 'マスター', '師匠'],
+      '知見': ['魔法使い', '学者', '賢者', '錬金術師'],
+      '出来事': ['冒険者', '吟遊詩人', '斥候'],
+      '人物': ['商人', '外交官', '仲介者'],
+      '日記': ['語り部', '詩人', '記録者'],
+      '暇人': ['暇人', '見習い', '流浪者']
+    };
+    const CLASS_ICONS = {
+      '戦士': '⚔', '傭兵': '🗡', '職人': '🔨', '鍛冶師': '⚒', '英雄': '🌟', 'マスター': '👑', '師匠': '🎓',
+      '魔法使い': '🔮', '学者': '📚', '賢者': '📖', '錬金術師': '⚗', '冒険者': '🧭', '吟遊詩人': '🎵', '斥候': '🏹',
+      '商人': '💰', '外交官': '🤝', '仲介者': '🔗', '語り部': '📜', '詩人': '🖊', '記録者': '🗒',
+      '暇人': '😴', '見習い': '🌱', '流浪者': '🍃'
+    };
+    const PERSONALITIES = ['誠実', '快活', '寡黙', '好奇心旺盛', '慎重', '大胆', '物静か', '飄々', '陽気', '気難しい'];
+    const STORY_TEMPLATES = [
+      '記憶の欠片から生まれた者。{attr}の属性を宿し、{personality}な性格で知られる。',
+      'かつて{attr}の地に生きた記録が、この姿となって現れた。{personality}な魂の持ち主。',
+      '{attr}の思念が凝固した存在。{personality}であり、村の発展を望んでいる。',
+      '日記の言葉が人の形を取った。{attr}の気配を纏い、{personality}に微笑む。'
+    ];
+    const HOBBY_IDLE = ['ぼんやり空を見ている', '道端で昼寝をしている', '誰かに話しかけようとして止まった', '石を並べて遊んでいる'];
+
+    // ---------- シードベース疑似乱数 ----------
+    function seededRand(seed, n) {
+      const s = Math.abs(Math.sin(seed * 9301 + n * 49297 + 233) * 16807);
+      return s - Math.floor(s);
+    }
+    function hashStr(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+      return Math.abs(h);
+    }
+
+    // ---------- キャラクター生成エンジン ----------
+    function generateCharacter(node) {
+      const seed = hashStr((node.id || '') + (node.detail || '') + (node.label || ''));
+      const isIdle = seededRand(seed, 99) < 0.08; // 8%確率で暇人
+      const typeKey = isIdle ? '暇人'
+        : node.type === 'タスク' && node.status === '完了' ? 'タスク完了'
+          : (node.type || '日記');
+      const classList = CLASSES_BY_TYPE[typeKey] || CLASSES_BY_TYPE['日記'];
+      const cls = classList[Math.floor(seededRand(seed, 1) * classList.length)];
+      const race = RACES[Math.floor(seededRand(seed, 2) * RACES.length)];
+      const attr = ATTR[Math.floor(seededRand(seed, 3) * ATTR.length)];
+      const firstName = FIRST_NAMES[Math.floor(seededRand(seed, 4) * FIRST_NAMES.length)];
+      const name = attr + 'の' + firstName;
+      const personality = PERSONALITIES[Math.floor(seededRand(seed, 5) * PERSONALITIES.length)];
+      const icon = CLASS_ICONS[cls] || '❓';
+      const colorHue = Math.floor(seededRand(seed, 9) * 360);
+
+      // ===== Elinスタイルの8基本属性 =====
+      const r = (i, min, max) => min + Math.floor(seededRand(seed, i) * (max - min + 1));
+      const base = {
+        STR: r(10, 7, 20),  // 力
+        CON: r(11, 7, 20),  // 耐久
+        DEX: r(12, 7, 20),  // 器用
+        PER: r(13, 7, 20),  // 知覚
+        LER: r(14, 7, 20),  // 学習
+        WIL: r(15, 7, 20),  // 意志
+        MAG: r(16, 7, 20),  // 魔力
+        CHR: r(17, 7, 20),  // 魅力
+        LUC: r(18, 5, 18),  // 運
+      };
+      // 種族ボーナス
+      if (race === 'エルフ') { base.MAG += 4; base.DEX += 2; base.CON -= 2; }
+      if (race === 'ドワーフ') { base.CON += 4; base.STR += 3; base.CHR -= 2; }
+      if (race === 'ノーム') { base.DEX += 3; base.LER += 3; base.STR -= 2; }
+      if (race === '半竜人') { base.STR += 5; base.CON += 3; base.CHR -= 3; }
+      if (race === '幽鬼族') { base.MAG += 5; base.WIL += 3; base.CON -= 3; }
+      // 職業ボーナス
+      if (cls === '剣士' || cls === '勇者') { base.STR += 3; base.CON += 2; }
+      if (cls === '魔法使い' || cls === '陰陽師') { base.MAG += 4; base.LER += 2; }
+      if (cls === '癒し手' || cls === '盾士') { base.WIL += 3; base.CON += 2; }
+      if (cls === '筆士' || cls === '詩人') { base.CHR += 4; base.LER += 3; }
+      if (cls === '商人') { base.CHR += 3; base.PER += 3; }
+      if (isIdle) { // 暇人: 全体が低め + 潜在力
+        for (const k of Object.keys(base)) base[k] = Math.max(5, Math.floor(base[k] * 0.7));
+        base.POTENTIAL = r(25, 60, 99); // 隠しパラメータ（伸びしろ）
+      }
+      // 派生ステータス（戦闘用）
+      const HP = base.CON * 5 + base.WIL * 2 + r(20, 10, 30);
+      const MANA = base.MAG * 3 + base.WIL * 2 + r(24, 5, 20);
+      const ATK = base.STR * 2 + Math.floor(base.DEX / 2) + r(21, 0, 10);
+      const DEF = base.CON * 2 + Math.floor(base.STR / 3) + r(22, 0, 8);
+      const SPD = base.DEX + Math.floor(base.PER / 2) + r(23, 0, 8);
+      const stats = { ...base, HP, MANA, ATK, DEF, SPD };
+
+      // フレーバーテキスト
+      const tmpl = STORY_TEMPLATES[Math.floor(seededRand(seed, 14) * STORY_TEMPLATES.length)];
+      const story = isIdle
+        ? '「何もしていない。でも、それでいい気がする。」 ─ ' + HOBBY_IDLE[Math.floor(seededRand(seed, 15) * HOBBY_IDLE.length)]
+        : tmpl.replace('{attr}', attr).replace('{personality}', personality);
+
+      // 採用コスト（稀少度スコア）
+      const rarityScore = base.STR + base.MAG + base.CHR + base.LER;
+      const cost = rarityScore > 70 ? 30 : rarityScore > 50 ? 20 : 10;
+
+      return { id: 'char_' + seed, node, name, cls, race, icon, colorHue, stats, story, cost, isIdle, seed };
+    }
+
+
+    // ---------- CPシステム ----------
+    function loadCP() {
+      return parseInt(localStorage.getItem('pomera_cp') || '0', 10);
+    }
+    function saveCP(val) {
+      localStorage.setItem('pomera_cp', String(val));
+    }
+    function gainCP(amount, reason) {
+      let cp = loadCP() + amount;
+      saveCP(cp);
+      refreshCPDisplay(true);
+      addBattleLog('📜 +' + amount + ' CP（' + reason + '）', 'log-system');
+    }
+    function spendCP(amount) {
+      let cp = loadCP();
+      if (cp < amount) return false;
+      saveCP(cp - amount);
+      refreshCPDisplay(false);
+      return true;
+    }
+    function refreshCPDisplay(gained) {
+      const el = document.getElementById('cpval');
+      const wrap = document.getElementById('hcp');
+      if (!el) return;
+      el.textContent = loadCP();
+      if (gained) {
+        wrap.classList.add('gain');
+        setTimeout(() => wrap.classList.remove('gain'), 800);
+      }
+    }
+
+    // ---------- デイリーCP補充 ----------
+    function checkDailyCP() {
+      const now = Date.now();
+      const last = parseInt(localStorage.getItem('pomera_last_login') || '0', 10);
+      const elapsed = now - last;
+      if (elapsed > 24 * 60 * 60 * 1000) {
+        localStorage.setItem('pomera_last_login', String(now));
+        gainCP(50, '日次補充（冒険の記録が力になった）');
+      } else {
+        localStorage.setItem('pomera_last_login', String(now));
+      }
+      // CP30以下: 緊急クエスト自動出現
+      if (loadCP() <= 30) {
+        ensureEmergencyQuest();
+      }
+    }
+
+    function ensureEmergencyQuest() {
+      const eq = ALL_QUESTS.find(q => q.id === 'emergency_cp');
+      if (!eq) {
+        ALL_QUESTS.push({
+          id: 'emergency_cp',
+          title: '困窮の旅',
+          desc: '廃坑の奥を調べ、失われた財宝を取り戻せ。',
+          icon: '⛏',
+          status: '未着手',
+          reward: 80,
+          isEmergency: true
+        });
+        addBattleLog('⛏ 緊急クエスト「困窮の旅」が現れた！クエストタブで確認できる。', 'log-system');
+        renderQuestBoard();
+      }
+    }
+
+    // ---------- タブ切り替え ----------
+    const ALL_TABS = ['travelers', 'party', 'inventory'];
+    function switchTab(tab) {
+      ALL_TABS.forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        if (el) el.style.display = t === tab ? '' : 'none';
+        const nav = document.getElementById('nav-' + t);
+        if (nav) nav.classList.toggle('active', t === tab);
+      });
+      // パーティータブに切り替えた場合は描画更新
+      if (tab === 'party') renderPartyPanel();
+      if (tab === 'inventory') renderInventoryPanel();
+    }
+
+    // ---------- 旅人リスト描画 ----------
+    let ALL_TRAVELERS = [];   // 全旅人（キャラデータ）
+    let RECRUITED = new Set(); // 採用済みID
+    let PARTY = [];            // パーティーメンバー（最大4）
+    let DEAD_CHARS = new Set();// パーマデス済みID
+    let CHAR_XP = {};       // { charId: 累計XP }
+    let CHAR_LV = {};       // { charId: レベル }
+    let COMBO_USED = new Set();// 合技使用済み（バトル内）
+    let INVENTORY = [];        // 装備品インベントリ
+    let EQUIPPED = {};         // { charId: { weapon: eq, armor: eq, accessory: eq } }
+    let DUNGEON_FLOOR = 1;     // 現在のダンジョンフロア深度
+
+
+    // ========== 装備品システム ==========
+
+    // --- 辞書 ---
+    const EQ_PREFIX = {
+      weapon: ['砕石の', '霜の', '炎の', '影の', '記憶の', '嵐の', '黎明の', '虚無の', '深淵の', '煌の'],
+      armor: ['鉄壁の', '霜の', '炎の', '影の', '記憶の', '嵐の', '黎明の', '古の', '深淵の', '煌の'],
+      accessory: ['記憶の', '輝く', '古の', '霜の', '影の', '炎の', '嵐の', '黎明の', '虚無の', '深淵の']
+    };
+    const EQ_BASE = {
+      weapon: ['剣', '短剣', '斧', '杖', '弓', '槍', 'ナイフ', '大剣', '魔杖', '曲刀'],
+      armor: ['鎧', '外套', '盾', '篭手', '兜', '胸当て', '革鎧', '法衣', '重鎧'],
+      accessory: ['首飾り', '指輪', '腕輪', '御守', '羽根', '欠片', '勾玉', '紋章石']
+    };
+    const EQ_SUFFIX = {
+      uncommon: ['の加護', 'の古書', 'の試練', 'の詩'],
+      rare: ['：古代の守護', '：炎帝のもの', '：深淵より', '：星の意志'],
+      legendary: ['〈無限の記憶〉', '〈世界の断片〉', '〈時の彼方〉', '〈忘れられた者〉']
+    };
+    // ========== スキル定義 ==========
+    const SKILLS_PHYS = [
+      { id: 'normal', name: '通常攻撃', icon: '⚔', req: {}, dmgMul: 1.0, mpCost: 0, logCls: 'log-hit', desc: 'standard' },
+      { id: 'slash', name: '全力斬り', icon: '🗡', req: { STR: 15 }, dmgMul: 2.2, mpCost: 0, logCls: 'log-crit', cooldown: 2, desc: 'heavy' },
+      { id: 'double', name: '二連撃', icon: '⚔⚔', req: { DEX: 16 }, dmgMul: 0.7, mpCost: 0, logCls: 'log-hit', hits: 2, desc: 'double' },
+      { id: 'guard', name: '防御姿勢', icon: '🛡', req: { CON: 14 }, dmgMul: 0, mpCost: 0, logCls: 'log-heal', defend: true, desc: 'defend' },
+      { id: 'pierce', name: '看破', icon: '👁', req: { PER: 15 }, dmgMul: 1.5, mpCost: 0, logCls: 'log-crit', pierce: true, desc: 'pierce' },
+    ];
+    const SKILLS_MAGIC = [
+      { id: 'fire', name: '炎術', icon: '🔥', req: { MAG: 14 }, dmgMul: 2.0, mpCost: 12, logCls: 'log-magic', elem: '炎' },
+      { id: 'blizzard', name: '吹雪', icon: '❄', req: { MAG: 16 }, dmgMul: 2.2, mpCost: 15, logCls: 'log-magic', elem: '氷' },
+      { id: 'heal', name: '癒しの光', icon: '✨', req: { WIL: 15 }, dmgMul: 0, mpCost: 10, logCls: 'log-heal', heal: true },
+      { id: 'curse', name: '呪縛', icon: '💀', req: { MAG: 12 }, dmgMul: 0, mpCost: 8, logCls: 'log-magic', debuff: 'atk', debuffVal: 0.7, duration: 2 },
+      { id: 'release', name: '魔力解放', icon: '💥', req: { MAG: 18 }, dmgMul: 3.5, mpCost: 20, logCls: 'log-magic', aoe: true },
+    ];
+    const SKILLS_COMBO = [
+      { id: 'chain', name: '連携斬り', icon: '⚔🔗⚔', reqA: { STR: 14 }, reqB: { STR: 14 }, dmgMul: 1.8, mpCost: 15, logCls: 'log-combo' },
+      { id: 'fireedge', name: '炎刃', icon: '🔥⚔', reqA: { STR: 14 }, reqB: { MAG: 14 }, dmgMul: 1.5, mpCost: 18, logCls: 'log-combo', magBonus: 1.5 },
+      { id: 'circle', name: '魔法陣展開', icon: '✨💠✨', reqA: { MAG: 14 }, reqB: { MAG: 14 }, dmgMul: 2.0, mpCost: 22, logCls: 'log-combo', aoe: true },
+      { id: 'fortress', name: '鉄壁の盟約', icon: '🛡🛡', reqA: { CON: 14 }, reqB: { CON: 14 }, dmgMul: 0, mpCost: 12, logCls: 'log-heal', fortress: true },
+      { id: 'storm', name: '嵐の舞', icon: '🌪', reqA: { DEX: 16 }, reqB: { CHR: 16 }, dmgMul: 0.8, mpCost: 16, logCls: 'log-combo', hits: 4 },
+    ];
+
+    // キャラが使えるスキルを決定（オート）
+    function chooseSkill(char, partyHp, partyMaxHp, monsterHp, comboUsed) {
+      const eff = getEffectiveStats(char);
+      const mana = getCharMana(char.id);
+      const lv = getCharLv(char.id);
+
+      // 魔法技チェック
+      const avMagic = SKILLS_MAGIC.filter(sk => {
+        if (sk.mpCost > mana) return false;
+        return Object.entries(sk.req || {}).every(([k, v]) => eff[k] >= v);
+      });
+      // 物理技チェック
+      const avPhys = SKILLS_PHYS.filter(sk => {
+        if (sk.cooldown && (SKILL_COOLDOWN[char.id]?.[sk.id] || 0) > 0) return false;
+        return Object.entries(sk.req || {}).every(([k, v]) => eff[k] >= v);
+      });
+
+      // 回復優先: HPが30%以下なら癒しの光
+      if (partyHp < partyMaxHp * 0.3) {
+        const healSkill = avMagic.find(s => s.heal);
+        if (healSkill) return { type: 'magic', skill: healSkill };
+      }
+      // 魔力解放: HP50%以上でMAG高い場合
+      if (monsterHp > 50 && partyHp >= partyMaxHp * 0.5) {
+        const aoe = avMagic.find(s => s.aoe);
+        if (aoe) return { type: 'magic', skill: aoe };
+      }
+      // 全力斬り: モンスターHP少ない + STR高い
+      if (monsterHp < 50) {
+        const heavy = avPhys.find(s => s.id === 'slash');
+        if (heavy) return { type: 'phys', skill: heavy };
+      }
+      // 魔法技（炎術など）
+      if (avMagic.length > 0 && Math.random() < 0.4) {
+        const sk = avMagic[Math.floor(Math.random() * avMagic.length)];
+        return { type: 'magic', skill: sk };
+      }
+      // 物理技
+      if (avPhys.length > 1 && Math.random() < 0.35) {
+        const available = avPhys.filter(s => s.id !== 'normal');
+        if (available.length > 0) return { type: 'phys', skill: available[Math.floor(Math.random() * available.length)] };
+      }
+      // デフォルト: 通常攻撃
+      return { type: 'phys', skill: SKILLS_PHYS[0] };
+    }
+
+    // 合技を判定（パーティーの2人組の中からランダムに）
+    function chooseCombo(party, comboUsed, monsterHp) {
+      if (party.length < 2 || comboUsed.size >= 2) return null;
+      if (Math.random() > 0.25) return null; // 25%の確率で発動チャレンジ
+      for (const combo of SKILLS_COMBO) {
+        for (let i = 0; i < party.length; i++) {
+          for (let j = i + 1; j < party.length; j++) {
+            if (comboUsed.has(combo.id)) continue;
+            const effA = getEffectiveStats(party[i]);
+            const effB = getEffectiveStats(party[j]);
+            if (Object.entries(combo.reqA).every(([k, v]) => effA[k] >= v) &&
+              Object.entries(combo.reqB).every(([k, v]) => effB[k] >= v)) {
+              if (getCharMana(party[i].id) >= combo.mpCost / 2 &&
+                getCharMana(party[j].id) >= combo.mpCost / 2) {
+                return { combo, charA: party[i], charB: party[j] };
+              }
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    // マナ管理
+    let CHAR_MANA = {}; // { charId: 現在マナ }
+    let SKILL_COOLDOWN = {}; // { charId: { skillId: turns } }
+    function initBattleMana() {
+      CHAR_MANA = {};
+      SKILL_COOLDOWN = {};
+      for (const c of PARTY) {
+        const eff = getEffectiveStats(c);
+        CHAR_MANA[c.id] = eff.MANA || (eff.MAG * 3 + 10);
+        SKILL_COOLDOWN[c.id] = {};
+      }
+    }
+    function getCharMana(id) { return CHAR_MANA[id] || 0; }
+    function spendMana(id, cost) { CHAR_MANA[id] = Math.max(0, (CHAR_MANA[id] || 0) - cost); }
+    function tickCooldowns() {
+      for (const id of Object.keys(SKILL_COOLDOWN)) {
+        for (const sk of Object.keys(SKILL_COOLDOWN[id])) {
+          if (SKILL_COOLDOWN[id][sk] > 0) SKILL_COOLDOWN[id][sk]--;
+        }
+      }
+    }
+
+    const EQ_RARITY = [
+      { id: 'common', label: 'コモン', icon: '⬜', color: '#c0c0c0', rate: 0.60, mul: 1.0 },
+      { id: 'uncommon', label: 'アンコモン', icon: '🟩', color: '#60d060', rate: 0.25, mul: 1.5 },
+      { id: 'rare', label: 'レア', icon: '🟦', color: '#4080ff', rate: 0.12, mul: 2.5 },
+      { id: 'legendary', label: 'レジェンダリー', icon: '🟨', color: '#ffd020', rate: 0.03, mul: 5.0 }
+    ];
+    const EQ_STAT_TEMPLATE = {
+      weapon: [{ k: 'ATK', base: 4 }, { k: 'MAG', base: 2 }],
+      armor: [{ k: 'DEF', base: 4 }, { k: 'HP', base: 8 }],
+      accessory: [{ k: 'SPD', base: 3 }, { k: 'DEF', base: 2 }]
+    };
+    const ENCHANTS = [
+      { id: 'fire', label: '炎剣', desc: '会心時ダメージ+50%', slots: ['weapon'] },
+      { id: 'guard', label: '守護', desc: 'HP自動回復（微）', slots: ['armor'] },
+      { id: 'swift', label: '迅雷', desc: 'SPD+5 先制確率上昇', slots: ['accessory', 'weapon'] },
+      { id: 'memory', label: '記憶', desc: 'ダンジョン入場CP-2', slots: ['accessory'] },
+      { id: 'oblivion', label: '忘却斬り', desc: '完了タスク数×威力上昇', slots: ['weapon'] },
+      { id: 'scholar', label: '学者の書', desc: 'MAGダメージ+25%', slots: ['weapon', 'armor'] }
+    ];
+
+    // --- 装備品生成 ---
+    function generateEquipment(floor) {
+      const slot = ['weapon', 'armor', 'accessory'][Math.floor(Math.random() * 3)];
+      // レアリティ抽選
+      let r = Math.random();
+      let rarity = EQ_RARITY[0];
+      for (const rv of EQ_RARITY) {
+        r -= rv.rate;
+        if (r <= 0) { rarity = rv; break; }
+      }
+      // フロア補正
+      if (floor >= 16 && Math.random() < 0.2) rarity = EQ_RARITY[Math.floor(2 + Math.random() * 2)];
+      else if (floor >= 6 && Math.random() < 0.15) rarity = EQ_RARITY[Math.min(1, EQ_RARITY.indexOf(rarity) + 1)];
+
+      const prefix = EQ_PREFIX[slot][Math.floor(Math.random() * EQ_PREFIX[slot].length)];
+      const base = EQ_BASE[slot][Math.floor(Math.random() * EQ_BASE[slot].length)];
+      const suffixList = EQ_SUFFIX[rarity.id];
+      const suffix = suffixList ? suffixList[Math.floor(Math.random() * suffixList.length)] : '';
+      const name = prefix + base + (suffix || '');
+
+      // ステータス計算
+      const floorMul = floor >= 16 ? 2.5 : floor >= 6 ? 1.5 : 1.0;
+      const stat = {};
+      for (const t of EQ_STAT_TEMPLATE[slot]) {
+        const v = Math.max(1, Math.round(t.base * rarity.mul * floorMul * (0.8 + Math.random() * 0.4)));
+        if (Math.random() < 0.7) stat[t.k] = v; // 70%で第1ステータス付与
+      }
+      if (Object.keys(stat).length === 0) { // 最低1つ保証
+        const t = EQ_STAT_TEMPLATE[slot][0];
+        stat[t.k] = Math.max(1, Math.round(t.base * rarity.mul * floorMul));
+      }
+
+      // エンチャント（レア以上で確率付与）
+      let enchant = null;
+      if (rarity.id === 'legendary' && Math.random() < 0.9) {
+        const avail = ENCHANTS.filter(e => e.slots.includes(slot));
+        enchant = avail[Math.floor(Math.random() * avail.length)];
+      } else if (rarity.id === 'rare' && Math.random() < 0.4) {
+        const avail = ENCHANTS.filter(e => e.slots.includes(slot));
+        enchant = avail[Math.floor(Math.random() * avail.length)];
+      }
+
+      const icon = slot === 'weapon' ? '⚔' : slot === 'armor' ? '🛡' : '💎';
+      return {
+        id: 'eq_' + Date.now() + '_' + Math.floor(Math.random() * 9999),
+        name, slot, rarity: rarity.id, rarityData: rarity, stat, enchant, floorDrop: floor, icon
+      };
+    }
+
+    // --- 実効ステータス計算（装備込み）---
+    function getEffectiveStats(char) {
+      const base = { ...char.stats };
+      const eq = EQUIPPED[char.id] || {};
+      for (const item of Object.values(eq)) {
+        if (!item) continue;
+        for (const [k, v] of Object.entries(item.stat || {})) base[k] = (base[k] || 0) + v;
+        // エンチャント: 迅雷 → SPD+5
+        if (item.enchant && item.enchant.id === 'swift') base.SPD = (base.SPD || 0) + 5;
+      }
+      // スキルパスのパッシブボーナス
+      const sp = getSkillPath(char.id);
+      const applyPath = (pathId) => {
+        if (pathId === 'offense') {
+          base.ATK = Math.round((base.ATK || 0) * 1.2);
+          base.MAG = Math.round((base.MAG || 0) * 1.2);
+        } else if (pathId === 'defense') {
+          base.DEF = (base.DEF || 0) + 6;
+        } else if (pathId === 'support') {
+          base.WIL = (base.WIL || 0) + 4;
+        }
+      };
+      if (sp.slot1) applyPath(sp.slot1);
+      if (sp.slot2) applyPath(sp.slot2);
+      return base;
+    }
+
+    // --- インベントリ永続化 ---
+    function loadInventoryFromStorage() {
+      try { INVENTORY = JSON.parse(localStorage.getItem('pomera_inventory') || '[]'); } catch (e) { INVENTORY = []; }
+    }
+    function saveInventoryToStorage() {
+      localStorage.setItem('pomera_inventory', JSON.stringify(INVENTORY));
+    }
+    function loadEquippedFromStorage() {
+      try { EQUIPPED = JSON.parse(localStorage.getItem('pomera_equipped') || '{}'); } catch (e) { EQUIPPED = {}; }
+    }
+    function saveEquippedToStorage() {
+      localStorage.setItem('pomera_equipped', JSON.stringify(EQUIPPED));
+    }
+    function loadFloorFromStorage() {
+      DUNGEON_FLOOR = parseInt(localStorage.getItem('pomera_floor') || '1', 10);
+      updateFloorHUD();
+    }
+    function updateFloorHUD() {
+      const numEl = document.getElementById('hud-floor-num');
+      const rankEl = document.getElementById('hud-floor-rank');
+      if (numEl) numEl.textContent = DUNGEON_FLOOR;
+      if (rankEl) {
+        const rank = DUNGEON_FLOOR >= 16 ? '深層' : DUNGEON_FLOOR >= 6 ? '中層' : '浅層';
+        rankEl.textContent = rank;
+        rankEl.style.color = DUNGEON_FLOOR >= 16 ? '#d04040' : DUNGEON_FLOOR >= 6 ? '#c0a020' : '#706050';
+      }
+    }
+    function saveFloorToStorage() {
+      localStorage.setItem('pomera_floor', String(DUNGEON_FLOOR));
+      updateFloorHUD();
+    }
+
+
+    // --- 装備する ---
+    function equipItem(eqId, charId) {
+      const item = INVENTORY.find(e => e.id === eqId);
+      const char = ALL_TRAVELERS.find(c => c.id === charId);
+      if (!item || !char) return;
+      // 重複装備チェック: 他のキャラが同じアイテムを装備していないか確認
+      for (const [otherCharId, slots] of Object.entries(EQUIPPED)) {
+        if (otherCharId === charId) continue;
+        for (const equipped of Object.values(slots)) {
+          if (equipped && equipped.id === item.id) {
+            const otherChar = ALL_TRAVELERS.find(c => c.id === otherCharId);
+            addBattleLog('⚠ ' + item.name + ' はすでに ' + (otherChar?.name || '別の仲間') + ' が装備している！', 'log-defeat');
+            return;
+          }
+        }
+      }
+      if (!EQUIPPED[charId]) EQUIPPED[charId] = {};
+      EQUIPPED[charId][item.slot] = item;
+      saveEquippedToStorage();
+      const statStr = Object.entries(item.stat).map(([k, v]) => k + '+' + v).join(' ');
+      addBattleLog(char.icon + ' ' + char.name + ' が ' + item.name + ' を装備した！（' + statStr + '）', 'log-system');
+      renderPartyPanel();
+      renderInventoryPanel();
+      document.getElementById('equip-modal').style.display = 'none';
+    }
+
+    // ---------- スキルツリー ----------
+    function openSkillTreeModal(charId) {
+      const char = ALL_TRAVELERS.find(c => c.id === charId);
+      if (!char) return;
+      const lv = getCharLv(charId);
+      const sp = getSkillPath(charId);
+      const modal = document.getElementById('skill-tree-modal');
+      const content = document.getElementById('skill-tree-modal-content');
+      const slot1Locked = lv < 3;
+      const slot2Locked = lv < 5;
+      const makeCard = (p, slot, locked, selectedId) => {
+        const isSelected = selectedId === p.id;
+        return `<div
+          data-skill-char="${charId}" data-skill-slot="${slot}" data-skill-path="${p.id}"
+          class="skill-path-card ${locked ? 'locked' : 'selectable'}"
+          style="border:2px solid ${isSelected ? p.color : 'rgba(120,100,60,0.4)'};border-radius:10px;padding:10px;margin:6px 0;cursor:${locked ? 'not-allowed' : 'pointer'};background:${isSelected ? p.color + '22' : 'rgba(0,0,0,0.3)'};opacity:${locked ? 0.4 : 1};transition:.2s">
+          <div style="font-size:18px;margin-bottom:4px">${p.icon} <b style="color:#e0d0a0">${p.label}</b></div>
+          <div style="color:#a09060;font-size:11px">${p.desc}</div>
+          ${isSelected ? '<div style="color:#90e090;font-size:10px;margin-top:4px">✓ 選択中</div>' : ''}
+        </div>`;
+      };
+      const pathCards = SKILL_PATH_DEF.map(p => makeCard(p, 'slot1', slot1Locked, sp.slot1)).join('');
+      const slot2Cards = SKILL_PATH_DEF.map(p => {
+        const isSelected = sp.slot2 === p.id;
+        return `<div
+          data-skill-char="${charId}" data-skill-slot="slot2" data-skill-path="${p.id}"
+          class="skill-path-card ${slot2Locked ? 'locked' : 'selectable'}"
+          style="border:2px solid ${isSelected ? p.color : 'rgba(120,100,60,0.3)'};border-radius:10px;padding:8px;margin:4px 0;cursor:${slot2Locked ? 'not-allowed' : 'pointer'};background:${isSelected ? p.color + '22' : 'rgba(0,0,0,0.2)'};opacity:${slot2Locked ? 0.35 : 1};transition:.2s">
+          <div style="font-size:15px">${p.icon} <b style="color:#c0b080">${p.label}</b> <span style="color:#806040;font-size:10px">${slot2Locked ? '（Lv5解放）' : ''}</span></div>
+          <div style="color:#907050;font-size:10px">${p.desc}</div>
+          ${isSelected ? '<div style="color:#90e090;font-size:10px">✓ 選択中</div>' : ''}
+        </div>`;
+      }).join('');
+      content.innerHTML = `
+        <div style="color:#c0b080;font-size:14px;font-weight:bold;margin-bottom:8px">✦ ${char.icon}${char.name} のスキルツリー</div>
+        <div style="color:#807060;font-size:10px;margin-bottom:10px">現在Lv${lv} / 1枠目: Lv3〜 / 2枠目: Lv5〜</div>
+        <div style="color:#9080c0;font-size:11px;margin-bottom:6px">── スロット1 ──</div>
+        ${slot1Locked ? '<div style="color:#605040;font-size:11px;text-align:center;padding:8px">Lv3で解放されます</div>' : pathCards}
+        <div style="color:#9080c0;font-size:11px;margin-top:10px;margin-bottom:6px">── スロット2（深化）──</div>
+        ${slot2Cards}`;
+      modal.style.display = 'flex';
+      // イベント委譲でクリックを処理
+      content.querySelectorAll('.skill-path-card.selectable').forEach(el => {
+        el.addEventListener('click', () => {
+          chooseSkillPath(el.dataset.skillChar, el.dataset.skillSlot, el.dataset.skillPath);
+        });
+      });
+    }
+    function chooseSkillPath(charId, slot, pathId) {
+      if (!CHAR_SKILLPATH[charId]) CHAR_SKILLPATH[charId] = { slot1: null, slot2: null };
+      CHAR_SKILLPATH[charId][slot] = pathId;
+      saveSkillPathToStorage();
+      const pathName = SKILL_PATH_DEF.find(p => p.id === pathId)?.label || pathId;
+      addBattleLog('✦ スキル強化: ' + ALL_TRAVELERS.find(c => c.id === charId)?.name + ' → ' + pathName, 'log-system');
+      openSkillTreeModal(charId); // 再描画
+      renderPartyPanel();
+    }
+
+    // ---------- 旅人との会話 ----------
+    const TRAVELER_TALK = {
+      '戦士': ['刃を研ぐのは、生きている証だ。', '壁は越えるためにある。', '恐怖を感じることは弱さじゃない。向き合うことが強さだ。'],
+      '傭兵': ['命がけの仕事には、それ相応の意味がある。', '信頼できる仲間がいれば、どんな戦でも乗り越えられる。'],
+      '魔法使い': ['魔法とは問いかけることだ。答えじゃない。', '不思議なことなんて何もない。理解していないだけだ。', '言葉には力が宿る。それが詠唱の本質だ。'],
+      '錬金術師': ['素材の組み合わせに、無限の可能性がある。', '失敗は実験だ。成功への道程に過ぎない。'],
+      '斥候': ['森の声を聞けば、あとは足を動かすだけだ。', '目に見えないものを見る。それが私の技だ。'],
+      '忍者': ['影に潜むことで、初めて全体が見える。', '音を立てずに動く。それが全ての始まりだ。'],
+      '狩人': ['獲物は逃げない。ただ、こちらが見失うだけだ。', '自然と戦っても意味がない。共に生きるものだ。'],
+      '賢者': ['本が全てを語る。但し、読み方を知っていればね。', '知識は力だが、知恵はそれを使う力だ。', '答えを知ることより、問いを立てることの方が難しい。'],
+      '英雄': ['伝説は作るものじゃない。気がついたらなっているものだ。', '強さとは、弱さを受け入れることから始まる。'],
+      '暇人': ['…。ていうか、なんで私ここにいるんだろ。', '何もしないことも、一つの選択だと思う。たぶん。']
+    };
+    const PERSONALITY_EXTRA = [
+      '（少し遠い目をして）...あなたも、ここに来た理由があるんですよね。',
+      '今日の空、なんか好きだな。',
+      '強くなりたいとか、そんな大げさなことはわからないけど。ただ、前に進みたいんだ。',
+      '旅って、目的より道の方が大事だと思う。',
+      '仲間がいるって、それだけで少し楽になれる。'
+    ];
+    function openTravelerConversation(charId) {
+      const char = ALL_TRAVELERS.find(c => c.id === charId);
+      if (!char) return;
+      const clsLines = TRAVELER_TALK[char.cls] || TRAVELER_TALK['暇人'];
+      const line1 = clsLines[Math.floor(Math.random() * clsLines.length)];
+      // 名前のチェックサムで性格バリエーションを決定
+      const nameHash = char.name.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+      const extra = PERSONALITY_EXTRA[nameHash % PERSONALITY_EXTRA.length];
+      const modal = document.getElementById('traveler-talk-modal');
+      const content = document.getElementById('traveler-talk-content');
+      content.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div id="tt-char-portrait" style="width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:28px">${char.icon}</div>
+          <div>
+            <div style="color:#e0c880;font-size:15px;font-weight:bold">${char.name}</div>
+            <div style="color:#907060;font-size:11px">${char.race} / ${char.cls}</div>
+          </div>
+        </div>
+        <div style="background:rgba(100,80,40,0.2);border:1px solid rgba(160,140,80,0.3);border-radius:10px;padding:12px;margin-bottom:10px;position:relative">
+          <div style="color:#d0c090;font-size:13px;line-height:1.7">「${line1}」</div>
+        </div>
+        <div style="background:rgba(80,70,30,0.15);border-radius:8px;padding:10px">
+          <div style="color:#9c8c60;font-size:12px;line-height:1.7;font-style:italic">${extra}</div>
+        </div>
+        <div style="color:#605040;font-size:10px;text-align:center;margin-top:12px">${char.story ? char.story.substring(0, 60) + '...' : ''}</div>`;
+      modal.style.display = 'flex';
+      // ドット絵ポートレートを差し替え
+      setTimeout(() => {
+        const portraitEl = document.getElementById('tt-char-portrait');
+        if (portraitEl && typeof createCharCanvas === 'function') {
+          const canvas = createCharCanvas(char, 52);
+          if (canvas) { portraitEl.textContent = ''; portraitEl.appendChild(canvas); }
+        }
+      }, 50);
+    }
+
+    // --- 装備を外す ---
+
+    function unequipItem(charId, slot) {
+      if (EQUIPPED[charId]) delete EQUIPPED[charId][slot];
+      saveEquippedToStorage();
+      renderPartyPanel();
+      renderInventoryPanel();
+    }
+
+    // --- 装備モーダル表示 ---
+    function showEquipModal(eqId) {
+      const item = INVENTORY.find(e => e.id === eqId);
+      if (!item) return;
+      const modal = document.getElementById('equip-modal');
+      const content = document.getElementById('equip-modal-content');
+      const rd = item.rarityData;
+      const statStr = Object.entries(item.stat).map(([k, v]) => '+' + k + ':' + v).join(' ');
+      const enchStr = item.enchant ? '　' + item.enchant.label + '：' + item.enchant.desc : '';
+      let charButtons = '';
+      const recruits = ALL_TRAVELERS.filter(c => RECRUITED.has(c.id));
+      if (recruits.length === 0) {
+        charButtons = '<div style="color:#806040;font-size:10px;padding:8px">採用済みの仲間がいません</div>';
+      } else {
+        charButtons = recruits.map(c => {
+          const eq = (EQUIPPED[c.id] || {})[item.slot];
+          const current = eq ? '装備中: ' + eq.name : '空きスロット';
+          return '<button onclick="equipItem(\'' + eqId + '\',\'' + c.id + '\')" class="equip-target-btn">'
+            + c.icon + ' ' + c.name + '<br><span style="font-size:9px;color:#807050">' + current + '</span></button>';
+        }).join('');
+      }
+      content.innerHTML = '<div style="font-size:11px;color:' + rd.color + ';font-weight:700;margin-bottom:6px">'
+        + rd.icon + ' ' + item.name + ' [' + rd.label + ']</div>'
+        + '<div style="font-size:10px;color:#c0a060;margin-bottom:4px">' + item.icon + ' ' + (item.slot === 'weapon' ? '武器' : item.slot === 'armor' ? '防具' : 'アクセサリ') + '</div>'
+        + '<div style="font-size:10px;color:#e0d080;margin-bottom:4px">' + statStr + '</div>'
+        + (enchStr ? '<div style="font-size:9px;color:#d0b040;margin-bottom:8px">✨ ' + enchStr + '</div>' : '')
+        + '<div style="font-size:9px;color:#907060;margin-bottom:8px">誰に装備しますか？</div>'
+        + '<div class="equip-target-list">' + charButtons + '</div>';
+      modal.style.display = 'flex';
+    }
+
+    // --- インベントリパネル描画 ---
+    function renderInventoryPanel() {
+      const el = document.getElementById('inventory-list');
+      if (!el) return;
+      document.getElementById('inv-count').textContent = INVENTORY.length + '/50';
+      if (INVENTORY.length === 0) {
+        el.innerHTML = '<div style="color:#706050;font-size:10px;text-align:center;padding:16px">ダンジョンで装備品を入手しよう</div>';
+        return;
+      }
+      // 誰かに装備済みか判定するヘルパー
+      function getEquippedBy(itemId) {
+        for (const [charId, slots] of Object.entries(EQUIPPED)) {
+          for (const eq of Object.values(slots)) {
+            if (eq && eq.id === itemId) {
+              const char = ALL_TRAVELERS.find(c => c.id === charId);
+              return char ? char.name : '仲間';
+            }
+          }
+        }
+        return null;
+      }
+      // スロットでソート: weapon → armor → accessory
+      const slotOrder = { weapon: 0, armor: 1, accessory: 2 };
+      const sorted = [...INVENTORY].sort((a, b) => {
+        const rar = { legendary: 0, rare: 1, uncommon: 2, common: 3 };
+        return (rar[a.rarity] - rar[b.rarity]) || (slotOrder[a.slot] - slotOrder[b.slot]);
+      });
+      el.innerHTML = sorted.map(item => {
+        const rd = item.rarityData || EQ_RARITY.find(r => r.id === item.rarity) || EQ_RARITY[0];
+        const statStr = Object.entries(item.stat || {}).map(([k, v]) => '+' + k + ':' + v).join(' ');
+        const enchStr = item.enchant ? '✨' + item.enchant.label : '';
+        const slotLabel = item.slot === 'weapon' ? '⚔武器' : item.slot === 'armor' ? '🛡防具' : '💎アクセ';
+        const equippedBy = getEquippedBy(item.id);
+        const equippedBadge = equippedBy
+          ? '<span style="background:#2a4020;border:1px solid #406030;color:#80c060;font-size:9px;padding:1px 5px;border-radius:4px;margin-left:4px">📌 ' + equippedBy + '装備中</span>'
+          : '';
+        return '<div class="inv-card" style="' + (equippedBy ? 'background:rgba(40,60,20,0.3);border-color:rgba(80,120,40,0.4)' : '') + '">'
+          + '<div class="inv-head">'
+          + '<span style="color:' + rd.color + '">' + rd.icon + ' ' + item.name + '</span>'
+          + equippedBadge
+          + '<span class="inv-slot">' + slotLabel + '</span>'
+          + '</div>'
+          + '<div class="inv-stat">' + statStr + (enchStr ? ' ' + enchStr : '') + '</div>'
+          + '<div class="inv-actions">'
+          + '<button onclick="showEquipModal(\'' + item.id + '\')" class="inv-btn"' + (equippedBy ? ' style="opacity:0.5"' : '') + '>' + (equippedBy ? '再装備' : '装備') + '</button>'
+          + '<button onclick="discardItem(\'' + item.id + '\')" class="inv-discard"' + (equippedBy ? ' disabled style="opacity:0.3"' : '') + '>解体</button>'
+          + '</div>'
+          + '</div>';
+      }).join('');
+    }
+
+    // --- インベントリ解体 ---
+    function discardItem(id) {
+      INVENTORY = INVENTORY.filter(e => e.id !== id);
+      saveInventoryToStorage();
+      gainCP(2, '装備品解体');
+      renderInventoryPanel();
+    }
+
+    // キャラクターの全データをキャッシュとして保存・読み込みする仕組み
+    function saveCharCache(char) {
+      try {
+        const cache = JSON.parse(localStorage.getItem('pomera_char_cache') || '{}');
+        cache[char.id] = char;
+        localStorage.setItem('pomera_char_cache', JSON.stringify(cache));
+      } catch (e) { }
+    }
+    function loadCharCache() {
+      try { return JSON.parse(localStorage.getItem('pomera_char_cache') || '{}'); }
+      catch (e) { return {}; }
+    }
+    function findCharById(id) {
+      return ALL_TRAVELERS.find(c => c.id === id) || loadCharCache()[id] || null;
+    }
+
+    function loadRecruitedFromStorage() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('pomera_recruited') || '[]');
+        RECRUITED = new Set(saved);
+        // キャッシュにあるキャラをALL_TRAVELERSへ補完（テストデータ対応）
+        const cache = loadCharCache();
+        saved.forEach(id => {
+          if (cache[id] && !ALL_TRAVELERS.find(c => c.id === id)) {
+            ALL_TRAVELERS.push(cache[id]);
+          }
+        });
+      } catch (e) { RECRUITED = new Set(); }
+    }
+    function saveRecruitedToStorage() {
+      localStorage.setItem('pomera_recruited', JSON.stringify([...RECRUITED]));
+    }
+    function loadPartyFromStorage() {
+      try {
+        const ids = JSON.parse(localStorage.getItem('pomera_party') || '[]');
+        PARTY = ids.map(id => findCharById(id)).filter(Boolean);
+      } catch (e) { PARTY = []; }
+    }
+    function savePartyToStorage() {
+      localStorage.setItem('pomera_party', JSON.stringify(PARTY.map(c => c.id)));
+    }
+
+    function renderTravelerList() {
+      const el = document.getElementById('traveler-list');
+      if (!ALL_TRAVELERS.length) { el.innerHTML = '<div style="color:#708060;font-size:10px;text-align:center;padding:16px">日記を書くと旅人が現れます</div>'; return; }
+      const cp = loadCP();
+      el.innerHTML = ALL_TRAVELERS.map(char => {
+        const isRec = RECRUITED.has(char.id);
+        const isDead = DEAD_CHARS.has(char.id);
+        const canAfford = cp >= char.cost;
+        return `<div class="traveler-card" data-char-id="${char.id}">
+          <div class="traveler-head">
+            <div class="traveler-icon" data-char-id="${char.id}">${char.icon}</div>
+            <div>
+              <div class="traveler-name">${char.name}</div>
+              <div class="traveler-class">${char.race} / ${char.cls}${char.isIdle ? ' ✧潜在力あり' : ''}</div>
+            </div>
+          </div>
+          <div class="traveler-stats">
+            <span class="tstat" title="STR">力:${char.stats.STR}</span>
+            <span class="tstat" title="CON">耐久:${char.stats.CON}</span>
+            <span class="tstat" title="DEX">器用:${char.stats.DEX}</span>
+            <span class="tstat" title="PER">知覚:${char.stats.PER}</span>
+            <span class="tstat" title="LER">学習:${char.stats.LER}</span>
+            <span class="tstat" title="WIL">意志:${char.stats.WIL}</span>
+            <span class="tstat" title="MAG">魔力:${char.stats.MAG}</span>
+            <span class="tstat" title="CHR">魅力:${char.stats.CHR}</span>
+            <span class="tstat" title="LUC">運:${char.stats.LUC}</span>
+          </div>
+          <div class="traveler-stats" style="margin-top:4px;border-top:1px solid rgba(100,70,20,0.2);padding-top:4px">
+            <span class="tstat" style="color:#d09060">生命:${char.stats.HP}</span>
+            <span class="tstat" style="color:#6080d0">マナ:${char.stats.MANA}</span>
+            <span class="tstat" style="color:#d06040">攻撃:${char.stats.ATK}</span>
+            <span class="tstat" style="color:#60a0d0">防御:${char.stats.DEF}</span>
+            <span class="tstat" style="color:#9060c0">速度:${char.stats.SPD}</span>
+          </div>
+          <div class="traveler-story">${char.story}</div>
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button onclick="openTravelerConversation('${char.id}')"
+              style="flex:1;background:rgba(80,60,20,0.6);border:1px solid rgba(160,130,60,0.5);color:#c0a060;font-size:10px;padding:5px;border-radius:6px;cursor:pointer;">
+              💬 話しかける
+            </button>
+            <button class="recruit-btn ${isRec ? 'recruited' : ''}" style="flex:2"
+              ${isRec ? '' : (canAfford ? '' : 'disabled')}
+              onclick="recruitChar('${char.id}')">
+              ${isRec ? '✓ 仲間' : '採用 ' + char.cost + 'CP'}
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+      // アイコンをドット絵Canvasに差し替え
+      ALL_TRAVELERS.forEach(char => {
+        const iconEl = el.querySelector(`.traveler-icon[data-char-id="${char.id}"]`);
+        if (!iconEl) return;
+        if (typeof createCharCanvas === 'function') {
+          const canvas = createCharCanvas(char, 40);
+          if (canvas) {
+            iconEl.textContent = '';
+            iconEl.style.cssText = 'display:flex;align-items:center;justify-content:center;width:44px;height:44px;';
+            iconEl.appendChild(canvas);
+          }
+        }
+      });
+    }
+
+    function recruitChar(id) {
+      if (RECRUITED.has(id)) return;
+      if (DEAD_CHARS.has(id)) { addBattleLog('そのキャラクターは永遠に倒れた...', 'log-defeat'); return; }
+      const char = findCharById(id);
+      if (!char) return;
+      if (!spendCP(char.cost)) { addBattleLog('CPが足りない！', 'log-defeat'); return; }
+      RECRUITED.add(id);
+      saveRecruitedToStorage();
+      saveCharCache(char); // フルデータをキャッシュ保存
+      addBattleLog(char.icon + ' ' + char.name + ' が仲間になった！', 'log-victory');
+      renderTravelerList();
+      renderPartyPanel();
+    }
+
+    // ---------- クエストボード ----------
+    let ALL_QUESTS = [];
+
+    function renderQuestBoard() {
+      const el = document.getElementById('quest-list');
+      if (!el) return; // 要素がない場合は安全にスキップ
+      if (!ALL_QUESTS.length) { el.innerHTML = '<div style="color:#708060;font-size:10px;text-align:center;padding:16px">進行中のタスクがクエストになります</div>'; return; }
+      el.innerHTML = ALL_QUESTS.map(q => {
+        const done = q.status === '完了';
+        return `<div class="quest-card ${done ? 'done' : ''}">
+          <div class="quest-title">${done ? '✓ ' : '⚔ '}${q.label}</div>
+          <div class="quest-meta">${q.status || '進行中'} ${q.date ? '· ' + q.date : ''}</div>
+          <div class="quest-reward">報酬: ${done ? 'CP+20 (完了済み)' : 'CP+20 · 経験値+15'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ---------- パーティーパネル ----------
+    function switchPartySubTab(tab) {
+      document.getElementById('sub-party').style.display = tab === 'party' ? '' : 'none';
+      document.getElementById('sub-inventory').style.display = tab === 'inventory' ? '' : 'none';
+      document.getElementById('sub-party-btn').classList.toggle('active', tab === 'party');
+      const invBtn = document.getElementById('inv-tab-btn');
+      if (invBtn) {
+        invBtn.classList.toggle('active', tab === 'inventory');
+        if (tab === 'inventory') { invBtn.style.color = ''; invBtn.textContent = '📦 インベントリ'; }
+      }
+      if (tab === 'inventory') renderInventoryPanel();
+    }
+
+    function renderPartyPanel() {
+      // 死亡キャラをパーティーから排除（二重チェック）
+      const before = PARTY.length;
+      PARTY = PARTY.filter(c => !DEAD_CHARS.has(c.id));
+      if (PARTY.length !== before) savePartyToStorage();
+      const el = document.getElementById('party-list');
+      const slots = 4;
+      let html = '';
+      // フロア表示
+      const floorLbl = document.getElementById('floor-label');
+      if (floorLbl) floorLbl.textContent = 'F' + DUNGEON_FLOOR;
+
+      for (let i = 0; i < slots; i++) {
+        const member = PARTY[i];
+        if (member) {
+          const eff = getEffectiveStats(member);
+          const eq = EQUIPPED[member.id] || {};
+          const slotDefs = [
+            { key: 'weapon', label: '⚔', short: '武器' },
+            { key: 'armor', label: '🛡', short: '防具' },
+            { key: 'accessory', label: '💎', short: 'アクセ' }
+          ];
+          const eqHtml = slotDefs.map(sd => {
+            const item = eq[sd.key];
+            if (item) {
+              return '<span class="eq-slot-item equipped" title="' + item.name + '">' + sd.label + ' ' + item.name.substring(0, 6) + '...'
+                + '<button class="eq-unequip-btn" onclick="unequipItem(\'' + member.id + '\',\'' + sd.key + '\')">✕</button></span>';
+            }
+            return '<span class="eq-slot-item" onclick="switchTab(\'inventory\')">' + sd.label + ' ' + sd.short + '：空</span>';
+          }).join('');
+
+          const sp = getSkillPath(member.id);
+          const lv = getCharLv(member.id);
+          const badge = sp.slot1 ? (' <span style="font-size:9px;color:#9060c0">' + (SKILL_PATH_DEF.find(p => p.id === sp.slot1)?.icon || '') + (sp.slot2 ? '+' + (SKILL_PATH_DEF.find(p => p.id === sp.slot2)?.icon || '') : '') + '</span>') : '';
+
+          html += '<div class="party-slot filled" data-sprite-id="' + member.id + '" style="position:relative">'
+            + '<button class="party-remove" style="position:absolute;top:6px;right:6px" onclick="removeFromParty(\'' + member.id + '\')">✕</button>'
+            // ドット絵エリア（Canvas差し込みターゲット）
+            + '<div class="party-sprite-area" id="psprite-' + member.id + '">'
+            + '<span style="font-size:48px;line-height:1">' + member.icon + '</span>'
+            + '</div>'
+            + '<div class="party-slot-name">' + member.name + ' <span class="lv-badge">Lv' + lv + '</span></div>'
+            + '<div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:' + Math.round(getCharXp(member.id) / getXpToNextLv(lv) * 100) + '%"></div></div>'
+            + '<div class="party-slot-class">' + member.race + ' ' + member.cls + '</div>'
+            + '<div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:5px;justify-content:center">'
+            + '<span class="tstat" title="ATK" style="color:#d06040">攻:' + eff.ATK + '</span>'
+            + '<span class="tstat" title="DEF" style="color:#60a0d0">防:' + eff.DEF + '</span>'
+            + '<span class="tstat" title="HP" style="color:#d09060">HP:' + eff.HP + '</span>'
+            + '<span class="tstat" title="MANA" style="color:#6080d0">MP:' + (eff.MANA || '?') + '</span>'
+            + '<span class="tstat" title="SPD" style="color:#9060c0">速:' + eff.SPD + '</span>'
+            + '</div>'
+            + '<div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;justify-content:center">'
+            + '<span class="tstat" title="STR" style="font-size:9px">力:' + eff.STR + '</span>'
+            + '<span class="tstat" title="CON" style="font-size:9px">耐:' + eff.CON + '</span>'
+            + '<span class="tstat" title="DEX" style="font-size:9px">器:' + eff.DEX + '</span>'
+            + '<span class="tstat" title="MAG" style="font-size:9px">魔:' + eff.MAG + '</span>'
+            + '</div>'
+            + '<div class="eq-slots" style="margin-top:5px">' + eqHtml + '</div>'
+            + '<div style="margin-top:6px;text-align:center"><button onclick="openSkillTreeModal(\'' + member.id + '\')" style="background:linear-gradient(135deg,#3a1e6a,#5a2e9a);border:1px solid #8060c0;color:#c0a0f0;font-size:9px;padding:3px 8px;border-radius:6px;cursor:pointer;">✦ スキル' + badge + (lv < 3 ? ' <span style="color:#604080">(Lv3〜)</span>' : '') + '</button></div>'
+            + '</div>';
+        } else {
+          const available = ALL_TRAVELERS.filter(c => RECRUITED.has(c.id) && !PARTY.find(p => p.id === c.id));
+          if (available.length > 0) {
+            html += '<div class="party-slot">'
+              + '<div class="party-sprite-area" style="opacity:0.3"><span style="font-size:40px">＋</span></div>'
+              + '<select onchange="addToParty(this.value)" style="flex:1;background:rgba(60,35,5,0.7);border:1px solid rgba(120,80,10,0.4);color:#c0a060;font-size:9px;padding:2px;border-radius:3px">'
+              + '<option value="">空きスロット（仲間を選ぶ）</option>'
+              + available.map(c => '<option value="' + c.id + '">' + c.icon + ' ' + c.name + ' [' + c.cls + ']</option>').join('')
+              + '</select></div>';
+          } else {
+            html += '<div class="party-slot"><div class="party-sprite-area" style="opacity:0.2"><span style="font-size:36px">👤</span></div><div style="color:#504030;font-size:9px;width:100%;text-align:center">空きスロット</div></div>';
+          }
+        }
+      }
+      el.innerHTML = html;
+
+      // ドット絵Canvasを差し込む
+      PARTY.forEach((member, idx) => {
+        const spriteEl = document.getElementById('psprite-' + member.id);
+        if (spriteEl && typeof createCharCanvas === 'function') {
+          const canvas = createCharCanvas(member, 72);
+          if (canvas) {
+            spriteEl.innerHTML = '';
+            canvas.style.cssText += ';image-rendering:pixelated;image-rendering:crisp-edges;';
+            // クラス別アニメーション（英雄はグロー付き）
+            const palName = (typeof CHAR_PALETTE_MAP !== 'undefined' && CHAR_PALETTE_MAP[member.cls]) || 'default_char';
+            if (palName === 'hero') {
+              canvas.style.animation = 'charIdle 2.4s ease-in-out infinite';
+              canvas.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.8)) drop-shadow(0 0 6px rgba(240,200,40,0.4))';
+            } else if (palName === 'mage' || palName === 'sage' || palName === 'alchemist') {
+              canvas.style.animation = 'charIdle 3.2s ease-in-out infinite';
+              canvas.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.8)) drop-shadow(0 0 5px rgba(160,80,255,0.3))';
+            } else {
+              canvas.style.animation = 'charIdleSlow ' + (2.8 + idx * 0.3) + 's ease-in-out infinite';
+              canvas.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.8))';
+            }
+            spriteEl.appendChild(canvas);
+          }
+        }
+      });
+
+      refreshDungeonBtn();
+    }
+
+
+    function refreshDungeonBtn() {
+      const btn = document.getElementById('dungeon-btn');
+      if (!btn) return;
+      if (IS_BATTLE_ACTIVE) {
+        btn.disabled = true;
+        btn.textContent = '⚔ 戦闘中...';
+      } else {
+        btn.disabled = PARTY.length === 0;
+        btn.textContent = '⚔ ダンジョンへ';
+      }
+    }
+
+    function addToParty(id) {
+      if (!id || PARTY.length >= 4) return;
+      const char = ALL_TRAVELERS.find(c => c.id === id);
+      if (!char || PARTY.find(p => p.id === id)) return;
+      PARTY.push(char);
+      savePartyToStorage();
+      renderPartyPanel();
+    }
+
+    function removeFromParty(id) {
+      PARTY = PARTY.filter(c => c.id !== id);
+      savePartyToStorage();
+      renderPartyPanel();
+    }
+
+
+
+    // ---------- バトルログ ----------
+    let battleLogLines = [];
+
+
+    // ========== バトルオーバーレイ制御 ==========
+    let boLogQueue = [];
+    let boLogTimer = null;
+
+    function openBattleOverlay(floorLabel, monster, party) {
+      const ov = document.getElementById('battle-overlay');
+      ov.classList.add('active');
+      // ボスフロアはクラス追加
+      if (monster.isBoss) ov.classList.add('boss-floor');
+      else ov.classList.remove('boss-floor');
+      // 階層別バトル背景グラデーション
+      const battleArea = document.getElementById('bo-battle-area') || ov;
+      if (monster.isBoss) {
+        battleArea.style.background = 'linear-gradient(180deg, #1a0008 0%, #3a0010 50%, #200008 100%)';
+      } else if (DUNGEON_FLOOR >= 16) {
+        battleArea.style.background = 'linear-gradient(180deg, #0d0010 0%, #1a0030 50%, #0a000d 100%)';
+      } else if (DUNGEON_FLOOR >= 6) {
+        battleArea.style.background = 'linear-gradient(180deg, #0f0800 0%, #1e1200 50%, #150a00 100%)';
+      } else {
+        battleArea.style.background = 'linear-gradient(180deg, #020e00 0%, #081500 50%, #050d00 100%)';
+      }
+      document.getElementById('bo-floor-label').textContent = '── ' + (monster.statusLabel || floorLabel) + ' ──';
+      // モンスターアイコン: Canvasドット絵を優先表示
+      const iconEl = document.getElementById('bo-mon-icon');
+      iconEl.textContent = '';
+      iconEl.style.fontSize = '0';
+      const monSize = monster.isBoss ? 96 : 64;
+      const monCanvas = (typeof createMonsterCanvas === 'function')
+        ? createMonsterCanvas(monster, monSize)
+        : null;
+      if (monCanvas) {
+        monCanvas.style.animation = 'monsterFloat 2s ease-in-out infinite';
+        iconEl.appendChild(monCanvas);
+      } else {
+        iconEl.style.fontSize = '32px';
+        iconEl.textContent = monster.icon;
+      }
+      document.getElementById('bo-mon-name').textContent = monster.name;
+      document.getElementById('bo-mon-hp-bar').style.width = '100%';
+      document.getElementById('bo-mon-hp-num').textContent = monster.hp + '/' + monster.hp;
+      document.getElementById('bo-close-btn').style.display = 'none';
+      document.getElementById('bo-log-area').innerHTML = '';
+      // ボス登場演出
+      if (monster.isBoss && typeof triggerBossEntrance === 'function') {
+        triggerBossEntrance(monster);
+      }
+      // パーティーHPバー初期化（キャラアイコンもCanvas化）
+      const pa = document.getElementById('bo-party-area');
+      pa.innerHTML = party.map(c => {
+        const eff = getEffectiveStats(c);
+        const lv = getCharLv(c.id);
+        return `<div class="bo-member" id="bo-member-${c.id}">
+          <div class="bo-member-icon" id="bo-char-icon-${c.id}">${c.icon}</div>
+          <div class="bo-member-name">${c.name} <span class="lv-badge">Lv${lv}</span></div>
+          <div class="hp-bar-wrap">
+            <div class="hp-bar-fill party" id="bo-hp-bar-${c.id}" data-char="${c.id}" style="width:100%"></div>
+          </div>
+          <div class="hp-num" id="bo-hp-num-${c.id}">${eff.HP}/${eff.HP}</div>
+        </div>`;
+      }).join('');
+      // キャラアイコンをCanvasに差し替え
+      if (typeof createCharCanvas === 'function') {
+        party.forEach(c => {
+          const iconSlot = document.getElementById('bo-char-icon-' + c.id);
+          if (!iconSlot) return;
+          const cv = createCharCanvas(c, 32);
+          iconSlot.textContent = '';
+          iconSlot.style.fontSize = '0';
+          iconSlot.appendChild(cv);
+        });
+      }
+      boLogQueue = [];
+    }
+
+    function updateMonsterHpBar(hp, maxHp) {
+      const pct = Math.max(0, (hp / maxHp) * 100);
+      const bar = document.getElementById('bo-mon-hp-bar');
+      if (bar) bar.style.width = pct + '%';
+      const num = document.getElementById('bo-mon-hp-num');
+      if (num) num.textContent = Math.max(0, hp) + '/' + maxHp;
+    }
+
+    function updatePartyHpBar(charId, hp, maxHp) {
+      const pct = Math.max(0, (hp / maxHp) * 100);
+      const bar = document.getElementById('bo-hp-bar-' + charId);
+      if (bar) {
+        bar.style.width = pct + '%';
+        bar.className = 'hp-bar-fill party' + (pct < 20 ? ' critical' : pct < 40 ? ' low' : '');
+        // HP10%以下でパルス点滅
+        if (typeof checkHPPulse === 'function') checkHPPulse(charId, hp, maxHp);
+        // 被ダメ時shake（HPが大幅に下がったら）
+        if (pct < 30 && typeof triggerShakeEffect === 'function') {
+          triggerShakeEffect(pct < 10 ? 3 : pct < 20 ? 2 : 1);
+        }
+      }
+      const num = document.getElementById('bo-hp-num-' + charId);
+      if (num) num.textContent = Math.max(0, hp) + '/' + maxHp;
+    }
+
+    function setMemberActing(charId, acting) {
+      const el = document.getElementById('bo-member-' + charId);
+      if (el) { if (acting) el.classList.add('acting'); else el.classList.remove('acting'); }
+    }
+
+    function setMemberDead(charId) {
+      const el = document.getElementById('bo-member-' + charId);
+      if (el) el.classList.add('dead');
+    }
+
+    function boLog(text, cls) {
+      const area = document.getElementById('bo-log-area');
+      if (!area) return;
+      const el = document.createElement('div');
+      // ダメージ数値を色分け
+      let autoCls = cls || '';
+      if (!cls) {
+        if (/ダメージ/.test(text) || /ヒット/.test(text)) autoCls = 'log-damage';
+        else if (/回復/.test(text) || /HP/.test(text)) autoCls = 'log-heal';
+      }
+      el.className = 'bo-log-entry' + (autoCls ? ' ' + autoCls : '');
+      // 数値強調（「123」をスパンで包む）
+      el.innerHTML = text.replace(/(\d+)/g, '<span class="dmg-num">$1</span>');
+      area.appendChild(el);
+      area.scrollTop = area.scrollHeight;
+      // 戦闘エフェクト発火
+      triggerBattleEffect(text, autoCls || cls);
+    }
+
+    // 戦闘エフェクト発火
+    function triggerBattleEffect(text, cls) {
+      // エフェクトを表示するターゲット要素を決定
+      const isMon = /が現れた|の攻撃|ダメージ.*残/.test(text) && !/回復/.test(text);
+      const targetSel = isMon ? '.bo-hp-card' : '#bo-monster-area';
+
+      // テキストからエフェクト種別を決定
+      let effectType = null;
+      let dmgNum = null;
+      const dmgMatch = text.match(/(\d+)\s*ダメージ/);
+      if (dmgMatch) dmgNum = dmgMatch[1];
+
+      if (/クリティカル/.test(text)) { effectType = 'crit'; }
+      else if (/魔法|呪文|詠唱|魔弾|炎|氷|雷|水|光|闇/.test(text)) { effectType = 'magic'; }
+      else if (/回復|ヒール/.test(text)) { effectType = 'heal'; }
+      else if (/ダメージ|斬|突|打|射/.test(text)) { effectType = 'slash'; }
+
+      if (!effectType) return;
+
+      // エフェクトを各対象カードに表示
+      const cards = isMon
+        ? [document.getElementById('bo-monster-area')]
+        : [...document.querySelectorAll('.bo-hp-card')].filter(c => {
+          // ダメージを受けたキャラ名がテキストに含まれているか
+          const nameEl = c.querySelector('.card-name');
+          return nameEl && text.includes(nameEl.textContent.trim());
+        });
+
+      (cards.length ? cards : [isMon ? document.getElementById('bo-monster-area') : null]).forEach(card => {
+        if (!card) return;
+        card.style.position = 'relative';
+
+        // カードシェイク
+        card.classList.remove('shaking', 'hit');
+        void card.offsetWidth; // reflow
+        if (effectType === 'heal') { card.classList.add('shaking'); }
+        else { card.classList.add('shaking', 'hit'); }
+
+        // エフェクトレイヤー
+        let layer = card.querySelector('.battle-effect-layer');
+        if (!layer) {
+          layer = document.createElement('div');
+          layer.className = 'battle-effect-layer';
+          card.appendChild(layer);
+        }
+        layer.innerHTML = '';
+
+        const eff = document.createElement('div');
+        if (effectType === 'crit') eff.className = 'effect-crit';
+        if (effectType === 'magic') eff.className = 'effect-magic';
+        if (effectType === 'slash') eff.className = 'effect-slash';
+        if (effectType === 'heal') { eff.className = 'effect-heal'; eff.textContent = '✨'; }
+        layer.appendChild(eff);
+
+        // フロートダメージ数値
+        if (dmgNum) {
+          const floatEl = document.createElement('div');
+          floatEl.className = 'float-dmg-num';
+          floatEl.textContent = (effectType === 'crit' ? '💥 ' : '') + dmgNum;
+          floatEl.style.left = (30 + Math.random() * 40) + '%';
+          floatEl.style.top = (20 + Math.random() * 30) + '%';
+          floatEl.style.color = effectType === 'crit' ? '#ff8c00' : effectType === 'heal' ? '#40ff80' : '#ffe0a0';
+          layer.appendChild(floatEl);
+        }
+
+        // アニメーション終了後にクリア
+        setTimeout(() => {
+          layer.innerHTML = '';
+          card.classList.remove('shaking', 'hit');
+        }, 900);
+      });
+    }
+
+    function closeBattleOverlay(monster) {
+      const ov = document.getElementById('battle-overlay');
+      ov.classList.remove('active');
+      ov.classList.remove('boss-floor');
+      // グローバルのcurrentMonsterを参照してボス称号カードを表示
+      const mon = monster || window._currentBattleMonster;
+      if (mon && mon.isBoss && typeof showBossTitleCard === 'function') {
+        showBossTitleCard(mon);
+      }
+      window._currentBattleMonster = null;
+      renderPartyPanel();
+    }
+
+
+    // ---------- パーマデス / XP / LV ストレージ ----------
+    function loadDeadChars() {
+      try { DEAD_CHARS = new Set(JSON.parse(localStorage.getItem('pomera_dead') || '[]')); } catch (e) { DEAD_CHARS = new Set(); }
+    }
+    function saveDeadChars() { localStorage.setItem('pomera_dead', JSON.stringify([...DEAD_CHARS])); }
+    function loadXpLv() {
+      try { CHAR_XP = JSON.parse(localStorage.getItem('pomera_xp') || '{}'); } catch (e) { CHAR_XP = {}; }
+      try { CHAR_LV = JSON.parse(localStorage.getItem('pomera_lv') || '{}'); } catch (e) { CHAR_LV = {}; }
+    }
+    function saveXpLv() {
+      localStorage.setItem('pomera_xp', JSON.stringify(CHAR_XP));
+      localStorage.setItem('pomera_lv', JSON.stringify(CHAR_LV));
+    }
+    function getCharLv(id) { return CHAR_LV[id] || 1; }
+    function getCharXp(id) { return CHAR_XP[id] || 0; }
+    function getXpToNextLv(lv) { return lv * 100; }  // LVごとに必要XP増加
+    function addXp(char, xp) {
+      const id = char.id;
+      CHAR_XP[id] = (CHAR_XP[id] || 0) + xp;
+      const curLv = CHAR_LV[id] || 1;
+      const needed = getXpToNextLv(curLv);
+      if (CHAR_XP[id] >= needed) {
+        CHAR_XP[id] -= needed;
+        CHAR_LV[id] = curLv + 1;
+        saveXpLv();
+        return curLv + 1; // 新しいレベルを返す
+      }
+      saveXpLv();
+      return null; // レベルアップなし
+    }
+    // パーマデス処理
+    function markCharDead(char) {
+      DEAD_CHARS.add(char.id);
+      saveDeadChars();
+      PARTY = PARTY.filter(c => c.id !== char.id);
+      savePartyToStorage();
+    }
+
+    function addBattleLog(text, cls) {
+      const bodyEl = document.getElementById('battle-log-body');
+      if (!bodyEl) return;
+      battleLogLines.push({ text, cls });
+      if (battleLogLines.length > 200) battleLogLines.shift();
+      const line = document.createElement('div');
+      line.className = 'log-line ' + (cls || '');
+      line.textContent = text;
+      bodyEl.appendChild(line);
+      bodyEl.scrollTop = bodyEl.scrollHeight;
+    }
+
+
+    // ---------- ダンジョン（テキストログバトル・フロア制・ドロップあり）----------
+
+    // モンスターマスター（フロア別）
+    const MONSTER_MASTER = {
+      early: [ // フロア1-5
+        { name: 'スライム', hp: 30, atk: 8, icon: '🟢', xp: 8, dotIndex: 0 },
+        { name: 'ゴブリン斥候', hp: 42, atk: 12, icon: '👺', xp: 12, dotIndex: 1 },
+        { name: 'オオコウモリ', hp: 28, atk: 10, icon: '🦇', xp: 10, dotIndex: 1 },
+        { name: 'ドクロ蜘蛛', hp: 38, atk: 14, icon: '🕷', xp: 14, dotIndex: 0 }
+      ],
+      mid: [ // フロア6-15
+        { name: 'オーク戦士', hp: 65, atk: 18, icon: '🪓', xp: 20, dotIndex: 2 },
+        { name: '闇の狼', hp: 50, atk: 16, icon: '🐺', xp: 16, dotIndex: 3 },
+        { name: '石人形', hp: 80, atk: 14, icon: '🗿', xp: 22, dotIndex: 2 },
+        { name: '呪われた騎士', hp: 72, atk: 20, icon: '💀', xp: 25, dotIndex: 4 }
+      ],
+      deep: [ // フロア16+
+        { name: '竜の子', hp: 120, atk: 28, icon: '🐉', xp: 40, dotIndex: 5 },
+        { name: '闇の賢者', hp: 90, atk: 32, icon: '👤', xp: 38, dotIndex: 4 },
+        { name: '古の亡霊', hp: 100, atk: 25, icon: '👻', xp: 35, dotIndex: 3 },
+        { name: 'レムノスの鱗', hp: 150, atk: 22, icon: '🔮', xp: 50, dotIndex: 5 }
+      ],
+      boss: [ // ボスフロア（F5, F7, F9, F10, F15）
+        { name: 'ゴブリンキング', hp: 120, atk: 22, icon: '👑', xp: 60, dotIndex: 0, isBoss: true, bossFloor: 5, statusLabel: 'F5 BOSS' },
+        { name: '闇色の騎馬王', hp: 160, atk: 26, icon: '🐴', xp: 45, dotIndex: 4, isBoss: true, isMidBoss: true, bossFloor: 7, statusLabel: 'F7 中BOSS' },
+        { name: '石巨人ゴーレム', hp: 200, atk: 30, icon: '🗿', xp: 55, dotIndex: 2, isBoss: true, isMidBoss: true, bossFloor: 9, statusLabel: 'F9 中BOSS' },
+        { name: '闇の賢者リッチ', hp: 200, atk: 35, icon: '💜', xp: 100, dotIndex: 1, isBoss: true, bossFloor: 10, statusLabel: 'F10 BOSS' },
+        { name: '古代竜アンシェント', hp: 350, atk: 50, icon: '🔥', xp: 180, dotIndex: 2, isBoss: true, bossFloor: 15, statusLabel: 'F15 BOSS' }
+      ]
+    };
+
+    // 宝笱フロア判定（F3,F8,F13）
+    function isTreasureFloor(floor) { return floor === 3 || floor === 8 || floor === 13; }
+    // ボスフロア判定（中ボス: F7, F9 / 大ボス: F5, F10, F15）
+    function isBossFloor(floor) { return floor === 5 || floor === 7 || floor === 9 || floor === 10 || floor === 15; }
+    function getBossData(floor) {
+      if (floor === 5) return MONSTER_MASTER.boss[0];
+      if (floor === 7) return MONSTER_MASTER.boss[1];
+      if (floor === 9) return MONSTER_MASTER.boss[2];
+      if (floor === 10) return MONSTER_MASTER.boss[3];
+      if (floor === 15) return MONSTER_MASTER.boss[4];
+      return null;
+    }
+
+    // ---------- スキルツリー ----------
+    // CHAR_SKILLPATH[charId] = { slot1: null|'offense'|'defense'|'support', slot2: null|... }
+    let CHAR_SKILLPATH = {};
+    const SKILL_PATH_DEF = [
+      { id: 'offense', label: '⚔ 攻撃強化', desc: 'ATK・MAG 威力 +20%', color: '#d04030', icon: '⚔' },
+      { id: 'defense', label: '🛡 防御特化', desc: 'DEF +6 / 被ダメ -15%', color: '#4080c0', icon: '🛡' },
+      { id: 'support', label: '✨ 補助熟練', desc: '回復・デバフ効果 +30%', color: '#9060c0', icon: '✨' }
+    ];
+    function loadSkillPathFromStorage() {
+      try { CHAR_SKILLPATH = JSON.parse(localStorage.getItem('pomera_skillpath') || '{}'); } catch (e) { CHAR_SKILLPATH = {}; }
+    }
+    function saveSkillPathToStorage() {
+      localStorage.setItem('pomera_skillpath', JSON.stringify(CHAR_SKILLPATH));
+    }
+    function getSkillPath(charId) {
+      return CHAR_SKILLPATH[charId] || { slot1: null, slot2: null };
+    }
+
+    function getMonsterPool(floor) {
+      if (floor >= 16) return MONSTER_MASTER.deep;
+      if (floor >= 6) return MONSTER_MASTER.mid;
+      return MONSTER_MASTER.early;
+    }
+
+    function selectMonster(floor) {
+      if (isBossFloor(floor)) return getBossData(floor);
+      const pool = getMonsterPool(floor);
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    let IS_BATTLE_ACTIVE = false; // バトル多重起動防止
+
+    function startDungeon() {
+      if (PARTY.length === 0) return;
+      if (IS_BATTLE_ACTIVE) return;
+      IS_BATTLE_ACTIVE = true;
+      const btn = document.getElementById('dungeon-btn');
+      if (btn) { btn.disabled = true; btn.textContent = '⚔ 戦闘中...'; }
+
+      // エンチャント「記憶」でCP消費削減
+      const hasMemory = PARTY.some(c =>
+        Object.values(EQUIPPED[c.id] || {}).some(e => e && e.enchant && e.enchant.id === 'memory')
+      );
+      const cpCost = hasMemory ? 3 : 5;
+      if (!spendCP(cpCost)) {
+        IS_BATTLE_ACTIVE = false;
+        refreshDungeonBtn();
+        addBattleLog('CPが足りない！ダンジョンに入れない...', 'log-defeat');
+        return;
+      }
+
+      DUNGEON_FLOOR++;
+      saveFloorToStorage();
+
+      const pool = getMonsterPool(DUNGEON_FLOOR);
+      const monsterBase = isBossFloor(DUNGEON_FLOOR) ? getBossData(DUNGEON_FLOOR) : pool[Math.floor(Math.random() * pool.length)];
+      const bossScale = monsterBase.isBoss ? 1.0 : 1.0; // ボスは固定スケール
+      const scale = monsterBase.isBoss ? 1.0 : (DUNGEON_FLOOR >= 16 ? 1.8 : DUNGEON_FLOOR >= 6 ? 1.3 : 1.0);
+      const monMaxHp = Math.round(monsterBase.hp * scale);
+      const monAtk = Math.round(monsterBase.atk * scale);
+      const monster = { ...monsterBase, hp: monMaxHp, atk: monAtk };
+      window._currentBattleMonster = monster; // 称号カード用
+
+      const floorLabel = (DUNGEON_FLOOR >= 16 ? '深層' : DUNGEON_FLOOR >= 6 ? '中層' : '浅層') + ' F' + DUNGEON_FLOOR;
+
+      // 各キャラの現在HP管理（個別トラッキング）
+      const charHp = {};
+      const charDef = {}; // 防御中フラグ
+      const charMaxHp = {};
+      const monsterDebuffs = {}; // { atk: multiplier, duration }
+      initBattleMana();
+
+      const livingParty = () => PARTY.filter(c => (charHp[c.id] || 0) > 0 && !DEAD_CHARS.has(c.id));
+
+      for (const c of PARTY) {
+        const eff = getEffectiveStats(c);
+        charHp[c.id] = eff.HP;
+        charMaxHp[c.id] = eff.HP;
+      }
+      let monHp = monMaxHp;
+      let comboUsed = new Set();
+      let turn = 0;
+      let delay = 0;
+      const D = 600; // ターン間隔ms
+
+      openBattleOverlay(floorLabel, monster, PARTY);
+
+      const schedule = (fn, d) => { setTimeout(fn, d); };
+
+      const doLog = (text, cls, d) => schedule(() => boLog(text, cls), d);
+      const doMonHp = (hp, d) => schedule(() => updateMonsterHpBar(hp, monMaxHp), d);
+      const doCharHp = (id, hp, d) => schedule(() => updatePartyHpBar(id, hp, charMaxHp[id]), d);
+      const doAct = (id, state, d) => schedule(() => setMemberActing(id, state), d);
+
+      doLog('── ' + floorLabel + ' 突入 ──', 'log-system', delay += 200);
+      doLog(PARTY.map(c => c.icon + c.name).join('、') + ' が先頭に立った。', 'log-system', delay += 300);
+      doLog(monster.icon + ' 【' + monster.name + '】が現れた！ HP:' + monHp, '', delay += 500);
+
+      const MAX_TURNS = 30;
+
+      const runTurn = () => {
+        turn++;
+        if (turn > MAX_TURNS || monHp <= 0 || livingParty().length === 0) {
+          endBattle(monHp <= 0, delay);
+          return;
+        }
+
+        tickCooldowns();
+
+        // ── 合技チャレンジ ──
+        const comboResult = chooseCombo(livingParty(), comboUsed, monHp);
+        if (comboResult && monHp > 0) {
+          const { combo, charA, charB } = comboResult;
+          comboUsed.add(combo.id);
+          const effA = getEffectiveStats(charA);
+          const effB = getEffectiveStats(charB);
+          spendMana(charA.id, combo.mpCost / 2);
+          spendMana(charB.id, combo.mpCost / 2);
+          doLog('【合技！】' + combo.icon + ' ' + combo.name + '  ' + charA.name + ' × ' + charB.name + ' 発動！', 'log-combo', delay += 500);
+          if (combo.fortress) {
+            // 鉄壁の盟約: 次のダメージ 0 + HP回復
+            for (const c of livingParty()) { charDef[c.id] = true; }
+            const healAmt = Math.round((effA.CON + effB.CON) * 1.5);
+            for (const c of livingParty()) {
+              charHp[c.id] = Math.min(charMaxHp[c.id], charHp[c.id] + healAmt);
+              doCharHp(c.id, charHp[c.id], delay += 100);
+            }
+            doLog('   パーティー全体を守りながら ' + healAmt + ' HP 回復！', 'log-heal', delay += 300);
+          } else if (combo.hits) {
+            let totalDmg = 0;
+            for (let h = 0; h < combo.hits; h++) {
+              const baseDmg = (effA.ATK + effB.ATK) * combo.dmgMul;
+              const dmg = Math.max(1, Math.round(baseDmg * (0.85 + Math.random() * 0.3)));
+              monHp = Math.max(0, monHp - dmg);
+              totalDmg += dmg;
+              doMonHp(monHp, delay += 150);
+            }
+            doLog('   ' + combo.hits + '連撃 合計 ' + totalDmg + ' ダメージ！', 'log-combo', delay += 200);
+          } else {
+            const baseDmg = effA.ATK * combo.dmgMul + (combo.magBonus ? effB.MAG * combo.magBonus : 0) + effB.ATK * (combo.dmgMul || 1);
+            const dmg = Math.max(1, Math.round(baseDmg * (0.9 + Math.random() * 0.2)));
+            monHp = Math.max(0, monHp - dmg);
+            doMonHp(monHp, delay += 300);
+            doLog('   ' + monster.name + ' に ' + dmg + ' ダメージ！（残HP:' + monHp + '）', 'log-combo', delay += 200);
+          }
+          if (monHp <= 0) { schedule(runTurn, delay += 200); return; }
+        }
+
+        // ── 各キャラのターン ──
+        for (const attacker of livingParty()) {
+          if (monHp <= 0) break;
+          const eff = getEffectiveStats(attacker);
+          const { type, skill } = chooseSkill(attacker, livingParty().reduce((s, c) => s + charHp[c.id], 0),
+            PARTY.reduce((s, c) => s + (charMaxHp[c.id] || 0), 0), monHp, comboUsed);
+
+          doAct(attacker.id, true, delay += 200);
+          delay += 300;
+
+          if (skill.heal) {
+            // 回復スキル
+            const healAmt = Math.round(eff.WIL * 3 * (0.9 + Math.random() * 0.2));
+            spendMana(attacker.id, skill.mpCost);
+            for (const c of livingParty()) { charHp[c.id] = Math.min(charMaxHp[c.id], charHp[c.id] + healAmt); doCharHp(c.id, charHp[c.id], delay += 80); }
+            doLog(attacker.icon + attacker.name + ' ' + skill.icon + '【' + skill.name + '】 → 全員 +' + healAmt + ' HP 回復！', 'log-heal', delay += 100);
+          } else if (skill.defend) {
+            // 防御姿勢
+            charDef[attacker.id] = true;
+            doLog(attacker.icon + attacker.name + ' ' + skill.icon + '【' + skill.name + '】 → 防御態勢！', 'log-heal', delay += 100);
+          } else if (skill.debuff) {
+            // 呪縛
+            spendMana(attacker.id, skill.mpCost);
+            monsterDebuffs.atk = { mul: skill.debuffVal, turns: skill.duration || 2 };
+            doLog(attacker.icon + attacker.name + ' ' + skill.icon + '【' + skill.name + '】 → ' + monster.name + ' の攻撃力 -30%！', 'log-magic', delay += 100);
+          } else {
+            // 攻撃スキル
+            const hasFire = Object.values(EQUIPPED[attacker.id] || {}).some(e => e && e.enchant && e.enchant.id === 'fire');
+            const isCrit = Math.random() < (0.1 + (eff.LUC || 0) * 0.003);
+            const critMul = isCrit ? (hasFire ? 2.2 : 1.6) : 1.0;
+            let baseDmg;
+            if (type === 'magic') {
+              spendMana(attacker.id, skill.mpCost);
+              baseDmg = eff.MAG * skill.dmgMul;
+            } else {
+              baseDmg = eff.ATK * skill.dmgMul;
+              if (skill.pierce) baseDmg *= 1.3; // 防御無視
+            }
+            // エンチャントボーナス
+            const hasScholar = Object.values(EQUIPPED[attacker.id] || {}).some(e => e && e.enchant && e.enchant.id === 'scholar');
+            if (hasScholar) baseDmg += eff.MAG * 0.25;
+            const hasObliv = Object.values(EQUIPPED[attacker.id] || {}).some(e => e && e.enchant && e.enchant.id === 'oblivion');
+            const completedTasks = ALL_QUESTS.filter(q => q.status === '完了').length;
+            if (hasObliv) baseDmg += completedTasks * 2;
+
+            if (skill.hits) {
+              // 複数ヒット
+              let total = 0;
+              for (let h = 0; h < skill.hits; h++) {
+                const dmg = Math.max(1, Math.round(baseDmg * (0.8 + Math.random() * 0.4) * critMul));
+                monHp = Math.max(0, monHp - dmg);
+                total += dmg;
+                doMonHp(monHp, delay += 120);
+              }
+              const critTxt = isCrit ? '【会心】' : '';
+              doLog(attacker.icon + attacker.name + ' ' + skill.icon + '【' + skill.name + '】' + critTxt + ' → ' + skill.hits + '回ヒット 合計 ' + total + ' ダメージ！', skill.logCls, delay += 150);
+            } else {
+              const dmg = Math.max(1, Math.round(baseDmg * (0.85 + Math.random() * 0.3) * critMul));
+              monHp = Math.max(0, monHp - dmg);
+              doMonHp(monHp, delay += 200);
+              const critTxt = isCrit ? '【会心】' : skill.elem ? '【' + skill.elem + '術】' : '';
+              doLog(attacker.icon + attacker.name + ' ' + skill.icon + '【' + skill.name + '】' + critTxt + ' → ' + monster.name + ' に ' + dmg + ' ダメージ（残:' + monHp + '）', skill.logCls, delay += 150);
+            }
+            if (skill.cooldown) { SKILL_COOLDOWN[attacker.id][skill.id] = skill.cooldown; }
+          }
+          doAct(attacker.id, false, delay += 100);
+          if (monHp <= 0) break;
+        }
+
+        // ── 敵のターン ──
+        if (monHp > 0 && livingParty().length > 0) {
+          const atkMul = monsterDebuffs.atk ? monsterDebuffs.atk.mul : 1.0;
+          if (monsterDebuffs.atk) { monsterDebuffs.atk.turns--; if (monsterDebuffs.atk.turns <= 0) delete monsterDebuffs.atk; }
+          const targets = livingParty();
+          const target = targets[Math.floor(Math.random() * targets.length)];
+          const rawDmg = Math.max(1, Math.round(monster.atk * atkMul * (0.85 + Math.random() * 0.3)));
+          const isBlocked = charDef[target.id];
+          const actualDmg = isBlocked ? 0 : rawDmg;
+          // 守護エンチャント
+          const guardHeal = PARTY.reduce((s, c) => {
+            const hasG = Object.values(EQUIPPED[c.id] || {}).some(e => e && e.enchant && e.enchant.id === 'guard');
+            return s + (hasG ? 3 : 0);
+          }, 0);
+
+          charHp[target.id] = Math.max(0, charHp[target.id] - actualDmg);
+          if (guardHeal > 0) charHp[target.id] = Math.min(charMaxHp[target.id], charHp[target.id] + guardHeal);
+          doCharHp(target.id, charHp[target.id], delay += 300);
+
+          // 防御リセット
+          for (const id of Object.keys(charDef)) delete charDef[id];
+
+          let atkMsg = monster.icon + '【' + monster.name + '】 → ' + target.name + ' に ';
+          if (isBlocked) {
+            atkMsg += '攻撃！ → 防御！ 0ダメージ';
+            doLog(atkMsg, 'log-enemy', delay += 200);
+          } else {
+            atkMsg += rawDmg + ' ダメージ！（HP:' + charHp[target.id] + '）';
+            if (guardHeal > 0) atkMsg += '（守護 +' + guardHeal + '）';
+            doLog(atkMsg, 'log-enemy', delay += 200);
+          }
+
+          // 死亡判定
+          if (charHp[target.id] <= 0) {
+            doLog('💀 ' + target.icon + target.name + ' が倒れた...！', 'log-death', delay += 300);
+            schedule(() => {
+              setMemberDead(target.id);
+              markCharDead(target);
+              // 死亡フラッシュ
+              const flash = document.createElement('div');
+              flash.className = 'death-flash';
+              document.body.appendChild(flash);
+              setTimeout(() => flash.remove(), 1000);
+              addBattleLog('💀 ' + target.icon + target.name + ' は永遠に倒れた...', 'log-defeat');
+            }, delay);
+          }
+        }
+
+        // 次のターンへ
+        schedule(runTurn, delay += 400);
+      };
+
+      const endBattle = (victory, d) => {
+        if (victory) {
+          doLog('', 'log-system', d += 300);
+          doLog('━━━━━━━━━━━━━━━━━━━━━━━━━━', 'log-system', d += 100);
+          doLog('⚔ ' + monster.name + ' を撃破！', 'log-victory', d += 300);
+          const cpReward = Math.round((8 + Math.floor(Math.random() * 8)) * scale);
+          schedule(() => gainCP(cpReward, 'ダンジョン報酬'), d + 100);
+          doLog('報酬: CP +' + cpReward, 'log-system', d += 400);
+
+          // 経験値付与（生存者のみ）
+          const xpGain = Math.round((40 + DUNGEON_FLOOR * 20) * scale);
+          const survivors = PARTY.filter(c => charHp[c.id] > 0);
+          for (const c of survivors) {
+            const newLv = addXp(c, xpGain);
+            doLog('  ✦ ' + c.name + ' +' + xpGain + ' XP', 'log-system', d += 200);
+            if (newLv) {
+              // レベルアップ！
+              doLog('  🎉 ' + c.name + ' → Lv' + newLv + ' ！ランダム能力上昇！', 'log-levelup', d += 200);
+              schedule(() => {
+                // ランダム基本属性 +1~2
+                const attrKeys = ['STR', 'CON', 'DEX', 'PER', 'LER', 'WIL', 'MAG', 'CHR', 'LUC'];
+                const key = attrKeys[Math.floor(Math.random() * attrKeys.length)];
+                c.stats[key] = (c.stats[key] || 10) + 1 + Math.floor(Math.random() * 2);
+                // 派生ステータス再計算
+                c.stats.HP = c.stats.CON * 5 + c.stats.WIL * 2 + 20;
+                c.stats.MANA = c.stats.MAG * 3 + c.stats.WIL * 2 + 10;
+                c.stats.ATK = c.stats.STR * 2 + Math.floor(c.stats.DEX / 2);
+                c.stats.DEF = c.stats.CON * 2 + Math.floor(c.stats.STR / 3);
+                c.stats.SPD = c.stats.DEX + Math.floor(c.stats.PER / 2);
+                // レベルアップフラッシュ
+                const flash = document.createElement('div');
+                flash.className = 'levelup-flash';
+                document.body.appendChild(flash);
+                setTimeout(() => flash.remove(), 1200);
+              }, d);
+            }
+          }
+
+          // ドロップ判定（55%）
+          if (Math.random() < 0.55) {
+            const eq = generateEquipment(DUNGEON_FLOOR);
+            if (INVENTORY.length < 50) {
+              INVENTORY.push(eq);
+              saveInventoryToStorage();
+              const rd = eq.rarityData;
+              doLog('━━━━━━━━━━━━━━━━━━━━━━━━━━', 'log-system', d += 300);
+              doLog('✨ ドロップ！  ' + rd.icon + ' ' + eq.name + '  [' + rd.label + ']', 'log-victory', d += 200);
+              const statStr = Object.entries(eq.stat).map(([k, v]) => '+' + k + ':' + v).join(' ');
+              doLog('   ' + statStr + (eq.enchant ? '  ✨ ' + eq.enchant.label : ''), 'log-system', d += 150);
+              schedule(() => { renderInventoryPanel(); }, d + 200);
+            } else {
+              doLog('インベントリが満杯！', 'log-defeat', d += 300);
+            }
+          }
+          doLog('── F' + DUNGEON_FLOOR + ' 踏破 ──', 'log-system', d += 500);
+          schedule(() => {
+            addBattleLog('⚔ F' + DUNGEON_FLOOR + ' 踏破！ ' + monster.name + ' を倒した！', 'log-victory');
+            // 中ボス特別ボーナス
+            if (monster.isMidBoss) {
+              gainCP(10, '中ボス討伐ボーナス');
+              addBattleLog('🏆 中ボス討伐！ボーナスCP+10獲得！', 'log-victory');
+            }
+            // 緊急クエスト完了チェック
+            const eqIdx = ALL_QUESTS.findIndex(q => q.id === 'emergency_cp' && q.status === '未着手');
+            if (eqIdx >= 0) {
+              ALL_QUESTS[eqIdx].status = '完了';
+              gainCP(ALL_QUESTS[eqIdx].reward, '緊急クエスト「困窮の旅」完了');
+              addBattleLog('⛏ 緊急クエスト「困窮の旅」達成！ CP+' + ALL_QUESTS[eqIdx].reward + '！', 'log-victory');
+              renderQuestBoard();
+            }
+            saveFloorToStorage(); // HUD更新を含む
+          }, d);
+        } else {
+          doLog('', 'log-system', d += 300);
+          doLog('── パーティーが全滅した... ──', 'log-defeat', d += 200);
+          DUNGEON_FLOOR = Math.max(1, DUNGEON_FLOOR - 1);
+          saveFloorToStorage();
+          schedule(() => addBattleLog('── 全滅... F' + DUNGEON_FLOOR + ' に戻った', 'log-defeat'), d);
+        }
+        schedule(() => {
+          document.getElementById('bo-close-btn').style.display = '';
+          IS_BATTLE_ACTIVE = false; // バトルフラグリセット
+          refreshDungeonBtn();
+          renderPartyPanel();
+        }, d + 800);
+      };
+
+      // バトル開始
+      schedule(runTurn, delay += 800);
+    }
+
+    // ---------- 日記データからゲームデータを構築 ----------
+
+    function buildGameFromGraph(data) {
+      if (!data || !data.nodes) return;
+
+      // CP計算（ノード種別ごとの重み）
+      let newCp = 0;
+      const prevNodes = JSON.parse(localStorage.getItem('pomera_prev_nodes') || '[]');
+      const prevIds = new Set(prevNodes);
+      let isFirstLoad = prevIds.size === 0;
+
+      data.nodes.forEach(n => {
+        if (prevIds.has(n.id)) return; // 既にカウント済みのノードはスキップ
+        if (n.type === '日記') newCp += 10;
+        else if (n.type === 'タスク') newCp += 5;
+        else if (n.type === '知見') newCp += 8;
+        else if (n.type === '出来事') newCp += 4;
+      });
+
+      if (!isFirstLoad && newCp > 0) {
+        setTimeout(() => gainCP(newCp, '新しい日記を検出'), 2000);
+      } else if (isFirstLoad) {
+        // 初回: 全ノード分のCPを計算してストック
+        let initCp = 0;
+        data.nodes.forEach(n => {
+          if (n.type === '日記') initCp += 10;
+          else if (n.type === 'タスク') initCp += 5;
+          else if (n.type === '知見') initCp += 8;
+          else if (n.type === '出来事') initCp += 4;
+        });
+        if (loadCP() === 0) {
+          saveCP(initCp);
+          setTimeout(() => { refreshCPDisplay(false); addBattleLog('📜 初回起動: CP ' + initCp + ' を取得しました', 'log-system'); }, 2000);
+        }
+      }
+      localStorage.setItem('pomera_prev_nodes', JSON.stringify(data.nodes.map(n => n.id)));
+
+      // キャラクター生成（全ノードから）
+      ALL_TRAVELERS = data.nodes
+        .filter(n => n.id) // IDがあるノードのみ
+        .map(n => generateCharacter(n));
+
+      // クエスト生成（タスクノードから）
+      ALL_QUESTS = data.nodes
+        .filter(n => n.type === 'タスク')
+        .sort((a, b) => (a.status === '完了') - (b.status === '完了')); // 未完了を上に
+
+      // ストレージから採用・パーティー・装備・インベントリを復元
+      loadRecruitedFromStorage();
+      loadPartyFromStorage();
+      loadInventoryFromStorage();
+      loadDeadChars();
+      loadXpLv();
+      loadEquippedFromStorage();
+      loadFloorFromStorage();
+      loadSkillPathFromStorage();
+      checkDailyCP();
+
+      // 描画
+      refreshCPDisplay(false);
+      renderTravelerList();
+      renderQuestBoard();
+      renderPartyPanel();
+      renderInventoryPanel();
+
+
+      // 起動メッセージ
+      setTimeout(() => {
+        addBattleLog('✦ POMERA WORLD へようこそ ✦', 'log-victory');
+        addBattleLog('日記から ' + ALL_TRAVELERS.length + ' 人の旅人が生まれました。', 'log-system');
+        addBattleLog('進行中のクエスト: ' + ALL_QUESTS.filter(q => q.status !== '完了').length + ' 件', 'log-system');
+      }, 2500);
+    }
+
+    // ===== デモモード初期化 =====
+    // daily_graph.jsonがない（null）またはノードが空の場合に自動で旅人とCPを設定する
+    const DEMO_TRAVELERS = [
+      {
+        id: 'demo_warrior', name: '炎のカグヤ', cls: '戦士', race: '人間', icon: '⚔', colorHue: 15,
+        stats: { STR: 18, CON: 16, DEX: 14, PER: 12, LER: 10, WIL: 12, MAG: 5, CHR: 10, LUC: 10, HP: 120, MANA: 30, ATK: 40, DEF: 28, SPD: 20 },
+        story: '炎の試練を乗り越えた勇者。剣に宿る炎は、彼女の意志の証。', cost: 20, seed: 1001, node: {}
+      },
+      {
+        id: 'demo_mage', name: '水のアズール', cls: '魔法使い', race: 'エルフ', icon: '🔮', colorHue: 210,
+        stats: { STR: 8, CON: 10, DEX: 14, PER: 16, LER: 18, WIL: 15, MAG: 22, CHR: 12, LUC: 12, HP: 75, MANA: 90, ATK: 20, DEF: 12, SPD: 18 },
+        story: '水の精霊と契約した魔法使い。知識と魔力で仲間を支える。', cost: 20, seed: 1002, node: {}
+      },
+      {
+        id: 'demo_scout', name: '風のライ', cls: '斥候', race: 'ノーム', icon: '🏹', colorHue: 100,
+        stats: { STR: 12, CON: 12, DEX: 20, PER: 18, LER: 14, WIL: 10, MAG: 8, CHR: 11, LUC: 15, HP: 90, MANA: 40, ATK: 35, DEF: 16, SPD: 28 },
+        story: '風のように素早い斥候。どんな敵の動きも見逃さない。', cost: 20, seed: 1003, node: {}
+      },
+      {
+        id: 'demo_sage', name: '星のミリア', cls: '賢者', race: '人間', icon: '📖', colorHue: 270,
+        stats: { STR: 9, CON: 11, DEX: 13, PER: 17, LER: 20, WIL: 17, MAG: 18, CHR: 15, LUC: 13, HP: 82, MANA: 85, ATK: 22, DEF: 14, SPD: 16 },
+        story: '星の書物を読み解く賢者。古代語を流暢に話す。', cost: 30, seed: 1004, node: {}
+      },
+      {
+        id: 'demo_hero', name: '光のソル', cls: '英雄', race: '半竜人', icon: '🌟', colorHue: 50,
+        stats: { STR: 22, CON: 20, DEX: 16, PER: 14, LER: 12, WIL: 18, MAG: 10, CHR: 14, LUC: 14, HP: 150, MANA: 50, ATK: 48, DEF: 35, SPD: 22 },
+        story: '竜の血を引く英雄。その咆哮は大地を揺らす。', cost: 30, seed: 1005, node: {}
+      },
+      {
+        id: 'demo_idle', name: '謎のポー', cls: '暇人', race: '人間', icon: '😴', colorHue: 180,
+        stats: { STR: 8, CON: 9, DEX: 8, PER: 9, LER: 7, WIL: 8, MAG: 6, CHR: 7, LUC: 18, HP: 60, MANA: 25, ATK: 12, DEF: 10, SPD: 12, POTENTIAL: 97 },
+        story: '何もしていない。でも、それでいい気がする。', cost: 10, seed: 1006, node: {}
+      }
+    ];
+
+    const DEMO_QUESTS = [
+      { id: 'dq1', label: '最初の戦い', type: 'タスク', status: '進行中', date: '', weight: 1 },
+      { id: 'dq2', label: 'F5のボスを倒せ', type: 'タスク', status: '進行中', date: '', weight: 1 },
+      { id: 'dq3', label: '深層へ踏み込め', type: 'タスク', status: '進行中', date: '', weight: 1 },
+    ];
+
+    function initDemoMode() {
+      // 既にデモデータが注入済みならスキップ
+      const alreadyDemo = localStorage.getItem('pomera_demo_mode');
+
+      // キャッシュにデモ旅人を保存
+      const cache = loadCharCache();
+      DEMO_TRAVELERS.forEach(c => { cache[c.id] = c; });
+      localStorage.setItem('pomera_char_cache', JSON.stringify(cache));
+
+      // ALL_TRAVELERSに追加（重複しないよう）
+      DEMO_TRAVELERS.forEach(c => {
+        if (!ALL_TRAVELERS.find(t => t.id === c.id)) {
+          ALL_TRAVELERS.push(c);
+        }
+      });
+
+      // クエスト
+      ALL_QUESTS = DEMO_QUESTS;
+
+      // 採用済みに追加
+      DEMO_TRAVELERS.forEach(c => RECRUITED.add(c.id));
+      saveRecruitedToStorage();
+
+      // 初回のみ: パーティーに3人・CP設定
+      if (!alreadyDemo) {
+        const initParty = ['demo_warrior', 'demo_mage', 'demo_scout'];
+        PARTY = initParty.map(id => DEMO_TRAVELERS.find(c => c.id === id)).filter(Boolean);
+        savePartyToStorage();
+        if (loadCP() < 50) {
+          saveCP(300);
+        }
+        localStorage.setItem('pomera_demo_mode', '1');
+        setTimeout(() => {
+          addBattleLog('🌟 デモモード起動！', 'log-victory');
+          addBattleLog('6人の旅人が旅立ちを待っています。', 'log-system');
+          addBattleLog('CPは300からスタート。ダンジョンに入ろう！', 'log-system');
+        }, 2500);
+      } else {
+        // 2回目以降はストレージからパーティーを復元
+        loadPartyFromStorage();
+        setTimeout(() => {
+          addBattleLog('✦ POMERA WORLD へようこそ ✦', 'log-victory');
+          addBattleLog('旅人たちが帰還を待ちわびている。', 'log-system');
+        }, 2500);
+      }
+
+      refreshCPDisplay(false);
+      renderTravelerList();
+      renderQuestBoard();
+      renderPartyPanel();
+      renderInventoryPanel();
+    }
+
+    const NPCS = [
+      {
+        id: 'luna',
+        name: '絵師のルナ',
+        role: '趣味・創作の魔法使い',
+        icon: '🎨',
+        color: 0x4060c8,
+        hatColor: 0x2844a0,
+        tx: 6, ty: 13,
+        advices: [
+          'YouTubeのモンスター動画、視聴者の9割が日本人だったね。夜23時投稿は効果的だよ。次は投稿頻度を上げてみよう。',
+          '絵を描くことは思考の整理にもなる。ポメラで「今日描きたいもの」を一言書いてから始めると、筆が乗るよ。',
+          '継続が一番難しいことは知ってる。でも、たとえ10分でも描いた日はlog[創作]に残しておいて。積み重ねが見える。',
+          'モンスターデザインは世界観構築の第一歩。いつかその世界をゲームにする日を想像しながら描くといいね。',
+          '視聴数に一喜一憂しすぎないで。あなたの絵は、見た人の記憶に残るものを目指してる。それで十分だよ。'
+        ]
+      },
+      {
+        id: 'kronos',
+        name: '商人のクロノス',
+        role: 'お金・家計の番人',
+        icon: '💰',
+        color: 0xa06020,
+        hatColor: 0x7a4010,
+        tx: 10, ty: 5,
+        advices: [
+          '月収87万に対して固定費16万は健全だよ。でもカードが9枚あるのは把握が大変。メインを2〜3枚に絞ることを考えてみて。',
+          '住宅ローン16万は収入の約18%。一般的に20〜25%が目安だから今はセーフ。でも蒼馬くんの教育費が増える前に繰り上げ返済の計画を立てよう。',
+          'Amazonカードは締め日が26日。月末の大きな買い物はこのカードで。使い分けルールを一度整理すると管理が楽になるよ。',
+          '二社掛け持ちの収入は不安定になりやすい。どちらかが減った場合の3ヶ月分の生活費は確保してある？',
+          '家計の見える化はポメラ日記が一番向いてる。毎月1日に「先月使ったもの3つ」だけ書くところから始めよう。'
+        ]
+      },
+      {
+        id: 'lion',
+        name: '騎士のリオン',
+        role: '仕事・チームの守護者',
+        icon: '⚔️',
+        color: 0xc03020,
+        hatColor: 0x901010,
+        tx: 3, ty: 3,
+        advices: [
+          'SaitekiのパイプラインをKnowbeに相談なしに進めた件、気になってるんだね。次は「試作したので確認してほしい」という形で共有すると角が立たないよ。',
+          '二社掛け持ちは時間の切り分けが命。SaitekiとKnowbeで「曜日ごとのメイン」を決めると頭の切り替えが楽になる。',
+          'RAGのテンプレート設計、自分の得意なUI設計の視点を活かしてみて。誰がどう使うかを描けるのはデザイナーであるあなたの強みだよ。',
+          'Slackショートカットの周知、ドキュメントより「30秒動画」の方が伝わりやすい。ポメラで手順を箇条書きにしてから録画しよう。',
+          '朝の思考整理を仕事に応用できてる。その習慣を「チームの朝会の設計」に活かす提案を出してみる価値があるよ。'
+        ]
+      },
+      {
+        id: 'sou',
+        name: '賢者のソウ',
+        role: '家族・未来の道標',
+        icon: '📖',
+        color: 0x308040,
+        hatColor: 0x1a5020,
+        tx: 11, ty: 14,
+        advices: [
+          '蒼馬くんはもうすぐ1歳になるね。この時期の記憶はポメラに残しておいて。子育ての「重力」をAIと一緒に整理する日がきっと来る。',
+          '朝に思考を整理してからその日を始めるスタイル、すごく良い習慣だよ。蒼馬くんが少し大きくなったら、同じことを一緒にやれる日が来る。',
+          '今の自分の分身AIというアイデア、蒼馬くんが大きくなったとき「パパはこういう人だった」と伝えるアーカイブにもなる。続けて。',
+          '思考が混乱する朝にYouTubeを見ない選択、正解だよ。外からの情報より、まず自分の内側を整える。それがあなたの一番の強みになってる。',
+          '二つの仕事と創作と家族。多いように見えるけど、あなたはちゃんとそれぞれに向き合ってる。焦らなくていい。今日も書けたこと、それで十分だよ。'
+        ]
+      }
+    ];
+
+    function showNpcDialog(npc) {
+      const adv = npc.advices[Math.floor(Math.random() * npc.advices.length)];
+      document.getElementById('npc-dialog-icon').textContent = npc.icon;
+      document.getElementById('npc-dialog-name').textContent = npc.name;
+      document.getElementById('npc-dialog-role').textContent = npc.role;
+      document.getElementById('npc-dialog-body').textContent = adv;
+      document.getElementById('npc-dialog').style.display = 'block';
+    }
+
+    function closeNpcDialog() {
+      document.getElementById('npc-dialog').style.display = 'none';
+    }
 
     // ===== 世界状態 =====
     const MOODS = {
@@ -367,22 +3959,105 @@
 
     // タイルマップ生成
     const MAP = [];
+    const GRASS_VAR = []; // 草バリエーション用マップ
+    // シード固定の疑似乱数 (タイルが毎回変わらないように)
+    const seededRng = (x, y) => {
+      const n = Math.sin(x * 127.1 + y * 311.7 + 47.0) * 43758.5453;
+      return n - Math.floor(n);
+    };
+    // 石畳の道: T字路ネットワーク
+    // 縦幹線: x=8〜9、y=3〜15（村中央の南北メイン通り）
+    // 横幹線: y=7〜8、x=3〜15（村中央の東西クロス道）
+    // 北西支線: x=4〜5、y=3〜7（塔への道）
+    const isStone = (x, y) => (
+      (x >= 8 && x <= 9 && y >= 3 && y <= 15) ||
+      (y >= 7 && y <= 8 && x >= 3 && x <= 15) ||
+      (x >= 4 && x <= 5 && y >= 3 && y <= 7)
+    );
     for (let y = 0; y < MAP_H; y++) {
       MAP[y] = [];
+      GRASS_VAR[y] = [];
       for (let x = 0; x < MAP_W; x++) {
-        if ((x === 4 || x === 5) && y > 3 && y < 14) MAP[y][x] = 'stone';
-        else if (x > 7 && x < 11 && y > 7 && y < 11) MAP[y][x] = 'water';
-        else if (Math.random() < 0.04) MAP[y][x] = 'water';
-        else MAP[y][x] = 'grass';
+        MAP[y][x] = isStone(x, y) ? 'stone' : 'grass';
+        // 草バリエーション: 0=標準草, 1=石混じり, 2=花バリ
+        const r = seededRng(x, y);
+        GRASS_VAR[y][x] = r < 0.50 ? 'grass' : r < 0.78 ? 'grass2' : 'grass3';
       }
     }
 
     // アイソメ座標変換
     function isoToScreen(tx, ty, cx, cy) {
       return {
-        x: cx + (tx - ty) * TW / 2,
+        x: cx + (tx - ty) * TW,
         y: cy + (tx + ty) * TH / 2
       };
+    }
+
+    // NPC画像を前処理（左半分切り出し + フラッドフィルで背景透明化）
+    function prepareNpcTexture(scene, key) {
+      const tex = scene.textures.get(key);
+      const src = tex.getSourceImage();
+      const halfW = Math.floor(src.width / 2);
+      const h = src.height;
+
+      // 左半分だけ切り出す
+      const canvas = document.createElement('canvas');
+      canvas.width = halfW;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(src, 0, 0, halfW, h, 0, 0, halfW, h);
+
+      const imgData = ctx.getImageData(0, 0, halfW, h);
+      const d = imgData.data;
+      const W = halfW, H = h;
+
+      // --- フラッドフィル方式 ---
+      // 四隅・四辺のピクセル色から背景色を判定し、類似色を透明化
+      function colorDist(i1, i2) {
+        return Math.abs(d[i1] - d[i2]) + Math.abs(d[i1 + 1] - d[i2 + 1]) + Math.abs(d[i1 + 2] - d[i2 + 2]);
+      }
+      const visited = new Uint8Array(W * H);
+      const queue = [];
+      // 四辺のピクセルをすべてキューに入れる
+      for (let x = 0; x < W; x++) {
+        queue.push(x, 0); queue.push(x, H - 1);
+      }
+      for (let y = 1; y < H - 1; y++) {
+        queue.push(0, y); queue.push(W - 1, y);
+      }
+      let qi = 0;
+      while (qi < queue.length) {
+        const px = queue[qi++], py = queue[qi++];
+        const idx = (py * W + px);
+        if (visited[idx]) continue;
+        visited[idx] = 1;
+        const base = idx * 4;
+        if (d[base + 3] < 10) continue; // 既に透明
+        const r = d[base], g = d[base + 1], b = d[base + 2];
+        const bright = (r + g + b) / 3;
+        const contrast = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b));
+        // 明るい・コントラストの低いピクセルを背景とみなす
+        if (bright < 80 || contrast > 50) continue;
+        d[base + 3] = 0;
+        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+          const nx = px + dx, ny = py + dy;
+          if (nx >= 0 && nx < W && ny >= 0 && ny < H && !visited[ny * W + nx]) {
+            queue.push(nx, ny);
+          }
+        }
+      }
+      // 単純閾値でも追加透明化（チェッカー柄の孤立ピクセル）
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i + 3] < 10) continue;
+        const bright = (d[i] + d[i + 1] + d[i + 2]) / 3;
+        const contrast = Math.max(Math.abs(d[i] - d[i + 1]), Math.abs(d[i + 1] - d[i + 2]), Math.abs(d[i] - d[i + 2]));
+        if (bright > 160 && contrast < 25) d[i + 3] = 0;
+      }
+      ctx.putImageData(imgData, 0, 0);
+
+      // 新しいキーで登録（元キーを置き換え）
+      scene.textures.remove(key);
+      scene.textures.addCanvas(key, canvas);
     }
 
     // ===== Phaser シーン =====
@@ -412,11 +4087,16 @@
         this.load.on('progress', v => { lb.style.width = (v * 100) + '%'; });
         this.load.on('fileprogress', f => { lstat.textContent = f.key + ' 読み込み中...'; });
         this.load.on('complete', () => { lstat.textContent = '完了!'; });
+        // CORSエラーや読み込み失敗があっても続行するためにエラーを無視
+        this.load.on('loaderror', (file) => {
+          console.warn('Load error (ignored):', file.key, file.src);
+        });
 
         const ts = Date.now();
         this.load.image('grass', `./sprites/grass.png?v=${ts}`);
+        this.load.image('grass2', `./sprites/grass2.png?v=${ts}`);
+        this.load.image('grass3', `./sprites/grass3.png?v=${ts}`);
         this.load.image('stone', `./sprites/stone.png?v=${ts}`);
-        this.load.image('water', `./sprites/water.png?v=${ts}`);
         this.load.image('house', `./sprites/house.png?v=${ts}`);
         this.load.image('tower', `./sprites/tower.png?v=${ts}`);
         this.load.image('tree', `./sprites/tree.png?v=${ts}`);
@@ -426,14 +4106,36 @@
         this.load.spritesheet('fire', `./sprites/fire.png?v=${ts}`,
           { frameWidth: Math.round(640 / 4), frameHeight: Math.round(640 / 2) });
 
+        // NPCスプライト
+        this.load.image('npc_luna', `./assets/npc_luna.png?v=${ts}`);
+        this.load.image('npc_kronos', `./assets/npc_kronos.png?v=${ts}`);
+        this.load.image('npc_lion', `./assets/npc_lion.png?v=${ts}`);
+        this.load.image('npc_sou', `./assets/npc_sou.png?v=${ts}`);
+
         this.load.json('daily', './daily_graph.json');
+
+        // ★ フォールバック: 5秒経ってもローディング画面が消えない場合は強制非表示
+        setTimeout(() => {
+          const loading = document.getElementById('loading');
+          if (loading && loading.style.display !== 'none') {
+            console.warn('Loading timeout - force hiding loading screen');
+            loading.classList.add('out');
+            setTimeout(() => { loading.style.display = 'none'; }, 1100);
+          }
+        }, 5000);
       }
+
 
       create() {
         const W = this.scale.width;
         const H = this.scale.height;
         this.cx = W / 2;
-        this.cy = H * 0.05;
+        // マップ全体が収まるようにcy調整
+        // マップの高さ = (MAP_W+MAP_H) * TH/2 = 36*32 = 1152px → 画面に収める
+        this.cy = H * 0.01;
+
+        // NPC背景を除去（フラッドフィル方式）
+        ['npc_luna', 'npc_kronos', 'npc_lion', 'npc_sou'].forEach(k => prepareNpcTexture(this, k));
 
         // 感情ロード
         const data = this.cache.json.get('daily');
@@ -448,32 +4150,62 @@
         this.skyGfx = this.add.graphics().setDepth(-100);
         this.hillGfx = this.add.graphics().setDepth(-99);
         this.starGfx = this.add.graphics().setDepth(-98);
-        this.sunGfx = this.add.graphics().setDepth(-97);
-        this.cloudGfx = this.add.graphics().setDepth(-96);
         this.overlayGfx = this.add.graphics().setDepth(9000);
+        // 噴水用グラフィクス（アニメーション）
+        this.fountainGfx = this.add.graphics().setDepth(200);
+
+        // タイル間の隙間を埋める地面グラフィック（depth -101: タイルの下）
+        const groundGfx = this.add.graphics().setDepth(-101);
+        groundGfx.fillStyle(0x2a4214, 1); // Elin風の深い暗緑
+        // アイソメ全域の菱形を塗りつぶす
+        const tl = isoToScreen(0, 0, this.cx, this.cy);
+        const tr = isoToScreen(MAP_W, 0, this.cx, this.cy);
+        const br = isoToScreen(MAP_W, MAP_H, this.cx, this.cy);
+        const bl = isoToScreen(0, MAP_H, this.cx, this.cy);
+        groundGfx.fillTriangle(tl.x, tl.y, tr.x, tr.y, br.x, br.y);
+        groundGfx.fillTriangle(tl.x, tl.y, br.x, br.y, bl.x, bl.y);
 
         // タイル配置
         for (let ty = 0; ty < MAP_H; ty++) {
           for (let tx = 0; tx < MAP_W; tx++) {
             const p = isoToScreen(tx, ty, this.cx, this.cy);
-            const key = MAP[ty][tx];
+            // 草タイルはバリエーションをランダムに使用
+            const baseKey = MAP[ty][tx];
+            const key = baseKey === 'grass' ? GRASS_VAR[ty][tx] : baseKey;
             const img = this.add.image(p.x, p.y, key);
             img.setDisplaySize(TW * 2, TW);
             img.setDepth(tx + ty - 100);
           }
         }
 
-        // オブジェクト配置
+
+        // オブジェクト配置（建物・塔・木・井戸）
+        // 家: 北エリアにクラスター（村の北区）+ 南区に1軒
+        // 塔: 北西・北東の見張り台
+        // 木: 北西コーナー群（森の入口）・南東コーナー群 + 道沿い点在
+        // 井戸: 家の近くの生活感ある位置
         const OBJS = [
-          { t: 'house', x: 8, y: 4, scale: 0.38 },
-          { t: 'house', x: 11, y: 5, scale: 0.38 },
-          { t: 'tower', x: 2, y: 2, scale: 0.30 },
-          { t: 'tower', x: 14, y: 2, scale: 0.30 },
-          { t: 'tree', x: 6, y: 6, scale: 0.32 },
-          { t: 'tree', x: 13, y: 8, scale: 0.32 },
-          { t: 'tree', x: 7, y: 13, scale: 0.32 },
-          { t: 'well', x: 9, y: 9, scale: 0.28 },
+          { t: 'house', x: 7, y: 4, scale: 0.48, smoke: true },
+          { t: 'house', x: 10, y: 4, scale: 0.48, smoke: true },
+          { t: 'house', x: 11, y: 6, scale: 0.48, smoke: false },
+          { t: 'house', x: 6, y: 12, scale: 0.48, smoke: true },
+          { t: 'tower', x: 2, y: 2, scale: 0.38 },
+          { t: 'tower', x: 15, y: 2, scale: 0.38 },
+          // 北西の森クラスター
+          { t: 'tree', x: 1, y: 4, scale: 0.42 },
+          { t: 'tree', x: 2, y: 6, scale: 0.38 },
+          { t: 'tree', x: 3, y: 5, scale: 0.40 },
+          // 南東の森クラスター
+          { t: 'tree', x: 14, y: 12, scale: 0.42 },
+          { t: 'tree', x: 15, y: 14, scale: 0.38 },
+          { t: 'tree', x: 13, y: 13, scale: 0.40 },
+          // 道沿いの孤立した木
+          { t: 'tree', x: 6, y: 9, scale: 0.36 },
+          { t: 'tree', x: 11, y: 10, scale: 0.36 },
+          // 井戸: 家クラスターの近く（北区の路地）
+          { t: 'well', x: 7, y: 6, scale: 0.35 },
         ];
+        this.smokeEmitters = [];
         OBJS.forEach(o => {
           const p = isoToScreen(o.x, o.y, this.cx, this.cy);
           const img = this.add.image(p.x, p.y + TH * 0.25, o.t);
@@ -482,7 +4214,110 @@
           img.setDisplaySize(src.width * o.scale, src.height * o.scale);
           img.setOrigin(0.5, 1.0);
           img.setDepth(o.x + o.y);
+
+          // 煙エフェクト（建物のみ）
+          if (o.smoke) {
+            const smokeData = {
+              x: p.x - 4,
+              y: p.y - src.height * o.scale * 0.85,
+              particles: [],
+              timer: Math.random() * 60
+            };
+            this.smokeEmitters.push(smokeData);
+          }
         });
+
+        // 小物: 岩・花・キノコ・草むらをランダム散布（80個）
+        const rng = (n) => (Math.sin(n * 127.1 + 311.7) * 0.5 + 0.5);
+        const FLOWER_COLORS = [0xff5555, 0xffcc33, 0xffffff, 0xff88cc, 0xcc88ff, 0x88ccff];
+        for (let i = 0; i < 80; i++) {
+          const rx = Math.floor(rng(i * 5 + 1) * MAP_W);
+          const ry = Math.floor(rng(i * 5 + 2) * MAP_H);
+          if (rx < 0 || rx >= MAP_W || ry < 0 || ry >= MAP_H) continue;
+          if (MAP[ry][rx] !== 'grass') continue;
+          const occupied = OBJS.some(o => Math.abs(o.x - rx) < 1.5 && Math.abs(o.y - ry) < 1.5);
+          if (occupied) continue;
+          const p = isoToScreen(rx, ry, this.cx, this.cy);
+          const gfx = this.add.graphics();
+          gfx.setDepth(rx + ry - 0.5);
+          const kind = i % 8;
+          if (kind === 0) {
+            // 大岩群
+            gfx.fillStyle(0x909080, 1); gfx.fillEllipse(p.x, p.y + 2, 24, 14);
+            gfx.fillStyle(0x787868, 1); gfx.fillEllipse(p.x + 8, p.y - 1, 16, 11);
+            gfx.fillStyle(0x606050, 1); gfx.fillEllipse(p.x - 6, p.y, 12, 9);
+            gfx.fillStyle(0xb8b8a8, 0.6); gfx.fillEllipse(p.x - 2, p.y - 1, 6, 4);
+          } else if (kind === 1) {
+            // 小石
+            gfx.fillStyle(0x7a7a6a, 1); gfx.fillEllipse(p.x, p.y + 1, 10, 7);
+            gfx.fillStyle(0x9a9a8a, 0.7); gfx.fillEllipse(p.x - 2, p.y, 4, 3);
+          } else if (kind === 2) {
+            // 赤・黄・白・ピンク花
+            const fc = FLOWER_COLORS[i % FLOWER_COLORS.length];
+            gfx.fillStyle(0x2a6820, 1); gfx.fillRect(p.x - 1, p.y - 7, 2, 8);
+            gfx.fillStyle(fc, 1);
+            gfx.fillCircle(p.x - 3, p.y - 8, 3); gfx.fillCircle(p.x + 3, p.y - 8, 3);
+            gfx.fillCircle(p.x, p.y - 11, 3); gfx.fillCircle(p.x, p.y - 5, 3);
+            gfx.fillStyle(0xffee44, 1); gfx.fillCircle(p.x, p.y - 8, 2.5);
+          } else if (kind === 3) {
+            // 紫の野花（小さめ）
+            gfx.fillStyle(0x2a6820, 1); gfx.fillRect(p.x, p.y - 5, 1, 6);
+            gfx.fillStyle(0xcc88ff, 1); gfx.fillCircle(p.x, p.y - 6, 2.5);
+            gfx.fillStyle(0xffffff, 0.8); gfx.fillCircle(p.x, p.y - 6, 1);
+          } else if (kind === 4) {
+            // 赤キノコ（白水玉）
+            gfx.fillStyle(0xcc2020, 1); gfx.fillEllipse(p.x, p.y - 7, 14, 10);
+            gfx.fillStyle(0xf8f8f8, 0.9); gfx.fillCircle(p.x - 3, p.y - 9, 2);
+            gfx.fillStyle(0xf8f8f8, 0.9); gfx.fillCircle(p.x + 3, p.y - 7, 1.5);
+            gfx.fillStyle(0xfff0c0, 1); gfx.fillRect(p.x - 2, p.y - 4, 4, 5);
+          } else if (kind === 5) {
+            // 茶キノコ
+            gfx.fillStyle(0x885533, 1); gfx.fillEllipse(p.x, p.y - 6, 12, 8);
+            gfx.fillStyle(0xc09060, 0.5); gfx.fillEllipse(p.x - 1, p.y - 7, 5, 3);
+            gfx.fillStyle(0xd0b088, 1); gfx.fillRect(p.x - 2, p.y - 3, 4, 4);
+          } else if (kind === 6) {
+            // 草むら（たっぷり）
+            gfx.fillStyle(0x1e6018, 0.85); gfx.fillEllipse(p.x, p.y + 2, 26, 10);
+            gfx.fillStyle(0x2e8025, 1);
+            gfx.fillTriangle(p.x - 6, p.y + 2, p.x - 10, p.y - 7, p.x - 3, p.y - 4);
+            gfx.fillTriangle(p.x - 1, p.y, p.x - 2, p.y - 9, p.x + 3, p.y - 5);
+            gfx.fillTriangle(p.x + 5, p.y + 1, p.x + 4, p.y - 8, p.x + 8, p.y - 4);
+            gfx.fillStyle(0x48a838, 0.7);
+            gfx.fillTriangle(p.x - 4, p.y - 1, p.x - 6, p.y - 8, p.x - 1, p.y - 5);
+          } else {
+            // 丸い低木
+            gfx.fillStyle(0x1c5a14, 1); gfx.fillEllipse(p.x, p.y - 3, 22, 16);
+            gfx.fillStyle(0x287820, 1); gfx.fillEllipse(p.x - 3, p.y - 5, 14, 11);
+            gfx.fillStyle(0x38a030, 0.6); gfx.fillEllipse(p.x - 4, p.y - 7, 8, 6);
+          }
+        }
+
+        // 噴水オブジェクト（東西交差点付近の広場中心）
+        {
+          const fx = 11, fy = 8;
+          const fp = isoToScreen(fx, fy, this.cx, this.cy);
+          this.fountainPos = { x: fp.x, y: fp.y };
+          this.fountainBaseGfx = this.add.graphics().setDepth(fx + fy - 0.3);
+          const pg = this.fountainBaseGfx;
+          // 石の台座（アイソメ菱形風）
+          pg.fillStyle(0xc0b898, 1);
+          pg.fillEllipse(fp.x, fp.y + 4, 52, 22);
+          pg.fillStyle(0xa09078, 1);
+          pg.fillEllipse(fp.x, fp.y + 6, 44, 16);
+          // 水盤
+          pg.fillStyle(0x7098b8, 0.85);
+          pg.fillEllipse(fp.x, fp.y + 2, 38, 14);
+          pg.fillStyle(0x90bcd8, 0.5);
+          pg.fillEllipse(fp.x - 3, fp.y, 16, 6);
+          // 中央の柱
+          pg.fillStyle(0xb0a888, 1);
+          pg.fillRect(fp.x - 3, fp.y - 16, 6, 18);
+          pg.fillStyle(0xd0c8a8, 1);
+          pg.fillEllipse(fp.x, fp.y - 16, 10, 7);
+        }
+
+        // 煙パーティクルのGraphics
+        this.smokeGfx = this.add.graphics().setDepth(5000);
 
         // 焚き火アニメーション
         this.anims.create({
@@ -491,11 +4326,12 @@
           frameRate: 8,
           repeat: -1
         });
-        const fp = isoToScreen(10, 10, this.cx, this.cy);
+        // 焚き火: 南区の集い場（NPCソウの近く、村の外れ）
+        const fp = isoToScreen(12, 13, this.cx, this.cy);
         this.fireSprite = this.add.sprite(fp.x, fp.y + TH * 0.25, 'fire');
         this.fireSprite.setDisplaySize(72, 72);
         this.fireSprite.setOrigin(0.5, 1.0);
-        this.fireSprite.setDepth(10 + 10 + 0.5);
+        this.fireSprite.setDepth(12 + 13 + 0.5);
         this.fireSprite.play('burn');
 
         // キャラクター
@@ -513,7 +4349,7 @@
         });
         const cp = isoToScreen(this.charTx, this.charTy, this.cx, this.cy);
         this.charSprite = this.add.sprite(cp.x, cp.y + TH * 0.25, 'char');
-        this.charSprite.setDisplaySize(64, 80);
+        this.charSprite.setDisplaySize(46, 58);
         this.charSprite.setOrigin(0.5, 1.0);
         this.charSprite.setDepth(this.charTx + this.charTy + 0.5);
         this.charSprite.play('idle');
@@ -530,6 +4366,9 @@
 
         this.updatePanel(data);
 
+        // NPC配置
+        this.createNPCs();
+
         // キャラAIタイマー
         this.time.addEvent({ delay: 3000, loop: true, callback: this.pickNewTarget, callbackScope: this });
 
@@ -539,8 +4378,42 @@
         // 初回描画
         this.drawSky();
         this.drawStars();
-        this.drawSunMoon();
-        this.drawClouds();
+      }
+
+      createNPCs() {
+        NPCS.forEach(npc => {
+          const p = isoToScreen(npc.tx, npc.ty, this.cx, this.cy);
+          const depth = npc.tx + npc.ty + 0.6;
+          const spriteKey = 'npc_' + npc.id;
+
+          // 地面の影（楕円）
+          const shadow = this.add.ellipse(p.x, p.y - 4, 34, 10, 0x000000, 0.22);
+          shadow.setDepth(depth - 0.1);
+
+          // prepareNpcTextureで左半分切り出し済みのテクスチャを使う
+          const tex = this.textures.get(spriteKey);
+          const src = tex.getSourceImage();
+          const dispH = 60;
+          const dispW = Math.round((src.width / src.height) * dispH);
+
+          const npcImg = this.add.image(p.x, p.y, spriteKey);
+          npcImg.setDisplaySize(dispW, dispH);
+          npcImg.setOrigin(0.5, 1.0);
+          npcImg.setDepth(depth);
+          npcImg.setInteractive({ cursor: 'pointer' });
+          npcImg.on('pointerover', () => { npcImg.setTint(0xffe080); });
+          npcImg.on('pointerout', () => { npcImg.clearTint(); });
+          npcImg.on('pointerdown', () => { showNpcDialog(npc); });
+
+          // 名前ラベル
+          const gameEl = document.getElementById('game-container');
+          const lbl = document.createElement('div');
+          lbl.className = 'npc-label';
+          lbl.textContent = npc.icon + ' ' + npc.name;
+          lbl.style.left = p.x + 'px';
+          lbl.style.top = (p.y - dispH - 12) + 'px';
+          gameEl.appendChild(lbl);
+        });
       }
 
       extractEmotion(data) {
@@ -560,28 +4433,31 @@
 
       updateHUD() {
         const m = MOODS[currentMood];
-        document.getElementById('hwx').textContent = m.icon;
-        document.getElementById('hmood').textContent = m.label;
+        const hwx = document.getElementById('hwx');
+        const hmood = document.getElementById('hmood');
+        const hclock = document.getElementById('hclock');
+        const pem = document.getElementById('pem');
+        if (hwx) hwx.textContent = m.icon;
+        if (hmood) hmood.textContent = m.label;
         const now = new Date();
-        document.getElementById('hclock').textContent =
+        if (hclock) hclock.textContent =
           String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-        document.getElementById('pem').innerHTML =
+        if (pem) pem.innerHTML =
           '<div style="font-size:28px;text-align:center;margin:6px 0 4px;text-shadow:0 0 12px rgba(255,200,80,0.4)">' + m.icon + '</div>' +
           '<div style="font-size:11px;color:' + m.color + ';text-align:center;letter-spacing:3px;text-shadow:0 0 8px rgba(0,0,0,0.8)">' + m.label + '</div>';
       }
 
       updatePanel(data) {
-        const diEl = document.getElementById('pdi');
-        if (data && data.nodes) {
-          const recent = data.nodes
-            .filter(n => n.date)
-            .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-            .slice(0, 1);
-          diEl.textContent = recent.length ? recent[0].label || '—' : '感情が世界を紡いでいる。';
+        if (!data || !data.nodes || data.nodes.length === 0) {
+          // daily_graph.jsonがない場合はデモモードで起動
+          initDemoMode();
         } else {
-          diEl.textContent = '感情が世界を紡いでいる。';
+          buildGameFromGraph(data);
+          // 本番データがある場合もデモ旅人を補充（遊べるように）
+          initDemoMode();
         }
       }
+
 
       rotateLog() {
         logIdx = (logIdx + 1) % LOG_MESSAGES.length;
@@ -618,8 +4494,8 @@
           nx = Math.max(0, Math.min(MAP_W - 1, Math.round(this.charTx + (Math.random() - 0.5) * speed * 2)));
           ny = Math.max(0, Math.min(MAP_H - 1, Math.round(this.charTy + (Math.random() - 0.5) * speed * 2)));
           tries++;
-        } while (MAP[ny][nx] === 'water' && tries < 10);
-        if (MAP[ny][nx] === 'water') return;
+        } while (MAP[ny][nx] === 'stone' && tries < 10);
+        if (MAP[ny][nx] === 'stone') return;
 
         this.charTargetX = nx;
         this.charTargetY = ny;
@@ -690,8 +4566,8 @@
           t2 = Phaser.Display.Color.Interpolate.ColorWithColor(
             Phaser.Display.Color.IntegerToColor(0x4070a8), Phaser.Display.Color.IntegerToColor(0xc04010), 100, t * 100).color;
         } else {
-          // 夜: 深い藍・紫
-          t1 = 0x060408; t2 = 0x080510;
+          // 夜: 少し明るめの藍・紫
+          t1 = 0x0d0a14; t2 = 0x12102a;
         }
 
         gfx.clear();
@@ -758,59 +4634,37 @@
         }
       }
 
-      drawSunMoon() {
-        const h = new Date().getHours() + new Date().getMinutes() / 60;
-        const W = this.scale.width;
-        const H = this.scale.height;
-        this.sunGfx.clear();
-        if (h >= 6 && h < 18) {
-          // 太陽: Elin風の温かいゴールド
-          const a = ((h - 6) / 12) * Math.PI;
-          const sx = W * 0.5 + Math.cos(Math.PI - a) * W * 0.38;
-          const sy = H * 0.12 - Math.sin(a) * H * 0.09;
-          // 光のコロナ
-          this.sunGfx.fillStyle(0xf0a020, 0.12);
-          this.sunGfx.fillCircle(sx, sy, 22);
-          this.sunGfx.fillStyle(0xf8c040, 0.25);
-          this.sunGfx.fillCircle(sx, sy, 16);
-          this.sunGfx.fillStyle(0xffe060, 1);
-          this.sunGfx.fillCircle(sx, sy, 10);
-          this.sunGfx.fillStyle(0xfff090, 1);
-          this.sunGfx.fillCircle(sx - 2, sy - 2, 5);
-        } else {
-          // 月: Elin風の青みがかった白
-          const ah = h < 6 ? h + 12 : h - 18;
-          const a = (ah / 12) * Math.PI;
-          const mx = W * 0.5 + Math.cos(Math.PI - a) * W * 0.38;
-          const my = H * 0.12 - Math.sin(a) * H * 0.09;
-          this.sunGfx.fillStyle(0xd0d8c0, 0.15);
-          this.sunGfx.fillCircle(mx, my, 16);
-          this.sunGfx.fillStyle(0xd8e0c8, 1);
-          this.sunGfx.fillCircle(mx, my, 9);
-          // クレーター風の影
-          this.sunGfx.fillStyle(0x04030a, 1);
-          this.sunGfx.fillCircle(mx + 3, my - 2, 7);
+      // 噴水アニメーション更新
+      updateFountain() {
+        if (!this.fountainGfx || !this.fountainPos) return;
+        const gfx = this.fountainGfx;
+        gfx.clear();
+        const { x, y } = this.fountainPos;
+        const t = this.tick;
+        // 水柱（上下にゆらゆら）
+        const h1 = 18 + Math.sin(t * 0.08) * 5;
+        const h2 = 14 + Math.sin(t * 0.08 + 1.2) * 4;
+        const h3 = 10 + Math.sin(t * 0.08 + 2.4) * 3;
+        // 外側の水流
+        for (let i = 0; i < 8; i++) {
+          const angle = (i / 8) * Math.PI * 2;
+          const spread = 8 + Math.sin(t * 0.05 + i) * 2;
+          const wx = x + Math.cos(angle) * spread;
+          const wy = y - h2 + Math.sin(angle) * spread * 0.4;
+          gfx.fillStyle(0x88c8e8, 0.55);
+          gfx.fillCircle(wx, wy, 2.5);
         }
-      }
-
-      drawClouds() {
-        const w = MOODS[currentMood].w;
-        const W = this.scale.width;
-        const H = this.scale.height;
-        const cnt = { sunny: 3, clear: 6, cloudy: 14, drizzle: 20, storm: 26 }[w] || 3;
-        const alp = { sunny: 0.18, clear: 0.32, cloudy: 0.65, drizzle: 0.82, storm: 0.92 }[w] || 0.18;
-        this.cloudGfx.clear();
-        for (let i = 0; i < cnt; i++) {
-          const cx2 = ((i * 211 + this.tick * 1.2) % W);
-          const cy2 = H * 0.03 + (i % 5) * H * 0.045;
-          const cw = 50 + (i % 4) * 35;
-          // Elin風: わずかに温かみのある雲
-          const ccolor = MOODS[currentMood].w === 'storm' ? 0x606070 : 0xc8ccd8;
-          this.cloudGfx.fillStyle(ccolor, alp);
-          this.cloudGfx.fillEllipse(cx2, cy2, cw * 2.2, cw * 0.9);
-          this.cloudGfx.fillEllipse(cx2 - cw * 0.4, cy2 + cw * 0.1, cw * 1.2, cw * 0.7);
-          this.cloudGfx.fillEllipse(cx2 + cw * 0.4, cy2 + cw * 0.1, cw * 1.2, cw * 0.7);
-        }
+        // 中央水柱
+        gfx.fillStyle(0xb8e0f8, 0.75);
+        gfx.fillEllipse(x, y - h1 * 0.5 - 16, 8, h1);
+        gfx.fillStyle(0xd8f0ff, 0.9);
+        gfx.fillEllipse(x, y - h1 - 17, 7, 10);
+        // 水面リップル
+        const rr = 14 + Math.sin(t * 0.06) * 2;
+        gfx.lineStyle(1, 0x90c8e0, 0.5);
+        gfx.strokeEllipse(x, y + 2, rr * 2.4, rr * 0.7);
+        gfx.lineStyle(1, 0x90c8e0, 0.3);
+        gfx.strokeEllipse(x, y + 2, (rr - 4) * 2.4, (rr - 4) * 0.7);
       }
 
       drawRain() {
@@ -844,8 +4698,8 @@
         else if (wt === 'cloudy') ll = Math.min(ll, 0.75);
         this.overlayGfx.clear();
         if (ll < 1.0) {
-          // Elin風: わずかに青みがかった夜オーバーレイ
-          this.overlayGfx.fillStyle(0x020308, (1 - ll) * 0.62);
+          // 夜オーバーレイ: 明るめに調整
+          this.overlayGfx.fillStyle(0x020308, (1 - ll) * 0.45);
           this.overlayGfx.fillRect(0, 0, W, H);
         }
       }
@@ -862,12 +4716,786 @@
 
         this.drawSky();
         this.drawStars();
-        this.drawSunMoon();
-        this.drawClouds();
         this.drawRain();
         this.drawNight();
+
+        // 煙パーティクル更新
+        this.updateSmoke();
+
+        // 噴水アニメーション更新
+        this.updateFountain();
+      }
+
+      updateSmoke() {
+        if (!this.smokeEmitters || !this.smokeGfx) return;
+        this.smokeGfx.clear();
+
+        this.smokeEmitters.forEach(emitter => {
+          emitter.timer++;
+
+          // 3フレームごとに新しい煙粒子を追加
+          if (emitter.timer % 3 === 0) {
+            emitter.particles.push({
+              x: emitter.x + (Math.random() - 0.5) * 4,
+              y: emitter.y,
+              vx: (Math.random() - 0.5) * 0.6,
+              vy: -(0.6 + Math.random() * 0.6),
+              life: 1.0,
+              size: 4 + Math.random() * 5,
+            });
+          }
+
+          // 粒子の更新と描画
+          for (let i = emitter.particles.length - 1; i >= 0; i--) {
+            const p = emitter.particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vx *= 0.98;
+            p.vy *= 0.99;
+            p.life -= 0.018;
+            p.size += 0.15;
+
+            if (p.life <= 0) {
+              emitter.particles.splice(i, 1);
+              continue;
+            }
+
+            const alpha = p.life * 0.5;
+            // 白〜薄いグレーで煙を表現
+            const grey = Math.floor(180 + p.life * 60);
+            const col = (grey << 16) | (grey << 8) | grey;
+            this.smokeGfx.fillStyle(col, alpha);
+            this.smokeGfx.fillCircle(p.x, p.y, p.size);
+          }
+        });
       }
     }
+
+    // ===================================================================
+    // ===== ドット絵描画システム v2（外部ファイル不要・Canvas直接描画）=====
+    // ===================================================================
+
+    // ---- ピクセルパレット（16色インデックス）----
+    // 各エントリ: [R, G, B] または null（透明）
+    const PIXEL_PALETTES = {
+      // スライム（緑の丸いモンスター）
+      slime: {
+        colors: [null, [80, 180, 60], [60, 150, 40], [40, 110, 25], [180, 230, 140], [255, 255, 255], [100, 200, 80], [30, 90, 20]],
+        map: [
+          [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 0],
+          [0, 0, 2, 1, 1, 1, 4, 1, 1, 1, 1, 1, 2, 0, 0, 0],
+          [0, 2, 1, 1, 4, 1, 1, 1, 5, 1, 1, 1, 1, 2, 0, 0],
+          [0, 2, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 2, 0, 0],
+          [2, 1, 1, 3, 1, 1, 1, 1, 5, 5, 1, 1, 1, 1, 2, 0],
+          [2, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 6, 1, 2, 0],
+          [2, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 6, 1, 1, 2, 0],
+          [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0],
+          [0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0],
+          [0, 2, 1, 7, 1, 1, 1, 1, 1, 1, 7, 1, 1, 2, 0, 0],
+          [0, 0, 2, 7, 7, 1, 1, 1, 1, 7, 7, 1, 2, 0, 0, 0],
+          [0, 0, 0, 2, 2, 2, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // ゴブリン（緑の小悪魔）
+      goblin: {
+        colors: [null, [100, 160, 40], [70, 120, 30], [50, 90, 20], [220, 160, 80], [180, 110, 50], [255, 220, 180], [40, 60, 20], [150, 80, 30]],
+        map: [
+          [0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 3, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 1, 2, 1, 1, 2, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 1, 6, 6, 6, 6, 1, 1, 3, 0, 0, 0],
+          [0, 0, 3, 1, 4, 1, 6, 3, 3, 6, 1, 4, 1, 3, 0, 0],
+          [0, 0, 3, 1, 1, 1, 6, 6, 6, 6, 1, 1, 1, 3, 0, 0],
+          [0, 0, 0, 3, 1, 1, 5, 5, 5, 5, 1, 1, 3, 0, 0, 0],
+          [0, 0, 0, 0, 3, 8, 1, 1, 1, 1, 8, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 3, 8, 8, 8, 8, 3, 0, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 2, 1, 1, 1, 1, 2, 1, 3, 0, 0, 0],
+          [0, 0, 3, 1, 2, 2, 1, 1, 1, 1, 2, 2, 1, 3, 0, 0],
+          [0, 0, 3, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 3, 0, 0],
+          [0, 0, 3, 2, 0, 0, 3, 0, 0, 3, 0, 0, 2, 3, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 骸骨（骨の戦士）
+      skeleton: {
+        colors: [null, [220, 215, 200], [180, 175, 160], [140, 130, 120], [255, 240, 230], [100, 90, 80], [60, 50, 45], [240, 200, 150]],
+        map: [
+          [0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 2, 1, 4, 1, 1, 4, 1, 2, 0, 0, 0, 0, 0],
+          [0, 0, 0, 2, 1, 5, 1, 1, 5, 1, 2, 0, 0, 0, 0, 0],
+          [0, 0, 0, 2, 1, 1, 2, 2, 1, 1, 2, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 2, 7, 7, 2, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
+          [0, 0, 0, 2, 1, 3, 1, 1, 3, 1, 2, 0, 0, 0, 0, 0],
+          [0, 0, 2, 1, 0, 2, 1, 1, 2, 0, 1, 2, 0, 0, 0, 0],
+          [0, 0, 2, 1, 0, 2, 1, 1, 2, 0, 1, 2, 0, 0, 0, 0],
+          [0, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // オーク（大きな戦士）
+      orc: {
+        colors: [null, [120, 170, 60], [90, 130, 40], [60, 90, 25], [200, 150, 90], [160, 110, 60], [100, 70, 40], [80, 50, 20], [255, 200, 120]],
+        map: [
+          [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 8, 1, 1, 8, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 2, 1, 1, 2, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 3, 1, 1, 1, 2, 2, 1, 1, 1, 1, 3, 0, 0, 0],
+          [0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0, 0],
+          [0, 0, 0, 3, 1, 1, 5, 5, 5, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 6, 1, 1, 1, 6, 3, 0, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 4, 4, 4, 4, 4, 1, 3, 0, 0, 0, 0],
+          [0, 0, 3, 1, 4, 4, 1, 1, 1, 4, 4, 1, 3, 0, 0, 0],
+          [0, 0, 3, 4, 1, 1, 4, 1, 4, 1, 1, 4, 3, 0, 0, 0],
+          [0, 0, 3, 7, 4, 0, 7, 0, 7, 0, 4, 7, 3, 0, 0, 0],
+          [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // ウルフ（暗い狼）
+      wolf: {
+        colors: [null, [60, 60, 80], [40, 40, 60], [20, 20, 40], [120, 100, 140], [90, 70, 110], [200, 180, 220], [255, 255, 255], [150, 130, 170]],
+        map: [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 3, 0, 0, 0],
+          [0, 0, 0, 0, 0, 3, 3, 0, 3, 1, 1, 1, 1, 3, 0, 0],
+          [0, 0, 0, 0, 3, 1, 1, 3, 1, 8, 1, 1, 8, 1, 0, 0],
+          [0, 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+          [0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0],
+          [0, 0, 3, 1, 5, 1, 1, 7, 7, 1, 1, 5, 1, 3, 0, 0],
+          [0, 0, 0, 3, 1, 1, 7, 1, 1, 7, 1, 1, 3, 0, 0, 0],
+          [0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 2, 2, 1, 1, 2, 2, 1, 3, 0, 0, 0],
+          [0, 0, 3, 1, 2, 0, 2, 1, 1, 2, 0, 2, 1, 3, 0, 0],
+          [0, 0, 3, 2, 0, 0, 3, 0, 0, 3, 0, 0, 2, 3, 0, 0],
+          [0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // ドラゴン（深層の強敵）
+      dragon: {
+        colors: [null, [180, 50, 30], [140, 30, 20], [100, 20, 10], [220, 80, 40], [255, 120, 60], [255, 220, 60], [60, 20, 10], [200, 150, 40]],
+        map: [
+          [0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0],
+          [0, 0, 3, 1, 1, 3, 0, 0, 0, 0, 3, 1, 1, 3, 0, 0],
+          [0, 3, 1, 2, 1, 1, 3, 0, 0, 3, 1, 1, 2, 1, 3, 0],
+          [3, 1, 2, 6, 6, 1, 1, 3, 3, 1, 1, 6, 6, 2, 1, 3],
+          [3, 1, 1, 6, 5, 5, 1, 1, 1, 1, 5, 5, 6, 1, 1, 3],
+          [3, 1, 2, 1, 5, 5, 4, 4, 4, 4, 5, 5, 1, 2, 1, 3],
+          [0, 3, 1, 1, 1, 4, 4, 2, 2, 4, 4, 1, 1, 1, 3, 0],
+          [0, 0, 3, 1, 4, 4, 1, 1, 1, 1, 4, 4, 1, 3, 0, 0],
+          [0, 0, 3, 1, 4, 1, 1, 1, 1, 1, 1, 4, 1, 3, 0, 0],
+          [0, 0, 3, 4, 1, 1, 4, 1, 1, 4, 1, 1, 4, 3, 0, 0],
+          [0, 0, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 0, 0],
+          [0, 0, 0, 3, 4, 7, 4, 1, 1, 4, 7, 4, 3, 0, 0, 0],
+          [0, 0, 0, 0, 3, 7, 7, 0, 0, 7, 7, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // ゴブリンキング（F5ボス）
+      goblin_king: {
+        colors: [null, [100, 160, 40], [70, 120, 30], [50, 90, 20], [220, 160, 80], [180, 110, 50], [255, 220, 0], [40, 60, 20], [150, 80, 30], [255, 180, 50]],
+        map: [
+          [0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0],
+          [0, 0, 0, 0, 9, 5, 5, 5, 5, 5, 5, 5, 9, 0, 0, 0],
+          [0, 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0],
+          [0, 0, 3, 1, 4, 1, 2, 1, 1, 2, 1, 4, 1, 1, 3, 0],
+          [0, 0, 3, 1, 1, 1, 7, 7, 7, 7, 1, 1, 1, 1, 3, 0],
+          [0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0],
+          [0, 0, 0, 3, 1, 1, 5, 5, 5, 5, 1, 1, 3, 0, 0, 0],
+          [0, 0, 0, 0, 3, 8, 1, 1, 1, 1, 8, 3, 0, 0, 0, 0],
+          [0, 0, 3, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 3, 0],
+          [0, 3, 1, 5, 5, 1, 1, 1, 1, 1, 1, 5, 5, 1, 1, 3],
+          [0, 3, 5, 1, 1, 5, 1, 1, 1, 1, 5, 1, 1, 5, 1, 3],
+          [0, 3, 5, 0, 0, 5, 5, 1, 1, 5, 5, 0, 0, 5, 1, 3],
+          [0, 0, 3, 0, 0, 0, 5, 0, 0, 5, 0, 0, 0, 3, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // リッチ（F10ボス）
+      lich: {
+        colors: [null, [80, 40, 160], [60, 20, 130], [40, 10, 100], [200, 180, 230], [150, 100, 200], [255, 120, 200], [20, 10, 60], [220, 200, 240]],
+        map: [
+          [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 5, 1, 1, 5, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 6, 1, 1, 6, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 3, 1, 1, 2, 2, 1, 1, 1, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 3, 7, 1, 4, 4, 4, 1, 7, 3, 0, 0, 0, 0],
+          [0, 0, 3, 1, 1, 4, 4, 8, 8, 4, 4, 1, 1, 3, 0, 0],
+          [0, 3, 1, 1, 4, 4, 1, 1, 1, 1, 4, 4, 1, 1, 3, 0],
+          [0, 3, 1, 4, 4, 1, 1, 1, 1, 1, 1, 4, 4, 1, 3, 0],
+          [3, 1, 4, 4, 1, 6, 1, 1, 1, 1, 6, 1, 4, 4, 1, 3],
+          [3, 4, 4, 0, 0, 4, 4, 1, 1, 4, 4, 0, 0, 4, 4, 3],
+          [0, 3, 0, 0, 0, 0, 4, 0, 0, 4, 0, 0, 0, 0, 3, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 古代竜（F15ボス）
+      ancient_dragon: {
+        colors: [null, [200, 160, 40], [160, 120, 20], [120, 90, 10], [255, 200, 60], [240, 220, 100], [255, 100, 20], [80, 60, 10], [180, 140, 30], [255, 60, 0]],
+        map: [
+          [0, 3, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0],
+          [3, 1, 1, 3, 0, 0, 3, 1, 3, 0, 0, 0, 3, 1, 1, 3],
+          [3, 2, 1, 1, 3, 3, 1, 4, 1, 3, 0, 3, 1, 1, 2, 3],
+          [0, 3, 1, 5, 5, 1, 4, 5, 4, 1, 3, 1, 5, 5, 1, 3],
+          [0, 0, 3, 1, 5, 9, 5, 5, 5, 9, 5, 1, 3, 0, 0, 0],
+          [0, 0, 3, 1, 4, 5, 1, 1, 1, 5, 4, 1, 3, 0, 0, 0],
+          [0, 0, 0, 3, 4, 4, 6, 6, 6, 4, 4, 3, 0, 0, 0, 0],
+          [0, 0, 0, 3, 4, 1, 1, 6, 6, 1, 1, 4, 3, 0, 0, 0],
+          [0, 0, 3, 4, 4, 1, 1, 1, 1, 1, 1, 4, 4, 3, 0, 0],
+          [0, 0, 3, 4, 1, 1, 7, 1, 1, 7, 1, 1, 4, 3, 0, 0],
+          [0, 3, 4, 1, 1, 7, 7, 7, 7, 7, 7, 1, 1, 4, 3, 0],
+          [0, 3, 4, 8, 7, 7, 4, 1, 1, 4, 7, 7, 8, 4, 3, 0],
+          [0, 0, 3, 8, 8, 4, 4, 0, 0, 4, 4, 8, 8, 3, 0, 0],
+          [0, 0, 0, 3, 8, 8, 0, 0, 0, 0, 8, 8, 3, 0, 0, 0],
+          [0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // ==== 仲間キャラ（Elin風2頭身） ====
+      // 戦士（炎系：赤茶の鎧・黒髪・勇ましい目）
+      warrior: {
+        colors: [null,
+          [230, 160, 100], // 1=肌
+          [180, 80, 40], // 2=髪（赤茶）
+          [120, 50, 20], // 3=髪影
+          [60, 80, 180], // 4=鎧（青）
+          [30, 50, 140], // 5=鎧影
+          [220, 200, 200], // 6=シャツ白
+          [40, 40, 40], // 7=目
+          [255, 140, 120], // 8=チーク
+          [200, 160, 60], // 9=剣
+          [160, 110, 30], // A=剣影
+          [255, 255, 255], // B=目白
+        ],
+        map: [
+          [0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 2, 2, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0],
+          [0, 2, 1, 11, 7, 1, 1, 7, 11, 1, 2, 0, 0, 0, 9],
+          [0, 2, 1, 1, 7, 8, 1, 8, 7, 1, 2, 0, 0, 9, 10],
+          [0, 0, 2, 1, 1, 1, 3, 1, 1, 2, 0, 0, 9, 10, 0],
+          [0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 9, 0, 0],
+          [0, 5, 4, 4, 6, 4, 4, 4, 6, 4, 4, 5, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0],
+          [0, 0, 5, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 0],
+          [0, 0, 1, 1, 5, 0, 0, 0, 5, 1, 1, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 魔法使い（紫ローブ・青銀髪・大きい瞳）
+      mage: {
+        colors: [null,
+          [235, 190, 160], // 1=肌
+          [160, 200, 240], // 2=髪（水色）
+          [100, 140, 200], // 3=髪影
+          [120, 60, 200], // 4=ローブ（紫）
+          [80, 30, 160], // 5=ローブ影
+          [200, 160, 240], // 6=ローブ明
+          [40, 40, 60], // 7=目
+          [255, 160, 200], // 8=チーク（ピンク）
+          [255, 220, 80], // 9=スタッフ
+          [200, 160, 40], // A=スタッフ影
+          [160, 100, 240], // B=魔法球
+          [255, 255, 255], // C=目白
+        ],
+        map: [
+          [0, 0, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 11],
+          [2, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 11, 11],
+          [2, 1, 12, 7, 1, 1, 7, 12, 2, 0, 0, 0, 0, 0, 0, 11],
+          [2, 1, 1, 7, 8, 1, 8, 7, 2, 0, 0, 0, 0, 9, 0, 0],
+          [0, 2, 1, 1, 1, 3, 1, 2, 0, 0, 0, 0, 9, 0, 0, 0],
+          [0, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 9, 0, 0, 0, 0],
+          [4, 5, 4, 6, 4, 4, 4, 6, 4, 5, 9, 0, 0, 0, 0, 0],
+          [4, 5, 4, 4, 4, 4, 4, 4, 4, 5, 4, 0, 0, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0],
+          [0, 1, 4, 5, 0, 0, 0, 5, 4, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 斥候（緑マント・茶髪・弓持ち・すばしっこい目）
+      scout: {
+        colors: [null,
+          [220, 170, 110], // 1=肌
+          [140, 90, 40], // 2=髪（茶）
+          [90, 55, 20], // 3=髪影
+          [60, 120, 50], // 4=マント（緑）
+          [30, 80, 30], // 5=マント影
+          [200, 160, 80], // 6=ベルト
+          [40, 50, 40], // 7=目
+          [255, 160, 130], // 8=チーク
+          [160, 110, 50], // 9=弓
+          [220, 200, 160], // A=弦
+          [255, 255, 255], // B=目白
+        ],
+        map: [
+          [0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 2, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 2, 1, 11, 7, 1, 7, 11, 1, 2, 0, 0, 0, 9, 0, 0],
+          [0, 2, 1, 1, 8, 1, 1, 8, 1, 2, 0, 0, 9, 0, 0, 0],
+          [0, 0, 2, 1, 1, 3, 1, 1, 2, 0, 0, 9, 0, 0, 0, 0],
+          [0, 0, 4, 4, 4, 4, 4, 4, 4, 0, 9, 0, 0, 0, 0, 0],
+          [0, 5, 4, 4, 6, 6, 6, 4, 4, 5, 9, 0, 0, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 5, 9, 0, 0, 0, 0, 0],
+          [0, 0, 5, 4, 4, 4, 4, 4, 5, 0, 9, 0, 0, 0, 0, 0],
+          [0, 0, 1, 1, 5, 0, 5, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 賢者（白ローブ・銀髪・賢い目・本持ち）
+      sage: {
+        colors: [null,
+          [240, 210, 180], // 1=肌
+          [210, 210, 230], // 2=銀髪
+          [160, 160, 180], // 3=銀髪影
+          [240, 235, 210], // 4=白ローブ
+          [190, 185, 160], // 5=ローブ影
+          [80, 140, 200], // 6=装飾（青）
+          [50, 50, 70], // 7=目（深い）
+          [255, 180, 200], // 8=チーク
+          [160, 120, 60], // 9=本
+          [120, 80, 40], // A=本影
+          [255, 255, 255], // B=目白
+        ],
+        map: [
+          [0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0],
+          [2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [2, 1, 11, 7, 1, 1, 7, 11, 1, 2, 0, 0, 0, 0, 0, 0],
+          [2, 1, 1, 7, 8, 1, 8, 7, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 2, 2, 1, 1, 3, 1, 2, 2, 0, 0, 0, 9, 10, 0, 0],
+          [0, 4, 4, 6, 4, 4, 4, 6, 4, 4, 0, 9, 10, 0, 0, 0],
+          [5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 10, 0, 0, 0, 0],
+          [5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 10, 0, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0],
+          [0, 1, 1, 5, 0, 0, 0, 5, 1, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 英雄（金の鎧・白金髪・威風堂々・大剣）
+      hero: {
+        colors: [null,
+          [240, 190, 140], // 1=肌（日焼け）
+          [240, 220, 100], // 2=金髪
+          [200, 170, 50], // 3=金髪影
+          [200, 170, 60], // 4=金鎧
+          [160, 130, 30], // 5=金鎧影
+          [220, 220, 220], // 6=銀装飾
+          [40, 40, 50], // 7=目
+          [255, 160, 140], // 8=チーク
+          [220, 220, 240], // 9=大剣
+          [160, 160, 200], // A=大剣影
+          [255, 255, 255], // B=目白
+          [255, 240, 80], // C=輝きエフェクト
+        ],
+        map: [
+          [0, 0, 2, 2, 3, 2, 2, 3, 2, 2, 0, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 12, 0, 0],
+          [2, 1, 11, 7, 1, 1, 7, 11, 1, 1, 2, 0, 12, 0, 0, 0],
+          [2, 1, 1, 7, 8, 1, 8, 7, 1, 1, 2, 9, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 3, 1, 1, 2, 0, 0, 9, 0, 0, 0, 0],
+          [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 0, 0, 0, 0],
+          [5, 4, 4, 6, 4, 4, 4, 6, 4, 4, 5, 9, 0, 0, 0, 0],
+          [5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 9, 0, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 5, 0, 9, 0, 0, 0, 0],
+          [0, 1, 1, 5, 0, 0, 0, 5, 1, 1, 0, 9, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 9, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 汎用キャラ（ほんわか顔・可愛い）
+      default_char: {
+        colors: [null,
+          [235, 195, 150], // 1=肌
+          [180, 130, 60], // 2=髪（茶）
+          [130, 85, 30], // 3=髪影
+          [180, 140, 100], // 4=服
+          [130, 95, 60], // 5=服影
+          [220, 200, 160], // 6=服明
+          [60, 50, 50], // 7=目
+          [255, 170, 160], // 8=チーク（濃いめ）
+          [255, 255, 255], // 9=目白
+        ],
+        map: [
+          [0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
+          [0, 2, 1, 9, 7, 1, 1, 7, 9, 1, 2, 0, 0, 0, 0, 0],
+          [0, 2, 1, 1, 8, 1, 1, 8, 1, 1, 2, 0, 0, 0, 0, 0],
+          [0, 0, 2, 1, 1, 1, 3, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+          [0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0],
+          [0, 5, 4, 6, 4, 4, 4, 4, 6, 4, 5, 0, 0, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 0, 0],
+          [0, 0, 5, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 1, 5, 0, 0, 5, 1, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      },
+      // 錬金術師（橙ローブ・白髪・試験管・魔法陣）
+      alchemist: {
+        colors: [null,
+          [240, 200, 160], // 1=肌
+          [230, 230, 240], // 2=白髪
+          [170, 170, 190], // 3=白髪影
+          [220, 120, 40],  // 4=橙ローブ
+          [170, 80, 20],   // 5=ローブ影
+          [255, 200, 100], // 6=ローブ明
+          [50, 50, 60],    // 7=目
+          [255, 160, 200], // 8=チーク
+          [100, 220, 200], // 9=試験管（青緑）
+          [60, 180, 160],  // A=試験管影
+          [255, 255, 255], // B=目白
+          [255, 80, 120],  // C=魔法陣（赤ピンク）
+        ],
+        map: [
+          [0, 0, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 12, 0, 0, 0],
+          [0, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 12, 0, 12, 0, 0],
+          [2, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 12, 0, 0, 0],
+          [2, 1, 11, 7, 1, 1, 7, 11, 2, 0, 0, 0, 0, 0, 9, 0],
+          [2, 1, 1, 7, 8, 1, 8, 7, 2, 0, 0, 0, 0, 9, 10, 0],
+          [0, 2, 1, 1, 1, 3, 1, 2, 0, 0, 0, 0, 9, 10, 0, 0],
+          [0, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 9, 10, 0, 0, 0],
+          [4, 5, 4, 6, 4, 4, 4, 6, 4, 5, 9, 10, 0, 0, 0, 0],
+          [4, 5, 4, 4, 4, 4, 4, 4, 4, 5, 9, 10, 0, 0, 0, 0],
+          [0, 5, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0],
+          [0, 1, 4, 5, 0, 0, 0, 5, 4, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+      }
+    };
+
+
+    // ピクセルマップからCanvasを生成する関数
+    function drawPixelArt(paletteName, size) {
+      const palette = PIXEL_PALETTES[paletteName];
+      if (!palette) return null;
+      const canvas = document.createElement('canvas');
+      const GRID = 16;
+      canvas.width = GRID;
+      canvas.height = GRID;
+      canvas.style.cssText = `width:${size}px;height:${size}px;image-rendering:pixelated;image-rendering:crisp-edges;display:block;`;
+      const ctx = canvas.getContext('2d');
+      const imgData = ctx.createImageData(GRID, GRID);
+      const colors = palette.colors;
+      const map = palette.map;
+      for (let y = 0; y < GRID; y++) {
+        for (let x = 0; x < GRID; x++) {
+          const ci = map[y] ? (map[y][x] || 0) : 0;
+          const color = colors[ci];
+          const idx = (y * GRID + x) * 4;
+          if (color) {
+            imgData.data[idx] = color[0];
+            imgData.data[idx + 1] = color[1];
+            imgData.data[idx + 2] = color[2];
+            imgData.data[idx + 3] = 255;
+          } else {
+            imgData.data[idx + 3] = 0; // 透明
+          }
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+      return canvas;
+    }
+
+    // モンスター種別 → パレット名マッピング
+    const MONSTER_PALETTE_MAP = {
+      'スライム': 'slime',
+      'ドクロ蜘蛛': 'slime',
+      'ゴブリン斥候': 'goblin',
+      'オオコウモリ': 'goblin',
+      '呪われた騎士': 'skeleton',
+      '古の亡霊': 'skeleton',
+      'オーク戦士': 'orc',
+      '石人形': 'orc',
+      '闇の狼': 'wolf',
+      '竜の子': 'wolf',
+      '闇の賢者': 'skeleton',
+      'レムノスの鱗': 'dragon',
+      'ゴブリンキング': 'goblin_king',
+      '闇の賢者リッチ': 'lich',
+      '古代竜アンシェント': 'ancient_dragon',
+    };
+
+    // キャラクタークラス → パレット名マッピング
+    const CHAR_PALETTE_MAP = {
+      '戦士': 'warrior', '傭兵': 'warrior', '鍛冶師': 'warrior',
+      '英雄': 'hero',
+      '魔法使い': 'mage', '学者': 'mage',
+      '錬金術師': 'alchemist',
+      '賢者': 'sage',
+      '斥候': 'scout', '忍者': 'scout', '盗賊': 'scout', '狩人': 'scout',
+      '暇人': 'default_char',
+    };
+
+    // Canvasにモンスタードット絵を描画
+    function createMonsterCanvas(monster, size) {
+      const palName = MONSTER_PALETTE_MAP[monster.name] || (monster.isBoss ? 'goblin_king' : 'slime');
+      const canvas = drawPixelArt(palName, size || 64);
+      if (canvas) return canvas;
+      // フォールバック: 絵文字
+      const fc = document.createElement('canvas');
+      fc.width = fc.height = size || 64;
+      fc.style.cssText = `width:${size}px;height:${size}px;`;
+      const ctx = fc.getContext('2d');
+      ctx.font = ((size || 64) * 0.6) + 'px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(monster.icon || '👹', (size || 64) / 2, (size || 64) / 2);
+      return fc;
+    }
+
+    // Canvasにキャラドット絵を描画（バトルオーバーレイ）
+    function createCharCanvas(char, size) {
+      const palName = CHAR_PALETTE_MAP[char.cls] || 'default_char';
+      const canvas = drawPixelArt(palName, size || 40);
+      if (canvas) return canvas;
+      const fc = document.createElement('canvas');
+      fc.width = fc.height = size || 40;
+      fc.style.cssText = `width:${size}px;height:${size}px;`;
+      const ctx = fc.getContext('2d');
+      ctx.font = ((size || 40) * 0.6) + 'px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(char.icon || '🧙', (size || 40) / 2, (size || 40) / 2);
+      return fc;
+    }
+
+
+    // ----- バトルオーバーレイ強化 -----
+    // モンスターアイコンをCanvasに置き換え
+    const _origOpenBattleOverlay = window.openBattleOverlay;
+
+    function openBattleOverlayWithSprite(floorLabel, monster, party) {
+      // 元の関数を呼ぶ
+      if (typeof _origOpenBattleOverlay === 'function') {
+        _origOpenBattleOverlay(floorLabel, monster, party);
+      }
+      // モンスターアイコンをCanvasに差し替え
+      setTimeout(() => {
+        const iconEl = document.getElementById('bo-mon-icon');
+        if (iconEl) {
+          const size = monster.isBoss ? 96 : 64;
+          const canvas = createMonsterCanvas(monster, size);
+          // アニメーション
+          canvas.style.cssText += ';animation:monsterFloat 2s ease-in-out infinite;';
+          iconEl.textContent = '';
+          iconEl.style.fontSize = '0';
+          iconEl.appendChild(canvas);
+        }
+        // ボスなら特別演出
+        if (monster.isBoss) {
+          triggerBossEntrance(monster);
+        }
+      }, 100);
+    }
+
+    // ----- ボス登場演出 -----
+    function triggerBossEntrance(boss) {
+      // 赤いフラッシュ
+      const flash = document.createElement('div');
+      flash.style.cssText = 'position:fixed;inset:0;background:rgba(180,0,50,0.35);z-index:9999;pointer-events:none;animation:bossFlash 1.5s ease forwards;';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 1600);
+
+      // ボス名称ビッグテキスト
+      const bigText = document.createElement('div');
+      bigText.style.cssText = [
+        'position:fixed', 'top:50%', 'left:50%',
+        'transform:translate(-50%,-50%)',
+        'font-size:36px', 'font-weight:700',
+        'color:#ff4040',
+        'text-shadow:0 0 30px #ff0000,0 0 60px #800000',
+        'z-index:10000', 'pointer-events:none',
+        'font-family:inherit', 'letter-spacing:6px',
+        'white-space:nowrap',
+        'animation:bossTextFade 3s ease forwards'
+      ].join(';');
+      bigText.textContent = '⚠ BOSS ⚠ ' + boss.name;
+      document.body.appendChild(bigText);
+      setTimeout(() => bigText.remove(), 3100);
+    }
+
+    // ----- shakeエフェクト（被ダメ時） -----
+    function triggerShakeEffect(intensity) {
+      const overlay = document.getElementById('battle-overlay');
+      if (!overlay) return;
+      overlay.style.animation = 'none';
+      overlay.offsetHeight; // reflow
+      const lvl = intensity || 1;
+      overlay.style.animation = `shake${lvl <= 1 ? 'Light' : lvl <= 2 ? 'Mid' : 'Heavy'} 0.5s ease`;
+      setTimeout(() => { overlay.style.animation = ''; }, 500);
+    }
+
+    // ----- HPパルス点滅（HP10%以下） -----
+    function checkHPPulse(charId, currentHp, maxHp) {
+      const ratio = currentHp / maxHp;
+      const barEl = document.querySelector(`.bv-hp-bar[data-char="${charId}"]`);
+      if (!barEl) return;
+      if (ratio <= 0.1) {
+        barEl.classList.add('pulse-critical');
+      } else {
+        barEl.classList.remove('pulse-critical');
+      }
+    }
+
+    // ----- ボス撃破称号カード -----
+    let TITLES_EARNED = [];
+    try {
+      TITLES_EARNED = JSON.parse(localStorage.getItem('pomera_titles') || '[]');
+    } catch (e) { TITLES_EARNED = []; }
+
+    function showBossTitleCard(boss) {
+      const titleName = boss.name + ' 討伐者';
+      if (TITLES_EARNED.find(t => t.name === titleName)) return;
+      TITLES_EARNED.push({ name: titleName, floor: boss.bossFloor, date: new Date().toLocaleDateString('ja-JP') });
+      localStorage.setItem('pomera_titles', JSON.stringify(TITLES_EARNED));
+
+      const card = document.createElement('div');
+      card.style.cssText = [
+        'position:fixed', 'top:50%', 'left:50%',
+        'transform:translate(-50%,-50%)',
+        'background:linear-gradient(135deg,#1a0a04,#2a1208)',
+        'border:3px solid #f0c020',
+        'border-radius:12px',
+        'padding:28px 40px',
+        'z-index:10001',
+        'text-align:center',
+        'box-shadow:0 0 40px rgba(240,160,20,0.6),0 0 80px rgba(200,80,20,0.3)',
+        'min-width:320px',
+        'animation:titleCardIn 0.8s cubic-bezier(0.34,1.56,0.64,1)',
+        'font-family:inherit'
+      ].join(';');
+      card.innerHTML = `
+        <div style="font-size:11px;color:#c09040;letter-spacing:4px;margin-bottom:8px">✦ 称号獲得 ✦</div>
+        <div style="font-size:28px;color:#f0d020;font-weight:700;letter-spacing:3px;text-shadow:0 0 20px #f0c020;margin-bottom:6px">${titleName}</div>
+        <div style="font-size:10px;color:#907050;letter-spacing:2px">F${boss.bossFloor} ─ ${new Date().toLocaleDateString('ja-JP')}</div>
+        <button onclick="this.parentElement.remove()"
+          style="margin-top:16px;padding:8px 24px;background:rgba(120,70,10,0.8);border:1px solid #c09040;border-radius:6px;color:#e8c060;font-size:12px;cursor:pointer;font-family:inherit">
+          ✓ 受け取る
+        </button>
+      `;
+      document.body.appendChild(card);
+    }
+
+    // ----- CSSアニメーション追加 -----
+    const extraStyle = document.createElement('style');
+    extraStyle.textContent = `
+      @keyframes monsterFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+      }
+      @keyframes bossFlash {
+        0% { opacity: 1; }
+        40% { opacity: 0.8; }
+        100% { opacity: 0; }
+      }
+      @keyframes bossTextFade {
+        0% { opacity: 0; transform: translate(-50%,-50%) scale(0.5); }
+        20% { opacity: 1; transform: translate(-50%,-50%) scale(1.05); }
+        80% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+        100% { opacity: 0; transform: translate(-50%,-50%) scale(1); }
+      }
+      @keyframes shakeLight {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-4px); }
+        75% { transform: translateX(4px); }
+      }
+      @keyframes shakeMid {
+        0%, 100% { transform: translate(0); }
+        25% { transform: translate(-8px, -3px); }
+        50% { transform: translate(8px, 3px); }
+        75% { transform: translate(-6px, 2px); }
+      }
+      @keyframes shakeHeavy {
+        0%, 100% { transform: translate(0); }
+        20% { transform: translate(-12px, -5px); }
+        40% { transform: translate(12px, 5px); }
+        60% { transform: translate(-10px, -4px); }
+        80% { transform: translate(10px, 4px); }
+      }
+      @keyframes titleCardIn {
+        from { opacity: 0; transform: translate(-50%,-50%) scale(0.6); }
+        to { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+      }
+      @keyframes hpPulse {
+        0%, 100% { opacity: 1; box-shadow: 0 0 0 rgba(255,0,0,0); }
+        50% { opacity: 0.6; box-shadow: 0 0 12px rgba(255,50,0,0.8); }
+      }
+      .pulse-critical {
+        animation: hpPulse 0.6s ease infinite !important;
+        background: linear-gradient(90deg, #c00000, #ff2020) !important;
+      }
+      /* ボスフロア背景 */
+      #battle-overlay.boss-floor {
+        background: radial-gradient(ellipse at center, rgba(40,5,5,0.99) 0%, rgba(6,3,1,0.99) 70%);
+      }
+      #battle-overlay.boss-floor .bo-header {
+        background: linear-gradient(90deg, rgba(100,10,10,0.8) 0%, transparent 100%);
+        border-bottom: 2px solid rgba(200,20,20,0.5);
+      }
+      .bo-monster-icon canvas {
+        display: block;
+        margin: 0 auto;
+      }
+    `;
+    document.head.appendChild(extraStyle);
+
+    // openBattleOverlayをオーバーライド（ドット絵差し込み）
+    const _origOpenBO = typeof openBattleOverlay === 'function' ? openBattleOverlay : null;
 
     // ===== Phaser 起動 =====
     const config = {
@@ -884,6 +5512,113 @@
       pixelArt: true
     };
     const game = new Phaser.Game(config);
+
+    // ===== IndexedDB ラッパー（GameDB）=====
+    // localStorageの同期制限・5MB制限を超えるためIndexedDBへ移行する
+    const GameDB = {
+      DB_NAME: 'pomeraGameDB',
+      DB_VERSION: 1,
+      STORE_NAME: 'gameData',
+      _db: null,
+
+      async open() {
+        if (this._db) return this._db;
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+              db.createObjectStore(this.STORE_NAME);
+            }
+          };
+          req.onsuccess = (e) => { this._db = e.target.result; resolve(this._db); };
+          req.onerror = (e) => reject(e.target.error);
+        });
+      },
+
+      async get(key) {
+        try {
+          const db = await this.open();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.STORE_NAME, 'readonly');
+            const req = tx.objectStore(this.STORE_NAME).get(key);
+            req.onsuccess = (e) => resolve(e.target.result ?? null);
+            req.onerror = (e) => reject(e.target.error);
+          });
+        } catch (e) {
+          // フォールバック: localStorage
+          return localStorage.getItem(key);
+        }
+      },
+
+      async set(key, val) {
+        try {
+          const db = await this.open();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.STORE_NAME, 'readwrite');
+            const req = tx.objectStore(this.STORE_NAME).put(val, key);
+            req.onsuccess = () => resolve();
+            req.onerror = (e) => reject(e.target.error);
+          });
+        } catch (e) {
+          // フォールバック: localStorage
+          try { localStorage.setItem(key, val); } catch (le) { }
+        }
+      },
+
+      // localStorage → IndexedDB へのデータ移行
+      async migrateFromLocalStorage() {
+        const keys = [
+          'pomera_cp', 'pomera_last_login', 'pomera_inventory', 'pomera_equipped',
+          'pomera_floor', 'pomera_char_cache', 'pomera_recruited', 'pomera_party',
+          'pomera_dead', 'pomera_xp', 'pomera_lv', 'pomera_skillpath',
+          'pomera_prev_nodes', 'pomera_demo_mode', 'pomera_titles'
+        ];
+        for (const key of keys) {
+          const val = localStorage.getItem(key);
+          if (val !== null) {
+            await this.set(key, val);
+          }
+        }
+        await this.set('_migrated', '1');
+        console.log('[GameDB] localStorage → IndexedDB 移行完了');
+      }
+    };
+
+    // ===== Phaser非依存のUI初期化（fetchでdailyデータを直接読み込む）=====
+    // Phaserのロード完了を待たずに旅人リスト・クエスト・CPを初期化する
+    (async function initGameUI() {
+      // IndexedDB 初回移行
+      try {
+        const migrated = await GameDB.get('_migrated');
+        if (!migrated) {
+          await GameDB.migrateFromLocalStorage();
+        }
+        window._gameDB = GameDB;
+        console.log('[GameDB] IndexedDB 準備完了');
+      } catch (e) {
+        console.warn('[GameDB] IndexedDB 初期化失敗、localStorageで継続:', e);
+      }
+
+      // 日記・ナレッジグラフデータの読み込み
+      try {
+        const res = await fetch('./daily_graph.json');
+        if (!res.ok) throw new Error('daily_graph.json load failed');
+        const data = await res.json();
+        // Phaserがまだロード中でも、UIを先に初期化する
+        buildGameFromGraph(data);
+        // windowにdailyDataをキャッシュ（Phaserのcreate内でも使えるように）
+        window._dailyData = data;
+        console.log('[POMERA] 日記データ読み込み完了:', data.nodes?.length, 'ノード');
+      } catch (e) {
+        console.warn('daily_graph.json load failed:', e);
+        // データなしでも空の初期化
+        buildGameFromGraph(null);
+      }
+    })();
+
+
+
   </script>
 </body>
 
