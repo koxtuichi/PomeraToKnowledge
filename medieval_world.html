@@ -2878,12 +2878,8 @@
             <span class="tstat" style="color:#9060c0">速度:${char.stats.SPD}</span>
           </div>
           <div class="traveler-story">${char.story}</div>
-          <div style="display:flex;gap:6px;margin-top:6px">
-            <button onclick="openTravelerConversation('${char.id}')"
-              style="flex:1;background:rgba(80,60,20,0.6);border:1px solid rgba(160,130,60,0.5);color:#c0a060;font-size:10px;padding:5px;border-radius:6px;cursor:pointer;">
-              💬 話しかける
-            </button>
-            <button class="recruit-btn ${isRec ? 'recruited' : ''}" style="flex:2"
+          <div style="display:flex;gap:6px;margin-top:6px;padding:0 12px">
+            <button class="recruit-btn ${isRec ? 'recruited' : ''}" style="flex:1"
               ${isRec ? '' : (canAfford ? '' : 'disabled')}
               onclick="recruitChar('${char.id}')">
               ${isRec ? '✓ 仲間' : '採用 ' + char.cost + 'CP'}
@@ -3007,34 +3003,39 @@
             : (palName === 'mage' || palName === 'sage' || palName === 'alchemist') ? 'charIdle 3.2s ease-in-out infinite'
               : 'charIdleSlow ' + (2.8 + i * 0.3) + 's ease-in-out infinite';
 
-          html += '<div class="party-slot filled" data-sprite-id="' + member.id + '" style="position:relative">'
-            + '<button class="party-remove" style="position:absolute;top:6px;right:6px" onclick="removeFromParty(\'' + member.id + '\')">✕</button>'
-            // Elinスタイル画像スプライトエリア
-            + '<div class="party-sprite-area" id="psprite-' + member.id + '">'
+          html += '<div class="party-slot filled" data-sprite-id="' + member.id + '" style="position:relative;padding:0 0 10px 0;overflow:hidden">'
+            + '<button class="party-remove" style="position:absolute;top:6px;right:6px;z-index:10" onclick="removeFromParty(\'' + member.id + '\')">✕</button>'
+            // 縦長画像エリア（レア度対応 160px）
+            + '<div class="party-sprite-area" id="psprite-' + member.id + '" style="width:100%;height:180px;overflow:hidden;border-radius:6px 6px 0 0;margin-bottom:8px;background:rgba(20,12,3,0.5)">'
             + '<img src="' + spriteUrl + '" alt="' + member.cls + '"'
-            + ' style="width:80px;height:80px;object-fit:contain;animation:' + animName + ';filter:' + glowStyle + ';image-rendering:pixelated"'
+            + ' style="width:100%;height:100%;object-fit:cover;object-position:top center;filter:' + glowStyle + '"'
             + ' onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"'
             + '>'
-            + '<span style="display:none;font-size:48px;line-height:1">' + member.icon + '</span>'
+            + '<span style="display:none;font-size:72px;line-height:180px;text-align:center;width:100%;display:none">' + member.icon + '</span>'
             + '</div>'
-            + '<div class="party-slot-name">' + member.name + ' <span class="lv-badge">Lv' + lv + '</span></div>'
+            // 名前・クラス（パディング付き）
+            + '<div style="padding:0 10px">'
+            + '<div class="party-slot-name" style="font-size:13px;margin-bottom:2px">' + member.name + ' <span class="lv-badge">Lv' + lv + '</span>' + badge + '</div>'
             + '<div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:' + Math.round(getCharXp(member.id) / getXpToNextLv(lv) * 100) + '%"></div></div>'
-            + '<div class="party-slot-class">' + member.race + ' ' + member.cls + '</div>'
-            + '<div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:5px;justify-content:center">'
-            + '<span class="tstat" title="ATK" style="color:#d06040">攻:' + eff.ATK + '</span>'
-            + '<span class="tstat" title="DEF" style="color:#60a0d0">防:' + eff.DEF + '</span>'
-            + '<span class="tstat" title="HP" style="color:#d09060">HP:' + eff.HP + '</span>'
-            + '<span class="tstat" title="MANA" style="color:#6080d0">MP:' + (eff.MANA || '?') + '</span>'
-            + '<span class="tstat" title="SPD" style="color:#9060c0">速:' + eff.SPD + '</span>'
+            + '<div class="party-slot-class" style="margin-bottom:6px">' + member.race + ' ' + member.cls + '</div>'
+            // パラメータ縦並びグリッド
+            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 6px;margin-bottom:6px;font-size:10px">'
+            + '<span class="tstat" style="color:#d06040">⚔ 攻: ' + eff.ATK + '</span>'
+            + '<span class="tstat" style="color:#60a0d0">🛡 防: ' + eff.DEF + '</span>'
+            + '<span class="tstat" style="color:#d09060">❤ HP: ' + eff.HP + '</span>'
+            + '<span class="tstat" style="color:#6080d0">✦ MP: ' + (eff.MANA || '?') + '</span>'
+            + '<span class="tstat" style="color:#9060c0">💨 速: ' + eff.SPD + '</span>'
+            + '<span class="tstat" style="color:#a08060">⚡ 力: ' + eff.STR + '</span>'
+            + '<span class="tstat" style="color:#80a060">🧪 魔: ' + eff.MAG + '</span>'
+            + '<span class="tstat" style="color:#a06080">✨ 魅: ' + eff.CHR + '</span>'
             + '</div>'
-            + '<div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;justify-content:center">'
-            + '<span class="tstat" title="STR" style="font-size:9px">力:' + eff.STR + '</span>'
-            + '<span class="tstat" title="CON" style="font-size:9px">耐:' + eff.CON + '</span>'
-            + '<span class="tstat" title="DEX" style="font-size:9px">器:' + eff.DEX + '</span>'
-            + '<span class="tstat" title="MAG" style="font-size:9px">魔:' + eff.MAG + '</span>'
+            // 装備スロット
+            + '<div class="eq-slots" style="margin-bottom:6px">' + eqHtml + '</div>'
+            // 背景ストーリー（charのstoryがあれば表示）
+            + (member.story ? '<div style="font-size:9px;color:#a08860;line-height:1.4;margin-bottom:6px;padding:5px;background:rgba(30,18,3,0.5);border-radius:4px;border-left:2px solid rgba(160,120,40,0.4)">' + member.story + '</div>' : '')
+            // スキルボタン
+            + '<div style="text-align:center"><button onclick="openSkillTreeModal(\'' + member.id + '\')" style="background:linear-gradient(135deg,#3a1e6a,#5a2e9a);border:1px solid #8060c0;color:#c0a0f0;font-size:9px;padding:3px 8px;border-radius:6px;cursor:pointer;width:100%">✦ スキルツリー' + (lv < 3 ? ' <span style="color:#604080">(Lv3〜)</span>' : '') + '</button></div>'
             + '</div>'
-            + '<div class="eq-slots" style="margin-top:5px">' + eqHtml + '</div>'
-            + '<div style="margin-top:6px;text-align:center"><button onclick="openSkillTreeModal(\'' + member.id + '\')" style="background:linear-gradient(135deg,#3a1e6a,#5a2e9a);border:1px solid #8060c0;color:#c0a0f0;font-size:9px;padding:3px 8px;border-radius:6px;cursor:pointer;">✦ スキル' + badge + (lv < 3 ? ' <span style="color:#604080">(Lv3〜)</span>' : '') + '</button></div>'
             + '</div>';
         } else {
           const available = ALL_TRAVELERS.filter(c => RECRUITED.has(c.id) && !PARTY.find(p => p.id === c.id));
@@ -3804,6 +3805,10 @@
           const char = generateCharacter(n);
           if (n.spriteUrl) {
             char.customSpriteUrl = n.spriteUrl;
+          }
+          // レア度をノードから引き継ぐ
+          if (n.rarity) {
+            char.rarity = n.rarity;
           }
           return char;
         });
