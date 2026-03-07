@@ -2815,7 +2815,8 @@
           const img = document.createElement('img');
           img.src = spriteUrl;
           img.alt = char.cls;
-          img.style.cssText = 'width:52px;height:52px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.8));animation:charIdleSlow 3s ease-in-out infinite;';
+          const hue = char.colorHue || 0;
+          img.style.cssText = `width:52px;height:52px;object-fit:contain;image-rendering:pixelated;filter:hue-rotate(${hue}deg) drop-shadow(0 3px 6px rgba(0,0,0,0.8));animation:charIdleSlow 3s ease-in-out infinite;`;
           img.onerror = () => {
             img.style.display = 'none';
             iconEl.textContent = char.icon;
@@ -2908,12 +2909,13 @@
           // Elinスタイルスプライト画像URL取得
           const spriteUrl = (typeof getCharSpriteUrl === 'function') ? getCharSpriteUrl(member) : 'sprites/characters/default_char.png';
           const palName = (typeof CHAR_PALETTE_MAP !== 'undefined' && CHAR_PALETTE_MAP[member.cls]) || 'default_char';
-          // クラス別グロースタイル
+          const hue2 = member.colorHue || 0;
+          // クラス別グロースタイル + キャラ個別のhue-rotate
           const glowStyle = palName === 'hero'
-            ? 'drop-shadow(0 6px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 8px rgba(240,200,40,0.5))'
+            ? `hue-rotate(${hue2}deg) drop-shadow(0 6px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 8px rgba(240,200,40,0.5))`
             : (palName === 'mage' || palName === 'sage' || palName === 'alchemist')
-              ? 'drop-shadow(0 6px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 6px rgba(140,80,255,0.4))'
-              : 'drop-shadow(0 5px 10px rgba(0,0,0,0.85))';
+              ? `hue-rotate(${hue2}deg) drop-shadow(0 6px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 6px rgba(140,80,255,0.4))`
+              : `hue-rotate(${hue2}deg) drop-shadow(0 5px 10px rgba(0,0,0,0.85))`;
           const animName = palName === 'hero' ? 'charIdle 2.4s ease-in-out infinite'
             : (palName === 'mage' || palName === 'sage' || palName === 'alchemist') ? 'charIdle 3.2s ease-in-out infinite'
               : 'charIdleSlow ' + (2.8 + i * 0.3) + 's ease-in-out infinite';
