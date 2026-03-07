@@ -3701,9 +3701,16 @@
       localStorage.setItem('pomera_prev_nodes', JSON.stringify(data.nodes.map(n => n.id)));
 
       // キャラクター生成（全ノードから）
+      // node.spriteUrl がある場合は customSpriteUrl として付与（日記ノード→キャラ生成システム）
       ALL_TRAVELERS = data.nodes
         .filter(n => n.id) // IDがあるノードのみ
-        .map(n => generateCharacter(n));
+        .map(n => {
+          const char = generateCharacter(n);
+          if (n.spriteUrl) {
+            char.customSpriteUrl = n.spriteUrl;
+          }
+          return char;
+        });
 
       // クエスト生成（タスクノードから）
       ALL_QUESTS = data.nodes

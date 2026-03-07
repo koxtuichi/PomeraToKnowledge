@@ -70,6 +70,14 @@ jobs:
       - name: HTML の整合性チェック
         run: python3 scripts/validate_html.py graph_data.js
 
+      - name: Generate Node Sprites
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          echo "🎨 日記ノードからキャラクター画像を生成中..."
+          pip install google-generativeai --quiet
+          python scripts/generate_node_sprites.py || echo "⚠️ generate_node_sprites.py 失敗（スキップ）"
+
       - name: Commit and Push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -78,6 +86,7 @@ jobs:
           git add knowledge_graph.jsonld || true
           git add role_definition.txt || true
           git add graph_data.js || true
+          git add sprites/characters/nodes/ || true
           git add daily_graph.json || true
           git add daily_report.md || true
           git add story_drafts/ || true
