@@ -191,11 +191,11 @@
       color: #806040;
     }
 
-    /* 旅人グリッド（2カラム） */
+    /* 旅人グリッド（3カラム） */
     .traveler-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
 
     /* クエストグリッド */
@@ -2852,38 +2852,30 @@
         const rarity = char.rarity || 'N';
         return `<div class="traveler-card rarity-${rarity}" data-char-id="${char.id}">
           <span class="rarity-badge rarity-badge-${rarity}">${rarity}</span>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:8px">
-            <div class="traveler-icon" data-char-id="${char.id}" style="width:100%;height:240px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:6px 6px 0 0;background:rgba(30,20,5,0.4);">${char.icon}</div>
-            <div style="text-align:center;padding:6px 12px 0">
-              <div class="traveler-name">${char.name}</div>
-              <div class="traveler-class">${char.race} / ${char.cls}${char.isIdle ? ' ✧潜在力あり' : ''}</div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:6px">
+            <div class="traveler-icon" data-char-id="${char.id}" style="width:100%;height:160px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:6px 6px 0 0;background:rgba(30,20,5,0.4);">${char.icon}</div>
+            <div style="text-align:center;padding:5px 8px 0;width:100%">
+              <div class="traveler-name" style="font-size:11px">${char.name}</div>
+              <div class="traveler-class" style="font-size:9px">${char.race} / ${char.cls}${char.isIdle ? ' ✧' : ''}</div>
             </div>
           </div>
-          <div class="traveler-stats">
-            <span class="tstat" title="STR">力:${char.stats.STR}</span>
-            <span class="tstat" title="CON">耐久:${char.stats.CON}</span>
-            <span class="tstat" title="DEX">器用:${char.stats.DEX}</span>
-            <span class="tstat" title="PER">知覚:${char.stats.PER}</span>
-            <span class="tstat" title="LER">学習:${char.stats.LER}</span>
-            <span class="tstat" title="WIL">意志:${char.stats.WIL}</span>
-            <span class="tstat" title="MAG">魔力:${char.stats.MAG}</span>
-            <span class="tstat" title="CHR">魅力:${char.stats.CHR}</span>
-            <span class="tstat" title="LUC">運:${char.stats.LUC}</span>
-          </div>
-          <div class="traveler-stats" style="margin-top:4px;border-top:1px solid rgba(100,70,20,0.2);padding-top:4px">
-            <span class="tstat" style="color:#d09060">生命:${char.stats.HP}</span>
-            <span class="tstat" style="color:#6080d0">マナ:${char.stats.MANA}</span>
-            <span class="tstat" style="color:#d06040">攻撃:${char.stats.ATK}</span>
-            <span class="tstat" style="color:#60a0d0">防御:${char.stats.DEF}</span>
-            <span class="tstat" style="color:#9060c0">速度:${char.stats.SPD}</span>
-          </div>
-          <div class="traveler-story">${char.story}</div>
-          <div style="display:flex;gap:6px;margin-top:6px;padding:0 12px">
-            <button class="recruit-btn ${isRec ? 'recruited' : ''}" style="flex:1"
-              ${isRec ? '' : (canAfford ? '' : 'disabled')}
-              onclick="recruitChar('${char.id}')">
-              ${isRec ? '✓ 仲間' : '採用 ' + char.cost + 'CP'}
-            </button>
+          <div style="padding:0 8px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px 4px;margin-bottom:4px">
+              <span class="tstat" style="font-size:9px;color:#d06040">攻:${char.stats.ATK}</span>
+              <span class="tstat" style="font-size:9px;color:#60a0d0">防:${char.stats.DEF}</span>
+              <span class="tstat" style="font-size:9px;color:#d09060">HP:${char.stats.HP}</span>
+              <span class="tstat" style="font-size:9px;color:#6080d0">MP:${char.stats.MANA}</span>
+              <span class="tstat" style="font-size:9px;color:#9060c0">速:${char.stats.SPD}</span>
+              <span class="tstat" style="font-size:9px;color:#80a060">魔:${char.stats.MAG}</span>
+            </div>
+            <div class="traveler-story" style="font-size:9px;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden">${char.story}</div>
+            <div style="margin-top:5px">
+              <button class="recruit-btn ${isRec ? 'recruited' : ''}" style="width:100%"
+                ${isRec ? '' : (canAfford ? '' : 'disabled')}
+                onclick="recruitChar('${char.id}')">
+                ${isRec ? '✓ 仲間' : '採用 ' + char.cost + 'CP'}
+              </button>
+            </div>
           </div>
         </div>`;
       }).join('');

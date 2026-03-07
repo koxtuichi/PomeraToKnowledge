@@ -1,0 +1,13 @@
+{
+  "title": "ポメラ駆動の基盤刷新とGCP移行の話",
+  "description": "ポメラからSNSへ投稿する仕組みを作る前に、システムの土台を見直した話。GitHub ActionsからGoogle Cloud Functionsへ移行し、Geminiによる分析処理を高速化。安定した「ポメラ駆動」を実現するための基盤作りについて綴る。",
+  "categories": [
+    "ポメラ",
+    "システム開発",
+    "思考整理"
+  ],
+  "estimated_read_time": "4分",
+  "source_file": "blog_drafts/20260302_[BLOG]機能を追加する前にしたこ.txt",
+  "generated_at": "2026-03-02T18:26:16.311779",
+  "type": "blog_article"
+}

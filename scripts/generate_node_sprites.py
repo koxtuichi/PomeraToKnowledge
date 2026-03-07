@@ -129,15 +129,32 @@ def build_prompt(node: dict) -> str:
     detail = node.get("detail", "")
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
+    # ===== マスタースタイルガイド（全キャラ共通 / 最優先） =====
+    # 中世ヨーロッパ・Elinライクなウォームアース調で統一感を担保する
+    master_style = (
+        "Pixel art RPG trading card character portrait, "
+        "Elin game aesthetic, medieval European fantasy, "
+        "CONSISTENT warm earthy color palette across all pieces: "
+        "base tones are muted parchment cream, aged stone gray, dark walnut brown, desaturated forest green, "
+        "warm candlelight amber as primary light source, "
+        "deep shadowed darks with warm undertones, "
+        "NO neon colors, NO vibrant electric tones, NO modern colors, "
+        "cohesive dungeon-and-dragon art direction, "
+        "professional game card illustration quality, "
+        "fine detailed pixel art, clean anti-aliased outlines, "
+        "vertical 3:4 portrait card format"
+    )
+
+    # タイプ別アクセント色（基調は変えず、アクセント小物・装備の差し色として使う）
+    accent = f"accent color hint — {tp['palette']}"
+
     prompt = (
-        f"Pixel art RPG character card art, Elin game style, medieval fantasy, "
-        f"vertical portrait format 3:4 aspect ratio, "
-        f"{tp['class_hint']} character, "
+        f"{master_style}, "
+        f"{tp['class_hint']} character archetype, "
         f"{tp['visual']}, "
-        f"personality hint: {detail_snippet}, "
-        f"color palette: {tp['palette']}, "
+        f"{accent}, "
+        f"personality inspired by: {detail_snippet}, "
         f"{pose_bg}, "
-        f"high quality detailed pixel art, rich color depth, expressive character design, "
         f"NO text, NO letters, NO writing, NO labels, NO numbers, NO UI elements"
     )
     return prompt
