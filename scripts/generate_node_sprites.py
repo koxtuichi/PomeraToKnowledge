@@ -100,24 +100,23 @@ def build_prompt(node: dict) -> str:
 
 def generate_image_with_gemini(prompt: str) -> Optional[bytes]:
     """
-    Gemini API (gemini-2.0-flash-preview-image-generation) で画像を生成し、
+    Gemini API (gemini-2.5-flash-image) で画像を生成し、
     PNG バイト列を返す。失敗時は None を返す。
     """
     try:
-        import google.generativeai as genai
-        from google.generativeai import types as genai_types
+        from google import genai
+        from google.genai import types as genai_types
 
-        genai.configure(api_key=API_KEY)
+        client = genai.Client(api_key=API_KEY)
 
-        model = genai.GenerativeModel("gemini-2.0-flash-preview-image-generation")
-        response = model.generate_content(
-            prompt,
-            generation_config=genai_types.GenerationConfig(
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-image",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(
                 response_modalities=["IMAGE"],
             ),
         )
 
-        # レスポンスから画像データを取り出す
         for part in response.candidates[0].content.parts:
             if hasattr(part, "inline_data") and part.inline_data:
                 return part.inline_data.data  # bytes

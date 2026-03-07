@@ -6,7 +6,8 @@
       "type": "日記",
       "detail": "江頭さんとのMTGに備え、Knowbeでの役割や現在のタスク（資料更新、改善タスク運用フロー）を整理した記録。",
       "date": "2026-03-06",
-      "context": "shared"
+      "context": "shared",
+      "spriteUrl": "sprites/characters/nodes/日記_2026-03-06.png"
     },
     {
       "id": "タスク:Knowbe_TeamMaterialUpdate",
@@ -15,7 +16,8 @@
       "detail": "電子サインの振り返りを受け、不要な資料の整理や、案件ページへ統合すべき資料の更新作業を行う。",
       "status": "進行中",
       "category": "エンジニア",
-      "context": "knowbe"
+      "context": "knowbe",
+      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamMaterialUpdate.png"
     },
     {
       "id": "知見:ImprovementTaskReflection",
@@ -23,7 +25,8 @@
       "type": "知見",
       "detail": "メンバー主導で改善タスクを進める際のボトルネックを振り返りから特定し、運用のための改善案をまとめた。",
       "category": "エンジニア",
-      "context": "knowbe"
+      "context": "knowbe",
+      "spriteUrl": "sprites/characters/nodes/知見_ImprovementTaskReflection.png"
     },
     {
       "id": "タスク:Knowbe_TeamStatusGrasp",
@@ -32,7 +35,8 @@
       "detail": "2つのチームの進捗把握に加え、電子サイン関連の振り返りに基づく資料更新や案件ページへの統合を管理業務として遂行する。",
       "status": "進行中",
       "category": "エンジニア",
-      "context": "knowbe"
+      "context": "knowbe",
+      "spriteUrl": "sprites/characters/nodes/タスク_Knowbe_TeamStatusGrasp.png"
     },
     {
       "id": "タスク:ImprovementTaskFlow",
@@ -41,7 +45,8 @@
       "detail": "メンバー中心に対応できるフローを構築するため、策定した改善策を実際の運用フローに落とし込む。",
       "status": "進行中",
       "category": "エンジニア",
-      "context": "knowbe"
+      "context": "knowbe",
+      "spriteUrl": "sprites/characters/nodes/タスク_ImprovementTaskFlow.png"
     },
     {
       "id": "出来事:Knowbe_1on1_江頭_20260306",
@@ -50,7 +55,8 @@
       "detail": "15時からのMTG。Knowbeでの役割（フロント2チームの管理）や現在の取り組みについて共有・対話する。",
       "status": "予定",
       "date": "2026-03-06",
-      "context": "knowbe"
+      "context": "knowbe",
+      "spriteUrl": "sprites/characters/nodes/出来事_Knowbe_1on1_江頭_20260306.png"
     },
     {
       "id": "人物:自分",
@@ -59,7 +65,8 @@
       "detail": "日記の作成者",
       "first_seen": "2026-03-06T14:21:19.641949",
       "last_seen": "2026-03-06T14:21:19.641954",
-      "weight": 1
+      "weight": 1,
+      "spriteUrl": "sprites/characters/nodes/人物_自分.png"
     }
   ],
   "edges": [
