@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
   <title>GUILD MASTER | ギルドマスター</title>
@@ -1406,6 +1407,255 @@
       background: var(--gold);
       color: #000;
     }
+
+    /* ===== B2: 今週のハイライト ===== */
+    .report-highlight {
+      margin: 10px 0;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #1a0f02, #2a1a04);
+      border: 1px solid var(--gold);
+      border-left: 4px solid var(--gold2);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--gold2);
+    }
+
+    .report-highlight-title {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold3);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ===== B3: ランクアップ演出 ===== */
+    @keyframes rankup-glow {
+      0% {
+        box-shadow: 0 0 8px rgba(200, 160, 80, .3), 0 0 0 0 rgba(200, 160, 80, .6);
+      }
+
+      50% {
+        box-shadow: 0 0 24px rgba(200, 160, 80, .8), 0 0 0 8px rgba(200, 160, 80, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 8px rgba(200, 160, 80, .3), 0 0 0 0 rgba(200, 160, 80, 0);
+      }
+    }
+
+    @keyframes rankup-badge {
+      0% {
+        transform: scale(0.6) rotate(-10deg);
+        opacity: 0;
+      }
+
+      60% {
+        transform: scale(1.2) rotate(4deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.0) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .rcard-rankup {
+      animation: rankup-glow 2s ease-in-out 3;
+    }
+
+    .rankup-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #7a5010, #c8a050);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin: 4px 0;
+      animation: rankup-badge .6s cubic-bezier(.34, 1.56, .64, 1) forwards;
+      letter-spacing: 1px;
+    }
+
+    /* ===== B1: 所属済みバッジ ===== */
+    .rcd.hired-out {
+      opacity: 0.65;
+      border-color: var(--gold);
+    }
+
+    .hired-badge {
+      display: inline-block;
+      font-size: 9px;
+      padding: 2px 8px;
+      background: rgba(200, 160, 80, .2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 3px;
+      margin-bottom: 6px;
+    }
+
+    /* ===== スマホ対応 (768px以下) ===== */
+    #bottom-nav {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
+
+      #app {
+        grid-template-rows: 44px 1fr 60px;
+      }
+
+      /* HUD: ギルド名を省略して金額だけ */
+      .hguild {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      .hcp {
+        font-size: 12px;
+      }
+
+      .hdate {
+        display: none;
+      }
+
+      .hrep {
+        display: none;
+      }
+
+      /* メインを縦積みにする */
+      #main {
+        grid-template-columns: 1fr !important;
+        overflow-y: auto;
+      }
+
+      /* 左サイドバー (パーティーリスト) は非表示にしてボトムナビで切替 */
+      #plist {
+        display: none;
+      }
+
+      /* 右サイドバー (ギルド記録) は非表示 */
+      #log {
+        display: none;
+      }
+
+      /* コンテンツはフル幅 */
+      #content {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* ボトムナビ表示 */
+      #bottom-nav {
+        display: flex;
+        background: linear-gradient(180deg, #120a02, #0e0806);
+        border-top: 2px solid var(--bd);
+        padding: 0;
+        height: 60px;
+        align-items: stretch;
+      }
+
+      .bnav-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: var(--tx3);
+        font-size: 9px;
+        font-family: 'Noto Serif JP', serif;
+        gap: 2px;
+        cursor: pointer;
+        padding: 4px 2px;
+        border-right: 1px solid var(--bd2);
+        min-height: 44px;
+        transition: color .2s, background .2s;
+      }
+
+      .bnav-btn:last-child {
+        border-right: none;
+      }
+
+      .bnav-btn.active {
+        color: var(--gold2);
+        background: rgba(200, 160, 80, .08);
+      }
+
+      .bnav-btn .bnav-icon {
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      /* キャラカードをやや大きく */
+      .mc {
+        padding: 10px;
+      }
+
+      .stat-track {
+        height: 16px;
+      }
+
+      /* ボタンのタップターゲット最小44px */
+      button,
+      .hbtn,
+      .hbtn2,
+      .rcab,
+      .mcrm {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      .mcrm {
+        min-height: 28px;
+        min-width: 28px;
+      }
+
+      /* モーダルをフルスクリーン気味に */
+      .modal {
+        padding: 0;
+        align-items: flex-end;
+      }
+
+      .modal-box {
+        max-width: 100% !important;
+        width: 100% !important;
+        border-radius: 16px 16px 0 0;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      /* 採用候補グリッドを1カラムに */
+      .rgrid {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* mc-portrait を少し小さく */
+      .mc-portrait {
+        width: 52px;
+        height: 52px;
+      }
+
+      /* パーティーグリッドを1カラムに */
+      .mg {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hguild {
+        display: none;
+      }
+
+      #hud {
+        gap: 4px;
+        padding: 0 8px;
+      }
+    }
   </style>
 </head>
 
@@ -1484,6 +1734,30 @@
       <div class="lbt" id="lbt">ギルドマスターとしての物語がここから始まる。</div>
     </footer>
   </div>
+
+  <!-- スマホ用ボトムナビ -->
+  <nav id="bottom-nav" aria-label="メインナビゲーション">
+    <button class="bnav-btn active" id="bnav-party" onclick="mobileNav('party')" aria-label="パーティー">
+      <span class="bnav-icon">⚔️</span>
+      <span>パーティー</span>
+    </button>
+    <button class="bnav-btn" id="bnav-roster" onclick="mobileNav('roster')" aria-label="待機所">
+      <span class="bnav-icon">👥</span>
+      <span>待機所</span>
+    </button>
+    <button class="bnav-btn" id="bnav-reports" onclick="mobileNav('reports')" aria-label="週次報告">
+      <span class="bnav-icon">📋</span>
+      <span>報告</span>
+    </button>
+    <button class="bnav-btn" id="bnav-warehouse" onclick="mobileNav('warehouse')" aria-label="倉庫">
+      <span class="bnav-icon">📦</span>
+      <span>倉庫</span>
+    </button>
+    <button class="bnav-btn" id="bnav-map" onclick="mobileNav('map')" aria-label="地方マップ">
+      <span class="bnav-icon">🗺️</span>
+      <span>マップ</span>
+    </button>
+  </nav>
 
   <!-- create party modal -->
   <div class="mo" id="mcreate">
@@ -1996,12 +2270,38 @@
       checkGuildRankUp();
       renderWelcomeRankDisplay();
     }
+    function showRankUpToast(oldRank, newRank) {
+      const toast = document.createElement('div');
+      toast.style.cssText = `position:fixed;top:60px;left:50%;transform:translateX(-50%) scale(.8);z-index:9999;
+        background:linear-gradient(135deg,#3a2004,#7a4010);border:2px solid var(--gold2);
+        padding:14px 30px;border-radius:12px;text-align:center;opacity:0;
+        transition:opacity .4s,transform .4s;pointer-events:none;`;
+      toast.innerHTML = `<div style="font-size:11px;letter-spacing:2px;color:var(--gold3)">RANK UP</div>
+        <div style="font-size:22px;color:var(--gold2);font-weight:700;margin:4px 0">${oldRank} → ${newRank}</div>
+        <div style="font-size:11px;color:var(--tx)">${GUILD_RANK_LABELS[newRank]}</div>`;
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) scale(1)';
+      });
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) scale(.8)';
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+      // HUDのランクバッジをパルス
+      const hudRank = document.querySelector('.hrank');
+      if (hudRank) { hudRank.classList.add('rcard-rankup'); setTimeout(() => hudRank.classList.remove('rcard-rankup'), 7000); }
+    }
+
     function checkGuildRankUp() {
       const oldRank = G_STATE.guildRank || 'D';
       const newRank = getGuildRank(G_STATE.reputation || 0);
       if (GUILD_RANK_ORDER.indexOf(newRank) > GUILD_RANK_ORDER.indexOf(oldRank)) {
         G_STATE.guildRank = newRank;
         saveState();
+        // B3: ランクアップ演出
+        setTimeout(() => showRankUpToast(oldRank, newRank), 200);
         addLog(`🏆 ギルドランクアップ！ ${oldRank} → ${newRank}: ${GUILD_RANK_LABELS[newRank]}`, 'evd');
         if (newRank === 'S') {
           setTimeout(() => {
@@ -2867,7 +3167,10 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       currentView = 'roster';
       let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
       G_STATE.roster.forEach(c => {
-        html += `<div class="rcd">
+        const isHired = !!c.hiredPartyId;
+        const hiredParty = isHired ? G_STATE.parties.find(p => p.id === c.hiredPartyId) : null;
+        html += `<div class="rcd${isHired ? ' hired-out' : ''}">
+${isHired ? `<div class="hired-badge">✅ 所属済み: ${hiredParty?.name || 'パーティー'}</div>` : ''}
 <div class="rcdn">${c.name} ${c.gender} ${c.age}歳${c.growthTag ? `<span class="growth-tag">${c.growthTag}</span>` : ''}</div>
 <div style="font-size:11px;color:var(--gold);font-style:italic;margin:4px 0 6px;padding:6px;border-left:2px solid var(--bd);">${c.flavorQuote || '...'}</div>
 <div style="font-size:9px;color:var(--tx3);margin-bottom:6px">🌐 ${c.birthplace || '—'} | ${c.careerFlavor || ''}</div>
@@ -2877,7 +3180,9 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
 <span class="stag sb">${c.weakSkill}↓</span>
 </div>
 <div style="font-size:9px;color:var(--rose);margin-bottom:8px">恋愛: ${c.romanceStyle} / ${c.romanceGender}</div>
-<button class="hbtn2" onclick="openHireModal(${c.id})">＋ パーティーに採用</button>
+${isHired
+            ? `<button class="hbtn2" disabled style="opacity:.5;cursor:not-allowed">✅ 所属済み</button>`
+            : `<button class="hbtn2" onclick="openHireModal(${c.id})">＋ パーティーに採用</button>`}
 </div>`;
       });
       if (G_STATE.roster.length === 0) html += `<div style="padding:20px;color:var(--tx3);font-size:11px">現在応募者はいません。週を進めると新しいキャラクターが応募してきます。</div>`;
@@ -2892,6 +3197,23 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       if (G_STATE.pendingReports.length === 0) {
         html += `<div class="notice">現在、未読の報告はありません。「週を進める」を押すとパーティーから報告が届きます。</div>`;
       } else {
+        // B2: 今週のハイライト
+        const allEvents = G_STATE.pendingReports.flatMap(r => r.events || []);
+        const drops = allEvents.filter(e => e.type === 'drop');
+        const bestDrop = drops.sort((a, b) => {
+          const ra = { common: 0, uncommon: 1, rare: 2, epic: 3 };
+          return (ra[b.rarity] || 0) - (ra[a.rarity] || 0);
+        })[0];
+        const rankUps = G_STATE.pendingReports.filter(r => r.rankUp);
+        const conflicts = allEvents.filter(e => e.type === 'conflict');
+        const highlights = [];
+        if (bestDrop) highlights.push(`💰 最高入手品: <b>${bestDrop.item || '—'}</b>`);
+        if (rankUps.length > 0) highlights.push(`🏅 ランクアップ: <b>${rankUps.map(r => r.party?.name).join(', ')}</b>`);
+        if (conflicts.length > 0) highlights.push(`⚔️ 揉め事: <b>${conflicts.length}件</b>`);
+        if (drops.length > 0) highlights.push(`📦 入手アイテム数: <b>${drops.length}件</b>`);
+        if (highlights.length > 0) {
+          html += `<div class="report-highlight"><div class="report-highlight-title">✦ 今週のハイライト</div>${highlights.map(h => `<div style="margin:2px 0;">${h}</div>`).join('')}</div>`;
+        }
         html += `<div style="padding:12px 18px">`;
         G_STATE.pendingReports.forEach((r, i) => {
           const p = r.party;
@@ -2947,7 +3269,14 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       if (name === 'roster') showRosterView();
       if (name === 'reports') showReportsView();
       if (name === 'map') showMapView();
+      if (name === 'inventory') showInventoryView();
+      // ボトムナビのアクティブタブを更新
+      const navMap = { party: 'bnav-party', roster: 'bnav-roster', reports: 'bnav-reports', inventory: 'bnav-warehouse', map: 'bnav-map' };
+      document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+      const activeId = navMap[name];
+      if (activeId) { const el = document.getElementById(activeId); if (el) el.classList.add('active'); }
     }
+    G.mobileNav = mobileNav;
 
     // extend G
     Object.assign(G, { showView });
@@ -3019,9 +3348,11 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     function addMemberToParty(pid, cid) {
       const p = G_STATE.parties.find(x => x.id === pid);
       if (!p || p.members.length >= 4) return;
+      // B1: spliceで消さずにrosterにフラグを立てて「所属済み」として残す
       const i = G_STATE.roster.findIndex(c => c.id === cid);
       if (i < 0) return;
-      const [c] = G_STATE.roster.splice(i, 1);
+      const c = G_STATE.roster[i];
+      c.hiredPartyId = pid; // 所属パーティーID
       p.members.push(c);
       if (!p.leaderId) p.leaderId = c.id;
       if (p.members.length > 0) p.status = 'active';
