@@ -3189,8 +3189,13 @@
       h += `</div>`;
       document.getElementById('v-map').innerHTML = h;
     }
-    /*--- G namespace ---*/
+    /*--- G namespace: 全onclickハンドラをwindowに公開 ---*/
     const G = { advanceWeek };
+
+    // HTMLの onclick="func()" はグローバルスコープを参照するため
+    // <script>スコープ内の関数を全てwindowに公開する
+    // ※ 関数定義より後に実行されるため、各関数が定義されている前提で後述でまとめて公開する
+    // (init()実行直前で公開するよりも、定義後すぐに公開するほうが安全)
 
 
     // =============================================================================
@@ -3695,9 +3700,82 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     G.openModal = openModal;
     G.closeModal = closeModal;
 
+    // ---- 介入モーダル (openIntervene) -------------------------------------------
+    function openIntervene(reportIdx, eventIdx) {
+      const report = G_STATE.pendingReports[reportIdx];
+      if (!report) {
+        alert('この報告はすでに処理済みです。');
+        return;
+      }
+      const events = report.events || [];
+      const ev = events[eventIdx] || events[0];
+      const party = report.party;
+
+      const titleEl = document.getElementById('intervene-title');
+      const descEl = document.getElementById('intervene-desc');
+      const optionsEl = document.getElementById('intervene-options');
+      const modal = document.getElementById('intervene-modal');
+      if (!modal) return;
+
+      titleEl.textContent = `🚨 ${party ? party.name : 'パーティー'} への介入`;
+      descEl.innerHTML = ev ? ev.text : '問題が発生しています。';
+
+      // 介入選択肢を生成
+      const options = [
+        {
+          label: '📢 訓示を与える — 士気を回復させる (+10 mood, -5 stress)',
+          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 10); m.stress = Math.max(0, (m.stress || 0) - 5); }); saveState(); showReportsView(); setLogBar(`${party.name}に訓示を与えた。`); addLog(`${party.name}に訓示 (mood+10,stress-5)`, 'evm'); } }
+        },
+        {
+          label: '🎁 報酬を渡す — テンションを上げる (+20 mood, -10G)',
+          fn() { if (G_STATE.gold < 10) { alert('Goldが足りません。'); return; } if (party) { G_STATE.gold -= 10; party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 20); }); updateHUD(); saveState(); showReportsView(); setLogBar(`${party.name}に報酬を渡した。(-10G)`); } }
+        },
+        {
+          label: '⚖️ 話を聞く — 対立を収める (-20 stress, 問題解決)',
+          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.stress = Math.max(0, (m.stress || 0) - 20); m.rebellion = false; }); saveState(); showReportsView(); setLogBar(`${party.name}の揉め事を収めた。`); addLog(`${party.name}の対立を解消`, 'evg'); } }
+        },
+      ];
+
+      optionsEl.innerHTML = options.map((opt, i) =>
+        `<button onclick="__interveneAction(${reportIdx},${i})" style="background:#1a1005;border:1px solid var(--gold);color:var(--gold2);padding:8px 12px;border-radius:6px;cursor:pointer;text-align:left;font-size:12px;line-height:1.5;font-family:'Noto Serif JP',serif;">${opt.label}</button>`
+      ).join('');
+
+      // 介入アクション関数をグローバルに一時保存
+      window.__interveneOptions = options;
+
+      modal.style.display = 'flex';
+    }
+    function __interveneAction(reportIdx, optIdx) {
+      const opt = window.__interveneOptions && window.__interveneOptions[optIdx];
+      if (opt) opt.fn();
+      document.getElementById('intervene-modal').style.display = 'none';
+    }
+    window.openIntervene = openIntervene;
+    window.__interveneAction = __interveneAction;
+
     // ---- MODAL HELPERS --------------------------------------------------------
     function openModal(id) { document.getElementById(id).classList.add('open'); }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    // ---- 全 onclick ハンドラをwindowに公開 ------------------------------------
+    // (HTMLの onclick="func()" はグローバルスコープを参照するため明示的に公開が必須)
+    window.advanceWeek = advanceWeek;
+    window.showParty = showParty;
+    window.showView = showView;
+    window.dismissReport = dismissReport;
+    window.dismissAllReports = dismissAllReports;
+    window.openEquipModal = openEquipModal;
+    window.equipItem = equipItem;
+    window.unequipItem = unequipItem;
+    window.openHireModal = openHireModal;
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.sellItem = sellItem;
+    window.sellAll = sellAll;
+    window.addWish = addWish;
+    window.removeWish = removeWish;
+    window.craftRecipe = craftRecipe;
+    window.handleChoiceEvent = handleChoiceEvent;
 
     // ---- INIT ------------------------------------------------------------------
     function init() {
@@ -3727,8 +3805,9 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
 
     // ===== 装備モーダル =====
     function openEquipModal(memberId, partyId) {
-      const party = G_STATE.parties.find(p => p.id === partyId);
-      const member = party && party.members.find(m => m.id === memberId);
+      // HTMLのonclickから文字列で来る可能性があるため == で比較
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      const member = party && party.members.find(m => m.id == memberId);
       if (!member) return;
       const inv = (G_STATE.inventory || []).filter(it => it.qty > 0);
       const rarityIcon = (r) => r === 'epic' ? '🌟' : r === 'rare' ? '💎' : r === 'uncommon' ? '🔷' : '📦';
@@ -3752,9 +3831,9 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       if (el) el.remove();
     }
     function equipItem(memberId, partyId, itemId) {
-      const party = G_STATE.parties.find(p => p.id === partyId);
-      const member = party && party.members.find(m => m.id === memberId);
-      const item = (G_STATE.inventory || []).find(it => it.id === itemId);
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      const member = party && party.members.find(m => m.id == memberId);
+      const item = (G_STATE.inventory || []).find(it => it.id == itemId);
       if (!member || !item) return;
       if (member.equip) {
         const old = (G_STATE.inventory || []).find(it => it.id === member.equip.id);
@@ -3766,8 +3845,8 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       saveState(); closeEquipModal(); showParty(partyId);
     }
     function unequipItem(memberId, partyId) {
-      const party = G_STATE.parties.find(p => p.id === partyId);
-      const member = party && party.members.find(m => m.id === memberId);
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      const member = party && party.members.find(m => m.id == memberId);
       if (!member || !member.equip) return;
       const old = (G_STATE.inventory || []).find(it => it.id === member.equip.id);
       if (old) old.qty++; else G_STATE.inventory.push({ ...member.equip, qty: 1 });

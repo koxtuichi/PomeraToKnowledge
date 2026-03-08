@@ -38,6 +38,8 @@ const mockElem = (id) => {
         appendChild() { },
         remove() { },
         onclick: null,
+        querySelector(sel) { return null; },      // advanceWeekのhudEl.querySelector対応
+        querySelectorAll(sel) { return { forEach() { } }; },
     };
     // innerHTMLのsetter で記録
     let _html = '';
@@ -506,6 +508,93 @@ test('B1: 採用済みキャラにhiredPartyIdが設定されるか', () => {
     addMemberToParty(party.id, char.id);
     const rosterChar = G_STATE.roster.find(c => c.id === char.id);
     assertEqual(rosterChar?.hiredPartyId, party.id, 'B1: hiredPartyIdが採用先のパーティーIDに設定されていない');
+});
+
+// ============================================================
+// ◆ window公開確認 — onclickハンドラのグローバル公開テスト
+// ============================================================
+console.log('\n◆ window公開確認 — onclickハンドラのグローバル公開テスト');
+
+const REQUIRED_WINDOW_FUNCS = [
+    'advanceWeek',
+    'showParty',
+    'showView',
+    'dismissReport',
+    'dismissAllReports',
+    'openEquipModal',
+    'equipItem',
+    'unequipItem',
+    'openHireModal',
+    'openModal',
+    'closeModal',
+    'sellItem',
+    'sellAll',
+    'addWish',
+    'removeWish',
+    'craftRecipe',
+    'handleChoiceEvent',
+    'openIntervene',
+    'mobileNav',
+    'closeWeekSummary',
+];
+
+REQUIRED_WINDOW_FUNCS.forEach(name => {
+    test(`window.${name} が公開されているか`, () => {
+        assert(typeof global[name] === 'function',
+            `window.${name} がundefinedまたは関数ではない (onclick呼び出し不可)`);
+    });
+});
+
+// ============================================================
+// ◆ openIntervene — 介入ボタンのロジックテスト
+// ============================================================
+console.log('\n◆ openIntervene — 介入ボタンテスト');
+
+test('openIntervene: pendingReportsにレポートがある場合モーダルを開く', () => {
+    resetState();
+    const p = addPartyDirect('介入テストパーティー');
+    // 擬似レポートを追加
+    G_STATE.pendingReports = [{
+        party: p,
+        events: [{ type: 'conflict', text: '【揉め事】対立が発生した。' }],
+        week: 1,
+    }];
+    // openIntervene がエラーなく実行できるか (DOMはモックなのでモーダル表示は検証しない)
+    let threw = false;
+    try { openIntervene(0, 0); } catch (e) { threw = true; }
+    assert(!threw, `openIntervene(0,0) が例外を投げた`);
+});
+
+test('openIntervene: 存在しないインデックスを渡してもエラーにならない', () => {
+    resetState();
+    G_STATE.pendingReports = [];
+    // alertがない環境でも例外にならないことを確認
+    const origAlert = global.alert;
+    global.alert = () => { };
+    let threw = false;
+    try { openIntervene(99, 0); } catch (e) { threw = true; }
+    global.alert = origAlert;
+    assert(!threw, 'openIntervene(99,0) が例外を投げた');
+});
+
+test('dismissReport: 報告が正しく削除される', () => {
+    resetState();
+    const p = addPartyDirect('削除テスト');
+    G_STATE.pendingReports = [
+        { party: p, events: [], week: 1 },
+        { party: p, events: [], week: 1 },
+    ];
+    dismissReport(0);
+    assertEqual(G_STATE.pendingReports.length, 1, 'dismissReport(0)後に1件残っていない');
+});
+
+test('sellItem: インベントリからアイテムを売却するとGoldが増える', () => {
+    resetState();
+    G_STATE.gold = 100;
+    G_STATE.inventory = [{ id: 'item_test1', name: 'テスト品', rarity: 'common', value: 50 }];
+    sellItem('item_test1');
+    assertEqual(G_STATE.gold, 150, '売却後Goldが150になっていない');
+    assertEqual(G_STATE.inventory.length, 0, '売却後インベントリが空になっていない');
 });
 
 console.log('\n' + '─'.repeat(40));
