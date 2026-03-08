@@ -976,6 +976,13 @@
       <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
     </header>
     <div id="main">
+    <!-- Stress Log Modal -->
+    <div class="slog-modal" id="slog-modal" onclick="if(event.target===this)this.classList.remove('open')">
+      <div class="slog-box">
+        <div id="slog-content"></div>
+        <button class="hbtn" onclick="document.getElementById('slog-modal').classList.remove('open')" style="width:100%;margin-top:14px">閉じる</button>
+      </div>
+    </div>
       <nav id="plist">
         <div class="plh">
           <div class="plht">◆ パーティー</div><button class="pladd" onclick="openCreatePartyModal()"
@@ -1127,6 +1134,108 @@
     const FNAMES = ['ライナ', 'フェリス', 'エルヴァ', 'カルナ', 'ドルネ', 'ミレア', 'シア', 'ルア', 'アン', 'エラ', 'ファリス', 'サヤ', 'ニナ', 'レナ', 'アリア', 'セラ', 'イル', 'マリ', 'ティア', 'クロ', 'リル', 'ユア', 'セリア', 'アミア', 'ルナ'];
     const SURNAMES = ['=フォン', '=ドル', '=ライン', '=アッシュ', '=ガル', '=ヴァル', '=シール', '=ブレン', '=ゼル', ''];
     const PERSO = ['積極的', '慎重', '楽観的', '感情的', '内向的', '外向的', '几帳面', '大雑把', '思いやりがある', '頑固', '柔軟', '孤高'];
+
+    // =====================================================
+    // STRESS SYSTEM: 30テンプレート x 動的変数 = 1000種超
+    // =====================================================
+    const STRESS_EVENTS = {
+      // --- 戦闘・任務 (combat) ---
+      combat_fear:      { label: (v)=>`${v.enemy||'敵'}との戦闘による恐怖`,  base: 6,  cat: 'combat' },
+      near_death:       { label: ()=>`死線をさまよった`,                       base: 12, cat: 'combat' },
+      ally_injury:      { label: (v)=>`${v.member||'仲間'}が瀕死になるのを目撃した`, base: 8, cat: 'combat' },
+      boss_encounter:   { label: (v)=>`${v.region||'地方'}の強大な敵と遭遇した`, base: 10, cat: 'combat' },
+      mission_fail:     { label: ()=>`任務失敗のプレッシャー`,                  base: 4,  cat: 'combat' },
+      long_expedition:  { label: (v)=>`${v.region||'遠方'}での長期遠征による消耗`, base: 3, cat: 'combat' },
+      ambush:           { label: ()=>`不意打ちを受けた`,                        base: 7,  cat: 'combat' },
+      escape:           { label: ()=>`命からがら逃げ延びた`,                    base: 5,  cat: 'combat' },
+      // --- 人間関係 (social) ---
+      member_conflict:  { label: (v)=>`${v.member||'メンバー'}への不満`,        base: 3,  cat: 'social' },
+      leader_injustice: { label: (v)=>`${v.leader||'リーダー'}の不公平な裁定`,  base: 7,  cat: 'social' },
+      betrayal:         { label: (v)=>`${v.member||'仲間'}に裏切られた`,        base: 15, cat: 'social' },
+      jealousy:         { label: (v)=>`${v.member||'仲間'}への嫉妬`,            base: 5,  cat: 'social' },
+      romantic_rejection:{ label: (v)=>`${v.target||'恋人'}に振られた`,         base: 9,  cat: 'social' },
+      love_exposed:     { label: (v)=>`${v.target||'誰か'}への恋心が知れ渡った`, base: 6, cat: 'social' },
+      dismissed_grudge: { label: (v)=>`解雇された${v.member||'元メンバー'}からの悪評`, base: 4, cat: 'social' },
+      ignored:          { label: ()=>`誰も話を聞いてくれなかった`,               base: 4,  cat: 'social' },
+      praise_mismatch:  { label: (v)=>`${v.member||'仲間'}ばかり褒められた`,    base: 5,  cat: 'social' },
+      // --- 個人・家族 (personal) ---
+      family_death:     { label: ()=>`家族の死の知らせが届いた`,                base: 15, cat: 'personal' },
+      family_illness:   { label: ()=>`家族が病気になった`,                       base: 8,  cat: 'personal' },
+      hometown_crisis:  { label: ()=>`故郷が危機に陥った`,                       base: 10, cat: 'personal' },
+      financial_worry:  { label: ()=>`給与が支払われなかった`,                   base: 5,  cat: 'personal' },
+      health_anxiety:   { label: ()=>`自分の体調に不安を覚えた`,                 base: 4,  cat: 'personal' },
+      anniversary_alone:{ label: ()=>`大切な記念日を一人で迎えた`,               base: 3,  cat: 'personal' },
+      homesickness:     { label: ()=>`ひどく故郷が恋しくなった`,                 base: 5,  cat: 'personal' },
+      // --- 環境・状況 (environ) ---
+      harsh_climate:    { label: (v)=>`${v.region||'地方'}の過酷な気候`,         base: 4,  cat: 'environ' },
+      sleep_disorder:   { label: ()=>`十分な睡眠が取れなかった`,                  base: 5,  cat: 'environ' },
+      dangerous_region: { label: (v)=>`${v.region||'地方'}の危険な環境`,         base: 3,  cat: 'environ' },
+      equipment_destroy:{ label: ()=>`大切な装備が壊れた`,                        base: 6,  cat: 'environ' },
+      bad_weather:      { label: ()=>`嵐で任務が難航した`,                        base: 3,  cat: 'environ' },
+      // --- 緩和・解消 (relief) - 負の値 ---
+      sibling_marriage: { label: ()=>`家族の慶事の知らせが届いた`,               base: -7, cat: 'relief' },
+      favorite_food_relief:{ label: (v)=>`${v.food||'好物'}を食べられた`,        base: -5, cat: 'relief' },
+      rest_day:         { label: ()=>`十分に休めた`,                             base: -8, cat: 'relief' },
+      praised_by_liked: { label: (v)=>`${v.member||'好きな人'}に褒めてもらえた`, base: -6, cat: 'relief' },
+      great_success:    { label: (v)=>`${v.item||'レア品'}の発見で大成功`,       base: -5, cat: 'relief' },
+      salary_bonus:     { label: ()=>`思わぬボーナスをもらった`,                  base: -4, cat: 'relief' },
+      rankup_joy:       { label: ()=>`ランクアップの達成感`,                      base: -8, cat: 'relief' },
+      friend_support:   { label: (v)=>`${v.member||'仲間'}に支えてもらった`,     base: -4, cat: 'relief' },
+      personal_growth:  { label: ()=>`自己成長を実感した`,                        base: -6, cat: 'relief' },
+    };
+
+    // 性格ごとのカテゴリ倍率
+    const PERSO_STRESS_MULT = {
+      '積極的':       { combat:0.8, social:1.0, personal:0.9, environ:0.9, relief:1.1 },
+      '慎重':         { combat:1.0, social:0.8, personal:1.2, environ:1.0, relief:1.0 },
+      '楽観的':       { combat:0.7, social:0.7, personal:0.7, environ:0.8, relief:1.3 },
+      '感情的':       { combat:1.2, social:1.5, personal:1.3, environ:1.0, relief:1.2 },
+      '内向的':       { combat:1.0, social:1.3, personal:1.1, environ:1.0, relief:0.9 },
+      '外向的':       { combat:0.9, social:0.8, personal:0.9, environ:0.9, relief:1.1 },
+      '几帳面':       { combat:0.9, social:1.0, personal:1.1, environ:1.2, relief:1.0 },
+      '大雑把':       { combat:0.6, social:0.7, personal:0.8, environ:0.6, relief:0.9 },
+      '思いやりがある':{ combat:1.1, social:0.9, personal:1.0, environ:1.0, relief:1.2 },
+      '頑固':         { combat:0.7, social:1.2, personal:1.0, environ:0.8, relief:0.8 },
+      '柔軟':         { combat:0.9, social:0.9, personal:0.9, environ:0.9, relief:1.1 },
+      '孤高':         { combat:0.8, social:1.4, personal:1.2, environ:1.0, relief:0.8 },
+    };
+
+    // ストレス状態の閾値と表示
+    const STRESS_STATE = [
+      { min:90, label:'崩壊', color:'#7f1d1d', blink:true },
+      { min:76, label:'限界', color:'#ef4444', blink:false },
+      { min:56, label:'危機', color:'#f97316', blink:false },
+      { min:31, label:'疲弊', color:'#facc15', blink:false },
+      { min:0,  label:'安定', color:'#4ade80', blink:false },
+    ];
+
+    function getStressState(stress) {
+      return STRESS_STATE.find(s => stress >= s.min) || STRESS_STATE[STRESS_STATE.length-1];
+    }
+
+    // stressLogに追加し、stressを再計算する
+    function addStressEvent(m, id, vars, overrideValue) {
+      if (!m.stressLog) m.stressLog = [];
+      const ev = STRESS_EVENTS[id];
+      if (!ev) return;
+      const label = ev.label(vars || {});
+      const mult = (PERSO_STRESS_MULT[m.personality] || {})[ev.cat] || 1.0;
+      const rawVal = overrideValue !== undefined ? overrideValue : ev.base;
+      const value = Math.round(rawVal * mult);
+      m.stressLog.unshift({ id, label, value, week: G_STATE.week, cat: ev.cat });
+      if (m.stressLog.length > 20) m.stressLog.length = 20;
+      // stress再計算
+      m.stress = Math.min(100, Math.max(0, m.stressLog.reduce((s, e) => s + e.value, 0)));
+    }
+
+    // 毎週ストレスログを減衰させる
+    function decayStressLog(m) {
+      if (!m.stressLog) return;
+      m.stressLog = m.stressLog
+        .map(e => ({ ...e, value: e.value * 0.9 }))
+        .filter(e => G_STATE.week - e.week < 12 && Math.abs(e.value) >= 0.5);
+      m.stress = Math.min(100, Math.max(0, m.stressLog.reduce((s, e) => s + e.value, 0)));
+    }
     const SKILLS = ['戦闘', '採取', '交渉', '運搬', '医療', '偵察', '調合', '料理', '魔術', '工作'];
     const QUIRKS = ['深夜に起き出す', '食事を残す', '愚痴が多い', '独り言が多い', '物をため込む', '遅刻癖がある', '忘れっぽい', '音を立てて食べる', '過度に心配する', '噂好き', '口が悪い', 'いびきをかく', 'すぐ泣く', '嘘をつく', '自慢が多い'];
     const AILMENTS = [null, null, null, null, '花粉症', '喘息', '偏頭痛', '腰痛', '関節炎', '不眠症'];
@@ -1222,6 +1331,7 @@
         morale: rnd(60, 90),
         mood: rnd(65, 90),          // 満足度 0-100 (低→不満)
         stress: rnd(0, 20),         // ストレス 0-100 (高→心の病)
+        stressLog: [],              // ストレスイベント履歴
         healthPt: rnd(70, 100),     // 体力ポイント 0-100 (低→風邪)
         mentalPt: rnd(70, 100),     // メンタルポイント 0-100 (低→鬱)
         rebellion: false,           // 反発フラグ
@@ -1406,6 +1516,7 @@
           if(m.healthPt==null) m.healthPt=80;
           if(m.mentalPt==null) m.mentalPt=80;
           if(m.rebellion==null) m.rebellion=false;
+          if(!m.stressLog) m.stressLog=[];
         }); const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true; }
       } catch (e) { }
       return false;
@@ -1451,8 +1562,12 @@
           G_STATE.inventory.push(loot);
           events.push({ type: 'drop', text: `${isWished ? '⭐ ' : ''}「${item}」を発見した [${rarity}] 売値:${value}G` });
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished ? ' ⭐' : ''}`);
-          // 戦利品取得でmood向上
-          members.forEach(m => { m.mood = Math.min(100, (m.mood||70) + 3); m.healthPt = Math.min(100, (m.healthPt||80) + 1); });
+          // 戦利品取得でmood向上・ストレス軽減
+          members.forEach(m => {
+            m.mood = Math.min(100, (m.mood||70) + 3);
+            m.healthPt = Math.min(100, (m.healthPt||80) + 1);
+            if (Math.random() < 0.4) addStressEvent(m, 'great_success', { item });
+          });
           // XP加算
           const xpGain = { common: 5, uncommon: 15, rare: 30, epic: 60 }[rarity] || 5;
           party.xp = (party.xp || 0) + xpGain;
@@ -1468,11 +1583,17 @@
 
       // 2. Conflict event
       if (members.length >= 2) {
-        const conflictChance = calcConflictChance(members);
+        // ストレス閾値効果: メンバーの平均ストレスでドロップ率・揉め事を補正
+      const avgStress = members.length ? members.reduce((s,m)=>s+(m.stress||0),0)/members.length : 0;
+      const stressDropMod = avgStress > 75 ? 0.7 : avgStress > 55 ? 0.8 : avgStress > 30 ? 0.9 : 1.0;
+      const stressConflictMod = avgStress > 75 ? 1.3 : avgStress > 55 ? 1.2 : avgStress > 30 ? 1.1 : 1.0;
+      const conflictChance = calcConflictChance(members) * stressConflictMod;
         if (Math.random() < conflictChance) {
           const [a, b] = [pick(members), pick(members)];
           const resolution = resolveConflict(party.directive.conflict, a, b);
           events.push({ type: 'conflict', text: `【揉め事】${a.name}と${b.name}の間で対立が起きた。${resolution}` });
+          addStressEvent(a, 'member_conflict', { member: b.name });
+          addStressEvent(b, 'member_conflict', { member: a.name });
           // 反発イベント: 前週にrebellionフラグが立っていたメンバーをチェック
           members.forEach(m => {
             if (m.rebellion && Math.random() < 0.6) {
@@ -1589,8 +1710,9 @@
       }
       if (rule === 'leader') {
         // 裁定された側(b)に不満・反発
+        addStressEvent(b, 'leader_injustice', { leader: 'リーダー' });
+        addStressEvent(a, 'member_conflict', { member: b.name });
         b.mood = Math.max(0, (b.mood||70) - 15);
-        b.stress = Math.min(100, (b.stress||0) + 20);
         a.mood = Math.max(0, (a.mood||70) - 5);
         // 30%確率で反発フラグ
         if (Math.random() < 0.3) {
@@ -1620,6 +1742,7 @@
       const weekly = party.directive.cpPerWeek || 20;
       if (G_STATE.gold < weekly) {
         party.cpDebt = (party.cpDebt || 0) + weekly;
+        party.members.filter(m=>!m.dead).forEach(m=>{ addStressEvent(m, 'financial_worry', {}); });
         if (party.cpDebt >= weekly * 3) {
           party.status = 'disbanded';
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が報酬未払いで解散した`);
@@ -1633,7 +1756,27 @@
       const events = generateWeekEvents(party);
       // remove dead members
       party.members = party.members.filter(m => !m.dead);
-       // 毎週ステータス変動
+       // 毎週ストレスログ減衰
+      party.members.filter(m=>!m.dead).forEach(m=>{ decayStressLog(m); });
+
+      // 毎週: 危険地方での遠征ストレス
+      if (party.members.length > 0 && party.region) {
+        const riskLv = (REGION_DATA[party.region] || {}).riskLevel || 1;
+        if (riskLv >= 3) {
+          party.members.filter(m=>!m.dead).forEach(m=>{
+            addStressEvent(m, 'dangerous_region', { region: party.region });
+          });
+        } else if (riskLv >= 2) {
+          // 50%確率で長期遠征ストレス
+          if (Math.random() < 0.5) {
+            party.members.filter(m=>!m.dead).forEach(m=>{
+              addStressEvent(m, 'long_expedition', { region: party.region });
+            });
+          }
+        }
+      }
+
+      // 毎週ステータス変動
       party.members.filter(m=>!m.dead).forEach(m=>{
         // ストレス自然回復 & 体力・メンタル変動
         m.stress = Math.max(0, (m.stress||0) - 2);
@@ -1643,6 +1786,30 @@
         // 反発フラグがあると毎週moodが下がる
         if (m.rebellion) m.mood = Math.max(0, (m.mood||70) - 5);
       });
+      // ストレス閾値効果: 毎週の悪化
+      party.members.filter(m=>!m.dead).forEach(m=>{
+        const st = m.stress || 0;
+        if (st >= 90) {
+          m.morale = Math.max(0, m.morale - 10);
+          m.mood = Math.max(0, (m.mood||70) - 10);
+        } else if (st >= 76) {
+          m.morale = Math.max(0, m.morale - 10);
+          m.mood = Math.max(0, (m.mood||70) - 5);
+        } else if (st >= 56) {
+          m.morale = Math.max(0, m.morale - 5);
+        }
+      });
+
+      // 崩壊状態のメンバーが自主離脱
+      const collapsedMember = party.members.find(m=>!m.dead && (m.stress||0)>=90);
+      if (collapsedMember && party.members.length > 1) {
+        const events_local = events || [];
+        events_local.push({ type: 'conflict', text: `【自主離脱】${collapsedMember.name}はもはや限界だとして自らパーティーを去った。精神的に崩壊寸前だったようだ。` });
+        party.members = party.members.filter(m=>m.id !== collapsedMember.id);
+        G_STATE.dismissed = G_STATE.dismissed || [];
+        G_STATE.dismissed.push({ ...collapsedMember, dismissedWeek: G_STATE.week, reason: 'collapse' });
+      }
+
       // B-4: キャラ成長タグ付与
       party.members.filter(m=>!m.dead).forEach(m=>{
         m.adventureWeeks=(m.adventureWeeks||0)+1;
@@ -1910,6 +2077,34 @@
     }
 
     // ---- SHOW PARTY VIEW -------------------------------------------------------
+    // stressLog 詳細モーダル表示
+    function showStressLog(memberId, partyId) {
+      // 全パーティーとrosterからキャラを探す
+      let m = null;
+      G_STATE.parties.forEach(p => { const found = p.members.find(x => x.id === memberId); if (found) m = found; });
+      if (!m) m = G_STATE.roster.find(x => x.id === memberId);
+      if (!m) return;
+      const log = m.stressLog || [];
+      const stState = getStressState(m.stress || 0);
+      let html = `<div class="slog-title">📖 ${m.name}の内心日記</div>`;
+      html += `<div style="text-align:center;margin-bottom:12px;font-size:13px;color:${stState.color}">ストレス合計: ${Math.round(m.stress||0)} [${stState.label}]</div>`;
+      if (log.length === 0) {
+        html += `<div style="color:var(--tx3);font-size:12px;text-align:center">記録なし</div>`;
+      } else {
+        log.slice(0, 15).forEach(e => {
+          const valStr = e.value >= 0 ? `+${Math.round(e.value)}` : `${Math.round(e.value)}`;
+          html += `<div class="slog-entry">
+            <span class="slog-week">Week ${e.week}</span>
+            <span style="flex:1;margin:0 8px">${e.label}</span>
+            <span class="slog-cat">${e.cat||'?'}</span>
+            <span class="${e.value >= 0 ? 'slog-val-pos' : 'slog-val-neg'}" style="margin-left:8px;min-width:28px;text-align:right">${valStr}</span>
+          </div>`;
+        });
+      }
+      document.getElementById('slog-content').innerHTML = html;
+      document.getElementById('slog-modal').classList.add('open');
+    }
+
     function showParty(pid) {
       currentPartyId = pid; currentView = 'party';
       showView('party');
@@ -1942,8 +2137,13 @@
           const isLdr = p.leaderId === m.id;
           html += `<div class="mc${isLdr ? ' ldr' : ''}">
 <button class="mcrm" onclick="removeMember(${pid},${m.id})" title="解雇">✕</button>
-<div class="mcn">${m.name} ${m.gender}${m.growthTag?`<span class="growth-tag">${m.growthTag}</span>`:''}</div>
-<div class="mcm">${m.age}歳 | ${m.personality}<br>${m.skill}↑ ${m.weakSkill}↓<br>癖:${m.quirk}</div>
+<div class="mcn" style="cursor:pointer" onclick="showStressLog(${m.id},${pid})">
+  ${m.name} ${m.gender}${m.growthTag?`<span class="growth-tag">${m.growthTag}</span>`:''}
+  <span style="font-size:9px;opacity:.6">��</span>
+</div>
+<div class="mcm">${m.age}歳 | ${m.personality}
+${(()=>{ const mult=PERSO_STRESS_MULT[m.personality]||{}; const tags=[]; if((mult.combat||1)<0.8)tags.push('<span style="font-size:8px;color:var(--green)">⚔︎強</span>'); if((mult.combat||1)>1.1)tags.push('<span style="font-size:8px;color:var(--red)">⚔︎弱</span>'); if((mult.social||1)>1.2)tags.push('<span style="font-size:8px;color:var(--red)">💬弱</span>'); if((mult.relief||1)>1.2)tags.push('<span style="font-size:8px;color:var(--green)">💊強</span>'); return tags.join(' '); })()}
+<br>${m.skill}↑ ${m.weakSkill}↓<br>癖:${m.quirk}</div>
 <span class="hlt ${HEALTH_CLS[m.health] || 'h0'}">${HEALTH_LABELS[m.health] || '健康'}${m.illness ? ' (' + m.illness + ')' : ''}</span>
 <button class="rcab" onclick="openGiftModal(${m.id},${pid})" style="font-size:9px;padding:2px 8px;margin-left:4px">🎁贈る</button>
 <div class="mcmb"><div class="pimf ${m.morale > 70 ? 'mh' : m.morale > 40 ? 'mm' : 'ml'}" style="width:${m.morale}%"></div></div>
@@ -1956,7 +2156,11 @@
   <div class="stat-row">
     <span class="stat-label">ストレス</span>
     <div class="stat-track"><div class="stat-fill stress" style="width:${m.stress??0}%"></div></div>
-    <span>${m.stress??0}${(m.stress??0)>=70?'<span class="stat-warn">⚠心</span>':''}</span>
+    <span style="color:${getStressState(m.stress??0).color}">${Math.round(m.stress??0)}</span>
+    <span style="font-size:8px;padding:0 4px;background:${getStressState(m.stress??0).color}22;color:${getStressState(m.stress??0).color};border-radius:3px;${getStressState(m.stress??0).blink?'animation:blink 1s infinite':''}">${getStressState(m.stress??0).label}</span>
+  </div>
+  <div class="stat-row" style="font-size:8px;color:var(--tx3);padding-left:49px">
+    ${(m.stressLog&&m.stressLog[0])?`← ${m.stressLog[0].label}${m.stressLog[0].value>0?'+':''}${Math.round(m.stressLog[0].value)}`:''}
   </div>
   <div class="stat-row">
     <span class="stat-label">体力</span>
