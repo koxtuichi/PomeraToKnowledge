@@ -641,6 +641,7 @@ ${isLdr?'<div class="mcld">LEADER</div>':''}
 
 // ---- ROSTER VIEW ----------------------------------------------------------
 function showRosterView(){
+  currentView='roster';
   let html=`<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
   G_STATE.roster.forEach(c=>{
     html+=`<div class="rcd">
@@ -661,6 +662,7 @@ function showRosterView(){
 
 // ---- REPORTS VIEW ---------------------------------------------------------
 function showReportsView(){
+  currentView='reports';
   let html=`<div class="ph"><div class="pht">週次報告</div><div class="phs">${G_STATE.pendingReports.length}件の未読報告</div></div>`;
   if(G_STATE.pendingReports.length===0){
     html+=`<div class="notice">現在、未読の報告はありません。「週を進める」を押すとパーティーから報告が届きます。</div>`;
