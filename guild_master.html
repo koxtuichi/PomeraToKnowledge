@@ -4440,7 +4440,7 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     // =====================================================================
     // SYNERGY ENGINE — 装備 × キャラタイプ シナジー効果
     // =====================================================================
-    const SYNERGY = (() => {
+    var SYNERGY = (() => {
       /* シナジー定義: 装備キーワード × キャラタイプ → ボーナス説明 + 効果 */
       const RULES = [
         { equipKw: ['炎', '火', '焔'], charTypes: ['魔術'], label: '炎属性強化', stressReduction: 5, moodBoost: 3 },
@@ -4489,7 +4489,7 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     // =====================================================================
     // ACHIEVEMENT SYSTEM — Steam 実績相当
     // =====================================================================
-    const ACHV = (() => {
+    var ACHV = (() => {
       const DEFS = [
         { id: 'first_hire', label: '最初の仲間', desc: 'キャラを初めてギルドに採用した', icon: '🤝', check: (s) => s.parties.some(p => p.members.length > 0) },
         { id: 'first_drop', label: '戦利品ゲット', desc: '初めてアイテムを入手した', icon: '🎁', check: (s) => (s.inventory || []).length > 0 },
