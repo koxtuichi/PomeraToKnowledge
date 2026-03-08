@@ -41,25 +41,24 @@ RARITY_BY_TYPE = {
     "日記": "N",    # 立ち絵
 }
 
-# レア度 → 表情/雰囲気プロンプト（Elinポートレート版）
+# レア度 → 表情プロンプト（日本萄エキャラポートレート版）
 RARITY_POSE = {
     "N": (
-        "calm neutral expression, soft gentle smile, relaxed and approachable, "
-        "plain white or very soft gradient background"
+        "calm peaceful expression, soft shy smile, slightly downcast gentle eyes, "
+        "pure white plain background, no effects no particles no background art"
     ),
     "R": (
-        "confident determined expression, slight smirk or focused gaze, "
-        "subtle environmental background: soft stone wall, gentle foliage, warm indoor lighting"
+        "quietly confident expression, subtle determined gaze, composed dignified look, "
+        "pure white plain background, no effects no particles no background art"
     ),
     "SR": (
-        "dynamic slightly tilted pose, excited or passionate expression, "
-        "sparkle and light particle effects in background, "
-        "glowing magical ambiance behind character"
+        "slightly excited expression, warm bright eyes, cheerful energetic mood, "
+        "pure white plain background with faint soft sparkle hint only"
     ),
     "UR": (
-        "dramatic powerful expression, intense yet beautiful gaze, "
-        "elaborate glowing magical background with light rays and swirling energy, "
-        "epic legendary character presence, cinematic portrait composition"
+        "radiant beautiful expression, intense yet tender gaze, slight proud smile, "
+        "very subtle soft light bloom behind character only, white background base, "
+        "NO elaborate magical effects, NO swirling energy, simple and elegant"
     ),
 }
 
@@ -125,23 +124,26 @@ def build_prompt(node: dict) -> str:
     detail = node.get("detail", "")
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
-    # ===== マスタースタイルガイド（Elinポートレートスタイル完全準拠） =====
+    # ===== マスタースタイルガイド（日本萄エキャラアニメスタイル完全準拠） =====
     # 参考画像の特徴:
-    #   - アニメ調バストアップポートレート
-    #   - 大きな瞭・小さな口・担い山った内心の表情
-    #   - 白（至極淡い）バックグラウンド
-    #   - 清潔感のあるセルシェーディング
-    #   - 全員同じアーティストが描いた縱一蓮
+    #   - 顔が画面の綄6割を占める大クローズアップ
+    #   - 白純粋のバックグラウンド
+    #   - くすみカラー・疹え目～ニッコリな萄エ表情
+    #   - フラットセルシェーディング
+    #   - 全員同じおびりの絵師が描いた縱一感
     master_style = (
-        "Elin game portrait illustration style, "
-        "anime-style bust-up portrait, face and upper chest only, "
-        "large expressive eyes with detailed irises, small delicate mouth, soft rosy cheeks, "
-        "clean cel-shading with soft highlights and gentle shadows, "
+        "Japanese moe anime portrait illustration, "
+        "large close-up bust-up portrait: face occupying upper 65 percent of frame, "
+        "huge beautiful moe eyes with detailed sparkly irises and long lashes, "
+        "tiny delicate nose, small cute closed or barely open mouth, "
+        "soft rosy cheeks, smooth fair skin, "
+        "flat cel-shading with minimal shadows, muted desaturated soft color palette, "
         "CONSISTENT uniform art style as if drawn by the same single illustrator, "
-        "clean smooth line art, crisp outlines, "
-        "white or very soft plain background, "
-        "warm and approachable character design, medieval fantasy costume details, "
-        "NOT photorealistic, NOT 3D render, anime illustration ONLY, "
+        "crisp clean line art, smooth outlines, "
+        "PURE WHITE background, absolutely NO magical effects NO particles NO glowing aura NO background scenery, "
+        "kawaii moe character design, medieval fantasy costume details visible at chest level, "
+        "NOT photorealistic, NOT 3D render, NOT western cartoon, "
+        "high quality Japanese doujin anime illustration style, "
         "vertical portrait format 2:3 aspect ratio"
     )
 
