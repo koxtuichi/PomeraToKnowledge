@@ -163,6 +163,7 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
     </div>
     <div id="v-party" style="display:none"></div>
     <div id="v-roster" style="display:none"></div>
+    <div id="v-map" style="display:none"></div>
     <div id="v-inventory" style="display:none"></div>
     <div id="v-reports" style="display:none"></div>
   </main>
@@ -258,6 +259,29 @@ const QUIRKS=['深夜に起き出す','食事を残す','愚痴が多い','独�
 const AILMENTS=[null,null,null,null,'花粉症','喘息','偏頭痛','腰痛','関節炎','不眠症'];
 const FOODS=['肉料理','魚料理','野菜料理','スープ','パン','甘いもの','辛いもの','酒','果物','チーズ'];
 const REGIONS=['北の森林地帯','東の平原','南の砂漠','西の山脈','深海洞窟','古代遺跡','霧の沼地','火山地帯','雪原の果て','禁断の魔境'];
+const REGION_DATA={
+  '北の森林地帯':{icon:'🌲',specialty:['古龍の牙','竜の卵','竜鱗の鎧'],riskLevel:2},
+  '東の平原':    {icon:'🌾',specialty:['精霊の涙','風切りの外套','永遠の花'],riskLevel:1},
+  '南の砂漠':    {icon:'🏜',specialty:['蒼い魔石','古代の地図','時の砂'],riskLevel:3},
+  '西の山脈':    {icon:'⛰',specialty:['暗黒鉱石','鉄壁の盾','神話の断片'],riskLevel:2},
+  '深海洞窟':    {icon:'🌊',specialty:['虹の羽根','封印の書','運命の糸'],riskLevel:4},
+  '古代遺跡':    {icon:'🏛',specialty:['天使の血','幻の薬草','神話の断片'],riskLevel:3},
+  '霧の沼地':    {icon:'🌫',specialty:['悪魔の核','不死鳥の羽','幻の薬草'],riskLevel:3},
+  '火山地帯':    {icon:'🌋',specialty:['豪炎の大剣','雷神の槍','悪魔の核'],riskLevel:5},
+  '雪原の果て':  {icon:'❄',specialty:['霜雪の弓','影狩りの短刀','天使の血'],riskLevel:4},
+  '禁断の魔境':  {icon:'💀',specialty:['不死鳥の羽','竜の卵','神話の断片'],riskLevel:5},
+};
+const RECIPES=[
+  {name:'神剣オーラ',   ingredients:['豪炎の大剣','雷神の槍'],     rarity:'epic',value:800},
+  {name:'竜の守護盾',   ingredients:['竜鱗の鎧','鉄壁の盾'],       rarity:'epic',value:700},
+  {name:'不死の薬',     ingredients:['幻の薬草','不死鳥の羽'],     rarity:'epic',value:600},
+  {name:'魔道書・上巻', ingredients:['封印の書','月光の杖'],       rarity:'rare',value:250},
+  {name:'天使の短刀',   ingredients:['影狩りの短刀','天使の血'],   rarity:'rare',value:220},
+  {name:'古龍の弓',     ingredients:['霜雪の弓','古龍の牙'],       rarity:'rare',value:200},
+];
+const RANKS=['F','E','D','C','B','A','S'];
+const RANK_XP=[0,50,150,300,500,800,1200];
+const RANK_DROP_BONUS={F:0,E:0.02,D:0.05,C:0.08,B:0.12,A:0.18,S:0.25};
 const ITEMS=['豪炎の大剣','霜雪の弓','影狩りの短刀','雷神の槍','月光の杖','竜鱗の鎧','星影のローブ','風切りの外套','鉄壁の盾','蒼い魔石','古龍の牙','精霊の涙','暗黒鉱石','虹の羽根','永遠の花','神話の断片','時の砂','運命の糸','天使の血','悪魔の核','封印の書','古代の地図','幻の薬草','不死鳥の羽','竜の卵'];
 const ILLNESS_TYPES=[
   {name:'風邪',sev:1,min:3,max:7,dr:0},
@@ -330,8 +354,9 @@ function genChar(){
 
 // ---- GAME STATE --------------------------------------------------------------
 let G_STATE={
-  week:1,year:1,cp:100,
+  week:1,year:1,gold:200,
   parties:[],roster:[],dismissed:[],
+  inventory:[],wishList:[],reputation:0,
   pendingReports:[],globalLog:[],
 };
 
@@ -339,7 +364,7 @@ function saveState(){try{G_STATE._uid=_uid;localStorage.setItem('gm_v1',JSON.str
 function loadState(){
   try{
     const s=localStorage.getItem('gm_v1');
-    if(s){G_STATE=JSON.parse(s);if(G_STATE.gold==null){G_STATE.gold=G_STATE.cp||200;}if(!G_STATE.inventory)G_STATE.inventory=[];const maxId=Math.max(0,...(G_STATE.parties||[]).map(p=>p.id));_uid=Math.max(G_STATE._uid||1,maxId+1);return true;}
+    if(s){G_STATE=JSON.parse(s);if(G_STATE.gold==null){G_STATE.gold=G_STATE.cp||200;}if(!G_STATE.inventory)G_STATE.inventory=[];if(!G_STATE.wishList)G_STATE.wishList=[];if(G_STATE.reputation==null)G_STATE.reputation=0;const maxId=Math.max(0,...(G_STATE.parties||[]).map(p=>p.id));_uid=Math.max(G_STATE._uid||1,maxId+1);return true;}
   }catch(e){}
   return false;
 }
@@ -357,12 +382,42 @@ function generateWeekEvents(party){
   const members=party.members.filter(m=>!m.dead);
   if(members.length===0) return events;
 
-  // 1. Drop event
-  const dropChance=party.directive.focus==='drops'?0.55:party.directive.focus==='economy'?0.25:0.35;
-  if(Math.random()<dropChance){
-    const item=pick(ITEMS);
-    events.push({type:'drop',text:`【ドロップ】${pick(members).name}が「${item}」を発見した！`,item});
-    G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」を入手`);
+  // 1. Drop event (Phase3: region specialty + rarity + wishList + XP)
+  const rankBonus=RANK_DROP_BONUS[party.rank||'F']||0;
+  const dropChance=(party.directive.focus==='drops'?0.55:party.directive.focus==='economy'?0.25:0.35)+rankBonus;
+  const bonusChance=party.members.some(m=>party.members.some(m2=>m!==m2&&m.likedType===m2.trait))?0.1:0;
+  const dropCount=party.directive.focus==='drops'?rnd(1,3):1;
+  for(let di=0;di<dropCount;di++){
+    if(Math.random()<dropChance+bonusChance){
+      const rd=REGION_DATA[party.region];
+      const pool=(rd&&rd.specialty&&Math.random()<0.4)?ITEMS.filter(x=>rd.specialty.includes(x)).concat(ITEMS):ITEMS;
+      const item=pick(pool.length?pool:ITEMS);
+      const rv=Math.random();
+      let rarity,value;
+      if(rv<0.55){rarity='common';value=rnd(5,15);}
+      else if(rv<0.85){rarity='uncommon';value=rnd(20,50);}
+      else if(rv<0.97){rarity='rare';value=rnd(60,150);}
+      else{rarity='epic';value=rnd(200,500);}
+      // ランクが高いほどレアリティ補正
+      if((party.rank==='A'||party.rank==='S')&&rarity==='common'&&Math.random()<0.3) {rarity='uncommon';value=rnd(20,50);}
+      const loot={id:uid(),name:item,rarity,value,partyName:party.name,week:G_STATE.week};
+      const isWished=G_STATE.wishList.includes(item);
+      if(isWished)loot.wished=true;
+      if(!G_STATE.inventory)G_STATE.inventory=[];
+      G_STATE.inventory.push(loot);
+      events.push({type:'drop',text:`${isWished?'⭐ ':''}「${item}」を発見した [${rarity}] 売値:${value}G`});
+      G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished?' ⭐':''}`);
+      // XP加算
+      const xpGain={common:5,uncommon:15,rare:30,epic:60}[rarity]||5;
+      party.xp=(party.xp||0)+xpGain;
+      // ランクアップチェック
+      const curRankIdx=RANKS.indexOf(party.rank||'F');
+      if(curRankIdx<RANKS.length-1&&party.xp>=RANK_XP[curRankIdx+1]){
+        party.rank=RANKS[curRankIdx+1];
+        events.push({type:'morale',text:`🏆 「${party.name}」がランク ${RANKS[curRankIdx]} → ${party.rank} にランクアップした！`});
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}がランク${party.rank}に昇格`);
+      }
+    }
   }
 
   // 2. Conflict event
@@ -529,9 +584,10 @@ function sellItem(itemId){
   const it=G_STATE.inventory[idx];
   G_STATE.inventory.splice(idx,1);
   G_STATE.gold+=it.value;
+  G_STATE.reputation=(G_STATE.reputation||0)+Math.ceil(it.value/30);
   saveState();updateHUD();
   setLogBar(`「${it.name}」を ${it.value}G で売却した。（残Gold: ${G_STATE.gold}G）`);
-  addLog(`売却: 「${it.name}」+${it.value}G`,'evm');
+  addLog(`売却: 「${it.name}」+${it.value}G 評判+${Math.ceil(it.value/30)}`,'evm');
   showInventoryView();
 }
 function sellAll(){
@@ -540,31 +596,101 @@ function sellAll(){
   G_STATE.inventory=[];
   G_STATE.gold+=total;
   saveState();updateHUD();
+  const repGain=Math.ceil(total/30);
+  G_STATE.reputation=(G_STATE.reputation||0)+repGain;
   setLogBar(`全品売却: +${total}G（残Gold: ${G_STATE.gold}G）`);
-  addLog(`倉庫を空売り: +${total}G`,'evm');
+  addLog(`全品売却: +${total}G 評判+${repGain}`,'evm');
   showInventoryView();
+}
+function craftRecipe(recipeIdx){
+  const r=RECIPES[recipeIdx];
+  if(!r) return;
+  const inv=G_STATE.inventory;
+  const toRemove=[];
+  for(const ing of r.ingredients){
+    const idx=inv.findIndex(x=>x.name===ing&&!toRemove.includes(x.id));
+    if(idx<0){alert('素材が足りません。');return;}
+    toRemove.push(inv[idx].id);
+  }
+  G_STATE.inventory=inv.filter(x=>!toRemove.includes(x.id));
+  const crafted={id:uid(),name:r.name,rarity:r.rarity,value:r.value,partyName:'合成',week:G_STATE.week};
+  G_STATE.inventory.push(crafted);
+  G_STATE.gold+=0; // no auto sell
+  saveState();updateHUD();
+  setLogBar(`「${r.name}」を合成した！ (${r.rarity} / ${r.value}G)`);
+  addLog(`レシピ合成: 「${r.name}」`,'evm');
+  showInventoryView();
+}
+function addWish(name){
+  if(!G_STATE.wishList) G_STATE.wishList=[];
+  if(!name||G_STATE.wishList.includes(name)) return;
+  G_STATE.wishList.push(name);
+  saveState(); showInventoryView();
+}
+function removeWish(name){
+  G_STATE.wishList=(G_STATE.wishList||[]).filter(x=>x!==name);
+  saveState(); showInventoryView();
 }
 function showInventoryView(){
   currentView='inventory';
-  ['welcome','party','roster','reports','inventory'].forEach(v=>{
+  ['welcome','party','roster','reports','inventory','map'].forEach(v=>{
     const el=document.getElementById('v-'+v);
     if(el)el.style.display=v==='inventory'?'block':'none';
   });
   const RARITY_LABEL={common:'並',uncommon:'良',rare:'優',epic:'伝説'};
   const RARITY_COLOR={common:'var(--tx3)',uncommon:'#4fc3f7',rare:'#ce93d8',epic:'#ffb74d'};
+  const inv=G_STATE.inventory||[];
   let h=`<div class="ph"><div class="pht">🏪 倉庫・販売</div>
-  <div class="phs">${G_STATE.inventory.length}件 / 合計売値: ${G_STATE.inventory.reduce((s,x)=>s+x.value,0)}G</div></div>`;
-  if(G_STATE.inventory.length===0){
+  <div class="phs">${inv.length}件 / 合計売値: ${inv.reduce((s,x)=>s+x.value,0)}G</div></div>`;
+
+  // ウィッシュリスト
+  const wl=G_STATE.wishList||[];
+  h+=`<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
+  h+=`<div style="font-size:10px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;">⭐ ウィッシュリスト</div>`;
+  h+=`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">`;
+  wl.forEach(n=>{
+    h+=`<span style="background:var(--bg3);border-radius:4px;padding:2px 8px;font-size:11px;">${n} <button onclick="removeWish('${n}')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:10px;">✕</button></span>`;
+  });
+  if(!wl.length) h+=`<span style="font-size:11px;color:var(--tx3)">リストは空です</span>`;
+  h+=`</div>`;
+  h+=`<select id="wish-sel" style="font-size:11px;background:var(--bg3);border:1px solid var(--brd);color:var(--tx);border-radius:4px;padding:2px;"><option value="">— アイテムを選択 —</option>${ITEMS.map(i=>`<option>${i}</option>`).join('')}</select>`;
+  h+=` <button class="btn" onclick="addWish(document.getElementById('wish-sel').value)" style="padding:2px 8px;font-size:11px;">追加</button>`;
+  h+=`</div>`;
+
+  // レシピ合成
+  const craftable=RECIPES.filter(r=>{
+    const names=inv.map(x=>x.name);
+    return r.ingredients.every(ing=>names.includes(ing));
+  });
+  if(craftable.length){
+    h+=`<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
+    h+=`<div style="font-size:10px;color:#ce93d8;letter-spacing:1px;margin-bottom:6px;">⚗️ 合成可能なレシピ</div>`;
+    craftable.forEach(r=>{
+      const ri=RECIPES.indexOf(r);
+      const col=RARITY_COLOR[r.rarity]||'var(--tx)';
+      h+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="color:${col};font-size:11px;font-weight:700;">[${RARITY_LABEL[r.rarity]}]</span>
+        <span style="flex:1;font-size:12px;">${r.name}</span>
+        <span style="font-size:10px;color:var(--tx3);">${r.ingredients.join(' + ')}</span>
+        <span style="color:var(--gold);font-size:11px;">${r.value}G</span>
+        <button class="btn" onclick="craftRecipe(${ri})" style="padding:3px 8px;font-size:11px;">合成</button>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+
+  if(inv.length===0){
     h+=`<div style="padding:20px;color:var(--tx3);font-size:13px;">倉庫は空です。パーティーを派遣して戦利品を集めよう。</div>`;
   } else {
     h+=`<div style="padding:8px;"><button class="btn" onclick="sellAll()" style="width:100%;margin-bottom:10px;">💰 全件売却</button></div>`;
     h+=`<div style="display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;">`;
-    G_STATE.inventory.forEach(it=>{
+    inv.forEach(it=>{
       const col=RARITY_COLOR[it.rarity]||'var(--tx)';
       const lbl=RARITY_LABEL[it.rarity]||it.rarity;
+      const wishBadge=it.wished?'⭐ ':'';
       h+=`<div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:6px;padding:8px 10px;">
         <span style="color:${col};font-weight:700;font-size:11px;min-width:28px;">[${lbl}]</span>
-        <span style="flex:1;font-size:12px;">${it.name}</span>
+        <span style="flex:1;font-size:12px;">${wishBadge}${it.name}</span>
         <span style="color:var(--gold);font-size:12px;min-width:40px;text-align:right;">${it.value}G</span>
         <span style="color:var(--tx3);font-size:10px;min-width:60px;">${it.partyName}</span>
         <button class="btn" onclick="sellItem(${it.id})" style="padding:3px 8px;font-size:11px;">売却</button>
@@ -575,6 +701,39 @@ function showInventoryView(){
   document.getElementById('v-inventory').innerHTML=h;
 }
 
+
+function showMapView(){
+  currentView='map';
+  ['welcome','party','roster','reports','inventory','map'].forEach(v=>{
+    const el=document.getElementById('v-'+v);
+    if(el)el.style.display=v==='map'?'block':'none';
+  });
+  let h=`<div class="ph"><div class="pht">🗺 地方マップ</div><div class="phs">評判: ${G_STATE.reputation||0}pt | 派遣先を確認しよう</div></div>`;
+  h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;">`;
+  REGIONS.forEach(reg=>{
+    const rd=REGION_DATA[reg]||{icon:'?',specialty:[],riskLevel:1};
+    const assignedParties=G_STATE.parties.filter(p=>p.region===reg&&p.status==='active'&&p.members.length>0);
+    const riskStars='⭐'.repeat(rd.riskLevel)+'☆'.repeat(5-rd.riskLevel);
+    h+=`<div style="background:var(--bg2);border-radius:10px;padding:12px;position:relative;">
+      <div style="font-size:22px;margin-bottom:4px;">${rd.icon}</div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:4px;">${reg}</div>
+      <div style="font-size:10px;color:var(--tx3);margin-bottom:6px;">リスク: ${riskStars}</div>`;
+    if(rd.specialty.length){
+      h+=`<div style="font-size:10px;color:var(--gold);margin-bottom:6px;">✦ ${rd.specialty.slice(0,2).join(' / ')}</div>`;
+    }
+    if(assignedParties.length){
+      assignedParties.forEach(p=>{
+        const ri=RANKS.indexOf(p.rank||'F');
+        h+=`<div style="font-size:11px;color:var(--green);padding:2px 6px;background:rgba(0,200,100,0.1);border-radius:4px;margin-bottom:2px;">⚔ ${p.name} [${p.rank||'F'}]</div>`;
+      });
+    } else {
+      h+=`<div style="font-size:10px;color:var(--tx3);">派遣中のパーティーなし</div>`;
+    }
+    h+=`</div>`;
+  });
+  h+=`</div>`;
+  document.getElementById('v-map').innerHTML=h;
+}
 /*--- G namespace ---*/
 const G={advanceWeek};
 
@@ -591,6 +750,8 @@ let directivePartyId=null;
 function updateHUD(){
   document.getElementById('hdate').textContent=`Year ${G_STATE.year} — Week ${G_STATE.week}`;
   document.getElementById('hcp').textContent=G_STATE.gold+'G';
+  const rep=document.getElementById('hrep');
+  if(rep) rep.textContent=(G_STATE.reputation||0)+'pt';
 }
 function setLogBar(txt){document.getElementById('lbt').textContent=txt;}
 function addLog(txt,cls=''){
@@ -614,7 +775,7 @@ function renderPartyList(){
     div.className='pi'+(currentPartyId===p.id?' active':'')+(hasPR?' rp':'');
     const stLabel=p.status==='disbanded'?'解散':p.members.length===0?'待機':p.status==='idle'?'待機':'活動中';
     const mc=avg>70?'mh':avg>40?'mm':'ml';
-    div.innerHTML=`<div class="pin">${p.name}</div><div class="pis">${stLabel} | ${p.region||'—'}</div><div class="pimb"><div class="pimf ${mc}" style="width:${avg}%"></div></div>`;
+    div.innerHTML=`<div class="pin">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank||'F'}]</span></div><div class="pis">${stLabel} | ${p.region||'—'}</div><div class="pimb"><div class="pimf ${mc}" style="width:${avg}%"></div></div>`;
     div.onclick=()=>showParty(p.id);
     c.appendChild(div);
   });
@@ -744,12 +905,13 @@ function dismissReport(idx){
 // ---- VIEW SWITCH ----------------------------------------------------------
 function showView(name){
   currentView=name;
-  ['welcome','party','roster','reports','inventory'].forEach(v=>{
+  ['welcome','party','roster','reports','inventory','map'].forEach(v=>{
     const el=document.getElementById('v-'+v);
     if(el) el.style.display=v===name?'':'none';
   });
   if(name==='roster') showRosterView();
   if(name==='reports') showReportsView();
+  if(name==='map') showMapView();
 }
 
 // extend G
@@ -765,7 +927,7 @@ function createParty(){
     id:uid(),name,region,targetItem,
     members:[],leaderId:null,
     directive:{focus:'steady',conflict:'leader',cpPerWeek:20},
-    status:'idle',cpDebt:0,
+    status:'idle',cpDebt:0,xp:0,rank:'F',
   };
   G_STATE.parties.push(p);
   closeModal('mcreate');
@@ -886,8 +1048,8 @@ function openGiftModal(mid,pid){
 G.openGiftModal=openGiftModal;
 
 function doGift(g){
-  if(G_STATE.cp<g.cost){alert(`CPが不足しています（必要: ${g.cost} CP）`);return;}
-  G_STATE.cp-=g.cost;
+  if(G_STATE.gold<g.cost){alert(`Goldが不足しています（必要: ${g.cost} G）`);return;}
+  G_STATE.gold-=g.cost;
   const {mid,pid}=giftTargetId;
   const p=G_STATE.parties.find(x=>x.id===pid);
   const c=p?.members.find(m=>m.id===mid);
@@ -898,7 +1060,7 @@ function doGift(g){
   }
   closeModal('mgift');saveState();updateHUD();
   if(currentView==='party') showParty(pid);
-  setLogBar(`${c?.name||'—'}に「${g.name}」を贈った。（-${g.cost} CP）`);
+  setLogBar(`${c?.name||'—'}に「${g.name}」を贈った。（-${g.cost} G）`);
   addLog(`${c?.name}へ「${g.name}」贈呈: ${g.effect}`,'evd');
 }
 
