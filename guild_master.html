@@ -1030,6 +1030,63 @@
       text-overflow: ellipsis;
     }
 
+
+
+    .equip-slot {
+      margin-top: 4px;
+      padding: 2px 6px;
+      background: #1a1000;
+      border: 1px solid #443010;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .equip-slot:hover {
+      border-color: var(--gold);
+    }
+
+    .crisis-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin: 2px 2px 0 0;
+      animation: pulse-warn 1.4s ease-in-out infinite;
+    }
+
+    .stress-crisis {
+      background: #7a1212;
+      color: #ffaaaa;
+      border: 1px solid #ff4444;
+    }
+
+    .health-crisis {
+      background: #3a2a00;
+      color: #ffcc44;
+      border: 1px solid #ffaa00;
+    }
+
+    .mental-crisis {
+      background: #2a0033;
+      color: #cc88ff;
+      border: 1px solid #9933ff;
+    }
+
+    @keyframes pulse-warn {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+    }
+
     .rebellion-badge {
       display: inline-block;
       font-size: 8px;
@@ -1424,6 +1481,41 @@
       '雪原の果て': { icon: '❄', specialty: ['霜雪の弓', '影狩りの短刀', '天使の血'], riskLevel: 4 },
       '禁断の魔境': { icon: '💀', specialty: ['不死鳥の羽', '竜の卵', '神話の断片'], riskLevel: 5 },
     };
+
+    // 地名・キャラ名入りナラティブイベントテキスト
+    const EXPEDITION_DRAMA = {
+      ambush: (m, region) => [
+        `${m.name}は${region || '荒野'}で突然の奇襲に遭い、辛くも逃げ延びた。体の震えが止まらない。`,
+        `夜営中、${m.name}の見張り中に魔物に急襲された。仲間の怒声が耳に残って眠れない。`,
+        `${m.name}は罠にはまり、腕に深い傷を負った。次の戦闘が怖くてたまらない。`,
+      ],
+      discovery: (m, item, region) => [
+        `${m.name}が${region || '遺跡'}の奥で${item || '謎の石板'}を発見した。パーティーは沸き立った！`,
+        `何も期待していなかった${m.name}が${item || '輝く鉱石'}を掘り当てた。これは運命かもしれない。`,
+        `${region || '深部'}の崖の中腹に${item || '封じられた宝箱'}が眠っていた。${m.name}の目が輝いた。`,
+      ],
+      comrade_quarrel: (a, b) => [
+        `${a.name}と${b.name}の口論が激しくなり、一晩口をきかなかった。パーティーの空気は重い。`,
+        `食料の分配をめぐって${a.name}が${b.name}を非難した。事実無根だと${b.name}は怒り心頭。`,
+        `道に迷ったとき${a.name}は${b.name}の判断ミスだと声を荒げた。リーダーが仲裁に入った。`,
+      ],
+      near_death: (m) => [
+        `${m.name}は巨大な魔物の攻撃を受け、かろうじて息をしていた。仲間が必死に回復させた。`,
+        `崖から落ちかけた${m.name}を仲間が間一髪で掴んだ。それ以来、${m.name}の表情が暗い。`,
+        `${m.name}は毒を受けて三日間意識を失った。目を覚ましたとき、世界が変わって見えた。`,
+      ],
+      loyalty: (m, leader) => [
+        `ピンチのとき、${m.name}は身を盾にした。${leader || 'リーダー'}への忠義は本物だ。`,
+        `試練のなかで${m.name}は誰よりも先頭に立った。皆の士気が高まった。`,
+      ],
+      desertion_warning: (m) => [
+        `${m.name}が夜中にこっそり荷物をまとめているのを目撃された。引き止めたが目が虚ろだ。`,
+        `ここ数日、${m.name}は食事もろくに取らず黙り込んでいる。限界が近いのかもしれない。`,
+      ],
+    };
+
+    function pickNarrative(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
     const RECIPES = [
       { name: '神剣オーラ', ingredients: ['豪炎の大剣', '雷神の槍'], rarity: 'epic', value: 800 },
       { name: '竜の守護盾', ingredients: ['竜鱗の鎧', '鉄壁の盾'], rarity: 'epic', value: 700 },
@@ -1503,6 +1595,7 @@
         mood: rnd(65, 90),          // 満足度 0-100 (低→不満)
         stress: rnd(0, 20),         // ストレス 0-100 (高→心の病)
         stressLog: [],              // ストレスイベント履歴
+        equip: null,                // 装備中アイテム (inventoryのitem object)
         healthPt: rnd(70, 100),     // 体力ポイント 0-100 (低→風邪)
         mentalPt: rnd(70, 100),     // メンタルポイント 0-100 (低→鬱)
         rebellion: false,           // 反発フラグ
@@ -1668,7 +1761,9 @@
       const next = GUILD_RANK_ORDER[GUILD_RANK_ORDER.indexOf(rank) + 1];
       const nextTh = next ? GUILD_RANK_THRESHOLDS[next] : null;
       const rep = G_STATE.reputation || 0;
-      el.innerHTML = `現在のギルドランク: <strong style="color:var(--gold)">${rank} — ${GUILD_RANK_LABELS[rank].split('—')[1].trim()}</strong>&nbsp;&nbsp;評判: ${rep}pt${nextTh ? ` / 次のランクまで ${nextTh - rep}pt` : '（最高ランク）'}`;
+      const progress = nextTh ? Math.min(100, Math.round(((rep - GUILD_RANK_THRESHOLDS[rank]) / (nextTh - GUILD_RANK_THRESHOLDS[rank])) * 100)) : 100;
+      const progressBar = nextTh ? `<div style="margin-top:4px; background:#30200a; border-radius:4px; height:6px; width:100%;"><div style="background:var(--gold); height:6px; border-radius:4px; width:${progress}%; transition:width 0.5s;"></div></div><div style="font-size:0.7rem; color:#888; margin-top:2px;">次のランクまで ${nextTh - rep}pt (${progress}%)</div>` : '<div style="font-size:0.7rem; color:var(--gold); margin-top:2px;">🏆 最高ランク達成！</div>';
+      el.innerHTML = `<div>現在のランク: <strong style="color:var(--gold)">${rank} — ${GUILD_RANK_LABELS[rank].split('—')[1].trim()}</strong></div><div style="font-size:0.75rem; color:#b09060;">評判 ${rep}pt</div>${progressBar}`;
     }
 
     let G_STATE = {
@@ -1715,7 +1810,13 @@
 
       // 1. Drop event (Phase3: region specialty + rarity + wishList + XP)
       const rankBonus = RANK_DROP_BONUS[party.rank || 'F'] || 0;
-      const dropChance = (party.directive.focus === 'drops' ? 0.55 : party.directive.focus === 'economy' ? 0.25 : 0.35) + rankBonus;
+      // 装備ボーナス: パーティーメンバーの装備レアリティでドロップ率上昇
+    const equipBonus = (party.members || []).reduce((acc, m) => {
+      if (!m.equip) return acc;
+      const rb = { common: 0.02, uncommon: 0.04, rare: 0.07, epic: 0.12 };
+      return acc + (rb[m.equip.rarity] || 0);
+    }, 0);
+    const dropChance = (party.directive.focus === 'drops' ? 0.55 : party.directive.focus === 'economy' ? 0.25 : 0.35) + rankBonus + Math.min(equipBonus, 0.2);
       const bonusChance = party.members.some(m => party.members.some(m2 => m !== m2 && m.likedType === m2.trait)) ? 0.1 : 0;
       const dropCount = party.directive.focus === 'drops' ? rnd(1, 3) : 1;
       for (let di = 0; di < dropCount; di++) {
@@ -1738,7 +1839,10 @@
           if (isWished) loot.wished = true;
           if (!G_STATE.inventory) G_STATE.inventory = [];
           G_STATE.inventory.push(loot);
-          events.push({ type: 'drop', text: `${isWished ? '⭐ ' : ''}「${item}」を発見した [${rarity}] 売値:${value}G` });
+          const dropHero = pick(members);
+          const dropNarr = EXPEDITION_DRAMA.discovery(dropHero, item, party.region);
+          const dropNarrText = isWished ? `⭐ ${pickNarrative(dropNarr)}` : pickNarrative(dropNarr);
+          events.push({ type: 'drop', text: `${dropNarrText} [${rarity}] 売値:${value}G` });
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished ? ' ⭐' : ''}`);
           // 戦利品取得でmood向上・ストレス軽減
           members.forEach(m => {
@@ -2010,11 +2114,21 @@
         }
       });
 
+      // 瀕死・危険状態のナラティブイベント
+      party.members.filter(m => !m.dead).forEach(m => {
+        if ((m.healthPt || 80) <= 20 && Math.random() < 0.5) {
+          const ndNarr = EXPEDITION_DRAMA.near_death(m);
+          events.push({ type: 'injury', text: `【危機】${pickNarrative(ndNarr)}` });
+          addStressEvent(m, 'combat_fear', {});
+        }
+      });
+
       // 崩壊状態のメンバーが自主離脱
       const collapsedMember = party.members.find(m => !m.dead && (m.stress || 0) >= 90);
       if (collapsedMember && party.members.length > 1) {
         const events_local = events || [];
-        events_local.push({ type: 'conflict', text: `【自主離脱】${collapsedMember.name}はもはや限界だとして自らパーティーを去った。精神的に崩壊寸前だったようだ。` });
+        const deNarr = EXPEDITION_DRAMA.desertion_warning(collapsedMember);
+        events_local.push({ type: 'conflict', text: `【自主離脱】${collapsedMember.name}は限界を迎えた。${pickNarrative(deNarr)} パーティーを静かに去っていった。` });
         party.members = party.members.filter(m => m.id !== collapsedMember.id);
         G_STATE.dismissed = G_STATE.dismissed || [];
         G_STATE.dismissed.push({ ...collapsedMember, dismissedWeek: G_STATE.week, reason: 'collapse' });
@@ -2397,7 +2511,10 @@ ${(() => { const mult = PERSO_STRESS_MULT[m.personality] || {}; const tags = [];
   </div>
 </div>
 ${m.rebellion ? '<div class="rebellion-badge">⚡反発中</div>' : ''}
-${isLdr ? '<div class="mcld">LEADER</div>' : ''}
+${(m.stress || 0) >= 70 ? '<div class="crisis-badge stress-crisis">🔥 高ストレス</div>' : ''}
+${(m.healthPt ?? 80) <= 25 ? '<div class="crisis-badge health-crisis">💔 要 療 養 < /div>' : ''}
+${(m.mentalPt ?? 80) <= 25 ? '<div class="crisis-badge mental-crisis">💀 精神崩壊寸前</div>' : ''}
+ $ {isLdr ? '<div class="mcld">LEADER</div>' : ''}
 </div>`;
         } else {
           html += `<div class="es" onclick="openAddMemberModal(${pid})">＋ メンバーを追加</div>`;
@@ -2613,7 +2730,7 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       if (!eligible.length) { alert('空きのあるパーティーがありません。'); return; }
       if (eligible.length === 1) { addMemberToParty(eligible[0].id, cid); return; }
       const names = eligible.map((p, i) => (i + 1) + ': ' + p.name + '(' + p.members.length + '/4)').join('\n');
-      const choice = prompt(names + '\n\n番号を入力:');
+    coice = prompt(names + '\n\n番号を入力:');
       const idx = parseInt(choice) - 1;
       if (eligible[idx]) addMemberToParty(eligible[idx].id, cid);
     }
@@ -2703,8 +2820,94 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       if (G_STATE.parties.length > 0) showParty(G_STATE.parties[0].id);
     }
     init();
+    maybeShowTutorial();
+
+    // ===== チュートリアル =====
+    function closeTutorial() {
+      const el = document.getElementById('tutorial-overlay');
+      if (el) el.style.display = 'none';
+      localStorage.setItem('gm_tutorial_done', '1');
+    }
+    function maybeShowTutorial() {
+      if (!localStorage.getItem('gm_tutorial_done')) {
+        const el = document.getElementById('tutorial-overlay');
+        if (el) { el.style.display = 'flex'; }
+      }
+    }
+
+    // ===== 装備モーダル =====
+    function openEquipModal(memberId, partyId) {
+      const party = G_STATE.parties.find(p => p.id === partyId);
+      const member = party && party.members.find(m => m.id === memberId);
+      if (!member) return;
+      const inv = (G_STATE.inventory || []).filter(it => it.qty > 0);
+      const rarityIcon = (r) => r === 'epic' ? '🌟' : r === 'rare' ? '💎' : r === 'uncommon' ? '🔷' : '📦';
+      const wrapper = document.createElement('div');
+      wrapper.id = 'equip-modal-wrapper';
+      wrapper.innerHTML = `<div onclick="if(event.target===this)closeEquipModal()" style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:8000;display:flex;align-items:center;justify-content:center;">
+        <div style="background:#1a0e00;border:2px solid var(--gold);border-radius:12px;padding:24px;min-width:320px;max-width:480px;color:#e8d5a0;max-height:80vh;overflow-y:auto;">
+          <h3 style="color:var(--gold);margin-bottom:8px;">⚔️ ${member.name}の装備</h3>
+          <p style="color:#888;font-size:0.78rem;margin-bottom:12px;">レア装備ほどドロップ率が上がる。現在: <strong>${member.equip ? member.equip.name : 'なし'}</strong></p>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            ${member.equip ? `<button onclick="unequipItem('${memberId}','${partyId}')" style="background:#2a0000;border:1px solid #f44;color:#f99;padding:6px 12px;border-radius:6px;cursor:pointer;text-align:left;">❌ 外す (${member.equip.name})</button>` : ''}
+            ${inv.length === 0 ? '<p style="color:#666;font-size:0.8rem;">倉庫にアイテムがありません。<br>週を進めてアイテムを集めよう！</p>' : inv.map(it => `<button onclick="equipItem('${memberId}','${partyId}','${it.id}')" style="background:#0a0d02;border:1px solid #443;color:#c8d080;padding:6px 12px;border-radius:6px;cursor:pointer;text-align:left;">${rarityIcon(it.rarity)} ${it.name} [${it.rarity}] ×${it.qty}</button>`).join('')}
+          </div>
+          <button onclick="closeEquipModal()" style="margin-top:14px;background:#333;color:#aaa;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;">閉じる</button>
+        </div>
+      </div>`;
+      document.body.appendChild(wrapper);
+    }
+    function closeEquipModal() {
+      const el = document.getElementById('equip-modal-wrapper');
+      if (el) el.remove();
+    }
+    function equipItem(memberId, partyId, itemId) {
+      const party = G_STATE.parties.find(p => p.id === partyId);
+      const member = party && party.members.find(m => m.id === memberId);
+      const item = (G_STATE.inventory || []).find(it => it.id === itemId);
+      if (!member || !item) return;
+      if (member.equip) {
+        const old = (G_STATE.inventory || []).find(it => it.id === member.equip.id);
+        if (old) old.qty++; else G_STATE.inventory.push({ ...member.equip, qty: 1 });
+      }
+      member.equip = { ...item };
+      item.qty--;
+      G_STATE.inventory = G_STATE.inventory.filter(it => it.qty > 0);
+      saveState(); closeEquipModal(); showParty(partyId);
+    }
+    function unequipItem(memberId, partyId) {
+      const party = G_STATE.parties.find(p => p.id === partyId);
+      const member = party && party.members.find(m => m.id === memberId);
+      if (!member || !member.equip) return;
+      const old = (G_STATE.inventory || []).find(it => it.id === member.equip.id);
+      if (old) old.qty++; else G_STATE.inventory.push({ ...member.equip, qty: 1 });
+      member.equip = null;
+      saveState(); closeEquipModal(); showParty(partyId);
+    }
 
   </script>
+
+  <!-- ============ チュートリアルオーバーレイ ============ -->
+  <div id="tutorial-overlay"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px;">
+    <div
+      style="background:#1a0e00; border:2px solid var(--gold); border-radius:16px; max-width:640px; width:100%; padding:32px; color:#e8d5a0;">
+      <h2 style="color:var(--gold); font-size:1.5rem; margin-bottom:16px;">⚔️ ギルドマスターへようこそ</h2>
+      <div style="line-height:1.9; font-size:0.95rem;">
+        <p>🎯 <strong>ゲームの目標</strong>: 複数のパーティーを編成し、各地でレアアイテムを集めよう。</p>
+        <p>👥 <strong>パーティーを作る</strong>: 左の「＋」からパーティーを作り、旅人を雇おう。</p>
+        <p>📅 <strong>週を進める</strong>: 右上の「週を進める▶」でゲームが進行する。</p>
+        <p>💼 <strong>週次報告を読む</strong>: 毎週、各パーティーから報告が届く。問題には方針で対処しよう。</p>
+        <p>⚠️ <strong>危機のサイン</strong>: 🔥高ストレス / 💔要療養 / 💀精神崩壊 のバッジが出たら即対処が必要！</p>
+        <p>🏆 <strong>ランクアップ</strong>: 評判ポイントを貯めてDランクからSランクを目指せ！</p>
+      </div>
+      <div style="margin-top:20px; text-align:center;">
+        <button onclick="closeTutorial()"
+          style="background:var(--gold); color:#1a0a00; border:none; padding:10px 32px; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer;">はじめる！</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
