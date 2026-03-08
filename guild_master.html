@@ -1559,6 +1559,28 @@
       }
     }
 
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      80% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+      }
+    }
+
     .hbtn.loading {
       opacity: .5;
       pointer-events: none;
@@ -1888,7 +1910,9 @@
       <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span> &nbsp;|&nbsp; <span
           id="hgrank" style="color:var(--gold);font-weight:700">Dランク</span></div>
 
-      <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
+      <button class="hbtn primary" onclick="if(typeof SFX!=='undefined')SFX.advance();advanceWeek()">週を進める ▶</button>
+      <button id="mute-btn" class="hbtn" onclick="toggleMute()" style="min-width:36px;padding:0 8px;font-size:16px;"
+        title="サウンドのオン/オフ">🔊</button>
     </header>
     <div id="main">
       <!-- Stress Log Modal -->
@@ -2521,7 +2545,7 @@
         G_STATE.guildRank = newRank;
         saveState();
         // B3: ランクアップ演出
-        setTimeout(() => { if (typeof showRankUpAnimation === 'function') showRankUpAnimation(oldRank, newRank); }, 200);
+        setTimeout(() => { if (typeof showRankUpAnimation === 'function') showRankUpAnimation(oldRank, newRank); if (typeof SFX !== 'undefined') SFX.rankUp(); }, 200);
         addLog(`🏆 ギルドランクアップ！ ${oldRank} → ${newRank}: ${GUILD_RANK_LABELS[newRank]}`, 'evd');
         if (newRank === 'S') {
           setTimeout(() => {
@@ -2862,6 +2886,8 @@
         m.healthPt = Math.max(0, Math.min(100, (m.healthPt || 80) + (Math.random() < 0.1 ? -5 : 1)));
         m.mentalPt = Math.max(0, Math.min(100, (m.mentalPt || 80) + (m.stress > 60 ? -3 : 1)));
         m.mood = Math.max(0, Math.min(100, (m.mood || 70) + (m.mentalPt < 40 ? -3 : 0)));
+        // シナジー効果 (装備 × キャラタイプ)
+        if (typeof SYNERGY !== 'undefined') SYNERGY.applyToMember(m);
         // 反発フラグがあると毎週moodが下がる
         if (m.rebellion) m.mood = Math.max(0, (m.mood || 70) - 5);
         // 毎週ランダムなストレスイベント発火 (多様性を高める) — 同週・同IDは1回のみ
@@ -2949,6 +2975,7 @@
       const btnEl = hudEl ? hudEl.querySelector('.hbtn.primary') : null;
       if (hudEl) { hudEl.classList.remove('hud-flash-anim'); void hudEl.offsetWidth; hudEl.classList.add('hud-flash-anim'); }
       if (btnEl) { btnEl.classList.add('loading'); }
+      if (typeof SFX !== 'undefined') SFX.advance();
 
       // ② ゲームロジック実行
       G_STATE.week++;
@@ -3024,6 +3051,7 @@
       addLog(`Week ${G_STATE.week} へ進んだ。${reports.length}件の報告あり。`);
       if (currentView === 'party' && currentPartyId) showParty(currentPartyId);
       checkGuildRankUp();
+      if (typeof ACHV !== 'undefined') ACHV.check(G_STATE);
       renderWelcomeRankDisplay();
       checkQuestCompletion();
       generateWeeklyQuest();
@@ -3069,6 +3097,7 @@
         </div>
       `;
       document.body.appendChild(overlay);
+      if (typeof SFX !== 'undefined') SFX.gameOver();
 
       document.getElementById('go-restart').onclick = () => {
         localStorage.removeItem('gm_v1');
@@ -3300,6 +3329,7 @@
       G_STATE.inventory.splice(idx, 1);
       G_STATE.gold += it.value;
       G_STATE.reputation = (G_STATE.reputation || 0) + Math.ceil(it.value / 30);
+      if (typeof SFX !== 'undefined') SFX.sell();
       saveState(); updateHUD();
       setLogBar(`「${it.name}」を ${it.value}G で売却した。（残Gold: ${G_STATE.gold}G）`);
       addLog(`売却: 「${it.name}」+${it.value}G 評判+${Math.ceil(it.value / 30)}`, 'evm');
@@ -3650,6 +3680,8 @@ ${(m.healthPt ?? 80) <= 25 ? '<div class="crisis-badge health-crisis">💔 要�
 ${(m.mentalPt ?? 80) <= 25 ? '<div class="crisis-badge mental-crisis">💀 精神崩壊寸前</div>' : ''}
 ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
 <div class="equip-slot" onclick="openEquipModal('${m.id}','${pid}')">${m.equip ? '⚔️ ' + m.equip.name + ' [' + m.equip.rarity + ']' : '<span style="color:#555;">装備なし (クリックで装備)</span>'}</div>
+${typeof renderGrowthBar === 'function' ? renderGrowthBar(m) : ''}
+${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type) ? '<div style="font-size:9px;background:#1a1206;border:1px solid #c8a060;border-radius:4px;padding:2px 6px;margin-top:3px;color:#c8a060;">✨ ' + SYNERGY.find(m.equip.name, m.type).label + '</div>' : ''}
 </div>`;
         } else {
           html += `<div class="es" onclick="openAddMemberModal(${pid})">＋ メンバーを追加</div>`;
@@ -4218,6 +4250,324 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       member.equip = null;
       saveState(); closeEquipModal(); showParty(partyId);
     }
+
+    // =====================================================================
+    // SOUND ENGINE — プロシージャル Web Audio (外部ファイル不要)
+    // =====================================================================
+    const SFX = (() => {
+      let ctx = null;
+      let masterGain = null;
+      let ambienceNode = null;
+      let muted = false;
+
+      function getCtx() {
+        if (!ctx) {
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          masterGain = ctx.createGain();
+          masterGain.gain.value = 0.3;
+          masterGain.connect(ctx.destination);
+        }
+        if (ctx.state === 'suspended') ctx.resume();
+        return ctx;
+      }
+
+      function tone(freq, type, duration, vol, delay = 0, attack = 0.01, release = 0.1) {
+        if (muted) return;
+        try {
+          const c = getCtx();
+          const osc = c.createOscillator();
+          const gain = c.createGain();
+          osc.type = type;
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0, c.currentTime + delay);
+          gain.gain.linearRampToValueAtTime(vol, c.currentTime + delay + attack);
+          gain.gain.setValueAtTime(vol, c.currentTime + delay + duration - release);
+          gain.gain.linearRampToValueAtTime(0, c.currentTime + delay + duration);
+          osc.connect(gain);
+          gain.connect(masterGain);
+          osc.start(c.currentTime + delay);
+          osc.stop(c.currentTime + delay + duration);
+        } catch (e) { }
+      }
+
+      function noise(duration, vol, delay = 0) {
+        if (muted) return;
+        try {
+          const c = getCtx();
+          const bufLen = c.sampleRate * duration;
+          const buf = c.createBuffer(1, bufLen, c.sampleRate);
+          const data = buf.getChannelData(0);
+          for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * 0.3;
+          const src = c.createBufferSource();
+          src.buffer = buf;
+          const gain = c.createGain();
+          gain.gain.setValueAtTime(vol, c.currentTime + delay);
+          gain.gain.linearRampToValueAtTime(0, c.currentTime + delay + duration);
+          src.connect(gain);
+          gain.connect(masterGain);
+          src.start(c.currentTime + delay);
+        } catch (e) { }
+      }
+
+      return {
+        // UI クリック音
+        click() {
+          tone(880, 'sine', 0.06, 0.15, 0, 0.005, 0.05);
+        },
+
+        // 週進行 — 短い上昇ジングル
+        advance() {
+          tone(440, 'sine', 0.12, 0.2, 0, 0.01, 0.08);
+          tone(554, 'sine', 0.12, 0.18, 0.1, 0.01, 0.08);
+          tone(659, 'sine', 0.18, 0.22, 0.2, 0.01, 0.1);
+        },
+
+        // ランクアップ — ファンファーレ
+        rankUp() {
+          const notes = [523, 659, 784, 1047];
+          notes.forEach((f, i) => tone(f, 'triangle', 0.25, 0.3, i * 0.12, 0.01, 0.1));
+          tone(1047, 'sine', 0.5, 0.35, 0.55, 0.02, 0.2);
+        },
+
+        // ネガティブイベント — 低音警告
+        danger() {
+          tone(180, 'sawtooth', 0.2, 0.25, 0, 0.02, 0.15);
+          tone(160, 'square', 0.15, 0.2, 0.15, 0.01, 0.1);
+          noise(0.1, 0.15, 0.05);
+        },
+
+        // ゲームオーバー
+        gameOver() {
+          tone(440, 'sawtooth', 0.3, 0.3, 0, 0.02, 0.2);
+          tone(330, 'sawtooth', 0.3, 0.28, 0.2, 0.02, 0.2);
+          tone(220, 'sawtooth', 0.5, 0.3, 0.4, 0.02, 0.3);
+          noise(0.3, 0.2, 0.5);
+        },
+
+        // アイテム取得
+        drop() {
+          tone(783, 'sine', 0.1, 0.2, 0, 0.005, 0.07);
+          tone(987, 'sine', 0.12, 0.22, 0.08, 0.005, 0.08);
+        },
+
+        // 売却
+        sell() {
+          tone(659, 'triangle', 0.08, 0.18, 0, 0.005, 0.06);
+          tone(523, 'triangle', 0.08, 0.15, 0.07, 0.005, 0.06);
+        },
+
+        // アンビエントBGM (低音ドローン)
+        startAmbience() {
+          if (muted) return;
+          try {
+            const c = getCtx();
+            if (ambienceNode) return;
+            const osc1 = c.createOscillator();
+            const osc2 = c.createOscillator();
+            const lfo = c.createOscillator();
+            const lfoGain = c.createGain();
+            const amb = c.createGain();
+
+            osc1.type = 'sine'; osc1.frequency.value = 55;
+            osc2.type = 'sine'; osc2.frequency.value = 82.5;
+            lfo.type = 'sine'; lfo.frequency.value = 0.08;
+            lfoGain.gain.value = 3;
+
+            lfo.connect(lfoGain);
+            lfoGain.connect(osc1.frequency);
+            lfoGain.connect(osc2.frequency);
+
+            amb.gain.value = 0;
+            osc1.connect(amb); osc2.connect(amb);
+            amb.connect(masterGain);
+
+            osc1.start(); osc2.start(); lfo.start();
+            amb.gain.linearRampToValueAtTime(0.18, c.currentTime + 3);
+            ambienceNode = { osc1, osc2, lfo, amb };
+          } catch (e) { }
+        },
+
+        stopAmbience() {
+          try {
+            if (ambienceNode) {
+              const c = getCtx();
+              ambienceNode.amb.gain.linearRampToValueAtTime(0, c.currentTime + 1);
+              setTimeout(() => {
+                try { ambienceNode.osc1.stop(); ambienceNode.osc2.stop(); ambienceNode.lfo.stop(); } catch (e) { }
+                ambienceNode = null;
+              }, 1200);
+            }
+          } catch (e) { }
+        },
+
+        setMuted(v) {
+          muted = v;
+          if (muted) { this.stopAmbience(); } else { this.startAmbience(); }
+          if (masterGain) masterGain.gain.value = muted ? 0 : 0.3;
+          localStorage.setItem('gm_muted', v ? '1' : '0');
+        },
+        isMuted() { return muted; },
+        load() {
+          muted = localStorage.getItem('gm_muted') === '1';
+          // 初回クリック後にアンビエンス開始
+          if (!muted) {
+            document.addEventListener('click', function startAmb() {
+              SFX.startAmbience();
+              document.removeEventListener('click', startAmb);
+            }, { once: true });
+          }
+        },
+      };
+    })();
+    window.SFX = SFX;
+    SFX.load();
+
+    // ---- ミュートトグル -------------------------------------------------------
+    function toggleMute() {
+      if (typeof SFX === 'undefined') return;
+      SFX.setMuted(!SFX.isMuted());
+      const btn = document.getElementById('mute-btn');
+      if (btn) btn.textContent = SFX.isMuted() ? '🔇' : '🔊';
+      SFX.click();
+    }
+    window.toggleMute = toggleMute;
+    // 初期アイコン同期 (ロード時のミュート状態を反映)
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('mute-btn');
+      if (btn && typeof SFX !== 'undefined') btn.textContent = SFX.isMuted() ? '🔇' : '🔊';
+    });
+
+    // =====================================================================
+    // SYNERGY ENGINE — 装備 × キャラタイプ シナジー効果
+    // =====================================================================
+    const SYNERGY = (() => {
+      /* シナジー定義: 装備キーワード × キャラタイプ → ボーナス説明 + 効果 */
+      const RULES = [
+        { equipKw: ['炎', '火', '焔'], charTypes: ['魔術'], label: '炎属性強化', stressReduction: 5, moodBoost: 3 },
+        { equipKw: ['癒', '聖', '光'], charTypes: ['治癒'], label: '回復強化', stressReduction: 8, moodBoost: 5 },
+        { equipKw: ['重', '鋼', '鉄'], charTypes: ['盾'], label: '堅牢の守護', stressReduction: 6, moodBoost: 2 },
+        { equipKw: ['疾', '風', '迅'], charTypes: ['双剣', '弓'], label: '疾風の一撃', stressReduction: 4, moodBoost: 6 },
+        { equipKw: ['呪', '毒', '闇'], charTypes: ['魔術', '双剣'], label: '禁断の力', stressReduction: -3, moodBoost: 8 },
+        { equipKw: ['勇', '豪', '英'], charTypes: ['大剣', '斧', '槍'], label: '豪傑の闘志', stressReduction: 3, moodBoost: 7 },
+        { equipKw: ['古', '神', '霊'], charTypes: ['魔術', '治癒'], label: '古の叡智', stressReduction: 7, moodBoost: 4 },
+      ];
+
+      return {
+        /* 装備名とキャラタイプからシナジーを検索 */
+        find(equipName, charType) {
+          if (!equipName || !charType) return null;
+          return RULES.find(r =>
+            r.charTypes.includes(charType) &&
+            r.equipKw.some(kw => equipName.includes(kw))
+          ) || null;
+        },
+
+        /* weeklyTickでメンバー1人分の効果を適用 */
+        applyToMember(member) {
+          if (!member.equip) return null;
+          const syn = this.find(member.equip.name, member.type);
+          if (!syn) return null;
+          member.stress = Math.max(0, (member.stress || 0) - syn.stressReduction);
+          member.mood = Math.min(100, (member.mood || 70) + syn.moodBoost);
+          return syn.label;
+        },
+
+        /* シナジーラベル一覧を返す (パーティービューのバッジ表示用) */
+        getPartyLabels(party) {
+          const labels = [];
+          (party.members || []).forEach(m => {
+            if (!m.equip) return;
+            const syn = this.find(m.equip.name, m.type);
+            if (syn) labels.push(`${m.name}: ${syn.label}`);
+          });
+          return labels;
+        },
+      };
+    })();
+    window.SYNERGY = SYNERGY;
+
+    // =====================================================================
+    // ACHIEVEMENT SYSTEM — Steam 実績相当
+    // =====================================================================
+    const ACHV = (() => {
+      const DEFS = [
+        { id: 'first_hire', label: '最初の仲間', desc: 'キャラを初めてギルドに採用した', icon: '🤝', check: (s) => s.parties.some(p => p.members.length > 0) },
+        { id: 'first_drop', label: '戦利品ゲット', desc: '初めてアイテムを入手した', icon: '🎁', check: (s) => (s.inventory || []).length > 0 },
+        { id: 'rank_c', label: 'Cランク到達', desc: 'ギルドランクがCに上がった', icon: '🥉', check: (s) => ['C', 'B', 'A', 'S'].includes(s.guildRank) },
+        { id: 'rank_a', label: 'Aランク到達', desc: 'ギルドランクがAに上がった', icon: '🥇', check: (s) => ['A', 'S'].includes(s.guildRank) },
+        { id: 'week_52', label: '一年乗り越えた', desc: '52週目を迎えた', icon: '📅', check: (s) => s.week >= 52 },
+        { id: 'rep_100', label: '名声100', desc: '評判ポイントが100を超えた', icon: '⭐', check: (s) => (s.reputation || 0) >= 100 },
+        { id: 'rep_500', label: '伝説の名声', desc: '評判ポイントが500を超えた', icon: '🌟', check: (s) => (s.reputation || 0) >= 500 },
+        { id: 'party_3', label: '三つ巴のギルド', desc: '同時に3パーティーを活動させた', icon: '⚔️', check: (s) => s.parties.filter(p => p.status !== 'disbanded').length >= 3 },
+        { id: 'gold_1000', label: '千金の蔵', desc: 'Gold 1000G 以上を保持した', icon: '💰', check: (s) => s.gold >= 1000 },
+        { id: 'no_disband', label: '揺るぎないギルド', desc: 'Week 26 まで1度も解散なしで到達', icon: '🏰', check: (s) => s.week >= 26 && !s._hadDisband },
+      ];
+
+      const KEY = 'gm_achievements';
+      let _unlocked = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'));
+
+      return {
+        check(gState) {
+          const newOnes = [];
+          DEFS.forEach(def => {
+            if (_unlocked.has(def.id)) return;
+            try { if (def.check(gState)) { _unlocked.add(def.id); newOnes.push(def); } } catch (e) { }
+          });
+          if (newOnes.length) {
+            localStorage.setItem(KEY, JSON.stringify([..._unlocked]));
+            newOnes.forEach(a => showAchievementToast(a));
+          }
+        },
+        getAll() { return DEFS.map(d => ({ ...d, unlocked: _unlocked.has(d.id) })); },
+        unlockedCount() { return _unlocked.size; },
+        totalCount() { return DEFS.length; },
+      };
+    })();
+    window.ACHV = ACHV;
+
+    function showAchievementToast(achv) {
+      const old = document.getElementById('achv-toast-' + achv.id);
+      if (old) old.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'achv-toast-' + achv.id;
+      toast.style.cssText = `position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+        background:#0d0a05;border:2px solid var(--gold);border-radius:10px;padding:12px 20px;
+        z-index:9994;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,0.8);
+        animation:slideUpFade 3.5s ease forwards;max-width:320px;`;
+      toast.innerHTML = `
+        <div style="font-size:28px">${achv.icon}</div>
+        <div>
+          <div style="font-size:9px;color:#8a6a40;letter-spacing:2px;">実績解除</div>
+          <div style="font-size:14px;font-weight:700;color:var(--gold);">${achv.label}</div>
+          <div style="font-size:10px;color:#c8a060;">${achv.desc}</div>
+        </div>`;
+      document.body.appendChild(toast);
+      if (typeof SFX !== 'undefined') SFX.drop();
+      setTimeout(() => toast.remove(), 3600);
+    }
+    window.showAchievementToast = showAchievementToast;
+
+    // 成長ビジュアル: メンバーの adventureWeeks をレベルバーとして表示するヘルパー
+    function renderGrowthBar(member) {
+      const weeks = member.adventureWeeks || 0;
+      const MAX = 52;
+      const pct = Math.min(100, Math.round((weeks / MAX) * 100));
+      const stageColors = ['#888', '#4caf50', '#2196f3', '#ff9800', '#f44336'];
+      const stageIdx = weeks >= 52 ? 4 : weeks >= 20 ? 3 : weeks >= 10 ? 2 : weeks >= 3 ? 1 : 0;
+      const stageLabel = ['新参者', '見習い', '一人前', '熟練', '伝説'][stageIdx];
+      const col = stageColors[stageIdx];
+      return `<div style="margin:4px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#8a6a40;margin-bottom:2px;">
+          <span>経験値 <strong style="color:${col}">${stageLabel}</strong></span>
+          <span>${weeks}週</span>
+        </div>
+        <div style="background:#1a1005;height:5px;border-radius:3px;">
+          <div style="width:${pct}%;height:100%;background:${col};border-radius:3px;transition:width 0.5s;"></div>
+        </div>
+      </div>`;
+    }
+    window.renderGrowthBar = renderGrowthBar;
 
   </script>
 

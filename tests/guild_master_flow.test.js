@@ -65,6 +65,8 @@ global.document = {
     },
     querySelectorAll(sel) { return { forEach() { } }; }, // ボトムナビのクラス操作モック
     querySelector(sel) { return null; },
+    addEventListener(ev, fn, opts) { },       // SFX.load()等が使うため追加
+    removeEventListener(ev, fn, opts) { },
     body: { appendChild() { }, removeChild() { } },
 };
 global.localStorage = {
