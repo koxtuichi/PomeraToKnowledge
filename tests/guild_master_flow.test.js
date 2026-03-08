@@ -370,7 +370,73 @@ test('dismissReport で reports から1件削除される', () => {
     assertEqual(G_STATE.pendingReports.length, 1, '削除されていない');
 });
 
-// ========= サマリー =========
+console.log('\n◆ openHireModal() — ギルド待機所の採用ボタン');
+test('パーティーがないとき採用ボタンを押してもエラーにならない', () => {
+    resetState();
+    G_STATE.parties = [];
+    // alertが呼ばれて早期リターン — 例外なし
+    openHireModal(G_STATE.roster[0]?.id || 999);
+});
+test('採用先パーティーが1つあるとき自動でそのパーティーに追加される', () => {
+    resetState();
+    const p = addPartyDirect();
+    const c = G_STATE.roster[0];
+    assert(c, 'ロスターが空');
+    openHireModal(c.id);
+    assertEqual(p.members.length, 1, '採用されていない');
+    assertEqual(p.members[0].id, c.id, '採用されたキャラが違う');
+});
+test('ロスターにいないIDを渡しても例外にならない', () => {
+    resetState();
+    openHireModal(9999999); // 存在しないID
+});
+
+console.log('\n◆ ID永続化 — リロード後もIDが重複しない');
+test('saveState後にloadStateするとG_STATE._uidが保存・復元される', () => {
+    resetState();
+    const p1 = addPartyDirect('パーティーA');
+    const beforeUid = _uid;
+    saveState();
+    // _uidをリセットしてloadStateで復元されるか確認
+    // eslint-disable-next-line no-global-assign
+    _uid = 1;
+    loadState();
+    assert(_uid >= beforeUid, `_uidが復元されない: before=${beforeUid} after=${_uid}`);
+});
+test('リロード後に作成したパーティーIDが既存パーティーと重複しない', () => {
+    resetState();
+    const p1 = addPartyDirect('旧パーティー');
+    const oldId = p1.id;
+    saveState();
+    // リロード相当: _uidをリセット → loadState
+    _uid = 1;
+    loadState();
+    // ここで新しいパーティーを作成
+    const p2 = addPartyDirect('新パーティー');
+    assert(p2.id !== oldId, `リロード後のIDが重複した: 旧=${oldId} 新=${p2.id}`);
+});
+test('リロード後もaddMemberToPartyが正しいパーティーにメンバーを追加する', () => {
+    resetState();
+    const p1 = addPartyDirect('旧パーティー');
+    const oldId = p1.id;
+    saveState();
+    _uid = 1;
+    loadState();
+    // 新パーティーを追加
+    const p2 = addPartyDirect('新パーティー');
+    // ロスターに1名追加
+    const c = genChar();
+    G_STATE.roster.push(c);
+    // p2に採用 — p1のIDと被っていなければp2に追加される
+    addMemberToParty(p2.id, c.id);
+    // G_STATEのp2を再取得
+    const p2fresh = G_STATE.parties.find(p => p.id === p2.id);
+    assertEqual(p2fresh.members.length, 1, `新パーティーに採用されなかった (ID重複バグ再発の可能性)`);
+    const p1fresh = G_STATE.parties.find(p => p.id === oldId);
+    assertEqual((p1fresh?.members?.length || 0), 0, `旧パーティーに誤って採用された (ID重複バグ)`);
+});
+
+
 console.log('\n' + '─'.repeat(40));
 console.log(`結果: ${passed + failed} テスト中 ${passed} 件成功 / ${failed} 件失敗`);
 if (errors.length > 0) {

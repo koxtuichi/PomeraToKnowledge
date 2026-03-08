@@ -334,11 +334,11 @@ let G_STATE={
   pendingReports:[],globalLog:[],
 };
 
-function saveState(){try{localStorage.setItem('gm_v1',JSON.stringify(G_STATE));}catch(e){}}
+function saveState(){try{G_STATE._uid=_uid;localStorage.setItem('gm_v1',JSON.stringify(G_STATE));}catch(e){}}
 function loadState(){
   try{
     const s=localStorage.getItem('gm_v1');
-    if(s){G_STATE=JSON.parse(s);_uid=G_STATE._uid||_uid;return true;}
+    if(s){G_STATE=JSON.parse(s);const maxId=Math.max(0,...(G_STATE.parties||[]).map(p=>p.id));_uid=Math.max(G_STATE._uid||1,maxId+1);return true;}
   }catch(e){}
   return false;
 }
