@@ -1551,11 +1551,24 @@
       /* ボトムナビ表示 */
       #bottom-nav {
         display: flex;
+        position: fixed;
+        /* #appの外にあるためfixedで画面下部に固定 */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
         background: linear-gradient(180deg, #120a02, #0e0806);
         border-top: 2px solid var(--bd);
         padding: 0;
         height: 60px;
         align-items: stretch;
+      }
+
+      /* ボトムナビの高さ分だけコンテンツに下ディング */
+      #content {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 68px;
       }
 
       .bnav-btn {
