@@ -127,18 +127,24 @@ def build_prompt(node: dict) -> str:
     detail = node.get("detail", "")
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
-    # ===== マスタースタイルガイド（全キャラ共通 / 最優先 / Elin路線） =====
-    # 「全員同じアーティストが描いた」統一感・かわいいチビキャラ縛り
+    # ===== マスタースタイルガイド（参考画像スタイルに完全準拠） =====
+    # 参考画像の特徴:
+    #   - RPGツクール/Elin系の2〜2.5頭身チビキャラ
+    #   - 全員正面向きで直立（スプライト前提のポーズ）
+    #   - はっきりした黒アウトライン・限られたカラーパレット
+    #   - 頭が大きく、手足は短くずんぐり
+    #   - キャラごとに衣装は違うが同じ絵師が描いた統一感
     master_style = (
-        "Elin game style chibi character card art, "
-        "super deformed SD chibi proportions: very large round head, small chubby round body, short stubby limbs, "
-        "kawaii cute medieval fantasy RPG character, "
-        "CONSISTENT art style as if drawn by the same single artist for ALL characters, "
-        "warm soft color palette: muted pastels, gentle earth tones, clean desaturated hues, "
-        "NOT photorealistic, NOT western comic, NOT anime screenshot — chibi game card art ONLY, "
-        "clean simple backgrounds that match Elin game aesthetic: soft parchment, mossy stone, gentle meadow, "
-        "hand-crafted pixel art quality, warm friendly atmosphere, "
-        "vertical 3:4 portrait card format"
+        "RPG Maker / JRPG style chibi pixel art character sprite, "
+        "2 to 2.5 head-height super deformed proportions: oversized round head, tiny short body, stubby arms and legs, "
+        "front-facing full body view, neutral standing sprite pose, "
+        "CONSISTENT uniform art style across all characters — same pixel artist, same outline thickness, same shading method, "
+        "bold clean black outlines, flat cell shading with limited color palette, "
+        "Elin game character chip aesthetic, "
+        "isolated character on simple plain or subtle background, "
+        "NO gradients, NO photo-realistic rendering, NO 3D, "
+        "classic Japanese RPG pixel sprite quality, "
+        "vertical 3:4 card format, full chibi body visible from head to feet"
     )
 
     prompt = (
@@ -146,7 +152,7 @@ def build_prompt(node: dict) -> str:
         f"{tp['class_hint']}, "
         f"{tp['visual']}, "
         f"color palette: {tp['palette']}, "
-        f"character inspired by: {detail_snippet}, "
+        f"character personality inspired by: {detail_snippet}, "
         f"{pose_bg}, "
         f"NO text, NO letters, NO writing, NO labels, NO numbers, NO UI elements"
     )
@@ -193,10 +199,28 @@ def generate_story_with_gemini(prompt: str) -> Optional[str]:
 
 
 
+
+# ===== スタイル参考画像 =====
+# scripts/style_refs/ に置いた PNG を自動的に読み込んでスタイル参考として使う
+STYLE_REFS_DIR = SCRIPT_DIR / "style_refs"
+
+def load_style_refs() -> list:
+    """style_refs/内のPNG画像をbase64でロードして返す"""
+    refs = []
+    if not STYLE_REFS_DIR.exists():
+        return refs
+    for p in sorted(STYLE_REFS_DIR.glob("*.png"))[:3]:  # 最大3枚
+        data = p.read_bytes()
+        refs.append({"mime": "image/png", "data": data})
+        print(f"  🖼  スタイル参考読み込み: {p.name}")
+    return refs
+
+
 def generate_image_with_gemini(prompt: str) -> Optional[bytes]:
     """
-    Gemini API (gemini-2.5-flash-image) で画像を生成し、
-    PNG バイト列を返す。失敗時は None を返す。
+    Gemini API (gemini-3.1-flash-image-preview) で画像を生成し、
+    PNG バイト列を返す。style_refs/ に参考画像があればスタイル指示として使う。
+    失敗時は None を返す。
     """
     try:
         from google import genai
@@ -204,9 +228,32 @@ def generate_image_with_gemini(prompt: str) -> Optional[bytes]:
 
         client = genai.Client(api_key=API_KEY)
 
+        # コンテンツ構築: 参考画像 + テキストプロンプト
+        style_refs = load_style_refs()
+        contents = []
+
+        if style_refs:
+            # 参考画像をインライン画像として追加
+            for ref in style_refs:
+                contents.append(
+                    genai_types.Part.from_bytes(
+                        data=ref["data"],
+                        mime_type=ref["mime"],
+                    )
+                )
+            # 参考画像があるときはスタイル指示テキストを先に追加
+            style_instruction = (
+                "Use the above images as STYLE REFERENCE ONLY. "
+                "Match the pixel art chibi character style, proportions, and charm from these reference images. "
+                "Do NOT copy the exact characters — create a NEW original character based on the description below:\n\n"
+            )
+            contents.append(genai_types.Part.from_text(text=style_instruction + prompt))
+        else:
+            contents.append(genai_types.Part.from_text(text=prompt))
+
         response = client.models.generate_content(
             model="gemini-3.1-flash-image-preview",
-            contents=prompt,
+            contents=contents,
             config=genai_types.GenerateContentConfig(
                 response_modalities=["IMAGE"],
             ),
