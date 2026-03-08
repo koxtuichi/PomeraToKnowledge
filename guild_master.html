@@ -2026,7 +2026,7 @@
         if (m.adventureWeeks >= 20 && m.growthTag !== '熟練') m.growthTag = '熟練';
         else if (m.adventureWeeks >= 5 && !m.growthTag) m.growthTag = 'ベテラン';
       });
-      return { party, events };
+      return { party, events, week: G_STATE.week };
     }
 
     // ---- GRUDGE SYSTEM -----------------------------------------------------------
@@ -2056,6 +2056,19 @@
       if (G_STATE.roster.length > 10) G_STATE.roster.shift();
       checkGrudge();
       G_STATE.pendingReports.push(...reports);
+      // 週報の膨れ上がり防止: パーティーごとに最新5件のみ保持
+      const reportsByParty = {};
+      G_STATE.pendingReports.forEach(r => {
+        if (!r.party) return;
+        if (!reportsByParty[r.party.id]) reportsByParty[r.party.id] = [];
+        reportsByParty[r.party.id].push(r);
+      });
+      Object.values(reportsByParty).forEach(arr => {
+        if (arr.length > 5) arr.splice(0, arr.length - 5);
+      });
+      G_STATE.pendingReports = Object.values(reportsByParty).flat();
+      // 古い報告(8週以上前)は自動削除
+      G_STATE.pendingReports = G_STATE.pendingReports.filter(r => !r.week || (G_STATE.week - r.week) <= 7);
       saveState();
       updateHUD();
       renderPartyList();
