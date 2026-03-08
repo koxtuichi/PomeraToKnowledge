@@ -86,7 +86,7 @@ function assertType(v, t, msg) {
 console.log('\n◆ genChar() — キャラクター生成');
 test('必要フィールドが全て存在する', () => {
     const c = genChar();
-    const required = ['id', 'name', 'gender', 'age', 'personality', 'quirk', 'health', 'morale', 'skill', 'weakSkill', 'ailment', 'illness', 'illnessDaysLeft', 'romanceStyle', 'romanceGender', 'romanceStatus', 'dead'];
+    const required = ['id', 'name', 'gender', 'age', 'personality', 'quirk', 'health', 'morale', 'skill', 'weakSkill', 'likedType', 'ailment', 'illness', 'illnessDaysLeft', 'romanceStyle', 'romanceGender', 'romanceStatus', 'dead'];
     for (const k of required) {
         assert(k in c, `フィールド "${k}" が存在しない`);
     }
@@ -123,6 +123,12 @@ test('id は毎回異なる', () => {
     const ids = new Set();
     for (let i = 0; i < 30; i++) ids.add(genChar().id);
     assertEqual(ids.size, 30, 'IDが重複している');
+});
+test('likedType は TRAITS のいずれかの値', () => {
+    for (let i = 0; i < 20; i++) {
+        const c = genChar();
+        assert(PERSO.includes(c.likedType), `likedType "${c.likedType}" が TRAITS に存在しない`);
+    }
 });
 
 console.log('\n◆ calcConflictChance() — 揉め事確率計算');
@@ -204,30 +210,31 @@ function makeParty(cpPerWeek = 20) {
     };
 }
 
-test('十分なCPがある場合、cpPerWeek を控除する', () => {
-    G_STATE.cp = 100; G_STATE.week = 1;
+test('十分なGoldがある場合、cpPerWeek を控除する', () => {
+    G_STATE.gold = 100; G_STATE.week = 1;
     const p = makeParty(20);
     const result = tickParty(p);
     assert(result !== null, 'result が null');
-    assertEqual(G_STATE.cp, 80, `CP控除が不正: ${G_STATE.cp}`);
+    assertEqual(G_STATE.gold, 80, `Gold控除が不正: ${G_STATE.gold}`);
 });
 test('CP不足の場合、cpDebt が加算される', () => {
-    G_STATE.cp = 5;
+    G_STATE.gold = 5;
     const p = makeParty(20);
     p.cpDebt = 0;
     const result = tickParty(p);
     assert(result !== null, 'result が null');
     assertEqual(p.cpDebt, 20, `cpDebt が不正: ${p.cpDebt}`);
+    // gold残高確認（不足なのでgoldは減らない）
 });
-test('3週連続CP不足でパーティーが解散する', () => {
-    G_STATE.cp = 0;
+test('3週連続Gold不足でパーティーが解散する', () => {
+    G_STATE.gold = 0;
     const p = makeParty(20);
     p.cpDebt = 40; // すでに2週分の未払い
     tickParty(p);
-    assertEqual(p.status, 'disbanded', `3週CP未払いで解散しなかった: ${p.status}`);
+    assertEqual(p.status, 'disbanded', `3週Gold未払いで解散しなかった: ${p.status}`);
 });
 test('メンバー0人のパーティーは idle になる', () => {
-    G_STATE.cp = 100;
+    G_STATE.gold = 100;
     const p = makeParty(20);
     p.members = [];
     const result = tickParty(p);
@@ -263,15 +270,94 @@ test('全rosterキャラが valid なgenCharオブジェクト', () => {
 
 console.log('\n◆ データ永続化 — saveState / loadState');
 test('saveState → loadState でデータが復元される', () => {
-    G_STATE.cp = 999; G_STATE.week = 42; G_STATE.year = 3;
+    G_STATE.gold = 999; G_STATE.week = 42; G_STATE.year = 3;
     saveState();
-    // 一旦状態をリセット
-    G_STATE.cp = 0; G_STATE.week = 1; G_STATE.year = 1;
+    G_STATE.gold = 0; G_STATE.week = 1; G_STATE.year = 1;
     const loaded = loadState();
     assert(loaded, 'loadState が false を返した');
-    assertEqual(G_STATE.cp, 999, `CP が復元されない: ${G_STATE.cp}`);
+    assertEqual(G_STATE.gold, 999, `Gold が復元されない: ${G_STATE.gold}`);
     assertEqual(G_STATE.week, 42, `週が復元されない: ${G_STATE.week}`);
     assertEqual(G_STATE.year, 3, `年が復元されない: ${G_STATE.year}`);
+});
+test('saveState → loadState でinventoryが復元される', () => {
+    G_STATE.inventory = [{ id: 999, name: 'テスト剣', rarity: 'rare', value: 100, partyName: 'A', week: 1 }];
+    saveState();
+    G_STATE.inventory = [];
+    loadState();
+    assertEqual(G_STATE.inventory.length, 1, 'inventoryが復元されない');
+    assertEqual(G_STATE.inventory[0].name, 'テスト剣');
+});
+
+console.log('\n◆ 相性ボーナス — likedTypeによる揉め事確率低下');
+test('好きなタイプがパーティー内にいると揉め事確率が下がる', () => {
+    // 1人のみの基本確率を記録
+    const solo = genChar();
+    const baseChance = calcConflictChance([solo]);
+    // 2人構成で一方が相手のlikedTypeを持つ
+    const a = genChar();
+    const b = genChar();
+    b.trait = '積極的';
+    a.likedType = '積極的';
+    const bonusChance = calcConflictChance([a, b]);
+    assert(bonusChance <= baseChance + 0.1, `相性ボーナスが機能していない: base=${baseChance} bonus=${bonusChance}`);
+});
+test('揉め事確率は常に0.02以上0.7以下', () => {
+    // 相性良い4人パーティー
+    const members = [];
+    const trait = '積極的';
+    for (let i = 0; i < 4; i++) {
+        const c = genChar();
+        c.likedType = trait;
+        const c2 = genChar();
+        c2.trait = trait;
+        members.push(c, c2);
+    }
+    const chance = calcConflictChance(members.slice(0, 4));
+    assert(chance >= 0.02 && chance <= 0.7, `確率が範囲外: ${chance}`);
+});
+
+console.log('\n◆ Gold経済 — sellItem / sellAll');
+test('sellItem でinventoryから1件削除されGoldが増える', () => {
+    G_STATE.inventory = [];
+    G_STATE.gold = 100;
+    const item = { id: uid(), name: '強い剣', rarity: 'rare', value: 80, partyName: 'A', week: 1 };
+    G_STATE.inventory.push(item);
+    sellItem(item.id);
+    assertEqual(G_STATE.inventory.length, 0, 'inventoryから削除されていない');
+    assertEqual(G_STATE.gold, 180, `Gold増加が不正: ${G_STATE.gold}`);
+});
+test('sellItem で存在しないIDを渡してもエラーにならない', () => {
+    G_STATE.inventory = [];
+    sellItem(9999999); // 存在しないID
+});
+test('sellAll で全件売却されGoldが合計金額増加する', () => {
+    G_STATE.inventory = [
+        { id: uid(), name: '剣A', rarity: 'common', value: 10, partyName: 'A', week: 1 },
+        { id: uid(), name: '弓B', rarity: 'uncommon', value: 30, partyName: 'B', week: 2 },
+    ];
+    G_STATE.gold = 0;
+    sellAll();
+    assertEqual(G_STATE.gold, 40, `sellAll後のGoldが不正: ${G_STATE.gold}`);
+    assertEqual(G_STATE.inventory.length, 0, 'inventoryが空になっていない');
+});
+
+console.log('\n◆ ロスター補充 — 毎週1〜3名補充');
+test('advanceWeek後ロスターに必ず1名以上追加される', () => {
+    G_STATE.cp = 0; G_STATE.gold = 0;
+    G_STATE.parties = [];
+    G_STATE.roster = [];
+    G_STATE.pendingReports = [];
+    G_STATE.week = 1; G_STATE.year = 1;
+    advanceWeek();
+    assert(G_STATE.roster.length >= 1, `補充されなかった: ${G_STATE.roster.length}名`);
+});
+test('ロスターの最大保持数は20名', () => {
+    G_STATE.roster = [];
+    for (let i = 0; i < 19; i++) G_STATE.roster.push(genChar());
+    G_STATE.parties = [];
+    G_STATE.gold = 0;
+    advanceWeek();
+    assert(G_STATE.roster.length <= 20, `20名超過: ${G_STATE.roster.length}名`);
 });
 
 // ========= 結果サマリー =========
@@ -283,3 +369,4 @@ if (errors.length > 0) {
 }
 console.log('─'.repeat(40));
 process.exit(failed > 0 ? 1 : 0);
+

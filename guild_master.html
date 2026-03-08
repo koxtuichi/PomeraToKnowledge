@@ -141,7 +141,7 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
   <div class="hguild">◆ POMERA GUILD ◆</div>
   <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
   <div class="hcp">CP: <span id="hcp">100</span></div>
-  <button class="hbtn" onclick="addCP()">＋ 日記を記す</button>
+  
   <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
 </header>
 <div id="main">
@@ -157,12 +157,13 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
       <div class="notice">
         <p style="color:var(--gold);margin-bottom:8px;">◆ ギルドマスターへようこそ</p>
         <p>「＋」ボタンでパーティーを結成し、地方へ派遣しましょう。</p>
-        <p style="margin-top:6px;">パーティーには毎週CP報酬が必要です。日記を書いてCPを獲得できます。</p>
+        <p style="margin-top:6px;">パーティーには毎週Gold給与が必要です。戦利品を売却してGoldを獲得しよう。</p>
         <p style="margin-top:6px;">「週を進める」を押すと一週間が経過し、各パーティーから報告が届きます。</p>
       </div>
     </div>
     <div id="v-party" style="display:none"></div>
     <div id="v-roster" style="display:none"></div>
+    <div id="v-inventory" style="display:none"></div>
     <div id="v-reports" style="display:none"></div>
   </main>
   <aside id="elog">
@@ -338,7 +339,7 @@ function saveState(){try{G_STATE._uid=_uid;localStorage.setItem('gm_v1',JSON.str
 function loadState(){
   try{
     const s=localStorage.getItem('gm_v1');
-    if(s){G_STATE=JSON.parse(s);const maxId=Math.max(0,...(G_STATE.parties||[]).map(p=>p.id));_uid=Math.max(G_STATE._uid||1,maxId+1);return true;}
+    if(s){G_STATE=JSON.parse(s);if(G_STATE.gold==null){G_STATE.gold=G_STATE.cp||200;}if(!G_STATE.inventory)G_STATE.inventory=[];const maxId=Math.max(0,...(G_STATE.parties||[]).map(p=>p.id));_uid=Math.max(G_STATE._uid||1,maxId+1);return true;}
   }catch(e){}
   return false;
 }
@@ -451,7 +452,10 @@ function calcConflictChance(members){
       if(members[i].personality===members[j].dislikedType||members[j].personality===members[i].dislikedType) chance+=0.12;
     }
   }
-  return Math.min(chance,0.7);
+  // 相性ボーナス: 好きなタイプがパーティー内にいると揉め事が減る
+  const goodPairs=members.filter(m=>members.some(m2=>m!==m2&&m2.trait===m.likedType)).length;
+  chance-=goodPairs*0.05;
+  return Math.min(Math.max(chance,0.02),0.7);
 }
 
 function resolveConflict(rule,a,b){
@@ -465,7 +469,7 @@ function resolveConflict(rule,a,b){
 function tickParty(party){
   if(party.members.length===0){party.status='idle';return null;}
   const weekly=party.directive.cpPerWeek||20;
-  if(G_STATE.cp<weekly){
+  if(G_STATE.gold<weekly){
     party.cpDebt=(party.cpDebt||0)+weekly;
     if(party.cpDebt>=weekly*3){
       party.status='disbanded';
@@ -473,10 +477,10 @@ function tickParty(party){
       addLog(`${party.name}が報酬未払いのため解散した。`,'evx');
       return null;
     }
-    addLog(`${party.name}への報酬が不足している（残CP:${G_STATE.cp}）`,'evi');
+    addLog(`${party.name}への報酬が不足している（残Gold:${G_STATE.gold}）`,'evi');
     return {party,events:[{type:'morale',text:`【警告】報酬未払いが続いている。解散まであと${3-Math.floor(party.cpDebt/weekly)}週。`}]};
   }
-  G_STATE.cp-=weekly;party.cpDebt=0;
+  G_STATE.gold-=weekly;party.cpDebt=0;
   const events=generateWeekEvents(party);
   // remove dead members
   party.members=party.members.filter(m=>!m.dead);
@@ -513,24 +517,66 @@ function advanceWeek(){
   saveState();
   updateHUD();
   renderPartyList();
-  G_STATE.cp+=0; // trigger update
   setLogBar(`Week ${G_STATE.week} — 各パーティーから報告が届いた。「週次報告」から確認しよう。`);
   addLog(`Week ${G_STATE.week} へ進んだ。${reports.length}件の報告あり。`);
   if(currentView==='party'&&currentPartyId) showParty(currentPartyId);
 }
 
 // ---- CP SYSTEM ---------------------------------------------------------------
-function addCP(){
-  const earned=rnd(15,35);
-  G_STATE.cp+=earned;
-  saveState();
-  updateHUD();
-  setLogBar(`日記を書いた。+${earned} CP 獲得した。（残高: ${G_STATE.cp} CP）`);
-  addLog(`日記を記す: +${earned} CP`,'evm');
+function sellItem(itemId){
+  const idx=G_STATE.inventory.findIndex(x=>x.id===itemId);
+  if(idx<0)return;
+  const it=G_STATE.inventory[idx];
+  G_STATE.inventory.splice(idx,1);
+  G_STATE.gold+=it.value;
+  saveState();updateHUD();
+  setLogBar(`「${it.name}」を ${it.value}G で売却した。（残Gold: ${G_STATE.gold}G）`);
+  addLog(`売却: 「${it.name}」+${it.value}G`,'evm');
+  showInventoryView();
+}
+function sellAll(){
+  if(!G_STATE.inventory.length){alert('倉庫に品物がありません。');return;}
+  const total=G_STATE.inventory.reduce((s,x)=>s+x.value,0);
+  G_STATE.inventory=[];
+  G_STATE.gold+=total;
+  saveState();updateHUD();
+  setLogBar(`全品売却: +${total}G（残Gold: ${G_STATE.gold}G）`);
+  addLog(`倉庫を空売り: +${total}G`,'evm');
+  showInventoryView();
+}
+function showInventoryView(){
+  currentView='inventory';
+  ['welcome','party','roster','reports','inventory'].forEach(v=>{
+    const el=document.getElementById('v-'+v);
+    if(el)el.style.display=v==='inventory'?'block':'none';
+  });
+  const RARITY_LABEL={common:'並',uncommon:'良',rare:'優',epic:'伝説'};
+  const RARITY_COLOR={common:'var(--tx3)',uncommon:'#4fc3f7',rare:'#ce93d8',epic:'#ffb74d'};
+  let h=`<div class="ph"><div class="pht">🏪 倉庫・販売</div>
+  <div class="phs">${G_STATE.inventory.length}件 / 合計売値: ${G_STATE.inventory.reduce((s,x)=>s+x.value,0)}G</div></div>`;
+  if(G_STATE.inventory.length===0){
+    h+=`<div style="padding:20px;color:var(--tx3);font-size:13px;">倉庫は空です。パーティーを派遣して戦利品を集めよう。</div>`;
+  } else {
+    h+=`<div style="padding:8px;"><button class="btn" onclick="sellAll()" style="width:100%;margin-bottom:10px;">💰 全件売却</button></div>`;
+    h+=`<div style="display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;">`;
+    G_STATE.inventory.forEach(it=>{
+      const col=RARITY_COLOR[it.rarity]||'var(--tx)';
+      const lbl=RARITY_LABEL[it.rarity]||it.rarity;
+      h+=`<div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:6px;padding:8px 10px;">
+        <span style="color:${col};font-weight:700;font-size:11px;min-width:28px;">[${lbl}]</span>
+        <span style="flex:1;font-size:12px;">${it.name}</span>
+        <span style="color:var(--gold);font-size:12px;min-width:40px;text-align:right;">${it.value}G</span>
+        <span style="color:var(--tx3);font-size:10px;min-width:60px;">${it.partyName}</span>
+        <button class="btn" onclick="sellItem(${it.id})" style="padding:3px 8px;font-size:11px;">売却</button>
+      </div>`;
+    });
+    h+='</div>';
+  }
+  document.getElementById('v-inventory').innerHTML=h;
 }
 
 /*--- G namespace ---*/
-const G={advanceWeek,addCP};
+const G={advanceWeek};
 
 
 // =============================================================================
@@ -544,7 +590,7 @@ let directivePartyId=null;
 // ---- HUD -------------------------------------------------------------------
 function updateHUD(){
   document.getElementById('hdate').textContent=`Year ${G_STATE.year} — Week ${G_STATE.week}`;
-  document.getElementById('hcp').textContent=G_STATE.cp;
+  document.getElementById('hcp').textContent=G_STATE.gold+'G';
 }
 function setLogBar(txt){document.getElementById('lbt').textContent=txt;}
 function addLog(txt,cls=''){
@@ -698,7 +744,7 @@ function dismissReport(idx){
 // ---- VIEW SWITCH ----------------------------------------------------------
 function showView(name){
   currentView=name;
-  ['welcome','party','roster','reports'].forEach(v=>{
+  ['welcome','party','roster','reports','inventory'].forEach(v=>{
     const el=document.getElementById('v-'+v);
     if(el) el.style.display=v===name?'':'none';
   });
@@ -711,6 +757,7 @@ Object.assign(G,{showView});
 
 // ---- PARTY MANAGEMENT -------------------------------------------------------
 function createParty(){
+  if(G_STATE.parties.filter(p=>p.status!=='disbanded').length>=50){alert('パーティー上限（50チーム）に達しています。');return;}
   const name=document.getElementById('mnpname').value.trim()||`パーティー${G_STATE.parties.length+1}`;
   const region=document.getElementById('mnpregion').value;
   const targetItem=document.getElementById('mnpitem').value;

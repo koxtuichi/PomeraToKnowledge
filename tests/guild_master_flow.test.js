@@ -110,7 +110,7 @@ function assertRange(v, lo, hi, msg) { if (v < lo || v > hi) throw new Error(msg
 
 // テスト前にG_STATEをリセットするヘルパー
 function resetState() {
-    G_STATE.cp = 100;
+    G_STATE.gold = 100;
     G_STATE.week = 1;
     G_STATE.year = 1;
     G_STATE.parties = [];
@@ -118,6 +118,7 @@ function resetState() {
     G_STATE.dismissed = [];
     G_STATE.pendingReports = [];
     G_STATE.globalLog = [];
+    G_STATE.inventory = [];
     initRoster();
 }
 
@@ -140,25 +141,32 @@ function addPartyDirect(name = 'テストパーティー', region = '北の森',
 
 // ========= フローテスト =========
 
-console.log('\n◆ addCP() — 日記を書くフロー');
-test('addCP でCPが15〜35増える', () => {
+console.log('\n◆ Gold経済フロー — sellItem / sellAll / showInventoryView');
+test('sellItem でgoldが増えてinventoryが減る', () => {
     resetState();
-    const before = G_STATE.cp;
-    addCP();
-    const diff = G_STATE.cp - before;
-    assertRange(diff, 15, 35, `CP増加量 ${diff} が範囲外`);
+    G_STATE.gold = 50;
+    const it = { id: uid(), name: '鉄剣', rarity: 'common', value: 12, partyName: 'A', week: 1 };
+    G_STATE.inventory.push(it);
+    sellItem(it.id);
+    assertEqual(G_STATE.gold, 62, `Gold=${G_STATE.gold}`);
+    assertEqual(G_STATE.inventory.length, 0, 'inventoryが残っている');
 });
-test('addCP を5回呼んでも累積される', () => {
+test('sellAll で全件売却される', () => {
     resetState();
-    const before = G_STATE.cp;
-    for (let i = 0; i < 5; i++) addCP();
-    assert(G_STATE.cp > before, `addCP5回後もCPが増えていない: ${G_STATE.cp}`);
-    assert(G_STATE.cp >= before + 5 * 15, `最小増加量を下回っている`);
+    G_STATE.gold = 0;
+    G_STATE.inventory = [
+        { id: uid(), name: '剣', rarity: 'common', value: 10, partyName: 'A', week: 1 },
+        { id: uid(), name: '弓', rarity: 'rare', value: 100, partyName: 'B', week: 2 },
+    ];
+    sellAll();
+    assertEqual(G_STATE.gold, 110, `Gold=${G_STATE.gold}`);
+    assertEqual(G_STATE.inventory.length, 0);
 });
-test('addCP 後にlocalStorageにセーブされる', () => {
+test('sellAll 後にlocalStorageにセーブされる', () => {
     resetState();
     localStorage._store = {};
-    addCP();
+    G_STATE.inventory = [{ id: uid(), name: '剣', rarity: 'common', value: 5, partyName: 'A', week: 1 }];
+    sellAll();
     assert(localStorage._store['gm_v1'] != null, 'saveStateが呼ばれていない');
 });
 
@@ -310,17 +318,17 @@ test('advanceWeek() で週が+1される', () => {
 });
 test('advanceWeek() でCP報酬のあるパーティーのCPが控除される', () => {
     resetState();
-    G_STATE.cp = 100;
+    G_STATE.gold = 100;
     const p = addPartyDirect();
     p.members = [genChar()];
     p.status = 'active';
     p.directive.cpPerWeek = 20;
     advanceWeek();
-    assertEqual(G_STATE.cp, 80, `CP控除が不正: ${G_STATE.cp}`);
+    assertEqual(G_STATE.gold, 80, `Gold控除が不正: ${G_STATE.gold}`);
 });
 test('advanceWeek() でパーティーから週次報告が届く', () => {
     resetState();
-    G_STATE.cp = 500;
+    G_STATE.gold = 500;
     const p = addPartyDirect();
     p.members = [genChar()];
     p.status = 'active';
@@ -329,13 +337,13 @@ test('advanceWeek() でパーティーから週次報告が届く', () => {
 });
 test('advanceWeek() 後にロスターのlengthが負にならない', () => {
     resetState();
-    G_STATE.cp = 500;
+    G_STATE.gold = 500;
     advanceWeek();
     assert(G_STATE.roster.length >= 0, 'ロスターが負になった');
 });
 test('CP0でadvanceWeek()を呼んでもcpDebtが積み上がり解散しない(1週目)', () => {
     resetState();
-    G_STATE.cp = 0;
+    G_STATE.gold = 0;
     const p = addPartyDirect();
     p.members = [genChar()];
     p.status = 'active';
