@@ -463,6 +463,7 @@ function resolveConflict(rule,a,b){
 
 // ---- WEEK TICK ---------------------------------------------------------------
 function tickParty(party){
+  if(party.members.length===0){party.status='idle';return null;}
   const weekly=party.directive.cpPerWeek||20;
   if(G_STATE.cp<weekly){
     party.cpDebt=(party.cpDebt||0)+weekly;
