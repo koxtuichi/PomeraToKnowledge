@@ -2535,7 +2535,10 @@
             if (!m.flavorQuote && typeof FLAVOR_QUOTES !== 'undefined') m.flavorQuote = pick(FLAVOR_QUOTES);
             if (!m.birthplace && typeof BIRTHPLACES !== 'undefined') m.birthplace = pick(BIRTHPLACES);
             if (!m.careerFlavor && typeof CAREER_FLAVORS !== 'undefined') m.careerFlavor = pick(CAREER_FLAVORS);
-          }); const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true;
+          }); const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1);
+          // inventory qty 後方互換補完 (旧セーブデータはqtyがない)
+          (G_STATE.inventory || []).forEach(it => { if (it.qty == null) it.qty = 1; });
+          return true;
         }
       } catch (e) { }
       return false;
@@ -2562,7 +2565,7 @@
         const rb = { common: 0.02, uncommon: 0.04, rare: 0.07, epic: 0.12 };
         return acc + (rb[m.equip.rarity] || 0);
       }, 0);
-      const dropChance = (party.directive.focus === 'drops' ? 0.55 : party.directive.focus === 'economy' ? 0.25 : 0.35) + rankBonus + Math.min(equipBonus, 0.2);
+      const dropChance = (party.directive.focus === 'drops' ? 0.70 : party.directive.focus === 'economy' ? 0.35 : 0.50) + rankBonus + Math.min(equipBonus, 0.2);
       const bonusChance = party.members.some(m => party.members.some(m2 => m !== m2 && m.likedType === m2.trait)) ? 0.1 : 0;
       const dropCount = party.directive.focus === 'drops' ? rnd(1, 3) : 1;
       for (let di = 0; di < dropCount; di++) {
@@ -2580,7 +2583,7 @@
           else { rarity = 'epic'; value = rnd(200, 500); }
           // ランクが高いほどレアリティ補正
           if ((party.rank === 'A' || party.rank === 'S') && rarity === 'common' && Math.random() < 0.3) { rarity = 'uncommon'; value = rnd(20, 50); }
-          const loot = { id: uid(), name: item, rarity, value, partyName: party.name, week: G_STATE.week };
+          const loot = { id: uid(), name: item, rarity, value, qty: 1, partyName: party.name, week: G_STATE.week };
           const isWished = G_STATE.wishList.includes(item);
           if (isWished) loot.wished = true;
           if (!G_STATE.inventory) G_STATE.inventory = [];
@@ -2780,14 +2783,14 @@
           const alreadyThisWeek = m.stressLog && m.stressLog.some(e => e.id === 'financial_worry' && e.week === G_STATE.week);
           if (!alreadyThisWeek) addStressEvent(m, 'financial_worry', {});
         });
-        if (party.cpDebt >= weekly * 3) {
+        if (party.cpDebt >= weekly * 5) {
           party.status = 'disbanded';
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が報酬未払いで解散した`);
           addLog(`${party.name}が報酬未払いのため解散した。`, 'evx');
           return null;
         }
         addLog(`${party.name}への報酬が不足している（残Gold:${G_STATE.gold}）`, 'evi');
-        return { party, events: [{ type: 'morale', text: `【警告】報酬未払いが続いている。解散まであと${3 - Math.floor(party.cpDebt / weekly)}週。` }] };
+        return { party, events: [{ type: 'morale', text: `【警告】報酬未払いが続いている。解散まであと${5 - Math.floor(party.cpDebt / weekly)}週。` }] };
       }
       G_STATE.gold -= weekly; party.cpDebt = 0;
       const events = generateWeekEvents(party);
@@ -2934,8 +2937,30 @@
         if (arr.length > 5) arr.splice(0, arr.length - 5);
       });
       G_STATE.pendingReports = Object.values(reportsByParty).flat();
-      // 古い報告(8週以上前)は自動削除
-      G_STATE.pendingReports = G_STATE.pendingReports.filter(r => !r.week || (G_STATE.week - r.week) <= 7);
+      // 重複報告の除去 (同パーティー・同週・同テキストの報告のみ除去)
+      const seen = new Set();
+      G_STATE.pendingReports = G_STATE.pendingReports.filter(r => {
+        const evTexts = (r.events || []).map(e => e.text).filter(Boolean);
+        // eventsが空の報告はユニークとして通す
+        if (evTexts.length === 0) return true;
+        const key = `${r.party ? r.party.id : ''}|${r.week}|${evTexts.join('|')}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      // ゲームオーバー判定: 全パーティー解散 + Gold不足が2週続いたら
+      const activeParties = G_STATE.parties.filter(p => p.status !== 'disbanded');
+      if (activeParties.length === 0) {
+        G_STATE._pauperWeeks = (G_STATE._pauperWeeks || 0) + 1;
+      } else {
+        G_STATE._pauperWeeks = 0;
+      }
+      if (activeParties.length === 0 && G_STATE.gold < 50 && (G_STATE._pauperWeeks || 0) >= 2) {
+        saveState();
+        showGameOver();
+        return;
+      }
       saveState();
       updateHUD();
       renderPartyList();
@@ -2955,6 +2980,56 @@
         showWeekSummary(G_STATE.week, reports);
       }, 600);
     }
+
+    // ---- ゲームオーバーモーダル --------------------------------------------------------
+    function showGameOver() {
+      // 既存モーダルを除去
+      const old = document.getElementById('game-over-overlay');
+      if (old) old.remove();
+
+      const overlay = document.createElement('div');
+      overlay.id = 'game-over-overlay';
+      overlay.style.cssText = `
+        position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;
+        display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;
+        animation:fadeIn 0.8s ease;
+      `;
+      overlay.innerHTML = `
+        <div style="text-align:center;max-width:480px;padding:32px;background:#0d0a05;border:2px solid #6b3a1f;border-radius:12px;">
+          <div style="font-size:48px;margin-bottom:12px;">💀</div>
+          <div style="font-size:24px;font-weight:700;color:#c84b2f;letter-spacing:2px;margin-bottom:8px;">ギルド崩壊</div>
+          <div style="font-size:13px;color:#a08060;margin-bottom:4px;">Year ${G_STATE.year} / Week ${G_STATE.week}</div>
+          <div style="font-size:14px;color:#d4b896;margin-top:16px;line-height:1.6;">
+            全てのパーティーが去り、金庫も底をついた。<br>このギルドの歴史は幕を閉じた。
+          </div>
+          <div style="display:flex;gap:12px;margin-top:28px;justify-content:center;flex-wrap:wrap;">
+            <button id="go-restart" style="background:#6b3a1f;border:1px solid #c84b2f;color:#fff;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;letter-spacing:1px;">
+              🔄 やり直す
+            </button>
+            <button id="go-continue" style="background:#1a2a10;border:1px solid #4caf50;color:#90ee90;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;letter-spacing:1px;">
+              💰 緊急融資 (+300G) で続ける
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      document.getElementById('go-restart').onclick = () => {
+        localStorage.removeItem('gm_v1');
+        location.reload();
+      };
+      document.getElementById('go-continue').onclick = () => {
+        G_STATE.gold += 300;
+        G_STATE._pauperWeeks = 0;
+        saveState();
+        updateHUD();
+        overlay.remove();
+        setLogBar('緊急融資を受けた。Gold +300G で再起を図ろう！');
+        addLog('緊急融資: +300G でギルド存続', 'evd');
+        showInventoryView();
+      };
+    }
+    window.showGameOver = showGameOver;
 
     // ---- 週サマリーモーダル --------------------------------------------------------
     function showWeekSummary(week, reports) {
@@ -3012,7 +3087,7 @@
 
     // ---- CP SYSTEM ---------------------------------------------------------------
     function sellItem(itemId) {
-      const idx = G_STATE.inventory.findIndex(x => x.id === itemId);
+      const idx = G_STATE.inventory.findIndex(x => x.id == itemId);
       if (idx < 0) return;
       const it = G_STATE.inventory[idx];
       G_STATE.inventory.splice(idx, 1);
@@ -3047,7 +3122,7 @@
         toRemove.push(inv[idx].id);
       }
       G_STATE.inventory = inv.filter(x => !toRemove.includes(x.id));
-      const crafted = { id: uid(), name: r.name, rarity: r.rarity, value: r.value, partyName: '合成', week: G_STATE.week };
+      const crafted = { id: uid(), name: r.name, rarity: r.rarity, value: r.value, qty: 1, partyName: '合成', week: G_STATE.week };
       G_STATE.inventory.push(crafted);
       G_STATE.gold += 0; // no auto sell
       saveState(); updateHUD();
@@ -3809,7 +3884,7 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       const party = G_STATE.parties.find(p => p.id == partyId);
       const member = party && party.members.find(m => m.id == memberId);
       if (!member) return;
-      const inv = (G_STATE.inventory || []).filter(it => it.qty > 0);
+      const inv = (G_STATE.inventory || []).filter(it => (it.qty ?? 1) > 0);
       const rarityIcon = (r) => r === 'epic' ? '🌟' : r === 'rare' ? '💎' : r === 'uncommon' ? '🔷' : '📦';
       const wrapper = document.createElement('div');
       wrapper.id = 'equip-modal-wrapper';
@@ -3840,8 +3915,8 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
         if (old) old.qty++; else G_STATE.inventory.push({ ...member.equip, qty: 1 });
       }
       member.equip = { ...item };
-      item.qty--;
-      G_STATE.inventory = G_STATE.inventory.filter(it => it.qty > 0);
+      if (item.qty != null) item.qty--; else item.qty = 0;
+      G_STATE.inventory = G_STATE.inventory.filter(it => (it.qty ?? 1) > 0);
       saveState(); closeEquipModal(); showParty(partyId);
     }
     function unequipItem(memberId, partyId) {
