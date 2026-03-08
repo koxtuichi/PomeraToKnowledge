@@ -1811,12 +1811,12 @@
       // 1. Drop event (Phase3: region specialty + rarity + wishList + XP)
       const rankBonus = RANK_DROP_BONUS[party.rank || 'F'] || 0;
       // 装備ボーナス: パーティーメンバーの装備レアリティでドロップ率上昇
-    const equipBonus = (party.members || []).reduce((acc, m) => {
-      if (!m.equip) return acc;
-      const rb = { common: 0.02, uncommon: 0.04, rare: 0.07, epic: 0.12 };
-      return acc + (rb[m.equip.rarity] || 0);
-    }, 0);
-    const dropChance = (party.directive.focus === 'drops' ? 0.55 : party.directive.focus === 'economy' ? 0.25 : 0.35) + rankBonus + Math.min(equipBonus, 0.2);
+      const equipBonus = (party.members || []).reduce((acc, m) => {
+        if (!m.equip) return acc;
+        const rb = { common: 0.02, uncommon: 0.04, rare: 0.07, epic: 0.12 };
+        return acc + (rb[m.equip.rarity] || 0);
+      }, 0);
+      const dropChance = (party.directive.focus === 'drops' ? 0.55 : party.directive.focus === 'economy' ? 0.25 : 0.35) + rankBonus + Math.min(equipBonus, 0.2);
       const bonusChance = party.members.some(m => party.members.some(m2 => m !== m2 && m.likedType === m2.trait)) ? 0.1 : 0;
       const dropCount = party.directive.focus === 'drops' ? rnd(1, 3) : 1;
       for (let di = 0; di < dropCount; di++) {
@@ -2512,9 +2512,10 @@ ${(() => { const mult = PERSO_STRESS_MULT[m.personality] || {}; const tags = [];
 </div>
 ${m.rebellion ? '<div class="rebellion-badge">⚡反発中</div>' : ''}
 ${(m.stress || 0) >= 70 ? '<div class="crisis-badge stress-crisis">🔥 高ストレス</div>' : ''}
-${(m.healthPt ?? 80) <= 25 ? '<div class="crisis-badge health-crisis">💔 要 療 養 < /div>' : ''}
+${(m.healthPt ?? 80) <= 25 ? '<div class="crisis-badge health-crisis">💔 要療養</div>' : ''}
 ${(m.mentalPt ?? 80) <= 25 ? '<div class="crisis-badge mental-crisis">💀 精神崩壊寸前</div>' : ''}
- $ {isLdr ? '<div class="mcld">LEADER</div>' : ''}
+${isLdr ? '<div class="mcld">LEADER</div>' : ''}
+<div class="equip-slot" onclick="openEquipModal('${m.id}','${pid}')">${m.equip ? '⚔️ ' + m.equip.name + ' [' + m.equip.rarity + ']' : '<span style="color:#555;">装備なし (クリックで装備)</span>'}</div>
 </div>`;
         } else {
           html += `<div class="es" onclick="openAddMemberModal(${pid})">＋ メンバーを追加</div>`;
@@ -2730,7 +2731,7 @@ ${(m.mentalPt ?? 80) <= 25 ? '<div class="crisis-badge mental-crisis">💀 精�
       if (!eligible.length) { alert('空きのあるパーティーがありません。'); return; }
       if (eligible.length === 1) { addMemberToParty(eligible[0].id, cid); return; }
       const names = eligible.map((p, i) => (i + 1) + ': ' + p.name + '(' + p.members.length + '/4)').join('\n');
-    coice = prompt(names + '\n\n番号を入力:');
+      coice = prompt(names + '\n\n番号を入力:');
       const idx = parseInt(choice) - 1;
       if (eligible[idx]) addMemberToParty(eligible[idx].id, cid);
     }
