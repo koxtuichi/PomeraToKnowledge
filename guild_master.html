@@ -1,859 +1,1715 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<meta charset="UTF-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
-<title>GUILD MASTER | ギルドマスター</title>
-<style>
-:root{--bg:#0a0806;--bg2:#0f0c07;--bg3:#14100a;--bd:#4a2c08;--bd2:#2a1404;--gold:#c8a050;--gold2:#e8c060;--gold3:#f0d080;--amber:#d08030;--tx:#b09060;--tx2:#d0a870;--tx3:#706040;--green:#60a840;--red:#c04030;--blue:#4080c0;--rose:#e080b0;font-family:'Noto Serif JP','Yu Mincho',serif}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size:13px}
-#app{display:grid;grid-template-rows:44px 1fr 72px;height:100vh}
-#hud{background:linear-gradient(180deg,#1a0f04,#120a02);border-bottom:2px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.8)}
-.hguild{font-size:14px;color:var(--gold2);font-weight:700;letter-spacing:4px;text-shadow:0 0 12px rgba(200,160,60,.4);flex:1}
-.hdate{font-family:monospace;font-size:11px;color:var(--gold);letter-spacing:2px;padding:0 14px;border-left:1px solid var(--bd2);border-right:1px solid var(--bd2)}
-.hcp{font-size:12px;color:var(--gold3);font-family:monospace;padding:0 12px}
-.hcp span{color:#ffe060;font-weight:700}
-.hbtn{font-size:10px;padding:5px 11px;background:rgba(80,45,5,.6);border:1px solid var(--bd);border-radius:3px;color:var(--gold);cursor:pointer;letter-spacing:1px;transition:all .2s;font-family:inherit}
-.hbtn:hover{background:rgba(120,70,15,.8);color:var(--gold2)}
-.hbtn.primary{background:rgba(100,60,5,.8);border-color:rgba(200,140,30,.6);color:var(--gold2)}
-.hbtn.primary:hover{background:rgba(140,90,15,.9);box-shadow:0 0 12px rgba(200,140,30,.3)}
-#main{display:grid;grid-template-columns:210px 1fr 280px;overflow:hidden}
-#plist{border-right:2px solid var(--bd);background:linear-gradient(180deg,#0e0a05,#0a0805);overflow-y:auto}
-.plh{padding:8px 12px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;background:rgba(20,12,3,.8);position:sticky;top:0;z-index:2}
-.plht{font-size:10px;color:var(--gold);letter-spacing:2px}
-.pladd{font-size:18px;color:var(--amber);cursor:pointer;background:none;border:none;padding:0 4px;transition:color .2s;line-height:1}
-.pladd:hover{color:var(--gold2)}
-.ptab{padding:9px 12px;border-bottom:1px solid var(--bd2);cursor:pointer;font-size:10px;color:var(--tx3);letter-spacing:1px;transition:all .2s;text-align:center}
-.ptab:hover{background:rgba(40,22,5,.5);color:var(--gold)}
-.pi{padding:9px 12px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background .15s;position:relative}
-.pi:hover{background:rgba(60,35,8,.4)}
-.pi.active{background:rgba(80,45,8,.6);border-left:3px solid var(--amber)}
-.pi.rp::after{content:'●';position:absolute;top:8px;right:8px;color:var(--red);font-size:10px;animation:fl 1.2s infinite}
-@keyframes fl{0%,100%{opacity:1}50%{opacity:.3}}
-.pin{font-size:12px;color:var(--tx2);margin-bottom:2px;font-weight:700}
-.pis{font-size:10px;color:var(--tx3);margin-bottom:3px}
-.pimb{height:3px;background:var(--bd2);border-radius:2px;overflow:hidden}
-.pimf{height:100%;border-radius:2px;transition:width .5s}
-.mh{background:var(--green)}.mm{background:var(--amber)}.ml{background:var(--red)}
-#center{overflow-y:auto;background:linear-gradient(180deg,#0c0905,#100c06)}
-.ph{padding:12px 18px;border-bottom:1px solid var(--bd2);background:rgba(16,10,3,.8);position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px}
-.pht{font-size:14px;color:var(--gold2);font-weight:700;letter-spacing:2px;flex:1}
-.phs{font-size:10px;color:var(--tx3);letter-spacing:1px}
-.sec{padding:12px 18px;border-bottom:1px solid var(--bd2)}
-.sech{font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.sech::before{content:'';display:inline-block;width:4px;height:4px;background:var(--gold);transform:rotate(45deg)}
-.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.mc{background:rgba(20,12,4,.8);border:1px solid var(--bd2);border-radius:6px;padding:10px;position:relative}
-.mc.ldr{border-color:rgba(200,140,30,.5)}
-.mcn{font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:2px}
-.mcm{font-size:10px;color:var(--tx3);line-height:1.5;margin-bottom:4px}
-.hlt{font-size:9px;padding:2px 6px;border-radius:3px;display:inline-block;margin-bottom:3px}
-.h0{background:rgba(60,120,20,.3);color:#90d060}.h1{background:rgba(120,100,20,.3);color:#d0b060}
-.h2{background:rgba(120,40,20,.3);color:#d06040}.h3{background:rgba(120,30,15,.4);color:#e07050}
-.h4{background:rgba(140,10,10,.5);color:#ff6060}.h5{background:rgba(80,10,10,.5);color:#ff4040}
-.mcmb{height:3px;background:var(--bd2);border-radius:2px;overflow:hidden;margin-top:4px}
-.mcrm{position:absolute;top:6px;right:6px;font-size:11px;color:var(--tx3);cursor:pointer;background:none;border:none;padding:2px;transition:color .2s}
-.mcrm:hover{color:var(--red)}
-.mcld{position:absolute;bottom:6px;right:6px;font-size:8px;background:rgba(160,100,10,.4);border:1px solid rgba(200,140,30,.3);color:var(--gold);padding:1px 5px;border-radius:2px;letter-spacing:1px}
-.es{background:rgba(16,10,3,.5);border:1px dashed var(--bd2);border-radius:6px;padding:10px;display:flex;align-items:center;justify-content:center;color:var(--tx3);font-size:11px;cursor:pointer;min-height:80px;transition:all .2s}
-.es:hover{border-color:var(--bd);color:var(--tx);background:rgba(30,18,5,.5)}
-.dr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.dl{font-size:10px;color:var(--tx3);width:80px;flex-shrink:0}
-.dsel{flex:1;background:rgba(20,12,4,.8);border:1px solid var(--bd2);color:var(--tx2);font-size:11px;padding:4px 8px;border-radius:3px;font-family:inherit;cursor:pointer}
-.dsel:focus{outline:none;border-color:var(--bd)}
-.cpi{width:80px;background:rgba(20,12,4,.8);border:1px solid var(--bd2);color:var(--gold);font-size:12px;padding:4px 8px;border-radius:3px;font-family:monospace;text-align:right}
-.cpi:focus{outline:none;border-color:var(--bd)}
-.rc{background:rgba(16,10,3,.9);border:1px solid var(--bd);border-radius:6px;margin-bottom:12px;overflow:hidden}
-.rch{padding:10px 14px;background:rgba(60,35,5,.5);border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between}
-.rcpn{font-size:12px;color:var(--gold);font-weight:700}
-.rcw{font-size:10px;color:var(--tx3)}
-.rcb{padding:12px 14px;font-size:11px;line-height:1.9;color:var(--tx2)}
-.rcev{padding:0 14px 12px}
-.rce{padding:4px 0;border-bottom:1px solid var(--bd2);font-size:11px;line-height:1.6;color:var(--tx)}
-.rce:last-child{border-bottom:none}
-.evd{color:#90d060}.evc{color:#e07050}.evx{color:var(--red);font-weight:700}
-.evr{color:var(--rose)}.evi{color:#e0a050}.evm{color:#60a0e0}
-.rca{padding:10px 14px;border-top:1px solid var(--bd2);display:flex;gap:8px;flex-wrap:wrap}
-.rcab{font-size:10px;padding:5px 10px;background:rgba(50,30,5,.7);border:1px solid var(--bd2);border-radius:3px;color:var(--tx2);cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:.5px}
-.rcab:hover{background:rgba(80,50,10,.8);border-color:var(--bd);color:var(--gold)}
-.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 18px}
-.rcd{background:rgba(16,10,3,.8);border:1px solid var(--bd2);border-radius:6px;padding:12px;transition:border-color .2s}
-.rcd:hover{border-color:var(--bd)}
-.rcdn{font-size:13px;color:var(--tx2);font-weight:700;margin-bottom:4px}
-.rcdm{font-size:10px;color:var(--tx3);line-height:1.6;margin-bottom:8px}
-.stg{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
-.stag{font-size:9px;padding:1px 6px;border-radius:2px;letter-spacing:.5px}
-.sg{background:rgba(60,100,20,.4);color:#90c050;border:1px solid rgba(80,140,30,.3)}
-.sb{background:rgba(100,30,20,.4);color:#d07060;border:1px solid rgba(140,40,30,.3)}
-.hbtn2{width:100%;padding:6px;font-size:11px;background:rgba(80,45,8,.7);border:1px solid var(--bd);border-radius:3px;color:var(--gold);cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:1px}
-.hbtn2:hover{background:rgba(120,70,15,.9)}
-.hbtn2:disabled{opacity:.4;cursor:not-allowed}
-#elog{border-left:2px solid var(--bd);background:linear-gradient(180deg,#0a0703,#0e0b06);overflow-y:auto;display:flex;flex-direction:column}
-.elh{padding:8px 12px;border-bottom:1px solid var(--bd2);font-size:10px;color:var(--gold);letter-spacing:2px;background:rgba(14,9,3,.8);position:sticky;top:0}
-.ele{padding:5px 0;border-bottom:1px solid rgba(60,35,5,.3);font-size:10px;line-height:1.6;color:var(--tx3)}
-.ele:last-child{border-bottom:none}
-#logbar{display:flex;align-items:flex-start;background:rgba(8,6,2,.97);border-top:1px solid var(--bd2);padding:8px 14px;overflow:hidden}
-.lbt{font-size:10px;color:var(--tx3);line-height:1.7;letter-spacing:.3px}
-.notice{padding:12px 16px;background:rgba(40,24,6,.5);border:1px solid var(--bd2);border-radius:4px;font-size:11px;color:var(--tx3);line-height:1.8;margin:14px 18px}
-.dbar{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--bd2);background:rgba(12,8,3,.7)}
-.stag2{font-size:9px;padding:2px 7px;border-radius:2px;letter-spacing:1px}
-.sta{background:rgba(60,100,20,.4);color:#90c050;border:1px solid rgba(80,140,30,.3)}
-.sti{background:rgba(60,60,60,.4);color:#909090;border:1px solid rgba(90,90,90,.3)}
-.str{background:rgba(160,60,20,.4);color:#e08060;border:1px solid rgba(200,80,30,.4);animation:fl 1.5s infinite}
-.std{background:rgba(60,10,10,.5);color:#e04040;border:1px solid rgba(100,20,20,.4)}
-.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:1000;align-items:center;justify-content:center}
-.mo.open{display:flex}
-.mw{background:linear-gradient(180deg,#1a1006,#140c04);border:2px solid var(--bd);border-radius:6px;padding:22px;min-width:380px;max-width:560px;max-height:82vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.9)}
-.mt{font-size:14px;color:var(--gold2);font-weight:700;letter-spacing:3px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd2)}
-.mr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ml2{font-size:11px;color:var(--tx3);width:90px;flex-shrink:0}
-.mi{flex:1;background:rgba(16,10,3,.8);border:1px solid var(--bd2);color:var(--tx2);font-size:12px;padding:6px 10px;border-radius:3px;font-family:inherit}
-.mi:focus{outline:none;border-color:var(--bd)}
-.ma{display:flex;gap:10px;margin-top:16px;justify-content:flex-end}
-.mbtn{font-size:11px;padding:7px 18px;border-radius:3px;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:1px}
-.mbtn.ok{background:rgba(100,60,8,.8);border:1px solid var(--bd);color:var(--gold2)}
-.mbtn.ok:hover{background:rgba(140,90,15,.9)}
-.mbtn.ng{background:rgba(30,18,5,.5);border:1px solid var(--bd2);color:var(--tx3)}
-.mbtn.ng:hover{color:var(--tx)}
-.csl{margin-top:10px}
-.csi{padding:9px 12px;border:1px solid var(--bd2);border-radius:4px;margin-bottom:6px;cursor:pointer;transition:all .2s}
-.csi:hover{background:rgba(40,24,6,.6);border-color:var(--bd)}
-.csin{font-size:12px;color:var(--tx2);font-weight:700;margin-bottom:2px}
-.csid{font-size:10px;color:var(--tx3)}
-.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
-.gi{padding:8px 6px;background:rgba(20,12,4,.8);border:1px solid var(--bd2);border-radius:4px;text-align:center;cursor:pointer;transition:all .2s;font-family:inherit}
-.gi:hover{background:rgba(50,30,8,.8);border-color:var(--bd)}
-.gin{font-size:11px;color:var(--tx2)}
-.gie{font-size:9px;color:var(--green);margin-top:3px}
-.gic{font-size:9px;color:var(--gold)}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--bd)}
-</style>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <title>GUILD MASTER | ギルドマスター</title>
+  <style>
+    :root {
+      --bg: #0a0806;
+      --bg2: #0f0c07;
+      --bg3: #14100a;
+      --bd: #4a2c08;
+      --bd2: #2a1404;
+      --gold: #c8a050;
+      --gold2: #e8c060;
+      --gold3: #f0d080;
+      --amber: #d08030;
+      --tx: #b09060;
+      --tx2: #d0a870;
+      --tx3: #706040;
+      --green: #60a840;
+      --red: #c04030;
+      --blue: #4080c0;
+      --rose: #e080b0;
+      font-family: 'Noto Serif JP', 'Yu Mincho', serif
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--tx);
+      height: 100vh;
+      overflow: hidden;
+      font-size: 13px
+    }
+
+    #app {
+      display: grid;
+      grid-template-rows: 44px 1fr 72px;
+      height: 100vh
+    }
+
+    #hud {
+      background: linear-gradient(180deg, #1a0f04, #120a02);
+      border-bottom: 2px solid var(--bd);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 6px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .8)
+    }
+
+    .hguild {
+      font-size: 14px;
+      color: var(--gold2);
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-shadow: 0 0 12px rgba(200, 160, 60, .4);
+      flex: 1
+    }
+
+    .hdate {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      padding: 0 14px;
+      border-left: 1px solid var(--bd2);
+      border-right: 1px solid var(--bd2)
+    }
+
+    .hcp {
+      font-size: 12px;
+      color: var(--gold3);
+      font-family: monospace;
+      padding: 0 12px
+    }
+
+    .hcp span {
+      color: #ffe060;
+      font-weight: 700
+    }
+
+    .hbtn {
+      font-size: 10px;
+      padding: 5px 11px;
+      background: rgba(80, 45, 5, .6);
+      border: 1px solid var(--bd);
+      border-radius: 3px;
+      color: var(--gold);
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all .2s;
+      font-family: inherit
+    }
+
+    .hbtn:hover {
+      background: rgba(120, 70, 15, .8);
+      color: var(--gold2)
+    }
+
+    .hbtn.primary {
+      background: rgba(100, 60, 5, .8);
+      border-color: rgba(200, 140, 30, .6);
+      color: var(--gold2)
+    }
+
+    .hbtn.primary:hover {
+      background: rgba(140, 90, 15, .9);
+      box-shadow: 0 0 12px rgba(200, 140, 30, .3)
+    }
+
+    #main {
+      display: grid;
+      grid-template-columns: 210px 1fr 280px;
+      overflow: hidden
+    }
+
+    #plist {
+      border-right: 2px solid var(--bd);
+      background: linear-gradient(180deg, #0e0a05, #0a0805);
+      overflow-y: auto
+    }
+
+    .plh {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--bd2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(20, 12, 3, .8);
+      position: sticky;
+      top: 0;
+      z-index: 2
+    }
+
+    .plht {
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 2px
+    }
+
+    .pladd {
+      font-size: 18px;
+      color: var(--amber);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0 4px;
+      transition: color .2s;
+      line-height: 1
+    }
+
+    .pladd:hover {
+      color: var(--gold2)
+    }
+
+    .ptab {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--bd2);
+      cursor: pointer;
+      font-size: 10px;
+      color: var(--tx3);
+      letter-spacing: 1px;
+      transition: all .2s;
+      text-align: center
+    }
+
+    .ptab:hover {
+      background: rgba(40, 22, 5, .5);
+      color: var(--gold)
+    }
+
+    .pi {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--bd2);
+      cursor: pointer;
+      transition: background .15s;
+      position: relative
+    }
+
+    .pi:hover {
+      background: rgba(60, 35, 8, .4)
+    }
+
+    .pi.active {
+      background: rgba(80, 45, 8, .6);
+      border-left: 3px solid var(--amber)
+    }
+
+    .pi.rp::after {
+      content: '●';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      color: var(--red);
+      font-size: 10px;
+      animation: fl 1.2s infinite
+    }
+
+    @keyframes fl {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .pin {
+      font-size: 12px;
+      color: var(--tx2);
+      margin-bottom: 2px;
+      font-weight: 700
+    }
+
+    .pis {
+      font-size: 10px;
+      color: var(--tx3);
+      margin-bottom: 3px
+    }
+
+    .pimb {
+      height: 3px;
+      background: var(--bd2);
+      border-radius: 2px;
+      overflow: hidden
+    }
+
+    .pimf {
+      height: 100%;
+      border-radius: 2px;
+      transition: width .5s
+    }
+
+    .mh {
+      background: var(--green)
+    }
+
+    .mm {
+      background: var(--amber)
+    }
+
+    .ml {
+      background: var(--red)
+    }
+
+    #center {
+      overflow-y: auto;
+      background: linear-gradient(180deg, #0c0905, #100c06)
+    }
+
+    .ph {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--bd2);
+      background: rgba(16, 10, 3, .8);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .pht {
+      font-size: 14px;
+      color: var(--gold2);
+      font-weight: 700;
+      letter-spacing: 2px;
+      flex: 1
+    }
+
+    .phs {
+      font-size: 10px;
+      color: var(--tx3);
+      letter-spacing: 1px
+    }
+
+    .sec {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--bd2)
+    }
+
+    .sech {
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .sech::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      transform: rotate(45deg)
+    }
+
+    .mg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    .mc {
+      background: rgba(20, 12, 4, .8);
+      border: 1px solid var(--bd2);
+      border-radius: 6px;
+      padding: 10px;
+      position: relative
+    }
+
+    .mc.ldr {
+      border-color: rgba(200, 140, 30, .5)
+    }
+
+    .mcn {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--tx2);
+      margin-bottom: 2px
+    }
+
+    .mcm {
+      font-size: 10px;
+      color: var(--tx3);
+      line-height: 1.5;
+      margin-bottom: 4px
+    }
+
+    .hlt {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 3px
+    }
+
+    .h0 {
+      background: rgba(60, 120, 20, .3);
+      color: #90d060
+    }
+
+    .h1 {
+      background: rgba(120, 100, 20, .3);
+      color: #d0b060
+    }
+
+    .h2 {
+      background: rgba(120, 40, 20, .3);
+      color: #d06040
+    }
+
+    .h3 {
+      background: rgba(120, 30, 15, .4);
+      color: #e07050
+    }
+
+    .h4 {
+      background: rgba(140, 10, 10, .5);
+      color: #ff6060
+    }
+
+    .h5 {
+      background: rgba(80, 10, 10, .5);
+      color: #ff4040
+    }
+
+    .mcmb {
+      height: 3px;
+      background: var(--bd2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px
+    }
+
+    .mcrm {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 11px;
+      color: var(--tx3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 2px;
+      transition: color .2s
+    }
+
+    .mcrm:hover {
+      color: var(--red)
+    }
+
+    .mcld {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      font-size: 8px;
+      background: rgba(160, 100, 10, .4);
+      border: 1px solid rgba(200, 140, 30, .3);
+      color: var(--gold);
+      padding: 1px 5px;
+      border-radius: 2px;
+      letter-spacing: 1px
+    }
+
+    .es {
+      background: rgba(16, 10, 3, .5);
+      border: 1px dashed var(--bd2);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--tx3);
+      font-size: 11px;
+      cursor: pointer;
+      min-height: 80px;
+      transition: all .2s
+    }
+
+    .es:hover {
+      border-color: var(--bd);
+      color: var(--tx);
+      background: rgba(30, 18, 5, .5)
+    }
+
+    .dr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px
+    }
+
+    .dl {
+      font-size: 10px;
+      color: var(--tx3);
+      width: 80px;
+      flex-shrink: 0
+    }
+
+    .dsel {
+      flex: 1;
+      background: rgba(20, 12, 4, .8);
+      border: 1px solid var(--bd2);
+      color: var(--tx2);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-family: inherit;
+      cursor: pointer
+    }
+
+    .dsel:focus {
+      outline: none;
+      border-color: var(--bd)
+    }
+
+    .cpi {
+      width: 80px;
+      background: rgba(20, 12, 4, .8);
+      border: 1px solid var(--bd2);
+      color: var(--gold);
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-family: monospace;
+      text-align: right
+    }
+
+    .cpi:focus {
+      outline: none;
+      border-color: var(--bd)
+    }
+
+    .rc {
+      background: rgba(16, 10, 3, .9);
+      border: 1px solid var(--bd);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      overflow: hidden
+    }
+
+    .rch {
+      padding: 10px 14px;
+      background: rgba(60, 35, 5, .5);
+      border-bottom: 1px solid var(--bd2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .rcpn {
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 700
+    }
+
+    .rcw {
+      font-size: 10px;
+      color: var(--tx3)
+    }
+
+    .rcb {
+      padding: 12px 14px;
+      font-size: 11px;
+      line-height: 1.9;
+      color: var(--tx2)
+    }
+
+    .rcev {
+      padding: 0 14px 12px
+    }
+
+    .rce {
+      padding: 4px 0;
+      border-bottom: 1px solid var(--bd2);
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--tx)
+    }
+
+    .rce:last-child {
+      border-bottom: none
+    }
+
+    .evd {
+      color: #90d060
+    }
+
+    .evc {
+      color: #e07050
+    }
+
+    .evx {
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .evr {
+      color: var(--rose)
+    }
+
+    .evi {
+      color: #e0a050
+    }
+
+    .evm {
+      color: #60a0e0
+    }
+
+    .rca {
+      padding: 10px 14px;
+      border-top: 1px solid var(--bd2);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .rcab {
+      font-size: 10px;
+      padding: 5px 10px;
+      background: rgba(50, 30, 5, .7);
+      border: 1px solid var(--bd2);
+      border-radius: 3px;
+      color: var(--tx2);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit;
+      letter-spacing: .5px
+    }
+
+    .rcab:hover {
+      background: rgba(80, 50, 10, .8);
+      border-color: var(--bd);
+      color: var(--gold)
+    }
+
+    .rgrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 14px 18px
+    }
+
+    .rcd {
+      background: rgba(16, 10, 3, .8);
+      border: 1px solid var(--bd2);
+      border-radius: 6px;
+      padding: 12px;
+      transition: border-color .2s
+    }
+
+    .rcd:hover {
+      border-color: var(--bd)
+    }
+
+    .rcdn {
+      font-size: 13px;
+      color: var(--tx2);
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .rcdm {
+      font-size: 10px;
+      color: var(--tx3);
+      line-height: 1.6;
+      margin-bottom: 8px
+    }
+
+    .stg {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 8px
+    }
+
+    .stag {
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 2px;
+      letter-spacing: .5px
+    }
+
+    .sg {
+      background: rgba(60, 100, 20, .4);
+      color: #90c050;
+      border: 1px solid rgba(80, 140, 30, .3)
+    }
+
+    .sb {
+      background: rgba(100, 30, 20, .4);
+      color: #d07060;
+      border: 1px solid rgba(140, 40, 30, .3)
+    }
+
+    .hbtn2 {
+      width: 100%;
+      padding: 6px;
+      font-size: 11px;
+      background: rgba(80, 45, 8, .7);
+      border: 1px solid var(--bd);
+      border-radius: 3px;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit;
+      letter-spacing: 1px
+    }
+
+    .hbtn2:hover {
+      background: rgba(120, 70, 15, .9)
+    }
+
+    .hbtn2:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    #elog {
+      border-left: 2px solid var(--bd);
+      background: linear-gradient(180deg, #0a0703, #0e0b06);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column
+    }
+
+    .elh {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--bd2);
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      background: rgba(14, 9, 3, .8);
+      position: sticky;
+      top: 0
+    }
+
+    .ele {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(60, 35, 5, .3);
+      font-size: 10px;
+      line-height: 1.6;
+      color: var(--tx3)
+    }
+
+    .ele:last-child {
+      border-bottom: none
+    }
+
+    #logbar {
+      display: flex;
+      align-items: flex-start;
+      background: rgba(8, 6, 2, .97);
+      border-top: 1px solid var(--bd2);
+      padding: 8px 14px;
+      overflow: hidden
+    }
+
+    .lbt {
+      font-size: 10px;
+      color: var(--tx3);
+      line-height: 1.7;
+      letter-spacing: .3px
+    }
+
+    .notice {
+      padding: 12px 16px;
+      background: rgba(40, 24, 6, .5);
+      border: 1px solid var(--bd2);
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--tx3);
+      line-height: 1.8;
+      margin: 14px 18px
+    }
+
+    .dbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--bd2);
+      background: rgba(12, 8, 3, .7)
+    }
+
+    .stag2 {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      letter-spacing: 1px
+    }
+
+    .sta {
+      background: rgba(60, 100, 20, .4);
+      color: #90c050;
+      border: 1px solid rgba(80, 140, 30, .3)
+    }
+
+    .sti {
+      background: rgba(60, 60, 60, .4);
+      color: #909090;
+      border: 1px solid rgba(90, 90, 90, .3)
+    }
+
+    .str {
+      background: rgba(160, 60, 20, .4);
+      color: #e08060;
+      border: 1px solid rgba(200, 80, 30, .4);
+      animation: fl 1.5s infinite
+    }
+
+    .std {
+      background: rgba(60, 10, 10, .5);
+      color: #e04040;
+      border: 1px solid rgba(100, 20, 20, .4)
+    }
+
+    .mo {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .82);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center
+    }
+
+    .mo.open {
+      display: flex
+    }
+
+    .mw {
+      background: linear-gradient(180deg, #1a1006, #140c04);
+      border: 2px solid var(--bd);
+      border-radius: 6px;
+      padding: 22px;
+      min-width: 380px;
+      max-width: 560px;
+      max-height: 82vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, .9)
+    }
+
+    .mt {
+      font-size: 14px;
+      color: var(--gold2);
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--bd2)
+    }
+
+    .mr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .ml2 {
+      font-size: 11px;
+      color: var(--tx3);
+      width: 90px;
+      flex-shrink: 0
+    }
+
+    .mi {
+      flex: 1;
+      background: rgba(16, 10, 3, .8);
+      border: 1px solid var(--bd2);
+      color: var(--tx2);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 3px;
+      font-family: inherit
+    }
+
+    .mi:focus {
+      outline: none;
+      border-color: var(--bd)
+    }
+
+    .ma {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      justify-content: flex-end
+    }
+
+    .mbtn {
+      font-size: 11px;
+      padding: 7px 18px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit;
+      letter-spacing: 1px
+    }
+
+    .mbtn.ok {
+      background: rgba(100, 60, 8, .8);
+      border: 1px solid var(--bd);
+      color: var(--gold2)
+    }
+
+    .mbtn.ok:hover {
+      background: rgba(140, 90, 15, .9)
+    }
+
+    .mbtn.ng {
+      background: rgba(30, 18, 5, .5);
+      border: 1px solid var(--bd2);
+      color: var(--tx3)
+    }
+
+    .mbtn.ng:hover {
+      color: var(--tx)
+    }
+
+    .csl {
+      margin-top: 10px
+    }
+
+    .csi {
+      padding: 9px 12px;
+      border: 1px solid var(--bd2);
+      border-radius: 4px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .csi:hover {
+      background: rgba(40, 24, 6, .6);
+      border-color: var(--bd)
+    }
+
+    .csin {
+      font-size: 12px;
+      color: var(--tx2);
+      font-weight: 700;
+      margin-bottom: 2px
+    }
+
+    .csid {
+      font-size: 10px;
+      color: var(--tx3)
+    }
+
+    .gg {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 10px
+    }
+
+    .gi {
+      padding: 8px 6px;
+      background: rgba(20, 12, 4, .8);
+      border: 1px solid var(--bd2);
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit
+    }
+
+    .gi:hover {
+      background: rgba(50, 30, 8, .8);
+      border-color: var(--bd)
+    }
+
+    .gin {
+      font-size: 11px;
+      color: var(--tx2)
+    }
+
+    .gie {
+      font-size: 9px;
+      color: var(--green);
+      margin-top: 3px
+    }
+
+    .gic {
+      font-size: 9px;
+      color: var(--gold)
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg)
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--bd2);
+      border-radius: 3px
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--bd)
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="app">
-<header id="hud">
-  <div class="hguild">◆ POMERA GUILD ◆</div>
-  <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
-  <div class="hcp">CP: <span id="hcp">100</span></div>
-  
-  <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
-</header>
-<div id="main">
-  <nav id="plist">
-    <div class="plh"><div class="plht">◆ パーティー</div><button class="pladd" onclick="openCreatePartyModal()" title="新パーティー">＋</button></div>
-    <div class="ptab" onclick="showView('roster')">🗡 ギルド待機所</div>
-    <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
-    <div id="plist-items"></div>
-  </nav>
-  <main id="center">
-    <div id="v-welcome">
-      <div class="ph"><div class="pht">GUILD MASTER</div></div>
-      <div class="notice">
-        <p style="color:var(--gold);margin-bottom:8px;">◆ ギルドマスターへようこそ</p>
-        <p>「＋」ボタンでパーティーを結成し、地方へ派遣しましょう。</p>
-        <p style="margin-top:6px;">パーティーには毎週Gold給与が必要です。戦利品を売却してGoldを獲得しよう。</p>
-        <p style="margin-top:6px;">「週を進める」を押すと一週間が経過し、各パーティーから報告が届きます。</p>
+  <div id="app">
+    <header id="hud">
+      <div class="hguild">◆ POMERA GUILD ◆</div>
+      <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
+      <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span></div>
+
+      <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
+    </header>
+    <div id="main">
+      <nav id="plist">
+        <div class="plh">
+          <div class="plht">◆ パーティー</div><button class="pladd" onclick="openCreatePartyModal()"
+            title="新パーティー">＋</button>
+        </div>
+        <div class="ptab" onclick="showView('roster')">🗡 ギルド待機所</div>
+        <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
+        <div class="ptab" onclick="showInventoryView()">🏪 倉庫・販売</div>
+        <div class="ptab" onclick="showMapView()">🗺 地方マップ</div>
+        <div id="plist-items"></div>
+      </nav>
+      <main id="center">
+        <div id="v-welcome">
+          <div class="ph">
+            <div class="pht">GUILD MASTER</div>
+          </div>
+          <div class="notice">
+            <p style="color:var(--gold);margin-bottom:8px;">◆ ギルドマスターへようこそ</p>
+            <p>「＋」ボタンでパーティーを結成し、地方へ派遣しましょう。</p>
+            <p style="margin-top:6px;">パーティーには毎週Gold給与が必要です。戦利品を売却してGoldを獲得しよう。</p>
+            <p style="margin-top:6px;">「週を進める」を押すと一週間が経過し、各パーティーから報告が届きます。</p>
+          </div>
+        </div>
+        <div id="v-party" style="display:none"></div>
+        <div id="v-roster" style="display:none"></div>
+        <div id="v-map" style="display:none"></div>
+        <div id="v-inventory" style="display:none"></div>
+        <div id="v-reports" style="display:none"></div>
+      </main>
+      <aside id="elog">
+        <div class="elh">◆ ギルド記録</div>
+        <div id="elog-entries" style="padding:8px 12px;flex:1"></div>
+      </aside>
+    </div>
+    <footer id="logbar">
+      <div class="lbt" id="lbt">ギルドマスターとしての物語がここから始まる。</div>
+    </footer>
+  </div>
+
+  <!-- create party modal -->
+  <div class="mo" id="mcreate">
+    <div class="mw">
+      <div class="mt">新パーティーを結成</div>
+      <div class="mr">
+        <div class="ml2">パーティー名</div><input class="mi" id="mnpname" placeholder="例: 紅の剣団" />
+      </div>
+      <div class="mr">
+        <div class="ml2">派遣先</div><select class="mi" id="mnpregion">
+          <option value="">— 選択 —</option>
+        </select>
+      </div>
+      <div class="mr">
+        <div class="ml2">目標アイテム</div><select class="mi" id="mnpitem">
+          <option value="">— 選択 —</option>
+        </select>
+      </div>
+      <div class="ma">
+        <button class="mbtn ng" onclick="closeModal('mcreate')">キャンセル</button>
+        <button class="mbtn ok" onclick="createParty()">結成する</button>
       </div>
     </div>
-    <div id="v-party" style="display:none"></div>
-    <div id="v-roster" style="display:none"></div>
-    <div id="v-map" style="display:none"></div>
-    <div id="v-inventory" style="display:none"></div>
-    <div id="v-reports" style="display:none"></div>
-  </main>
-  <aside id="elog">
-    <div class="elh">◆ ギルド記録</div>
-    <div id="elog-entries" style="padding:8px 12px;flex:1"></div>
-  </aside>
-</div>
-<footer id="logbar"><div class="lbt" id="lbt">ギルドマスターとしての物語がここから始まる。</div></footer>
-</div>
-
-<!-- create party modal -->
-<div class="mo" id="mcreate">
-<div class="mw">
-  <div class="mt">新パーティーを結成</div>
-  <div class="mr"><div class="ml2">パーティー名</div><input class="mi" id="mnpname" placeholder="例: 紅の剣団"/></div>
-  <div class="mr"><div class="ml2">派遣先</div><select class="mi" id="mnpregion"><option value="">— 選択 —</option></select></div>
-  <div class="mr"><div class="ml2">目標アイテム</div><select class="mi" id="mnpitem"><option value="">— 選択 —</option></select></div>
-  <div class="ma">
-    <button class="mbtn ng" onclick="closeModal('mcreate')">キャンセル</button>
-    <button class="mbtn ok" onclick="createParty()">結成する</button>
   </div>
-</div>
-</div>
 
-<!-- add member modal -->
-<div class="mo" id="maddmem">
-<div class="mw">
-  <div class="mt">メンバーを追加</div>
-  <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">パーティー: <span id="mam-pname" style="color:var(--gold)"></span></div>
-  <div class="csl" id="mam-list"></div>
-  <div class="ma"><button class="mbtn ng" onclick="closeModal('maddmem')">閉じる</button></div>
-</div>
-</div>
-
-<!-- gift modal -->
-<div class="mo" id="mgift">
-<div class="mw">
-  <div class="mt">アイテムを贈呈</div>
-  <div style="font-size:11px;color:var(--tx3);margin-bottom:4px;">対象: <span id="mg-target" style="color:var(--tx2)"></span></div>
-  <div class="gg" id="mg-grid"></div>
-  <div class="ma"><button class="mbtn ng" onclick="closeModal('mgift')">閉じる</button></div>
-</div>
-</div>
-
-<!-- directive modal -->
-<div class="mo" id="mdir">
-<div class="mw">
-  <div class="mt">方針を変更する</div>
-  <div style="font-size:11px;color:var(--tx3);margin-bottom:12px;">パーティー: <span id="md-pname" style="color:var(--gold)"></span></div>
-  <div class="mr"><div class="ml2">活動方針</div>
-    <select class="mi" id="md-focus">
-      <option value="combat">戦闘重視（リスク高・経験値大）</option>
-      <option value="drops">ドロップ重視（効率的な収集）</option>
-      <option value="economy">節約重視（CP消費最小化）</option>
-      <option value="steady">堅実（バランス重視・安全）</option>
-    </select>
+  <!-- add member modal -->
+  <div class="mo" id="maddmem">
+    <div class="mw">
+      <div class="mt">メンバーを追加</div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">パーティー: <span id="mam-pname"
+          style="color:var(--gold)"></span></div>
+      <div class="csl" id="mam-list"></div>
+      <div class="ma"><button class="mbtn ng" onclick="closeModal('maddmem')">閉じる</button></div>
+    </div>
   </div>
-  <div class="mr"><div class="ml2">揉め事対処</div>
-    <select class="mi" id="md-conflict">
-      <option value="rest">休息日を設けて冷静になる</option>
-      <option value="leader">リーダーが全て裁定する</option>
-      <option value="vote">全員で多数決をとる</option>
-      <option value="ignore">揉め事は無視して任務続行</option>
-    </select>
+
+  <!-- gift modal -->
+  <div class="mo" id="mgift">
+    <div class="mw">
+      <div class="mt">アイテムを贈呈</div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:4px;">対象: <span id="mg-target"
+          style="color:var(--tx2)"></span></div>
+      <div class="gg" id="mg-grid"></div>
+      <div class="ma"><button class="mbtn ng" onclick="closeModal('mgift')">閉じる</button></div>
+    </div>
   </div>
-  <div class="mr"><div class="ml2">週CP報酬</div>
-    <input class="mi cpi" type="number" id="md-cp" min="0" max="500" value="20" style="flex:none;width:90px"/>
-    <span style="font-size:11px;color:var(--tx3)">CP / 週</span>
+
+  <!-- directive modal -->
+  <div class="mo" id="mdir">
+    <div class="mw">
+      <div class="mt">方針を変更する</div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:12px;">パーティー: <span id="md-pname"
+          style="color:var(--gold)"></span></div>
+      <div class="mr">
+        <div class="ml2">活動方針</div>
+        <select class="mi" id="md-focus">
+          <option value="combat">戦闘重視（リスク高・経験値大）</option>
+          <option value="drops">ドロップ重視（効率的な収集）</option>
+          <option value="economy">節約重視（CP消費最小化）</option>
+          <option value="steady">堅実（バランス重視・安全）</option>
+        </select>
+      </div>
+      <div class="mr">
+        <div class="ml2">揉め事対処</div>
+        <select class="mi" id="md-conflict">
+          <option value="rest">休息日を設けて冷静になる</option>
+          <option value="leader">リーダーが全て裁定する</option>
+          <option value="vote">全員で多数決をとる</option>
+          <option value="ignore">揉め事は無視して任務続行</option>
+        </select>
+      </div>
+      <div class="mr">
+        <div class="ml2">週CP報酬</div>
+        <input class="mi cpi" type="number" id="md-cp" min="0" max="500" value="20" style="flex:none;width:90px" />
+        <span style="font-size:11px;color:var(--tx3)">CP / 週</span>
+      </div>
+      <div class="ma">
+        <button class="mbtn ng" onclick="closeModal('mdir')">キャンセル</button>
+        <button class="mbtn ok" id="md-ok">決定する</button>
+      </div>
+    </div>
   </div>
-  <div class="ma">
-    <button class="mbtn ng" onclick="closeModal('mdir')">キャンセル</button>
-    <button class="mbtn ok" id="md-ok">決定する</button>
-  </div>
-</div>
-</div>
 
 
 
-<script>
+  <script>
 
-// =============================================================================
-// GUILD MASTER v1.0 — Game Engine
-// =============================================================================
+    // =============================================================================
+    // GUILD MASTER v1.0 — Game Engine
+    // =============================================================================
 
-// ---- CONSTANTS ---------------------------------------------------------------
-const MNAMES=['レン','ガウロ','ドルグ','ライン','アシュ','フォル','ルード','カン','ゼロ','マル','トル','ブレン','シール','ヴァル','グリム','ラント','ヘル','ソル','ノア','イグ','クロノ','ファウ','ゼフ','アルド','バウ'];
-const FNAMES=['ライナ','フェリス','エルヴァ','カルナ','ドルネ','ミレア','シア','ルア','アン','エラ','ファリス','サヤ','ニナ','レナ','アリア','セラ','イル','マリ','ティア','クロ','リル','ユア','セリア','アミア','ルナ'];
-const SURNAMES=['=フォン','=ドル','=ライン','=アッシュ','=ガル','=ヴァル','=シール','=ブレン','=ゼル',''];
-const PERSO=['積極的','慎重','楽観的','感情的','内向的','外向的','几帳面','大雑把','思いやりがある','頑固','柔軟','孤高'];
-const SKILLS=['戦闘','採取','交渉','運搬','医療','偵察','調合','料理','魔術','工作'];
-const QUIRKS=['深夜に起き出す','食事を残す','愚痴が多い','独り言が多い','物をため込む','遅刻癖がある','忘れっぽい','音を立てて食べる','過度に心配する','噂好き','口が悪い','いびきをかく','すぐ泣く','嘘をつく','自慢が多い'];
-const AILMENTS=[null,null,null,null,'花粉症','喘息','偏頭痛','腰痛','関節炎','不眠症'];
-const FOODS=['肉料理','魚料理','野菜料理','スープ','パン','甘いもの','辛いもの','酒','果物','チーズ'];
-const REGIONS=['北の森林地帯','東の平原','南の砂漠','西の山脈','深海洞窟','古代遺跡','霧の沼地','火山地帯','雪原の果て','禁断の魔境'];
-const REGION_DATA={
-  '北の森林地帯':{icon:'🌲',specialty:['古龍の牙','竜の卵','竜鱗の鎧'],riskLevel:2},
-  '東の平原':    {icon:'🌾',specialty:['精霊の涙','風切りの外套','永遠の花'],riskLevel:1},
-  '南の砂漠':    {icon:'🏜',specialty:['蒼い魔石','古代の地図','時の砂'],riskLevel:3},
-  '西の山脈':    {icon:'⛰',specialty:['暗黒鉱石','鉄壁の盾','神話の断片'],riskLevel:2},
-  '深海洞窟':    {icon:'🌊',specialty:['虹の羽根','封印の書','運命の糸'],riskLevel:4},
-  '古代遺跡':    {icon:'🏛',specialty:['天使の血','幻の薬草','神話の断片'],riskLevel:3},
-  '霧の沼地':    {icon:'🌫',specialty:['悪魔の核','不死鳥の羽','幻の薬草'],riskLevel:3},
-  '火山地帯':    {icon:'🌋',specialty:['豪炎の大剣','雷神の槍','悪魔の核'],riskLevel:5},
-  '雪原の果て':  {icon:'❄',specialty:['霜雪の弓','影狩りの短刀','天使の血'],riskLevel:4},
-  '禁断の魔境':  {icon:'💀',specialty:['不死鳥の羽','竜の卵','神話の断片'],riskLevel:5},
-};
-const RECIPES=[
-  {name:'神剣オーラ',   ingredients:['豪炎の大剣','雷神の槍'],     rarity:'epic',value:800},
-  {name:'竜の守護盾',   ingredients:['竜鱗の鎧','鉄壁の盾'],       rarity:'epic',value:700},
-  {name:'不死の薬',     ingredients:['幻の薬草','不死鳥の羽'],     rarity:'epic',value:600},
-  {name:'魔道書・上巻', ingredients:['封印の書','月光の杖'],       rarity:'rare',value:250},
-  {name:'天使の短刀',   ingredients:['影狩りの短刀','天使の血'],   rarity:'rare',value:220},
-  {name:'古龍の弓',     ingredients:['霜雪の弓','古龍の牙'],       rarity:'rare',value:200},
-];
-const RANKS=['F','E','D','C','B','A','S'];
-const RANK_XP=[0,50,150,300,500,800,1200];
-const RANK_DROP_BONUS={F:0,E:0.02,D:0.05,C:0.08,B:0.12,A:0.18,S:0.25};
-const ITEMS=['豪炎の大剣','霜雪の弓','影狩りの短刀','雷神の槍','月光の杖','竜鱗の鎧','星影のローブ','風切りの外套','鉄壁の盾','蒼い魔石','古龍の牙','精霊の涙','暗黒鉱石','虹の羽根','永遠の花','神話の断片','時の砂','運命の糸','天使の血','悪魔の核','封印の書','古代の地図','幻の薬草','不死鳥の羽','竜の卵'];
-const ILLNESS_TYPES=[
-  {name:'風邪',sev:1,min:3,max:7,dr:0},
-  {name:'インフルエンザ',sev:2,min:7,max:14,dr:0.01},
-  {name:'骨折',sev:2,min:21,max:42,dr:0},
-  {name:'深傷',sev:3,min:14,max:28,dr:0.05},
-  {name:'疫病',sev:3,min:14,max:30,dr:0.1},
-  {name:'ガン',sev:4,min:90,max:365,dr:0.3},
-  {name:'手足の欠損',sev:4,min:999,max:999,dr:0.02},
-];
-const GIFTS=[
-  {name:'黒パン',effect:'士気+10',cost:5,mb:10,hb:0},
-  {name:'良質なワイン',effect:'士気+20',cost:10,mb:20,hb:0},
-  {name:'薬草の束',effect:'体調回復',cost:8,mb:5,hb:1},
-  {name:'上質な食材',effect:'士気+15',cost:12,mb:15,hb:0},
-  {name:'腕輪',effect:'士気+25',cost:20,mb:25,hb:0},
-  {name:'回復薬',effect:'重症回復',cost:30,mb:10,hb:2},
-];
-const HEALTH_LABELS={healthy:'健康',tired:'疲弊',sick:'病気',injured:'負傷',critical:'重体',amputated:'欠損'};
-const HEALTH_CLS={healthy:'h0',tired:'h1',sick:'h2',injured:'h3',critical:'h4',amputated:'h5'};
-const FOCUS_LABELS={combat:'戦闘重視',drops:'ドロップ重視',economy:'節約重視',steady:'堅実'};
-const CONFLICT_LABELS={rest:'休息日で解決',leader:'リーダー裁定',vote:'多数決',ignore:'無視して続行'};
+    // ---- CONSTANTS ---------------------------------------------------------------
+    const MNAMES = ['レン', 'ガウロ', 'ドルグ', 'ライン', 'アシュ', 'フォル', 'ルード', 'カン', 'ゼロ', 'マル', 'トル', 'ブレン', 'シール', 'ヴァル', 'グリム', 'ラント', 'ヘル', 'ソル', 'ノア', 'イグ', 'クロノ', 'ファウ', 'ゼフ', 'アルド', 'バウ'];
+    const FNAMES = ['ライナ', 'フェリス', 'エルヴァ', 'カルナ', 'ドルネ', 'ミレア', 'シア', 'ルア', 'アン', 'エラ', 'ファリス', 'サヤ', 'ニナ', 'レナ', 'アリア', 'セラ', 'イル', 'マリ', 'ティア', 'クロ', 'リル', 'ユア', 'セリア', 'アミア', 'ルナ'];
+    const SURNAMES = ['=フォン', '=ドル', '=ライン', '=アッシュ', '=ガル', '=ヴァル', '=シール', '=ブレン', '=ゼル', ''];
+    const PERSO = ['積極的', '慎重', '楽観的', '感情的', '内向的', '外向的', '几帳面', '大雑把', '思いやりがある', '頑固', '柔軟', '孤高'];
+    const SKILLS = ['戦闘', '採取', '交渉', '運搬', '医療', '偵察', '調合', '料理', '魔術', '工作'];
+    const QUIRKS = ['深夜に起き出す', '食事を残す', '愚痴が多い', '独り言が多い', '物をため込む', '遅刻癖がある', '忘れっぽい', '音を立てて食べる', '過度に心配する', '噂好き', '口が悪い', 'いびきをかく', 'すぐ泣く', '嘘をつく', '自慢が多い'];
+    const AILMENTS = [null, null, null, null, '花粉症', '喘息', '偏頭痛', '腰痛', '関節炎', '不眠症'];
+    const FOODS = ['肉料理', '魚料理', '野菜料理', 'スープ', 'パン', '甘いもの', '辛いもの', '酒', '果物', 'チーズ'];
+    const REGIONS = ['北の森林地帯', '東の平原', '南の砂漠', '西の山脈', '深海洞窟', '古代遺跡', '霧の沼地', '火山地帯', '雪原の果て', '禁断の魔境'];
+    const REGION_DATA = {
+      '北の森林地帯': { icon: '🌲', specialty: ['古龍の牙', '竜の卵', '竜鱗の鎧'], riskLevel: 2 },
+      '東の平原': { icon: '🌾', specialty: ['精霊の涙', '風切りの外套', '永遠の花'], riskLevel: 1 },
+      '南の砂漠': { icon: '🏜', specialty: ['蒼い魔石', '古代の地図', '時の砂'], riskLevel: 3 },
+      '西の山脈': { icon: '⛰', specialty: ['暗黒鉱石', '鉄壁の盾', '神話の断片'], riskLevel: 2 },
+      '深海洞窟': { icon: '🌊', specialty: ['虹の羽根', '封印の書', '運命の糸'], riskLevel: 4 },
+      '古代遺跡': { icon: '🏛', specialty: ['天使の血', '幻の薬草', '神話の断片'], riskLevel: 3 },
+      '霧の沼地': { icon: '🌫', specialty: ['悪魔の核', '不死鳥の羽', '幻の薬草'], riskLevel: 3 },
+      '火山地帯': { icon: '🌋', specialty: ['豪炎の大剣', '雷神の槍', '悪魔の核'], riskLevel: 5 },
+      '雪原の果て': { icon: '❄', specialty: ['霜雪の弓', '影狩りの短刀', '天使の血'], riskLevel: 4 },
+      '禁断の魔境': { icon: '💀', specialty: ['不死鳥の羽', '竜の卵', '神話の断片'], riskLevel: 5 },
+    };
+    const RECIPES = [
+      { name: '神剣オーラ', ingredients: ['豪炎の大剣', '雷神の槍'], rarity: 'epic', value: 800 },
+      { name: '竜の守護盾', ingredients: ['竜鱗の鎧', '鉄壁の盾'], rarity: 'epic', value: 700 },
+      { name: '不死の薬', ingredients: ['幻の薬草', '不死鳥の羽'], rarity: 'epic', value: 600 },
+      { name: '魔道書・上巻', ingredients: ['封印の書', '月光の杖'], rarity: 'rare', value: 250 },
+      { name: '天使の短刀', ingredients: ['影狩りの短刀', '天使の血'], rarity: 'rare', value: 220 },
+      { name: '古龍の弓', ingredients: ['霜雪の弓', '古龍の牙'], rarity: 'rare', value: 200 },
+    ];
+    const RANKS = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const RANK_XP = [0, 50, 150, 300, 500, 800, 1200];
+    const RANK_DROP_BONUS = { F: 0, E: 0.02, D: 0.05, C: 0.08, B: 0.12, A: 0.18, S: 0.25 };
+    const ITEMS = ['豪炎の大剣', '霜雪の弓', '影狩りの短刀', '雷神の槍', '月光の杖', '竜鱗の鎧', '星影のローブ', '風切りの外套', '鉄壁の盾', '蒼い魔石', '古龍の牙', '精霊の涙', '暗黒鉱石', '虹の羽根', '永遠の花', '神話の断片', '時の砂', '運命の糸', '天使の血', '悪魔の核', '封印の書', '古代の地図', '幻の薬草', '不死鳥の羽', '竜の卵'];
+    const ILLNESS_TYPES = [
+      { name: '風邪', sev: 1, min: 3, max: 7, dr: 0 },
+      { name: 'インフルエンザ', sev: 2, min: 7, max: 14, dr: 0.01 },
+      { name: '骨折', sev: 2, min: 21, max: 42, dr: 0 },
+      { name: '深傷', sev: 3, min: 14, max: 28, dr: 0.05 },
+      { name: '疫病', sev: 3, min: 14, max: 30, dr: 0.1 },
+      { name: 'ガン', sev: 4, min: 90, max: 365, dr: 0.3 },
+      { name: '手足の欠損', sev: 4, min: 999, max: 999, dr: 0.02 },
+    ];
+    const GIFTS = [
+      { name: '黒パン', effect: '士気+10', cost: 5, mb: 10, hb: 0 },
+      { name: '良質なワイン', effect: '士気+20', cost: 10, mb: 20, hb: 0 },
+      { name: '薬草の束', effect: '体調回復', cost: 8, mb: 5, hb: 1 },
+      { name: '上質な食材', effect: '士気+15', cost: 12, mb: 15, hb: 0 },
+      { name: '腕輪', effect: '士気+25', cost: 20, mb: 25, hb: 0 },
+      { name: '回復薬', effect: '重症回復', cost: 30, mb: 10, hb: 2 },
+    ];
+    const HEALTH_LABELS = { healthy: '健康', tired: '疲弊', sick: '病気', injured: '負傷', critical: '重体', amputated: '欠損' };
+    const HEALTH_CLS = { healthy: 'h0', tired: 'h1', sick: 'h2', injured: 'h3', critical: 'h4', amputated: 'h5' };
+    const FOCUS_LABELS = { combat: '戦闘重視', drops: 'ドロップ重視', economy: '節約重視', steady: '堅実' };
+    const CONFLICT_LABELS = { rest: '休息日で解決', leader: 'リーダー裁定', vote: '多数決', ignore: '無視して続行' };
 
-// ---- UTILITY -----------------------------------------------------------------
-const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const pick=a=>a[rnd(0,a.length-1)];
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-let _uid=1;
-const uid=()=>_uid++;
+    // ---- UTILITY -----------------------------------------------------------------
+    const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+    const pick = a => a[rnd(0, a.length - 1)];
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    let _uid = 1;
+    const uid = () => _uid++;
 
-// ---- CHARACTER GENERATION ----------------------------------------------------
-function genChar(){
-  const female=Math.random()<0.5;
-  const fname=pick(female?FNAMES:MNAMES);
-  const sname=pick(SURNAMES);
-  const age=rnd(17,45);
-  const skill=pick(SKILLS);
-  let weakSkill=pick(SKILLS);
-  while(weakSkill===skill) weakSkill=pick(SKILLS);
-  const perso=pick(PERSO);
-  const romStyle=pick(['積極型','受動型','無関心型']);
-  const romGender=pick(['異性のみ','同性のみ','どちらも']);
-  const ageRange=pick([`自分±${rnd(3,8)}歳`,`年上のみ`,`年下のみ`,`年齢不問`]);
-  return{
-    id:uid(),
-    name:fname+sname,
-    gender:female?'♀':'♂',
-    age,
-    personality:perso,
-    quirk:pick(QUIRKS),
-    dislikedType:pick(PERSO.filter(p=>p!==perso)),
-    likedType:pick(PERSO.filter(p=>p!==perso)),
-    favoriteFood:pick(FOODS),
-    sleepSchedule:pick(['朝型','夜型','不規則']),
-    skill,
-    weakSkill,
-    ailment:pick(AILMENTS),
-    health:'healthy',
-    illness:null,
-    illnessDaysLeft:0,
-    romanceStyle:romStyle,
-    romanceGender:romGender,
-    romanceAgeRange:ageRange,
-    romanceStatus:'独身',
-    morale:rnd(60,90),
-    isGrudge:false,
-    dead:false,
-  };
-}
+    // ---- CHARACTER GENERATION ----------------------------------------------------
+    function genChar() {
+      const female = Math.random() < 0.5;
+      const fname = pick(female ? FNAMES : MNAMES);
+      const sname = pick(SURNAMES);
+      const age = rnd(17, 45);
+      const skill = pick(SKILLS);
+      let weakSkill = pick(SKILLS);
+      while (weakSkill === skill) weakSkill = pick(SKILLS);
+      const perso = pick(PERSO);
+      const romStyle = pick(['積極型', '受動型', '無関心型']);
+      const romGender = pick(['異性のみ', '同性のみ', 'どちらも']);
+      const ageRange = pick([`自分±${rnd(3, 8)}歳`, `年上のみ`, `年下のみ`, `年齢不問`]);
+      return {
+        id: uid(),
+        name: fname + sname,
+        gender: female ? '♀' : '♂',
+        age,
+        personality: perso,
+        quirk: pick(QUIRKS),
+        dislikedType: pick(PERSO.filter(p => p !== perso)),
+        likedType: pick(PERSO.filter(p => p !== perso)),
+        favoriteFood: pick(FOODS),
+        sleepSchedule: pick(['朝型', '夜型', '不規則']),
+        skill,
+        weakSkill,
+        ailment: pick(AILMENTS),
+        health: 'healthy',
+        illness: null,
+        illnessDaysLeft: 0,
+        romanceStyle: romStyle,
+        romanceGender: romGender,
+        romanceAgeRange: ageRange,
+        romanceStatus: '独身',
+        morale: rnd(60, 90),
+        isGrudge: false,
+        dead: false,
+      };
+    }
 
-// ---- GAME STATE --------------------------------------------------------------
-let G_STATE={
-  week:1,year:1,gold:200,
-  parties:[],roster:[],dismissed:[],
-  inventory:[],wishList:[],reputation:0,
-  pendingReports:[],globalLog:[],
-};
+    // ---- GAME STATE --------------------------------------------------------------
+    let G_STATE = {
+      week: 1, year: 1, gold: 200,
+      parties: [], roster: [], dismissed: [],
+      inventory: [], wishList: [], reputation: 0,
+      pendingReports: [], globalLog: [],
+    };
 
-function saveState(){try{G_STATE._uid=_uid;localStorage.setItem('gm_v1',JSON.stringify(G_STATE));}catch(e){}}
-function loadState(){
-  try{
-    const s=localStorage.getItem('gm_v1');
-    if(s){G_STATE=JSON.parse(s);if(G_STATE.gold==null){G_STATE.gold=G_STATE.cp||200;}if(!G_STATE.inventory)G_STATE.inventory=[];if(!G_STATE.wishList)G_STATE.wishList=[];if(G_STATE.reputation==null)G_STATE.reputation=0;const maxId=Math.max(0,...(G_STATE.parties||[]).map(p=>p.id));_uid=Math.max(G_STATE._uid||1,maxId+1);return true;}
-  }catch(e){}
-  return false;
-}
+    function saveState() { try { G_STATE._uid = _uid; localStorage.setItem('gm_v1', JSON.stringify(G_STATE)); } catch (e) { } }
+    function loadState() {
+      try {
+        const s = localStorage.getItem('gm_v1');
+        if (s) { G_STATE = JSON.parse(s); if (G_STATE.gold == null) { G_STATE.gold = G_STATE.cp || 200; } if (!G_STATE.inventory) G_STATE.inventory = []; if (!G_STATE.wishList) G_STATE.wishList = []; if (G_STATE.reputation == null) G_STATE.reputation = 0; const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true; }
+      } catch (e) { }
+      return false;
+    }
 
-// seed initial roster
-function initRoster(){
-  if(G_STATE.roster.length===0){
-    for(let i=0;i<6;i++) G_STATE.roster.push(genChar());
-  }
-}
-
-// ---- EVENT ENGINE ------------------------------------------------------------
-function generateWeekEvents(party){
-  const events=[];
-  const members=party.members.filter(m=>!m.dead);
-  if(members.length===0) return events;
-
-  // 1. Drop event (Phase3: region specialty + rarity + wishList + XP)
-  const rankBonus=RANK_DROP_BONUS[party.rank||'F']||0;
-  const dropChance=(party.directive.focus==='drops'?0.55:party.directive.focus==='economy'?0.25:0.35)+rankBonus;
-  const bonusChance=party.members.some(m=>party.members.some(m2=>m!==m2&&m.likedType===m2.trait))?0.1:0;
-  const dropCount=party.directive.focus==='drops'?rnd(1,3):1;
-  for(let di=0;di<dropCount;di++){
-    if(Math.random()<dropChance+bonusChance){
-      const rd=REGION_DATA[party.region];
-      const pool=(rd&&rd.specialty&&Math.random()<0.4)?ITEMS.filter(x=>rd.specialty.includes(x)).concat(ITEMS):ITEMS;
-      const item=pick(pool.length?pool:ITEMS);
-      const rv=Math.random();
-      let rarity,value;
-      if(rv<0.55){rarity='common';value=rnd(5,15);}
-      else if(rv<0.85){rarity='uncommon';value=rnd(20,50);}
-      else if(rv<0.97){rarity='rare';value=rnd(60,150);}
-      else{rarity='epic';value=rnd(200,500);}
-      // ランクが高いほどレアリティ補正
-      if((party.rank==='A'||party.rank==='S')&&rarity==='common'&&Math.random()<0.3) {rarity='uncommon';value=rnd(20,50);}
-      const loot={id:uid(),name:item,rarity,value,partyName:party.name,week:G_STATE.week};
-      const isWished=G_STATE.wishList.includes(item);
-      if(isWished)loot.wished=true;
-      if(!G_STATE.inventory)G_STATE.inventory=[];
-      G_STATE.inventory.push(loot);
-      events.push({type:'drop',text:`${isWished?'⭐ ':''}「${item}」を発見した [${rarity}] 売値:${value}G`});
-      G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished?' ⭐':''}`);
-      // XP加算
-      const xpGain={common:5,uncommon:15,rare:30,epic:60}[rarity]||5;
-      party.xp=(party.xp||0)+xpGain;
-      // ランクアップチェック
-      const curRankIdx=RANKS.indexOf(party.rank||'F');
-      if(curRankIdx<RANKS.length-1&&party.xp>=RANK_XP[curRankIdx+1]){
-        party.rank=RANKS[curRankIdx+1];
-        events.push({type:'morale',text:`🏆 「${party.name}」がランク ${RANKS[curRankIdx]} → ${party.rank} にランクアップした！`});
-        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}がランク${party.rank}に昇格`);
+    // seed initial roster
+    function initRoster() {
+      if (G_STATE.roster.length === 0) {
+        for (let i = 0; i < 6; i++) G_STATE.roster.push(genChar());
       }
     }
-  }
 
-  // 2. Conflict event
-  if(members.length>=2){
-    const conflictChance=calcConflictChance(members);
-    if(Math.random()<conflictChance){
-      const [a,b]=[pick(members),pick(members)];
-      const resolution=resolveConflict(party.directive.conflict,a,b);
-      events.push({type:'conflict',text:`【揉め事】${a.name}と${b.name}の間で対立が起きた。${resolution}`});
-      members.forEach(m=>{m.morale=clamp(m.morale-rnd(5,15),0,100);});
-    }
-  }
+    // ---- EVENT ENGINE ------------------------------------------------------------
+    function generateWeekEvents(party) {
+      const events = [];
+      const members = party.members.filter(m => !m.dead);
+      if (members.length === 0) return events;
 
-  // 3. Combat event
-  if(party.directive.focus==='combat'||Math.random()<0.25){
-    const danger=party.directive.focus==='combat'?0.3:0.15;
-    if(Math.random()<danger){
-      const target=pick(members);
-      const roll=Math.random();
-      if(roll<0.05&&party.directive.focus==='combat'){
-        target.dead=true;
-        target.health='dead';
-        events.push({type:'death',text:`【戦死】${target.name}が激しい戦闘の果てに命を落とした。`});
-        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${target.name}が戦死`);
-      } else if(roll<0.2){
-        const ill=pick(ILLNESS_TYPES.filter(i=>i.sev<=2));
-        target.health='injured';target.illness=ill.name;target.illnessDaysLeft=rnd(ill.min,ill.max);
-        events.push({type:'illness',text:`【負傷】${target.name}が「${ill.name}」を負った。回復まで${target.illnessDaysLeft}日かかる見込み。`});
-      } else {
-        const winner=pick(members);
-        events.push({type:'combat',text:`【戦闘】${party.region}で強敵と交戦。${winner.name}の尽力で撃退した。`});
-        members.forEach(m=>{m.morale=clamp(m.morale+rnd(3,8),0,100);});
+      // 1. Drop event (Phase3: region specialty + rarity + wishList + XP)
+      const rankBonus = RANK_DROP_BONUS[party.rank || 'F'] || 0;
+      const dropChance = (party.directive.focus === 'drops' ? 0.55 : party.directive.focus === 'economy' ? 0.25 : 0.35) + rankBonus;
+      const bonusChance = party.members.some(m => party.members.some(m2 => m !== m2 && m.likedType === m2.trait)) ? 0.1 : 0;
+      const dropCount = party.directive.focus === 'drops' ? rnd(1, 3) : 1;
+      for (let di = 0; di < dropCount; di++) {
+        if (Math.random() < dropChance + bonusChance) {
+          const rd = REGION_DATA[party.region];
+          const pool = (rd && rd.specialty && Math.random() < 0.4) ? ITEMS.filter(x => rd.specialty.includes(x)).concat(ITEMS) : ITEMS;
+          const item = pick(pool.length ? pool : ITEMS);
+          const rv = Math.random();
+          let rarity, value;
+          if (rv < 0.55) { rarity = 'common'; value = rnd(5, 15); }
+          else if (rv < 0.85) { rarity = 'uncommon'; value = rnd(20, 50); }
+          else if (rv < 0.97) { rarity = 'rare'; value = rnd(60, 150); }
+          else { rarity = 'epic'; value = rnd(200, 500); }
+          // ランクが高いほどレアリティ補正
+          if ((party.rank === 'A' || party.rank === 'S') && rarity === 'common' && Math.random() < 0.3) { rarity = 'uncommon'; value = rnd(20, 50); }
+          const loot = { id: uid(), name: item, rarity, value, partyName: party.name, week: G_STATE.week };
+          const isWished = G_STATE.wishList.includes(item);
+          if (isWished) loot.wished = true;
+          if (!G_STATE.inventory) G_STATE.inventory = [];
+          G_STATE.inventory.push(loot);
+          events.push({ type: 'drop', text: `${isWished ? '⭐ ' : ''}「${item}」を発見した [${rarity}] 売値:${value}G` });
+          G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished ? ' ⭐' : ''}`);
+          // XP加算
+          const xpGain = { common: 5, uncommon: 15, rare: 30, epic: 60 }[rarity] || 5;
+          party.xp = (party.xp || 0) + xpGain;
+          // ランクアップチェック
+          const curRankIdx = RANKS.indexOf(party.rank || 'F');
+          if (curRankIdx < RANKS.length - 1 && party.xp >= RANK_XP[curRankIdx + 1]) {
+            party.rank = RANKS[curRankIdx + 1];
+            events.push({ type: 'morale', text: `🏆 「${party.name}」がランク ${RANKS[curRankIdx]} → ${party.rank} にランクアップした！` });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}がランク${party.rank}に昇格`);
+          }
+        }
       }
-    }
-  }
 
-  // 4. Illness / age event
-  members.forEach(m=>{
-    if(m.dead) return;
-    // age-based illness
-    if(m.age>50&&Math.random()<0.08){
-      const ill=pick(ILLNESS_TYPES);
-      m.health='sick';m.illness=ill.name;m.illnessDaysLeft=rnd(ill.min,ill.max);
-      events.push({type:'illness',text:`【病気】${m.name}(${m.age}歳)が「${ill.name}」で倒れた。`});
-    }
-    // existing illness progress
-    if(m.illnessDaysLeft>0){
-      m.illnessDaysLeft-=7;
-      if(m.illnessDaysLeft<=0){
-        m.health='healthy';m.illness=null;
-        events.push({type:'morale',text:`【回復】${m.name}の体調が回復した。`});
-        m.morale=clamp(m.morale+10,0,100);
-      } else if(Math.random()<0.05){
-        m.dead=true;
-        events.push({type:'death',text:`【死亡】${m.name}が「${m.illness}」により帰らぬ人となった。`});
-        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が病死`);
+      // 2. Conflict event
+      if (members.length >= 2) {
+        const conflictChance = calcConflictChance(members);
+        if (Math.random() < conflictChance) {
+          const [a, b] = [pick(members), pick(members)];
+          const resolution = resolveConflict(party.directive.conflict, a, b);
+          events.push({ type: 'conflict', text: `【揉め事】${a.name}と${b.name}の間で対立が起きた。${resolution}` });
+          members.forEach(m => { m.morale = clamp(m.morale - rnd(5, 15), 0, 100); });
+        }
       }
+
+      // 3. Combat event
+      if (party.directive.focus === 'combat' || Math.random() < 0.25) {
+        const danger = party.directive.focus === 'combat' ? 0.3 : 0.15;
+        if (Math.random() < danger) {
+          const target = pick(members);
+          const roll = Math.random();
+          if (roll < 0.05 && party.directive.focus === 'combat') {
+            target.dead = true;
+            target.health = 'dead';
+            events.push({ type: 'death', text: `【戦死】${target.name}が激しい戦闘の果てに命を落とした。` });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${target.name}が戦死`);
+          } else if (roll < 0.2) {
+            const ill = pick(ILLNESS_TYPES.filter(i => i.sev <= 2));
+            target.health = 'injured'; target.illness = ill.name; target.illnessDaysLeft = rnd(ill.min, ill.max);
+            events.push({ type: 'illness', text: `【負傷】${target.name}が「${ill.name}」を負った。回復まで${target.illnessDaysLeft}日かかる見込み。` });
+          } else {
+            const winner = pick(members);
+            events.push({ type: 'combat', text: `【戦闘】${party.region}で強敵と交戦。${winner.name}の尽力で撃退した。` });
+            members.forEach(m => { m.morale = clamp(m.morale + rnd(3, 8), 0, 100); });
+          }
+        }
+      }
+
+      // 4. Illness / age event
+      members.forEach(m => {
+        if (m.dead) return;
+        // age-based illness
+        if (m.age > 50 && Math.random() < 0.08) {
+          const ill = pick(ILLNESS_TYPES);
+          m.health = 'sick'; m.illness = ill.name; m.illnessDaysLeft = rnd(ill.min, ill.max);
+          events.push({ type: 'illness', text: `【病気】${m.name}(${m.age}歳)が「${ill.name}」で倒れた。` });
+        }
+        // existing illness progress
+        if (m.illnessDaysLeft > 0) {
+          m.illnessDaysLeft -= 7;
+          if (m.illnessDaysLeft <= 0) {
+            m.health = 'healthy'; m.illness = null;
+            events.push({ type: 'morale', text: `【回復】${m.name}の体調が回復した。` });
+            m.morale = clamp(m.morale + 10, 0, 100);
+          } else if (Math.random() < 0.05) {
+            m.dead = true;
+            events.push({ type: 'death', text: `【死亡】${m.name}が「${m.illness}」により帰らぬ人となった。` });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が病死`);
+          }
+        }
+        // age up every 52 weeks
+        if (G_STATE.week % 52 === 0) m.age++;
+      });
+
+      // 5. Romance event
+      if (members.length >= 2 && Math.random() < 0.12) {
+        const singles = members.filter(m => m.romanceStatus === '独身' && m.romanceStyle !== '無関心型');
+        if (singles.length >= 2) {
+          const a = pick(singles);
+          const b = pick(singles.filter(s => s.id !== a.id));
+          a.romanceStatus = '交際中'; b.romanceStatus = '交際中';
+          events.push({ type: 'romance', text: `【恋愛】${a.name}と${b.name}の間に恋愛感情が芽生えた。士気上昇。` });
+          a.morale = clamp(a.morale + 15, 0, 100); b.morale = clamp(b.morale + 15, 0, 100);
+        }
+      }
+
+      // 6. Morale drift
+      const avgMorale = members.reduce((s, m) => s + m.morale, 0) / members.length;
+      if (avgMorale < 40) events.push({ type: 'morale', text: `【士気低下】${party.name}全体の士気が低下している。方針変更か報酬増額を検討してほしい。` });
+      else if (avgMorale > 80) events.push({ type: 'morale', text: `【士気高揚】${party.name}のチームワークは絶好調だ。` });
+
+      return events;
     }
-    // age up every 52 weeks
-    if(G_STATE.week%52===0) m.age++;
-  });
 
-  // 5. Romance event
-  if(members.length>=2&&Math.random()<0.12){
-    const singles=members.filter(m=>m.romanceStatus==='独身'&&m.romanceStyle!=='無関心型');
-    if(singles.length>=2){
-      const a=pick(singles);
-      const b=pick(singles.filter(s=>s.id!==a.id));
-      a.romanceStatus='交際中';b.romanceStatus='交際中';
-      events.push({type:'romance',text:`【恋愛】${a.name}と${b.name}の間に恋愛感情が芽生えた。士気上昇。`});
-      a.morale=clamp(a.morale+15,0,100);b.morale=clamp(b.morale+15,0,100);
+    function calcConflictChance(members) {
+      let chance = 0.1;
+      for (let i = 0; i < members.length; i++) {
+        for (let j = i + 1; j < members.length; j++) {
+          if (members[i].personality === members[j].dislikedType || members[j].personality === members[i].dislikedType) chance += 0.12;
+        }
+      }
+      // 相性ボーナス: 好きなタイプがパーティー内にいると揉め事が減る
+      const goodPairs = members.filter(m => members.some(m2 => m !== m2 && m2.trait === m.likedType)).length;
+      chance -= goodPairs * 0.05;
+      return Math.min(Math.max(chance, 0.02), 0.7);
     }
-  }
 
-  // 6. Morale drift
-  const avgMorale=members.reduce((s,m)=>s+m.morale,0)/members.length;
-  if(avgMorale<40) events.push({type:'morale',text:`【士気低下】${party.name}全体の士気が低下している。方針変更か報酬増額を検討してほしい。`});
-  else if(avgMorale>80) events.push({type:'morale',text:`【士気高揚】${party.name}のチームワークは絶好調だ。`});
-
-  return events;
-}
-
-function calcConflictChance(members){
-  let chance=0.1;
-  for(let i=0;i<members.length;i++){
-    for(let j=i+1;j<members.length;j++){
-      if(members[i].personality===members[j].dislikedType||members[j].personality===members[i].dislikedType) chance+=0.12;
+    function resolveConflict(rule, a, b) {
+      if (rule === 'rest') return `パーティーは休息日を設け、両者が冷静になる時間をとった。`;
+      if (rule === 'leader') return `リーダーが${a.name}と${b.name}の言い分を聞き、裁定を下した。`;
+      if (rule === 'vote') return `メンバー全員で話し合い、多数決で解決を図った。`;
+      return `揉め事は無視して任務が続行された。しかし遺恨が残っているかもしれない。`;
     }
-  }
-  // 相性ボーナス: 好きなタイプがパーティー内にいると揉め事が減る
-  const goodPairs=members.filter(m=>members.some(m2=>m!==m2&&m2.trait===m.likedType)).length;
-  chance-=goodPairs*0.05;
-  return Math.min(Math.max(chance,0.02),0.7);
-}
 
-function resolveConflict(rule,a,b){
-  if(rule==='rest') return `パーティーは休息日を設け、両者が冷静になる時間をとった。`;
-  if(rule==='leader') return `リーダーが${a.name}と${b.name}の言い分を聞き、裁定を下した。`;
-  if(rule==='vote') return `メンバー全員で話し合い、多数決で解決を図った。`;
-  return `揉め事は無視して任務が続行された。しかし遺恨が残っているかもしれない。`;
-}
-
-// ---- WEEK TICK ---------------------------------------------------------------
-function tickParty(party){
-  if(party.members.length===0){party.status='idle';return null;}
-  const weekly=party.directive.cpPerWeek||20;
-  if(G_STATE.gold<weekly){
-    party.cpDebt=(party.cpDebt||0)+weekly;
-    if(party.cpDebt>=weekly*3){
-      party.status='disbanded';
-      G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が報酬未払いで解散した`);
-      addLog(`${party.name}が報酬未払いのため解散した。`,'evx');
-      return null;
+    // ---- WEEK TICK ---------------------------------------------------------------
+    function tickParty(party) {
+      if (party.members.length === 0) { party.status = 'idle'; return null; }
+      const weekly = party.directive.cpPerWeek || 20;
+      if (G_STATE.gold < weekly) {
+        party.cpDebt = (party.cpDebt || 0) + weekly;
+        if (party.cpDebt >= weekly * 3) {
+          party.status = 'disbanded';
+          G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が報酬未払いで解散した`);
+          addLog(`${party.name}が報酬未払いのため解散した。`, 'evx');
+          return null;
+        }
+        addLog(`${party.name}への報酬が不足している（残Gold:${G_STATE.gold}）`, 'evi');
+        return { party, events: [{ type: 'morale', text: `【警告】報酬未払いが続いている。解散まであと${3 - Math.floor(party.cpDebt / weekly)}週。` }] };
+      }
+      G_STATE.gold -= weekly; party.cpDebt = 0;
+      const events = generateWeekEvents(party);
+      // remove dead members
+      party.members = party.members.filter(m => !m.dead);
+      return { party, events };
     }
-    addLog(`${party.name}への報酬が不足している（残Gold:${G_STATE.gold}）`,'evi');
-    return {party,events:[{type:'morale',text:`【警告】報酬未払いが続いている。解散まであと${3-Math.floor(party.cpDebt/weekly)}週。`}]};
-  }
-  G_STATE.gold-=weekly;party.cpDebt=0;
-  const events=generateWeekEvents(party);
-  // remove dead members
-  party.members=party.members.filter(m=>!m.dead);
-  return {party,events};
-}
 
-// ---- GRUDGE SYSTEM -----------------------------------------------------------
-function checkGrudge(){
-  G_STATE.dismissed.forEach(c=>{
-    if(c.isGrudge&&Math.random()<0.15){
-      const msg=`【警告】解雇された${c.name}がギルドに悪評を流しているという噂が届いた。`;
-      G_STATE.globalLog.unshift(msg);
-      addLog(msg,'evc');
+    // ---- GRUDGE SYSTEM -----------------------------------------------------------
+    function checkGrudge() {
+      G_STATE.dismissed.forEach(c => {
+        if (c.isGrudge && Math.random() < 0.15) {
+          const msg = `【警告】解雇された${c.name}がギルドに悪評を流しているという噂が届いた。`;
+          G_STATE.globalLog.unshift(msg);
+          addLog(msg, 'evc');
+        }
+      });
     }
-  });
-}
 
-// ---- ADVANCE WEEK ------------------------------------------------------------
-function advanceWeek(){
-  G_STATE.week++;
-  const reports=[];
-  G_STATE.parties.forEach(p=>{
-    if(p.status==='disbanded') return;
-    if(p.members.length===0){p.status='idle';return;}
-    const r=tickParty(p);
-    if(r) reports.push(r);
-  });
-  // daily roster refresh (new char every week chance)
-  if(Math.random()<0.7) G_STATE.roster.push(genChar());
-  // limit roster to 10
-  if(G_STATE.roster.length>10) G_STATE.roster.shift();
-  checkGrudge();
-  G_STATE.pendingReports.push(...reports);
-  saveState();
-  updateHUD();
-  renderPartyList();
-  setLogBar(`Week ${G_STATE.week} — 各パーティーから報告が届いた。「週次報告」から確認しよう。`);
-  addLog(`Week ${G_STATE.week} へ進んだ。${reports.length}件の報告あり。`);
-  if(currentView==='party'&&currentPartyId) showParty(currentPartyId);
-}
+    // ---- ADVANCE WEEK ------------------------------------------------------------
+    function advanceWeek() {
+      G_STATE.week++;
+      const reports = [];
+      G_STATE.parties.forEach(p => {
+        if (p.status === 'disbanded') return;
+        if (p.members.length === 0) { p.status = 'idle'; return; }
+        const r = tickParty(p);
+        if (r) reports.push(r);
+      });
+      // daily roster refresh (new char every week chance)
+      if (Math.random() < 0.7) G_STATE.roster.push(genChar());
+      // limit roster to 10
+      if (G_STATE.roster.length > 10) G_STATE.roster.shift();
+      checkGrudge();
+      G_STATE.pendingReports.push(...reports);
+      saveState();
+      updateHUD();
+      renderPartyList();
+      setLogBar(`Week ${G_STATE.week} — 各パーティーから報告が届いた。「週次報告」から確認しよう。`);
+      addLog(`Week ${G_STATE.week} へ進んだ。${reports.length}件の報告あり。`);
+      if (currentView === 'party' && currentPartyId) showParty(currentPartyId);
+    }
 
-// ---- CP SYSTEM ---------------------------------------------------------------
-function sellItem(itemId){
-  const idx=G_STATE.inventory.findIndex(x=>x.id===itemId);
-  if(idx<0)return;
-  const it=G_STATE.inventory[idx];
-  G_STATE.inventory.splice(idx,1);
-  G_STATE.gold+=it.value;
-  G_STATE.reputation=(G_STATE.reputation||0)+Math.ceil(it.value/30);
-  saveState();updateHUD();
-  setLogBar(`「${it.name}」を ${it.value}G で売却した。（残Gold: ${G_STATE.gold}G）`);
-  addLog(`売却: 「${it.name}」+${it.value}G 評判+${Math.ceil(it.value/30)}`,'evm');
-  showInventoryView();
-}
-function sellAll(){
-  if(!G_STATE.inventory.length){alert('倉庫に品物がありません。');return;}
-  const total=G_STATE.inventory.reduce((s,x)=>s+x.value,0);
-  G_STATE.inventory=[];
-  G_STATE.gold+=total;
-  saveState();updateHUD();
-  const repGain=Math.ceil(total/30);
-  G_STATE.reputation=(G_STATE.reputation||0)+repGain;
-  setLogBar(`全品売却: +${total}G（残Gold: ${G_STATE.gold}G）`);
-  addLog(`全品売却: +${total}G 評判+${repGain}`,'evm');
-  showInventoryView();
-}
-function craftRecipe(recipeIdx){
-  const r=RECIPES[recipeIdx];
-  if(!r) return;
-  const inv=G_STATE.inventory;
-  const toRemove=[];
-  for(const ing of r.ingredients){
-    const idx=inv.findIndex(x=>x.name===ing&&!toRemove.includes(x.id));
-    if(idx<0){alert('素材が足りません。');return;}
-    toRemove.push(inv[idx].id);
-  }
-  G_STATE.inventory=inv.filter(x=>!toRemove.includes(x.id));
-  const crafted={id:uid(),name:r.name,rarity:r.rarity,value:r.value,partyName:'合成',week:G_STATE.week};
-  G_STATE.inventory.push(crafted);
-  G_STATE.gold+=0; // no auto sell
-  saveState();updateHUD();
-  setLogBar(`「${r.name}」を合成した！ (${r.rarity} / ${r.value}G)`);
-  addLog(`レシピ合成: 「${r.name}」`,'evm');
-  showInventoryView();
-}
-function addWish(name){
-  if(!G_STATE.wishList) G_STATE.wishList=[];
-  if(!name||G_STATE.wishList.includes(name)) return;
-  G_STATE.wishList.push(name);
-  saveState(); showInventoryView();
-}
-function removeWish(name){
-  G_STATE.wishList=(G_STATE.wishList||[]).filter(x=>x!==name);
-  saveState(); showInventoryView();
-}
-function showInventoryView(){
-  currentView='inventory';
-  ['welcome','party','roster','reports','inventory','map'].forEach(v=>{
-    const el=document.getElementById('v-'+v);
-    if(el)el.style.display=v==='inventory'?'block':'none';
-  });
-  const RARITY_LABEL={common:'並',uncommon:'良',rare:'優',epic:'伝説'};
-  const RARITY_COLOR={common:'var(--tx3)',uncommon:'#4fc3f7',rare:'#ce93d8',epic:'#ffb74d'};
-  const inv=G_STATE.inventory||[];
-  let h=`<div class="ph"><div class="pht">🏪 倉庫・販売</div>
-  <div class="phs">${inv.length}件 / 合計売値: ${inv.reduce((s,x)=>s+x.value,0)}G</div></div>`;
+    // ---- CP SYSTEM ---------------------------------------------------------------
+    function sellItem(itemId) {
+      const idx = G_STATE.inventory.findIndex(x => x.id === itemId);
+      if (idx < 0) return;
+      const it = G_STATE.inventory[idx];
+      G_STATE.inventory.splice(idx, 1);
+      G_STATE.gold += it.value;
+      G_STATE.reputation = (G_STATE.reputation || 0) + Math.ceil(it.value / 30);
+      saveState(); updateHUD();
+      setLogBar(`「${it.name}」を ${it.value}G で売却した。（残Gold: ${G_STATE.gold}G）`);
+      addLog(`売却: 「${it.name}」+${it.value}G 評判+${Math.ceil(it.value / 30)}`, 'evm');
+      showInventoryView();
+    }
+    function sellAll() {
+      if (!G_STATE.inventory.length) { alert('倉庫に品物がありません。'); return; }
+      const total = G_STATE.inventory.reduce((s, x) => s + x.value, 0);
+      G_STATE.inventory = [];
+      G_STATE.gold += total;
+      saveState(); updateHUD();
+      const repGain = Math.ceil(total / 30);
+      G_STATE.reputation = (G_STATE.reputation || 0) + repGain;
+      setLogBar(`全品売却: +${total}G（残Gold: ${G_STATE.gold}G）`);
+      addLog(`全品売却: +${total}G 評判+${repGain}`, 'evm');
+      showInventoryView();
+    }
+    function craftRecipe(recipeIdx) {
+      const r = RECIPES[recipeIdx];
+      if (!r) return;
+      const inv = G_STATE.inventory;
+      const toRemove = [];
+      for (const ing of r.ingredients) {
+        const idx = inv.findIndex(x => x.name === ing && !toRemove.includes(x.id));
+        if (idx < 0) { alert('素材が足りません。'); return; }
+        toRemove.push(inv[idx].id);
+      }
+      G_STATE.inventory = inv.filter(x => !toRemove.includes(x.id));
+      const crafted = { id: uid(), name: r.name, rarity: r.rarity, value: r.value, partyName: '合成', week: G_STATE.week };
+      G_STATE.inventory.push(crafted);
+      G_STATE.gold += 0; // no auto sell
+      saveState(); updateHUD();
+      setLogBar(`「${r.name}」を合成した！ (${r.rarity} / ${r.value}G)`);
+      addLog(`レシピ合成: 「${r.name}」`, 'evm');
+      showInventoryView();
+    }
+    function addWish(name) {
+      if (!G_STATE.wishList) G_STATE.wishList = [];
+      if (!name || G_STATE.wishList.includes(name)) return;
+      G_STATE.wishList.push(name);
+      saveState(); showInventoryView();
+    }
+    function removeWish(name) {
+      G_STATE.wishList = (G_STATE.wishList || []).filter(x => x !== name);
+      saveState(); showInventoryView();
+    }
+    function showInventoryView() {
+      currentView = 'inventory';
+      ['welcome', 'party', 'roster', 'reports', 'inventory', 'map'].forEach(v => {
+        const el = document.getElementById('v-' + v);
+        if (el) el.style.display = v === 'inventory' ? 'block' : 'none';
+      });
+      const RARITY_LABEL = { common: '並', uncommon: '良', rare: '優', epic: '伝説' };
+      const RARITY_COLOR = { common: 'var(--tx3)', uncommon: '#4fc3f7', rare: '#ce93d8', epic: '#ffb74d' };
+      const inv = G_STATE.inventory || [];
+      let h = `<div class="ph"><div class="pht">🏪 倉庫・販売</div>
+  <div class="phs">${inv.length}件 / 合計売値: ${inv.reduce((s, x) => s + x.value, 0)}G</div></div>`;
 
-  // ウィッシュリスト
-  const wl=G_STATE.wishList||[];
-  h+=`<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
-  h+=`<div style="font-size:10px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;">⭐ ウィッシュリスト</div>`;
-  h+=`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">`;
-  wl.forEach(n=>{
-    h+=`<span style="background:var(--bg3);border-radius:4px;padding:2px 8px;font-size:11px;">${n} <button onclick="removeWish('${n}')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:10px;">✕</button></span>`;
-  });
-  if(!wl.length) h+=`<span style="font-size:11px;color:var(--tx3)">リストは空です</span>`;
-  h+=`</div>`;
-  h+=`<select id="wish-sel" style="font-size:11px;background:var(--bg3);border:1px solid var(--brd);color:var(--tx);border-radius:4px;padding:2px;"><option value="">— アイテムを選択 —</option>${ITEMS.map(i=>`<option>${i}</option>`).join('')}</select>`;
-  h+=` <button class="btn" onclick="addWish(document.getElementById('wish-sel').value)" style="padding:2px 8px;font-size:11px;">追加</button>`;
-  h+=`</div>`;
+      // ウィッシュリスト
+      const wl = G_STATE.wishList || [];
+      h += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
+      h += `<div style="font-size:10px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;">⭐ ウィッシュリスト</div>`;
+      h += `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">`;
+      wl.forEach(n => {
+        h += `<span style="background:var(--bg3);border-radius:4px;padding:2px 8px;font-size:11px;">${n} <button onclick="removeWish('${n}')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:10px;">✕</button></span>`;
+      });
+      if (!wl.length) h += `<span style="font-size:11px;color:var(--tx3)">リストは空です</span>`;
+      h += `</div>`;
+      h += `<select id="wish-sel" style="font-size:11px;background:var(--bg3);border:1px solid var(--brd);color:var(--tx);border-radius:4px;padding:2px;"><option value="">— アイテムを選択 —</option>${ITEMS.map(i => `<option>${i}</option>`).join('')}</select>`;
+      h += ` <button class="btn" onclick="addWish(document.getElementById('wish-sel').value)" style="padding:2px 8px;font-size:11px;">追加</button>`;
+      h += `</div>`;
 
-  // レシピ合成
-  const craftable=RECIPES.filter(r=>{
-    const names=inv.map(x=>x.name);
-    return r.ingredients.every(ing=>names.includes(ing));
-  });
-  if(craftable.length){
-    h+=`<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
-    h+=`<div style="font-size:10px;color:#ce93d8;letter-spacing:1px;margin-bottom:6px;">⚗️ 合成可能なレシピ</div>`;
-    craftable.forEach(r=>{
-      const ri=RECIPES.indexOf(r);
-      const col=RARITY_COLOR[r.rarity]||'var(--tx)';
-      h+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+      // レシピ合成
+      const craftable = RECIPES.filter(r => {
+        const names = inv.map(x => x.name);
+        return r.ingredients.every(ing => names.includes(ing));
+      });
+      if (craftable.length) {
+        h += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
+        h += `<div style="font-size:10px;color:#ce93d8;letter-spacing:1px;margin-bottom:6px;">⚗️ 合成可能なレシピ</div>`;
+        craftable.forEach(r => {
+          const ri = RECIPES.indexOf(r);
+          const col = RARITY_COLOR[r.rarity] || 'var(--tx)';
+          h += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span style="color:${col};font-size:11px;font-weight:700;">[${RARITY_LABEL[r.rarity]}]</span>
         <span style="flex:1;font-size:12px;">${r.name}</span>
         <span style="font-size:10px;color:var(--tx3);">${r.ingredients.join(' + ')}</span>
         <span style="color:var(--gold);font-size:11px;">${r.value}G</span>
         <button class="btn" onclick="craftRecipe(${ri})" style="padding:3px 8px;font-size:11px;">合成</button>
       </div>`;
-    });
-    h+=`</div>`;
-  }
+        });
+        h += `</div>`;
+      }
 
-  if(inv.length===0){
-    h+=`<div style="padding:20px;color:var(--tx3);font-size:13px;">倉庫は空です。パーティーを派遣して戦利品を集めよう。</div>`;
-  } else {
-    h+=`<div style="padding:8px;"><button class="btn" onclick="sellAll()" style="width:100%;margin-bottom:10px;">💰 全件売却</button></div>`;
-    h+=`<div style="display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;">`;
-    inv.forEach(it=>{
-      const col=RARITY_COLOR[it.rarity]||'var(--tx)';
-      const lbl=RARITY_LABEL[it.rarity]||it.rarity;
-      const wishBadge=it.wished?'⭐ ':'';
-      h+=`<div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:6px;padding:8px 10px;">
+      if (inv.length === 0) {
+        h += `<div style="padding:20px;color:var(--tx3);font-size:13px;">倉庫は空です。パーティーを派遣して戦利品を集めよう。</div>`;
+      } else {
+        h += `<div style="padding:8px;"><button class="btn" onclick="sellAll()" style="width:100%;margin-bottom:10px;">💰 全件売却</button></div>`;
+        h += `<div style="display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;">`;
+        inv.forEach(it => {
+          const col = RARITY_COLOR[it.rarity] || 'var(--tx)';
+          const lbl = RARITY_LABEL[it.rarity] || it.rarity;
+          const wishBadge = it.wished ? '⭐ ' : '';
+          h += `<div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:6px;padding:8px 10px;">
         <span style="color:${col};font-weight:700;font-size:11px;min-width:28px;">[${lbl}]</span>
         <span style="flex:1;font-size:12px;">${wishBadge}${it.name}</span>
         <span style="color:var(--gold);font-size:12px;min-width:40px;text-align:right;">${it.value}G</span>
         <span style="color:var(--tx3);font-size:10px;min-width:60px;">${it.partyName}</span>
         <button class="btn" onclick="sellItem(${it.id})" style="padding:3px 8px;font-size:11px;">売却</button>
       </div>`;
-    });
-    h+='</div>';
-  }
-  document.getElementById('v-inventory').innerHTML=h;
-}
+        });
+        h += '</div>';
+      }
+      document.getElementById('v-inventory').innerHTML = h;
+    }
 
 
-function showMapView(){
-  currentView='map';
-  ['welcome','party','roster','reports','inventory','map'].forEach(v=>{
-    const el=document.getElementById('v-'+v);
-    if(el)el.style.display=v==='map'?'block':'none';
-  });
-  let h=`<div class="ph"><div class="pht">🗺 地方マップ</div><div class="phs">評判: ${G_STATE.reputation||0}pt | 派遣先を確認しよう</div></div>`;
-  h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;">`;
-  REGIONS.forEach(reg=>{
-    const rd=REGION_DATA[reg]||{icon:'?',specialty:[],riskLevel:1};
-    const assignedParties=G_STATE.parties.filter(p=>p.region===reg&&p.status==='active'&&p.members.length>0);
-    const riskStars='⭐'.repeat(rd.riskLevel)+'☆'.repeat(5-rd.riskLevel);
-    h+=`<div style="background:var(--bg2);border-radius:10px;padding:12px;position:relative;">
+    function showMapView() {
+      currentView = 'map';
+      ['welcome', 'party', 'roster', 'reports', 'inventory', 'map'].forEach(v => {
+        const el = document.getElementById('v-' + v);
+        if (el) el.style.display = v === 'map' ? 'block' : 'none';
+      });
+      let h = `<div class="ph"><div class="pht">🗺 地方マップ</div><div class="phs">評判: ${G_STATE.reputation || 0}pt | 派遣先を確認しよう</div></div>`;
+      h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;">`;
+      REGIONS.forEach(reg => {
+        const rd = REGION_DATA[reg] || { icon: '?', specialty: [], riskLevel: 1 };
+        const assignedParties = G_STATE.parties.filter(p => p.region === reg && p.status === 'active' && p.members.length > 0);
+        const riskStars = '⭐'.repeat(rd.riskLevel) + '☆'.repeat(5 - rd.riskLevel);
+        h += `<div style="background:var(--bg2);border-radius:10px;padding:12px;position:relative;">
       <div style="font-size:22px;margin-bottom:4px;">${rd.icon}</div>
       <div style="font-weight:700;font-size:13px;margin-bottom:4px;">${reg}</div>
       <div style="font-size:10px;color:var(--tx3);margin-bottom:6px;">リスク: ${riskStars}</div>`;
-    if(rd.specialty.length){
-      h+=`<div style="font-size:10px;color:var(--gold);margin-bottom:6px;">✦ ${rd.specialty.slice(0,2).join(' / ')}</div>`;
-    }
-    if(assignedParties.length){
-      assignedParties.forEach(p=>{
-        const ri=RANKS.indexOf(p.rank||'F');
-        h+=`<div style="font-size:11px;color:var(--green);padding:2px 6px;background:rgba(0,200,100,0.1);border-radius:4px;margin-bottom:2px;">⚔ ${p.name} [${p.rank||'F'}]</div>`;
+        if (rd.specialty.length) {
+          h += `<div style="font-size:10px;color:var(--gold);margin-bottom:6px;">✦ ${rd.specialty.slice(0, 2).join(' / ')}</div>`;
+        }
+        if (assignedParties.length) {
+          assignedParties.forEach(p => {
+            const ri = RANKS.indexOf(p.rank || 'F');
+            h += `<div style="font-size:11px;color:var(--green);padding:2px 6px;background:rgba(0,200,100,0.1);border-radius:4px;margin-bottom:2px;">⚔ ${p.name} [${p.rank || 'F'}]</div>`;
+          });
+        } else {
+          h += `<div style="font-size:10px;color:var(--tx3);">派遣中のパーティーなし</div>`;
+        }
+        h += `</div>`;
       });
-    } else {
-      h+=`<div style="font-size:10px;color:var(--tx3);">派遣中のパーティーなし</div>`;
+      h += `</div>`;
+      document.getElementById('v-map').innerHTML = h;
     }
-    h+=`</div>`;
-  });
-  h+=`</div>`;
-  document.getElementById('v-map').innerHTML=h;
-}
-/*--- G namespace ---*/
-const G={advanceWeek};
+    /*--- G namespace ---*/
+    const G = { advanceWeek };
 
 
-// =============================================================================
-// UI ENGINE
-// =============================================================================
-let currentView='welcome';
-let currentPartyId=null;
-let giftTargetId=null;
-let directivePartyId=null;
+    // =============================================================================
+    // UI ENGINE
+    // =============================================================================
+    let currentView = 'welcome';
+    let currentPartyId = null;
+    let giftTargetId = null;
+    let directivePartyId = null;
 
-// ---- HUD -------------------------------------------------------------------
-function updateHUD(){
-  document.getElementById('hdate').textContent=`Year ${G_STATE.year} — Week ${G_STATE.week}`;
-  document.getElementById('hcp').textContent=G_STATE.gold+'G';
-  const rep=document.getElementById('hrep');
-  if(rep) rep.textContent=(G_STATE.reputation||0)+'pt';
-}
-function setLogBar(txt){document.getElementById('lbt').textContent=txt;}
-function addLog(txt,cls=''){
-  const d=document.getElementById('elog-entries');
-  const e=document.createElement('div');
-  e.className='ele'+(cls?' '+cls:'');
-  e.textContent=txt;
-  d.prepend(e);
-  if(d.children.length>60) d.lastChild.remove();
-}
+    // ---- HUD -------------------------------------------------------------------
+    function updateHUD() {
+      document.getElementById('hdate').textContent = `Year ${G_STATE.year} — Week ${G_STATE.week}`;
+      document.getElementById('hcp').textContent = G_STATE.gold + 'G';
+      const rep = document.getElementById('hrep');
+      if (rep) rep.textContent = (G_STATE.reputation || 0) + 'pt';
+    }
+    function setLogBar(txt) { document.getElementById('lbt').textContent = txt; }
+    function addLog(txt, cls = '') {
+      const d = document.getElementById('elog-entries');
+      const e = document.createElement('div');
+      e.className = 'ele' + (cls ? ' ' + cls : '');
+      e.textContent = txt;
+      d.prepend(e);
+      if (d.children.length > 60) d.lastChild.remove();
+    }
 
-// ---- PARTY LIST -----------------------------------------------------------
-function renderPartyList(){
-  const c=document.getElementById('plist-items');
-  c.innerHTML='';
-  const rp=G_STATE.pendingReports.length;
-  G_STATE.parties.forEach(p=>{
-    const div=document.createElement('div');
-    const avg=p.members.length?Math.round(p.members.reduce((s,m)=>s+m.morale,0)/p.members.length):0;
-    const hasPR=G_STATE.pendingReports.some(r=>r.party&&r.party.id===p.id);
-    div.className='pi'+(currentPartyId===p.id?' active':'')+(hasPR?' rp':'');
-    const stLabel=p.status==='disbanded'?'解散':p.members.length===0?'待機':p.status==='idle'?'待機':'活動中';
-    const mc=avg>70?'mh':avg>40?'mm':'ml';
-    div.innerHTML=`<div class="pin">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank||'F'}]</span></div><div class="pis">${stLabel} | ${p.region||'—'}</div><div class="pimb"><div class="pimf ${mc}" style="width:${avg}%"></div></div>`;
-    div.onclick=()=>showParty(p.id);
-    c.appendChild(div);
-  });
-}
+    // ---- PARTY LIST -----------------------------------------------------------
+    function renderPartyList() {
+      const c = document.getElementById('plist-items');
+      c.innerHTML = '';
+      const rp = G_STATE.pendingReports.length;
+      G_STATE.parties.forEach(p => {
+        const div = document.createElement('div');
+        const avg = p.members.length ? Math.round(p.members.reduce((s, m) => s + m.morale, 0) / p.members.length) : 0;
+        const hasPR = G_STATE.pendingReports.some(r => r.party && r.party.id === p.id);
+        div.className = 'pi' + (currentPartyId === p.id ? ' active' : '') + (hasPR ? ' rp' : '');
+        const stLabel = p.status === 'disbanded' ? '解散' : p.members.length === 0 ? '待機' : p.status === 'idle' ? '待機' : '活動中';
+        const mc = avg > 70 ? 'mh' : avg > 40 ? 'mm' : 'ml';
+        div.innerHTML = `<div class="pin">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank || 'F'}]</span></div><div class="pis">${stLabel} | ${p.region || '—'}</div><div class="pimb"><div class="pimf ${mc}" style="width:${avg}%"></div></div>`;
+        div.onclick = () => showParty(p.id);
+        c.appendChild(div);
+      });
+    }
 
-// ---- SHOW PARTY VIEW -------------------------------------------------------
-function showParty(pid){
-  currentPartyId=pid;currentView='party';
-  showView('party');
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  if(!p) return;
-  renderPartyList();
-  const slots=4;
-  let html=`<div class="ph"><div class="pht">${p.name}</div>`;
-  const st=p.status==='disbanded'?`<span class="stag2 std">解散</span>`:
-           p.members.length===0?`<span class="stag2 sti">待機中</span>`:
-           `<span class="stag2 sta">活動中</span>`;
-  html+=`${st}</div>`;
+    // ---- SHOW PARTY VIEW -------------------------------------------------------
+    function showParty(pid) {
+      currentPartyId = pid; currentView = 'party';
+      showView('party');
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      renderPartyList();
+      const slots = 4;
+      let html = `<div class="ph"><div class="pht">${p.name}</div>`;
+      const st = p.status === 'disbanded' ? `<span class="stag2 std">解散</span>` :
+        p.members.length === 0 ? `<span class="stag2 sti">待機中</span>` :
+          `<span class="stag2 sta">活動中</span>`;
+      html += `${st}</div>`;
 
-  // Dispatch bar
-  const avgM=p.members.length?Math.round(p.members.reduce((s,m)=>s+m.morale,0)/p.members.length):0;
-  html+=`<div class="dbar"><span style="font-size:10px;color:var(--tx3)">士気平均</span><span style="font-size:12px;color:${avgM>70?'var(--green)':avgM>40?'var(--amber)':'var(--red)'}">${avgM}</span>`;
-  html+=`<span style="font-size:10px;color:var(--tx3);margin-left:12px">目標</span><span style="font-size:11px;color:var(--gold)">${p.targetItem||'—'}</span>`;
-  html+=`<span style="flex:1"></span>`;
-  if(p.status!=='disbanded'){
-    html+=`<button class="hbtn" onclick="openDirectiveModal(${pid})" style="font-size:10px;padding:4px 10px">方針変更</button>`;
-    html+=`<button class="hbtn" onclick="disbandParty(${pid})" style="font-size:10px;padding:4px 10px;margin-left:4px;color:var(--red)">解散</button>`;
-  }
-  html+=`</div>`;
+      // Dispatch bar
+      const avgM = p.members.length ? Math.round(p.members.reduce((s, m) => s + m.morale, 0) / p.members.length) : 0;
+      html += `<div class="dbar"><span style="font-size:10px;color:var(--tx3)">士気平均</span><span style="font-size:12px;color:${avgM > 70 ? 'var(--green)' : avgM > 40 ? 'var(--amber)' : 'var(--red)'}">${avgM}</span>`;
+      html += `<span style="font-size:10px;color:var(--tx3);margin-left:12px">目標</span><span style="font-size:11px;color:var(--gold)">${p.targetItem || '—'}</span>`;
+      html += `<span style="flex:1"></span>`;
+      if (p.status !== 'disbanded') {
+        html += `<button class="hbtn" onclick="openDirectiveModal(${pid})" style="font-size:10px;padding:4px 10px">方針変更</button>`;
+        html += `<button class="hbtn" onclick="disbandParty(${pid})" style="font-size:10px;padding:4px 10px;margin-left:4px;color:var(--red)">解散</button>`;
+      }
+      html += `</div>`;
 
-  // Members
-  html+=`<div class="sec"><div class="sech">メンバー</div><div class="mg">`;
-  for(let i=0;i<slots;i++){
-    const m=p.members[i];
-    if(m){
-      const isLdr=p.leaderId===m.id;
-      html+=`<div class="mc${isLdr?' ldr':''}">
+      // Members
+      html += `<div class="sec"><div class="sech">メンバー</div><div class="mg">`;
+      for (let i = 0; i < slots; i++) {
+        const m = p.members[i];
+        if (m) {
+          const isLdr = p.leaderId === m.id;
+          html += `<div class="mc${isLdr ? ' ldr' : ''}">
 <button class="mcrm" onclick="removeMember(${pid},${m.id})" title="解雇">✕</button>
 <div class="mcn">${m.name} ${m.gender}</div>
 <div class="mcm">${m.age}歳 | ${m.personality}<br>${m.skill}↑ ${m.weakSkill}↓<br>癖:${m.quirk}</div>
-<span class="hlt ${HEALTH_CLS[m.health]||'h0'}">${HEALTH_LABELS[m.health]||'健康'}${m.illness?' ('+m.illness+')':''}</span>
+<span class="hlt ${HEALTH_CLS[m.health] || 'h0'}">${HEALTH_LABELS[m.health] || '健康'}${m.illness ? ' (' + m.illness + ')' : ''}</span>
 <button class="rcab" onclick="openGiftModal(${m.id},${pid})" style="font-size:9px;padding:2px 8px;margin-left:4px">🎁贈る</button>
-<div class="mcmb"><div class="pimf ${m.morale>70?'mh':m.morale>40?'mm':'ml'}" style="width:${m.morale}%"></div></div>
-${isLdr?'<div class="mcld">LEADER</div>':''}
+<div class="mcmb"><div class="pimf ${m.morale > 70 ? 'mh' : m.morale > 40 ? 'mm' : 'ml'}" style="width:${m.morale}%"></div></div>
+${isLdr ? '<div class="mcld">LEADER</div>' : ''}
 </div>`;
-    } else {
-      html+=`<div class="es" onclick="openAddMemberModal(${pid})">＋ メンバーを追加</div>`;
+        } else {
+          html += `<div class="es" onclick="openAddMemberModal(${pid})">＋ メンバーを追加</div>`;
+        }
+      }
+      html += `</div></div>`;
+
+      // Directives
+      html += `<div class="sec"><div class="sech">方針</div>
+<div class="dr"><div class="dl">活動方針</div><div style="font-size:11px;color:var(--tx2)">${FOCUS_LABELS[p.directive.focus] || '堅実'}</div></div>
+<div class="dr"><div class="dl">揉め事対処</div><div style="font-size:11px;color:var(--tx2)">${CONFLICT_LABELS[p.directive.conflict] || '—'}</div></div>
+<div class="dr"><div class="dl">週CP報酬</div><div style="font-size:12px;font-family:monospace;color:var(--gold)">${p.directive.cpPerWeek || 20} CP</div></div>
+</div>`;
+
+      // Leader select
+      if (p.members.length > 0) {
+        html += `<div class="sec"><div class="sech">リーダー指定</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
+        p.members.forEach(m => {
+          html += `<button class="rcab ${p.leaderId === m.id ? 'ok' : ''}" onclick="setLeader(${pid},${m.id})">${m.name}${p.leaderId === m.id ? ' ★' : ''}</button>`;
+        });
+        html += `</div></div>`;
+      }
+
+      document.getElementById('v-party').innerHTML = html;
     }
-  }
-  html+=`</div></div>`;
 
-  // Directives
-  html+=`<div class="sec"><div class="sech">方針</div>
-<div class="dr"><div class="dl">活動方針</div><div style="font-size:11px;color:var(--tx2)">${FOCUS_LABELS[p.directive.focus]||'堅実'}</div></div>
-<div class="dr"><div class="dl">揉め事対処</div><div style="font-size:11px;color:var(--tx2)">${CONFLICT_LABELS[p.directive.conflict]||'—'}</div></div>
-<div class="dr"><div class="dl">週CP報酬</div><div style="font-size:12px;font-family:monospace;color:var(--gold)">${p.directive.cpPerWeek||20} CP</div></div>
-</div>`;
-
-  // Leader select
-  if(p.members.length>0){
-    html+=`<div class="sec"><div class="sech">リーダー指定</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
-    p.members.forEach(m=>{
-      html+=`<button class="rcab ${p.leaderId===m.id?'ok':''}" onclick="setLeader(${pid},${m.id})">${m.name}${p.leaderId===m.id?' ★':''}</button>`;
-    });
-    html+=`</div></div>`;
-  }
-
-  document.getElementById('v-party').innerHTML=html;
-}
-
-// ---- ROSTER VIEW ----------------------------------------------------------
-function showRosterView(){
-  currentView='roster';
-  let html=`<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
-  G_STATE.roster.forEach(c=>{
-    html+=`<div class="rcd">
+    // ---- ROSTER VIEW ----------------------------------------------------------
+    function showRosterView() {
+      currentView = 'roster';
+      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
+      G_STATE.roster.forEach(c => {
+        html += `<div class="rcd">
 <div class="rcdn">${c.name} ${c.gender} ${c.age}歳</div>
-<div class="rcdm">${c.personality} / ${c.sleepSchedule}<br>好物:${c.favoriteFood}<br>癖:${c.quirk}${c.ailment?'<br>持病:'+c.ailment:''}</div>
+<div class="rcdm">${c.personality} / ${c.sleepSchedule}<br>好物:${c.favoriteFood}<br>癖:${c.quirk}${c.ailment ? '<br>持病:' + c.ailment : ''}</div>
 <div class="stg">
 <span class="stag sg">${c.skill}↑</span>
 <span class="stag sb">${c.weakSkill}↓</span>
@@ -861,237 +1717,239 @@ function showRosterView(){
 <div style="font-size:9px;color:var(--rose);margin-bottom:8px">恋愛: ${c.romanceStyle} / ${c.romanceGender}</div>
 <button class="hbtn2" onclick="openHireModal(${c.id})">＋ パーティーに採用</button>
 </div>`;
-  });
-  if(G_STATE.roster.length===0) html+=`<div style="padding:20px;color:var(--tx3);font-size:11px">現在応募者はいません。週を進めると新しいキャラクターが応募してきます。</div>`;
-  html+=`</div>`;
-  document.getElementById('v-roster').innerHTML=html;
-}
-
-// ---- REPORTS VIEW ---------------------------------------------------------
-function showReportsView(){
-  currentView='reports';
-  let html=`<div class="ph"><div class="pht">週次報告</div><div class="phs">${G_STATE.pendingReports.length}件の未読報告</div></div>`;
-  if(G_STATE.pendingReports.length===0){
-    html+=`<div class="notice">現在、未読の報告はありません。「週を進める」を押すとパーティーから報告が届きます。</div>`;
-  } else {
-    html+=`<div style="padding:12px 18px">`;
-    G_STATE.pendingReports.forEach((r,i)=>{
-      const p=r.party;
-      html+=`<div class="rc">
-<div class="rch"><div class="rcpn">${p.name}</div><div class="rcw">Week ${G_STATE.week} 報告</div></div>
-<div class="rcb">今週の活動報告: 場所「${p.region||'—'}」 目標「${p.targetItem||'—'}」</div>
-<div class="rcev">`;
-      r.events.forEach(e=>{
-        const cls=e.type==='drop'?'evd':e.type==='conflict'?'evc':e.type==='death'?'evx':e.type==='romance'?'evr':e.type==='illness'?'evi':'evm';
-        html+=`<div class="rce"><span class="${cls}">${e.text}</span></div>`;
       });
-      html+=`</div><div class="rca">
+      if (G_STATE.roster.length === 0) html += `<div style="padding:20px;color:var(--tx3);font-size:11px">現在応募者はいません。週を進めると新しいキャラクターが応募してきます。</div>`;
+      html += `</div>`;
+      document.getElementById('v-roster').innerHTML = html;
+    }
+
+    // ---- REPORTS VIEW ---------------------------------------------------------
+    function showReportsView() {
+      currentView = 'reports';
+      let html = `<div class="ph"><div class="pht">週次報告</div><div class="phs">${G_STATE.pendingReports.length}件の未読報告</div></div>`;
+      if (G_STATE.pendingReports.length === 0) {
+        html += `<div class="notice">現在、未読の報告はありません。「週を進める」を押すとパーティーから報告が届きます。</div>`;
+      } else {
+        html += `<div style="padding:12px 18px">`;
+        G_STATE.pendingReports.forEach((r, i) => {
+          const p = r.party;
+          html += `<div class="rc">
+<div class="rch"><div class="rcpn">${p.name}</div><div class="rcw">Week ${G_STATE.week} 報告</div></div>
+<div class="rcb">今週の活動報告: 場所「${p.region || '—'}」 目標「${p.targetItem || '—'}」</div>
+<div class="rcev">`;
+          r.events.forEach(e => {
+            const cls = e.type === 'drop' ? 'evd' : e.type === 'conflict' ? 'evc' : e.type === 'death' ? 'evx' : e.type === 'romance' ? 'evr' : e.type === 'illness' ? 'evi' : 'evm';
+            html += `<div class="rce"><span class="${cls}">${e.text}</span></div>`;
+          });
+          html += `</div><div class="rca">
 <button class="rcab" onclick="openDirectiveModal(${p.id})">方針を変更</button>
 <button class="rcab" onclick="dismissReport(${i})">確認済みにする</button>
 </div></div>`;
-    });
-    html+=`</div>`;
-  }
-  document.getElementById('v-reports').innerHTML=html;
-  renderPartyList();
-}
+        });
+        html += `</div>`;
+      }
+      document.getElementById('v-reports').innerHTML = html;
+      renderPartyList();
+    }
 
-function dismissReport(idx){
-  G_STATE.pendingReports.splice(idx,1);
-  saveState();
-  showReportsView();
-}
+    function dismissReport(idx) {
+      G_STATE.pendingReports.splice(idx, 1);
+      saveState();
+      showReportsView();
+    }
 
-// ---- VIEW SWITCH ----------------------------------------------------------
-function showView(name){
-  currentView=name;
-  ['welcome','party','roster','reports','inventory','map'].forEach(v=>{
-    const el=document.getElementById('v-'+v);
-    if(el) el.style.display=v===name?'':'none';
-  });
-  if(name==='roster') showRosterView();
-  if(name==='reports') showReportsView();
-  if(name==='map') showMapView();
-}
+    // ---- VIEW SWITCH ----------------------------------------------------------
+    function showView(name) {
+      currentView = name;
+      ['welcome', 'party', 'roster', 'reports', 'inventory', 'map'].forEach(v => {
+        const el = document.getElementById('v-' + v);
+        if (el) el.style.display = v === name ? '' : 'none';
+      });
+      if (name === 'roster') showRosterView();
+      if (name === 'reports') showReportsView();
+      if (name === 'map') showMapView();
+    }
 
-// extend G
-Object.assign(G,{showView});
+    // extend G
+    Object.assign(G, { showView });
 
-// ---- PARTY MANAGEMENT -------------------------------------------------------
-function createParty(){
-  if(G_STATE.parties.filter(p=>p.status!=='disbanded').length>=50){alert('パーティー上限（50チーム）に達しています。');return;}
-  const name=document.getElementById('mnpname').value.trim()||`パーティー${G_STATE.parties.length+1}`;
-  const region=document.getElementById('mnpregion').value;
-  const targetItem=document.getElementById('mnpitem').value;
-  const p={
-    id:uid(),name,region,targetItem,
-    members:[],leaderId:null,
-    directive:{focus:'steady',conflict:'leader',cpPerWeek:20},
-    status:'idle',cpDebt:0,xp:0,rank:'F',
-  };
-  G_STATE.parties.push(p);
-  closeModal('mcreate');
-  saveState();renderPartyList();
-  showParty(p.id);
-  setLogBar(`パーティー「${name}」を結成した。メンバーを追加しよう。`);
-}
-G.createParty=createParty;
+    // ---- PARTY MANAGEMENT -------------------------------------------------------
+    function createParty() {
+      if (G_STATE.parties.filter(p => p.status !== 'disbanded').length >= 50) { alert('パーティー上限（50チーム）に達しています。'); return; }
+      const name = document.getElementById('mnpname').value.trim() || `パーティー${G_STATE.parties.length + 1}`;
+      const region = document.getElementById('mnpregion').value;
+      const targetItem = document.getElementById('mnpitem').value;
+      const p = {
+        id: uid(), name, region, targetItem,
+        members: [], leaderId: null,
+        directive: { focus: 'steady', conflict: 'leader', cpPerWeek: 20 },
+        status: 'idle', cpDebt: 0, xp: 0, rank: 'F',
+      };
+      G_STATE.parties.push(p);
+      closeModal('mcreate');
+      saveState(); renderPartyList();
+      showParty(p.id);
+      setLogBar(`パーティー「${name}」を結成した。メンバーを追加しよう。`);
+    }
+    G.createParty = createParty;
 
-function disbandParty(pid){
-  if(!confirm('このパーティーを解散しますか？')) return;
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  if(p){p.status='disbanded';G_STATE.roster.push(...p.members);p.members=[];}
-  saveState();renderPartyList();showView('welcome');
-}
+    function disbandParty(pid) {
+      if (!confirm('このパーティーを解散しますか？')) return;
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (p) { p.status = 'disbanded'; G_STATE.roster.push(...p.members); p.members = []; }
+      saveState(); renderPartyList(); showView('welcome');
+    }
 
-function setLeader(pid,mid){
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  if(p){p.leaderId=mid;saveState();showParty(pid);}
-}
+    function setLeader(pid, mid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (p) { p.leaderId = mid; saveState(); showParty(pid); }
+    }
 
-function removeMember(pid,mid){
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  if(!p) return;
-  const idx=p.members.findIndex(m=>m.id===mid);
-  if(idx<0) return;
-  const [c]=p.members.splice(idx,1);
-  // grudge check
-  if(Math.random()<0.3){c.isGrudge=true;addLog(`${c.name}が不満げに去っていった。`,'evc');}
-  G_STATE.dismissed.push(c);
-  if(p.leaderId===mid) p.leaderId=p.members[0]?.id||null;
-  saveState();showParty(pid);
-}
+    function removeMember(pid, mid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      const idx = p.members.findIndex(m => m.id === mid);
+      if (idx < 0) return;
+      const [c] = p.members.splice(idx, 1);
+      // grudge check
+      if (Math.random() < 0.3) { c.isGrudge = true; addLog(`${c.name}が不満げに去っていった。`, 'evc'); }
+      G_STATE.dismissed.push(c);
+      if (p.leaderId === mid) p.leaderId = p.members[0]?.id || null;
+      saveState(); showParty(pid);
+    }
 
-// ---- ADD MEMBER MODAL -------------------------------------------------------
-function openAddMemberModal(pid){
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  document.getElementById('mam-pname').textContent=p?.name||'';
-  const list=document.getElementById('mam-list');
-  list.innerHTML='';
-  G_STATE.roster.forEach(c=>{
-    const div=document.createElement('div');
-    div.className='csi';
-    div.innerHTML=`<div class="csin">${c.name} ${c.gender} ${c.age}歳</div><div class="csid">${c.personality} | ${c.skill}↑ | 癖:${c.quirk}</div>`;
-    div.onclick=()=>addMemberToParty(pid,c.id);
-    list.appendChild(div);
-  });
-  if(!G_STATE.roster.length) list.innerHTML=`<div style="font-size:11px;color:var(--tx3);padding:10px">待機所にキャラクターがいません。週を進めると応募者が来ます。</div>`;
-  openModal('maddmem');
-  document.getElementById('md-pname')||null;
-}
-G.openAddMemberModal=openAddMemberModal;
+    // ---- ADD MEMBER MODAL -------------------------------------------------------
+    function openAddMemberModal(pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      document.getElementById('mam-pname').textContent = p?.name || '';
+      const list = document.getElementById('mam-list');
+      list.innerHTML = '';
+      G_STATE.roster.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'csi';
+        div.innerHTML = `<div class="csin">${c.name} ${c.gender} ${c.age}歳</div><div class="csid">${c.personality} | ${c.skill}↑ | 癖:${c.quirk}</div>`;
+        div.onclick = () => addMemberToParty(pid, c.id);
+        list.appendChild(div);
+      });
+      if (!G_STATE.roster.length) list.innerHTML = `<div style="font-size:11px;color:var(--tx3);padding:10px">待機所にキャラクターがいません。週を進めると応募者が来ます。</div>`;
+      openModal('maddmem');
+      document.getElementById('md-pname') || null;
+    }
+    G.openAddMemberModal = openAddMemberModal;
 
-function addMemberToParty(pid,cid){
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  if(!p||p.members.length>=4) return;
-  const i=G_STATE.roster.findIndex(c=>c.id===cid);
-  if(i<0) return;
-  const [c]=G_STATE.roster.splice(i,1);
-  p.members.push(c);
-  if(!p.leaderId) p.leaderId=c.id;
-  if(p.members.length>0) p.status='active';
-  closeModal('maddmem');
-  saveState();showParty(pid);
-  setLogBar(`${c.name}が「${p.name}」に加入した。`);
-}
+    function addMemberToParty(pid, cid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p || p.members.length >= 4) return;
+      const i = G_STATE.roster.findIndex(c => c.id === cid);
+      if (i < 0) return;
+      const [c] = G_STATE.roster.splice(i, 1);
+      p.members.push(c);
+      if (!p.leaderId) p.leaderId = c.id;
+      if (p.members.length > 0) p.status = 'active';
+      closeModal('maddmem');
+      saveState(); showParty(pid);
+      setLogBar(`${c.name}が「${p.name}」に加入した。`);
+    }
 
-function openHireModal(cid){
-  const c=G_STATE.roster.find(x=>x.id===cid);
-  if(!c) return;
-  const eligible=G_STATE.parties.filter(p=>p.status!=='disbanded'&&p.members.length<4);
-  if(!eligible.length){alert('空きのあるパーティーがありません。');return;}
-  if(eligible.length===1){addMemberToParty(eligible[0].id,cid);return;}
-  const names=eligible.map((p,i)=>(i+1)+': '+p.name+'('+p.members.length+'/4)').join('\n');
-  const choice=prompt(names+'\n\n番号を入力:');
-  const idx=parseInt(choice)-1;
-  if(eligible[idx]) addMemberToParty(eligible[idx].id,cid);
-}
+    function openHireModal(cid) {
+      const c = G_STATE.roster.find(x => x.id === cid);
+      if (!c) return;
+      const eligible = G_STATE.parties.filter(p => p.status !== 'disbanded' && p.members.length < 4);
+      if (!eligible.length) { alert('空きのあるパーティーがありません。'); return; }
+      if (eligible.length === 1) { addMemberToParty(eligible[0].id, cid); return; }
+      const names = eligible.map((p, i) => (i + 1) + ': ' + p.name + '(' + p.members.length + '/4)').join('\n');
+      const choice = prompt(names + '\n\n番号を入力:');
+      const idx = parseInt(choice) - 1;
+      if (eligible[idx]) addMemberToParty(eligible[idx].id, cid);
+    }
 
-// ---- DIRECTIVE MODAL
-function openDirectiveModal(pid){
-  directivePartyId=pid;
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  if(!p) return;
-  document.getElementById('md-pname').textContent=p.name;
-  document.getElementById('md-focus').value=p.directive.focus||'steady';
-  document.getElementById('md-conflict').value=p.directive.conflict||'leader';
-  document.getElementById('md-cp').value=p.directive.cpPerWeek||20;
-  document.getElementById('md-ok').onclick=()=>{
-    p.directive.focus=document.getElementById('md-focus').value;
-    p.directive.conflict=document.getElementById('md-conflict').value;
-    p.directive.cpPerWeek=parseInt(document.getElementById('md-cp').value)||20;
-    saveState();closeModal('mdir');
-    if(currentView==='party') showParty(pid);
-    setLogBar(`「${p.name}」の方針を更新した。`);
-  };
-  openModal('mdir');
-}
-G.openDirectiveModal=openDirectiveModal;
+    // ---- DIRECTIVE MODAL
+    function openDirectiveModal(pid) {
+      directivePartyId = pid;
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      document.getElementById('md-pname').textContent = p.name;
+      document.getElementById('md-focus').value = p.directive.focus || 'steady';
+      document.getElementById('md-conflict').value = p.directive.conflict || 'leader';
+      document.getElementById('md-cp').value = p.directive.cpPerWeek || 20;
+      document.getElementById('md-ok').onclick = () => {
+        p.directive.focus = document.getElementById('md-focus').value;
+        p.directive.conflict = document.getElementById('md-conflict').value;
+        p.directive.cpPerWeek = parseInt(document.getElementById('md-cp').value) || 20;
+        saveState(); closeModal('mdir');
+        if (currentView === 'party') showParty(pid);
+        setLogBar(`「${p.name}」の方針を更新した。`);
+      };
+      openModal('mdir');
+    }
+    G.openDirectiveModal = openDirectiveModal;
 
-// ---- GIFT MODAL ------------------------------------------------------------
-function openGiftModal(mid,pid){
-  giftTargetId={mid,pid};
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  const c=p?.members.find(m=>m.id===mid);
-  document.getElementById('mg-target').textContent=c?.name||'—';
-  const grid=document.getElementById('mg-grid');
-  grid.innerHTML='';
-  GIFTS.forEach(g=>{
-    const btn=document.createElement('button');
-    btn.className='gi';
-    btn.innerHTML=`<div class="gin">${g.name}</div><div class="gie">${g.effect}</div><div class="gic">${g.cost} CP</div>`;
-    btn.onclick=()=>doGift(g);
-    grid.appendChild(btn);
-  });
-  openModal('mgift');
-}
-G.openGiftModal=openGiftModal;
+    // ---- GIFT MODAL ------------------------------------------------------------
+    function openGiftModal(mid, pid) {
+      giftTargetId = { mid, pid };
+      const p = G_STATE.parties.find(x => x.id === pid);
+      const c = p?.members.find(m => m.id === mid);
+      document.getElementById('mg-target').textContent = c?.name || '—';
+      const grid = document.getElementById('mg-grid');
+      grid.innerHTML = '';
+      GIFTS.forEach(g => {
+        const btn = document.createElement('button');
+        btn.className = 'gi';
+        btn.innerHTML = `<div class="gin">${g.name}</div><div class="gie">${g.effect}</div><div class="gic">${g.cost} CP</div>`;
+        btn.onclick = () => doGift(g);
+        grid.appendChild(btn);
+      });
+      openModal('mgift');
+    }
+    G.openGiftModal = openGiftModal;
 
-function doGift(g){
-  if(G_STATE.gold<g.cost){alert(`Goldが不足しています（必要: ${g.cost} G）`);return;}
-  G_STATE.gold-=g.cost;
-  const {mid,pid}=giftTargetId;
-  const p=G_STATE.parties.find(x=>x.id===pid);
-  const c=p?.members.find(m=>m.id===mid);
-  if(c){
-    c.morale=clamp(c.morale+g.mb,0,100);
-    if(g.hb>=2&&(c.health==='critical'||c.health==='injured')) c.health='tired';
-    else if(g.hb>=1&&c.health==='sick') c.health='tired';
-  }
-  closeModal('mgift');saveState();updateHUD();
-  if(currentView==='party') showParty(pid);
-  setLogBar(`${c?.name||'—'}に「${g.name}」を贈った。（-${g.cost} G）`);
-  addLog(`${c?.name}へ「${g.name}」贈呈: ${g.effect}`,'evd');
-}
+    function doGift(g) {
+      if (G_STATE.gold < g.cost) { alert(`Goldが不足しています（必要: ${g.cost} G）`); return; }
+      G_STATE.gold -= g.cost;
+      const { mid, pid } = giftTargetId;
+      const p = G_STATE.parties.find(x => x.id === pid);
+      const c = p?.members.find(m => m.id === mid);
+      if (c) {
+        c.morale = clamp(c.morale + g.mb, 0, 100);
+        if (g.hb >= 2 && (c.health === 'critical' || c.health === 'injured')) c.health = 'tired';
+        else if (g.hb >= 1 && c.health === 'sick') c.health = 'tired';
+      }
+      closeModal('mgift'); saveState(); updateHUD();
+      if (currentView === 'party') showParty(pid);
+      setLogBar(`${c?.name || '—'}に「${g.name}」を贈った。（-${g.cost} G）`);
+      addLog(`${c?.name}へ「${g.name}」贈呈: ${g.effect}`, 'evd');
+    }
 
-// ---- CREATE PARTY MODAL ---------------------------------------------------
-function openCreatePartyModal(){
-  // fill selects
-  const rs=document.getElementById('mnpregion');
-  const ri=document.getElementById('mnpitem');
-  rs.innerHTML='<option value="">— 選択 —</option>'+REGIONS.map(r=>`<option>${r}</option>`).join('');
-  ri.innerHTML='<option value="">— 選択 —</option>'+ITEMS.map(i=>`<option>${i}</option>`).join('');
-  document.getElementById('mnpname').value='';
-  openModal('mcreate');
-}
-G.openModal=openModal;
-G.closeModal=closeModal;
+    // ---- CREATE PARTY MODAL ---------------------------------------------------
+    function openCreatePartyModal() {
+      // fill selects
+      const rs = document.getElementById('mnpregion');
+      const ri = document.getElementById('mnpitem');
+      rs.innerHTML = '<option value="">— 選択 —</option>' + REGIONS.map(r => `<option>${r}</option>`).join('');
+      ri.innerHTML = '<option value="">— 選択 —</option>' + ITEMS.map(i => `<option>${i}</option>`).join('');
+      document.getElementById('mnpname').value = '';
+      openModal('mcreate');
+    }
+    G.openModal = openModal;
+    G.closeModal = closeModal;
 
-// ---- MODAL HELPERS --------------------------------------------------------
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+    // ---- MODAL HELPERS --------------------------------------------------------
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ---- INIT ------------------------------------------------------------------
-function init(){
-  const loaded=loadState();
-  if(!loaded) initRoster();
-  // populate selects on open
-  updateHUD();
-  renderPartyList();
-  showView('welcome');
-  if(G_STATE.parties.length>0) showParty(G_STATE.parties[0].id);
-}
-init();
+    // ---- INIT ------------------------------------------------------------------
+    function init() {
+      const loaded = loadState();
+      if (!loaded) initRoster();
+      // populate selects on open
+      updateHUD();
+      renderPartyList();
+      showView('welcome');
+      if (G_STATE.parties.length > 0) showParty(G_STATE.parties[0].id);
+    }
+    init();
 
-</script>
-</body></html>
+  </script>
+</body>
+
+</html>
