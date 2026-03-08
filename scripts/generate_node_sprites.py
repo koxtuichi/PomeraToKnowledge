@@ -41,65 +41,63 @@ RARITY_BY_TYPE = {
     "日記": "N",    # 立ち絵
 }
 
-# レア度 → ポーズ/背景プロンプト（Elinチビキャラ版）
+# レア度 → 表情/雰囲気プロンプト（Elinポートレート版）
 RARITY_POSE = {
     "N": (
-        "chibi character standing pose, front facing, peaceful calm expression, "
-        "simple clean white or soft parchment background"
+        "calm neutral expression, soft gentle smile, relaxed and approachable, "
+        "plain white or very soft gradient background"
     ),
     "R": (
-        "chibi character ready pose, holding weapon or tool with both hands, "
-        "slightly puffed up chest, determined expression, "
-        "soft outdoor grassy meadow or stone path background"
+        "confident determined expression, slight smirk or focused gaze, "
+        "subtle environmental background: soft stone wall, gentle foliage, warm indoor lighting"
     ),
     "SR": (
-        "chibi character action pose, leaping or casting small sparkly magic, "
-        "tiny cute glowing aura, whimsical star and sparkle effects, "
-        "soft dungeon or forest clearing background with warm ambient light"
+        "dynamic slightly tilted pose, excited or passionate expression, "
+        "sparkle and light particle effects in background, "
+        "glowing magical ambiance behind character"
     ),
     "UR": (
-        "chibi character dramatic heroic pose, striking a powerful stance, "
-        "surrounded by playful swirling magical energy and tiny cute sparks, "
-        "glowing elemental aura, vibrant colorful backdrop, "
-        "Elin-game ultimate art style, charming yet epic card illustration"
+        "dramatic powerful expression, intense yet beautiful gaze, "
+        "elaborate glowing magical background with light rays and swirling energy, "
+        "epic legendary character presence, cinematic portrait composition"
     ),
 }
 
 RARITY_LABEL = {"N": "N", "R": "R", "SR": "SR", "UR": "UR"}
 
-# ノード type → キャラクタービジュアル設定（Elinライクかわいい版）
+# ノード type → キャラクタービジュアル設定（Elinポートレート版）
 TYPE_PROMPTS = {
     "日記": {
-        "class_hint": "tiny chibi scribe traveler",
-        "visual":     "big round head, small chubby body, holding a tiny leather journal, simple traveler cloak, soft friendly smile",
-        "palette":    "muted moss green, warm beige, soft brown",
+        "class_hint": "gentle traveling scribe",
+        "visual":     "simple hooded traveler cloak, small leather satchel, warm friendly eyes, soft casual medieval attire",
+        "palette":    "muted moss green, warm beige, natural brown",
     },
     "タスク": {
-        "class_hint": "tiny chibi warrior",
-        "visual":     "big head with cute helmet, round chubby body in simple iron armor, holding a small sword, determined face",
-        "palette":    "cool steel gray, muted rust, cream",
+        "class_hint": "determined young warrior",
+        "visual":     "light iron pauldrons, simple warrior tunic, sword hilt visible at shoulder, focused serious expression",
+        "palette":    "cool steel gray, deep navy, rust accent",
     },
     "知見": {
-        "class_hint": "tiny chibi scholar mage",
-        "visual":     "big round head with oversized pointy hat, round body in layered robes, holding a glowing book, cute round glasses",
+        "class_hint": "wise scholar mage",
+        "visual":     "elegant academic robes, round spectacles, small glowing rune pendant, thoughtful intelligent expression",
         "palette":    "soft lavender, ivory white, warm gold accent",
     },
     "出来事": {
-        "class_hint": "tiny chibi bard ranger",
-        "visual":     "big head with small hood, chubby body with adventure satchel, holding a tiny lute or scroll, cheerful grin",
-        "palette":    "forest green, earthy brown, soft amber",
+        "class_hint": "energetic bard adventurer",
+        "visual":     "light hooded cape, adventure satchel strap across chest, lively cheerful expression, bright curious eyes",
+        "palette":    "forest green, warm earthy brown, soft amber",
     },
     "人物": {
-        "class_hint": "tiny chibi legendary hero",
-        "visual":     "big round head, plump heroic body in ornate miniature armor, tiny flowing cape, confident proud expression, sparkling eyes",
-        "palette":    "warm gold, rich violet, soft cream highlights",
+        "class_hint": "charismatic legendary champion",
+        "visual":     "ornate decorative pauldrons, noble embroidered garment, flowing hair, confident radiant expression, sparkling eyes",
+        "palette":    "warm gold, rich violet, luminous cream",
     },
 }
 
 DEFAULT_TYPE_PROMPT = {
-    "class_hint": "tiny chibi adventurer",
-    "visual":     "big round head, small chubby body, simple traveling clothes, tiny backpack, cheerful open expression",
-    "palette":    "soft warm greens and browns",
+    "class_hint": "gentle medieval adventurer",
+    "visual":     "simple traveling clothes, small backpack strap, open cheerful expression, friendly warm eyes",
+    "palette":    "soft warm greens and earthy browns",
 }
 
 
@@ -127,24 +125,24 @@ def build_prompt(node: dict) -> str:
     detail = node.get("detail", "")
     detail_snippet = detail[:60] + ("…" if len(detail) > 60 else "")
 
-    # ===== マスタースタイルガイド（参考画像スタイルに完全準拠） =====
+    # ===== マスタースタイルガイド（Elinポートレートスタイル完全準拠） =====
     # 参考画像の特徴:
-    #   - RPGツクール/Elin系の2〜2.5頭身チビキャラ
-    #   - 全員正面向きで直立（スプライト前提のポーズ）
-    #   - はっきりした黒アウトライン・限られたカラーパレット
-    #   - 頭が大きく、手足は短くずんぐり
-    #   - キャラごとに衣装は違うが同じ絵師が描いた統一感
+    #   - アニメ調バストアップポートレート
+    #   - 大きな瞭・小さな口・担い山った内心の表情
+    #   - 白（至極淡い）バックグラウンド
+    #   - 清潔感のあるセルシェーディング
+    #   - 全員同じアーティストが描いた縱一蓮
     master_style = (
-        "RPG Maker / JRPG style chibi pixel art character sprite, "
-        "2 to 2.5 head-height super deformed proportions: oversized round head, tiny short body, stubby arms and legs, "
-        "front-facing full body view, neutral standing sprite pose, "
-        "CONSISTENT uniform art style across all characters — same pixel artist, same outline thickness, same shading method, "
-        "bold clean black outlines, flat cell shading with limited color palette, "
-        "Elin game character chip aesthetic, "
-        "isolated character on simple plain or subtle background, "
-        "NO gradients, NO photo-realistic rendering, NO 3D, "
-        "classic Japanese RPG pixel sprite quality, "
-        "vertical 3:4 card format, full chibi body visible from head to feet"
+        "Elin game portrait illustration style, "
+        "anime-style bust-up portrait, face and upper chest only, "
+        "large expressive eyes with detailed irises, small delicate mouth, soft rosy cheeks, "
+        "clean cel-shading with soft highlights and gentle shadows, "
+        "CONSISTENT uniform art style as if drawn by the same single illustrator, "
+        "clean smooth line art, crisp outlines, "
+        "white or very soft plain background, "
+        "warm and approachable character design, medieval fantasy costume details, "
+        "NOT photorealistic, NOT 3D render, anime illustration ONLY, "
+        "vertical portrait format 2:3 aspect ratio"
     )
 
     prompt = (
