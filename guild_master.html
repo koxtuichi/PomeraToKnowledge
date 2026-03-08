@@ -3271,11 +3271,14 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       if (name === 'map') showMapView();
       if (name === 'inventory') showInventoryView();
       // ボトムナビのアクティブタブを更新
-      const navMap = { party: 'bnav-party', roster: 'bnav-roster', reports: 'bnav-reports', inventory: 'bnav-warehouse', map: 'bnav-map' };
+      const navMap = { party: 'bnav-party', roster: 'bnav-roster', reports: 'bnav-reports', inventory: 'bnav-warehouse', map: 'bnav-map', welcome: 'bnav-party' };
       document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
       const activeId = navMap[name];
       if (activeId) { const el = document.getElementById(activeId); if (el) el.classList.add('active'); }
     }
+    // mobileNav: ボトムナビのタブから呼び出される → showViewに委譲
+    function mobileNav(name) { showView(name); }
+    window.mobileNav = mobileNav;
     G.mobileNav = mobileNav;
 
     // extend G
@@ -3450,8 +3453,8 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     // ---- INIT ------------------------------------------------------------------
     function init() {
       const loaded = loadState();
-      if (!loaded) initRoster();
-      // populate selects on open
+      // セーブできていてもrosterが0件なら必ず補充 (待機所が空にならないように)
+      if (!loaded || G_STATE.roster.length === 0) initRoster();
       updateHUD();
       renderPartyList();
       showView('welcome');

@@ -61,6 +61,9 @@ global.document = {
         e.onclick = null;
         return e;
     },
+    querySelectorAll(sel) { return { forEach() { } }; }, // ボトムナビのクラス操作モック
+    querySelector(sel) { return null; },
+    body: { appendChild() { }, removeChild() { } },
 };
 global.localStorage = {
     _store: {},
@@ -71,6 +74,8 @@ global.localStorage = {
 global.alert = () => { };
 global.confirm = () => true;
 global.prompt = () => '1';
+global.window = global; // ブラウザのwindowオブジェクトをglobalで代替
+global.requestAnimationFrame = (cb) => { }; // アニメーションフレームのモック
 
 // ========= JS読み込み =========
 const fs = require('fs');
@@ -251,15 +256,18 @@ test('showReportsView() でcurrentViewがreportsになる', () => {
 });
 
 console.log('\n◆ パーティー管理 — 完全フロー');
-test('addMemberToParty でロスターからメンバーが移動する', () => {
+// B1仕様変更: addMemberToPartyはrosterから削除せずhiredPartyIdフラグを付ける
+test('addMemberToParty でパーティーにメンバーが追加されhiredPartyIdが設定される (B1)', () => {
     resetState();
     const p = addPartyDirect();
-    const rosterBefore = G_STATE.roster.length;
-    assert(rosterBefore > 0, 'ロスターが空');
+    assert(G_STATE.roster.length > 0, 'ロスターが空');
     const c = G_STATE.roster[0];
     addMemberToParty(p.id, c.id);
     assertEqual(p.members.length, 1, 'メンバーが追加されていない');
-    assertEqual(G_STATE.roster.length, rosterBefore - 1, 'ロスターから削除されていない');
+    // B1: rosterからは削除しないでhiredPartyIdを設定
+    const rosterChar = G_STATE.roster.find(x => x.id === c.id);
+    assert(!!rosterChar, 'B1: 採用後にキャラがrosterから消えてしまった');
+    assertEqual(rosterChar.hiredPartyId, p.id, 'B1: hiredPartyIdが設定されていない');
     assertEqual(p.members[0].id, c.id, '追加されたキャラが違う');
 });
 test('最初に追加されたメンバーが自動でリーダーになる', () => {
@@ -444,6 +452,61 @@ test('リロード後もaddMemberToPartyが正しいパーティーにメンバ�
     assertEqual((p1fresh?.members?.length || 0), 0, `旧パーティーに誤って採用された (ID重複バグ)`);
 });
 
+
+
+// ======= T1: initRoster — ロスターが空の時に初期化されるか =======
+test('initRoster: ロスターが空なら6件補充する', () => {
+    G_STATE.roster = [];
+    initRoster();
+    assert(G_STATE.roster.length >= 6, `initRoster後ロスターが${G_STATE.roster.length}件 (6件以上必要)`);
+});
+
+test('initRoster: ロスターに1件以上あれば追加しない', () => {
+    G_STATE.roster = [genChar()];
+    const countBefore = G_STATE.roster.length;
+    initRoster();
+    assertEqual(G_STATE.roster.length, countBefore, 'ロスターが既にある場合に誤って追加された');
+});
+
+// ======= T2: mobileNav — showViewと統合されているか =======
+test('mobileNav: windowに公開されているか', () => {
+    assert(typeof window.mobileNav === 'function', 'window.mobileNavが関数として公開されていない');
+});
+
+test('mobileNav: rosterビューに遷移してcurrentViewが変わるか', () => {
+    currentView = 'welcome';
+    mobileNav('roster');
+    assertEqual(currentView, 'roster', 'mobileNav("roster")後にcurrentViewがrosterになっていない');
+});
+
+test('mobileNav: reportsビューに遷移できるか', () => {
+    currentView = 'welcome';
+    mobileNav('reports');
+    assertEqual(currentView, 'reports', 'mobileNav("reports")後にcurrentViewがreportsになっていない');
+});
+
+// ======= T3: B1 — 採用後もrosterに所属済みフラグで残るか =======
+test('B1: addMemberToParty後もキャラがrosterに残るか', () => {
+    G_STATE.roster = [];
+    G_STATE.parties = [];
+    initRoster();
+    const party = addPartyDirect('テストパーティー');
+    const charId = G_STATE.roster[0].id;
+    addMemberToParty(party.id, charId);
+    const stillInRoster = G_STATE.roster.find(c => c.id === charId);
+    assert(!!stillInRoster, 'B1: 採用後にキャラがrosterから消えてしまった');
+});
+
+test('B1: 採用済みキャラにhiredPartyIdが設定されるか', () => {
+    G_STATE.roster = [];
+    G_STATE.parties = [];
+    initRoster();
+    const party = addPartyDirect('テストB1パーティー');
+    const char = G_STATE.roster[0];
+    addMemberToParty(party.id, char.id);
+    const rosterChar = G_STATE.roster.find(c => c.id === char.id);
+    assertEqual(rosterChar?.hiredPartyId, party.id, 'B1: hiredPartyIdが採用先のパーティーIDに設定されていない');
+});
 
 console.log('\n' + '─'.repeat(40));
 console.log(`結果: ${passed + failed} テスト中 ${passed} 件成功 / ${failed} 件失敗`);
