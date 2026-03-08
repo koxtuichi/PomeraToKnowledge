@@ -141,14 +141,14 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
   <div class="hguild">◆ POMERA GUILD ◆</div>
   <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
   <div class="hcp">CP: <span id="hcp">100</span></div>
-  <button class="hbtn" onclick="G.addCP()">＋ 日記を記す</button>
-  <button class="hbtn primary" onclick="G.advanceWeek()">週を進める ▶</button>
+  <button class="hbtn" onclick="addCP()">＋ 日記を記す</button>
+  <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
 </header>
 <div id="main">
   <nav id="plist">
-    <div class="plh"><div class="plht">◆ パーティー</div><button class="pladd" onclick="G.openModal('mcreate')" title="新パーティー">＋</button></div>
-    <div class="ptab" onclick="G.showView('roster')">🗡 ギルド待機所</div>
-    <div class="ptab" onclick="G.showView('reports')">📋 週次報告</div>
+    <div class="plh"><div class="plht">◆ パーティー</div><button class="pladd" onclick="openCreatePartyModal()" title="新パーティー">＋</button></div>
+    <div class="ptab" onclick="showView('roster')">🗡 ギルド待機所</div>
+    <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
     <div id="plist-items"></div>
   </nav>
   <main id="center">
@@ -181,8 +181,8 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
   <div class="mr"><div class="ml2">派遣先</div><select class="mi" id="mnpregion"><option value="">— 選択 —</option></select></div>
   <div class="mr"><div class="ml2">目標アイテム</div><select class="mi" id="mnpitem"><option value="">— 選択 —</option></select></div>
   <div class="ma">
-    <button class="mbtn ng" onclick="G.closeModal('mcreate')">キャンセル</button>
-    <button class="mbtn ok" onclick="G.createParty()">結成する</button>
+    <button class="mbtn ng" onclick="closeModal('mcreate')">キャンセル</button>
+    <button class="mbtn ok" onclick="createParty()">結成する</button>
   </div>
 </div>
 </div>
@@ -193,7 +193,7 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
   <div class="mt">メンバーを追加</div>
   <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">パーティー: <span id="mam-pname" style="color:var(--gold)"></span></div>
   <div class="csl" id="mam-list"></div>
-  <div class="ma"><button class="mbtn ng" onclick="G.closeModal('maddmem')">閉じる</button></div>
+  <div class="ma"><button class="mbtn ng" onclick="closeModal('maddmem')">閉じる</button></div>
 </div>
 </div>
 
@@ -203,7 +203,7 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
   <div class="mt">アイテムを贈呈</div>
   <div style="font-size:11px;color:var(--tx3);margin-bottom:4px;">対象: <span id="mg-target" style="color:var(--tx2)"></span></div>
   <div class="gg" id="mg-grid"></div>
-  <div class="ma"><button class="mbtn ng" onclick="G.closeModal('mgift')">閉じる</button></div>
+  <div class="ma"><button class="mbtn ng" onclick="closeModal('mgift')">閉じる</button></div>
 </div>
 </div>
 
@@ -233,7 +233,7 @@ body{background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size
     <span style="font-size:11px;color:var(--tx3)">CP / 週</span>
   </div>
   <div class="ma">
-    <button class="mbtn ng" onclick="G.closeModal('mdir')">キャンセル</button>
+    <button class="mbtn ng" onclick="closeModal('mdir')">キャンセル</button>
     <button class="mbtn ok" id="md-ok">決定する</button>
   </div>
 </div>
@@ -785,25 +785,18 @@ function addMemberToParty(pid,cid){
 }
 
 function openHireModal(cid){
-  // open party select
   const c=G_STATE.roster.find(x=>x.id===cid);
   if(!c) return;
   const eligible=G_STATE.parties.filter(p=>p.status!=='disbanded'&&p.members.length<4);
-  if(!eligible.length){alert('空きのあるパーティーがありません。まずパーティーを作成するか、空きを作ってください。');return;}
-  // quick modal via prompt alternative — use existing add-member flow
-  const pid=eligible.length===1?eligible[0].id:null;
-  if(pid){addMemberToParty(pid,cid);}
-  else{
-    const choice=prompt(eligible.map((p,i)=>`${i+1}: ${p.name}(${p.members.length}/4)`).join('
-')+'
-
-番号を入力:');
-    const idx=parseInt(choice)-1;
-    if(eligible[idx]) addMemberToParty(eligible[idx].id,cid);
-  }
+  if(!eligible.length){alert('空きのあるパーティーがありません。');return;}
+  if(eligible.length===1){addMemberToParty(eligible[0].id,cid);return;}
+  const names=eligible.map((p,i)=>(i+1)+': '+p.name+'('+p.members.length+'/4)').join('\n');
+  const choice=prompt(names+'\n\n番号を入力:');
+  const idx=parseInt(choice)-1;
+  if(eligible[idx]) addMemberToParty(eligible[idx].id,cid);
 }
 
-// ---- DIRECTIVE MODAL -------------------------------------------------------
+// ---- DIRECTIVE MODAL
 function openDirectiveModal(pid){
   directivePartyId=pid;
   const p=G_STATE.parties.find(x=>x.id===pid);
