@@ -971,7 +971,7 @@
     <header id="hud">
       <div class="hguild">◆ POMERA GUILD ◆</div>
       <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
-      <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span></div>
+      <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span> &nbsp;|&nbsp; <span id="hgrank" style="color:var(--gold);font-weight:700">Dランク</span></div>
 
       <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
     </header>
@@ -989,14 +989,31 @@
       </nav>
       <main id="center">
         <div id="v-welcome">
-          <div class="ph">
-            <div class="pht">GUILD MASTER</div>
-          </div>
-          <div class="notice">
-            <p style="color:var(--gold);margin-bottom:8px;">◆ ギルドマスターへようこそ</p>
-            <p>「＋」ボタンでパーティーを結成し、地方へ派遣しましょう。</p>
-            <p style="margin-top:6px;">パーティーには毎週Gold給与が必要です。戦利品を売却してGoldを獲得しよう。</p>
-            <p style="margin-top:6px;">「週を進める」を押すと一週間が経過し、各パーティーから報告が届きます。</p>
+          <div class="welcome-wrap">
+            <div class="welcome-logo">⚔ GUILD MASTER ⚔</div>
+            <div class="welcome-sub">— POMERA GUILD — ギルドマスターとして伝説のギルドを築け —</div>
+            <div class="goal-cards">
+              <div class="goal-card">
+                <h4>📋 基本サイクル</h4>
+                <p>パーティーを結成し地方へ派遣。戦利品を売却してGoldを稼ぎ、給与を支払おう。</p>
+              </div>
+              <div class="goal-card">
+                <h4>🏆 ギルドランク</h4>
+                <p>評判を積み上げてギルドをD→C→B→A→Sへ昇格。SAランクでエンディングへ！</p>
+              </div>
+              <div class="goal-card">
+                <h4>🗺 地方探索</h4>
+                <p>10地方にはそれぞれ特産品がある。強いパーティーで高リスク地方を攻略しよう。</p>
+              </div>
+            </div>
+            <div class="notice" style="margin-top:0;text-align:left">
+              <p style="color:var(--gold);margin-bottom:8px;">◆ はじめかた</p>
+              <p>① 「＋」ボタンでパーティーを結成し派遣先地方を選ぶ</p>
+              <p style="margin-top:4px;">② ギルド待機所からメンバーを採用する</p>
+              <p style="margin-top:4px;">③ 「週を進める」を押して報告を確認 → 戦利品を売却</p>
+              <p style="margin-top:4px;">④ 評判を積んでギルドランクアップを目指せ！</p>
+            </div>
+            <div id="guild-rank-display" style="margin-top:20px;font-size:13px;color:var(--tx3)"></div>
           </div>
         </div>
         <div id="v-party" style="display:none"></div>
@@ -1086,7 +1103,7 @@
         </select>
       </div>
       <div class="mr">
-        <div class="ml2">週CP報酬</div>
+        <div class="ml2">週給与</div>
         <input class="mi cpi" type="number" id="md-cp" min="0" max="500" value="20" style="flex:none;width:90px" />
         <span style="font-size:11px;color:var(--tx3)">CP / 週</span>
       </div>
@@ -1209,10 +1226,166 @@
     }
 
     // ---- GAME STATE --------------------------------------------------------------
+
+
+    const REGION_CSS_CLASS = {
+      '緑の森林地帯': 'region-forest',
+      '広大な平原': 'region-plains',
+      '砂漠の遺跡': 'region-desert',
+      '険しい山岳地帯': 'region-mountain',
+      '海岸の集落': 'region-ocean',
+      '廃墟の古城': 'region-ruin',
+      '毒沼の蛮地': 'region-swamp',
+      '火山の麓': 'region-volcano',
+      '極寒の凍土': 'region-tundra',
+      '呪われた禁域': 'region-forbidden',
+    };
+    function rarClass(r){
+      const m={common:'rar-common',uncommon:'rar-uncommon',rare:'rar-rare',epic:'rar-epic',legendary:'rar-legendary'};
+      return m[r]||'rar-common';
+    }
+    function rarLabel(r){
+      return `<span class="${rarClass(r)}">[${r||'common'}]</span>`;
+    }
+    // Guild Rank thresholds
+    const GUILD_RANK_THRESHOLDS = { D:0, C:200, B:600, A:1500, S:4000 };
+    const GUILD_RANK_LABELS = { D:'D — 駆け出しギルド', C:'C — 新興ギルド', B:'B — 中堅ギルド', A:'A — 名門ギルド', S:'S — 伝説のギルド' };
+    const GUILD_RANK_ORDER = ['D','C','B','A','S'];
+    function getGuildRank(rep){ let r='D'; for(const k of GUILD_RANK_ORDER){ if(rep>=GUILD_RANK_THRESHOLDS[k]) r=k; } return r; }
+
+    // Choice Events (週次ランダムイベント選択肢)
+    const CHOICE_EVENTS = [
+      { id:'ce1', title:'行商人が訪問', desc:'行商人がレアな道具を売りに来た。100Gで購入する？',
+        options:[
+          { label:'購入する (−100G)', fn: ()=>{ if(G_STATE.gold<100){alert('Goldが足りません');return;}G_STATE.gold-=100;G_STATE.inventory.push({id:uid(),name:'行商の秘薬',rarity:'uncommon',value:40,partyName:'行商',week:G_STATE.week});addLog('行商人から「行商の秘薬」を購入');saveState();updateHUD();showInventoryView(); } },
+          { label:'断る', fn: ()=>{ setLogBar('行商人は残念そうに去った。'); } }
+        ]
+      },
+      { id:'ce2', title:'謎の依頼者', desc:'富豪から「○○を入手したら500Gで買い取る」という依頼が届いた。',
+        options:[
+          { label:'引き受ける', fn: ()=>{ G_STATE.activeQuest={type:'buy',reward:500,desc:'富豪への納品クエスト完了',deadline:G_STATE.week+3};saveState();setLogBar('依頼を引き受けた。3週間以内にアイテムを確保せよ！'); } },
+          { label:'断る', fn: ()=>{ setLogBar('依頼を断った。'); } }
+        ]
+      },
+      { id:'ce3', title:'近隣ギルドとの競合', desc:'ライバルギルド「鉄拳団」が同じ地方を狙っている。先手を打つ？',
+        options:[
+          { label:'強行派遣 (評判+30)', fn: ()=>{ G_STATE.reputation+=30;updateHUD();addLog('鉄拳団を出し抜き評判上昇！');saveState(); } },
+          { label:'様子を見る', fn: ()=>{ setLogBar('鉄拳団の動向を見守った。'); } }
+        ]
+      },
+      { id:'ce4', title:'王国からの依頼', desc:'王国騎士団から討伐依頼が届いた。引き受ければ評判が大きく上がる。',
+        options:[
+          { label:'引き受ける (評判+60)', fn: ()=>{ G_STATE.reputation+=60;updateHUD();addLog('王国の依頼を引き受け、評判大幅上昇！');saveState(); } },
+          { label:'断る (評判−10)', fn: ()=>{ G_STATE.reputation=Math.max(0,G_STATE.reputation-10);updateHUD();saveState();setLogBar('依頼を断った。評判がやや下がった。'); } }
+        ]
+      },
+      { id:'ce5', title:'古の地図発見', desc:'廃墟で古い地図が見つかった。調査に50Gかかるが秘宝があるかもしれない。',
+        options:[
+          { label:'調査する (−50G)', fn: ()=>{ if(G_STATE.gold<50){alert('Goldが足りません');return;}G_STATE.gold-=50;const found=Math.random()<0.6;if(found){const loot={id:uid(),name:'古の秘宝',rarity:'rare',value:150,partyName:'探索',week:G_STATE.week};G_STATE.inventory.push(loot);addLog('古の秘宝を発見！');}else{addLog('調査したが何も見つからなかった。');}saveState();updateHUD(); } },
+          { label:'無視する', fn: ()=>{ setLogBar('地図は捨てた。'); } }
+        ]
+      },
+    ];
+    let _pendingChoiceEvent = null;
+
+
+    // ---- GUILD QUEST ---------------------------------------------------------
+    const QUEST_ITEMS = [
+      {name:'火炎の大剣',reward:300},{name:'雷神の槍',reward:350},{name:'月光の杖',reward:250},
+      {name:'翡翠の指輪',reward:200},{name:'竜鱗の鎧',reward:400},{name:'古龍の牙',reward:280},
+      {name:'不死鳥の羽',reward:320},{name:'幻の薬草',reward:180},{name:'封印の書',reward:220},
+      {name:'天使の血',reward:380},
+    ];
+    function generateWeeklyQuest(){
+      if(G_STATE.activeQuest) return; // 既にクエスト中
+      if(Math.random()>0.25) return; // 25%確率
+      const tgt = QUEST_ITEMS[Math.floor(Math.random()*QUEST_ITEMS.length)];
+      G_STATE.activeQuest={target:tgt.name,reward:tgt.reward,deadline:G_STATE.week+4};
+      addLog(`📋 新クエスト発生: 「${tgt.name}」を${G_STATE.activeQuest.deadline}週までに入手すると${tgt.reward}Gボーナス！`,'evd');
+      saveState();
+    }
+    function checkQuestCompletion(){
+      if(!G_STATE.activeQuest) return false;
+      const q=G_STATE.activeQuest;
+      if(G_STATE.week>q.deadline){
+        addLog(`⏰ クエスト「${q.target}」の期限切れ。`,'evx');
+        G_STATE.activeQuest=null;
+        saveState();
+        return false;
+      }
+      const found=G_STATE.inventory.findIndex(x=>x.name===q.target);
+      if(found>=0){
+        G_STATE.gold+=q.reward;
+        G_STATE.reputation+=Math.ceil(q.reward/20);
+        addLog(`🎉 クエスト達成！「${q.target}」納品 +${q.reward}G +評判`,'evd');
+        G_STATE.activeQuest=null;
+        saveState();
+        updateHUD();
+        return true;
+      }
+      return false;
+    }
+    function checkChoiceEvent(){
+      if(_pendingChoiceEvent) return; // 既に表示中
+      if(Math.random()>0.15) return; // 15%確率で発生
+      _pendingChoiceEvent = CHOICE_EVENTS[Math.floor(Math.random()*CHOICE_EVENTS.length)];
+      showChoiceEventModal(_pendingChoiceEvent);
+    }
+    function showChoiceEventModal(ev){
+      let h=`<div style="padding:24px 28px;max-width:420px;margin:0 auto">`;
+      h+=`<div style="color:var(--gold);font-size:16px;font-weight:700;margin-bottom:12px">⚡ ${ev.title}</div>`;
+      h+=`<div style="color:var(--tx3);font-size:13px;line-height:1.7;margin-bottom:20px">${ev.desc}</div>`;
+      h+=`<div style="display:flex;flex-direction:column;gap:10px">`;
+      ev.options.forEach((opt,i)=>{
+        h+=`<button class="hbtn" onclick="handleChoiceEvent(${i})" style="text-align:left;padding:10px 14px">${opt.label}</button>`;
+      });
+      h+=`</div></div>`;
+      document.getElementById('modal-body').innerHTML=h;
+      document.getElementById('modal-root').style.display='flex';
+    }
+    function handleChoiceEvent(optIdx){
+      if(!_pendingChoiceEvent) return;
+      _pendingChoiceEvent.options[optIdx].fn();
+      _pendingChoiceEvent=null;
+      closeModal();
+      // ギルドランクチェック
+      checkGuildRankUp();
+      renderWelcomeRankDisplay();
+    }
+    function checkGuildRankUp(){
+      const oldRank = G_STATE.guildRank || 'D';
+      const newRank = getGuildRank(G_STATE.reputation||0);
+      if(GUILD_RANK_ORDER.indexOf(newRank)>GUILD_RANK_ORDER.indexOf(oldRank)){
+        G_STATE.guildRank=newRank;
+        saveState();
+        addLog(`🏆 ギルドランクアップ！ ${oldRank} → ${newRank}: ${GUILD_RANK_LABELS[newRank]}`,'evd');
+        if(newRank==='S'){
+          setTimeout(()=>{
+            document.getElementById('modal-body').innerHTML=`<div style="padding:40px;text-align:center"><div style="font-size:48px;color:var(--gold)">🏆</div><div style="font-size:24px;color:var(--gold);margin:16px 0;font-weight:700">ゲームクリア！</div><div style="color:var(--tx3);font-size:13px;line-height:1.8">評判${G_STATE.reputation}ptを達成し<br>ギルドはSランク「伝説のギルド」に昇格！<br>Week ${G_STATE.week}で完全制覇おめでとう！</div><button class="hbtn primary" onclick="closeModal()" style="margin-top:20px">閉じる</button></div>`;
+            document.getElementById('modal-root').style.display='flex';
+          },300);
+        }
+      } else {
+        G_STATE.guildRank = newRank;
+        saveState();
+      }
+    }
+    function renderWelcomeRankDisplay(){
+      const el=document.getElementById('guild-rank-display');
+      if(!el) return;
+      const rank=getGuildRank(G_STATE.reputation||0);
+      const next=GUILD_RANK_ORDER[GUILD_RANK_ORDER.indexOf(rank)+1];
+      const nextTh=next?GUILD_RANK_THRESHOLDS[next]:null;
+      const rep=G_STATE.reputation||0;
+      el.innerHTML=`現在のギルドランク: <strong style="color:var(--gold)">${rank} — ${GUILD_RANK_LABELS[rank].split('—')[1].trim()}</strong>&nbsp;&nbsp;評判: ${rep}pt${nextTh?` / 次のランクまで ${nextTh-rep}pt`:'（最高ランク）'}`;
+    }
+
     let G_STATE = {
       week: 1, year: 1, gold: 200,
       parties: [], roster: [], dismissed: [],
       inventory: [], wishList: [], reputation: 0,
+      guildRank: 'D',
+      activeQuest: null,
       pendingReports: [], globalLog: [],
     };
 
@@ -1220,7 +1393,7 @@
     function loadState() {
       try {
         const s = localStorage.getItem('gm_v1');
-        if (s) { G_STATE = JSON.parse(s); if (G_STATE.gold == null) { G_STATE.gold = G_STATE.cp || 200; } if (!G_STATE.inventory) G_STATE.inventory = []; if (!G_STATE.wishList) G_STATE.wishList = []; if (G_STATE.reputation == null) G_STATE.reputation = 0; const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true; }
+        if (s) { G_STATE = JSON.parse(s); if (G_STATE.gold == null) { G_STATE.gold = G_STATE.cp || 200; } if (!G_STATE.inventory) G_STATE.inventory = []; if (!G_STATE.wishList) G_STATE.wishList = []; if (G_STATE.reputation == null) G_STATE.reputation = 0; if (!G_STATE.guildRank) G_STATE.guildRank = 'D'; if (!G_STATE.activeQuest) G_STATE.activeQuest = null; const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true; }
       } catch (e) { }
       return false;
     }
@@ -1246,7 +1419,9 @@
       for (let di = 0; di < dropCount; di++) {
         if (Math.random() < dropChance + bonusChance) {
           const rd = REGION_DATA[party.region];
-          const pool = (rd && rd.specialty && Math.random() < 0.4) ? ITEMS.filter(x => rd.specialty.includes(x)).concat(ITEMS) : ITEMS;
+          const sameRegionCount = G_STATE.parties.filter(pp=>pp.region===party.region&&pp.status!=='disbanded').length;
+          const specialtyChance = (rd && rd.specialty) ? (sameRegionCount >= 2 ? 0.65 : 0.4) : 0;
+          const pool = (rd && rd.specialty && Math.random() < specialtyChance) ? ITEMS.filter(x => rd.specialty.includes(x)).concat(ITEMS) : ITEMS;
           const item = pick(pool.length ? pool : ITEMS);
           const rv = Math.random();
           let rarity, value;
@@ -1395,7 +1570,13 @@
       const events = generateWeekEvents(party);
       // remove dead members
       party.members = party.members.filter(m => !m.dead);
-      return { party, events };
+       // B-4: キャラ成長タグ付与
+      party.members.filter(m=>!m.dead).forEach(m=>{
+        m.adventureWeeks=(m.adventureWeeks||0)+1;
+        if(m.adventureWeeks>=20 && m.growthTag!=='熟練') m.growthTag='熟練';
+        else if(m.adventureWeeks>=5 && !m.growthTag) m.growthTag='ベテラン';
+      });
+     return { party, events };
     }
 
     // ---- GRUDGE SYSTEM -----------------------------------------------------------
@@ -1431,6 +1612,12 @@
       setLogBar(`Week ${G_STATE.week} — 各パーティーから報告が届いた。「週次報告」から確認しよう。`);
       addLog(`Week ${G_STATE.week} へ進んだ。${reports.length}件の報告あり。`);
       if (currentView === 'party' && currentPartyId) showParty(currentPartyId);
+      checkGuildRankUp();
+      renderWelcomeRankDisplay();
+      checkQuestCompletion();
+      generateWeeklyQuest();
+      setTimeout(checkChoiceEvent, 300);
+      renderQuestHUD();
     }
 
     // ---- CP SYSTEM ---------------------------------------------------------------
@@ -1445,6 +1632,7 @@
       setLogBar(`「${it.name}」を ${it.value}G で売却した。（残Gold: ${G_STATE.gold}G）`);
       addLog(`売却: 「${it.name}」+${it.value}G 評判+${Math.ceil(it.value / 30)}`, 'evm');
       showInventoryView();
+      checkQuestCompletion();
     }
     function sellAll() {
       if (!G_STATE.inventory.length) { alert('倉庫に品物がありません。'); return; }
@@ -1570,7 +1758,8 @@
         const rd = REGION_DATA[reg] || { icon: '?', specialty: [], riskLevel: 1 };
         const assignedParties = G_STATE.parties.filter(p => p.region === reg && p.status === 'active' && p.members.length > 0);
         const riskStars = '⭐'.repeat(rd.riskLevel) + '☆'.repeat(5 - rd.riskLevel);
-        h += `<div style="background:var(--bg2);border-radius:10px;padding:12px;position:relative;">
+        const regionCls = REGION_CSS_CLASS[reg] || '';
+        h += `<div style="background:var(--bg2);border-radius:10px;padding:12px;position:relative;" class="${regionCls}">
       <div style="font-size:22px;margin-bottom:4px;">${rd.icon}</div>
       <div style="font-weight:700;font-size:13px;margin-bottom:4px;">${reg}</div>
       <div style="font-size:10px;color:var(--tx3);margin-bottom:6px;">リスク: ${riskStars}</div>`;
@@ -1608,6 +1797,16 @@
       document.getElementById('hcp').textContent = G_STATE.gold + 'G';
       const rep = document.getElementById('hrep');
       if (rep) rep.textContent = (G_STATE.reputation || 0) + 'pt';
+      const rankEl = document.getElementById('hgrank');
+      if (rankEl) { const r=getGuildRank(G_STATE.reputation||0); rankEl.textContent = `${r}ランク`; }
+    }
+    function renderQuestHUD(){
+      const el=document.getElementById('quest-hud');
+      if(!el) return;
+      if(!G_STATE.activeQuest){ el.innerHTML=''; el.style.display='none'; return; }
+      const q=G_STATE.activeQuest;
+      el.style.display='block';
+      el.innerHTML=`📋 クエスト: 「${q.target}」を入手 → +${q.reward}G　期限: Week ${q.deadline}`;
     }
     function setLogBar(txt) { document.getElementById('lbt').textContent = txt; }
     function addLog(txt, cls = '') {
@@ -1670,7 +1869,7 @@
           const isLdr = p.leaderId === m.id;
           html += `<div class="mc${isLdr ? ' ldr' : ''}">
 <button class="mcrm" onclick="removeMember(${pid},${m.id})" title="解雇">✕</button>
-<div class="mcn">${m.name} ${m.gender}</div>
+<div class="mcn">${m.name} ${m.gender}${m.growthTag?`<span class="growth-tag">${m.growthTag}</span>`:''}</div>
 <div class="mcm">${m.age}歳 | ${m.personality}<br>${m.skill}↑ ${m.weakSkill}↓<br>癖:${m.quirk}</div>
 <span class="hlt ${HEALTH_CLS[m.health] || 'h0'}">${HEALTH_LABELS[m.health] || '健康'}${m.illness ? ' (' + m.illness + ')' : ''}</span>
 <button class="rcab" onclick="openGiftModal(${m.id},${pid})" style="font-size:9px;padding:2px 8px;margin-left:4px">🎁贈る</button>
@@ -1687,7 +1886,7 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       html += `<div class="sec"><div class="sech">方針</div>
 <div class="dr"><div class="dl">活動方針</div><div style="font-size:11px;color:var(--tx2)">${FOCUS_LABELS[p.directive.focus] || '堅実'}</div></div>
 <div class="dr"><div class="dl">揉め事対処</div><div style="font-size:11px;color:var(--tx2)">${CONFLICT_LABELS[p.directive.conflict] || '—'}</div></div>
-<div class="dr"><div class="dl">週CP報酬</div><div style="font-size:12px;font-family:monospace;color:var(--gold)">${p.directive.cpPerWeek || 20} CP</div></div>
+<div class="dr"><div class="dl">週給与</div><div style="font-size:12px;font-family:monospace;color:var(--gold)">${p.directive.cpPerWeek || 20}G</div></div>
 </div>`;
 
       // Leader select
@@ -1708,7 +1907,7 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
       G_STATE.roster.forEach(c => {
         html += `<div class="rcd">
-<div class="rcdn">${c.name} ${c.gender} ${c.age}歳</div>
+<div class="rcdn">${c.name} ${c.gender} ${c.age}歳${c.growthTag?`<span class="growth-tag">${c.growthTag}</span>`:''}</div>
 <div class="rcdm">${c.personality} / ${c.sleepSchedule}<br>好物:${c.favoriteFood}<br>癖:${c.quirk}${c.ailment ? '<br>持病:' + c.ailment : ''}</div>
 <div class="stg">
 <span class="stag sg">${c.skill}↑</span>
@@ -1733,7 +1932,11 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
         html += `<div style="padding:12px 18px">`;
         G_STATE.pendingReports.forEach((r, i) => {
           const p = r.party;
-          html += `<div class="rc">
+          const hasDrop = r.events.some(e => e.type === 'drop');
+          const hasTrouble = r.events.some(e => ['conflict','death','illness'].includes(e.type));
+          const hasRankUp = r.rankUp;
+          const rcColor = r.questDone ? 'rcard-quest' : hasRankUp ? 'rcard-rankup' : hasTrouble ? 'rcard-trouble' : hasDrop ? 'rcard-drop' : '';
+          html += `<div class="rc ${rcColor}">
 <div class="rch"><div class="rcpn">${p.name}</div><div class="rcw">Week ${G_STATE.week} 報告</div></div>
 <div class="rcb">今週の活動報告: 場所「${p.region || '—'}」 目標「${p.targetItem || '—'}」</div>
 <div class="rcev">`;
