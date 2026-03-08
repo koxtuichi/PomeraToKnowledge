@@ -1494,6 +1494,175 @@
       margin-bottom: 6px;
     }
 
+    /* ===== 週進行: HUDフラッシュアニメーション ===== */
+    @keyframes hud-flash {
+      0% {
+        background: linear-gradient(180deg, #1a0f04, #120a02);
+      }
+
+      30% {
+        background: linear-gradient(180deg, #3a2a04, #2a1a02);
+        box-shadow: 0 0 30px rgba(200, 160, 60, .6);
+      }
+
+      100% {
+        background: linear-gradient(180deg, #1a0f04, #120a02);
+      }
+    }
+
+    .hud-flash-anim {
+      animation: hud-flash .6s ease-out;
+    }
+
+    /* ===== 週進行: 砂時計アニメーション ===== */
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hbtn.loading {
+      opacity: .5;
+      pointer-events: none;
+    }
+
+    .hbtn.loading::before {
+      content: '⏳ ';
+    }
+
+    /* ===== 週サマリーモーダル ===== */
+    #week-summary-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .75);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #week-summary-modal.open {
+      display: flex;
+    }
+
+    .wsm-box {
+      background: linear-gradient(160deg, #1c1005, #120a02);
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      padding: 24px 28px;
+      max-width: 520px;
+      width: 92%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, .9), 0 0 30px rgba(200, 160, 60, .15);
+      animation: slide-in-up .35s cubic-bezier(.2, .8, .3, 1);
+    }
+
+    @keyframes slide-in-up {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .wsm-title {
+      font-size: 18px;
+      color: var(--gold2);
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(200, 160, 60, .4);
+    }
+
+    .wsm-party-section {
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--bd2);
+    }
+
+    .wsm-party-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .wsm-party-name {
+      font-size: 13px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .wsm-event {
+      font-size: 12px;
+      color: var(--tx2);
+      padding: 4px 8px;
+      border-radius: 5px;
+      margin-bottom: 4px;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .wsm-event.positive {
+      border-left: 3px solid #7EC850;
+      background: rgba(126, 200, 80, .08);
+    }
+
+    .wsm-event.negative {
+      border-left: 3px solid #E05050;
+      background: rgba(224, 80, 80, .08);
+    }
+
+    .wsm-event.rankup {
+      border-left: 3px solid var(--gold);
+      background: rgba(200, 160, 60, .12);
+      color: var(--gold2);
+    }
+
+    .wsm-event.neutral {
+      border-left: 3px solid #555;
+    }
+
+    .wsm-no-parties {
+      text-align: center;
+      color: var(--tx3);
+      font-size: 13px;
+      padding: 20px;
+    }
+
+    .wsm-close-btn {
+      width: 100%;
+      margin-top: 18px;
+      background: var(--gold);
+      color: #1a0a00;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Noto Serif JP', serif;
+      cursor: pointer;
+      letter-spacing: 2px;
+    }
+
+    .wsm-close-btn:hover {
+      background: var(--gold2);
+    }
+
+    .wsm-week-label {
+      font-size: 11px;
+      color: var(--tx3);
+      text-align: center;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+
     /* ===== スマホ対応 (768px以下) ===== */
     #bottom-nav {
       display: none;
@@ -2733,6 +2902,13 @@
 
     // ---- ADVANCE WEEK ------------------------------------------------------------
     function advanceWeek() {
+      // ① HUDフラッシュ + ボタン一時無効化
+      const hudEl = document.getElementById('hud');
+      const btnEl = hudEl ? hudEl.querySelector('.hbtn.primary') : null;
+      if (hudEl) { hudEl.classList.remove('hud-flash-anim'); void hudEl.offsetWidth; hudEl.classList.add('hud-flash-anim'); }
+      if (btnEl) { btnEl.classList.add('loading'); }
+
+      // ② ゲームロジック実行
       G_STATE.week++;
       const reports = [];
       G_STATE.parties.forEach(p => {
@@ -2772,7 +2948,67 @@
       generateWeeklyQuest();
       setTimeout(checkChoiceEvent, 300);
       renderQuestHUD();
+
+      // ③ ボタン再有効化 + 週サマリー表示
+      setTimeout(() => {
+        if (btnEl) btnEl.classList.remove('loading');
+        showWeekSummary(G_STATE.week, reports);
+      }, 600);
     }
+
+    // ---- 週サマリーモーダル --------------------------------------------------------
+    function showWeekSummary(week, reports) {
+      const modal = document.getElementById('week-summary-modal');
+      const body = document.getElementById('wsm-body');
+      const label = document.getElementById('wsm-week-label');
+      if (!modal || !body) return;
+
+      label.textContent = `Week ${week} 完了`;
+
+      // イベントタイプ → スタイル/アイコン分類
+      const classifyEvent = (ev) => {
+        const t = (ev.type || '').toLowerCase();
+        const txt = (ev.text || '').toLowerCase();
+        if (t === 'rankup' || txt.includes('ランクアップ')) return { cls: 'rankup', icon: '🏆' };
+        if (t === 'drop' || txt.includes('発見') || txt.includes('入手') || txt.includes('epic') || txt.includes('rare')) return { cls: 'positive', icon: '💰' };
+        if (t === 'conflict' || txt.includes('対立') || txt.includes('揉め') || txt.includes('問題')) return { cls: 'negative', icon: '⚡' };
+        if (t === 'morale' || txt.includes('警告') || txt.includes('解散') || txt.includes('未払')) return { cls: 'negative', icon: '⚠️' };
+        if (txt.includes('回復') || txt.includes('絆') || txt.includes('良') || txt.includes('好調')) return { cls: 'positive', icon: '✨' };
+        if (txt.includes('死亡') || txt.includes('重傷') || txt.includes('危険')) return { cls: 'negative', icon: '💀' };
+        return { cls: 'neutral', icon: '📌' };
+      };
+
+      let html = '';
+      if (reports.length === 0) {
+        html = '<div class="wsm-no-parties">全パーティーに特記事項なし。平和な一週間だった。</div>';
+      } else {
+        reports.forEach(r => {
+          if (!r.party) return;
+          const events = (r.events || []).slice(0, 5); // 多すぎる場合は最大5件
+          html += `<div class="wsm-party-section">`;
+          html += `<div class="wsm-party-name">⚔ ${r.party.name}</div>`;
+          if (events.length === 0) {
+            html += `<div class="wsm-event neutral"><span>📌</span><span>特記事項なし</span></div>`;
+          } else {
+            events.forEach(ev => {
+              const { cls, icon } = classifyEvent(ev);
+              const text = (ev.text || '').replace(/[\u0000-\u001F]/g, '');
+              html += `<div class="wsm-event ${cls}"><span>${icon}</span><span>${text}</span></div>`;
+            });
+          }
+          html += `</div>`;
+        });
+      }
+      body.innerHTML = html;
+      modal.classList.add('open');
+    }
+
+    function closeWeekSummary() {
+      const modal = document.getElementById('week-summary-modal');
+      if (modal) modal.classList.remove('open');
+    }
+    window.closeWeekSummary = closeWeekSummary;
+
 
     // ---- CP SYSTEM ---------------------------------------------------------------
     function sellItem(itemId) {
@@ -3573,6 +3809,15 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
       <div style="display:flex;flex-direction:column;gap:8px;" id="intervene-options"></div>
       <button onclick="document.getElementById('intervene-modal').style.display='none'"
         style="margin-top:16px;background:none;border:1px solid #443;color:var(--tx3);padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px;width:100%;">閉じる</button>
+    </div>
+  </div>
+  <!-- 週サマリーモーダル -->
+  <div id="week-summary-modal" onclick="if(event.target===this)closeWeekSummary()">
+    <div class="wsm-box">
+      <div class="wsm-title">◆ 週の報せ ◆</div>
+      <div class="wsm-week-label" id="wsm-week-label">Week 1 完了</div>
+      <div id="wsm-body"></div>
+      <button class="wsm-close-btn" onclick="closeWeekSummary()">確認する</button>
     </div>
   </div>
 </body>
