@@ -962,6 +962,175 @@
     ::-webkit-scrollbar-thumb:hover {
       background: var(--bd)
     }
+
+    /* ====== Character Status Bars (compact grid) ====== */
+    .stat-bars {
+      margin: 4px 0 2px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 4px;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 8px;
+      color: var(--tx3);
+    }
+
+    .stat-label {
+      width: 34px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .stat-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .stat-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width .4s;
+    }
+
+    .stat-fill.mood {
+      background: linear-gradient(90deg, #f87171, #4ade80);
+    }
+
+    .stat-fill.stress {
+      background: linear-gradient(90deg, #4ade80, #f87171);
+    }
+
+    .stat-fill.health {
+      background: linear-gradient(90deg, #f87171 0%, #facc15 50%, #4ade80 100%);
+    }
+
+    .stat-fill.mental {
+      background: linear-gradient(90deg, #7c3aed, #818cf8, #4ade80);
+    }
+
+    .stat-warn {
+      font-size: 7px;
+      color: #f87171;
+    }
+
+    .stat-bars-full {
+      grid-column: 1/-1;
+      font-size: 8px;
+      color: var(--tx3);
+      opacity: .8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rebellion-badge {
+      display: inline-block;
+      font-size: 8px;
+      padding: 1px 5px;
+      background: rgba(248, 113, 113, .15);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, .3);
+      border-radius: 3px;
+      margin-top: 2px;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .2
+      }
+    }
+
+    .slog-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slog-modal.open {
+      display: flex;
+    }
+
+    .slog-box {
+      background: var(--bg2);
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 420px;
+      width: 90vw;
+      max-height: 75vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 32px #000;
+    }
+
+    .slog-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--gold);
+    }
+
+    .slog-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .05);
+      font-size: 11px;
+    }
+
+    .slog-val-pos {
+      color: #f87171;
+      font-weight: 700;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    .slog-val-neg {
+      color: #4ade80;
+      font-weight: 700;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    .slog-cat {
+      font-size: 8px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, .08);
+      color: var(--tx3);
+      margin: 0 6px;
+    }
+
+    .slog-week {
+      font-size: 9px;
+      color: var(--tx3);
+      min-width: 46px;
+      flex-shrink: 0;
+    }
+
+    .party-rlog {
+      font-size: 10px;
+      line-height: 1.6;
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, .02);
+      border-radius: 6px;
+    }
   </style>
 </head>
 
@@ -971,18 +1140,20 @@
     <header id="hud">
       <div class="hguild">◆ POMERA GUILD ◆</div>
       <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
-      <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span> &nbsp;|&nbsp; <span id="hgrank" style="color:var(--gold);font-weight:700">Dランク</span></div>
+      <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span> &nbsp;|&nbsp; <span
+          id="hgrank" style="color:var(--gold);font-weight:700">Dランク</span></div>
 
       <button class="hbtn primary" onclick="advanceWeek()">週を進める ▶</button>
     </header>
     <div id="main">
-    <!-- Stress Log Modal -->
-    <div class="slog-modal" id="slog-modal" onclick="if(event.target===this)this.classList.remove('open')">
-      <div class="slog-box">
-        <div id="slog-content"></div>
-        <button class="hbtn" onclick="document.getElementById('slog-modal').classList.remove('open')" style="width:100%;margin-top:14px">閉じる</button>
+      <!-- Stress Log Modal -->
+      <div class="slog-modal" id="slog-modal" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="slog-box">
+          <div id="slog-content"></div>
+          <button class="hbtn" onclick="document.getElementById('slog-modal').classList.remove('open')"
+            style="width:100%;margin-top:14px">閉じる</button>
+        </div>
       </div>
-    </div>
       <nav id="plist">
         <div class="plh">
           <div class="plht">◆ パーティー</div><button class="pladd" onclick="openCreatePartyModal()"
@@ -1140,77 +1311,77 @@
     // =====================================================
     const STRESS_EVENTS = {
       // --- 戦闘・任務 (combat) ---
-      combat_fear:      { label: (v)=>`${v.enemy||'敵'}との戦闘による恐怖`,  base: 6,  cat: 'combat' },
-      near_death:       { label: ()=>`死線をさまよった`,                       base: 12, cat: 'combat' },
-      ally_injury:      { label: (v)=>`${v.member||'仲間'}が瀕死になるのを目撃した`, base: 8, cat: 'combat' },
-      boss_encounter:   { label: (v)=>`${v.region||'地方'}の強大な敵と遭遇した`, base: 10, cat: 'combat' },
-      mission_fail:     { label: ()=>`任務失敗のプレッシャー`,                  base: 4,  cat: 'combat' },
-      long_expedition:  { label: (v)=>`${v.region||'遠方'}での長期遠征による消耗`, base: 3, cat: 'combat' },
-      ambush:           { label: ()=>`不意打ちを受けた`,                        base: 7,  cat: 'combat' },
-      escape:           { label: ()=>`命からがら逃げ延びた`,                    base: 5,  cat: 'combat' },
+      combat_fear: { label: (v) => `${v.enemy || '敵'}との戦闘による恐怖`, base: 6, cat: 'combat' },
+      near_death: { label: () => `死線をさまよった`, base: 12, cat: 'combat' },
+      ally_injury: { label: (v) => `${v.member || '仲間'}が瀕死になるのを目撃した`, base: 8, cat: 'combat' },
+      boss_encounter: { label: (v) => `${v.region || '地方'}の強大な敵と遭遇した`, base: 10, cat: 'combat' },
+      mission_fail: { label: () => `任務失敗のプレッシャー`, base: 4, cat: 'combat' },
+      long_expedition: { label: (v) => `${v.region || '遠方'}での長期遠征による消耗`, base: 3, cat: 'combat' },
+      ambush: { label: () => `不意打ちを受けた`, base: 7, cat: 'combat' },
+      escape: { label: () => `命からがら逃げ延びた`, base: 5, cat: 'combat' },
       // --- 人間関係 (social) ---
-      member_conflict:  { label: (v)=>`${v.member||'メンバー'}への不満`,        base: 3,  cat: 'social' },
-      leader_injustice: { label: (v)=>`${v.leader||'リーダー'}の不公平な裁定`,  base: 7,  cat: 'social' },
-      betrayal:         { label: (v)=>`${v.member||'仲間'}に裏切られた`,        base: 15, cat: 'social' },
-      jealousy:         { label: (v)=>`${v.member||'仲間'}への嫉妬`,            base: 5,  cat: 'social' },
-      romantic_rejection:{ label: (v)=>`${v.target||'恋人'}に振られた`,         base: 9,  cat: 'social' },
-      love_exposed:     { label: (v)=>`${v.target||'誰か'}への恋心が知れ渡った`, base: 6, cat: 'social' },
-      dismissed_grudge: { label: (v)=>`解雇された${v.member||'元メンバー'}からの悪評`, base: 4, cat: 'social' },
-      ignored:          { label: ()=>`誰も話を聞いてくれなかった`,               base: 4,  cat: 'social' },
-      praise_mismatch:  { label: (v)=>`${v.member||'仲間'}ばかり褒められた`,    base: 5,  cat: 'social' },
+      member_conflict: { label: (v) => `${v.member || 'メンバー'}への不満`, base: 3, cat: 'social' },
+      leader_injustice: { label: (v) => `${v.leader || 'リーダー'}の不公平な裁定`, base: 7, cat: 'social' },
+      betrayal: { label: (v) => `${v.member || '仲間'}に裏切られた`, base: 15, cat: 'social' },
+      jealousy: { label: (v) => `${v.member || '仲間'}への嫉妬`, base: 5, cat: 'social' },
+      romantic_rejection: { label: (v) => `${v.target || '恋人'}に振られた`, base: 9, cat: 'social' },
+      love_exposed: { label: (v) => `${v.target || '誰か'}への恋心が知れ渡った`, base: 6, cat: 'social' },
+      dismissed_grudge: { label: (v) => `解雇された${v.member || '元メンバー'}からの悪評`, base: 4, cat: 'social' },
+      ignored: { label: () => `誰も話を聞いてくれなかった`, base: 4, cat: 'social' },
+      praise_mismatch: { label: (v) => `${v.member || '仲間'}ばかり褒められた`, base: 5, cat: 'social' },
       // --- 個人・家族 (personal) ---
-      family_death:     { label: ()=>`家族の死の知らせが届いた`,                base: 15, cat: 'personal' },
-      family_illness:   { label: ()=>`家族が病気になった`,                       base: 8,  cat: 'personal' },
-      hometown_crisis:  { label: ()=>`故郷が危機に陥った`,                       base: 10, cat: 'personal' },
-      financial_worry:  { label: ()=>`給与が支払われなかった`,                   base: 5,  cat: 'personal' },
-      health_anxiety:   { label: ()=>`自分の体調に不安を覚えた`,                 base: 4,  cat: 'personal' },
-      anniversary_alone:{ label: ()=>`大切な記念日を一人で迎えた`,               base: 3,  cat: 'personal' },
-      homesickness:     { label: ()=>`ひどく故郷が恋しくなった`,                 base: 5,  cat: 'personal' },
+      family_death: { label: () => `家族の死の知らせが届いた`, base: 15, cat: 'personal' },
+      family_illness: { label: () => `家族が病気になった`, base: 8, cat: 'personal' },
+      hometown_crisis: { label: () => `故郷が危機に陥った`, base: 10, cat: 'personal' },
+      financial_worry: { label: () => `給与が支払われなかった`, base: 5, cat: 'personal' },
+      health_anxiety: { label: () => `自分の体調に不安を覚えた`, base: 4, cat: 'personal' },
+      anniversary_alone: { label: () => `大切な記念日を一人で迎えた`, base: 3, cat: 'personal' },
+      homesickness: { label: () => `ひどく故郷が恋しくなった`, base: 5, cat: 'personal' },
       // --- 環境・状況 (environ) ---
-      harsh_climate:    { label: (v)=>`${v.region||'地方'}の過酷な気候`,         base: 4,  cat: 'environ' },
-      sleep_disorder:   { label: ()=>`十分な睡眠が取れなかった`,                  base: 5,  cat: 'environ' },
-      dangerous_region: { label: (v)=>`${v.region||'地方'}の危険な環境`,         base: 3,  cat: 'environ' },
-      equipment_destroy:{ label: ()=>`大切な装備が壊れた`,                        base: 6,  cat: 'environ' },
-      bad_weather:      { label: ()=>`嵐で任務が難航した`,                        base: 3,  cat: 'environ' },
+      harsh_climate: { label: (v) => `${v.region || '地方'}の過酷な気候`, base: 4, cat: 'environ' },
+      sleep_disorder: { label: () => `十分な睡眠が取れなかった`, base: 5, cat: 'environ' },
+      dangerous_region: { label: (v) => `${v.region || '地方'}の危険な環境`, base: 3, cat: 'environ' },
+      equipment_destroy: { label: () => `大切な装備が壊れた`, base: 6, cat: 'environ' },
+      bad_weather: { label: () => `嵐で任務が難航した`, base: 3, cat: 'environ' },
       // --- 緩和・解消 (relief) - 負の値 ---
-      sibling_marriage: { label: ()=>`家族の慶事の知らせが届いた`,               base: -7, cat: 'relief' },
-      favorite_food_relief:{ label: (v)=>`${v.food||'好物'}を食べられた`,        base: -5, cat: 'relief' },
-      rest_day:         { label: ()=>`十分に休めた`,                             base: -8, cat: 'relief' },
-      praised_by_liked: { label: (v)=>`${v.member||'好きな人'}に褒めてもらえた`, base: -6, cat: 'relief' },
-      great_success:    { label: (v)=>`${v.item||'レア品'}の発見で大成功`,       base: -5, cat: 'relief' },
-      salary_bonus:     { label: ()=>`思わぬボーナスをもらった`,                  base: -4, cat: 'relief' },
-      rankup_joy:       { label: ()=>`ランクアップの達成感`,                      base: -8, cat: 'relief' },
-      friend_support:   { label: (v)=>`${v.member||'仲間'}に支えてもらった`,     base: -4, cat: 'relief' },
-      personal_growth:  { label: ()=>`自己成長を実感した`,                        base: -6, cat: 'relief' },
+      sibling_marriage: { label: () => `家族の慶事の知らせが届いた`, base: -7, cat: 'relief' },
+      favorite_food_relief: { label: (v) => `${v.food || '好物'}を食べられた`, base: -5, cat: 'relief' },
+      rest_day: { label: () => `十分に休めた`, base: -8, cat: 'relief' },
+      praised_by_liked: { label: (v) => `${v.member || '好きな人'}に褒めてもらえた`, base: -6, cat: 'relief' },
+      great_success: { label: (v) => `${v.item || 'レア品'}の発見で大成功`, base: -5, cat: 'relief' },
+      salary_bonus: { label: () => `思わぬボーナスをもらった`, base: -4, cat: 'relief' },
+      rankup_joy: { label: () => `ランクアップの達成感`, base: -8, cat: 'relief' },
+      friend_support: { label: (v) => `${v.member || '仲間'}に支えてもらった`, base: -4, cat: 'relief' },
+      personal_growth: { label: () => `自己成長を実感した`, base: -6, cat: 'relief' },
     };
 
     // 性格ごとのカテゴリ倍率
     const PERSO_STRESS_MULT = {
-      '積極的':       { combat:0.8, social:1.0, personal:0.9, environ:0.9, relief:1.1 },
-      '慎重':         { combat:1.0, social:0.8, personal:1.2, environ:1.0, relief:1.0 },
-      '楽観的':       { combat:0.7, social:0.7, personal:0.7, environ:0.8, relief:1.3 },
-      '感情的':       { combat:1.2, social:1.5, personal:1.3, environ:1.0, relief:1.2 },
-      '内向的':       { combat:1.0, social:1.3, personal:1.1, environ:1.0, relief:0.9 },
-      '外向的':       { combat:0.9, social:0.8, personal:0.9, environ:0.9, relief:1.1 },
-      '几帳面':       { combat:0.9, social:1.0, personal:1.1, environ:1.2, relief:1.0 },
-      '大雑把':       { combat:0.6, social:0.7, personal:0.8, environ:0.6, relief:0.9 },
-      '思いやりがある':{ combat:1.1, social:0.9, personal:1.0, environ:1.0, relief:1.2 },
-      '頑固':         { combat:0.7, social:1.2, personal:1.0, environ:0.8, relief:0.8 },
-      '柔軟':         { combat:0.9, social:0.9, personal:0.9, environ:0.9, relief:1.1 },
-      '孤高':         { combat:0.8, social:1.4, personal:1.2, environ:1.0, relief:0.8 },
+      '積極的': { combat: 0.8, social: 1.0, personal: 0.9, environ: 0.9, relief: 1.1 },
+      '慎重': { combat: 1.0, social: 0.8, personal: 1.2, environ: 1.0, relief: 1.0 },
+      '楽観的': { combat: 0.7, social: 0.7, personal: 0.7, environ: 0.8, relief: 1.3 },
+      '感情的': { combat: 1.2, social: 1.5, personal: 1.3, environ: 1.0, relief: 1.2 },
+      '内向的': { combat: 1.0, social: 1.3, personal: 1.1, environ: 1.0, relief: 0.9 },
+      '外向的': { combat: 0.9, social: 0.8, personal: 0.9, environ: 0.9, relief: 1.1 },
+      '几帳面': { combat: 0.9, social: 1.0, personal: 1.1, environ: 1.2, relief: 1.0 },
+      '大雑把': { combat: 0.6, social: 0.7, personal: 0.8, environ: 0.6, relief: 0.9 },
+      '思いやりがある': { combat: 1.1, social: 0.9, personal: 1.0, environ: 1.0, relief: 1.2 },
+      '頑固': { combat: 0.7, social: 1.2, personal: 1.0, environ: 0.8, relief: 0.8 },
+      '柔軟': { combat: 0.9, social: 0.9, personal: 0.9, environ: 0.9, relief: 1.1 },
+      '孤高': { combat: 0.8, social: 1.4, personal: 1.2, environ: 1.0, relief: 0.8 },
     };
 
     // ストレス状態の閾値と表示
     const STRESS_STATE = [
-      { min:90, label:'崩壊', color:'#7f1d1d', blink:true },
-      { min:76, label:'限界', color:'#ef4444', blink:false },
-      { min:56, label:'危機', color:'#f97316', blink:false },
-      { min:31, label:'疲弊', color:'#facc15', blink:false },
-      { min:0,  label:'安定', color:'#4ade80', blink:false },
+      { min: 90, label: '崩壊', color: '#7f1d1d', blink: true },
+      { min: 76, label: '限界', color: '#ef4444', blink: false },
+      { min: 56, label: '危機', color: '#f97316', blink: false },
+      { min: 31, label: '疲弊', color: '#facc15', blink: false },
+      { min: 0, label: '安定', color: '#4ade80', blink: false },
     ];
 
     function getStressState(stress) {
-      return STRESS_STATE.find(s => stress >= s.min) || STRESS_STATE[STRESS_STATE.length-1];
+      return STRESS_STATE.find(s => stress >= s.min) || STRESS_STATE[STRESS_STATE.length - 1];
     }
 
     // stressLogに追加し、stressを再計算する
@@ -1355,49 +1526,54 @@
       '極寒の凍土': 'region-tundra',
       '呪われた禁域': 'region-forbidden',
     };
-    function rarClass(r){
-      const m={common:'rar-common',uncommon:'rar-uncommon',rare:'rar-rare',epic:'rar-epic',legendary:'rar-legendary'};
-      return m[r]||'rar-common';
+    function rarClass(r) {
+      const m = { common: 'rar-common', uncommon: 'rar-uncommon', rare: 'rar-rare', epic: 'rar-epic', legendary: 'rar-legendary' };
+      return m[r] || 'rar-common';
     }
-    function rarLabel(r){
-      return `<span class="${rarClass(r)}">[${r||'common'}]</span>`;
+    function rarLabel(r) {
+      return `<span class="${rarClass(r)}">[${r || 'common'}]</span>`;
     }
     // Guild Rank thresholds
-    const GUILD_RANK_THRESHOLDS = { D:0, C:200, B:600, A:1500, S:4000 };
-    const GUILD_RANK_LABELS = { D:'D — 駆け出しギルド', C:'C — 新興ギルド', B:'B — 中堅ギルド', A:'A — 名門ギルド', S:'S — 伝説のギルド' };
-    const GUILD_RANK_ORDER = ['D','C','B','A','S'];
-    function getGuildRank(rep){ let r='D'; for(const k of GUILD_RANK_ORDER){ if(rep>=GUILD_RANK_THRESHOLDS[k]) r=k; } return r; }
+    const GUILD_RANK_THRESHOLDS = { D: 0, C: 200, B: 600, A: 1500, S: 4000 };
+    const GUILD_RANK_LABELS = { D: 'D — 駆け出しギルド', C: 'C — 新興ギルド', B: 'B — 中堅ギルド', A: 'A — 名門ギルド', S: 'S — 伝説のギルド' };
+    const GUILD_RANK_ORDER = ['D', 'C', 'B', 'A', 'S'];
+    function getGuildRank(rep) { let r = 'D'; for (const k of GUILD_RANK_ORDER) { if (rep >= GUILD_RANK_THRESHOLDS[k]) r = k; } return r; }
 
     // Choice Events (週次ランダムイベント選択肢)
     const CHOICE_EVENTS = [
-      { id:'ce1', title:'行商人が訪問', desc:'行商人がレアな道具を売りに来た。100Gで購入する？',
-        options:[
-          { label:'購入する (−100G)', fn: ()=>{ if(G_STATE.gold<100){alert('Goldが足りません');return;}G_STATE.gold-=100;G_STATE.inventory.push({id:uid(),name:'行商の秘薬',rarity:'uncommon',value:40,partyName:'行商',week:G_STATE.week});addLog('行商人から「行商の秘薬」を購入');saveState();updateHUD();showInventoryView(); } },
-          { label:'断る', fn: ()=>{ setLogBar('行商人は残念そうに去った。'); } }
+      {
+        id: 'ce1', title: '行商人が訪問', desc: '行商人がレアな道具を売りに来た。100Gで購入する？',
+        options: [
+          { label: '購入する (−100G)', fn: () => { if (G_STATE.gold < 100) { alert('Goldが足りません'); return; } G_STATE.gold -= 100; G_STATE.inventory.push({ id: uid(), name: '行商の秘薬', rarity: 'uncommon', value: 40, partyName: '行商', week: G_STATE.week }); addLog('行商人から「行商の秘薬」を購入'); saveState(); updateHUD(); showInventoryView(); } },
+          { label: '断る', fn: () => { setLogBar('行商人は残念そうに去った。'); } }
         ]
       },
-      { id:'ce2', title:'謎の依頼者', desc:'富豪から「○○を入手したら500Gで買い取る」という依頼が届いた。',
-        options:[
-          { label:'引き受ける', fn: ()=>{ G_STATE.activeQuest={type:'buy',reward:500,desc:'富豪への納品クエスト完了',deadline:G_STATE.week+3};saveState();setLogBar('依頼を引き受けた。3週間以内にアイテムを確保せよ！'); } },
-          { label:'断る', fn: ()=>{ setLogBar('依頼を断った。'); } }
+      {
+        id: 'ce2', title: '謎の依頼者', desc: '富豪から「○○を入手したら500Gで買い取る」という依頼が届いた。',
+        options: [
+          { label: '引き受ける', fn: () => { G_STATE.activeQuest = { type: 'buy', reward: 500, desc: '富豪への納品クエスト完了', deadline: G_STATE.week + 3 }; saveState(); setLogBar('依頼を引き受けた。3週間以内にアイテムを確保せよ！'); } },
+          { label: '断る', fn: () => { setLogBar('依頼を断った。'); } }
         ]
       },
-      { id:'ce3', title:'近隣ギルドとの競合', desc:'ライバルギルド「鉄拳団」が同じ地方を狙っている。先手を打つ？',
-        options:[
-          { label:'強行派遣 (評判+30)', fn: ()=>{ G_STATE.reputation+=30;updateHUD();addLog('鉄拳団を出し抜き評判上昇！');saveState(); } },
-          { label:'様子を見る', fn: ()=>{ setLogBar('鉄拳団の動向を見守った。'); } }
+      {
+        id: 'ce3', title: '近隣ギルドとの競合', desc: 'ライバルギルド「鉄拳団」が同じ地方を狙っている。先手を打つ？',
+        options: [
+          { label: '強行派遣 (評判+30)', fn: () => { G_STATE.reputation += 30; updateHUD(); addLog('鉄拳団を出し抜き評判上昇！'); saveState(); } },
+          { label: '様子を見る', fn: () => { setLogBar('鉄拳団の動向を見守った。'); } }
         ]
       },
-      { id:'ce4', title:'王国からの依頼', desc:'王国騎士団から討伐依頼が届いた。引き受ければ評判が大きく上がる。',
-        options:[
-          { label:'引き受ける (評判+60)', fn: ()=>{ G_STATE.reputation+=60;updateHUD();addLog('王国の依頼を引き受け、評判大幅上昇！');saveState(); } },
-          { label:'断る (評判−10)', fn: ()=>{ G_STATE.reputation=Math.max(0,G_STATE.reputation-10);updateHUD();saveState();setLogBar('依頼を断った。評判がやや下がった。'); } }
+      {
+        id: 'ce4', title: '王国からの依頼', desc: '王国騎士団から討伐依頼が届いた。引き受ければ評判が大きく上がる。',
+        options: [
+          { label: '引き受ける (評判+60)', fn: () => { G_STATE.reputation += 60; updateHUD(); addLog('王国の依頼を引き受け、評判大幅上昇！'); saveState(); } },
+          { label: '断る (評判−10)', fn: () => { G_STATE.reputation = Math.max(0, G_STATE.reputation - 10); updateHUD(); saveState(); setLogBar('依頼を断った。評判がやや下がった。'); } }
         ]
       },
-      { id:'ce5', title:'古の地図発見', desc:'廃墟で古い地図が見つかった。調査に50Gかかるが秘宝があるかもしれない。',
-        options:[
-          { label:'調査する (−50G)', fn: ()=>{ if(G_STATE.gold<50){alert('Goldが足りません');return;}G_STATE.gold-=50;const found=Math.random()<0.6;if(found){const loot={id:uid(),name:'古の秘宝',rarity:'rare',value:150,partyName:'探索',week:G_STATE.week};G_STATE.inventory.push(loot);addLog('古の秘宝を発見！');}else{addLog('調査したが何も見つからなかった。');}saveState();updateHUD(); } },
-          { label:'無視する', fn: ()=>{ setLogBar('地図は捨てた。'); } }
+      {
+        id: 'ce5', title: '古の地図発見', desc: '廃墟で古い地図が見つかった。調査に50Gかかるが秘宝があるかもしれない。',
+        options: [
+          { label: '調査する (−50G)', fn: () => { if (G_STATE.gold < 50) { alert('Goldが足りません'); return; } G_STATE.gold -= 50; const found = Math.random() < 0.6; if (found) { const loot = { id: uid(), name: '古の秘宝', rarity: 'rare', value: 150, partyName: '探索', week: G_STATE.week }; G_STATE.inventory.push(loot); addLog('古の秘宝を発見！'); } else { addLog('調査したが何も見つからなかった。'); } saveState(); updateHUD(); } },
+          { label: '無視する', fn: () => { setLogBar('地図は捨てた。'); } }
         ]
       },
     ];
@@ -1406,93 +1582,93 @@
 
     // ---- GUILD QUEST ---------------------------------------------------------
     const QUEST_ITEMS = [
-      {name:'火炎の大剣',reward:300},{name:'雷神の槍',reward:350},{name:'月光の杖',reward:250},
-      {name:'翡翠の指輪',reward:200},{name:'竜鱗の鎧',reward:400},{name:'古龍の牙',reward:280},
-      {name:'不死鳥の羽',reward:320},{name:'幻の薬草',reward:180},{name:'封印の書',reward:220},
-      {name:'天使の血',reward:380},
+      { name: '火炎の大剣', reward: 300 }, { name: '雷神の槍', reward: 350 }, { name: '月光の杖', reward: 250 },
+      { name: '翡翠の指輪', reward: 200 }, { name: '竜鱗の鎧', reward: 400 }, { name: '古龍の牙', reward: 280 },
+      { name: '不死鳥の羽', reward: 320 }, { name: '幻の薬草', reward: 180 }, { name: '封印の書', reward: 220 },
+      { name: '天使の血', reward: 380 },
     ];
-    function generateWeeklyQuest(){
-      if(G_STATE.activeQuest) return; // 既にクエスト中
-      if(Math.random()>0.25) return; // 25%確率
-      const tgt = QUEST_ITEMS[Math.floor(Math.random()*QUEST_ITEMS.length)];
-      G_STATE.activeQuest={target:tgt.name,reward:tgt.reward,deadline:G_STATE.week+4};
-      addLog(`📋 新クエスト発生: 「${tgt.name}」を${G_STATE.activeQuest.deadline}週までに入手すると${tgt.reward}Gボーナス！`,'evd');
+    function generateWeeklyQuest() {
+      if (G_STATE.activeQuest) return; // 既にクエスト中
+      if (Math.random() > 0.25) return; // 25%確率
+      const tgt = QUEST_ITEMS[Math.floor(Math.random() * QUEST_ITEMS.length)];
+      G_STATE.activeQuest = { target: tgt.name, reward: tgt.reward, deadline: G_STATE.week + 4 };
+      addLog(`📋 新クエスト発生: 「${tgt.name}」を${G_STATE.activeQuest.deadline}週までに入手すると${tgt.reward}Gボーナス！`, 'evd');
       saveState();
     }
-    function checkQuestCompletion(){
-      if(!G_STATE.activeQuest) return false;
-      const q=G_STATE.activeQuest;
-      if(G_STATE.week>q.deadline){
-        addLog(`⏰ クエスト「${q.target}」の期限切れ。`,'evx');
-        G_STATE.activeQuest=null;
+    function checkQuestCompletion() {
+      if (!G_STATE.activeQuest) return false;
+      const q = G_STATE.activeQuest;
+      if (G_STATE.week > q.deadline) {
+        addLog(`⏰ クエスト「${q.target}」の期限切れ。`, 'evx');
+        G_STATE.activeQuest = null;
         saveState();
         return false;
       }
-      const found=G_STATE.inventory.findIndex(x=>x.name===q.target);
-      if(found>=0){
-        G_STATE.gold+=q.reward;
-        G_STATE.reputation+=Math.ceil(q.reward/20);
-        addLog(`🎉 クエスト達成！「${q.target}」納品 +${q.reward}G +評判`,'evd');
-        G_STATE.activeQuest=null;
+      const found = G_STATE.inventory.findIndex(x => x.name === q.target);
+      if (found >= 0) {
+        G_STATE.gold += q.reward;
+        G_STATE.reputation += Math.ceil(q.reward / 20);
+        addLog(`🎉 クエスト達成！「${q.target}」納品 +${q.reward}G +評判`, 'evd');
+        G_STATE.activeQuest = null;
         saveState();
         updateHUD();
         return true;
       }
       return false;
     }
-    function checkChoiceEvent(){
-      if(_pendingChoiceEvent) return; // 既に表示中
-      if(Math.random()>0.15) return; // 15%確率で発生
-      _pendingChoiceEvent = CHOICE_EVENTS[Math.floor(Math.random()*CHOICE_EVENTS.length)];
+    function checkChoiceEvent() {
+      if (_pendingChoiceEvent) return; // 既に表示中
+      if (Math.random() > 0.15) return; // 15%確率で発生
+      _pendingChoiceEvent = CHOICE_EVENTS[Math.floor(Math.random() * CHOICE_EVENTS.length)];
       showChoiceEventModal(_pendingChoiceEvent);
     }
-    function showChoiceEventModal(ev){
-      let h=`<div style="padding:24px 28px;max-width:420px;margin:0 auto">`;
-      h+=`<div style="color:var(--gold);font-size:16px;font-weight:700;margin-bottom:12px">⚡ ${ev.title}</div>`;
-      h+=`<div style="color:var(--tx3);font-size:13px;line-height:1.7;margin-bottom:20px">${ev.desc}</div>`;
-      h+=`<div style="display:flex;flex-direction:column;gap:10px">`;
-      ev.options.forEach((opt,i)=>{
-        h+=`<button class="hbtn" onclick="handleChoiceEvent(${i})" style="text-align:left;padding:10px 14px">${opt.label}</button>`;
+    function showChoiceEventModal(ev) {
+      let h = `<div style="padding:24px 28px;max-width:420px;margin:0 auto">`;
+      h += `<div style="color:var(--gold);font-size:16px;font-weight:700;margin-bottom:12px">⚡ ${ev.title}</div>`;
+      h += `<div style="color:var(--tx3);font-size:13px;line-height:1.7;margin-bottom:20px">${ev.desc}</div>`;
+      h += `<div style="display:flex;flex-direction:column;gap:10px">`;
+      ev.options.forEach((opt, i) => {
+        h += `<button class="hbtn" onclick="handleChoiceEvent(${i})" style="text-align:left;padding:10px 14px">${opt.label}</button>`;
       });
-      h+=`</div></div>`;
-      document.getElementById('modal-body').innerHTML=h;
-      document.getElementById('modal-root').style.display='flex';
+      h += `</div></div>`;
+      document.getElementById('modal-body').innerHTML = h;
+      document.getElementById('modal-root').style.display = 'flex';
     }
-    function handleChoiceEvent(optIdx){
-      if(!_pendingChoiceEvent) return;
+    function handleChoiceEvent(optIdx) {
+      if (!_pendingChoiceEvent) return;
       _pendingChoiceEvent.options[optIdx].fn();
-      _pendingChoiceEvent=null;
+      _pendingChoiceEvent = null;
       closeModal();
       // ギルドランクチェック
       checkGuildRankUp();
       renderWelcomeRankDisplay();
     }
-    function checkGuildRankUp(){
+    function checkGuildRankUp() {
       const oldRank = G_STATE.guildRank || 'D';
-      const newRank = getGuildRank(G_STATE.reputation||0);
-      if(GUILD_RANK_ORDER.indexOf(newRank)>GUILD_RANK_ORDER.indexOf(oldRank)){
-        G_STATE.guildRank=newRank;
+      const newRank = getGuildRank(G_STATE.reputation || 0);
+      if (GUILD_RANK_ORDER.indexOf(newRank) > GUILD_RANK_ORDER.indexOf(oldRank)) {
+        G_STATE.guildRank = newRank;
         saveState();
-        addLog(`🏆 ギルドランクアップ！ ${oldRank} → ${newRank}: ${GUILD_RANK_LABELS[newRank]}`,'evd');
-        if(newRank==='S'){
-          setTimeout(()=>{
-            document.getElementById('modal-body').innerHTML=`<div style="padding:40px;text-align:center"><div style="font-size:48px;color:var(--gold)">🏆</div><div style="font-size:24px;color:var(--gold);margin:16px 0;font-weight:700">ゲームクリア！</div><div style="color:var(--tx3);font-size:13px;line-height:1.8">評判${G_STATE.reputation}ptを達成し<br>ギルドはSランク「伝説のギルド」に昇格！<br>Week ${G_STATE.week}で完全制覇おめでとう！</div><button class="hbtn primary" onclick="closeModal()" style="margin-top:20px">閉じる</button></div>`;
-            document.getElementById('modal-root').style.display='flex';
-          },300);
+        addLog(`🏆 ギルドランクアップ！ ${oldRank} → ${newRank}: ${GUILD_RANK_LABELS[newRank]}`, 'evd');
+        if (newRank === 'S') {
+          setTimeout(() => {
+            document.getElementById('modal-body').innerHTML = `<div style="padding:40px;text-align:center"><div style="font-size:48px;color:var(--gold)">🏆</div><div style="font-size:24px;color:var(--gold);margin:16px 0;font-weight:700">ゲームクリア！</div><div style="color:var(--tx3);font-size:13px;line-height:1.8">評判${G_STATE.reputation}ptを達成し<br>ギルドはSランク「伝説のギルド」に昇格！<br>Week ${G_STATE.week}で完全制覇おめでとう！</div><button class="hbtn primary" onclick="closeModal()" style="margin-top:20px">閉じる</button></div>`;
+            document.getElementById('modal-root').style.display = 'flex';
+          }, 300);
         }
       } else {
         G_STATE.guildRank = newRank;
         saveState();
       }
     }
-    function renderWelcomeRankDisplay(){
-      const el=document.getElementById('guild-rank-display');
-      if(!el) return;
-      const rank=getGuildRank(G_STATE.reputation||0);
-      const next=GUILD_RANK_ORDER[GUILD_RANK_ORDER.indexOf(rank)+1];
-      const nextTh=next?GUILD_RANK_THRESHOLDS[next]:null;
-      const rep=G_STATE.reputation||0;
-      el.innerHTML=`現在のギルドランク: <strong style="color:var(--gold)">${rank} — ${GUILD_RANK_LABELS[rank].split('—')[1].trim()}</strong>&nbsp;&nbsp;評判: ${rep}pt${nextTh?` / 次のランクまで ${nextTh-rep}pt`:'（最高ランク）'}`;
+    function renderWelcomeRankDisplay() {
+      const el = document.getElementById('guild-rank-display');
+      if (!el) return;
+      const rank = getGuildRank(G_STATE.reputation || 0);
+      const next = GUILD_RANK_ORDER[GUILD_RANK_ORDER.indexOf(rank) + 1];
+      const nextTh = next ? GUILD_RANK_THRESHOLDS[next] : null;
+      const rep = G_STATE.reputation || 0;
+      el.innerHTML = `現在のギルドランク: <strong style="color:var(--gold)">${rank} — ${GUILD_RANK_LABELS[rank].split('—')[1].trim()}</strong>&nbsp;&nbsp;評判: ${rep}pt${nextTh ? ` / 次のランクまで ${nextTh - rep}pt` : '（最高ランク）'}`;
     }
 
     let G_STATE = {
@@ -1508,16 +1684,18 @@
     function loadState() {
       try {
         const s = localStorage.getItem('gm_v1');
-        if (s) { G_STATE = JSON.parse(s); if (G_STATE.gold == null) { G_STATE.gold = G_STATE.cp || 200; } if (!G_STATE.inventory) G_STATE.inventory = []; if (!G_STATE.wishList) G_STATE.wishList = []; if (G_STATE.reputation == null) G_STATE.reputation = 0; if (!G_STATE.guildRank) G_STATE.guildRank = 'D'; if (!G_STATE.activeQuest) G_STATE.activeQuest = null;
-        // キャラステータスの互換性
-        [...(G_STATE.roster||[]), ...(G_STATE.parties||[]).flatMap(p=>p.members||[])].forEach(m=>{
-          if(m.mood==null) m.mood=75;
-          if(m.stress==null) m.stress=10;
-          if(m.healthPt==null) m.healthPt=80;
-          if(m.mentalPt==null) m.mentalPt=80;
-          if(m.rebellion==null) m.rebellion=false;
-          if(!m.stressLog) m.stressLog=[];
-        }); const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true; }
+        if (s) {
+          G_STATE = JSON.parse(s); if (G_STATE.gold == null) { G_STATE.gold = G_STATE.cp || 200; } if (!G_STATE.inventory) G_STATE.inventory = []; if (!G_STATE.wishList) G_STATE.wishList = []; if (G_STATE.reputation == null) G_STATE.reputation = 0; if (!G_STATE.guildRank) G_STATE.guildRank = 'D'; if (!G_STATE.activeQuest) G_STATE.activeQuest = null;
+          // キャラステータスの互換性
+          [...(G_STATE.roster || []), ...(G_STATE.parties || []).flatMap(p => p.members || [])].forEach(m => {
+            if (m.mood == null) m.mood = 75;
+            if (m.stress == null) m.stress = 10;
+            if (m.healthPt == null) m.healthPt = 80;
+            if (m.mentalPt == null) m.mentalPt = 80;
+            if (m.rebellion == null) m.rebellion = false;
+            if (!m.stressLog) m.stressLog = [];
+          }); const maxId = Math.max(0, ...(G_STATE.parties || []).map(p => p.id)); _uid = Math.max(G_STATE._uid || 1, maxId + 1); return true;
+        }
       } catch (e) { }
       return false;
     }
@@ -1543,7 +1721,7 @@
       for (let di = 0; di < dropCount; di++) {
         if (Math.random() < dropChance + bonusChance) {
           const rd = REGION_DATA[party.region];
-          const sameRegionCount = G_STATE.parties.filter(pp=>pp.region===party.region&&pp.status!=='disbanded').length;
+          const sameRegionCount = G_STATE.parties.filter(pp => pp.region === party.region && pp.status !== 'disbanded').length;
           const specialtyChance = (rd && rd.specialty) ? (sameRegionCount >= 2 ? 0.65 : 0.4) : 0;
           const pool = (rd && rd.specialty && Math.random() < specialtyChance) ? ITEMS.filter(x => rd.specialty.includes(x)).concat(ITEMS) : ITEMS;
           const item = pick(pool.length ? pool : ITEMS);
@@ -1564,8 +1742,8 @@
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished ? ' ⭐' : ''}`);
           // 戦利品取得でmood向上・ストレス軽減
           members.forEach(m => {
-            m.mood = Math.min(100, (m.mood||70) + 3);
-            m.healthPt = Math.min(100, (m.healthPt||80) + 1);
+            m.mood = Math.min(100, (m.mood || 70) + 3);
+            m.healthPt = Math.min(100, (m.healthPt || 80) + 1);
             if (Math.random() < 0.4) addStressEvent(m, 'great_success', { item });
           });
           // XP加算
@@ -1584,25 +1762,30 @@
       // 2. Conflict event
       if (members.length >= 2) {
         // ストレス閾値効果: メンバーの平均ストレスでドロップ率・揉め事を補正
-      const avgStress = members.length ? members.reduce((s,m)=>s+(m.stress||0),0)/members.length : 0;
-      const stressDropMod = avgStress > 75 ? 0.7 : avgStress > 55 ? 0.8 : avgStress > 30 ? 0.9 : 1.0;
-      const stressConflictMod = avgStress > 75 ? 1.3 : avgStress > 55 ? 1.2 : avgStress > 30 ? 1.1 : 1.0;
-      const conflictChance = calcConflictChance(members) * stressConflictMod;
+        const avgStress = members.length ? members.reduce((s, m) => s + (m.stress || 0), 0) / members.length : 0;
+        const stressDropMod = avgStress > 75 ? 0.7 : avgStress > 55 ? 0.8 : avgStress > 30 ? 0.9 : 1.0;
+        const stressConflictMod = avgStress > 75 ? 1.3 : avgStress > 55 ? 1.2 : avgStress > 30 ? 1.1 : 1.0;
+        const conflictChance = calcConflictChance(members) * stressConflictMod;
         if (Math.random() < conflictChance) {
-          const [a, b] = [pick(members), pick(members)];
-          const resolution = resolveConflict(party.directive.conflict, a, b);
-          events.push({ type: 'conflict', text: `【揉め事】${a.name}と${b.name}の間で対立が起きた。${resolution}` });
-          addStressEvent(a, 'member_conflict', { member: b.name });
-          addStressEvent(b, 'member_conflict', { member: a.name });
-          // 反発イベント: 前週にrebellionフラグが立っていたメンバーをチェック
-          members.forEach(m => {
-            if (m.rebellion && Math.random() < 0.6) {
-              m.rebellion = false;
-              m.mood = Math.max(0, (m.mood||70) - 10);
-              events.push({ type: 'conflict', text: `【反発】${m.name}がリーダーの裁定に異議を申し立て、パーティーの士気が下がった。` });
-            }
-          });
-          members.forEach(m => { m.morale = clamp(m.morale - rnd(5, 15), 0, 100); });
+          // a !== b を保証 (同一メンバー同士の揉め事を防ぐ)
+          const _ca = pick(members);
+          const _co = members.filter(m => m.id !== _ca.id);
+          if (_co.length > 0) {
+            const _cb = pick(_co);
+            const resolution = resolveConflict(party.directive.conflict, _ca, _cb);
+            events.push({ type: 'conflict', text: `【揉め事】${_ca.name}と${_cb.name}の間で対立が起きた。${resolution}` });
+            addStressEvent(_ca, 'member_conflict', { member: _cb.name });
+            addStressEvent(_cb, 'member_conflict', { member: _ca.name });
+            // 反発イベント: 前週にrebellionフラグが立っていたメンバーをチェック
+            members.forEach(m => {
+              if (m.rebellion && Math.random() < 0.6) {
+                m.rebellion = false;
+                m.mood = Math.max(0, (m.mood || 70) - 10);
+                events.push({ type: 'conflict', text: `【反発】${m.name}がリーダーの裁定に異議を申し立て、パーティーの士気が下がった。` });
+              }
+            });
+            members.forEach(m => { m.morale = clamp(m.morale - rnd(5, 15), 0, 100); });
+          }
         }
       }
 
@@ -1702,9 +1885,9 @@
       if (rule === 'rest') {
         // 休息: 全員のstressを下げる
         [a, b].forEach(m => {
-          m.stress = Math.max(0, (m.stress||0) - 10);
-          m.healthPt = Math.min(100, (m.healthPt||80) + 5);
-          m.mood = Math.min(100, (m.mood||70) + 5);
+          m.stress = Math.max(0, (m.stress || 0) - 10);
+          m.healthPt = Math.min(100, (m.healthPt || 80) + 5);
+          m.mood = Math.min(100, (m.mood || 70) + 5);
         });
         return `パーティーは休息日を設け、両者が冷静になる時間をとった。`;
       }
@@ -1712,8 +1895,8 @@
         // 裁定された側(b)に不満・反発
         addStressEvent(b, 'leader_injustice', { leader: 'リーダー' });
         addStressEvent(a, 'member_conflict', { member: b.name });
-        b.mood = Math.max(0, (b.mood||70) - 15);
-        a.mood = Math.max(0, (a.mood||70) - 5);
+        b.mood = Math.max(0, (b.mood || 70) - 15);
+        a.mood = Math.max(0, (a.mood || 70) - 5);
         // 30%確率で反発フラグ
         if (Math.random() < 0.3) {
           b.rebellion = true;
@@ -1723,15 +1906,15 @@
       if (rule === 'vote') {
         // 民主的解決: 両者のmoodが少し回復
         [a, b].forEach(m => {
-          m.mood = Math.min(100, (m.mood||70) + 5);
-          m.stress = Math.max(0, (m.stress||0) - 5);
+          m.mood = Math.min(100, (m.mood || 70) + 5);
+          m.stress = Math.max(0, (m.stress || 0) - 5);
         });
         return pick(VOTE_TEXTS);
       }
       // ignore: ストレス蓄積
       [a, b].forEach(m => {
-        m.stress = Math.min(100, (m.stress||0) + 25);
-        m.mood = Math.max(0, (m.mood||70) - 10);
+        m.stress = Math.min(100, (m.stress || 0) + 25);
+        m.mood = Math.max(0, (m.mood || 70) - 10);
       });
       return `揉め事は無視して任務が続行された。しかし遺恨が残っているかもしれない。`;
     }
@@ -1742,7 +1925,7 @@
       const weekly = party.directive.cpPerWeek || 20;
       if (G_STATE.gold < weekly) {
         party.cpDebt = (party.cpDebt || 0) + weekly;
-        party.members.filter(m=>!m.dead).forEach(m=>{ addStressEvent(m, 'financial_worry', {}); });
+        party.members.filter(m => !m.dead).forEach(m => { addStressEvent(m, 'financial_worry', {}); });
         if (party.cpDebt >= weekly * 3) {
           party.status = 'disbanded';
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が報酬未払いで解散した`);
@@ -1756,20 +1939,20 @@
       const events = generateWeekEvents(party);
       // remove dead members
       party.members = party.members.filter(m => !m.dead);
-       // 毎週ストレスログ減衰
-      party.members.filter(m=>!m.dead).forEach(m=>{ decayStressLog(m); });
+      // 毎週ストレスログ減衰
+      party.members.filter(m => !m.dead).forEach(m => { decayStressLog(m); });
 
       // 毎週: 危険地方での遠征ストレス
       if (party.members.length > 0 && party.region) {
         const riskLv = (REGION_DATA[party.region] || {}).riskLevel || 1;
         if (riskLv >= 3) {
-          party.members.filter(m=>!m.dead).forEach(m=>{
+          party.members.filter(m => !m.dead).forEach(m => {
             addStressEvent(m, 'dangerous_region', { region: party.region });
           });
         } else if (riskLv >= 2) {
           // 50%確率で長期遠征ストレス
           if (Math.random() < 0.5) {
-            party.members.filter(m=>!m.dead).forEach(m=>{
+            party.members.filter(m => !m.dead).forEach(m => {
               addStressEvent(m, 'long_expedition', { region: party.region });
             });
           }
@@ -1777,46 +1960,46 @@
       }
 
       // 毎週ステータス変動
-      party.members.filter(m=>!m.dead).forEach(m=>{
+      party.members.filter(m => !m.dead).forEach(m => {
         // ストレス自然回復 & 体力・メンタル変動
-        m.stress = Math.max(0, (m.stress||0) - 2);
-        m.healthPt = Math.max(0, Math.min(100, (m.healthPt||80) + (Math.random()<0.1?-5:1)));
-        m.mentalPt = Math.max(0, Math.min(100, (m.mentalPt||80) + (m.stress>60?-3:1)));
-        m.mood = Math.max(0, Math.min(100, (m.mood||70) + (m.mentalPt<40?-3:0)));
+        m.stress = Math.max(0, (m.stress || 0) - 2);
+        m.healthPt = Math.max(0, Math.min(100, (m.healthPt || 80) + (Math.random() < 0.1 ? -5 : 1)));
+        m.mentalPt = Math.max(0, Math.min(100, (m.mentalPt || 80) + (m.stress > 60 ? -3 : 1)));
+        m.mood = Math.max(0, Math.min(100, (m.mood || 70) + (m.mentalPt < 40 ? -3 : 0)));
         // 反発フラグがあると毎週moodが下がる
-        if (m.rebellion) m.mood = Math.max(0, (m.mood||70) - 5);
+        if (m.rebellion) m.mood = Math.max(0, (m.mood || 70) - 5);
       });
       // ストレス閾値効果: 毎週の悪化
-      party.members.filter(m=>!m.dead).forEach(m=>{
+      party.members.filter(m => !m.dead).forEach(m => {
         const st = m.stress || 0;
         if (st >= 90) {
           m.morale = Math.max(0, m.morale - 10);
-          m.mood = Math.max(0, (m.mood||70) - 10);
+          m.mood = Math.max(0, (m.mood || 70) - 10);
         } else if (st >= 76) {
           m.morale = Math.max(0, m.morale - 10);
-          m.mood = Math.max(0, (m.mood||70) - 5);
+          m.mood = Math.max(0, (m.mood || 70) - 5);
         } else if (st >= 56) {
           m.morale = Math.max(0, m.morale - 5);
         }
       });
 
       // 崩壊状態のメンバーが自主離脱
-      const collapsedMember = party.members.find(m=>!m.dead && (m.stress||0)>=90);
+      const collapsedMember = party.members.find(m => !m.dead && (m.stress || 0) >= 90);
       if (collapsedMember && party.members.length > 1) {
         const events_local = events || [];
         events_local.push({ type: 'conflict', text: `【自主離脱】${collapsedMember.name}はもはや限界だとして自らパーティーを去った。精神的に崩壊寸前だったようだ。` });
-        party.members = party.members.filter(m=>m.id !== collapsedMember.id);
+        party.members = party.members.filter(m => m.id !== collapsedMember.id);
         G_STATE.dismissed = G_STATE.dismissed || [];
         G_STATE.dismissed.push({ ...collapsedMember, dismissedWeek: G_STATE.week, reason: 'collapse' });
       }
 
       // B-4: キャラ成長タグ付与
-      party.members.filter(m=>!m.dead).forEach(m=>{
-        m.adventureWeeks=(m.adventureWeeks||0)+1;
-        if(m.adventureWeeks>=20 && m.growthTag!=='熟練') m.growthTag='熟練';
-        else if(m.adventureWeeks>=5 && !m.growthTag) m.growthTag='ベテラン';
+      party.members.filter(m => !m.dead).forEach(m => {
+        m.adventureWeeks = (m.adventureWeeks || 0) + 1;
+        if (m.adventureWeeks >= 20 && m.growthTag !== '熟練') m.growthTag = '熟練';
+        else if (m.adventureWeeks >= 5 && !m.growthTag) m.growthTag = 'ベテラン';
       });
-     return { party, events };
+      return { party, events };
     }
 
     // ---- GRUDGE SYSTEM -----------------------------------------------------------
@@ -2038,15 +2221,15 @@
       const rep = document.getElementById('hrep');
       if (rep) rep.textContent = (G_STATE.reputation || 0) + 'pt';
       const rankEl = document.getElementById('hgrank');
-      if (rankEl) { const r=getGuildRank(G_STATE.reputation||0); rankEl.textContent = `${r}ランク`; }
+      if (rankEl) { const r = getGuildRank(G_STATE.reputation || 0); rankEl.textContent = `${r}ランク`; }
     }
-    function renderQuestHUD(){
-      const el=document.getElementById('quest-hud');
-      if(!el) return;
-      if(!G_STATE.activeQuest){ el.innerHTML=''; el.style.display='none'; return; }
-      const q=G_STATE.activeQuest;
-      el.style.display='block';
-      el.innerHTML=`📋 クエスト: 「${q.target}」を入手 → +${q.reward}G　期限: Week ${q.deadline}`;
+    function renderQuestHUD() {
+      const el = document.getElementById('quest-hud');
+      if (!el) return;
+      if (!G_STATE.activeQuest) { el.innerHTML = ''; el.style.display = 'none'; return; }
+      const q = G_STATE.activeQuest;
+      el.style.display = 'block';
+      el.innerHTML = `📋 クエスト: 「${q.target}」を入手 → +${q.reward}G　期限: Week ${q.deadline}`;
     }
     function setLogBar(txt) { document.getElementById('lbt').textContent = txt; }
     function addLog(txt, cls = '') {
@@ -2087,7 +2270,7 @@
       const log = m.stressLog || [];
       const stState = getStressState(m.stress || 0);
       let html = `<div class="slog-title">📖 ${m.name}の内心日記</div>`;
-      html += `<div style="text-align:center;margin-bottom:12px;font-size:13px;color:${stState.color}">ストレス合計: ${Math.round(m.stress||0)} [${stState.label}]</div>`;
+      html += `<div style="text-align:center;margin-bottom:12px;font-size:13px;color:${stState.color}">ストレス合計: ${Math.round(m.stress || 0)} [${stState.label}]</div>`;
       if (log.length === 0) {
         html += `<div style="color:var(--tx3);font-size:12px;text-align:center">記録なし</div>`;
       } else {
@@ -2096,7 +2279,7 @@
           html += `<div class="slog-entry">
             <span class="slog-week">Week ${e.week}</span>
             <span style="flex:1;margin:0 8px">${e.label}</span>
-            <span class="slog-cat">${e.cat||'?'}</span>
+            <span class="slog-cat">${e.cat || '?'}</span>
             <span class="${e.value >= 0 ? 'slog-val-pos' : 'slog-val-neg'}" style="margin-left:8px;min-width:28px;text-align:right">${valStr}</span>
           </div>`;
         });
@@ -2138,11 +2321,11 @@
           html += `<div class="mc${isLdr ? ' ldr' : ''}">
 <button class="mcrm" onclick="removeMember(${pid},${m.id})" title="解雇">✕</button>
 <div class="mcn" style="cursor:pointer" onclick="showStressLog(${m.id},${pid})">
-  ${m.name} ${m.gender}${m.growthTag?`<span class="growth-tag">${m.growthTag}</span>`:''}
+  ${m.name} ${m.gender}${m.growthTag ? `<span class="growth-tag">${m.growthTag}</span>` : ''}
   <span style="font-size:9px;opacity:.6">��</span>
 </div>
 <div class="mcm">${m.age}歳 | ${m.personality}
-${(()=>{ const mult=PERSO_STRESS_MULT[m.personality]||{}; const tags=[]; if((mult.combat||1)<0.8)tags.push('<span style="font-size:8px;color:var(--green)">⚔︎強</span>'); if((mult.combat||1)>1.1)tags.push('<span style="font-size:8px;color:var(--red)">⚔︎弱</span>'); if((mult.social||1)>1.2)tags.push('<span style="font-size:8px;color:var(--red)">💬弱</span>'); if((mult.relief||1)>1.2)tags.push('<span style="font-size:8px;color:var(--green)">💊強</span>'); return tags.join(' '); })()}
+${(() => { const mult = PERSO_STRESS_MULT[m.personality] || {}; const tags = []; if ((mult.combat || 1) < 0.8) tags.push('<span style="font-size:8px;color:var(--green)">⚔︎強</span>'); if ((mult.combat || 1) > 1.1) tags.push('<span style="font-size:8px;color:var(--red)">⚔︎弱</span>'); if ((mult.social || 1) > 1.2) tags.push('<span style="font-size:8px;color:var(--red)">💬弱</span>'); if ((mult.relief || 1) > 1.2) tags.push('<span style="font-size:8px;color:var(--green)">💊強</span>'); return tags.join(' '); })()}
 <br>${m.skill}↑ ${m.weakSkill}↓<br>癖:${m.quirk}</div>
 <span class="hlt ${HEALTH_CLS[m.health] || 'h0'}">${HEALTH_LABELS[m.health] || '健康'}${m.illness ? ' (' + m.illness + ')' : ''}</span>
 <button class="rcab" onclick="openGiftModal(${m.id},${pid})" style="font-size:9px;padding:2px 8px;margin-left:4px">🎁贈る</button>
@@ -2150,30 +2333,30 @@ ${(()=>{ const mult=PERSO_STRESS_MULT[m.personality]||{}; const tags=[]; if((mul
 <div class="stat-bars">
   <div class="stat-row">
     <span class="stat-label">満足度</span>
-    <div class="stat-track"><div class="stat-fill mood" style="width:${m.mood??70}%"></div></div>
-    <span>${m.mood??70}</span>
+    <div class="stat-track"><div class="stat-fill mood" style="width:${m.mood ?? 70}%"></div></div>
+    <span>${m.mood ?? 70}</span>
   </div>
   <div class="stat-row">
     <span class="stat-label">ストレス</span>
-    <div class="stat-track"><div class="stat-fill stress" style="width:${m.stress??0}%"></div></div>
-    <span style="color:${getStressState(m.stress??0).color}">${Math.round(m.stress??0)}</span>
-    <span style="font-size:8px;padding:0 4px;background:${getStressState(m.stress??0).color}22;color:${getStressState(m.stress??0).color};border-radius:3px;${getStressState(m.stress??0).blink?'animation:blink 1s infinite':''}">${getStressState(m.stress??0).label}</span>
+    <div class="stat-track"><div class="stat-fill stress" style="width:${m.stress ?? 0}%"></div></div>
+    <span style="color:${getStressState(m.stress ?? 0).color}">${Math.round(m.stress ?? 0)}</span>
+    <span style="font-size:8px;padding:0 4px;background:${getStressState(m.stress ?? 0).color}22;color:${getStressState(m.stress ?? 0).color};border-radius:3px;${getStressState(m.stress ?? 0).blink ? 'animation:blink 1s infinite' : ''}">${getStressState(m.stress ?? 0).label}</span>
   </div>
-  <div class="stat-row" style="font-size:8px;color:var(--tx3);padding-left:49px">
-    ${(m.stressLog&&m.stressLog[0])?`← ${m.stressLog[0].label}${m.stressLog[0].value>0?'+':''}${Math.round(m.stressLog[0].value)}`:''}
+  <div class="stat-bars-full">
+    ${(m.stressLog && m.stressLog[0]) ? `← ${m.stressLog[0].label}${m.stressLog[0].value > 0 ? '+' : ''}${Math.round(m.stressLog[0].value)}` : ''}
   </div>
   <div class="stat-row">
     <span class="stat-label">体力</span>
-    <div class="stat-track"><div class="stat-fill health" style="width:${m.healthPt??80}%"></div></div>
-    <span>${m.healthPt??80}${(m.healthPt??80)<=30?'<span class="stat-warn">⚠風邪</span>':''}</span>
+    <div class="stat-track"><div class="stat-fill health" style="width:${m.healthPt ?? 80}%"></div></div>
+    <span>${m.healthPt ?? 80}${(m.healthPt ?? 80) <= 30 ? '<span class="stat-warn">⚠風邪</span>' : ''}</span>
   </div>
   <div class="stat-row">
     <span class="stat-label">メンタル</span>
-    <div class="stat-track"><div class="stat-fill mental" style="width:${m.mentalPt??80}%"></div></div>
-    <span>${m.mentalPt??80}${(m.mentalPt??80)<=30?'<span class="stat-warn">⚠鬱</span>':''}</span>
+    <div class="stat-track"><div class="stat-fill mental" style="width:${m.mentalPt ?? 80}%"></div></div>
+    <span>${m.mentalPt ?? 80}${(m.mentalPt ?? 80) <= 30 ? '<span class="stat-warn">⚠鬱</span>' : ''}</span>
   </div>
 </div>
-${m.rebellion?'<div class="rebellion-badge">⚡反発中</div>':''}
+${m.rebellion ? '<div class="rebellion-badge">⚡反発中</div>' : ''}
 ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
 </div>`;
         } else {
@@ -2229,7 +2412,7 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
       G_STATE.roster.forEach(c => {
         html += `<div class="rcd">
-<div class="rcdn">${c.name} ${c.gender} ${c.age}歳${c.growthTag?`<span class="growth-tag">${c.growthTag}</span>`:''}</div>
+<div class="rcdn">${c.name} ${c.gender} ${c.age}歳${c.growthTag ? `<span class="growth-tag">${c.growthTag}</span>` : ''}</div>
 <div class="rcdm">${c.personality} / ${c.sleepSchedule}<br>好物:${c.favoriteFood}<br>癖:${c.quirk}${c.ailment ? '<br>持病:' + c.ailment : ''}</div>
 <div class="stg">
 <span class="stag sg">${c.skill}↑</span>
@@ -2255,7 +2438,7 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
         G_STATE.pendingReports.forEach((r, i) => {
           const p = r.party;
           const hasDrop = r.events.some(e => e.type === 'drop');
-          const hasTrouble = r.events.some(e => ['conflict','death','illness'].includes(e.type));
+          const hasTrouble = r.events.some(e => ['conflict', 'death', 'illness'].includes(e.type));
           const hasRankUp = r.rankUp;
           const rcColor = r.questDone ? 'rcard-quest' : hasRankUp ? 'rcard-rankup' : hasTrouble ? 'rcard-trouble' : hasDrop ? 'rcard-drop' : '';
           html += `<div class="rc ${rcColor}">
