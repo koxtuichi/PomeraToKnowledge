@@ -1672,7 +1672,7 @@
     }
 
     let G_STATE = {
-      week: 1, year: 1, gold: 200,
+      week: 1, year: 1, gold: 500,
       parties: [], roster: [], dismissed: [],
       inventory: [], wishList: [], reputation: 0,
       guildRank: 'D',
@@ -1925,7 +1925,11 @@
       const weekly = party.directive.cpPerWeek || 20;
       if (G_STATE.gold < weekly) {
         party.cpDebt = (party.cpDebt || 0) + weekly;
-        party.members.filter(m => !m.dead).forEach(m => { addStressEvent(m, 'financial_worry', {}); });
+        party.members.filter(m => !m.dead).forEach(m => {
+          // 同じ週に複数回発火しないよう制限
+          const alreadyThisWeek = m.stressLog && m.stressLog.some(e => e.id === 'financial_worry' && e.week === G_STATE.week);
+          if (!alreadyThisWeek) addStressEvent(m, 'financial_worry', {});
+        });
         if (party.cpDebt >= weekly * 3) {
           party.status = 'disbanded';
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が報酬未払いで解散した`);
@@ -1959,7 +1963,7 @@
         }
       }
 
-      // 毎週ステータス変動
+      // 毎週ステータス変動 & ストレスイベント発火
       party.members.filter(m => !m.dead).forEach(m => {
         // ストレス自然回復 & 体力・メンタル変動
         m.stress = Math.max(0, (m.stress || 0) - 2);
@@ -1968,6 +1972,29 @@
         m.mood = Math.max(0, Math.min(100, (m.mood || 70) + (m.mentalPt < 40 ? -3 : 0)));
         // 反発フラグがあると毎週moodが下がる
         if (m.rebellion) m.mood = Math.max(0, (m.mood || 70) - 5);
+        // 毎週ランダムなストレスイベント発火 (多様性を高める) — 同週・同IDは1回のみ
+        const rRand = Math.random();
+        const alreadyHas = (id) => m.stressLog && m.stressLog.some(e => e.id === id && e.week === G_STATE.week);
+        if (rRand < 0.15 && !alreadyHas('health_anxiety')) {
+          addStressEvent(m, 'health_anxiety', {});
+        } else if (rRand < 0.28 && !alreadyHas('favorite_food_relief')) {
+          addStressEvent(m, 'favorite_food_relief', {});
+        } else if (rRand < 0.38 && !alreadyHas('bad_weather')) {
+          addStressEvent(m, 'bad_weather', {});
+        } else if (rRand < 0.46 && m.mentalPt < 50 && !alreadyHas('anniversary_alone')) {
+          addStressEvent(m, 'anniversary_alone', {});
+        } else if (rRand < 0.54 && (m.morale || 50) > 70 && !alreadyHas('friend_support')) {
+          addStressEvent(m, 'friend_support', {});
+        } else if (rRand < 0.60 && m.adventureWeeks && m.adventureWeeks % 4 === 0 && !alreadyHas('homesickness')) {
+          addStressEvent(m, 'homesickness', {});
+        } else if (rRand < 0.65 && m.adventureWeeks && m.adventureWeeks % 8 === 0 && !alreadyHas('sleep_disorder')) {
+          addStressEvent(m, 'sleep_disorder', {});
+        } else if (rRand < 0.72 && !alreadyHas('harsh_climate')) {
+          addStressEvent(m, 'harsh_climate', {});
+        } else if (rRand < 0.78 && (m.stress || 0) > 40 && !alreadyHas('ambush')) {
+          // ストレスが高い時は戦闘恐怖
+          addStressEvent(m, 'combat_fear', {});
+        }
       });
       // ストレス閾値効果: 毎週の悪化
       party.members.filter(m => !m.dead).forEach(m => {
@@ -2430,7 +2457,7 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
     // ---- REPORTS VIEW ---------------------------------------------------------
     function showReportsView() {
       currentView = 'reports';
-      let html = `<div class="ph"><div class="pht">週次報告</div><div class="phs">${G_STATE.pendingReports.length}件の未読報告</div></div>`;
+      let html = `<div class="ph"><div class="pht">週次報告</div><div style="display:flex;align-items:center;gap:8px"><div class="phs">${G_STATE.pendingReports.length}件の未読報告</div>${G_STATE.pendingReports.length > 0 ? '<button class="hbtn" style="font-size:10px;padding:3px 10px" onclick="dismissAllReports()">全件既読</button>' : ''}</div></div>`;
       if (G_STATE.pendingReports.length === 0) {
         html += `<div class="notice">現在、未読の報告はありません。「週を進める」を押すとパーティーから報告が届きます。</div>`;
       } else {
@@ -2460,6 +2487,13 @@ ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
       renderPartyList();
     }
 
+    function dismissAllReports() {
+      G_STATE.pendingReports = [];
+      saveState();
+      updateHUD();
+      showReportsView();
+      setLogBar('全ての週次報告を既読にしました。');
+    }
     function dismissReport(idx) {
       G_STATE.pendingReports.splice(idx, 1);
       saveState();
