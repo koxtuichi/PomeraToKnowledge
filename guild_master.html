@@ -1986,6 +1986,182 @@
       margin-bottom: 2px;
     }
 
+    /* ===== B. ストレス崩壊全画面演出 ===== */
+    @keyframes collapse-flash {
+      0% {
+        background: rgba(100, 0, 0, 0);
+      }
+
+      15% {
+        background: rgba(180, 0, 0, 0.55);
+      }
+
+      30% {
+        background: rgba(100, 0, 0, 0.2);
+      }
+
+      50% {
+        background: rgba(180, 0, 0, 0.45);
+      }
+
+      70% {
+        background: rgba(100, 0, 0, 0.15);
+      }
+
+      100% {
+        background: rgba(0, 0, 0, 0.88);
+      }
+    }
+
+    @keyframes collapse-shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-8px) rotate(-1deg);
+      }
+
+      40% {
+        transform: translateX(8px) rotate(1deg);
+      }
+
+      60% {
+        transform: translateX(-5px);
+      }
+
+      80% {
+        transform: translateX(5px);
+      }
+    }
+
+    @keyframes collapse-text-in {
+      from {
+        opacity: 0;
+        transform: scale(1.3);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    #stress-collapse-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      animation: collapse-flash 1.2s ease forwards;
+      cursor: pointer;
+    }
+
+    .collapse-icon {
+      font-size: 64px;
+      animation: collapse-shake 0.6s ease 0.3s both;
+    }
+
+    .collapse-title {
+      font-size: 26px;
+      color: #ff4444;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-shadow: 0 0 20px #ff0000;
+      animation: collapse-text-in 0.5s ease 0.5s both;
+    }
+
+    .collapse-body {
+      font-size: 13px;
+      color: #e0b0b0;
+      max-width: 320px;
+      text-align: center;
+      line-height: 2;
+      border: 1px solid #6a0000;
+      border-radius: 8px;
+      padding: 14px 18px;
+      background: rgba(60, 0, 0, 0.7);
+      animation: collapse-text-in 0.5s ease 0.7s both;
+    }
+
+    .collapse-dismiss {
+      font-size: 11px;
+      color: #888;
+      margin-top: 8px;
+      animation: collapse-text-in 0.5s ease 1.2s both;
+    }
+
+    /* ===== C. 地方マップイベントバッジ ===== */
+    .map-event-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .map-ev-storm {
+      background: #263238;
+      color: #90caf9;
+      border: 1px solid #546e7a;
+    }
+
+    .map-ev-monster {
+      background: #3e1a1a;
+      color: #ef9a9a;
+      border: 1px solid #7c2222;
+    }
+
+    .map-ev-caravan {
+      background: #1a2e1a;
+      color: #a5d6a7;
+      border: 1px solid #2e6b2e;
+    }
+
+    .map-ev-rumor {
+      background: #2e2300;
+      color: #ffe082;
+      border: 1px solid #6b5a00;
+    }
+
+    .map-ev-blessing {
+      background: #1a1a3e;
+      color: #b39ddb;
+      border: 1px solid #4a3e7c;
+    }
+
+    /* ===== A. 誘導バナー ===== */
+    .guidance-banner {
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(230, 100, 30, 0.12);
+      border: 1px solid rgba(230, 100, 30, 0.5);
+      font-size: 10px;
+      color: #f0a070;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guidance-banner button {
+      font-size: 9px;
+      padding: 2px 8px;
+      margin-left: auto;
+      background: rgba(200, 160, 24, 0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
     /* ===== E. 施設ボタン強化 ===== */
     .facility-btn {
       flex: 1;
@@ -2691,8 +2867,10 @@
         stress: rnd(0, 20),         // ストレス 0-100 (高→心の病)
         stressLog: [],              // ストレスイベント履歴
         equip: null,                // 装備中アイテム (inventoryのitem object)
-        healthPt: rnd(70, 100),     // 体力ポイント 0-100 (低→風邪)
+        healthPt: rnd(70, 100),     // 体力ポイント 0-100 (低→体力低下)
         mentalPt: rnd(70, 100),     // メンタルポイント 0-100 (低→鬱)
+        maxHp: 100,                 // 最大体力 (宿屋回復の上限に使用)
+        maxMental: 100,             // 最大精神力
         rebellion: false,           // 反発フラグ
         isGrudge: false,
         dead: false,
@@ -2896,6 +3074,8 @@
       skillPts: 2,
       activeQuest: null,
       pendingReports: [], globalLog: [],
+      autoSellRarity: null,      // C: 自動売却閾値 (null/'common'/'uncommon')
+      recruitOrders: [],          // B: 招集オーダーリスト
     };
 
     function saveState() { try { G_STATE._uid = _uid; localStorage.setItem('gm_v1', JSON.stringify(G_STATE)); } catch (e) { } }
@@ -2947,10 +3127,18 @@
         return acc + (rb[m.equip.rarity] || 0);
       }, 0);
       const dropChance = (party.directive.focus === 'drops' ? 0.70 : party.directive.focus === 'economy' ? 0.35 : 0.50) + rankBonus + Math.min(equipBonus, 0.2);
-      // ===== D. 作戦指示: dropMult適用 =====
+      // ===== D. 作戦指示+シナジー: dropMult適用 =====
       const tacticKey = party.tactic || 'assault';
-      const tactic = TACTIC_PRESETS[tacticKey] || TACTIC_PRESETS.assault;
-      const effectiveDropChance = Math.min(0.95, dropChance * tactic.dropMult);
+      // D: シナジー計算 (TACTIC_SYNERGY未定義の場合はフォールバック)
+      const synResult = typeof calcTacticSynergies === 'function' ? calcTacticSynergies(party) : { mods: TACTIC_PRESETS[tacticKey] || TACTIC_PRESETS.assault, active: [] };
+      const tacticMods = synResult.mods;
+      // D: 発動シナジーをログに追加
+      if (synResult.active && synResult.active.length > 0) {
+        synResult.active.forEach(syn => events.push({ type: 'good', text: `💫 シナジー発動: 【${syn.label}】${syn.desc}` }));
+      }
+      // C: 地方マップイベント補正
+      const mapMod = typeof getMapEventModifiers === 'function' ? getMapEventModifiers(party.region) : { dropMod: 0, riskMod: 0 };
+      const effectiveDropChance = Math.min(0.95, dropChance * tacticMods.dropMult * (1 + (mapMod.dropMod || 0)));
       const bonusChance = party.members.some(m => party.members.some(m2 => m !== m2 && m.likedType === m2.trait)) ? 0.1 : 0;
       const dropCount = party.directive.focus === 'drops' ? rnd(1, 3) : 1;
       for (let di = 0; di < dropCount; di++) {
@@ -2962,17 +3150,29 @@
           const item = pick(pool.length ? pool : ITEMS);
           const rv = Math.random();
           let rarity, value;
+          // D: シナジー「熟練採掘」のepicボーナス
+          const epicThreshold = 0.97 - (tacticMods.epicBonus || 0);
           if (rv < 0.55) { rarity = 'common'; value = rnd(5, 15); }
           else if (rv < 0.85) { rarity = 'uncommon'; value = rnd(20, 50); }
-          else if (rv < 0.97) { rarity = 'rare'; value = rnd(60, 150); }
+          else if (rv < epicThreshold) { rarity = 'rare'; value = rnd(60, 150); }
           else { rarity = 'epic'; value = rnd(200, 500); }
           // ランクが高いほどレアリティ補正
           if ((party.rank === 'A' || party.rank === 'S') && rarity === 'common' && Math.random() < 0.3) { rarity = 'uncommon'; value = rnd(20, 50); }
           const loot = { id: uid(), name: item, rarity, value, qty: 1, partyName: party.name, week: G_STATE.week };
           const isWished = G_STATE.wishList.includes(item);
           if (isWished) loot.wished = true;
+          // ===== C. 自動売却チェック =====
+          const RARITY_ORDER = ['common', 'uncommon', 'rare', 'epic'];
+          const autoSell = G_STATE.autoSellRarity && !isWished &&
+            RARITY_ORDER.indexOf(rarity) <= RARITY_ORDER.indexOf(G_STATE.autoSellRarity);
           if (!G_STATE.inventory) G_STATE.inventory = [];
-          G_STATE.inventory.push(loot);
+          if (autoSell) {
+            G_STATE.gold += value;
+            events.push({ type: 'drop', text: `🔄 自動売却: ${rarityBadge(rarity, item)} → +${value}G (倉庫には入らない)` });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を自動売却 +${value}G`);
+          } else {
+            G_STATE.inventory.push(loot);
+          }
           const dropHero = pick(members);
           const dropNarr = EXPEDITION_DRAMA.discovery(dropHero, item, party.region);
           const dropNarrText = isWished ? `⭐ ${pickNarrative(dropNarr)}` : pickNarrative(dropNarr);
@@ -2998,6 +3198,30 @@
             G_STATE.skillPts = (G_STATE.skillPts || 0) + 1;
             events.push({ type: 'morale', text: `♟️ スキルポイントを1pt獲得した！ (合計: ${G_STATE.skillPts}pt)` });
           }
+        }
+      }
+
+      // ===== A. 任務完了 → 解散チェック =====
+      if (party.targetItem && party.status !== 'completed') {
+        const acquired = G_STATE.inventory.some(it => it.name === party.targetItem && it.partyName === party.name && it.week === G_STATE.week)
+          || (G_STATE.globalLog[0] || '').includes(`「${party.targetItem}」`);
+        // inventoryから今週このパーティーが入手したtargetItemを確認
+        const missionItem = G_STATE.inventory.find(
+          it => it.name === party.targetItem && it.partyName === party.name && it.week === G_STATE.week
+        );
+        if (missionItem) {
+          // 任務完了: メンバーをrosterに返却
+          const returningMembers = [...party.members];
+          returningMembers.forEach(m => {
+            m.lastPartyName = party.name;
+            m.adventureWeeks = (m.adventureWeeks || 0) + (G_STATE.week - (party.startWeek || G_STATE.week));
+            m.hiredPartyId = null;
+          });
+          G_STATE.roster.push(...returningMembers);
+          party.members = [];
+          party.status = 'completed';
+          events.push({ type: 'good', text: `🎉 任務完了！「${party.targetItem}」を入手。${party.name}は解散し、冒険者は待機所に戻った。` });
+          G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${party.targetItem}」の入手任務を完了し解散`);
         }
       }
 
@@ -3277,7 +3501,21 @@
       });
       // ストレス崩壊チェック（ストレス100でブレイクダウン発動）
       party.members.filter(m => !m.dead).forEach(m => {
-        if ((m.stress || 0) >= 100) checkStressBreakdown(m, party, events);
+        if ((m.stress || 0) >= 100) {
+          // B: 狂気事件演出
+          if (typeof MADNESS_EVENTS !== 'undefined' && MADNESS_EVENTS.length > 0) {
+            const ev = MADNESS_EVENTS[Math.floor(Math.random() * MADNESS_EVENTS.length)];
+            try { ev.apply(m, party); } catch (e) { }
+            events.push({ type: 'death', text: `【💀 狂気事件】${m.name}がストレス崩壊！「${ev.title}」が発動。${ev.result}` });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${m.name}が狂気事件「${ev.title}」を起こした`);
+            // 全画面演出はsetTimeoutで非同期表示
+            if (typeof showStressCollapseOverlay === 'function') {
+              setTimeout(() => showStressCollapseOverlay(m.name, ev), 800);
+            }
+          } else {
+            checkStressBreakdown(m, party, events);
+          }
+        }
       });
 
       // ストレス90以上かつ崩壊未発動のメンバーが自主離脱（フォールバック）
@@ -3429,7 +3667,7 @@
       const diff = G_STATE.difficulty || 'normal';
       const diffMult = { casual: 0.6, normal: 1.0, hard: 1.4 }[diff] || 1.0;
       const boss = BOSS_EVENTS[Math.floor(Math.random() * BOSS_EVENTS.length)];
-      const partyPower = (party.rank || 1) + party.members.filter(m => !m.dead).length;
+      const partyPower = (RANKS.indexOf(party.rank || 'F') + 1) + party.members.filter(m => !m.dead).length;
       const threshold = boss.risk * diffMult;
       events.push({ type: 'crisis', text: `【伝説級の敵】⚠ ${boss.name} — ${boss.text}` });
       if (partyPower >= threshold) {
@@ -3452,7 +3690,167 @@
     }
     window.checkBossEncounter = checkBossEncounter;
 
+    // ===== B. ストレス崩壊全画面演出 =====
+    const MADNESS_EVENTS = [
+      {
+        icon: '🔥', title: '烈火の狂乱', status: '錯乱', result: 'ストレス0に戻るが、1週間「錯乱」状態になり全行動に-20%ペナルティ。',
+        apply: (m) => { m.stress = 0; m.madnessType = '錯乱'; m.madnessWeeksLeft = 1; }
+      },
+      {
+        icon: '🌀', title: '深淵への逃走', status: '逃走', result: 'パーティーから脱走。ストレスは完全リセットされるが、そのメンバーは消失。',
+        apply: (m, party) => { m.stress = 0; m.dead = true; party && (party.members = party.members.filter(x => x.id !== m.id)); }
+      },
+      {
+        icon: '😱', title: '亡命者の幻覚', status: '幻覚', result: 'ストレス30に戻る。4週間、戦闘時に50%でドロップ失敗する「幻覚」状態になる。',
+        apply: (m) => { m.stress = 30; m.madnessType = '幻覚'; m.madnessWeeksLeft = 4; }
+      },
+      {
+        icon: '💀', title: '死の予感', status: '絶望', result: 'morale 0・healthPt 10に急落。ストレス50に戻る。',
+        apply: (m) => { m.stress = 50; m.morale = 0; m.healthPt = 10; }
+      },
+      {
+        icon: '⚡', title: '自傷の衝動', status: '自傷', result: 'healthPt -30。ストレス20に戻り、気力は回復するが体が持たない。',
+        apply: (m) => { m.stress = 20; m.healthPt = Math.max(1, (m.healthPt || 80) - 30); }
+      },
+      {
+        icon: '🗣️', title: '支離滅裂な独り言', status: '錯乱', result: 'ストレス0・mood 0に戻る。2週間、揉め事発生率が20%上昇する「錯乱」状態になる。',
+        apply: (m) => { m.stress = 0; m.mood = 0; m.madnessType = '錯乱'; m.madnessWeeksLeft = 2; }
+      },
+      {
+        icon: '🌑', title: '暗黒の沈黙', status: '廃人', result: 'mentalPt 5に急落。ストレス0になるが、2週間行動不能になる。',
+        apply: (m) => { m.stress = 0; m.mentalPt = 5; m.madnessType = '廃人'; m.madnessWeeksLeft = 2; }
+      },
+      {
+        icon: '🔮', title: '呪詛の叫び', status: 'パニック', result: 'ストレス0に戻るが、パーティー全員にストレス+15が伝播する。',
+        apply: (m, party) => { m.stress = 0; party && party.members.forEach(x => { if (x.id !== m.id) x.stress = Math.min(99, (x.stress || 0) + 15); }); }
+      },
+      {
+        icon: '😭', title: '絶叫と涙', status: '虚脱', result: 'ストレス0・全ステータス-10。しばらく活動が鈍化する。',
+        apply: (m) => { m.stress = 0; m.mood = Math.max(0, (m.mood || 70) - 10); m.mentalPt = Math.max(0, (m.mentalPt || 80) - 10); }
+      },
+      {
+        icon: '🎭', title: '偽りの平静', status: '仮面', result: 'ストレス0に見えるが内部ストレスが20残り、3週後に再崩壊リスク60%。',
+        apply: (m) => { m.stress = 20; m.madnessType = '仮面'; m.madnessWeeksLeft = 3; }
+      },
+    ];
+    window.MADNESS_EVENTS = MADNESS_EVENTS;
+
+    function showStressCollapseOverlay(memberName, event) {
+      const old = document.getElementById('stress-collapse-overlay');
+      if (old) old.remove();
+      const div = document.createElement('div');
+      div.id = 'stress-collapse-overlay';
+      div.innerHTML = `
+        <div class="collapse-icon">${event.icon}</div>
+        <div class="collapse-title">狂気事件 — ${event.title}</div>
+        <div class="collapse-body">
+          <strong style="color:#ff6666">${memberName}</strong> がストレス100に到達した。<br>
+          <em style="color:#cc8888">${event.status}</em> 状態が発動した。<br><br>
+          ${event.result}
+        </div>
+        <div class="collapse-dismiss">画面をクリックして続ける</div>`;
+      div.onclick = () => div.remove();
+      document.body.appendChild(div);
+      if (typeof SFX !== 'undefined' && SFX.stressBreak) SFX.stressBreak();
+    }
+    window.showStressCollapseOverlay = showStressCollapseOverlay;
+
+    // ===== C. 地方マップ動的イベント =====
+    const MAP_EVENT_TYPES = [
+      { id: 'storm', icon: '⛈', label: '荒天発生', cls: 'map-ev-storm', dropMod: -0.15, riskMod: 0, desc: 'ドロップ-15%' },
+      { id: 'monster', icon: '👹', label: '魔物大発生', cls: 'map-ev-monster', dropMod: 0.05, riskMod: +1, desc: '危険度+1・ドロップ+5%' },
+      { id: 'caravan', icon: '🚚', label: '行商隊到来', cls: 'map-ev-caravan', dropMod: 0.2, riskMod: -1, desc: 'ドロップ+20%・危険度-1' },
+      { id: 'rumor', icon: '💎', label: '宝の噂', cls: 'map-ev-rumor', dropMod: 0.35, riskMod: 0, desc: 'ドロップ+35%' },
+      { id: 'blessing', icon: '✨', label: '神聖な加護', cls: 'map-ev-blessing', dropMod: 0.1, riskMod: -1, desc: 'ドロップ+10%・危険度-1' },
+    ];
+    window.MAP_EVENT_TYPES = MAP_EVENT_TYPES;
+
+    function spawnMapEvents() {
+      if (!G_STATE.mapEvents) G_STATE.mapEvents = {};
+      // 前週のイベントを期限切れ処理
+      Object.keys(G_STATE.mapEvents).forEach(reg => {
+        if (G_STATE.mapEvents[reg] && G_STATE.mapEvents[reg].expireWeek <= G_STATE.week) {
+          delete G_STATE.mapEvents[reg];
+        }
+      });
+      // 各地方で15%確率でイベント発生
+      Object.keys(REGION_DATA).forEach(reg => {
+        if (G_STATE.mapEvents[reg]) return; // 既にイベント中
+        if (Math.random() < 0.15) {
+          const ev = MAP_EVENT_TYPES[Math.floor(Math.random() * MAP_EVENT_TYPES.length)];
+          G_STATE.mapEvents[reg] = { ...ev, expireWeek: G_STATE.week + rnd(1, 3) };
+          addLog(`🗺 ${reg}で「${ev.icon}${ev.label}」が発生した！`);
+        }
+      });
+    }
+    window.spawnMapEvents = spawnMapEvents;
+
+    function getMapEventModifiers(region) {
+      if (!G_STATE.mapEvents || !G_STATE.mapEvents[region]) return { dropMod: 0, riskMod: 0 };
+      const ev = G_STATE.mapEvents[region];
+      return { dropMod: ev.dropMod || 0, riskMod: ev.riskMod || 0 };
+    }
+    window.getMapEventModifiers = getMapEventModifiers;
+
+    // ===== D. 作戦シナジーシステム =====
+    const TACTIC_SYNERGY = [
+      {
+        id: 'assault_harmony',
+        label: '⚔ 以心伝心の猛攻',
+        desc: '積極攻撃中・相性良メンバーがいるとストレス増加ゼロ',
+        check: (party) => party.tactic === 'assault' &&
+          party.members.some(m => party.members.some(m2 => m.id !== m2.id && m2.trait === m.likedType)),
+        apply: (mods) => { mods.stressMult = 1.0; },
+      },
+      {
+        id: 'guard_ironwall',
+        label: '🛡 鉄壁の行進',
+        desc: '堅実防衛中・全員体力80以上で負傷確率0',
+        check: (party) => party.tactic === 'guard' &&
+          party.members.every(m => (m.healthPt || 80) >= 80),
+        apply: (mods) => { mods.injuryMult = 0; },
+      },
+      {
+        id: 'gather_veteran',
+        label: '🎒 熟練採掘',
+        desc: '素材優先中・パーティーランクBかA以上でepic出現率+10%',
+        check: (party) => party.tactic === 'gather' &&
+          (party.rank === 'B' || party.rank === 'A' || party.rank === 'S'),
+        apply: (mods) => { mods.epicBonus = (mods.epicBonus || 0) + 0.10; },
+      },
+      {
+        id: 'assault_warcry',
+        label: '⚔ 闘気の結集',
+        desc: '積極攻撃中・全員morale 70以上でドロップ追加+15%',
+        check: (party) => party.tactic === 'assault' &&
+          party.members.every(m => (m.morale || 50) >= 70),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.15; },
+      },
+    ];
+    window.TACTIC_SYNERGY = TACTIC_SYNERGY;
+
+    function calcTacticSynergies(party) {
+      const mods = {
+        dropMult: TACTIC_PRESETS[party.tactic || 'assault'].dropMult,
+        injuryMult: TACTIC_PRESETS[party.tactic || 'assault'].injuryMult,
+        stressMult: TACTIC_PRESETS[party.tactic || 'assault'].stressMult,
+        epicBonus: 0
+      };
+      const active = [];
+      TACTIC_SYNERGY.forEach(syn => {
+        try {
+          if (party.members.length >= 1 && syn.check(party)) {
+            syn.apply(mods);
+            active.push(syn);
+          }
+        } catch (e) { }
+      });
+      return { mods, active };
+    }
+    window.calcTacticSynergies = calcTacticSynergies;
+
     // ---- GRUDGE SYSTEM -----------------------------------------------------------
+
     function checkGrudge() {
       G_STATE.dismissed.forEach(c => {
         if (c.isGrudge && Math.random() < 0.15) {
@@ -3556,9 +3954,33 @@
       });
       // daily roster refresh (new char every week chance)
       if (Math.random() < 0.7) G_STATE.roster.push(genChar());
-      // limit roster to 10
-      if (G_STATE.roster.length > 10) G_STATE.roster.shift();
+      // ===== B. 待機所上限 (ランク連動) =====
+      const ROSTER_CAP = { D: 10, C: 10, B: 15, A: 20, S: 30 };
+      const rosterCap = ROSTER_CAP[G_STATE.guildRank] || 10;
+      while (G_STATE.roster.length > rosterCap) {
+        const removed = G_STATE.roster.shift();
+        addLog(`${removed ? removed.name : '冒険者'}が待機所を去った（上限${rosterCap}人）`, 'evi');
+      }
+      // ===== B. 招集オーダー週次処理 =====
+      if (!G_STATE.recruitOrders) G_STATE.recruitOrders = [];
+      G_STATE.recruitOrders = G_STATE.recruitOrders.filter(order => {
+        order.weeksLeft = (order.weeksLeft || 1) - 1;
+        if (order.weeksLeft <= 0) {
+          // オーダー条件に合ったキャラを生成してrosterへ
+          const newChar = genChar();
+          if (order.skill && order.skill !== 'any') newChar.skill = order.skill;
+          if (order.gender && order.gender !== 'any') newChar.gender = order.gender;
+          newChar.recruited = true; // 招集マーク
+          G_STATE.roster.push(newChar);
+          addLog(`📣 招集完了: 「${newChar.name}」が待機所に到着した！`, 'evd');
+          G_STATE.globalLog.unshift(`[Week${G_STATE.week}] 招集: ${newChar.name}(${newChar.skill})が待機所に到着`);
+          return false; // 完了したオーダーは削除
+        }
+        return true;
+      });
+      if (typeof spawnMapEvents === 'function') spawnMapEvents();
       checkGrudge();
+
       G_STATE.pendingReports.push(...reports);
       // 週報の膨れ上がり防止: パーティーごとに最新5件のみ保持
       const reportsByParty = {};
@@ -3940,6 +4362,17 @@
       let h = `<div class="ph"><div class="pht">🏪 倉庫・販売</div>
   <div class="phs">${inv.length}件 / 合計売値: ${inv.reduce((s, x) => s + x.value, 0)}G</div></div>`;
 
+      // ===== C. 自動売却設定パネル =====
+      const autoSell = G_STATE.autoSellRarity || 'none';
+      h += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
+      h += `<div style="font-size:10px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;">🔄 自動売却設定<span style="color:var(--tx3);font-size:9px;margin-left:8px;">（⭐ウィッシュリストのアイテムは対象外）</span></div>`;
+      h += `<div style="display:flex;gap:6px;">`;
+      [['none', 'なし'], ['common', '並以下'], ['uncommon', '良以下']].forEach(([v, lbl]) => {
+        const active = autoSell === v || (v === 'none' && !G_STATE.autoSellRarity);
+        h += `<button class="hbtn2" onclick="setAutoSell('${v}')" style="flex:1;font-size:11px;${active ? 'background:var(--gold);color:#1a0f00;font-weight:700;' : ''}">${lbl}</button>`;
+      });
+      h += `</div></div>`;
+
       // ウィッシュリスト
       const wl = G_STATE.wishList || [];
       h += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
@@ -4038,6 +4471,13 @@
         if (rd.specialty.length) {
           h += `<div style="font-size:10px;color:var(--gold);margin-bottom:8px;line-height:1.5;">✦ ${rd.specialty.slice(0, 3).join('<br>✦ ')}</div>`;
         }
+        // C: 地方マップイベントバッジ
+        if (G_STATE.mapEvents && G_STATE.mapEvents[reg]) {
+          const mev = G_STATE.mapEvents[reg];
+          const remaining = mev.expireWeek - G_STATE.week;
+          h += `<div class="map-event-badge ${mev.cls || 'map-ev-rumor'}">${mev.icon} ${mev.label} <span style="opacity:.7">あと${remaining}週</span></div>`;
+          h += `<div style="font-size:9px;color:#aaa;margin-top:2px">${mev.desc}</div>`;
+        }
         if (assignedParties.length) {
           h += `<div style="position:absolute;top:8px;right:8px;background:var(--green);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;">派遣中 ${assignedParties.length}</div>`;
           assignedParties.forEach(p => {
@@ -4047,6 +4487,7 @@
           h += `<div style="font-size:10px;color:var(--tx3);font-style:italic;">空き — パーティー未派遣</div>`;
         }
         h += `</div>`;
+
       });
       h += `</div>`;
       document.getElementById('v-map').innerHTML = h;
@@ -4335,7 +4776,27 @@
       }
       html += `</div>`;
 
+      // ===== E. パーティーランクXP進捗バー =====
+      const curRankIdx = RANKS ? RANKS.indexOf(p.rank || 'F') : -1;
+      const nextRankForBar = (RANKS && RANK_XP && curRankIdx >= 0 && curRankIdx < RANKS.length - 1) ? RANKS[curRankIdx + 1] : null;
+      if (nextRankForBar && RANK_XP) {
+        const curXpMin = RANK_XP[curRankIdx] || 0;
+        const nextXpReq = RANK_XP[curRankIdx + 1] || 999;
+        const xpProgress = Math.min(100, Math.round(((p.xp || 0) - curXpMin) / (nextXpReq - curXpMin) * 100));
+        const xpLeft = Math.max(0, nextXpReq - (p.xp || 0));
+        html += `<div style="padding:4px 12px 6px;background:var(--bg2);border-bottom:1px solid var(--bd2);">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:3px;">
+            <span>ランク ${p.rank || 'F'} → ${nextRankForBar}</span>
+            <span style="color:var(--gold)">あと${xpLeft}XP</span>
+          </div>
+          <div style="background:#1a1006;border-radius:3px;height:4px;width:100%;">
+            <div style="background:var(--gold);height:4px;border-radius:3px;width:${xpProgress}%;transition:width 0.5s;"></div>
+          </div>
+        </div>`;
+      }
+
       // Members
+
       html += `<div class="sec"><div class="sech">メンバー</div><div class="mg">`;
       for (let i = 0; i < slots; i++) {
         const m = p.members[i];
@@ -4350,7 +4811,7 @@
           };
           const portraitFile = portraitMap[m.name];
           const portraitSrc = portraitFile ? portraitFile : (m.gender === '♀' ? 'portrait_warrior_f.png' : 'portrait_rogue_m.png');
-          html += `<div class="mc${isLdr ? ' ldr' : ''}${isCritical ? ' stress-critical' : ''}${ (m.stress||0)>=80&&(m.stress||0)<100 ? ' stress-warn' : ''}">
+          html += `<div class="mc${isLdr ? ' ldr' : ''}${isCritical ? ' stress-critical' : ''}${(m.stress || 0) >= 80 && (m.stress || 0) < 100 ? ' stress-warn' : ''}">
 <button class="mcrm" onclick="removeMember(${pid},${m.id})" title="解雇">✕</button>
 <div class="mc-portrait-wrap">
 <div class="mc-portrait"><img src="${portraitSrc}" alt="${m.name}" onerror="this.style.display='none'"></div>
@@ -4385,7 +4846,7 @@ ${(() => { const mult = PERSO_STRESS_MULT[m.personality] || {}; const tags = [];
   <div class="stat-row">
     <span class="stat-label">❤️ 体力</span>
     <div class="stat-track"><div class="stat-fill health${(m.healthPt ?? 80) <= 30 ? ' danger-pulse' : ''}" style="width:${m.healthPt ?? 80}%"></div></div>
-    <span>${m.healthPt ?? 80}${(m.healthPt ?? 80) <= 30 ? '<span class="stat-warn">⚠風邪</span>' : ''}</span>
+    <span>${m.healthPt ?? 80}${(m.healthPt ?? 80) <= 30 ? '<span class="stat-warn">⚠体力低下</span>' : ''}</span>
   </div>
   <div class="stat-row">
     <span class="stat-label">🧠 心</span>
@@ -4420,12 +4881,24 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       }
       html += `</div></div>`;
 
+      // ===== A. 「次の行動」誘導バナー =====
+      const highStressMembers = p.members.filter(m => !m.dead && (m.stress || 0) >= 80);
+      if (highStressMembers.length > 0) {
+        const names = highStressMembers.map(m => m.name).join('・');
+        const hasChurchGold = G_STATE.gold >= p.members.filter(m => !m.dead).length * 50;
+        html += `<div class="guidance-banner">
+          💡 <strong>${names}</strong> のストレスが危険域です！
+          ${hasChurchGold ? '<button onclick="recoverAtChurch(' + p.id + ')">⛪ 今すぐ教会へ</button>' : '<button onclick="recoverAtInn(' + p.id + ')">🏨 宿屋で休息</button>'}
+        </div>`;
+      }
+
       // ===== E. 施設 (上部配置・視認性強化) =====
       const aliveCnt = p.members.filter(m => !m.dead).length;
       const innCost = aliveCnt * 30;
       const churchCost = aliveCnt * 50;
       const innAfford = G_STATE.gold >= innCost;
       const chAfford = G_STATE.gold >= churchCost;
+
       html += `<div class="sec">
 <div class="sech" data-tip="パーティーを回復施設へ連れていきGoldを消費して回復させます">🏘 施設 <span style="font-size:9px;color:var(--tx3)">生存${aliveCnt}名</span></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
@@ -4498,21 +4971,49 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
     // ---- ROSTER VIEW ----------------------------------------------------------
     function showRosterView() {
       currentView = 'roster';
-      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター</div></div><div class="rgrid">`;
+      const ROSTER_CAP = { D: 10, C: 10, B: 15, A: 20, S: 30 };
+      const cap = ROSTER_CAP[G_STATE.guildRank] || 10;
+      const orders = G_STATE.recruitOrders || [];
+      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター ${G_STATE.roster.length} / ${cap}人</div></div>`;
+
+      // ===== B. 招集パネル =====
+      html += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
+      html += `<div style="font-size:10px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;">📣 招集 <span style="color:var(--tx3);font-size:9px;">（Gold消費で特定スキルの冒険者を2週後に呼び寄せる）</span></div>`;
+      if (orders.length > 0) {
+        html += `<div style="margin-bottom:6px;">`;
+        orders.forEach((o, i) => {
+          html += `<div style="font-size:11px;color:var(--tx);margin-bottom:3px;">⏳ ${o.skill !== 'any' ? o.skill : '任意'}の冒険者 — あと${o.weeksLeft}週 <button onclick="cancelRecruitOrder(${i})" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:10px;">✕</button></div>`;
+        });
+        html += `</div>`;
+      }
+      if (orders.length < 3) {
+        html += `<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">`;
+        html += `<select id="recruit-skill" style="font-size:11px;background:var(--bg3);border:1px solid var(--brd);color:var(--tx);border-radius:4px;padding:3px;flex:1;"><option value="any">— スキル指定なし —</option>${['剣', '弓', '魔法', '回復', '採掘', '隠密', '外交', '錬金', '格闘', '盾'].map(s => `<option value="${s}">${s}使い</option>`).join('')}</select>`;
+        html += `<button class="hbtn2" onclick="postRecruitOrder()" style="font-size:11px;white-space:nowrap;">300G で招集</button>`;
+        html += `</div>`;
+      } else {
+        html += `<div style="font-size:11px;color:var(--tx3);">招集枠が満員です（最大3件）</div>`;
+      }
+      html += `</div>`;
+
+      // キャラクターリスト
+      html += `<div class="rgrid">`;
       G_STATE.roster.forEach(c => {
         const isHired = !!c.hiredPartyId;
         const hiredParty = isHired ? G_STATE.parties.find(p => p.id === c.hiredPartyId) : null;
         html += `<div class="rcd${isHired ? ' hired-out' : ''}">
 ${isHired ? `<div class="hired-badge">✅ 所属済み: ${hiredParty?.name || 'パーティー'}</div>` : ''}
+${c.lastPartyName ? `<div style="font-size:9px;color:var(--gold);margin-bottom:3px;">🏅 元 ${c.lastPartyName}</div>` : ''}
+${c.recruited ? `<div style="font-size:9px;color:#4fc3f7;margin-bottom:3px;">📣 招集により到着</div>` : ''}
 <div class="rcdn">${c.name} ${c.gender} ${c.age}歳${c.growthTag ? `<span class="growth-tag">${c.growthTag}</span>` : ''}</div>
 <div style="font-size:11px;color:var(--gold);font-style:italic;margin:4px 0 6px;padding:6px;border-left:2px solid var(--bd);">${c.flavorQuote || '...'}</div>
-<div style="font-size:9px;color:var(--tx3);margin-bottom:6px">🌐 ${c.birthplace || '—'} | ${c.careerFlavor || ''}</div>
+<div style="font-size:9px;color:var(--tx3);margin-bottom:6px;">🌐 ${c.birthplace || '—'} | ${c.careerFlavor || ''}</div>
 <div class="rcdm">${c.personality} / ${c.sleepSchedule}<br>好物:${c.favoriteFood}<br>癖:${c.quirk}${c.ailment ? '<br>持病:' + c.ailment : ''}</div>
 <div class="stg">
 <span class="stag sg">${c.skill}↑</span>
 <span class="stag sb">${c.weakSkill}↓</span>
 </div>
-<div style="font-size:9px;color:var(--rose);margin-bottom:8px">恋愛: ${c.romanceStyle} / ${c.romanceGender}</div>
+<div style="font-size:9px;color:var(--rose);margin-bottom:8px;">恋愛: ${c.romanceStyle} / ${c.romanceGender}</div>
 ${isHired
             ? `<button class="hbtn2" disabled style="opacity:.5;cursor:not-allowed">✅ 所属済み</button>`
             : `<button class="hbtn2" onclick="openHireModal(${c.id})">＋ パーティーに採用</button>`}
@@ -4877,6 +5378,39 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     window.removeWish = removeWish;
     window.craftRecipe = craftRecipe;
     window.handleChoiceEvent = handleChoiceEvent;
+
+    // ===== C. 自動売却設定 =====
+    function setAutoSell(rarity) {
+      G_STATE.autoSellRarity = (rarity === 'none') ? null : rarity;
+      saveState();
+      showInventoryView();
+      setLogBar(`自動売却: ${rarity === 'none' ? '無効' : rarity + '以下を自動売却'}`);
+    }
+    window.setAutoSell = setAutoSell;
+
+    // ===== B. 招集オーダー =====
+    function postRecruitOrder() {
+      const skillEl = document.getElementById('recruit-skill');
+      const skill = skillEl ? skillEl.value : 'any';
+      const cost = 300;
+      if (G_STATE.gold < cost) { alert(`Gold不足。必要: ${cost}G`); return; }
+      if ((G_STATE.recruitOrders || []).length >= 3) { alert('招集枠が満員です（最大3件）'); return; }
+      G_STATE.gold -= cost;
+      if (!G_STATE.recruitOrders) G_STATE.recruitOrders = [];
+      G_STATE.recruitOrders.push({ skill, gender: 'any', weeksLeft: 2, postedWeek: G_STATE.week });
+      saveState();
+      showRosterView();
+      setLogBar(`📣 招集発注: ${skill !== 'any' ? skill + '使い' : '任意'}の冒険者を2週後に招集 (-${cost}G)`);
+    }
+    window.postRecruitOrder = postRecruitOrder;
+
+    function cancelRecruitOrder(idx) {
+      if (!G_STATE.recruitOrders || !G_STATE.recruitOrders[idx]) return;
+      G_STATE.recruitOrders.splice(idx, 1);
+      saveState();
+      showRosterView();
+    }
+    window.cancelRecruitOrder = cancelRecruitOrder;
 
     // ---- INIT ------------------------------------------------------------------
     function init() {
