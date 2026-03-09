@@ -1962,6 +1962,20 @@
               <p style="margin-top:4px;">④ 評判を積んでギルドランクアップを目指せ！</p>
             </div>
             <div id="guild-rank-display" style="margin-top:20px;font-size:13px;color:var(--tx3)"></div>
+            <div style="margin-top:20px">
+              <p style="color:var(--gold);margin-bottom:10px;font-size:12px">⚙ 難易度を選択</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button id="diff-btn-casual" onclick="setDifficulty('casual')"
+                  style="flex:1;min-width:100px;padding:10px 8px;background:#0c1a08;border:1px solid var(--bd);border-radius:6px;color:var(--tx2);font-size:11px;cursor:pointer;text-align:left;line-height:1.6">🌿
+                  カジュアル<br><span style="font-size:9px;color:var(--tx3)">給与安・ドロップ多・ストレス低</span></button>
+                <button id="diff-btn-normal" onclick="setDifficulty('normal')"
+                  style="flex:1;min-width:100px;padding:10px 8px;background:#1a1205;border:2px solid var(--gold);border-radius:6px;color:var(--tx2);font-size:11px;cursor:pointer;text-align:left;line-height:1.6">⚔
+                  ノーマル<br><span style="font-size:9px;color:var(--tx3)">バランス標準</span></button>
+                <button id="diff-btn-hard" onclick="setDifficulty('hard')"
+                  style="flex:1;min-width:100px;padding:10px 8px;background:#1a0505;border:1px solid var(--bd);border-radius:6px;color:var(--tx2);font-size:11px;cursor:pointer;text-align:left;line-height:1.6">💀
+                  ハードコア<br><span style="font-size:9px;color:var(--tx3)">給与高・ドロップ少・採用2倍</span></button>
+              </div>
+            </div>
           </div>
         </div>
         <div id="v-party" style="display:none"></div>
@@ -2184,9 +2198,11 @@
       const ev = STRESS_EVENTS[id];
       if (!ev) return;
       const label = ev.label(vars || {});
-      const mult = (PERSO_STRESS_MULT[m.personality] || {})[ev.cat] || 1.0;
+      const persoMult = (PERSO_STRESS_MULT[m.personality] || {})[ev.cat] || 1.0;
+      const diff = G_STATE.difficulty || 'normal';
+      const diffStressMult = { casual: 0.5, normal: 1.0, hard: 1.5 }[diff] || 1.0;
       const rawVal = overrideValue !== undefined ? overrideValue : ev.base;
-      const value = Math.round(rawVal * mult);
+      const value = Math.round(rawVal * persoMult * diffStressMult);
       m.stressLog.unshift({ id, label, value, week: G_STATE.week, cat: ev.cat });
       if (m.stressLog.length > 20) m.stressLog.length = 20;
       // stress再計算
@@ -3066,26 +3082,182 @@
           addStressEvent(m, 'combat_fear', {});
         }
       });
+      // ストレス崩壊チェック（ストレス100でブレイクダウン発動）
+      party.members.filter(m => !m.dead).forEach(m => {
+        if ((m.stress || 0) >= 100) checkStressBreakdown(m, party, events);
+      });
 
-      // 崩壊状態のメンバーが自主離脱
-      const collapsedMember = party.members.find(m => !m.dead && (m.stress || 0) >= 90);
+      // ストレス90以上かつ崩壊未発動のメンバーが自主離脱（フォールバック）
+      const collapsedMember = party.members.find(m => !m.dead && (m.stress || 0) >= 90 && (m.stress || 0) < 100);
       if (collapsedMember && party.members.length > 1) {
-        const events_local = events || [];
         const deNarr = EXPEDITION_DRAMA.desertion_warning(collapsedMember);
-        events_local.push({ type: 'conflict', text: `【自主離脱】${collapsedMember.name}は限界を迎えた。${pickNarrative(deNarr)} パーティーを静かに去っていった。` });
+        events.push({ type: 'conflict', text: `【自主離脱】${collapsedMember.name}は限界を迎えた。${pickNarrative(deNarr)} パーティーを静かに去っていった。` });
         party.members = party.members.filter(m => m.id !== collapsedMember.id);
         G_STATE.dismissed = G_STATE.dismissed || [];
         G_STATE.dismissed.push({ ...collapsedMember, dismissedWeek: G_STATE.week, reason: 'collapse' });
       }
 
-      // B-4: キャラ成長タグ付与
+      // ボスエンカウンターチェック（4週ごとに45%で発動）
+      checkBossEncounter(party, events);
+
+      // B-4: キャラ成長タグ付与＋固有エピソード解放チェック
       party.members.filter(m => !m.dead).forEach(m => {
         m.adventureWeeks = (m.adventureWeeks || 0) + 1;
         if (m.adventureWeeks >= 20 && m.growthTag !== '熟練') m.growthTag = '熟練';
         else if (m.adventureWeeks >= 5 && !m.growthTag) m.growthTag = 'ベテラン';
+        const epMilestones = { 5: 0, 10: 1, 20: 2, 40: 3 };
+        const epIdx = epMilestones[m.adventureWeeks];
+        if (epIdx !== undefined) {
+          const charEps = (typeof CHAR_EPISODES !== 'undefined' && CHAR_EPISODES[m.personality]) || (typeof CHAR_EPISODES !== 'undefined' && CHAR_EPISODES['default']) || [];
+          const ep = charEps[epIdx];
+          if (ep) {
+            m.unlockedEpisodes = m.unlockedEpisodes || [];
+            if (!m.unlockedEpisodes.includes(epIdx)) {
+              m.unlockedEpisodes.push(epIdx);
+              events.push({ type: 'good', text: `【📖 エピソード解放】${m.name}: 「${ep.title}」` });
+            }
+          }
+        }
       });
       return { party, events, week: G_STATE.week };
     }
+
+    // ---- CHARACTER EPISODE DATA (C: キャラ愛着強化) --------------------------------
+    const CHAR_EPISODES = {
+      '几帳面': [
+        { title: '初めての依頼', text: '几帳面な性格が功を奏し、初依頼を完璧にこなした。信頼が芽生えた。' },
+        { title: '手帳の記録', text: '彼が持つ手帳には、これまでのすべての依頼が丁寧に記録されていた。' },
+        { title: '折れない信念', text: '何度裏切られても記録を続ける。それが彼の強さだった。' },
+        { title: '伝説の記録者', text: 'ギルドの歴史は彼の手帳に刻まれた。後世まで語り継がれる物語。' },
+      ],
+      '大雑把': [
+        { title: '勘で掴んだ宝', text: '地図も読まず突き進んだ先に、想像を超える財宝があった。' },
+        { title: '豪快な仲間', text: '雑だが温かい。パーティーの誰もが彼の笑顔に救われた。' },
+        { title: '傷だらけの勝利', text: '傷の数だけ強くなる。それが彼の流儀だった。' },
+        { title: '英雄の背中', text: '細かいことを気にしない背中に、仲間は勇気を見た。' },
+      ],
+      '慎重': [
+        { title: '罠を見抜く目', text: '誰もが見落とした罠を彼だけが察知した。仲間の命を救った。' },
+        { title: '計画通りの撤退', text: '負けることも戦略のうち。慎重さが次の勝利を呼んだ。' },
+        { title: '静かな英雄', text: '派手さはないが、彼がいるだけでパーティーの生存率が上がる。' },
+        { title: '知恵の結晶', text: '長年の慎重な積み重ねが、ついに伝説の戦法を生み出した。' },
+      ],
+      '楽観的': [
+        { title: 'どんな底でも笑顔', text: '最悪の状況でも笑えるのは才能だ。仲間の心が軽くなった。' },
+        { title: '希望の言葉', text: '彼の一言がパーティーを再び前へ向かせた。' },
+        { title: '折れない心', text: '何度砕かれても立ち上がる。楽観主義は最強の鎧だった。' },
+        { title: '伝説の楽天家', text: '絶望の中でも笑い続けた男として、歴史に名を刻んだ。' },
+      ],
+      '悲観的': [
+        { title: '最悪を想定した勝利', text: '「どうせ失敗する」と思っていたのに、準備が完璧だったから勝てた。' },
+        { title: '深い洞察', text: '彼の悲観は現実を正確に見る目から来ていた。' },
+        { title: '思わぬ絆', text: '暗い言葉の裏に深い愛情があった。仲間はそれをようやく知った。' },
+        { title: '孤独な英雄', text: '誰にも理解されなくても戦い続けた。それが彼の物語だった。' },
+      ],
+      'default': [
+        { title: '初陣', text: 'はじめての戦いを乗り越え、一歩大きくなった。' },
+        { title: '仲間との絆', text: 'ともに過ごした時間が、かけがえのない絆を育てた。' },
+        { title: '試練の果て', text: '幾多の試練を超えて、本物の強さを手に入れた。' },
+        { title: '伝説の冒険者', text: 'その名はギルドの歴史に永遠に刻まれた。' },
+      ]
+    };
+    window.CHAR_EPISODES = CHAR_EPISODES;
+
+    // ---- STRESS BREAKDOWN SYSTEM -------------------------------------------------
+    const BREAKDOWN_EVENTS = {
+      madness: [
+        '{name}は突然叫び声をあげ、仲間の装備を地面に叩きつけた。誰も止められなかった。',
+        '{name}の目が虚ろになり、仲間の言葉が届かなくなった。狂気が心を蝕んでいる。',
+        '{name}は妄想の中で見えない敵と戦い始め、仲間を傷つけかけた。',
+        '{name}は夜通し笑い続け、翌朝には誰よりも静かに座っていた。',
+      ],
+      catatonic: [
+        '{name}は動かなくなった。生きているが、もう戦えない。',
+        '極限のストレスが{name}の精神を砕いた。廃人—その言葉しか浮かばなかった。',
+        '{name}は食事も拒み、ただ虚空を見つめている。仲間にできることはなかった。',
+      ],
+      awakening: [
+        '奇跡が起きた。{name}は崩壊寸前の精神から這い上がり、目に光が戻った。',
+        '{name}は限界の向こう側で何かを掴んだ。仲間全員が勇気を取り戻した。',
+      ]
+    };
+
+    function checkStressBreakdown(m, party, events) {
+      if ((m.stress || 0) < 100) return;
+      const roll = Math.random();
+      const fill = t => t.replace('{name}', m.name);
+      if (roll < 0.60) {
+        // 狂乱: 全員ムード-20
+        const text = fill(pickNarrative(BREAKDOWN_EVENTS.madness));
+        events.push({ type: 'crisis', text: `【狂気崩壊】${text}` });
+        party.members.filter(x => !x.dead).forEach(x => { x.mood = Math.max(0, (x.mood || 70) - 20); });
+        m.stress = 80;
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が狂気崩壊`);
+      } else if (roll < 0.90) {
+        // 廃人: 永久戦闘不能・強制引退
+        const text = fill(pickNarrative(BREAKDOWN_EVENTS.catatonic));
+        events.push({ type: 'crisis', text: `【廃人化】${text}` });
+        const epCount = (m.unlockedEpisodes || []).length;
+        const farewell = epCount > 0
+          ? `${m.name}は${m.adventureWeeks || 0}週間戦い、${epCount}つの物語を残して廃人となった。`
+          : `${m.name}は${m.adventureWeeks || 0}週間戦い、静かに廃人となった。`;
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${farewell}`);
+        party.members = party.members.filter(x => x.id !== m.id);
+        G_STATE.dismissed = G_STATE.dismissed || [];
+        G_STATE.dismissed.push({ ...m, dismissedWeek: G_STATE.week, reason: 'catatonic' });
+      } else {
+        // 覚醒: ストレスゼロ・全員ムード+10
+        const text = fill(pickNarrative(BREAKDOWN_EVENTS.awakening));
+        events.push({ type: 'good', text: `【奇跡の覚醒】${text}` });
+        m.stress = 0;
+        party.members.filter(x => !x.dead).forEach(x => { x.mood = Math.min(100, (x.mood || 70) + 10); });
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が奇跡の覚醒`);
+      }
+    }
+    window.checkStressBreakdown = checkStressBreakdown;
+
+    // ---- BOSS ENCOUNTER SYSTEM ---------------------------------------------------
+    const BOSS_EVENTS = [
+      { name: '闇竜ヴルガス', text: '大地を揺るがす咆哮とともに漆黒の竜が現れた。', risk: 4 },
+      { name: '魔王の先遣隊長', text: '深紅の鎧をまとった魔王軍の隊長が道を塞いだ。', risk: 3 },
+      { name: '邪神の使徒', text: '虚空から這い出た邪神の使徒が現実を歪め始めた。', risk: 5 },
+      { name: '古の巨人ガルム', text: '山の彼方から地響きとともに石造りの巨人が迫った。', risk: 3 },
+      { name: '吸血鬼の伯爵', text: '夜の帳の中に、数百年の怨念を宿した伯爵が現れた。', risk: 4 },
+      { name: '死霊術師グレン', text: '骸骨の軍団を引き連れた死霊術師が戦場に降り立った。', risk: 3 },
+      { name: '深海の魔女', text: '陸地に這い上がった深海の魔女が毒の霧を放った。', risk: 4 },
+      { name: '封印の番人', text: '古代遺跡の奥から封印の番人が目を覚ました。', risk: 5 },
+      { name: '砂漠の守護竜', text: '灼熱の砂漠で砂嵐を纏った守護竜と鉢合わせした。', risk: 3 },
+      { name: '天空の騎士団長', text: '翼をもつ鎧の騎士団長が空から急降下してきた。', risk: 4 },
+    ];
+
+    function checkBossEncounter(party, events) {
+      if (G_STATE.week % 4 !== 0) return;
+      if (Math.random() >= 0.45) return;
+      const diff = G_STATE.difficulty || 'normal';
+      const diffMult = { casual: 0.6, normal: 1.0, hard: 1.4 }[diff] || 1.0;
+      const boss = BOSS_EVENTS[Math.floor(Math.random() * BOSS_EVENTS.length)];
+      const partyPower = (party.rank || 1) + party.members.filter(m => !m.dead).length;
+      const threshold = boss.risk * diffMult;
+      events.push({ type: 'crisis', text: `【伝説級の敵】⚠ ${boss.name} — ${boss.text}` });
+      if (partyPower >= threshold) {
+        // 勝利
+        const reward = Math.floor(boss.risk * 80 * diffMult);
+        G_STATE.gold += reward;
+        G_STATE.reputation = (G_STATE.reputation || 0) + 10;
+        events.push({ type: 'good', text: `【ボス撃破】${boss.name}を討伐！ +${reward}G +評判10pt` });
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が${boss.name}を討伐！`);
+      } else {
+        // 敗北: 全員に重傷付与
+        party.members.filter(m => !m.dead).forEach(m => {
+          m.severelyInjured = true;
+          m.healthPt = Math.max(1, Math.floor((m.healthPt || 80) * 0.3));
+          m.stress = Math.min(100, (m.stress || 0) + 40);
+        });
+        events.push({ type: 'crisis', text: `【壊滅的敗北】${boss.name}に敗北。パーティー全員が重傷を負った。` });
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が${boss.name}に敗北し壊滅`);
+      }
+    }
+    window.checkBossEncounter = checkBossEncounter;
 
     // ---- GRUDGE SYSTEM -----------------------------------------------------------
     function checkGrudge() {
@@ -3097,6 +3269,62 @@
         }
       });
     }
+
+    // ---- DIFFICULTY PRESETS (E: 難易度選択) ----------------------------------------
+    const DIFFICULTY_PRESETS = {
+      casual: { label: '🌿 カジュアル', payMult: 0.5, dropMult: 1.5, stressMult: 0.5, hireMult: 0.5, desc: '給与が安く探索が安定。ゲームを楽しみたい方向け。' },
+      normal: { label: '⚔ ノーマル', payMult: 1.0, dropMult: 1.0, stressMult: 1.0, hireMult: 1.0, desc: 'バランス重視の標準難度。' },
+      hard: { label: '💀 ハードコア', payMult: 1.5, dropMult: 0.7, stressMult: 1.5, hireMult: 2.0, desc: '給与高・ドロップ少・ストレス急増・採用コスト2倍。死が常に隣にある。' },
+    };
+    window.DIFFICULTY_PRESETS = DIFFICULTY_PRESETS;
+
+    function setDifficulty(key) {
+      G_STATE.difficulty = key;
+      saveState();
+      // ウェルカム画面の選択ボタンをハイライト
+      ['casual', 'normal', 'hard'].forEach(k => {
+        const el = document.getElementById('diff-btn-' + k);
+        if (el) el.style.border = k === key ? '2px solid var(--gold)' : '1px solid var(--bd)';
+      });
+      setLogBar(`難易度「${DIFFICULTY_PRESETS[key].label}」を選択しました。`);
+    }
+    window.setDifficulty = setDifficulty;
+
+    // ---- FACILITY RECOVERY (B: 拠点回復コスト) -------------------------------------
+    function recoverAtInn(partyId) {
+      const p = G_STATE.parties.find(x => x.id === partyId);
+      if (!p) return;
+      const aliveCount = p.members.filter(m => !m.dead).length;
+      const cost = aliveCount * 30;
+      if (G_STATE.gold < cost) { alert(`Gold不足。必要: ${cost}G`); return; }
+      G_STATE.gold -= cost;
+      p.members.filter(m => !m.dead).forEach(m => {
+        m.healthPt = Math.min(m.maxHp || 100, (m.healthPt || 80) + 40);
+        m.mood = Math.min(100, (m.mood || 70) + 20);
+        m.severelyInjured = false;
+      });
+      addLog(`${p.name}が宿屋で休息した。(-${cost}G) 全員の体力+40・ムード+20`);
+      saveState(); updateHUD(); showParty(partyId);
+      setLogBar(`${p.name}が宿屋で回復した。(-${cost}G)`);
+    }
+    window.recoverAtInn = recoverAtInn;
+
+    function recoverAtChurch(partyId) {
+      const p = G_STATE.parties.find(x => x.id === partyId);
+      if (!p) return;
+      const aliveCount = p.members.filter(m => !m.dead).length;
+      const cost = aliveCount * 50;
+      if (G_STATE.gold < cost) { alert(`Gold不足。必要: ${cost}G`); return; }
+      G_STATE.gold -= cost;
+      p.members.filter(m => !m.dead).forEach(m => {
+        m.stress = Math.max(0, (m.stress || 0) - 50);
+        m.mood = Math.min(100, (m.mood || 70) + 10);
+      });
+      addLog(`${p.name}が教会で祈りを捧げた。(-${cost}G) 全員のストレス-50`);
+      saveState(); updateHUD(); showParty(partyId);
+      setLogBar(`${p.name}が教会で回復した。(-${cost}G)`);
+    }
+    window.recoverAtChurch = recoverAtChurch;
 
     // ---- ADVANCE WEEK ------------------------------------------------------------
     function advanceWeek() {
@@ -4016,6 +4244,16 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
         html += `</div></div>`;
       }
 
+      // 施設 (B: 拠点回復コスト)
+      const aliveCnt = p.members.filter(m => !m.dead).length;
+      const innCost = aliveCnt * 30;
+      const churchCost = aliveCnt * 50;
+      html += `<div class="sec"><div class="sech">🏘 施設</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+  <button class="hbtn${G_STATE.gold >= innCost ? '' : ' disabled'}" onclick="recoverAtInn(${p.id})" style="font-size:11px" ${G_STATE.gold < innCost ? 'disabled' : ''}>🏨 宿屋で休息 (-${innCost}G)<br><span style="font-size:9px;color:var(--tx3)">体力+40・ムード+20</span></button>
+  <button class="hbtn${G_STATE.gold >= churchCost ? '' : ' disabled'}" onclick="recoverAtChurch(${p.id})" style="font-size:11px" ${G_STATE.gold < churchCost ? 'disabled' : ''}>⛪ 教会でお祈り (-${churchCost}G)<br><span style="font-size:9px;color:var(--tx3)">ストレス-50</span></button>
+</div></div>`;
+
       // Party recent reports section
       const partyReports = G_STATE.pendingReports.filter(r => r.party && r.party.id === pid);
       const partyLogs = (G_STATE.globalLog || []).filter(s => s.includes(p.name)).slice(0, 6);
@@ -4231,17 +4469,26 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     function addMemberToParty(pid, cid) {
       const p = G_STATE.parties.find(x => x.id === pid);
       if (!p || p.members.length >= 4) return;
-      // B1: spliceで消さずにrosterにフラグを立てて「所属済み」として残す
       const i = G_STATE.roster.findIndex(c => c.id === cid);
       if (i < 0) return;
       const c = G_STATE.roster[i];
-      c.hiredPartyId = pid; // 所属パーティーID
+      // C: 採用コスト (ランク・成長タグに応じて変動)
+      const hireCostTable = { '熟練': 200, 'ベテラン': 100 };
+      const diffMult = { casual: 0.5, normal: 1.0, hard: 2.0 }[G_STATE.difficulty || 'normal'] || 1.0;
+      const baseCost = hireCostTable[c.growthTag] || 50;
+      const hireCost = Math.floor(baseCost * diffMult);
+      if (G_STATE.gold < hireCost) {
+        alert(`Goldが足りません。採用コスト: ${hireCost}G (所持: ${G_STATE.gold}G)`);
+        return;
+      }
+      G_STATE.gold -= hireCost;
+      c.hiredPartyId = pid;
       p.members.push(c);
       if (!p.leaderId) p.leaderId = c.id;
       if (p.members.length > 0) p.status = 'active';
       closeModal('maddmem');
-      saveState(); showParty(pid);
-      setLogBar(`${c.name}が「${p.name}」に加入した。`);
+      saveState(); updateHUD(); showParty(pid);
+      setLogBar(`${c.name}が「${p.name}」に加入した。(-${hireCost}G)`);
     }
 
     function openHireModal(cid) {

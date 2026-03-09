@@ -119,7 +119,7 @@ function assertRange(v, lo, hi, msg) { if (v < lo || v > hi) throw new Error(msg
 
 // テスト前にG_STATEをリセットするヘルパー
 function resetState() {
-    G_STATE.gold = 100;
+    G_STATE.gold = 2000; // テスト用: 採用コスト(最大200G×5=1000G)に対応できる量を設定
     G_STATE.week = 1;
     G_STATE.year = 1;
     G_STATE.parties = [];
