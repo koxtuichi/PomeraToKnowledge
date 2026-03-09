@@ -1932,6 +1932,7 @@
         <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
         <div class="ptab" onclick="showInventoryView()">🏪 倉庫・販売</div>
         <div class="ptab" onclick="showMapView()">🗺 地方マップ</div>
+        <div class="ptab" onclick="showSkillTreeView()">♟️ スキルツリー</div>
         <div id="plist-items"></div>
       </nav>
       <main id="center">
@@ -2287,9 +2288,123 @@
         `${m.name}が夜中にこっそり荷物をまとめているのを目撃された。引き止めたが目が虚ろだ。`,
         `ここ数日、${m.name}は食事もろくに取らず黙り込んでいる。限界が近いのかもしれない。`,
       ],
+      combat: (m, monster, region) => [
+        `${m.name}は${region}に潜む「${monster}」と激闘を繰り広げた。返り血を浴びながらも勝利した。`,
+        `「${monster}」の爪が${m.name}の頬をかすった。あと一歩で大怪我だったが、気迫で押し返した。`,
+        `${m.name}が「${monster}」を引き付けている間に仲間が連携して仕留めた。作戦勝ちだ。`,
+        `眠れない夜、${region}の闇から「${monster}」が現れた。${m.name}が一番に剣を抜いた。`,
+      ],
+      closeCall: (m, monster) => [
+        `「${monster}」の一撃が${m.name}の鎧を砕いた！全員の必死の回復でかろうじて立っている。`,
+        `${m.name}は「${monster}」に押さえ込まれ、死を覚悟した。仲間の叫び声で魔物が怯んだ。`,
+      ],
+      retire: (m) => [
+        `${m.name}は静かに武器を置いた。「もう十分戦った」その言葉に、誰も反論できなかった。`,
+        `長すぎる遠征が${m.name}の心を削りきった。笑顔で別れを告げたが、その目は疲れていた。`,
+      ],
     };
 
+    // ---- 地域別モンスターテーブル ------------------------------------------------
     function pickNarrative(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    window.pickNarrative = pickNarrative;
+    const COMBAT_EVENTS = {
+      '北の森林地帯': ['オークの族長', '毒蜘蛛の女王', '樹人の古老', '闇狼の群れ', '血吸いコウモリ'],
+      '東の平原': ['山賊の頭目', '野盗集団', '草原の大蛇', '狂乱した野牛', '迷宮監視者'],
+      '南の砂漠': ['砂漠の蠍王', '砂嵐の精霊', 'ミイラ剣士', '幻影の魔術師', '砂岩ゴーレム'],
+      '西の山脈': ['岩石トロル', '山の龍', '鉄翼のグリフォン', '雪男の巨人', '崖のハーピー'],
+      '深海洞窟': ['深海クラーケン', '人魚の亡霊', '溶岩ウナギ', '光る触手の怪物', '洞窟シェルドレイク'],
+      '古代遺跡': ['石像兵士', '呪いの守護者', 'アンデッドナイト', '遺跡の番人', '霊体の魔道士'],
+      '霧の沼地': ['毒霧の魔女', '沼のリビングデッド', '鬼火の精', '腐敗した巨人', '沼蛇の王'],
+      '火山地帯': ['炎の龍', '溶岩ゴーレム', 'サラマンダーの王', '火山鬼族の戦士', '灼熱の不死鳥'],
+      '雪原の果て': ['氷の女王', '霜の狼王', 'ブリザードエレメンタル', '永久凍土の魔猟師', '雪原の白熊神'],
+      '禁断の魔境': ['混沌の守護竜', '禁忌の魔人', '魂食いデーモン', '深淵の覇者', '世界の終末使者'],
+    };
+    const DEFAULT_MONSTERS = ['謎の怪物', '闇の魔物', '迷宮の守護者', '呪われた戦士', '異界の侵略者'];
+
+    // 探索ナラティブを生成して週次報告eventsにpushするヘルパー
+    function generateExplorationNarrative(party, members, events) {
+      const region = party.region;
+      const monsters = COMBAT_EVENTS[region] || DEFAULT_MONSTERS;
+      const monster = pick(monsters);
+      const hero = pick(members);
+      const riskLv = (REGION_DATA[region] || {}).riskLevel || 1;
+
+      // 戦闘結果: riskLevelで確率調整
+      const combatRoll = Math.random();
+      if (combatRoll < 0.55) {
+        // 通常戦闘 — 勝利
+        const narr = pickNarrative(EXPEDITION_DRAMA.combat(hero, monster, region));
+        events.push({ type: 'combat', text: `⚔️ ${narr}` });
+      } else if (combatRoll < 0.55 + (riskLv * 0.06)) {
+        // 辛勝 — 全員ストレス増加
+        const narr = pickNarrative(EXPEDITION_DRAMA.closeCall(hero, monster));
+        events.push({ type: 'crisis', text: `💥 ${narr}` });
+        members.forEach(m => {
+          m.stress = Math.min(100, (m.stress || 0) + riskLv * 3);
+          m.healthPt = Math.max(0, (m.healthPt || 80) - riskLv * 4);
+        });
+      }
+      // else: 戦闘なし(静かな週)
+    }
+    window.generateExplorationNarrative = generateExplorationNarrative;
+
+    // ---- 戦闘による重傷・引退ロジック -------------------------------------------
+    // checkCombatCasualty: 1メンバに対して毎週呼び出す。重傷→死亡or引退を処理する
+    function checkCombatCasualty(m, party, events, riskLv) {
+      if (m.dead || m.retired) return;
+
+      // 重傷フラグ付与 (healthPt <= 15 で確率的に重傷)
+      if (!m.severelyInjured && (m.healthPt || 80) <= 15) {
+        if (Math.random() < 0.4 + riskLv * 0.05) {
+          m.severelyInjured = true;
+          m.severeWeeks = 0;
+          events.push({ type: 'crisis', text: `🩸 【重傷】${m.name}が深刻な傷を負った！早急な治療が必要だ。` });
+        }
+      }
+
+      if (m.severelyInjured) {
+        m.severeWeeks = (m.severeWeeks || 0) + 1;
+
+        // 死亡リスク: riskが高いほど, 治療せず放置で死亡確率上昇
+        const deathRisk = 0.03 + riskLv * 0.02 + (m.severeWeeks > 3 ? 0.08 : 0);
+        if (Math.random() < deathRisk) {
+          m.dead = true;
+          m.severelyInjured = false;
+          const weeks = m.adventureWeeks || 0;
+          events.push({ type: 'death', text: `☠️ 【戦死】${m.name}が${party.region}での戦闘で命を落とした。${weeks}週の冒険に幕が下りた。` });
+          G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が戦死`);
+          if (typeof SFX !== 'undefined') SFX.negativeEvent();
+          // 仲間全員に大きなストレスショック
+          party.members.filter(x => !x.dead && x.id !== m.id).forEach(x => {
+            x.stress = Math.min(100, (x.stress || 0) + 20);
+            x.mood = Math.max(0, (x.mood || 70) - 15);
+          });
+          return;
+        }
+
+        // 引退リスク: 重傷が続くと引退を申し出る
+        const retireRisk = m.severeWeeks >= 2 ? 0.12 : 0;
+        if (Math.random() < retireRisk) {
+          m.retired = true;
+          m.severelyInjured = false;
+          const narr = pickNarrative(EXPEDITION_DRAMA.retire(m));
+          events.push({ type: 'crisis', text: `🏚️ 【引退】${narr}` });
+          G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が引退`);
+          G_STATE.roster.push({ ...m, retired: true, status: 'retired', partyId: null });
+          return;
+        }
+      }
+
+      // 長期遠征 (adventureWeeks >= 18) → 引退意向チェック
+      if ((m.adventureWeeks || 0) >= 18 && Math.random() < 0.04) {
+        m.retired = true;
+        const narr = pickNarrative(EXPEDITION_DRAMA.retire(m));
+        events.push({ type: 'morale', text: `🌅 【勇退】${narr}` });
+        G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が勇退`);
+      }
+    }
+    window.checkCombatCasualty = checkCombatCasualty;
+
 
     const RECIPES = [
       { name: '神剣オーラ', ingredients: ['豪炎の大剣', '雷神の槍'], rarity: 'epic', value: 800 },
@@ -2671,6 +2786,8 @@
             party.rank = RANKS[curRankIdx + 1];
             events.push({ type: 'morale', text: `🏆 「${party.name}」がランク ${RANKS[curRankIdx]} → ${party.rank} にランクアップした！` });
             G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}がランク${party.rank}に昇格`);
+            G_STATE.skillPts = (G_STATE.skillPts || 0) + 1;
+            events.push({ type: 'morale', text: `♟️ スキルポイントを1pt獲得した！ (合計: ${G_STATE.skillPts}pt)` });
           }
         }
       }
@@ -2879,7 +2996,20 @@
         }
       }
 
-      // 毎週ステータス変動 & ストレスイベント発火
+      // 毎週: 探索ナラティブ生成 (戦闘テキスト具体化)
+      const activeMembers = party.members.filter(m => !m.dead && !m.retired);
+      if (activeMembers.length > 0) {
+        generateExplorationNarrative(party, activeMembers, events);
+      }
+
+      // 毎週: 重傷・戦死・引退チェック
+      if (activeMembers.length > 0) {
+        const riskLv = (REGION_DATA[party.region] || {}).riskLevel || 1;
+        activeMembers.forEach(m => checkCombatCasualty(m, party, events, riskLv));
+        // 引退・戦死したメンバーをパーティーから除去
+        party.members = party.members.filter(m => !m.retired && !m.dead);
+      }
+
       party.members.filter(m => !m.dead).forEach(m => {
         // ストレス自然回復 & 体力・メンタル変動
         m.stress = Math.max(0, (m.stress || 0) - 2);
@@ -3477,7 +3607,7 @@
         const assignedParties = G_STATE.parties.filter(p => p.region === reg && p.status === 'active' && p.members.length > 0);
         const riskColor = RISK_COLORS[rd.riskLevel] || '#aaa';
         const riskLabel = ['', '安全', '低', '中', '高', '危険'][rd.riskLevel] || '?';
-        h += `<div style="background:${theme.grad};border:1px solid ${theme.border};border-radius:12px;padding:14px;position:relative;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px #0009'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        h += `<div style="background:${theme.grad};border:1px solid ${theme.border};border-radius:12px;padding:14px;position:relative;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px #0009'" onclick="showRegionDetail('${reg}')" onmouseout="this.style.transform='';this.style.boxShadow=''">
       <div style="border-top:3px solid ${theme.border};position:absolute;top:0;left:0;right:0;border-radius:12px 12px 0 0;"></div>
       <div style="font-size:30px;margin-bottom:6px;line-height:1;">${rd.icon}</div>
       <div style="font-weight:700;font-size:13px;color:${theme.textClr};margin-bottom:4px;">${reg}</div>
@@ -3501,7 +3631,176 @@
       h += `</div>`;
       document.getElementById('v-map').innerHTML = h;
     }
-    /*--- G namespace: 全onclickハンドラをwindowに公開 ---*/
+
+    // 地方詳細モーダル
+    function showRegionDetail(reg) {
+      const rd = REGION_DATA[reg] || { icon: '?', specialty: [], riskLevel: 1 };
+      const monsters = (window.COMBAT_EVENTS || {})[reg] || [];
+      const assignedParties = G_STATE.parties.filter(p => p.region === reg && p.status === 'active' && p.members.length > 0);
+      const riskLabel = ['', '安全', '低', '中', '高', '危険'][rd.riskLevel] || '?';
+      const riskColor = ['', '#5aaa5a', '#9aaa3a', '#ddaa3a', '#dd6a3a', '#dd3a3a'][rd.riskLevel] || '#aaa';
+      const ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;z-index:1200;background:#000a;display:flex;align-items:center;justify-content:center;';
+      ov.innerHTML = `
+        <div style="background:#1a1208;border:1px solid #c8a060;border-radius:16px;padding:24px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;">
+          <div style="font-size:36px;text-align:center;margin-bottom:8px;">${rd.icon}</div>
+          <div style="font-size:18px;font-weight:700;color:#c8a060;text-align:center;margin-bottom:4px;">${reg}</div>
+          <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:16px;">
+            <span style="background:${riskColor};color:#000;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">危険度: ${riskLabel}</span>
+            <span style="color:var(--tx3);font-size:11px;">Lv.${rd.riskLevel}</span>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="color:#c8a060;font-size:11px;letter-spacing:1px;margin-bottom:6px;">⭐ 特産品</div>
+            ${rd.specialty.length ? rd.specialty.map(s => `<div style="font-size:12px;color:var(--tx2);padding:3px 0;">✦ ${s}</div>`).join('') : '<div style="font-size:12px;color:var(--tx3);">なし</div>'}
+          </div>
+          ${monsters.length ? `
+          <div style="margin-bottom:12px;">
+            <div style="color:#c84b2f;font-size:11px;letter-spacing:1px;margin-bottom:6px;">⚔️ 出現する魔物</div>
+            ${monsters.map(m => `<div style="font-size:12px;color:var(--tx2);padding:2px 0;">• ${m}</div>`).join('')}
+          </div>` : ''}
+          ${assignedParties.length ? `
+          <div style="margin-bottom:12px;">
+            <div style="color:var(--green);font-size:11px;letter-spacing:1px;margin-bottom:6px;">🧭 派遣中パーティー</div>
+            ${assignedParties.map(p => `<div style="font-size:12px;color:var(--green);padding:3px 7px;background:rgba(0,200,100,0.1);border-radius:4px;margin-bottom:3px;">${p.name} [${p.rank || 'F'}] — ${p.members.filter(m => !m.dead).length}名</div>`).join('')}
+          </div>` : ''}
+          <button onclick="this.closest('div[style*=\"fixed\"]').remove()" style="width:100%;background:#2a1810;border:1px solid #c8a060;color:#c8a060;padding:8px;border-radius:8px;cursor:pointer;font-size:13px;margin-top:8px;">閉じる</button>
+        </div>`;
+      document.body.appendChild(ov);
+      ov.addEventListener('click', e => { if (e.target === ov) ov.remove(); });
+    }
+    window.showRegionDetail = showRegionDetail;
+
+    // =====================================================================
+    // ギルドスキルツリー
+    // =====================================================================
+    const GUILD_SKILLS = [
+      {
+        id: 'scouting', label: '偵察術', icon: '🔭', tree: [
+          { lv: 1, name: '地形把握 I', cost: 1, desc: 'ドロップ確率+5%', effect: s => { s.skillBonuses = s.skillBonuses || {}; s.skillBonuses.dropBonus = (s.skillBonuses.dropBonus || 0) + 0.05; } },
+          { lv: 2, name: '地形把握 II', cost: 2, desc: 'ドロップ確率+10%', effect: s => { s.skillBonuses.dropBonus = (s.skillBonuses.dropBonus || 0) + 0.10; } },
+          { lv: 3, name: '伝説の偵察士', cost: 3, desc: 'ドロップ確率+20%', effect: s => { s.skillBonuses.dropBonus = (s.skillBonuses.dropBonus || 0) + 0.20; } },
+        ]
+      },
+      {
+        id: 'wealth', label: '財務管理', icon: '💰', tree: [
+          { lv: 1, name: '節約術 I', cost: 1, desc: '週コスト-5G', effect: s => { s.skillBonuses.costReduction = (s.skillBonuses?.costReduction || 0) + 5; } },
+          { lv: 2, name: '節約術 II', cost: 2, desc: '週コスト-10G', effect: s => { s.skillBonuses.costReduction = (s.skillBonuses?.costReduction || 0) + 10; } },
+          { lv: 3, name: '凄腕会計師', cost: 3, desc: '売却価格+20%', effect: s => { s.skillBonuses.sellBonus = (s.skillBonuses?.sellBonus || 0) + 0.20; } },
+        ]
+      },
+      {
+        id: 'morale', label: '士気管理', icon: '🎺', tree: [
+          { lv: 1, name: '激励 I', cost: 1, desc: '全員ムード+3/週', effect: s => { s.skillBonuses.moodBoost = (s.skillBonuses?.moodBoost || 0) + 3; } },
+          { lv: 2, name: '激励 II', cost: 2, desc: '全員ムード+5/週', effect: s => { s.skillBonuses.moodBoost = (s.skillBonuses?.moodBoost || 0) + 5; } },
+          { lv: 3, name: '伝説の演説', cost: 3, desc: '全員ストレス-10/週', effect: s => { s.skillBonuses.stressReduction = (s.skillBonuses?.stressReduction || 0) + 10; } },
+        ]
+      },
+      {
+        id: 'alchemy', label: '錬金術', icon: '⚗️', tree: [
+          { lv: 1, name: '素材識別', cost: 1, desc: '合成成功率+10%', effect: s => { s.skillBonuses.craftBonus = (s.skillBonuses?.craftBonus || 0) + 0.10; } },
+          { lv: 2, name: '錬金師', cost: 2, desc: '合成素材1個免除可能', effect: s => { s.skillBonuses.craftFree = true; } },
+          { lv: 3, name: '賢者の石', cost: 3, desc: 'epic素材確率+15%', effect: s => { s.skillBonuses.epicBonus = (s.skillBonuses?.epicBonus || 0) + 0.15; } },
+        ]
+      },
+      {
+        id: 'medic', label: '医療術', icon: '⚕️', tree: [
+          { lv: 1, name: '救急手当 I', cost: 1, desc: 'healthPt回復+5/週', effect: s => { s.skillBonuses.healBoost = (s.skillBonuses?.healBoost || 0) + 5; } },
+          { lv: 2, name: '救急手当 II', cost: 2, desc: 'healthPt回復+10/週', effect: s => { s.skillBonuses.healBoost = (s.skillBonuses?.healBoost || 0) + 10; } },
+          { lv: 3, name: '名医', cost: 3, desc: '重傷からの回復確率+30%', effect: s => { s.skillBonuses.recoveryBonus = (s.skillBonuses?.recoveryBonus || 0) + 0.30; } },
+        ]
+      },
+      {
+        id: 'tactics', label: '戦術学', icon: '♟️', tree: [
+          { lv: 1, name: 'パーティー指揮I', cost: 1, desc: 'ランクXP+10%', effect: s => { s.skillBonuses.xpBonus = (s.skillBonuses?.xpBonus || 0) + 0.10; } },
+          { lv: 2, name: 'パーティー指揮II', cost: 2, desc: 'ランクXP+25%', effect: s => { s.skillBonuses.xpBonus = (s.skillBonuses?.xpBonus || 0) + 0.25; } },
+          { lv: 3, name: '軍師', cost: 3, desc: '揉め事確率-30%', effect: s => { s.skillBonuses.conflictReduction = (s.skillBonuses?.conflictReduction || 0) + 0.30; } },
+        ]
+      },
+      {
+        id: 'network', label: '情報網', icon: '🌐', tree: [
+          { lv: 1, name: '商人の耳 I', cost: 1, desc: '評判+2/週', effect: s => { s.skillBonuses.repBoost = (s.skillBonuses?.repBoost || 0) + 2; } },
+          { lv: 2, name: '商人の耳 II', cost: 2, desc: '評判+5/週', effect: s => { s.skillBonuses.repBoost = (s.skillBonuses?.repBoost || 0) + 5; } },
+          { lv: 3, name: 'ギルド外交官', cost: 3, desc: 'クエスト報酬+20%', effect: s => { s.skillBonuses.questBonus = (s.skillBonuses?.questBonus || 0) + 0.20; } },
+        ]
+      },
+      {
+        id: 'vault', label: '倉庫拡張', icon: '🏛', tree: [
+          { lv: 1, name: '倉庫 I', cost: 1, desc: 'インベントリ上限+10', effect: s => { s.skillBonuses.invLimit = (s.skillBonuses?.invLimit || 50) + 10; } },
+          { lv: 2, name: '倉庫 II', cost: 2, desc: 'インベントリ上限+20', effect: s => { s.skillBonuses.invLimit = (s.skillBonuses?.invLimit || 60) + 20; } },
+          { lv: 3, name: '宝物庫', cost: 3, desc: 'uncommon以上のドロップ率+10%', effect: s => { s.skillBonuses.rarityBonus = (s.skillBonuses?.rarityBonus || 0) + 0.10; } },
+        ]
+      },
+    ];
+    window.GUILD_SKILLS = GUILD_SKILLS;
+
+    function upgradeGuildSkill(treeId, lv) {
+      if (!G_STATE.skillBonuses) G_STATE.skillBonuses = {};
+      if (!G_STATE.unlockedSkills) G_STATE.unlockedSkills = {};
+      const tree = GUILD_SKILLS.find(t => t.id === treeId);
+      if (!tree) return;
+      const node = tree.tree.find(n => n.lv === lv);
+      if (!node) return;
+      // 前提確認: lv > 1 は前ランクが解除済み
+      if (lv > 1 && !G_STATE.unlockedSkills[`${treeId}_${lv - 1}`]) {
+        alert('前の段階を先に習得してください。'); return;
+      }
+      if (G_STATE.unlockedSkills[`${treeId}_${lv}`]) { alert('既に習得済みです。'); return; }
+      const pts = G_STATE.skillPts || 0;
+      if (pts < node.cost) { alert(`スキルポイントが不足しています（必要: ${node.cost}pt / 所持: ${pts}pt）`); return; }
+      G_STATE.skillPts = pts - node.cost;
+      G_STATE.unlockedSkills[`${treeId}_${lv}`] = true;
+      node.effect(G_STATE);
+      addLog(`スキル習得: 「${node.name}」 (${node.desc})`, 'evm');
+      saveState();
+      showSkillTreeView();
+    }
+    window.upgradeGuildSkill = upgradeGuildSkill;
+
+    function showSkillTreeView() {
+      currentView = 'skills';
+      ['welcome', 'party', 'roster', 'reports', 'inventory', 'map', 'skills'].forEach(v => {
+        const el = document.getElementById('v-' + v);
+        if (el) el.style.display = v === 'skills' ? 'block' : 'none';
+      });
+      const skillPts = G_STATE.skillPts || 0;
+      const unlocked = G_STATE.unlockedSkills || {};
+      let h = `<div class="ph"><div class="pht">♟️ ギルドスキルツリー</div><div class="phs">スキルポイント: <span style="color:#ffb74d;font-weight:700;">${skillPts}pt</span> (ランクアップ時に+1取得)</div></div>`;
+      h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px;">`;
+      GUILD_SKILLS.forEach(tree => {
+        h += `<div style="background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:12px;">
+          <div style="font-size:20px;margin-bottom:4px;">${tree.icon}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;">${tree.label}</div>`;
+        tree.tree.forEach(node => {
+          const key = `${tree.id}_${node.lv}`;
+          const done = !!unlocked[key];
+          const prevDone = node.lv <= 1 || !!unlocked[`${tree.id}_${node.lv - 1}`];
+          const canBuy = !done && prevDone && skillPts >= node.cost;
+          const bg = done ? '#1a4a1a' : canBuy ? '#1a2a0a' : '#0a0a0a';
+          const border = done ? '#3a9a3a' : canBuy ? '#5a7a3a' : '#2a2a2a';
+          const col = done ? '#7adc6a' : canBuy ? '#aacc6a' : 'var(--tx3)';
+          h += `<div style="background:${bg};border:1px solid ${border};border-radius:8px;padding:8px;margin-bottom:6px;cursor:${canBuy ? 'pointer' : 'default'};" ${canBuy ? `onclick="upgradeGuildSkill('${tree.id}',${node.lv})"` : ''}>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-size:11px;font-weight:700;color:${col};">${done ? '✅' : canBuy ? '🔓' : '🔒'} ${node.name}</div>
+              <div style="font-size:10px;color:${done ? 'var(--tx3)' : '#ffb74d'};">${done ? '習得済' : node.cost + 'pt'}</div>
+            </div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:3px;">${node.desc}</div>
+          </div>`;
+        });
+        h += `</div>`;
+      });
+      h += `</div>`;
+      let svEl = document.getElementById('v-skills');
+      if (!svEl) {
+        svEl = document.createElement('div');
+        svEl.id = 'v-skills';
+        svEl.className = 'view';
+        document.getElementById('center').appendChild(svEl);
+      }
+      svEl.innerHTML = h;
+      svEl.style.display = 'block';
+    }
+    window.showSkillTreeView = showSkillTreeView;
+
     const G = { advanceWeek };
 
     // HTMLの onclick="func()" はグローバルスコープを参照するため
@@ -3677,9 +3976,21 @@ ${(() => { const mult = PERSO_STRESS_MULT[m.personality] || {}; const tags = [];
 ${m.rebellion ? '<div class="rebellion-badge">⚡反発中</div>' : ''}
 ${(m.stress || 0) >= 70 ? '<div class="crisis-badge stress-crisis">🔥 高ストレス</div>' : ''}
 ${(m.healthPt ?? 80) <= 25 ? '<div class="crisis-badge health-crisis">💔 要療養</div>' : ''}
+${m.severelyInjured ? '<div class="crisis-badge" style="background:#6a0000;border-color:#c84b2f;color:#ffaaaa;">🩸 重傷</div>' : ''}
 ${(m.mentalPt ?? 80) <= 25 ? '<div class="crisis-badge mental-crisis">💀 精神崩壊寸前</div>' : ''}
 ${isLdr ? '<div class="mcld">LEADER</div>' : ''}
-<div class="equip-slot" onclick="openEquipModal('${m.id}','${pid}')">${m.equip ? '⚔️ ' + m.equip.name + ' [' + m.equip.rarity + ']' : '<span style="color:#555;">装備なし (クリックで装備)</span>'}</div>
+${(() => {
+              const RC = { common: 'var(--tx3)', uncommon: '#4fc3f7', rare: '#ce93d8', epic: '#ffb74d' };
+              const RI = { common: '⚔️', uncommon: '💎', rare: '✨', epic: '🔥' };
+              const RL = { common: '並', uncommon: '良', rare: '優', epic: '伝説' };
+              if (!m.equip) return '<div class="equip-slot" onclick="openEquipModal(\'' + m.id + '\',\'' + pid + '\')"><span style="color:#555;">装備なし (クリックで装備)</span></div>';
+              const eq = m.equip;
+              const col = RC[eq.rarity] || 'var(--tx)';
+              const ico = RI[eq.rarity] || '⚔️';
+              const lbl = RL[eq.rarity] || eq.rarity;
+              const glow = eq.rarity === 'epic' ? 'box-shadow:0 0 8px #ffb74d55;' : eq.rarity === 'rare' ? 'box-shadow:0 0 5px #ce93d855;' : '';
+              return '<div class="equip-slot" onclick="openEquipModal(\'' + m.id + '\',\'' + pid + '\')" style="border-color:' + col + '44;' + glow + '">' + ico + ' <span style="color:' + col + ';font-weight:700;">' + eq.name + '</span> <span style="font-size:8px;background:' + col + '22;color:' + col + ';border-radius:3px;padding:0 4px;">[' + lbl + ']</span></div>';
+            })()}
 ${typeof renderGrowthBar === 'function' ? renderGrowthBar(m) : ''}
 ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type) ? '<div style="font-size:9px;background:#1a1206;border:1px solid #c8a060;border-radius:4px;padding:2px 6px;margin-top:3px;color:#c8a060;">✨ ' + SYNERGY.find(m.equip.name, m.type).label + '</div>' : ''}
 </div>`;
@@ -4443,13 +4754,42 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     var SYNERGY = (() => {
       /* シナジー定義: 装備キーワード × キャラタイプ → ボーナス説明 + 効果 */
       const RULES = [
-        { equipKw: ['炎', '火', '焔'], charTypes: ['魔術'], label: '炎属性強化', stressReduction: 5, moodBoost: 3 },
-        { equipKw: ['癒', '聖', '光'], charTypes: ['治癒'], label: '回復強化', stressReduction: 8, moodBoost: 5 },
-        { equipKw: ['重', '鋼', '鉄'], charTypes: ['盾'], label: '堅牢の守護', stressReduction: 6, moodBoost: 2 },
-        { equipKw: ['疾', '風', '迅'], charTypes: ['双剣', '弓'], label: '疾風の一撃', stressReduction: 4, moodBoost: 6 },
-        { equipKw: ['呪', '毒', '闇'], charTypes: ['魔術', '双剣'], label: '禁断の力', stressReduction: -3, moodBoost: 8 },
-        { equipKw: ['勇', '豪', '英'], charTypes: ['大剣', '斧', '槍'], label: '豪傑の闘志', stressReduction: 3, moodBoost: 7 },
-        { equipKw: ['古', '神', '霊'], charTypes: ['魔術', '治癒'], label: '古の叡智', stressReduction: 7, moodBoost: 4 },
+        // ─── 武器×クラス ────────────────────────────────────
+        { equipKw: ['炎', '火', '焔'], charTypes: ['魔術'], label: '炎属性強化', stressReduction: 6, moodBoost: 3, healthBoost: 0 },
+        { equipKw: ['癒', '聖', '光'], charTypes: ['治癒'], label: '回復強化', stressReduction: 9, moodBoost: 5, healthBoost: 4 },
+        { equipKw: ['重', '鋼', '鉄'], charTypes: ['盾'], label: '堅牢の守護', stressReduction: 7, moodBoost: 2, healthBoost: 5 },
+        { equipKw: ['疾', '風', '迅'], charTypes: ['双剣', '弓'], label: '疾風の一撃', stressReduction: 4, moodBoost: 6, healthBoost: 0 },
+        { equipKw: ['呪', '毒', '闇'], charTypes: ['魔術', '双剣'], label: '禁断の力', stressReduction: -3, moodBoost: 10, healthBoost: 0 },
+        { equipKw: ['勇', '豪', '英'], charTypes: ['大剣', '斧', '槍'], label: '豪傑の闘志', stressReduction: 3, moodBoost: 7, healthBoost: 2 },
+        { equipKw: ['古', '神', '霊'], charTypes: ['魔術', '治癒'], label: '古の叡智', stressReduction: 8, moodBoost: 4, healthBoost: 3 },
+        // ─── 属性×性格 ────────────────────────────────────────
+        { equipKw: ['竜', '龍'], charTypes: ['大剣', '槍'], label: '竜殺しの魂', stressReduction: 5, moodBoost: 8, healthBoost: 0 },
+        { equipKw: ['霜', '氷', '雪'], charTypes: ['魔術', '弓'], label: '冷静な狙撃眼', stressReduction: 6, moodBoost: 4, healthBoost: 0 },
+        { equipKw: ['雷', '電', '嵐'], charTypes: ['大剣', '双剣'], label: '嵐の覇気', stressReduction: 2, moodBoost: 9, healthBoost: 0 },
+        { equipKw: ['月', '星', '天'], charTypes: ['治癒', '魔術'], label: '月光の加護', stressReduction: 10, moodBoost: 5, healthBoost: 5 },
+        { equipKw: ['影', '闇', '夜'], charTypes: ['双剣', '弓'], label: '影の刃', stressReduction: 3, moodBoost: 7, healthBoost: 0 },
+        { equipKw: ['精霊', '妖', '幻'], charTypes: ['治癒', '魔術'], label: '精霊の加護', stressReduction: 8, moodBoost: 6, healthBoost: 4 },
+        { equipKw: ['血', '魔', '邪'], charTypes: ['大剣', '斧'], label: '血染めの覚悟', stressReduction: -5, moodBoost: 12, healthBoost: -3 },
+        { equipKw: ['封印', '禁断'], charTypes: ['魔術'], label: '封印の解放', stressReduction: -4, moodBoost: 11, healthBoost: 0 },
+        // ─── 防具×タンク/回復 ────────────────────────────────
+        { equipKw: ['鎧', 'ローブ'], charTypes: ['盾', '治癒'], label: '全身防護', stressReduction: 6, moodBoost: 3, healthBoost: 7 },
+        { equipKw: ['外套', '羽'], charTypes: ['弓', '双剣'], label: '軽やかな回避', stressReduction: 5, moodBoost: 5, healthBoost: 2 },
+        { equipKw: ['竜鱗'], charTypes: ['盾', '大剣'], label: '竜鱗の加護', stressReduction: 7, moodBoost: 4, healthBoost: 6 },
+        { equipKw: ['星影'], charTypes: ['魔術'], label: '星の祝福', stressReduction: 7, moodBoost: 6, healthBoost: 3 },
+        // ─── アイテム×効果 ────────────────────────────────────
+        { equipKw: ['砂', '大地', '岩'], charTypes: ['盾', '斧'], label: '大地の盾', stressReduction: 5, moodBoost: 2, healthBoost: 6 },
+        { equipKw: ['虹', '幸運', '運命'], charTypes: ['弓', '治癒'], label: '幸運の矢', stressReduction: 5, moodBoost: 8, healthBoost: 3 },
+        { equipKw: ['時', '永遠', '不死'], charTypes: ['治癒', '魔術'], label: '時の守護', stressReduction: 10, moodBoost: 5, healthBoost: 5 },
+        { equipKw: ['天使'], charTypes: ['治癒'], label: '天使の癒し', stressReduction: 12, moodBoost: 6, healthBoost: 8 },
+        { equipKw: ['悪魔', '鬼'], charTypes: ['大剣', '斧'], label: '鬼神の力', stressReduction: -6, moodBoost: 14, healthBoost: -4 },
+        // ─── クロスシナジー (複合) ────────────────────────────
+        { equipKw: ['神話', '古代'], charTypes: ['魔術', '治癒', '盾'], label: '神話の加護', stressReduction: 8, moodBoost: 7, healthBoost: 5 },
+        { equipKw: ['古龍', '龍牙'], charTypes: ['大剣', '槍', '盾'], label: '古龍の覇気', stressReduction: 6, moodBoost: 8, healthBoost: 4 },
+        { equipKw: ['蒼', '青', '水'], charTypes: ['魔術', '弓'], label: '蒼海の狙い', stressReduction: 6, moodBoost: 5, healthBoost: 2 },
+        { equipKw: ['魔石'], charTypes: ['魔術'], label: '魔石共鳴', stressReduction: 7, moodBoost: 6, healthBoost: 0 },
+        { equipKw: ['光', '神聖'], charTypes: ['盾', '治癒'], label: '神聖防護', stressReduction: 9, moodBoost: 5, healthBoost: 7 },
+        { equipKw: ['運命', '糸', '縁'], charTypes: ['双剣', '弓'], label: '運命の一閃', stressReduction: 4, moodBoost: 9, healthBoost: 0 },
+        { equipKw: ['暗黒', '黒鋼'], charTypes: ['盾', '大剣'], label: '暗黒の鎧', stressReduction: 5, moodBoost: 4, healthBoost: 5 },
       ];
 
       return {
@@ -4469,6 +4809,7 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
           if (!syn) return null;
           member.stress = Math.max(0, (member.stress || 0) - syn.stressReduction);
           member.mood = Math.min(100, (member.mood || 70) + syn.moodBoost);
+          if (syn.healthBoost) member.healthPt = Math.max(0, Math.min(100, (member.healthPt || 80) + syn.healthBoost));
           return syn.label;
         },
 
