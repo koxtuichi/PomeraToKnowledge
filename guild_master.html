@@ -1935,23 +1935,55 @@
 
     /* ===== C. rarityBadge 向けスタイル ===== */
     .rb-epic {
-      background: rgba(255, 183, 77, .18);
-      border-left: 3px solid #ffb74d;
+      background: rgba(255, 183, 77, .28);
+      border-left: 4px solid #ffb74d;
+      box-shadow: inset 0 0 0 1px rgba(255, 183, 77, .15);
     }
 
     .rb-rare {
-      background: rgba(206, 147, 216, .15);
-      border-left: 3px solid #ce93d8;
+      background: rgba(206, 147, 216, .28);
+      border-left: 4px solid #ce93d8;
+      box-shadow: inset 0 0 0 1px rgba(206, 147, 216, .15);
     }
 
     .rb-uncommon {
-      background: rgba(79, 195, 247, .12);
-      border-left: 3px solid #4fc3f7;
+      background: rgba(79, 195, 247, .22);
+      border-left: 4px solid #4fc3f7;
+      box-shadow: inset 0 0 0 1px rgba(79, 195, 247, .12);
     }
 
     .rb-common {
-      background: rgba(100, 96, 64, .12);
-      border-left: 3px solid #7a7040;
+      background: rgba(160, 155, 100, .16);
+      border-left: 4px solid #a09b64;
+    }
+
+    /* ===== E. ストレス高危険演出 ===== */
+    @keyframes stress-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(239, 83, 80, .5);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(239, 83, 80, 0);
+      }
+    }
+
+    .stress-warn {
+      border: 1px solid rgba(239, 83, 80, .7) !important;
+      background: rgba(239, 83, 80, .06) !important;
+      animation: stress-pulse 2s ease-in-out infinite;
+    }
+
+    .stress-warn::before {
+      content: '⚠ ストレス危険';
+      display: block;
+      font-size: 10px;
+      color: #ef5350;
+      font-weight: 700;
+      text-align: right;
+      margin-bottom: 2px;
     }
 
     /* ===== E. 施設ボタン強化 ===== */
@@ -2861,6 +2893,7 @@
       parties: [], roster: [], dismissed: [],
       inventory: [], wishList: [], reputation: 0,
       guildRank: 'D',
+      skillPts: 2,
       activeQuest: null,
       pendingReports: [], globalLog: [],
     };
@@ -4317,7 +4350,7 @@
           };
           const portraitFile = portraitMap[m.name];
           const portraitSrc = portraitFile ? portraitFile : (m.gender === '♀' ? 'portrait_warrior_f.png' : 'portrait_rogue_m.png');
-          html += `<div class="mc${isLdr ? ' ldr' : ''}${isCritical ? ' stress-critical' : ''}">
+          html += `<div class="mc${isLdr ? ' ldr' : ''}${isCritical ? ' stress-critical' : ''}${ (m.stress||0)>=80&&(m.stress||0)<100 ? ' stress-warn' : ''}">
 <button class="mcrm" onclick="removeMember(${pid},${m.id})" title="解雇">✕</button>
 <div class="mc-portrait-wrap">
 <div class="mc-portrait"><img src="${portraitSrc}" alt="${m.name}" onerror="this.style.display='none'"></div>
@@ -4421,7 +4454,10 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
 <div class="sech" data-tip="作戦によってドロップ率・負傷リスク・ストレスが変化します">⚔ 作戦指示</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">`;
       Object.entries(TACTIC_PRESETS).forEach(([key, t]) => {
-        html += `<button class="tactic-btn${curTactic === key ? ' active' : ''}" onclick="setPartyTactic(${pid},'${key}')" data-tip="${t.desc}">${t.label}</button>`;
+        html += `<div style="flex:1;min-width:120px;text-align:center">
+          <button class="tactic-btn${curTactic === key ? ' active' : ''}" style="width:100%" onclick="setPartyTactic(${pid},'${key}')" data-tip="${t.desc}">${t.label}</button>
+          <div style="font-size:10px;color:#a09080;margin-top:3px;line-height:1.3">${t.desc}</div>
+        </div>`;
       });
       html += `</div></div>`;
 
@@ -4583,9 +4619,21 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
     Object.assign(G, { showView });
 
     // ---- PARTY MANAGEMENT -------------------------------------------------------
+    const PARTY_NAME_LIST = [
+      '蒼炎の団', '銀狼騎士団', '暁の剣士団', '漆黒の牙', '翠嵐の旅団',
+      '紅蓮の槍騎士', '霧雨の隠者団', '黄昏の剣客団', '星砕き団', '凍牙の狩人',
+      '砂嵐の遊撃隊', '月光の盾騎士', '嵐刃の傭兵団', '灼熱の探索者', '深淵の踏査団',
+      '朝露の旅人団', '鉄壁の守護者', '疾風の斥候団', '黒鉄の鍛冶団', '白銀の冒険者',
+    ];
+    function getDefaultPartyName() {
+      const used = new Set(G_STATE.parties.map(p => p.name));
+      const available = PARTY_NAME_LIST.filter(n => !used.has(n));
+      if (available.length > 0) return pick(available);
+      return `第${G_STATE.parties.length + 1}探索隊`;
+    }
     function createParty() {
       if (G_STATE.parties.filter(p => p.status !== 'disbanded').length >= 50) { alert('パーティー上限（50チーム）に達しています。'); return; }
-      const name = document.getElementById('mnpname').value.trim() || `パーティー${G_STATE.parties.length + 1}`;
+      const name = document.getElementById('mnpname').value.trim() || getDefaultPartyName();
       const region = document.getElementById('mnpregion').value;
       const targetItem = document.getElementById('mnpitem').value;
       const p = {
