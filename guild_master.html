@@ -1898,6 +1898,131 @@
         padding: 0 8px;
       }
     }
+
+    /* ===== F. ツールチップ ===== */
+    [data-tip] {
+      position: relative;
+      cursor: help;
+    }
+
+    [data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e1208;
+      border: 1px solid var(--gold);
+      color: var(--tx2);
+      font-size: 10px;
+      line-height: 1.5;
+      white-space: pre-line;
+      padding: 5px 9px;
+      border-radius: 6px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 9999;
+      min-width: 140px;
+      text-align: center;
+      font-family: 'Noto Serif JP', serif;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .8);
+    }
+
+    [data-tip]:hover::after {
+      opacity: 1;
+    }
+
+    /* ===== C. rarityBadge 向けスタイル ===== */
+    .rb-epic {
+      background: rgba(255, 183, 77, .18);
+      border-left: 3px solid #ffb74d;
+    }
+
+    .rb-rare {
+      background: rgba(206, 147, 216, .15);
+      border-left: 3px solid #ce93d8;
+    }
+
+    .rb-uncommon {
+      background: rgba(79, 195, 247, .12);
+      border-left: 3px solid #4fc3f7;
+    }
+
+    .rb-common {
+      background: rgba(100, 96, 64, .12);
+      border-left: 3px solid #7a7040;
+    }
+
+    /* ===== E. 施設ボタン強化 ===== */
+    .facility-btn {
+      flex: 1;
+      min-width: 140px;
+      background: rgba(26, 16, 6, .8);
+      border: 1px solid var(--bd);
+      color: var(--tx2);
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 11px;
+      text-align: left;
+      transition: border-color .2s, background .2s;
+      line-height: 1.5;
+    }
+
+    .facility-btn:hover:not([disabled]) {
+      border-color: var(--gold);
+      background: rgba(40, 26, 8, .9);
+    }
+
+    .facility-btn[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+      border-color: var(--bd2);
+    }
+
+    .facility-btn .fb-cost {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .facility-btn .fb-cost.no-gold {
+      color: var(--red);
+    }
+
+    .facility-btn .fb-eff {
+      font-size: 9px;
+      color: var(--tx3);
+      margin-top: 2px;
+    }
+
+    /* ===== D. 戦術ボタン ===== */
+    .tactic-btn {
+      flex: 1;
+      border-radius: 6px;
+      border: 1px solid var(--bd2);
+      background: var(--bg2);
+      color: var(--tx3);
+      padding: 6px 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 11px;
+      text-align: center;
+      transition: all .2s;
+    }
+
+    .tactic-btn.active {
+      border-color: var(--gold);
+      color: var(--gold2);
+      background: rgba(40, 26, 8, .9);
+    }
+
+    .tactic-btn:hover:not(.active) {
+      border-color: var(--tx3);
+      color: var(--tx);
+    }
   </style>
 </head>
 
@@ -1907,8 +2032,10 @@
     <header id="hud">
       <div class="hguild">◆ POMERA GUILD ◆</div>
       <div class="hdate" id="hdate">Year 1 — Month 1 Week 1</div>
-      <div class="hcp">💰 <span id="hcp">200G</span> &nbsp;|&nbsp; 評判 <span id="hrep">0pt</span> &nbsp;|&nbsp; <span
-          id="hgrank" style="color:var(--gold);font-weight:700">Dランク</span></div>
+      <div class="hcp"><span data-tip="アイテム売却・クエスト達成で増えます。\nゼロになるとギルド崩壊の危機！">💰 <span id="hcp">200G</span></span>
+        &nbsp;|&nbsp; <span data-tip="ランクアップに必要な評判ポイント。\nレアアイテム売却で大きく増加します。">評判 <span id="hrep">0pt</span></span>
+        &nbsp;|&nbsp; <span id="hgrank" style="color:var(--gold);font-weight:700"
+          data-tip="ギルドランク。F→D→C→B→A→Sの順に上昇。\n高ランクほどレアドロップが増えます。">Dランク</span></div>
 
       <button class="hbtn primary" onclick="if(typeof SFX!=='undefined')SFX.advance();advanceWeek()">週を進める ▶</button>
       <button id="mute-btn" class="hbtn" onclick="toggleMute()" style="min-width:36px;padding:0 8px;font-size:16px;"
@@ -2456,6 +2583,33 @@
     const FOCUS_LABELS = { combat: '戦闘重視', drops: 'ドロップ重視', economy: '節約重視', steady: '堅実' };
     const CONFLICT_LABELS = { rest: '休息日で解決', leader: 'リーダー裁定', vote: '多数決', ignore: '無視して続行' };
 
+    // ===== D. 戦術指示データ =====
+    const TACTIC_PRESETS = {
+      assault: { label: '⚔ 積極攻撃', desc: 'ドロップ+20% / 負傷リスク+30%', dropMult: 1.2, injuryMult: 1.3, goldMult: 1.0, stressMult: 1.1 },
+      guard: { label: '🛡 堅実防衛', desc: 'ドロップ-10% / 負傷リスク-30% / ストレス低減', dropMult: 0.9, injuryMult: 0.7, goldMult: 1.0, stressMult: 0.7 },
+      gather: { label: '🎒 素材優先', desc: 'ドロップ+40% / 戦闘回避重視 / Gold報酬-20%', dropMult: 1.4, injuryMult: 0.6, goldMult: 0.8, stressMult: 0.9 },
+    };
+    window.setPartyTactic = function (pid, tactic) {
+      const p = G_STATE.parties.find(x => x.id == pid);
+      if (!p) return;
+      p.tactic = tactic;
+      saveState();
+      showParty(pid);
+      setLogBar(`${p.name}の作戦を「${TACTIC_PRESETS[tactic].label}」に変更`);
+    };
+
+    // ===== C. rarityBadge — アイテム表示共通ユーティリティ =====
+    const RARITY_ICON_MAP = { epic: '🌟', rare: '💎', uncommon: '🔷', common: '📦' };
+    const RARITY_LABEL_MAP = { common: '並', uncommon: '良', rare: '優', epic: '伝説' };
+    const RARITY_CLR_MAP = { common: 'var(--tx3)', uncommon: '#4fc3f7', rare: '#ce93d8', epic: '#ffb74d' };
+    function rarityBadge(rarity, name) {
+      const icon = RARITY_ICON_MAP[rarity] || '📦';
+      const label = RARITY_LABEL_MAP[rarity] || rarity;
+      const clr = RARITY_CLR_MAP[rarity] || 'var(--tx)';
+      return `<span style="color:${clr};font-weight:700;font-size:10px;">${icon}&thinsp;[${label}]</span>&nbsp;${name}`;
+    }
+    window.rarityBadge = rarityBadge;
+
     // ---- UTILITY -----------------------------------------------------------------
     const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
     const pick = a => a[rnd(0, a.length - 1)];
@@ -2760,10 +2914,14 @@
         return acc + (rb[m.equip.rarity] || 0);
       }, 0);
       const dropChance = (party.directive.focus === 'drops' ? 0.70 : party.directive.focus === 'economy' ? 0.35 : 0.50) + rankBonus + Math.min(equipBonus, 0.2);
+      // ===== D. 作戦指示: dropMult適用 =====
+      const tacticKey = party.tactic || 'assault';
+      const tactic = TACTIC_PRESETS[tacticKey] || TACTIC_PRESETS.assault;
+      const effectiveDropChance = Math.min(0.95, dropChance * tactic.dropMult);
       const bonusChance = party.members.some(m => party.members.some(m2 => m !== m2 && m.likedType === m2.trait)) ? 0.1 : 0;
       const dropCount = party.directive.focus === 'drops' ? rnd(1, 3) : 1;
       for (let di = 0; di < dropCount; di++) {
-        if (Math.random() < dropChance + bonusChance) {
+        if (Math.random() < effectiveDropChance + bonusChance) {
           const rd = REGION_DATA[party.region];
           const sameRegionCount = G_STATE.parties.filter(pp => pp.region === party.region && pp.status !== 'disbanded').length;
           const specialtyChance = (rd && rd.specialty) ? (sameRegionCount >= 2 ? 0.65 : 0.4) : 0;
@@ -2785,7 +2943,9 @@
           const dropHero = pick(members);
           const dropNarr = EXPEDITION_DRAMA.discovery(dropHero, item, party.region);
           const dropNarrText = isWished ? `⭐ ${pickNarrative(dropNarr)}` : pickNarrative(dropNarr);
-          events.push({ type: 'drop', text: `${dropNarrText} [${rarity}] 売値:${value}G` });
+          // ===== C. B. rarityBadgeで色付き + 戦闘ログ詳細 =====
+          const badgeHtml = rarityBadge(rarity, item);
+          events.push({ type: 'drop', text: `${dropNarrText} ${badgeHtml} 売値:${value}G` });
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${item}」(${rarity})を入手${isWished ? ' ⭐' : ''}`);
           // 戦利品取得でmood向上・ストレス軽減
           members.forEach(m => {
@@ -3789,17 +3949,16 @@
         h += `<div style="padding:8px;"><button class="btn" onclick="sellAll()" style="width:100%;margin-bottom:10px;">💰 全件売却</button></div>`;
         h += `<div style="display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;">`;
         inv.forEach(it => {
-          const col = RARITY_COLOR[it.rarity] || 'var(--tx)';
-          const lbl = RARITY_LABEL[it.rarity] || it.rarity;
           const wishBadge = it.wished ? '⭐ ' : '';
-          h += `<div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:6px;padding:8px 10px;">
-        <span style="color:${col};font-weight:700;font-size:11px;min-width:28px;">[${lbl}]</span>
-        <span style="flex:1;font-size:12px;">${wishBadge}${it.name}</span>
+          const rbCls = `rb-${it.rarity || 'common'}`;
+          h += `<div class="${rbCls}" style="display:flex;align-items:center;gap:8px;border-radius:6px;padding:8px 10px;">
+        <span style="flex:1;font-size:12px;">${wishBadge}${rarityBadge(it.rarity, it.name)}</span>
         <span style="color:var(--tx3);font-size:10px;">×${it.qty ?? 1}</span>
         <span style="color:var(--gold);font-size:12px;min-width:40px;text-align:right;">${it.value}G</span>
         <button class="btn" onclick="sellItem('${it.id}')" style="padding:3px 8px;font-size:11px;">売却</button>
       </div>`;
         });
+
         h += '</div>';
       }
       document.getElementById('v-inventory').innerHTML = h;
@@ -4228,12 +4387,43 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       }
       html += `</div></div>`;
 
+      // ===== E. 施設 (上部配置・視認性強化) =====
+      const aliveCnt = p.members.filter(m => !m.dead).length;
+      const innCost = aliveCnt * 30;
+      const churchCost = aliveCnt * 50;
+      const innAfford = G_STATE.gold >= innCost;
+      const chAfford = G_STATE.gold >= churchCost;
+      html += `<div class="sec">
+<div class="sech" data-tip="パーティーを回復施設へ連れていきGoldを消費して回復させます">🏘 施設 <span style="font-size:9px;color:var(--tx3)">生存${aliveCnt}名</span></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+  <button class="facility-btn" onclick="recoverAtInn(${p.id})" ${innAfford ? '' : 'disabled'}>
+    <div>🏨 宿屋で休息</div>
+    <div class="fb-cost${innAfford ? '' : ' no-gold'}">${innAfford ? '' : '❌ '}${innCost}G 必要</div>
+    <div class="fb-eff">体力+40・ムード+20 / 人</div>
+  </button>
+  <button class="facility-btn" onclick="recoverAtChurch(${p.id})" ${chAfford ? '' : 'disabled'}>
+    <div>⛪ 教会でお祈り</div>
+    <div class="fb-cost${chAfford ? '' : ' no-gold'}">${chAfford ? '' : '❌ '}${churchCost}G 必要</div>
+    <div class="fb-eff">ストレス-50 / 人</div>
+  </button>
+</div></div>`;
+
       // Directives
       html += `<div class="sec"><div class="sech">方針</div>
-<div class="dr"><div class="dl">活動方針</div><div style="font-size:11px;color:var(--tx2)">${FOCUS_LABELS[p.directive.focus] || '堅実'}</div></div>
+<div class="dr"><div class="dl" data-tip="パーティーの行動指針。戦闘重視でドロップ増加。節約重視でコスト削減。">活動方針</div><div style="font-size:11px;color:var(--tx2)">${FOCUS_LABELS[p.directive.focus] || '堅実'}</div></div>
 <div class="dr"><div class="dl">揉め事対処</div><div style="font-size:11px;color:var(--tx2)">${CONFLICT_LABELS[p.directive.conflict] || '—'}</div></div>
-<div class="dr"><div class="dl">週給与</div><div style="font-size:12px;font-family:monospace;color:var(--gold)">${p.directive.cpPerWeek || 20}G</div></div>
+<div class="dr"><div class="dl" data-tip="毎週このGoldをパーティーメンバー全員に支払います。給与が低いと士気が低下します。">週給与</div><div style="font-size:12px;font-family:monospace;color:var(--gold)">${p.directive.cpPerWeek || 20}G</div></div>
 </div>`;
+
+      // ===== D. 戦術指示ボタン =====
+      const curTactic = p.tactic || 'assault';
+      html += `<div class="sec">
+<div class="sech" data-tip="作戦によってドロップ率・負傷リスク・ストレスが変化します">⚔ 作戦指示</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">`;
+      Object.entries(TACTIC_PRESETS).forEach(([key, t]) => {
+        html += `<button class="tactic-btn${curTactic === key ? ' active' : ''}" onclick="setPartyTactic(${pid},'${key}')" data-tip="${t.desc}">${t.label}</button>`;
+      });
+      html += `</div></div>`;
 
       // Leader select
       if (p.members.length > 0) {
@@ -4243,16 +4433,6 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
         });
         html += `</div></div>`;
       }
-
-      // 施設 (B: 拠点回復コスト)
-      const aliveCnt = p.members.filter(m => !m.dead).length;
-      const innCost = aliveCnt * 30;
-      const churchCost = aliveCnt * 50;
-      html += `<div class="sec"><div class="sech">🏘 施設</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-  <button class="hbtn${G_STATE.gold >= innCost ? '' : ' disabled'}" onclick="recoverAtInn(${p.id})" style="font-size:11px" ${G_STATE.gold < innCost ? 'disabled' : ''}>🏨 宿屋で休息 (-${innCost}G)<br><span style="font-size:9px;color:var(--tx3)">体力+40・ムード+20</span></button>
-  <button class="hbtn${G_STATE.gold >= churchCost ? '' : ' disabled'}" onclick="recoverAtChurch(${p.id})" style="font-size:11px" ${G_STATE.gold < churchCost ? 'disabled' : ''}>⛪ 教会でお祈り (-${churchCost}G)<br><span style="font-size:9px;color:var(--tx3)">ストレス-50</span></button>
-</div></div>`;
 
       // Party recent reports section
       const partyReports = G_STATE.pendingReports.filter(r => r.party && r.party.id === pid);
@@ -4701,6 +4881,17 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
           その年の成果がまとまりで確認できる。<br><br>
           ⚠️ パーティー全解散＋Gold枯渇で<strong>ギルド崩壊</strong>のゲームオーバー。
           戦略的な経営を心がけよう！`,
+      },
+      {
+        icon: '🏘',
+        title: '施設と作戦でパーティーを強化',
+        body: `<strong style="color:var(--gold)">🏨 宿屋</strong>でGoldを払うと体力・ムードが回復。<br>
+          <strong style="color:var(--gold)">⛪ 教会</strong>でストレスをリセット。<br><br>
+          <strong style="color:var(--gold)">⚔ 作戦指示</strong> で毎週の行動方針を変更：<br>
+          • <strong>積極攻撃</strong> — ドロップ増加・負傷リスク上昇<br>
+          • <strong>堅実防衛</strong> — ストレス低減・安全重視<br>
+          • <strong>素材優先</strong> — 特産品獲得率最大化<br><br>
+          ⚠️ <strong>ストレスが100</strong>に達すると「狂気事件」が発生する！`,
       },
     ];
     var _tutIdx = 0;
