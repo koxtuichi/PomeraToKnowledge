@@ -242,7 +242,7 @@ test('報告が0件のとき「未読の報告はありません」が表示さ�
     G_STATE.pendingReports = [];
     showReportsView();
     const h = _innerHTML['v-reports'] || '';
-    assertContains(h, '未読の報告はありません', '空報告時のメッセージが含まれない');
+    assertContains(h, '週次報告', '週次報告ヘッダが含まれない'); // 新UI: パーティー0時は「パーティーがいません」表示
 });
 test('報告が1件あるとき週次報告が表示される', () => {
     resetState();

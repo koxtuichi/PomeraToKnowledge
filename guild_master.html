@@ -2296,7 +2296,7 @@
         <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
         <div class="ptab" onclick="showInventoryView()">🏪 倉庫・販売</div>
         <div class="ptab" onclick="showMapView()">🗺 地方マップ</div>
-        <div class="ptab" onclick="showSkillTreeView()">♟️ スキルツリー</div>
+        <div class="ptab" onclick="showSkillTreeView()" style="font-size:10px;opacity:0.7;border-top:1px solid var(--bd2);margin-top:4px;padding-top:6px;">♟️ ギルドスキルツリー</div>
         <div id="plist-items"></div>
       </nav>
       <main id="center">
@@ -3499,6 +3499,13 @@
         // ストレス自然回復 & 体力・メンタル変動
         m.stress = Math.max(0, (m.stress || 0) - 2);
         m.healthPt = Math.max(0, Math.min(100, (m.healthPt || 80) + (Math.random() < 0.1 ? -5 : 1)));
+        // ストレス蓄積を強化 (ゲームバランス: 緊張感向上)
+        if (party && party.status === 'active') {
+          const baseStressGain = 4 + Math.floor(Math.random() * 4); // 4〜7/週
+          const rd2 = (typeof REGION_DATA !== 'undefined' && REGION_DATA[party.region]) ? REGION_DATA[party.region] : { riskLevel: 1 };
+          const stressGain = Math.round(baseStressGain * (1 + rd2.riskLevel * 0.15));
+          m.stress = Math.min(100, (m.stress || 0) + stressGain);
+        }
         m.mentalPt = Math.max(0, Math.min(100, (m.mentalPt || 80) + (m.stress > 60 ? -3 : 1)));
         m.mood = Math.max(0, Math.min(100, (m.mood || 70) + (m.mentalPt < 40 ? -3 : 0)));
         // シナジー効果 (装備 × キャラタイプ)
@@ -4195,7 +4202,12 @@
       renderPartyList();
       setLogBar(`Week ${G_STATE.week} — 各パーティーから報告が届いた。「週次報告」から確認しよう。`);
       addLog(`Week ${G_STATE.week} へ進んだ。${reports.length}件の報告あり。`);
+      // 即時ビュー更新 — currentViewに応じてその場でリフレッシュ
       if (currentView === 'party' && currentPartyId) showParty(currentPartyId);
+      if (currentView === 'reports') showReportsView();
+      if (currentView === 'inventory') showInventoryView();
+      if (currentView === 'roster') showRosterView ? showRosterView() : showView('roster');
+      if (currentView === 'map') showMapView();
       checkGuildRankUp();
       if (typeof ACHV !== 'undefined') ACHV.check(G_STATE);
       renderWelcomeRankDisplay();
@@ -4484,14 +4496,18 @@
     }
     function sellAll() {
       if (!G_STATE.inventory.length) { alert('倉庫に品物がありません。'); return; }
-      const total = G_STATE.inventory.reduce((s, x) => s + x.value, 0);
-      G_STATE.inventory = [];
+      const wl = G_STATE.wishList || [];
+      // ウィッシュリスト品は除外して全件売却
+      const toSell = G_STATE.inventory.filter(it => !wl.includes(it.name) && !it.wished);
+      if (toSell.length === 0) { alert('売却できる品物がありません（ウィッシュリスト品を除く）。'); return; }
+      const total = toSell.reduce((s, x) => s + (x.value || 0) * (x.qty || 1), 0);
+      G_STATE.inventory = G_STATE.inventory.filter(it => wl.includes(it.name) || it.wished);
       G_STATE.gold += total;
       saveState(); updateHUD();
       const repGain = Math.ceil(total / 30);
       G_STATE.reputation = (G_STATE.reputation || 0) + repGain;
-      setLogBar(`全品売却: +${total}G（残Gold: ${G_STATE.gold}G）`);
-      addLog(`全品売却: +${total}G 評判+${repGain}`, 'evm');
+      setLogBar(`全件売却: +${total}G / ウィッシュリスト品は除外済み`);
+      addLog(`全件売却: +${total}G 評判+${repGain}`, 'evm');
       showInventoryView();
     }
     function craftRecipe(recipeIdx) {
@@ -4508,8 +4524,12 @@
       const crafted = { id: uid(), name: r.name, rarity: r.rarity, value: r.value, qty: 1, partyName: '合成', week: G_STATE.week };
       G_STATE.inventory.push(crafted);
       G_STATE.gold += 0; // no auto sell
+      // 合成品の使い道ガイダンス
+      const craftGuide = r.rarity === 'epic' ? '伝説級の合成品！高値で売却するか、ウィッシュリストに追加してコレクションに。' :
+        r.rarity === 'rare' ? '希少品。売却すれば大きな評判ポイントが得られます。' :
+        'アイテム売却でGoldと評判ポイントが増加します。';
       saveState(); updateHUD();
-      setLogBar(`「${r.name}」を合成した！ (${r.rarity} / ${r.value}G)`);
+      setLogBar(`「${r.name}」を合成した！ (${r.rarity} / ${r.value}G) 💡 ${craftGuide}`);
       addLog(`レシピ合成: 「${r.name}」`, 'evm');
       showInventoryView();
     }
@@ -5393,69 +5413,103 @@ ${isHired
     // ---- REPORTS VIEW ---------------------------------------------------------
     function showReportsView() {
       currentView = 'reports';
-      let html = `<div class="ph"><div class="pht">週次報告</div><div style="display:flex;align-items:center;gap:8px"><div class="phs">${G_STATE.pendingReports.length}件の未読報告</div>${G_STATE.pendingReports.length > 0 ? '<button class="hbtn" style="font-size:10px;padding:3px 10px" onclick="dismissAllReports()">全件既読</button>' : ''}</div></div>`;
-      if (G_STATE.pendingReports.length === 0) {
-        html += `<div class="notice">現在、未読の報告はありません。「週を進める」を押すとパーティーから報告が届きます。</div>`;
-      } else {
-        // B2: 今週のハイライト
-        const allEvents = G_STATE.pendingReports.flatMap(r => r.events || []);
-        const drops = allEvents.filter(e => e.type === 'drop');
-        const bestDrop = drops.sort((a, b) => {
-          const ra = { common: 0, uncommon: 1, rare: 2, epic: 3 };
-          return (ra[b.rarity] || 0) - (ra[a.rarity] || 0);
-        })[0];
-        const rankUps = G_STATE.pendingReports.filter(r => r.rankUp);
-        const conflicts = allEvents.filter(e => e.type === 'conflict');
-        const highlights = [];
-        if (bestDrop) highlights.push(`💰 最高入手品: <b>${bestDrop.item || '—'}</b>`);
-        if (rankUps.length > 0) highlights.push(`🏅 ランクアップ: <b>${rankUps.map(r => r.party?.name).join(', ')}</b>`);
-        if (conflicts.length > 0) highlights.push(`⚔️ 揉め事: <b>${conflicts.length}件</b>`);
-        if (drops.length > 0) highlights.push(`📦 入手アイテム数: <b>${drops.length}件</b>`);
-        if (highlights.length > 0) {
-          html += `<div class="report-highlight"><div class="report-highlight-title">✦ 今週のハイライト</div>${highlights.map(h => `<div style="margin:2px 0;">${h}</div>`).join('')}</div>`;
+      const allParties = G_STATE.parties.filter(p => p.members && p.members.length > 0);
+      const scoreParty = (p) => {
+        let score = 0;
+        const report = G_STATE.pendingReports.find(r => r.party && r.party.id === p.id);
+        if (report) {
+          const ev = report.events || [];
+          if (ev.some(e => e.type === 'death')) score += 100;
+          if (ev.some(e => e.type === 'conflict' || (e.text && e.text.includes('揉め事')))) score += 50;
+          if (ev.some(e => e.type === 'illness' || (e.text && (e.text.includes('崩壊') || e.text.includes('重傷'))))) score += 40;
+          if (p.members.some(m => (m.stress || 0) >= 80)) score += 30;
+          if (p.members.some(m => (m.healthPt || 80) <= 20)) score += 25;
+          if (report.rankUp) score -= 10;
         }
-        html += `<div style="padding:12px 18px">`;
-        G_STATE.pendingReports.forEach((r, i) => {
-          const p = r.party;
-          const hasDrop = r.events.some(e => e.type === 'drop');
-          const hasTrouble = r.events.some(e => ['conflict', 'death', 'illness'].includes(e.type));
-          const hasRankUp = r.rankUp;
-          const hasCrisis = r.events.some(e => e.type === 'illness' || (e.text && (e.text.includes('ストレス') || e.text.includes('崩壊') || e.text.includes('反発') || e.text.includes('療養'))));
-          const rcColor = r.questDone ? 'rcard-quest' : hasRankUp ? 'rcard-rankup' : hasTrouble ? 'rcard-trouble' : hasDrop ? 'rcard-drop' : '';
-          html += `<div class="rc ${rcColor}">
-<div class="rch"><div class="rcpn">${p.name}</div><div class="rcw">Week ${G_STATE.week} 報告</div></div>
-<div class="rcb">今週の活動報告: 場所「${p.region || '—'}」 目標「${p.targetItem || '—'}」</div>
-<div class="rcev">`;
-          r.events.forEach((e, ei) => {
-            const isConflict = e.type === 'conflict' || (e.text && (e.text.includes('揉め事') || e.text.includes('対立')));
-            const isCrisis = e.type === 'illness' || (e.text && (e.text.includes('ストレス') || e.text.includes('崩壊') || e.text.includes('療養') || e.text.includes('反発')));
-            // ⑦ Balatro: epicドロップ演出
-            const isEpicDrop = e.type === 'drop' && e.item && e.item.rarity === 'epic';
-            if (isEpicDrop) {
-              html += `<div class="rce eve-epic" style="display:flex;align-items:flex-start;gap:8px;margin:6px 0;">
-                <span class="eve-icon">🌟</span>
-                <span style="flex:1;"><div style="font-size:10px;color:#ffcc44;letter-spacing:1px;margin-bottom:2px;">— 伝説の一品 —</div>${e.text}</span>
-              </div>`;
-            } else {
-              const cls = e.type === 'drop' ? 'evd' : e.type === 'conflict' ? 'evc' : e.type === 'death' ? 'evx' : e.type === 'romance' ? 'evr' : e.type === 'illness' ? 'evi' : 'evm';
-              const typeIcon = e.type === 'drop' ? '💰' : e.type === 'conflict' ? '⚔' : e.type === 'death' ? '💀' : e.type === 'romance' ? '💕' : e.type === 'illness' ? '🤒' : '📝';
-              const interveneBtn = (isConflict || isCrisis) ? `<button onclick="openIntervene(${i},${ei})" style="background:none;border:1px solid #a06020;color:#ddaa44;font-size:10px;padding:1px 8px;border-radius:3px;cursor:pointer;margin-left:8px;float:right;">🚨 介入</button>` : '';
-              html += `<div class="rce" style="display:flex;align-items:flex-start;gap:6px;"><span style="font-size:13px;flex-shrink:0;">${typeIcon}</span><span class="${cls}" style="flex:1;">${e.text}</span>${interveneBtn}</div>`;
-            }
-          });
+        if (p.status === 'idle') score -= 5;
+        return score;
+      };
+      allParties.sort((a, b) => scoreParty(b) - scoreParty(a));
 
-          html += `</div><div class="rca">
-<button class="rcab" onclick="openDirectiveModal(${p.id})">方針を変更</button>
-${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradient(135deg,#2a1505,#3a2008);border-color:#a06020;color:#ddaa44;" onclick="openIntervene(${i},0)">🚨 この報告に介入</button>` : ''}
-<button class="rcab" onclick="dismissReport(${i})">確認済みにする</button>
-</div></div>`;
+      const pendingCount = G_STATE.pendingReports.length;
+      let html = `<div class="ph"><div class="pht">📋 週次報告</div><div style="display:flex;align-items:center;gap:8px"><div class="phs">${pendingCount}件の未読 / 全${allParties.length}パーティー</div>${pendingCount > 0 ? '<button class="hbtn" style="font-size:10px;padding:3px 10px" onclick="dismissAllReports()">全件既読</button>' : ''}</div></div>`;
+
+      if (allParties.length === 0) {
+        html += `<div class="notice">パーティーがいません。まずパーティーを結成してください。</div>`;
+      } else {
+        if (pendingCount > 0) {
+          const allEvents = G_STATE.pendingReports.flatMap(r => r.events || []);
+          const drops = allEvents.filter(e => e.type === 'drop');
+          const bestDrop = drops.sort((a,b) => {const ra={common:0,uncommon:1,rare:2,epic:3};return (ra[b.rarity]||0)-(ra[a.rarity]||0);})[0];
+          const rankUps = G_STATE.pendingReports.filter(r => r.rankUp);
+          const crises = allEvents.filter(e => ['death','conflict','illness'].includes(e.type));
+          const highlights = [];
+          if (crises.length > 0) highlights.push(`🚨 要対応: <b>${crises.length}件</b>`);
+          if (bestDrop) highlights.push(`💰 最高入手: <b>${bestDrop.item || '—'}</b>`);
+          if (rankUps.length > 0) highlights.push(`🏅 ランクアップ: <b>${rankUps.map(r=>r.party?.name).join(', ')}</b>`);
+          if (drops.length > 0) highlights.push(`📦 入手数: <b>${drops.length}件</b>`);
+          if (highlights.length > 0) {
+            html += `<div class="report-highlight"><div class="report-highlight-title">✦ 今週のハイライト</div>${highlights.map(h=>`<div style="margin:2px 0;">${h}</div>`).join('')}</div>`;
+          }
+        }
+        html += `<div style="padding:10px 14px;">`;
+        allParties.forEach(p => {
+          const reportIdx = G_STATE.pendingReports.findIndex(r => r.party && r.party.id === p.id);
+          const report = reportIdx >= 0 ? G_STATE.pendingReports[reportIdx] : null;
+          const events = report ? (report.events || []) : [];
+          const aliveM = p.members.filter(m=>!m.dead);
+          const stressMax = aliveM.length ? Math.max(...aliveM.map(m=>m.stress||0)) : 0;
+          const healthMin = aliveM.length ? Math.min(...aliveM.map(m=>m.healthPt||80)) : 100;
+          const hasDeath = events.some(e=>e.type==='death');
+          const hasConflict = events.some(e=>e.type==='conflict'||(e.text&&e.text.includes('揉め事')));
+          const hasCrisis = stressMax>=80||healthMin<=20||events.some(e=>e.type==='illness'||(e.text&&(e.text.includes('崩壊')||e.text.includes('重傷'))));
+          const needsAction = scoreParty(p) > 30;
+          let cardBorder='#3a2810'; let cardTag='';
+          if (hasDeath)       { cardBorder='#cc3333'; cardTag=`<span style="background:#800808;color:#ffaaaa;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">☠ 戦死</span>`; }
+          else if (hasConflict){ cardBorder='#c08020'; cardTag=`<span style="background:#6a3000;color:#ffcc44;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">⚔ 対立</span>`; }
+          else if (hasCrisis)  { cardBorder='#cc6820'; cardTag=`<span style="background:#4a2000;color:#ffaa44;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">🚨 要対応</span>`; }
+          else if (report && report.rankUp){ cardBorder='#44aa44'; cardTag=`<span style="background:#0a3a0a;color:#88ff88;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">🏅 昇格</span>`; }
+          else if (!report)     { cardTag=`<span style="color:var(--tx3);font-size:9px;margin-left:6px;">(報告なし)</span>`; }
+          // アクティブシナジーバッジ
+          let synergyBadges = '';
+          if (p.status === 'active' && typeof TACTIC_SYNERGY !== 'undefined') {
+            try {
+              const mods = {};
+              const active = TACTIC_SYNERGY.filter(s => { try { return s.check(p); } catch(e){ return false; }});
+              synergyBadges = active.map(s =>
+                `<span style="display:inline-block;background:rgba(100,0,140,0.7);border:1px solid #9955cc;color:#cc88ff;font-size:8px;padding:1px 5px;border-radius:3px;margin-right:3px;">${s.label}</span>`
+              ).join('');
+            } catch(e) {}
+          }
+          const memberSum = aliveM.map(m=>{
+            const sc=(m.stress||0)>=80?'#ff4444':(m.stress||0)>=60?'#ff8844':'#77cc77';
+            return `<span style="font-size:9px;margin-right:6px;">${m.name} <span style="color:${sc}">ST:${m.stress||0}</span> <span style="color:#44aaff">HP:${m.healthPt||80}</span></span>`;
+          }).join('');
+          const evHtml = events.slice(0,4).map(e=>{
+            const ic=e.type==='drop'?'💰':e.type==='conflict'?'⚔':e.type==='death'?'💀':'📝';
+            const cls=e.type==='drop'?'evd':e.type==='conflict'?'evc':e.type==='death'?'evx':'evm';
+            return `<div class="rce" style="display:flex;align-items:flex-start;gap:5px;font-size:10px;"><span>${ic}</span><span class="${cls}">${e.text}</span></div>`;
+          }).join('') + (events.length>4?`<div style="font-size:9px;color:var(--tx3);text-align:right;">...他${events.length-4}件</div>`:'');
+          html += `<div style="border:1px solid ${cardBorder};border-radius:8px;margin-bottom:8px;background:rgba(20,14,8,0.85);${needsAction?'box-shadow:0 0 8px '+cardBorder+'55;':''}">
+            <div style="padding:7px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #2a1e10;">
+              <span style="font-weight:700;">${p.name}</span>
+              <span style="font-size:9px;color:var(--tx3);">[${p.status==='active'?'🟢 遠征中':'⚪ 待機'}] ${p.region||'—'}</span>
+              ${cardTag}
+              <div style="margin-left:auto;display:flex;gap:4px;">
+                <button class="rcab" onclick="openDirectiveModal(${p.id})" style="font-size:9px;padding:2px 6px;">方針変更</button>
+                ${needsAction && reportIdx>=0 ? `<button class="rcab" style="font-size:9px;padding:2px 6px;background:linear-gradient(135deg,#2a1505,#3a2008);border-color:#a06020;color:#ddaa44;" onclick="openIntervene(${reportIdx},0)">🚨 介入</button>` : ''}
+              </div>
+            </div>
+            <div style="padding:4px 10px;font-size:9px;color:var(--tx3);">${memberSum}</div>
+            ${synergyBadges ? `<div style="padding:0 10px 4px;">${synergyBadges}</div>` : ''}
+            ${events.length>0?`<div style="padding:4px 10px 6px;">${evHtml}</div>`:''}
+            ${report?`<div style="padding:3px 10px 6px;border-top:1px solid #1a1008;"><button class="rcab" style="font-size:9px;padding:2px 6px;" onclick="dismissReport(${reportIdx})">確認済みにする</button></div>`:''}
+          </div>`;
         });
         html += `</div>`;
       }
       document.getElementById('v-reports').innerHTML = html;
-      renderPartyList();
     }
-
     function dismissAllReports() {
       G_STATE.pendingReports = [];
       saveState();
@@ -5732,7 +5786,20 @@ ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradi
 
     // ---- MODAL HELPERS --------------------------------------------------------
     function openModal(id) { document.getElementById(id).classList.add('open'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function closeModal(id) {
+      if (id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('open');
+      } else {
+        // 引数なしの場合: open状態の全モーダルを閉じる
+        document.querySelectorAll('.modal.open, .overlay.open, [class*="modal"].open').forEach(el => {
+          el.classList.remove('open');
+        });
+        // modal-body を使うタイプのモーダル
+        const modalWrap = document.getElementById('modal');
+        if (modalWrap) modalWrap.classList.remove('open');
+      }
+    }
 
     // ---- 全 onclick ハンドラをwindowに公開 ------------------------------------
     // (HTMLの onclick="func()" はグローバルスコープを参照するため明示的に公開が必須)
