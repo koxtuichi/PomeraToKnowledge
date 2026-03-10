@@ -3343,6 +3343,78 @@
     }
     window.renderSynergyPanel = renderSynergyPanel;
 
+    // =====================================================================
+    // JOKER PANEL UI — パーティー詳細のジョーカースロット
+    // =====================================================================
+    function renderJokerPanel(party) {
+      const pid = party.id;
+      party.jokers = party.jokers || [null, null, null];
+      const inv = G_STATE.jokerInventory || [];
+      const RARITY_COL = { uncommon: '#4fc3f7', rare: '#ce93d8', epic: '#ffb74d' };
+
+      const slotHtml = party.jokers.map((j, i) => {
+        if (j) {
+          const col = RARITY_COL[j.rarity] || '#888';
+          return `<div style="border:1px solid ${col};border-radius:8px;padding:6px 8px;background:rgba(10,5,0,0.9);min-width:120px;position:relative;">
+            <div style="font-size:10px;color:${col};font-weight:700;">${j.label}</div>
+            <div style="font-size:8px;color:#776655;margin-top:2px;">${j.desc}</div>
+            <button onclick="unequipJoker(${pid},${i})" style="font-size:8px;position:absolute;top:3px;right:3px;background:none;border:none;color:#555;cursor:pointer;">✕</button>
+          </div>`;
+        } else {
+          return `<div style="border:1px dashed #333;border-radius:8px;padding:6px 8px;min-width:120px;display:flex;align-items:center;justify-content:center;color:#444;font-size:10px;">空きスロット</div>`;
+        }
+      }).join('');
+
+      const invHtml = inv.length > 0
+        ? inv.map((j, i) => {
+          const col = RARITY_COL[j.rarity] || '#888';
+          return `<button onclick="equipJoker(${pid},'${j.id}')" style="font-size:9px;padding:3px 8px;background:rgba(20,10,0,0.9);border:1px solid ${col};color:${col};border-radius:6px;cursor:pointer;">${j.label}</button>`;
+        }).join('')
+        : '<span style="font-size:9px;color:#444;">所持ジョーカーなし — ランクアップ・エンカウントで入手</span>';
+
+      return `<div style="margin:10px 0;padding:10px;border:1px solid #2a1a08;border-radius:8px;background:rgba(10,5,0,0.8);">
+        <div style="font-size:11px;font-weight:700;color:#d4a030;margin-bottom:8px;">🃏 ジョーカースロット (最大3)</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">${slotHtml}</div>
+        <div style="font-size:9px;color:#887755;margin-bottom:4px;">所持ジョーカー:</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">${invHtml}</div>
+      </div>`;
+    }
+    window.renderJokerPanel = renderJokerPanel;
+
+    // =====================================================================
+    // PARTY SKILL PANEL UI — 解放済みスキル一覧
+    // =====================================================================
+    function renderPartySkillPanel(party) {
+      const skills = party.skills || [];
+      if (skills.length === 0) {
+        return `<div style="margin:10px 0;padding:8px 10px;border:1px solid #1a1008;border-radius:8px;background:rgba(8,4,0,0.7);">
+          <div style="font-size:11px;font-weight:700;color:#886644;margin-bottom:4px;">🔓 パーティースキル</div>
+          <div style="font-size:9px;color:#444;">ランクEへの昇格でスキルが解放される</div>
+        </div>`;
+      }
+      const skillHtml = skills.map(sid => {
+        const sk = typeof getSkillById === 'function' ? getSkillById(sid) : null;
+        if (!sk) return '';
+        return `<div style="background:rgba(15,25,5,0.9);border:1px solid #446622;border-radius:5px;padding:4px 8px;margin-bottom:3px;">
+          <span style="font-size:10px;color:#88cc44;font-weight:700;">${sk.label}</span>
+          <span style="font-size:9px;color:#556633;margin-left:6px;">${sk.desc}</span>
+        </div>`;
+      }).join('');
+
+      return `<div style="margin:10px 0;padding:10px;border:1px solid #2a1a08;border-radius:8px;background:rgba(10,5,0,0.8);">
+        <div style="font-size:11px;font-weight:700;color:#d4a030;margin-bottom:6px;">🔓 パーティースキル</div>
+        ${skillHtml}
+      </div>`;
+    }
+    window.renderPartySkillPanel = renderPartySkillPanel;
+
+    // =====================================================================
+    // 週次報告: 手札エリアを描画後に renderWeeklyHandHTML で埋める
+    // =====================================================================
+    const _origShowReports = typeof showReportsView !== 'undefined' ? showReportsView : null;
+
+
+
 
 
     // CSS: カードフリップアニメーション
@@ -3481,6 +3553,13 @@
             G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}がランク${party.rank}に昇格`);
             G_STATE.skillPts = (G_STATE.skillPts || 0) + 1;
             events.push({ type: 'morale', text: `♟️ スキルポイントを1pt獲得した！ (合計: ${G_STATE.skillPts}pt)` });
+            // パーティースキル解放
+            if (typeof unlockSkillForRank === 'function') {
+              const unlockedSkill = unlockSkillForRank(party, party.rank);
+              if (unlockedSkill) {
+                events.push({ type: 'drop', text: `🔓 新スキル解放！【${unlockedSkill.label}】— ${unlockedSkill.desc}`, rarity: 'uncommon' });
+              }
+            }
           }
         }
       }
@@ -3679,6 +3758,11 @@
       if (!enc || enc.resolved) return null;
       const enemy = enc.enemy;
       const alive = party.members.filter(m => !m.dead);
+      // ジョーカー効果適用用モディファイア
+      const jMods = {};
+      const hadDeath = (party.members || []).some(m => m.dead && m.diedWeek === G_STATE.week);
+      if (typeof applyJokerEffects === 'function') applyJokerEffects(party, jMods, { hadDeath });
+      let jokerDropBonus = jMods.dropMult || 1;
       const riskLv = (REGION_DATA[party.region] || {}).riskLevel || 1;
 
       // シナジーボーナス
@@ -4262,6 +4346,223 @@
 
     // ===== D. 作戦シナジーシステム =====
 
+
+    // =====================================================================
+    // WEEKLY HAND SYSTEM — Balatro式 週手札・役判定・捨て牌
+    // =====================================================================
+    const HAND_CARD_POOL = [
+      // ⚔ 戦闘カード (type: 'combat')
+      { id: 'combat_ambush', type: 'combat', label: '⚔ 奇襲の好機', desc: '今週のエンカウントでドロップ+30%', effect: { dropMult: 1.30 } },
+      { id: 'combat_weak_spot', type: 'combat', label: '⚔ 弱点露出', desc: '部位1つをランダムに50%削れた状態で開始', effect: { weakPartBonus: true } },
+      { id: 'combat_rally', type: 'combat', label: '⚔ 集結の鬨', desc: '今週の戦闘ボーナス+20%', effect: { combatBonus: 20 } },
+      { id: 'combat_fatigue', type: 'combat', label: '⚔ 進軍の疲弊', desc: '今週全メンバーストレス+5（悪いカード）', effect: { stressDmg: 5 } },
+      // 💎 報酬カード (type: 'reward')
+      { id: 'reward_rare', type: 'reward', label: '💎 稀少鉱脈', desc: '今週のドロップがrare以上確定', effect: { minRarity: 'rare' } },
+      { id: 'reward_gold', type: 'reward', label: '💎 金塊発見', desc: '今週のドロップ売値+50G', effect: { goldBonus: 50 } },
+      { id: 'reward_epic', type: 'reward', label: '💎 伝説の欠片', desc: 'epic品が1.5倍の確率で出現', effect: { epicBonus: 0.15 } },
+      // 🌀 イベントカード (type: 'event')
+      { id: 'event_festival', type: 'event', label: '🌀 地域の祭り', desc: '今週全パーティーのmorale+10', effect: { moraleAll: 10 } },
+      { id: 'event_plague', type: 'event', label: '🌀 疫病の噂', desc: '今週の負傷確率+20%（悪いカード）', effect: { injuryMult: 1.20 } },
+      { id: 'event_merchant', type: 'event', label: '🌀 旅の商人', desc: '倉庫の素材売値がこの週だけ+25%', effect: { sellBonus: 1.25 } },
+      // 🚀 応援カード (type: 'reinforce')
+      { id: 'reinforce_boost', type: 'reinforce', label: '🚀 援軍の急報', desc: '今週の応援ボーナスが2倍になる', effect: { reinforceX2: true } },
+      { id: 'reinforce_range', type: 'reinforce', label: '🚀 長距離伝令', desc: '今週だけ応援可能距離が+1マス広がる', effect: { extraRange: 1 } },
+      // 🃏 ジョーカー抽選カード (type: 'joker_draw')
+      { id: 'joker_chance_a', type: 'joker_draw', label: '🃏 古書の欠片', desc: '所持すると使用時にランダムジョーカーを1枚入手', effect: { grantJoker: true } },
+    ];
+    window.HAND_CARD_POOL = HAND_CARD_POOL;
+
+    // ===== 役 (Hand Rank) 判定テーブル =====
+    const HAND_RANKS = [
+      {
+        id: 'five_of_a_kind', label: '🃏 ジョーカーフラッシュ', minCount: 1, types: ['joker_draw'],
+        desc: 'ジョーカーカードを所持 → ランダムジョーカーを1枚入手',
+        effect: (hand) => {
+          const joker = JOKER_CARDS[Math.floor(Math.random() * JOKER_CARDS.length)];
+          G_STATE.jokerInventory = G_STATE.jokerInventory || [];
+          G_STATE.jokerInventory.push({ ...joker });
+          addLog(`🃏 手札役「ジョーカーフラッシュ」発動！【${joker.label}】を入手！`, 'evd');
+        },
+      },
+      {
+        id: 'full_reinforce', label: '🚀 連合援軍', minCount: 2, types: ['reinforce'],
+        desc: '応援カード2枚 → 今週の全応援ボーナス×3',
+        effect: (hand) => {
+          G_STATE.weeklyHand._reinforceBonus = 3;
+          addLog('🚀 手札役「連合援軍」発動！今週の応援効果×3！', 'evd');
+        },
+      },
+      {
+        id: 'triple_combat', label: '⚔ 三連猛攻', minCount: 3, types: ['combat'],
+        desc: '戦闘カード3枚 → エンカウントドロップ+60%',
+        effect: (hand) => {
+          G_STATE.weeklyHand._dropBonus = (G_STATE.weeklyHand._dropBonus || 1) * 1.60;
+          addLog('⚔ 手札役「三連猛攻」発動！ドロップ+60%！', 'evd');
+        },
+      },
+      {
+        id: 'double_reward', label: '💎 双宝の光', minCount: 2, types: ['reward'],
+        desc: '報酬カード2枚 → rare以上ドロップ確定',
+        effect: (hand) => {
+          G_STATE.weeklyHand._minRarity = 'rare';
+          addLog('💎 手札役「双宝の光」発動！rare以上確定！', 'evd');
+        },
+      },
+      {
+        id: 'flush_all', label: '🌈 五色一閃 (フラッシュ)', minCount: 5, types: null,
+        desc: '異なる4タイプ以上揃え → 全パーティーのドロップ×2+全シナジー発動',
+        check: (hand) => new Set(hand.map(c => c.type)).size >= 4,
+        effect: (hand) => {
+          G_STATE.weeklyHand._dropBonus = (G_STATE.weeklyHand._dropBonus || 1) * 2.0;
+          G_STATE.weeklyHand._forceSynergy = true;
+          addLog('🌈 手札役「五色一閃」発動！全パーティードロップ×2＋全シナジー発動！', 'evd');
+        },
+      },
+    ];
+    window.HAND_RANKS = HAND_RANKS;
+
+    // 手札を5枚配布
+    function dealWeeklyHand() {
+      const pool = [...HAND_CARD_POOL];
+      const hand = [];
+      for (let i = 0; i < 5; i++) {
+        if (pool.length === 0) break;
+        const idx = Math.floor(Math.random() * pool.length);
+        hand.push({ ...pool[idx] });
+        pool.splice(idx, 1);
+      }
+      G_STATE.weeklyHand = {
+        cards: hand,
+        discardCount: 1, // 今週の捨て回数残り
+        playedThisWeek: false,
+        _dropBonus: 1,
+        _minRarity: null,
+        _reinforceBonus: 1,
+        _forceSynergy: false,
+      };
+      // 役判定
+      evaluateHand(hand);
+    }
+    window.dealWeeklyHand = dealWeeklyHand;
+
+    // 役判定
+    function evaluateHand(hand) {
+      if (!hand || hand.length === 0) return;
+      HAND_RANKS.forEach(rank => {
+        let triggered = false;
+        if (rank.check) {
+          triggered = rank.check(hand);
+        } else {
+          const matched = hand.filter(c => rank.types ? rank.types.includes(c.type) : true);
+          triggered = matched.length >= rank.minCount;
+        }
+        if (triggered) {
+          try { rank.effect(hand); } catch (e) { }
+        }
+      });
+    }
+    window.evaluateHand = evaluateHand;
+
+    // カードを捨てて引き直し
+    function discardAndRedraw(cardIndices) {
+      const wh = G_STATE.weeklyHand;
+      if (!wh || wh.discardCount <= 0) { alert('今週の捨て牌はすでに使用しました。'); return; }
+      if (!cardIndices || cardIndices.length < 1 || cardIndices.length > 2) {
+        alert('1〜2枚を選んで捨ててください。'); return;
+      }
+      const pool = HAND_CARD_POOL.filter(c => !wh.cards.some(h => h.id === c.id));
+      cardIndices.sort((a, b) => b - a).forEach(idx => {
+        const newCard = pool.length > 0
+          ? { ...pool[Math.floor(Math.random() * pool.length)] }
+          : { ...wh.cards[idx] };
+        wh.cards[idx] = newCard;
+      });
+      wh.discardCount--;
+      // 再度役判定
+      evaluateHand(wh.cards);
+      saveAndRefresh();
+      if (typeof showReportsView === 'function') showReportsView();
+      setLogBar('捨て牌で手札を引き直した！');
+    }
+    window.discardAndRedraw = discardAndRedraw;
+
+    // 捨て選択UI の状態
+    let _selectedDiscardIdx = [];
+    function toggleDiscardSelect(idx) {
+      const pos = _selectedDiscardIdx.indexOf(idx);
+      if (pos === -1) {
+        if (_selectedDiscardIdx.length >= 2) { _selectedDiscardIdx.shift(); }
+        _selectedDiscardIdx.push(idx);
+      } else {
+        _selectedDiscardIdx.splice(pos, 1);
+      }
+      // UI を再描画
+      const el = document.getElementById('weekly-hand-area');
+      if (el) renderWeeklyHandHTML(el);
+    }
+    window.toggleDiscardSelect = toggleDiscardSelect;
+
+    function confirmDiscard() {
+      if (_selectedDiscardIdx.length === 0) { alert('捨てるカードを選んでください。'); return; }
+      discardAndRedraw([..._selectedDiscardIdx]);
+      _selectedDiscardIdx = [];
+    }
+    window.confirmDiscard = confirmDiscard;
+
+    // advanceWeek 時に手札を配布
+    const _origAdvanceWeekForHand = typeof advanceWeek !== 'undefined' ? advanceWeek : null;
+
+    // =====================================================================
+    // WEEKLY HAND UI 描画関数
+    // =====================================================================
+    function renderWeeklyHandHTML(container) {
+      const wh = G_STATE.weeklyHand;
+      if (!wh || !wh.cards) { container.innerHTML = ''; return; }
+      const RARITY_COL = { combat: '#cc4422', reward: '#4fc3f7', event: '#ce93d8', reinforce: '#88cc44', joker_draw: '#ffb74d' };
+      const cards = wh.cards.map((c, i) => {
+        const sel = _selectedDiscardIdx.includes(i);
+        const col = RARITY_COL[c.type] || '#888';
+        return `<div onclick="toggleDiscardSelect(${i})" style="
+          cursor:pointer;border:2px solid ${sel ? '#ffffff' : col};border-radius:8px;
+          background:linear-gradient(135deg,rgba(20,10,0,0.97),rgba(10,5,0,0.97));
+          padding:8px 6px;min-width:90px;max-width:110px;flex:1;
+          box-shadow:${sel ? '0 0 12px #ffffff88' : `0 0 8px ${col}44`};
+          transform:${sel ? 'translateY(-6px)' : 'none'};transition:all 0.2s;
+          position:relative;
+        ">
+          ${sel ? '<div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:9px;background:#fff;color:#000;border-radius:4px;padding:1px 6px;">捨てる</div>' : ''}
+          <div style="font-size:9px;color:${col};font-weight:700;margin-bottom:3px;">${c.label}</div>
+          <div style="font-size:8px;color:#887766;line-height:1.3;">${c.desc}</div>
+        </div>`;
+      }).join('');
+
+      // 役表示
+      const activeRanks = HAND_RANKS.filter(r => {
+        if (r.check) return r.check(wh.cards);
+        return wh.cards.filter(c => r.types ? r.types.includes(c.type) : true).length >= r.minCount;
+      });
+      const rankHtml = activeRanks.length > 0
+        ? activeRanks.map(r => `<span style="background:rgba(50,30,0,0.9);border:1px solid #cc8800;border-radius:10px;padding:1px 8px;font-size:9px;color:#ffcc44;margin-right:4px;">${r.label}</span>`).join('')
+        : '<span style="color:#555;font-size:9px;">役なし — カードを捨てて揃えよう</span>';
+
+      container.innerHTML = `
+        <div style="padding:10px 14px;background:linear-gradient(135deg,rgba(15,8,0,0.98),rgba(8,4,0,0.98));border-bottom:2px solid #3a1a00;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="font-size:12px;font-weight:700;color:#d4a030;">🃏 今週の手札 (Week ${G_STATE.week})</div>
+            <div style="font-size:10px;color:#888;">捨て牌: 残り ${wh.discardCount}回</div>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">${cards}</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div>${rankHtml}</div>
+            ${wh.discardCount > 0
+          ? `<button onclick="confirmDiscard()" style="font-size:9px;padding:2px 12px;margin-left:auto;background:#2a1a00;border:1px solid #cc8800;color:#ffcc44;border-radius:6px;cursor:pointer;">選択カードを捨てる (${_selectedDiscardIdx.length}枚選択中)</button>`
+          : '<span style="font-size:9px;color:#555;margin-left:auto;">今週の捨て牌は終了</span>'}
+          </div>
+        </div>
+      `;
+    }
+    window.renderWeeklyHandHTML = renderWeeklyHandHTML;
+
     // =====================================================================
     // ENEMIES TABLE — 敵エンカウントデータ
     // =====================================================================
@@ -4353,6 +4654,237 @@
       };
     }
     window.spawnEncounter = spawnEncounter;
+
+
+    // =====================================================================
+    // REGION COORDS & ADJACENCY — 地域座標・隣接判定
+    // =====================================================================
+    const REGION_COORDS = {
+      '北の森林地帯': { x: 2, y: 0 },
+      '東の平原': { x: 3, y: 1 },
+      '南の砂漠': { x: 2, y: 2 },
+      '西の山脈': { x: 1, y: 1 },
+      '深海洞窟': { x: 4, y: 2 },
+      '古代遺跡': { x: 2, y: 3 },
+      '霧の沼地': { x: 4, y: 3 },
+      '火山地帯': { x: 0, y: 4 },
+      '雪原の果て': { x: 2, y: 5 },
+      '禁断の魔境': { x: 2, y: 4 },
+    };
+    window.REGION_COORDS = REGION_COORDS;
+
+    function calcRegionDistance(regionA, regionB) {
+      const a = REGION_COORDS[regionA];
+      const b = REGION_COORDS[regionB];
+      if (!a || !b) return 99;
+      return Math.abs(a.x - b.x) + Math.abs(a.y - b.y); // マンハッタン距離
+    }
+    window.calcRegionDistance = calcRegionDistance;
+
+    // 加勢可能かチェック (ジョーカー考慮)
+    function canReinforce(srcParty, tgtParty) {
+      if (!srcParty || !tgtParty) return false;
+      if (srcParty.id === tgtParty.id) return false;
+      if (srcParty.members.length === 0) return false;
+      // 「神速行軍」スキル所持なら距離3まで
+      const hasSwiftMarch = (srcParty.skills || []).includes('swift_march');
+      // 「魔法陣の書」ジョーカー所持なら無制限
+      const hasTeleport = (srcParty.jokers || []).some(j => j && j.id === 'magic_circle');
+      const maxDist = hasTeleport ? 999 : hasSwiftMarch ? 3 : 2;
+      const dist = calcRegionDistance(srcParty.region, tgtParty.region);
+      return dist <= maxDist;
+    }
+    window.canReinforce = canReinforce;
+
+    function getReinforcementLabel(srcParty, tgtParty) {
+      if (!srcParty || !tgtParty) return '';
+      const dist = calcRegionDistance(srcParty.region, tgtParty.region);
+      const canHelp = canReinforce(srcParty, tgtParty);
+      if (dist === 0) return '📍 同地域';
+      if (dist <= 2) return `📍 ${dist}マス先`;
+      if (canHelp) return `🔮 テレポート (${dist}マス)`;
+      return `🚫 遠すぎる (${dist}マス)`;
+    }
+    window.getReinforcementLabel = getReinforcementLabel;
+
+    // =====================================================================
+    // PARTY SKILLS — 段階スキル解放テーブル
+    // =====================================================================
+    const PARTY_SKILL_TABLE = {
+      E: { id: 'scout_eye', label: '👁 斥候の目', desc: '毎週エンカウント確率を事前に確認できる' },
+      D: { id: 'supply_line', label: '📦 補給線', desc: '倉庫からアイテム1つを遠征中に使用可能' },
+      C: { id: 'barrier', label: '🛡 結界展開', desc: '1週1回ダメージを無効化する' },
+      B: { id: 'alliance', label: '🤝 連合戦術', desc: '応援を受けたとき効果が2倍になる' },
+      A: { id: 'swift_march', label: '⚡ 神速行軍', desc: '距離3マス先まで応援に行ける' },
+      S: { id: 'legend_fame', label: '🌟 伝説の名声', desc: '全シナジー効果+20%' },
+    };
+    window.PARTY_SKILL_TABLE = PARTY_SKILL_TABLE;
+
+    // ランクアップ時にスキルを解放する
+    function unlockSkillForRank(party, newRank) {
+      const skill = PARTY_SKILL_TABLE[newRank];
+      if (!skill) return null;
+      party.skills = party.skills || [];
+      if (party.skills.includes(skill.id)) return null;
+      party.skills.push(skill.id);
+      return skill;
+    }
+    window.unlockSkillForRank = unlockSkillForRank;
+
+    // スキルラベルを取得するヘルパー
+    function getSkillById(skillId) {
+      return Object.values(PARTY_SKILL_TABLE).find(s => s.id === skillId) || null;
+    }
+    window.getSkillById = getSkillById;
+
+
+    // =====================================================================
+    // JOKER CARDS — ジョーカーカードテーブル
+    // =====================================================================
+    const JOKER_CARDS = [
+      {
+        id: 'magic_circle', label: '🔮 魔法陣の書', rarity: 'rare',
+        desc: 'パーティーがどの地域にいても応援に行ける。距離制限を無効化。',
+        unlockCondition: 'ランクC達成',
+        effect: 'teleport',
+      },
+      {
+        id: 'death_pact', label: '💀 死霊術師の契約', rarity: 'epic',
+        desc: 'メンバーが死亡した週、戦闘ボーナス+50%。死の代償が力に変わる。',
+        unlockCondition: '禁断の魔境クリア',
+        effect: 'death_bonus',
+      },
+      {
+        id: 'tide_prophet', label: '🌊 潮流の予言者', rarity: 'rare',
+        desc: '毎週ランダムでドロップ+20〜60%。予測不能な豊かさ。',
+        unlockCondition: '深海洞窟クリア',
+        effect: 'random_drop',
+      },
+      {
+        id: 'sniper_scripture', label: '🎯 狙撃の秘伝書', rarity: 'uncommon',
+        desc: '敵の部位攻撃ターゲットを選択できるようになる（ランダム→選択）。',
+        unlockCondition: 'ランクB達成',
+        effect: 'target_select',
+      },
+      {
+        id: 'crimson_wing', label: '🔥 紅蓮の翼', rarity: 'rare',
+        desc: '同じ地域に2つ以上パーティーがいると全員ドロップ×1.5。',
+        unlockCondition: 'ランクA達成',
+        effect: 'regional_bonus',
+      },
+      {
+        id: 'hero_banner', label: '🌟 英雄の旗', rarity: 'epic',
+        desc: 'シナジーが1つ発動するたびに追加ボーナス+10%が積み上がる。',
+        unlockCondition: 'ランクS達成',
+        effect: 'synergy_chain',
+      },
+      {
+        id: 'merchant_scale', label: '⚖ 商人の秤', rarity: 'uncommon',
+        desc: '素材を売却するたびに次週のドロップ+5%を積み立てる（最大+30%）。',
+        unlockCondition: '倉庫売却50回',
+        effect: 'sell_stack',
+      },
+      {
+        id: 'chaos_wind', label: '🌪 混沌の風', rarity: 'rare',
+        desc: '毎週ランダムなシナジーが1つ強制発動する。良くも悪くも。',
+        unlockCondition: 'ランダムドロップ',
+        effect: 'random_synergy',
+      },
+    ];
+    window.JOKER_CARDS = JOKER_CARDS;
+
+    function getJokerById(jokerId) {
+      return JOKER_CARDS.find(j => j.id === jokerId) || null;
+    }
+    window.getJokerById = getJokerById;
+
+    // パーティーにジョーカーを装着
+    function equipJoker(partyId, jokerId) {
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      if (!party) return;
+      party.jokers = party.jokers || [null, null, null];
+      const slot = party.jokers.findIndex(s => s === null);
+      if (slot === -1) { alert('ジョーカースロットが満杯です (最大3枚)'); return; }
+      const joker = getJokerById(jokerId);
+      if (!joker) return;
+      // インベントリから消費
+      const inv = G_STATE.jokerInventory || [];
+      const idx = inv.findIndex(j => j.id === jokerId);
+      if (idx === -1) { alert('そのジョーカーは所持していません。'); return; }
+      G_STATE.jokerInventory.splice(idx, 1);
+      party.jokers[slot] = joker;
+      saveAndRefresh(partyId);
+      setLogBar(`${party.name} に【${joker.label}】を装着した！`);
+    }
+    window.equipJoker = equipJoker;
+
+    // ジョーカーを外す
+    function unequipJoker(partyId, slotIdx) {
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      if (!party || !party.jokers) return;
+      const joker = party.jokers[slotIdx];
+      if (!joker) return;
+      G_STATE.jokerInventory = G_STATE.jokerInventory || [];
+      G_STATE.jokerInventory.push(joker);
+      party.jokers[slotIdx] = null;
+      saveAndRefresh(partyId);
+      setLogBar(`【${joker.label}】をパーティーから外した。`);
+    }
+    window.unequipJoker = unequipJoker;
+
+    // ジョーカー効果を tickEncounter/tickParty で適用するヘルパー
+    function applyJokerEffects(party, mods, context) {
+      const jokers = (party.jokers || []).filter(Boolean);
+      jokers.forEach(joker => {
+        switch (joker.effect) {
+          case 'random_drop':
+            // 毎週ランダム+20〜60%
+            mods.dropMult = (mods.dropMult || 1) * (1.20 + Math.random() * 0.40);
+            break;
+          case 'synergy_chain':
+            // シナジー発動数 × +10%
+            try {
+              const activeSynCount = (typeof TACTIC_SYNERGY !== 'undefined' ? TACTIC_SYNERGY : [])
+                .filter(s => { try { return s.check(party); } catch (e) { return false; } }).length;
+              mods.dropMult = (mods.dropMult || 1) * (1 + activeSynCount * 0.10);
+            } catch (e) { }
+            break;
+          case 'sell_stack':
+            // sellStack の積み立て分を適用
+            const stack = party._sellStack || 0;
+            mods.dropMult = (mods.dropMult || 1) * (1 + Math.min(0.30, stack * 0.05));
+            break;
+          case 'regional_bonus':
+            // 同地域 2PT以上でドロップ×1.5
+            const sameRegion = (G_STATE.parties || []).filter(p => p.id !== party.id && p.region === party.region && p.members.length > 0).length;
+            if (sameRegion >= 1) mods.dropMult = (mods.dropMult || 1) * 1.5;
+            break;
+          case 'random_synergy':
+            // ランダムシナジーを1つ強制発動 (apply)
+            if (typeof TACTIC_SYNERGY !== 'undefined' && TACTIC_SYNERGY.length > 0) {
+              const randomSyn = TACTIC_SYNERGY[Math.floor(Math.random() * TACTIC_SYNERGY.length)];
+              try { randomSyn.apply(mods); } catch (e) { }
+            }
+            break;
+          case 'death_bonus':
+            // 今週メンバーが死亡していたら+50%
+            if (context && context.hadDeath) mods.dropMult = (mods.dropMult || 1) * 1.5;
+            break;
+          case 'legend_fame':
+            // 全シナジー+20% (PARTY_SKILLS の legend_fame と同期)
+            if ((party.skills || []).includes('legend_fame')) mods.dropMult = (mods.dropMult || 1) * 1.20;
+            break;
+        }
+      });
+    }
+    window.applyJokerEffects = applyJokerEffects;
+
+    // G_STATE 初期化に jokerInventory を追加するヘルパー
+    function ensureJokerState() {
+      if (!G_STATE.jokerInventory) G_STATE.jokerInventory = [];
+      G_STATE.parties.forEach(p => { p.jokers = p.jokers || [null, null, null]; });
+    }
+    window.ensureJokerState = ensureJokerState;
 
     const TACTIC_SYNERGY = [
       {
@@ -4569,7 +5101,8 @@
 
       // ② ゲームロジック実行
       G_STATE.week++;
-
+      // 週手札を新たに配布 (Balatro式手札システム)
+      if (typeof dealWeeklyHand === 'function') dealWeeklyHand();
       // 52週ごとに年度末評価
       if (G_STATE.week % 52 === 0) {
         G_STATE.year = (G_STATE.year || 1) + 1;
@@ -5811,6 +6344,12 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       }
       html += `</div>`;
 
+      // ===== ジョーカースロットパネル =====
+      html += renderJokerPanel(p);
+
+      // ===== パーティースキルパネル =====
+      html += renderPartySkillPanel(p);
+
       // シナジービルダーパネル
       html += renderSynergyPanel(p);
 
@@ -5984,6 +6523,11 @@ ${isHired
         html += `</div>`;
       }
       document.getElementById('v-reports').innerHTML = html;
+      // 週手札エリアを描画
+      const handArea = document.getElementById('weekly-hand-area');
+      if (handArea && typeof renderWeeklyHandHTML === 'function') {
+        renderWeeklyHandHTML(handArea);
+      }
     }
     function dismissAllReports() {
       G_STATE.pendingReports = [];
