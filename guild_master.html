@@ -2271,6 +2271,8 @@
         &nbsp;|&nbsp; <span data-tip="ランクアップに必要な評判ポイント。\nレアアイテム売却で大きく増加します。">評判 <span id="hrep">0pt</span></span>
         &nbsp;|&nbsp; <span id="hgrank" style="color:var(--gold);font-weight:700"
           data-tip="ギルドランク。F→D→C→B→A→Sの順に上昇。\n高ランクほどレアドロップが増えます。">Dランク</span></div>
+      <div id="hgoal" style="font-size:10px;color:var(--tx3);padding:0 8px;display:flex;align-items:center;gap:4px;">
+      </div>
 
       <button class="hbtn primary" onclick="if(typeof SFX!=='undefined')SFX.advance();advanceWeek()">週を進める ▶</button>
       <button id="mute-btn" class="hbtn" onclick="toggleMute()" style="min-width:36px;padding:0 8px;font-size:16px;"
@@ -2749,6 +2751,14 @@
           m.dead = true;
           m.severelyInjured = false;
           const weeks = m.adventureWeeks || 0;
+          // Darkest Dungeon要件: 死亡記録を英雄の墓碑に保存
+          if (!G_STATE.deadHeroes) G_STATE.deadHeroes = [];
+          G_STATE.deadHeroes.push({
+            name: m.name, job: m.job, rank: m.rank || 'F',
+            region: party.region, week: G_STATE.week,
+            adventureWeeks: weeks,
+            epitaph: weeks >= 10 ? '長年の冒険に幕を下ろした猛者' : weeks >= 5 ? '若くして散った英雄' : '志半ばで倒れた勇者',
+          });
           events.push({ type: 'death', text: `☠️ 【戦死】${m.name}が${party.region}での戦闘で命を落とした。${weeks}週の冒険に幕が下りた。` });
           G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}: ${m.name}が戦死`);
           if (typeof SFX !== 'undefined') SFX.negativeEvent();
@@ -3105,6 +3115,8 @@
       el.innerHTML = `<div>現在のランク: <strong style="color:var(--gold)">${rank} — ${GUILD_RANK_LABELS[rank].split('—')[1].trim()}</strong></div><div style="font-size:0.75rem; color:#b09060;">評判 ${rep}pt</div>${progressBar}`;
     }
 
+    let _invFilter = 'all'; // 倉庫フィルター (all/epic/rare/uncommon/common)
+    let _invSort = 'default'; // 倉庫ソート (default/rarityDesc/priceDesc)
     let G_STATE = {
       week: 1, year: 1, gold: 500,
       parties: [], roster: [], dismissed: [],
@@ -3115,6 +3127,7 @@
       pendingReports: [], globalLog: [],
       autoSellRarity: null,      // C: 自動売却閾値 (null/'common'/'uncommon')
       recruitOrders: [],          // B: 招集オーダーリスト
+      deadHeroes: [],             // Phase10: 死亡した英雄の記録
     };
 
     function saveState() { try { G_STATE._uid = _uid; localStorage.setItem('gm_v1', JSON.stringify(G_STATE)); } catch (e) { } }
@@ -3940,6 +3953,49 @@
           party.members.length > 0 && party.members.every(m => ['C', 'B', 'A', 'S'].includes(m.rank || 'F')),
         apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.35; },
       },
+      // ===== Phase 10: Balatro追加シナジー =====
+      {
+        id: 'blood_pact',
+        label: '🩸 血の盟約',
+        desc: '全員stress≥60 + 積極攻撃でドロップ+40%・負傷+30%（ハイリスクハイリターン）',
+        check: (party) => party.tactic === 'assault' &&
+          party.members.every(m => (m.stress || 0) >= 60),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.40; mods.injuryMult = (mods.injuryMult || 1) * 1.30; },
+      },
+      {
+        id: 'moonlight_harvest',
+        label: '🌙 月影の収穫',
+        desc: '冬の季節 + 素材優先でドロップ+30%（季節限定）',
+        check: (party) => party.tactic === 'gather' &&
+          typeof getCurrentSeason === 'function' && getCurrentSeason().label === '冬',
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.30; },
+      },
+      {
+        id: 'flame_will',
+        label: '🔥 炎の意志',
+        desc: '全員mood≥85で作戦に関わらずストレス増加ゼロ',
+        check: (party) => party.members.length >= 2 &&
+          party.members.every(m => (m.mood || 50) >= 85),
+        apply: (mods) => { mods.stressMult = 0; },
+      },
+      {
+        id: 'treasure_hunter',
+        label: '💎 宝石探し',
+        desc: '倉庫10件以上ある時 + 素材優先でepic確率+15%',
+        check: (party) => party.tactic === 'gather' &&
+          typeof G_STATE !== 'undefined' && (G_STATE.inventory || []).length >= 10,
+        apply: (mods) => { mods.epicBonus = (mods.epicBonus || 0) + 0.15; },
+      },
+      {
+        id: 'paradox_mastery',
+        label: '⚔🛡 矛盾の境地',
+        desc: '積極攻撃+堅実防衛コンボ・全員ランクB以上でドロップ+50%・負傷-10%（超高難度）',
+        check: (party) => ((party.tactic === 'assault' && party.subTactic === 'guard') ||
+          (party.tactic === 'guard' && party.subTactic === 'assault')) &&
+          party.members.length >= 2 &&
+          party.members.every(m => ['B', 'A', 'S'].includes(m.rank || 'F')),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.50; mods.injuryMult = (mods.injuryMult || 1) * 0.90; },
+      },
     ];
     window.TACTIC_SYNERGY = TACTIC_SYNERGY;
 
@@ -4467,6 +4523,25 @@
       G_STATE.wishList = (G_STATE.wishList || []).filter(x => x !== name);
       saveState(); showInventoryView();
     }
+    function setInventoryFilter(f) { _invFilter = f; showInventoryView(); }
+    function setInventorySort(s) { _invSort = s; showInventoryView(); }
+    function sellFiltered() {
+      const RARITY_ORDER = ['common', 'uncommon', 'rare', 'epic'];
+      const wl = G_STATE.wishList || [];
+      const toSell = (G_STATE.inventory || []).filter(it => {
+        if (it.wished || wl.includes(it.name)) return false;
+        if (_invFilter === 'all') return true;
+        return it.rarity === _invFilter;
+      });
+      let total = 0;
+      toSell.forEach(it => {
+        total += (it.value || 0) * (it.qty || 1);
+        G_STATE.inventory = (G_STATE.inventory || []).filter(x => x.id !== it.id);
+      });
+      G_STATE.gold += total;
+      saveState();
+      showInventoryView();
+    }
     function showInventoryView() {
       currentView = 'inventory';
       ['welcome', 'party', 'roster', 'reports', 'inventory', 'map'].forEach(v => {
@@ -4504,34 +4579,62 @@
       h += ` <button class="btn" onclick="addWish(document.getElementById('wish-sel').value)" style="padding:2px 8px;font-size:11px;">追加</button>`;
       h += `</div>`;
 
-      // レシピ合成
-      const craftable = RECIPES.filter(r => {
-        const names = inv.map(x => x.name);
-        return r.ingredients.every(ing => names.includes(ing));
-      });
-      if (craftable.length) {
+      // あるけみすと要件: 合成UI改善 — 全レシピ表示・在庫数・未達素材赤字
+      const invNames = inv.map(x => x.name);
+      const countByName = {};
+      inv.forEach(x => { countByName[x.name] = (countByName[x.name] || 0) + (x.qty || 1); });
+      if (RECIPES.length > 0) {
         h += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
-        h += `<div style="font-size:10px;color:#ce93d8;letter-spacing:1px;margin-bottom:6px;">⚗️ 合成可能なレシピ</div>`;
-        craftable.forEach(r => {
-          const ri = RECIPES.indexOf(r);
+        h += `<div style="font-size:10px;color:#ce93d8;letter-spacing:1px;margin-bottom:6px;">⚗️ 合成レシピ一覧 <span style="color:var(--tx3);font-weight:normal;">(${RECIPES.length}種)</span></div>`;
+        RECIPES.forEach((r, ri) => {
+          const canCraft = r.ingredients.every(ing => invNames.includes(ing));
           const col = RARITY_COLOR[r.rarity] || 'var(--tx)';
-          h += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="color:${col};font-size:11px;font-weight:700;">[${RARITY_LABEL[r.rarity]}]</span>
-        <span style="flex:1;font-size:12px;">${r.name}</span>
-        <span style="font-size:10px;color:var(--tx3);">${r.ingredients.join(' + ')}</span>
-        <span style="color:var(--gold);font-size:11px;">${r.value}G</span>
-        <button class="btn" onclick="craftRecipe(${ri})" style="padding:3px 8px;font-size:11px;">合成</button>
+          const ingHtml = r.ingredients.map(ing => {
+            const stock = countByName[ing] || 0;
+            const missing = stock === 0;
+            return `<span style="color:${missing ? '#ff6b6b' : '#a0d090'};font-size:9px;">${ing}${missing ? '<span style="color:#ff4444;"> ✗</span>' : `<span style="color:var(--tx3);"> ×${stock}</span>`}</span>`;
+          }).join(' <span style="color:var(--tx3);">+</span> ');
+          h += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;padding:4px 6px;border-radius:6px;background:${canCraft ? 'rgba(100,180,100,0.08)' : 'rgba(60,40,20,0.3)'};">
+        <span style="color:${col};font-size:10px;font-weight:700;min-width:38px;">[${RARITY_LABEL[r.rarity]}]</span>
+        <span style="flex:1;font-size:11px;${canCraft ? '' : 'color:var(--tx3);'}">${r.name}</span>
+        <span style="font-size:9px;">${ingHtml}</span>
+        <span style="color:var(--gold);font-size:10px;min-width:36px;text-align:right;">${r.value}G</span>
+        ${canCraft ? `<button class="btn" onclick="craftRecipe(${ri})" style="padding:2px 7px;font-size:10px;">
+          <span style="animation: pulse 1s infinite;">⚗ 合成</span>
+        </button>` : `<button class="btn" disabled style="padding:2px 7px;font-size:10px;opacity:0.35;">素材不足</button>`}
       </div>`;
         });
         h += `</div>`;
       }
 
+
+
+      // 全員要件: フィルター・ソートUI
+      if (inv.length > 0) {
+        h += `<div style="padding:6px 8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--bg2);margin:0 8px 6px;border-radius:8px;">`;
+        const FILTER_OPTS = [['all', '全て'], ['epic', '🟠Epic'], ['rare', '🟣Rare'], ['uncommon', '🔵良品'], ['common', '⚪並']];
+        FILTER_OPTS.forEach(([v, lbl]) => {
+          const active = _invFilter === v;
+          h += `<button class="hbtn2" onclick="setInventoryFilter('${v}')" style="flex:none;font-size:10px;padding:2px 8px;${active ? 'background:var(--gold);color:#1a0f00;font-weight:700;' : ''}">${lbl}</button>`;
+        });
+        h += `<select onchange="setInventorySort(this.value)" style="font-size:10px;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:4px;padding:2px;margin-left:auto;">
+          <option value="default"${_invSort === 'default' ? ' selected' : ''}>デフォルト</option>
+          <option value="rarityDesc"${_invSort === 'rarityDesc' ? ' selected' : ''}>レア度高→低</option>
+          <option value="priceDesc"${_invSort === 'priceDesc' ? ' selected' : ''}>価格高→低</option>
+        </select></div>`;
+      }
       if (inv.length === 0) {
         h += `<div style="padding:20px;color:var(--tx3);font-size:13px;">倉庫は空です。パーティーを派遣して戦利品を集めよう。</div>`;
       } else {
-        h += `<div style="padding:8px;"><button class="btn" onclick="sellAll()" style="width:100%;margin-bottom:10px;">💰 全件売却</button></div>`;
+
+        // フィルター・ソート適用
+        const RARITY_ORDER2 = ['common', 'uncommon', 'rare', 'epic'];
+        let displayInv = inv.filter(it => _invFilter === 'all' || it.rarity === _invFilter);
+        if (_invSort === 'rarityDesc') displayInv.sort((a, b) => RARITY_ORDER2.indexOf(b.rarity || 'common') - RARITY_ORDER2.indexOf(a.rarity || 'common'));
+        else if (_invSort === 'priceDesc') displayInv.sort((a, b) => (b.value || 0) - (a.value || 0));
+        h += `<div style="padding:8px;display:flex;gap:6px;"><button class="btn" onclick="sellAll()" style="flex:1;margin-bottom:10px;">💰 全件売却</button><button class="btn" onclick="sellFiltered()" style="flex:1;margin-bottom:10px;background:var(--bg3);">🗑 ${_invFilter === 'all' ? '全て' : '絞込'}一括売却</button></div>`;
         h += `<div style="display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;">`;
-        inv.forEach(it => {
+        displayInv.forEach(it => {
           const wishBadge = it.wished ? '⭐ ' : '';
           const rbCls = `rb-${it.rarity || 'common'}`;
           h += `<div class="${rbCls}" style="display:flex;align-items:center;gap:8px;border-radius:6px;padding:8px 10px;">
@@ -4570,17 +4673,72 @@
       const RISK_COLORS = ['', '#5aaa5a', '#9aaa3a', '#ddaa3a', '#dd6a3a', '#dd3a3a'];
 
       const season = typeof getCurrentSeason === 'function' ? getCurrentSeason() : null;
-      const seasonDropText = season ? (season.dropMod > 0 ? `ドロップ+${Math.round(season.dropMod * 100)}%` : season.dropMod < 0 ? `ドロップ${Math.round(season.dropMod * 100)}%` : '') : '';
+      // 季節ごとの説明文・次の季節情報
+      const SEASON_DESC = {
+        spring: { flavor: '行商隊と精霊の加護が増える季節', eventHint: '🚚 行商隊 ✨ 加護が多め' },
+        summer: { flavor: '魔物が活発化し嵐が多い。ドロップは増加', eventHint: '👹 魔物大発生 ⛈ 嵐が多め' },
+        autumn: { flavor: '宝の噂が飛び交う収穫の季節', eventHint: '💎 宝の噂が多め' },
+        winter: { flavor: '嵐が猛威を振るい、ドロップが減少する', eventHint: '⛈ 嵐が非常に多め' },
+      };
+      const SEASON_KEYS = ['spring', 'summer', 'autumn', 'winter'];
+      const weekInYear = ((G_STATE.week - 1) % 52) + 1;
+      const seasonIdx = Math.floor((weekInYear - 1) / 13);
+      const weeksIntoSeason = ((weekInYear - 1) % 13) + 1;
+      const weeksLeftInSeason = 13 - weeksIntoSeason;
+      const nextSeasonKey = SEASON_KEYS[(seasonIdx + 1) % 4];
+      const nextSeasonData = typeof SEASONS !== 'undefined' ? SEASONS[nextSeasonKey] : null;
+
       let h = `<div class="ph"><div class="pht">🗺 地方マップ</div><div class="phs">評判: ${G_STATE.reputation || 0}pt | 派遣先を確認しよう</div></div>`;
       if (season) {
-        h += `<div style="margin:8px 14px 0;padding:10px 16px;border-radius:10px;background:${season.bg};border:1px solid ${season.color}44;display:flex;align-items:center;gap:12px;">
-          <span style="font-size:22px;">${season.icon}</span>
-          <span style="color:${season.color};font-weight:700;font-size:13px;">現在の季節: ${season.label}</span>
-          ${seasonDropText ? `<span style="font-size:11px;color:var(--tx3);">(${seasonDropText})</span>` : ''}
-          <span style="font-size:11px;color:var(--tx3);margin-left:auto;">Week ${G_STATE.week}</span>
+        const sdesc = SEASON_DESC[['winter', 'spring', 'summer', 'autumn', 'winter'][seasonIdx + 1] ? SEASON_KEYS[seasonIdx] : 'spring'] || SEASON_DESC.spring;
+        const dropBadge = season.dropMod > 0
+          ? `<span style="background:#3a7a2a;color:#9afa7a;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;">ドロップ+${Math.round(season.dropMod * 100)}%↑</span>`
+          : season.dropMod < 0
+            ? `<span style="background:#7a2a2a;color:#fab0a0;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;">ドロップ${Math.round(season.dropMod * 100)}%↓</span>`
+            : `<span style="background:#2a2a2a;color:#a0a090;font-size:10px;padding:2px 7px;border-radius:4px;">ドロップ±0</span>`;
+        h += `<div style="margin:8px 14px 0;padding:12px 16px;border-radius:10px;background:${season.bg};border:1px solid ${season.color}55;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+            <span style="font-size:26px;">${season.icon}</span>
+            <div style="flex:1;">
+              <span style="color:${season.color};font-weight:700;font-size:14px;">現在の季節: ${season.label}</span>
+              <span style="font-size:10px;color:var(--tx3);margin-left:10px;">Week ${G_STATE.week}</span>
+            </div>
+            ${dropBadge}
+          </div>
+          <div style="font-size:11px;color:var(--tx3);margin-bottom:4px;">📖 ${sdesc.flavor}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+            <span style="font-size:10px;color:${season.color}bb;">${sdesc.eventHint}</span>
+            <span style="margin-left:auto;font-size:10px;color:var(--tx3);">
+              ${weeksLeftInSeason > 0 ? `次の季節まで <strong style="color:${season.color}">${weeksLeftInSeason}週</strong>` : `今週で季節が変わる`}
+              ${nextSeasonData ? ` → ${nextSeasonData.icon} ${nextSeasonData.label}` : ''}
+            </span>
+          </div>
         </div>`;
       }
       h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px;">`;
+
+      // 季節オーバーレイカラー (Elin要件: 季節で地域の色が変わる)
+      const SEASON_REGION_OVERLAY = {
+        spring: 'rgba(80,180,80,0.06)',
+        summer: 'rgba(240,160,40,0.08)',
+        autumn: 'rgba(200,100,40,0.08)',
+        winter: 'rgba(100,160,220,0.10)',
+      };
+      // 地域フレーバーテキスト (Elin要件: 地形絵的情報)
+      const REGION_FLAVOR = {
+        '緑の平原': '🌿🌾🌳 草原が広がり、春の風が吹く',
+        '暗黒の森': '🌲🍄🕷 古木が空を覆い、魔物が潜む',
+        '竜の山脈': '🏔⛰🐉 竜が棲む険しい峰々',
+        '砂漠の遺跡': '🏜🗿☀ 砂嵐の中に眠る古代の遺産',
+        '氷の洞窟': '❄🧊🌨 永久凍土に閉ざされた氷の迷宮',
+        '海賊の入り江': '⚓🌊🏴 荒波と海賊が待ち受ける湾',
+        '魔王の城': '🏰💀🔮 闇のオーラが漂う魔王の拠点',
+        '呪われた沼': '🌿💀🐸 怨念が漂う瘴気の沼地',
+        '霧の湖': '🌫🦢💧 霧に包まれた静寂な湖',
+        '天空の神殿': '🏛✨☁ 雲の上に浮かぶ神聖な神殿',
+      };
+      const seasonKey2 = season ? SEASON_KEYS[seasonIdx] : null;
+      const seasonOverlay = seasonKey2 ? SEASON_REGION_OVERLAY[seasonKey2] : 'transparent';
 
       REGIONS.forEach(reg => {
         const rd = REGION_DATA[reg] || { icon: '?', specialty: [], riskLevel: 1 };
@@ -4588,10 +4746,13 @@
         const assignedParties = G_STATE.parties.filter(p => p.region === reg && p.status === 'active' && p.members.length > 0);
         const riskColor = RISK_COLORS[rd.riskLevel] || '#aaa';
         const riskLabel = ['', '安全', '低', '中', '高', '危険'][rd.riskLevel] || '?';
-        h += `<div style="background:${theme.grad};border:1px solid ${theme.border};border-radius:12px;padding:14px;position:relative;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px #0009'" onclick="showRegionDetail('${reg}')" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        const regFlavor = REGION_FLAVOR[reg] || '';
+        h += `<div style="background:${theme.grad};border:1px solid ${theme.border};border-radius:12px;padding:14px;position:relative;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;overflow:hidden;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px #0009'" onclick="showRegionDetail('${reg}')" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <div style="position:absolute;inset:0;background:${seasonOverlay};pointer-events:none;border-radius:12px;"></div>
       <div style="border-top:3px solid ${theme.border};position:absolute;top:0;left:0;right:0;border-radius:12px 12px 0 0;"></div>
-      <div style="font-size:30px;margin-bottom:6px;line-height:1;">${rd.icon}</div>
-      <div style="font-weight:700;font-size:13px;color:${theme.textClr};margin-bottom:4px;">${reg}</div>
+      <div style="font-size:32px;margin-bottom:4px;line-height:1;">${rd.icon}</div>
+      <div style="font-weight:700;font-size:13px;color:${theme.textClr};margin-bottom:2px;">${reg}</div>
+      ${regFlavor ? `<div style="font-size:9px;color:var(--tx3);margin-bottom:6px;line-height:1.4;">${regFlavor}</div>` : ''}
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
         <span style="font-size:9px;background:${riskColor};color:#000;padding:1px 6px;border-radius:3px;font-weight:700;">${riskLabel}</span>
         <span style="font-size:10px;color:var(--tx3);">Lv.${rd.riskLevel}</span>
@@ -4814,8 +4975,25 @@
       if (rep) rep.textContent = (G_STATE.reputation || 0) + 'pt';
       const rankEl = document.getElementById('hgrank');
       if (rankEl) { const r = getGuildRank(G_STATE.reputation || 0); rankEl.textContent = `${r}ランク`; }
+      // クラシック・Balatro要件: HUDに次ランクまでの進捗表示
+      const goalEl = document.getElementById('hgoal');
+      if (goalEl) {
+        const rank = getGuildRank(G_STATE.reputation || 0);
+        const next = GUILD_RANK_ORDER[GUILD_RANK_ORDER.indexOf(rank) + 1];
+        const rep2 = G_STATE.reputation || 0;
+        if (next) {
+          const nextTh = GUILD_RANK_THRESHOLDS[next];
+          const curTh = GUILD_RANK_THRESHOLDS[rank] || 0;
+          const prog = Math.min(100, Math.round(((rep2 - curTh) / (nextTh - curTh)) * 100));
+          goalEl.innerHTML = `<span style="font-size:9px;color:var(--tx3);">目標: ${next}ランク</span> <span style="font-size:9px;color:var(--gold);"> あと${nextTh - rep2}pt</span> <div style="display:inline-block;width:60px;height:6px;background:#301a04;border-radius:3px;vertical-align:middle;margin-left:4px;"><div style="width:${prog}%;height:6px;background:var(--gold);border-radius:3px;transition:width 0.5s;"></div></div>`;
+        } else {
+          goalEl.innerHTML = `<span style="font-size:11px;color:var(--gold2);">🏆 最高ランクSを達成！</span>`;
+        }
+      }
     }
+
     function renderQuestHUD() {
+
       const el = document.getElementById('quest-hud');
       if (!el) return;
       if (!G_STATE.activeQuest) { el.innerHTML = ''; el.style.display = 'none'; return; }
