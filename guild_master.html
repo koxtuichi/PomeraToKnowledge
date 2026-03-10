@@ -2583,7 +2583,7 @@
             title="新パーティー">＋</button>
         </div>
         <div class="ptab" onclick="showView('roster')">🗡 ギルド待機所</div>
-        <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
+
         <div class="ptab" onclick="showInventoryView()">🏪 倉庫・販売</div>
         <div class="ptab" onclick="showMapView()">🗺 地方マップ</div>
         <div class="ptab" onclick="showSkillTreeView()"
@@ -2660,9 +2660,9 @@
       <span class="bnav-icon">👥</span>
       <span>待機所</span>
     </button>
-    <button class="bnav-btn" id="bnav-reports" onclick="mobileNav('reports')" aria-label="週次報告">
-      <span class="bnav-icon">📋</span>
-      <span>報告</span>
+    <button class="bnav-btn" id="bnav-reports" onclick="mobileNav('map')" aria-label="地図">
+      <span class="bnav-icon">🗺</span>
+      <span>地図</span>
     </button>
     <button class="bnav-btn" id="bnav-warehouse" onclick="mobileNav('warehouse')" aria-label="倉庫">
       <span class="bnav-icon">📦</span>
@@ -6934,21 +6934,103 @@
     }
 
     // ---- PARTY LIST -----------------------------------------------------------
+    // 敵ナマ→画像マッピング
+    const ENEMY_IMG_MAP = {
+      'ゴブリン': 'enemy_goblin.png', 'goblin': 'enemy_goblin.png',
+      'オーク': 'enemy_orc.png', 'orc': 'enemy_orc.png',
+      'スケルトン': 'enemy_skeleton.png', 'skeleton': 'enemy_skeleton.png',
+      'ドラゴン': 'enemy_dragon.png', '古竜': 'enemy_dragon.png', 'dragon': 'enemy_dragon.png',
+      '狼': 'enemy_wolf.png', 'ウルフ': 'enemy_wolf.png', 'wolf': 'enemy_wolf.png',
+    };
+    function getEnemyImg(name) {
+      if (!name) return null;
+      for (const [k,v] of Object.entries(ENEMY_IMG_MAP)) {
+        if (name.includes(k)) return v;
+      }
+      return null;
+    }
+
+    function _partyPriority(p) {
+      if (p.status === 'disbanded') return 99;
+      if (p.members.length === 0) return 50;
+      const aliveM = p.members.filter(m => !m.dead);
+      // 戦闘中
+      if (p.currentEncounter) return 0;
+      // 危機 (ストレス80+/ HP20以下)
+      if (aliveM.some(m => (m.stress||0) >= 80 || (m.healthPt||80) <= 20)) return 1;
+      // ミッション中
+      if (p.status === 'active') return 10;
+      // 待機
+      return 30;
+    }
+
     function renderPartyList() {
       const c = document.getElementById('plist-items');
       c.innerHTML = '';
-      const rp = G_STATE.pendingReports.length;
-      G_STATE.parties.forEach(p => {
+      const sorted = [...G_STATE.parties].sort((a,b) => _partyPriority(a) - _partyPriority(b));
+      sorted.forEach(p => {
+        if (p.status === 'disbanded' && p.members.length === 0) return; // 解散済みは非表示
         const div = document.createElement('div');
-        const avg = p.members.length ? Math.round(p.members.reduce((s, m) => s + m.morale, 0) / p.members.length) : 0;
-        const hasPR = G_STATE.pendingReports.some(r => r.party && r.party.id === p.id);
-        div.className = 'pi' + (currentPartyId === p.id ? ' active' : '') + (hasPR ? ' rp' : '');
-        const stLabel = p.status === 'disbanded' ? '解散' : p.members.length === 0 ? '待機' : p.status === 'idle' ? '待機' : '活動中';
-        const mc = avg > 70 ? 'mh' : avg > 40 ? 'mm' : 'ml';
-        div.innerHTML = `<div class="pin">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank || 'F'}]</span></div><div class="pis">${stLabel} | ${p.region || '—'}</div><div class="pimb"><div class="pimf ${mc}" style="width:${avg}%"></div></div>`;
+        const aliveM = p.members.filter(m => !m.dead);
+        const avgHP = aliveM.length ? Math.round(aliveM.reduce((s,m)=>s+(m.healthPt||80),0)/aliveM.length) : 100;
+        const avgST = aliveM.length ? Math.round(aliveM.reduce((s,m)=>s+(m.stress||0),0)/aliveM.length) : 0;
+        const hasCrisis = aliveM.some(m => (m.stress||0) >= 80 || (m.healthPt||80) <= 20);
+        const hasEncounter = !!p.currentEncounter;
+        const enc = p.currentEncounter;
+        const pri = _partyPriority(p);
+
+        // バッジ/状態
+        let stBadge='', stBadgeStyle='';
+        if (hasEncounter) {
+          stBadge = `⚔ ${enc.name||'交戦中'}`;
+          stBadgeStyle = 'color:#ff6644;font-weight:700;';
+        } else if (hasCrisis) {
+          stBadge = '🚨 危機';
+          stBadgeStyle = 'color:#ff4444;font-weight:700;';
+        } else if (p.status === 'active' && p.mission) {
+          const mIcon = {explore:'🗺',treasure:'💎',hunt:'⚔',scout:'🔭',training:'📚',standby:'🏠'}[p.mission.type]||'📍';
+          stBadge = `${mIcon} ${p.region||'—'}`;
+          stBadgeStyle = 'color:#aa9966;';
+        } else {
+          stBadge = `🏠 ${p.region||'待機'}`;
+          stBadgeStyle = 'color:var(--tx3);';
+        }
+
+        // カード効果バッジ
+        const cardBadge = p._pendingCardEffects && p._pendingCardEffects.length > 0
+          ? `<span style="font-size:8px;color:#cc9944;margin-left:4px;">🃏×${p._pendingCardEffects.length}</span>` : '';
+
+        // HP/STバー (幅を2本にまとめる)
+        const hpPct = Math.min(100, avgHP);
+        const stPct = Math.min(100, avgST);
+        const hpCol = avgHP <= 20 ? '#ff4444' : avgHP <= 50 ? '#ff8844' : '#44aaff';
+        const stCol = avgST >= 80 ? '#ff4444' : avgST >= 50 ? '#ff8844' : '#558855';
+
+        // 緊急度によるボーダー色
+        const borderLeft = pri === 0 ? '3px solid #ff6644'
+          : pri === 1 ? '3px solid #ff4444' : '3px solid transparent';
+
+        div.className = 'pi' + (currentPartyId === p.id ? ' active' : '');
+        div.style.borderLeft = borderLeft;
+        div.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+            <div class="pin" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank||'F'}]</span>${cardBadge}</div>
+            ${hasEncounter ? `<span style="font-size:10px;animation:pulse-red 1s infinite alternate;">⚔</span>` : ''}
+          </div>
+          <div class="pis" style="${stBadgeStyle}font-size:10px;">${stBadge}</div>
+          <div style="display:flex;gap:3px;margin-top:3px;">
+            <div style="flex:1;height:3px;background:#1a1008;border-radius:2px;"><div style="height:3px;width:${hpPct}%;background:${hpCol};border-radius:2px;"></div></div>
+            <div style="flex:1;height:3px;background:#1a1008;border-radius:2px;"><div style="height:3px;width:${stPct}%;background:${stCol};border-radius:2px;"></div></div>
+          </div>`;
         div.onclick = () => showParty(p.id);
         c.appendChild(div);
       });
+      // 点滅アニメCSS (1回だけ挿入)
+      if (!document.getElementById('pulse-style')) {
+        const s=document.createElement('style'); s.id='pulse-style';
+        s.textContent='@keyframes pulse-red{from{opacity:1}to{opacity:0.3}}';
+        document.head.appendChild(s);
+      }
     }
 
     // ---- SHOW PARTY VIEW -------------------------------------------------------
@@ -7019,6 +7101,36 @@
           </div>
           <div style="background:#1a1006;border-radius:3px;height:4px;width:100%;">
             <div style="background:var(--gold);height:4px;border-radius:3px;width:${xpProgress}%;transition:width 0.5s;"></div>
+          </div>
+        </div>`;
+      }
+
+
+      // === 現在のエンカウント表示 ===
+      if (p.currentEncounter) {
+        const enc = p.currentEncounter;
+        let enemyImg = null;
+        if (typeof ENEMY_IMG_MAP !== 'undefined') {
+          for (const [k,v] of Object.entries(ENEMY_IMG_MAP)) {
+            if ((enc.name||'').includes(k)) { enemyImg = v; break; }
+          }
+        }
+        const danger = enc.danger || 'normal';
+        const dangCol = danger === 'boss' ? '#ff4444' : danger === 'hard' ? '#ff8844' : '#cc8822';
+        html += `<div style="margin:8px 0;padding:10px 12px;background:#1a0808;border:2px solid ${dangCol};border-radius:8px;">
+          <div style="font-size:10px;color:${dangCol};font-weight:700;margin-bottom:6px;animation:pulse-red 1s infinite alternate;">⚔ 現在交戦中</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            ${enemyImg ? `<img src="${enemyImg}" style="width:72px;height:72px;object-fit:cover;border-radius:5px;border:1px solid ${dangCol};flex-shrink:0;" alt="${enc.name||'敵'}">` : `<div style="width:72px;height:72px;background:#2a1010;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">⚔</div>`}
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:#ffaa66;">${enc.name||'不明の敵'}</div>
+              ${enc.hp != null ? `<div style="font-size:9px;color:#aa6644;margin-top:2px;">HP: ${enc.hp}/${enc.maxHp||enc.hp}</div>
+              <div style="height:5px;background:#1a0808;border-radius:2px;margin-top:3px;"><div style="height:5px;width:${Math.min(100,Math.round((enc.hp/(enc.maxHp||enc.hp))*100))}%;background:#cc3300;border-radius:2px;transition:width 0.3s;"></div></div>` : ''}
+              <div style="margin-top:6px;font-size:9px;color:var(--tx3);">${enc.desc||'パーティーと交戦中…'}</div>
+              <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+                <button onclick="_partyInterventionMenu(${p.id},'card')" style="background:#2a1a08;border:1px solid #cc8822;color:#ffcc66;font-size:10px;padding:5px 10px;border-radius:5px;cursor:pointer;">🃏 カードを使う</button>
+                <button onclick="_partyInterventionMenu(${p.id},'flee')" style="background:#0a1a08;border:1px solid #336622;color:#88cc66;font-size:10px;padding:5px 10px;border-radius:5px;cursor:pointer;">🏃 撤退を命じる</button>
+              </div>
+            </div>
           </div>
         </div>`;
       }
@@ -7706,6 +7818,7 @@ ${isHired
     let _cpoSelectedCardIdx = null;  // 選択中のカードインデックス
     let _cpoPlayedCards = [];        // 今週出したカードインデックス
     let _cpoDiscardSelected = [];    // 捨て選択
+    let _cpoTargetPartyId = null;     // パーティー固定 (介入時)
 
     function openCardPlayPhase() {
       // 手札がなければ配布
@@ -7716,6 +7829,7 @@ ${isHired
       _cpoSelectedCardIdx = null;
       _cpoPlayedCards = [];
       _cpoDiscardSelected = [];
+      _cpoTargetPartyId = null;
 
       const existing = document.getElementById('cpo-overlay');
       if (existing) existing.remove();
@@ -7784,7 +7898,7 @@ ${isHired
       const html = `<div class="cpo-overlay" id="cpo-overlay">
         <div class="cpo-header">
           <div class="cpo-title">🃏 今週の一手</div>
-          <div class="cpo-week">Week ${week} — カードを選んでパーティーへ使おう</div>
+          <div class="cpo-week">Week ${week} — 今週使えるカードは<b style='color:#ffcc44'>1枚だけ</b>。どのパーティーへ使う？</div>
           ${rankBanner}
         </div>
         <div class="cpo-hand">${cardsHtml}</div>
@@ -7830,6 +7944,12 @@ ${isHired
     function _cpoUseCardOn(cardIdx, partyId) {
       const wh = G_STATE.weeklyHand;
       if (!wh || !wh.cards[cardIdx]) return;
+
+      // 今週すでに1枚使用済みなら不可
+      if (_cpoPlayedCards.length >= 1) {
+        setLogBar('今週使えるカードは1枚だけです。');
+        return;
+      }
 
       const card = wh.cards[cardIdx];
 
@@ -7918,6 +8038,36 @@ ${isHired
         window._realAdvanceWeek();
       }
     }
+
+
+    function _partyInterventionMenu(pid, action) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      if (action === 'flee') {
+        // 撤退: ミッション中断・帰還
+        if (p.currentEncounter) {
+          p.currentEncounter = null;
+          p.members.forEach(m => { m.stress = Math.min(100, (m.stress||0) + 15); });
+        }
+        returnPartyHome(p);
+        setLogBar(`${p.name} に撤退を命じた。ストレス+15。`);
+        saveAndRefresh();
+        return;
+      }
+      if (action === 'card') {
+        // カードを使う: カードプレイフェーズを強制開始（selectモード）
+        if (!G_STATE.weeklyHand || !G_STATE.weeklyHand.cards || G_STATE.weeklyHand.cards.length === 0) {
+          if (typeof dealWeeklyHand === 'function') dealWeeklyHand();
+        }
+        _cpoSelectedCardIdx = null;
+        _cpoPlayedCards = [];
+        _cpoDiscardSelected = [];
+        _cpoTargetPartyId = pid; // 対象パーティーを固定
+        _renderCardPlayOverlay();
+        return;
+      }
+    }
+    window._partyInterventionMenu = _partyInterventionMenu;
 
     function dismissAllReports() {
       G_STATE.pendingReports = [];
@@ -8170,20 +8320,7 @@ ${isHired
       descEl.innerHTML = ev ? ev.text : '問題が発生しています。';
 
       // 介入選択肢を生成
-      const options = [
-        {
-          label: '📢 訓示を与える — 士気を回復させる (+10 mood, -5 stress)',
-          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 10); m.stress = Math.max(0, (m.stress || 0) - 5); }); saveAndRefresh(); setLogBar(`${party.name}に訓示を与えた。`); addLog(`${party.name}に訓示 (mood+10,stress-5)`, 'evm'); } }
-        },
-        {
-          label: '🎁 報酬を渡す — テンションを上げる (+20 mood, -10G)',
-          fn() { if (G_STATE.gold < 10) { alert('Goldが足りません。'); return; } if (party) { G_STATE.gold -= 10; party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 20); }); saveAndRefresh(); setLogBar(`${party.name}に報酬を渡した。(-10G)`); } }
-        },
-        {
-          label: '⚖️ 話を聞く — 対立を収める (-20 stress, 問題解決)',
-          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.stress = Math.max(0, (m.stress || 0) - 20); m.rebellion = false; }); saveAndRefresh(); setLogBar(`${party.name}の揉め事を収めた。`); addLog(`${party.name}の対立を解消`, 'evg'); } }
-        },
-      ];
+      const options = [];
 
       optionsEl.innerHTML = options.map((opt, i) =>
         `<button onclick="__interveneAction(${reportIdx},${i})" style="background:#1a1005;border:1px solid var(--gold);color:var(--gold2);padding:8px 12px;border-radius:6px;cursor:pointer;text-align:left;font-size:12px;line-height:1.5;font-family:'Noto Serif JP',serif;">${opt.label}</button>`
