@@ -7023,6 +7023,16 @@
         </div>`;
       }
 
+      // 今週使ったカード効果表示
+      if (p._pendingCardEffects && p._pendingCardEffects.length > 0) {
+        html += '<div style="padding:6px 12px 2px;border-top:1px solid #1a1008;">';
+        html += '<div style="font-size:9px;color:#bb8833;margin-bottom:4px;">🃏 今週適用中のカード效果</div>';
+        html += p._pendingCardEffects.map(c =>
+          `<span style="display:inline-block;background:rgba(80,40,10,0.9);border:1px solid #cc8822;color:#ffcc66;font-size:8px;padding:2px 8px;border-radius:3px;margin:2px 3px 2px 0;">${c.label}</span>`
+        ).join('');
+        html += '</div>';
+      }
+
       // === ミッション設定セクション ===
       {
         const mt = p.mission && p.mission.type;
@@ -7351,6 +7361,38 @@ ${isHired
           if (highlights.length > 0) {
             html += `<div class="report-highlight"><div class="report-highlight-title">✦ 今週のハイライト</div>${highlights.map(h => `<div style="margin:2px 0;">${h}</div>`).join('')}</div>`;
           }
+          // 今週の行動ガイドパネル
+          const idleParties = G_STATE.parties.filter(p => p.status === 'idle' && p.members.length > 0);
+          const crisisParties = allParties.filter(p => {
+            const aliveM = p.members.filter(m => !m.dead);
+            return aliveM.some(m => (m.stress || 0) >= 80 || (m.healthPt || 80) <= 20);
+          });
+          const activeParties = G_STATE.parties.filter(p => p.status === 'active');
+          const gold = G_STATE.gold || 0;
+          const guideItems = [];
+          if (crisisParties.length > 0) {
+            guideItems.push({ icon: '🚨', color: '#ff4444', bg: 'rgba(100,0,0,0.4)', text: `<b>${crisisParties.map(p => p.name).join(', ')}</b> が危険状態！緊急帰還または応援を送ろう` });
+          }
+          if (idleParties.length > 0) {
+            guideItems.push({ icon: '📋', color: '#ffcc44', bg: 'rgba(60,40,0,0.4)', text: `<b>${idleParties.map(p => p.name).join(', ')}</b> が待機中。ミッションを設定して出発させよう` });
+          }
+          if (activeParties.length > 0 && (G_STATE.weeklyHand && G_STATE.weeklyHand.cards && G_STATE.weeklyHand.cards.length > 0)) {
+            guideItems.push({ icon: '🃏', color: '#aa88ff', bg: 'rgba(40,0,80,0.4)', text: `次の週を進める前にカードを選んでパーティーへ使おう` });
+          }
+          if (gold < 50) {
+            guideItems.push({ icon: '💰', color: '#88ccff', bg: 'rgba(0,30,60,0.4)', text: `資金不足。倉庫で素材を売却して資金を確保しよう` });
+          }
+          if (guideItems.length > 0) {
+            html += `<div style="margin:8px 14px;border-radius:8px;overflow:hidden;">
+              <div style="background:#1a0e04;border:1px solid #3a2810;border-radius:8px;padding:10px 12px;">
+                <div style="font-size:10px;color:var(--gold);font-weight:700;margin-bottom:6px;">🗺 今週やること</div>
+                ${guideItems.map(g => `<div style="display:flex;align-items:flex-start;gap:8px;background:${g.bg};border-radius:5px;padding:5px 8px;margin-bottom:4px;">
+                  <span style="font-size:14px;line-height:1;">${g.icon}</span>
+                  <span style="font-size:10px;color:${g.color};line-height:1.4;">${g.text}</span>
+                </div>`).join('')}
+              </div>
+            </div>`;
+          }
         }
         html += `<div style="padding:10px 14px;">`;
         // CSS注入 (1回だけ)
@@ -7388,9 +7430,26 @@ ${isHired
               ).join('');
             } catch (e) { }
           }
+          // 今週使ったカード効果バッジ
+          let cardEffectBadges = '';
+          if (p._pendingCardEffects && p._pendingCardEffects.length > 0) {
+            cardEffectBadges = p._pendingCardEffects.map(c =>
+              `<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(80,40,10,0.9);border:1px solid #cc8822;color:#ffcc66;font-size:8px;padding:2px 6px;border-radius:3px;margin-right:3px;">🃏 ${c.label}</span>`
+            ).join('');
+          }
           const memberSum = aliveM.map(m => {
-            const sc = (m.stress || 0) >= 80 ? '#ff4444' : (m.stress || 0) >= 60 ? '#ff8844' : '#77cc77';
-            return `<span style="font-size:9px;margin-right:6px;">${m.name} <span style="color:${sc}">ST:${m.stress || 0}</span> <span style="color:#44aaff">HP:${m.healthPt || 80}</span></span>`;
+            const st = m.stress || 0;
+            const hp = m.healthPt || 80;
+            const stCol = st >= 80 ? '#ff4444' : st >= 60 ? '#ff8844' : '#77cc77';
+            const hpCol = hp <= 20 ? '#ff4444' : hp <= 40 ? '#ff8844' : '#44aaff';
+            const stPct = Math.min(100, st);
+            const hpPct = Math.min(100, (hp / 100) * 100);
+            return `<div style="display:inline-block;margin-right:8px;min-width:80px;vertical-align:top;">
+              <div style="font-size:9px;color:var(--tx2);margin-bottom:1px;">${m.name}</div>
+              <div title="HP" style="height:4px;background:#1a1008;border-radius:2px;margin-bottom:1px;"><div style="height:4px;width:${hpPct}%;background:${hpCol};border-radius:2px;transition:width 0.3s;"></div></div>
+              <div title="ストレス" style="height:4px;background:#1a1008;border-radius:2px;"><div style="height:4px;width:${stPct}%;background:${stCol};border-radius:2px;transition:width 0.3s;"></div></div>
+              <div style="font-size:8px;color:var(--tx3);"><span style="color:${hpCol}">HP${hp}</span> <span style="color:${stCol}">ST${st}</span></div>
+            </div>`;
           }).join('');
           const evHtml = events.slice(0, 4).map(e => {
             const ic = e.type === 'drop' ? '💰' : e.type === 'conflict' ? '⚔' : e.type === 'death' ? '💀' : '📝';
@@ -7410,6 +7469,7 @@ ${isHired
             </div>
             <div style="padding:4px 10px;font-size:9px;color:var(--tx3);">${memberSum}</div>
             ${synergyBadges ? `<div style="padding:0 10px 4px;">${synergyBadges}</div>` : ''}
+            ${cardEffectBadges ? `<div style="padding:0 10px 4px;"><span style="font-size:8px;color:#bb8833;margin-right:4px;">今週の効果:</span>${cardEffectBadges}</div>` : ''}
             ${events.length > 0 ? `<div style="padding:4px 10px 6px;">${evHtml}</div>` : ''}
             <div class="report-action-row" style="padding:5px 10px 7px;border-top:1px solid #1a1008;display:flex;gap:4px;flex-wrap:wrap;">
               <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openMissionSelectModal(${p.id})">🗺 ミッション変更</button>
