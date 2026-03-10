@@ -1924,6 +1924,61 @@
         gap: 4px;
         padding: 0 8px;
       }
+
+      /* 週次報告カードのボタンを縦並びにする */
+      .report-action-row {
+        flex-direction: column !important;
+      }
+
+      .report-action-row button {
+        width: 100% !important;
+        text-align: left !important;
+        min-height: 38px !important;
+      }
+
+      /* モーダルをフル幅に */
+      #mission-select-modal>div,
+      #reinforce-modal>div,
+      #joker-assign-modal>div,
+      #emergency-confirm-modal>div {
+        width: 94vw !important;
+        max-width: 100vw !important;
+      }
+
+      /* 週次報告パーティーカードの文字をやや大きく */
+      .rce {
+        font-size: 11px !important;
+      }
+    }
+
+    /* スマホ共通: タップしやすいボタンサイズ */
+    @media (max-width: 768px) {
+
+      /* 週次報告カードの介入ボタン行 */
+      .report-action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 6px 10px 8px;
+        border-top: 1px solid #1a1008;
+      }
+
+      .report-action-row button {
+        flex: 1 1 auto;
+        min-height: 36px;
+        font-size: 11px !important;
+        padding: 4px 8px !important;
+      }
+
+      /* スライダーやselect要素を大きく */
+      input[type=range] {
+        height: 24px;
+      }
+
+      select {
+        font-size: 14px;
+        padding: 6px 8px;
+      }
     }
 
     /* ===== F. ツールチップ ===== */
@@ -7121,7 +7176,7 @@ ${isHired
             <div style="padding:4px 10px;font-size:9px;color:var(--tx3);">${memberSum}</div>
             ${synergyBadges ? `<div style="padding:0 10px 4px;">${synergyBadges}</div>` : ''}
             ${events.length > 0 ? `<div style="padding:4px 10px 6px;">${evHtml}</div>` : ''}
-            <div style="padding:5px 10px 7px;border-top:1px solid #1a1008;display:flex;gap:4px;flex-wrap:wrap;">
+            <div class="report-action-row" style="padding:5px 10px 7px;border-top:1px solid #1a1008;display:flex;gap:4px;flex-wrap:wrap;">
               <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openMissionSelectModal(${p.id})">🗺 ミッション変更</button>
               <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openReinforceModal(${p.id})">🤝 応援送る</button>
               <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openJokerAssignModal(${p.id})">🃏 ジョーカー割当</button>
@@ -7211,7 +7266,7 @@ ${isHired
       saveState();
       document.getElementById('mission-select-modal') && document.getElementById('mission-select-modal').remove();
       setLogBar(`${p.name} のミッションを「${_selectedMissionType}」に設定しました。`);
-      if (typeof renderReports === 'function') renderReports();
+      if (typeof showReportsView === 'function') showReportsView();
       if (typeof showParty === 'function') showParty(pid);
     }
     window.confirmMission = confirmMission;
@@ -7292,7 +7347,7 @@ ${isHired
       saveState();
       document.getElementById('joker-assign-modal') && document.getElementById('joker-assign-modal').remove();
       setLogBar(`${p.name} にジョーカーを装備しました。`);
-      if (typeof renderReports === 'function') renderReports();
+      if (typeof showReportsView === 'function') showReportsView();
     }
     window.assignJokerToParty = assignJokerToParty;
 
@@ -7327,7 +7382,7 @@ ${isHired
       saveState();
       document.getElementById('emergency-confirm-modal') && document.getElementById('emergency-confirm-modal').remove();
       setLogBar(`${p.name} が緊急帰還しました。`);
-      if (typeof renderReports === 'function') renderReports();
+      if (typeof showReportsView === 'function') showReportsView();
     }
     window.doEmergencyReturn = doEmergencyReturn;
 
