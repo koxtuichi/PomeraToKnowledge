@@ -2296,7 +2296,9 @@
         <div class="ptab" onclick="showView('reports')">📋 週次報告</div>
         <div class="ptab" onclick="showInventoryView()">🏪 倉庫・販売</div>
         <div class="ptab" onclick="showMapView()">🗺 地方マップ</div>
-        <div class="ptab" onclick="showSkillTreeView()" style="font-size:10px;opacity:0.7;border-top:1px solid var(--bd2);margin-top:4px;padding-top:6px;">♟️ ギルドスキルツリー</div>
+        <div class="ptab" onclick="showSkillTreeView()"
+          style="font-size:10px;opacity:0.7;border-top:1px solid var(--bd2);margin-top:4px;padding-top:6px;">♟️
+          ギルドスキルツリー</div>
         <div id="plist-items"></div>
       </nav>
       <main id="center">
@@ -3150,6 +3152,216 @@
       }
     }
     window.saveAndRefresh = saveAndRefresh;
+    // =====================================================================
+    // ENCOUNTER CARD UI — 戦闘状況カード描画
+    // =====================================================================
+    function renderEncounterCard(party, reportIdx) {
+      const enc = party.encounter;
+      if (!enc || enc.resolved) return '';
+      const enemy = enc.enemy;
+      const imgPath = enemy.image || '';
+
+      // 部位破壊UI (boss型)
+      let partsHtml = '';
+      if (enemy.type === 'boss' && enemy.parts) {
+        partsHtml = `<div style="margin-top:6px;">
+          <div style="font-size:9px;color:#aa8844;margin-bottom:3px;">⚔ 部位状態</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          ${enemy.parts.map(p => {
+          const pct = Math.round(p.hp / p.maxHp * 100);
+          const col = p.broken ? '#ff4444' : (pct < 50 ? '#ff8844' : '#88cc44');
+          const barW = Math.max(0, pct);
+          return `<div style="background:rgba(0,0,0,0.6);border:1px solid ${p.broken ? '#ff4444' : '#443322'};border-radius:4px;padding:3px 6px;min-width:80px;">
+              <div style="font-size:9px;color:${col};font-weight:700;">${p.broken ? '💥 破壊' : '⚡'} ${p.name}</div>
+              <div style="background:#1a1008;height:4px;border-radius:2px;margin:2px 0;"><div style="width:${barW}%;height:100%;background:${col};border-radius:2px;transition:width 0.3s;"></div></div>
+              ${p.broken ? `<div style="font-size:8px;color:#ff8888;">${p.effect}</div>` : `<div style="font-size:8px;color:#666;">${p.hp}/${p.maxHp}</div>`}
+            </div>`;
+        }).join('')}
+          </div>
+        </div>`;
+      }
+
+      // group型カウンター
+      let groupHtml = '';
+      if (enemy.type === 'group') {
+        const killed = enc.killedCount || 0;
+        const remaining = enemy.maxCount - killed;
+        const dots = Array.from({ length: enemy.maxCount }, (_, i) =>
+          `<span style="font-size:18px;${i < killed ? 'opacity:0.2;filter:grayscale(1)' : ''}">${enemy.emoji}</span>`
+        ).join('');
+        groupHtml = `<div style="margin-top:6px;">
+          <div style="font-size:9px;color:#aa8844;margin-bottom:3px;">残存: ${remaining}/${enemy.maxCount}体</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;">${dots}</div>
+        </div>`;
+      }
+
+      // 応援パーティー選択
+      const otherParties = G_STATE.parties.filter(p => p.id !== party.id && p.members.length > 0 && p.status !== 'disbanded');
+      const reinforceHtml = otherParties.length > 0
+        ? `<div style="margin-top:6px;border-top:1px solid #2a1e10;padding-top:6px;">
+            <div style="font-size:9px;color:#aa8844;margin-bottom:4px;">🚀 他パーティーを応援に送る</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              ${otherParties.map(op =>
+          `<button onclick="sendReinforcement(${op.id},${party.id})" class="rcab" style="font-size:9px;padding:2px 8px;">
+                  ${op.name} (${op.members.length}人)
+                </button>`
+        ).join('')}
+            </div>
+          </div>`
+        : '';
+
+      // ラウンドバー
+      const roundPct = Math.round((enc.round - 1) / enc.maxRounds * 100);
+
+      return `
+        <div class="encounter-card" style="
+          border:2px solid #8b4513;border-radius:10px;
+          background:linear-gradient(135deg,rgba(30,10,2,0.97),rgba(15,5,1,0.97));
+          margin-bottom:10px;overflow:hidden;
+          box-shadow:0 0 16px rgba(200,80,10,0.3);
+          animation: cardFlip 0.5s ease-out;
+        ">
+          <div style="display:flex;gap:0;height:160px;">
+            <!-- 敵カード画像 -->
+            <div style="width:140px;min-width:140px;position:relative;overflow:hidden;">
+              <img src="${imgPath}" alt="${enemy.name}"
+                style="width:100%;height:100%;object-fit:cover;filter:sepia(0.3) contrast(1.2);"
+                onerror="this.style.display='none';this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:48px;\'>${enemy.emoji}</div>'">
+              <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:4px 6px;">
+                <div style="font-size:10px;font-weight:700;color:#f0c060;">${enemy.name}</div>
+                <div style="font-size:8px;color:#aa8844;">脅威レベル ${'★'.repeat(enemy.power)}${'☆'.repeat(5 - enemy.power)}</div>
+              </div>
+            </div>
+            <!-- 戦闘情報パネル -->
+            <div style="flex:1;padding:8px 10px;overflow-y:auto;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <div style="font-size:11px;font-weight:700;color:#e0a030;">⚔ 交戦中 — Round ${enc.round}/${enc.maxRounds}</div>
+                <span style="font-size:9px;color:#cc6622;background:rgba(100,20,0,0.5);padding:1px 6px;border-radius:10px;">週${enc.startWeek}〜</span>
+              </div>
+              <div style="background:#1a0f05;height:5px;border-radius:3px;margin-bottom:6px;">
+                <div style="width:${roundPct}%;height:100%;background:linear-gradient(90deg,#cc4400,#ff8800);border-radius:3px;transition:width 0.4s;"></div>
+              </div>
+              <div style="font-size:9px;color:#997755;font-style:italic;margin-bottom:6px;">${enemy.desc}</div>
+              ${groupHtml}
+              ${partsHtml}
+              ${reinforceHtml}
+            </div>
+          </div>
+          <!-- 介入ボタン行 -->
+          <div style="display:flex;gap:6px;padding:6px 10px;border-top:1px solid #3a2010;background:rgba(0,0,0,0.4);">
+            <button onclick="openIntervene(${reportIdx},0)" class="rcab" style="font-size:9px;padding:3px 10px;border-color:#cc4422;color:#ff8844;">
+              ⚔ 攻撃命令
+            </button>
+            <button onclick="openIntervene(${reportIdx},1)" class="rcab" style="font-size:9px;padding:3px 10px;">
+              🛡 守勢転換
+            </button>
+            <button onclick="openEncounterRetreat('${party.id}')" class="rcab" style="font-size:9px;padding:3px 10px;border-color:#666;color:#aaa;">
+              🏃 撤退命令
+            </button>
+          </div>
+        </div>
+      `;
+    }
+    window.renderEncounterCard = renderEncounterCard;
+
+    function openEncounterRetreat(partyId) {
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      if (!party || !party.encounter) return;
+      if (confirm(`${party.name}に撤退を命令しますか？報酬は得られません。`)) {
+        if (party.encounter) party.encounter.resolved = true;
+        party.encounter = null;
+        saveAndRefresh();
+        setLogBar(`${party.name}が撤退した。`);
+      }
+    }
+    window.openEncounterRetreat = openEncounterRetreat;
+
+    // =====================================================================
+    // SYNERGY BUILDER UI — パーティー編成画面のシナジーパネル
+    // =====================================================================
+    function renderSynergyPanel(party) {
+      if (typeof TACTIC_SYNERGY === 'undefined') return '';
+      const active = [];
+      const nearMiss = [];
+
+      TACTIC_SYNERGY.forEach(syn => {
+        try {
+          if (syn.check(party)) {
+            active.push(syn);
+          } else {
+            // near-miss 判定: メンバーを1人追加・戦術変更で発動するか推定
+            const hints = [];
+            // 戦術違いの場合
+            const tactics = ['assault', 'guard', 'gather'];
+            const otherTactics = tactics.filter(t => t !== party.tactic);
+            for (const t of otherTactics) {
+              const testParty = { ...party, tactic: t };
+              try { if (syn.check(testParty)) { hints.push(`戦術を「${t === 'assault' ? '積極攻撃' : t === 'guard' ? '堅実防衛' : '素材優先'}」にすると発動`); break; } } catch (e) { }
+            }
+            // サブ戦術変更
+            for (const t of tactics) {
+              const testParty = { ...party, subTactic: t };
+              try { if (syn.check(testParty)) { hints.push(`副戦術を「${t === 'assault' ? '積極攻撃' : t === 'guard' ? '堅実防衛' : '素材優先'}」にすると発動`); break; } } catch (e) { }
+            }
+            if (hints.length > 0) {
+              nearMiss.push({ syn, hint: hints[0] });
+            }
+          }
+        } catch (e) { }
+      });
+
+      let html = `<div style="margin-top:12px;border:1px solid #2a1a08;border-radius:8px;padding:10px;background:rgba(10,5,0,0.8);">
+        <div style="font-size:11px;font-weight:700;color:#d4a030;margin-bottom:8px;">🃏 シナジーパネル</div>`;
+
+      if (active.length > 0) {
+        html += `<div style="margin-bottom:8px;">
+          <div style="font-size:9px;color:#88cc44;margin-bottom:4px;">✅ 発動中 (${active.length}件)</div>
+          ${active.map(s => `<div style="background:rgba(20,40,5,0.9);border:1px solid #446622;border-radius:5px;padding:4px 8px;margin-bottom:3px;">
+            <span style="font-size:10px;font-weight:700;color:#88ff44;">${s.label}</span>
+            <span style="font-size:9px;color:#667744;display:block;margin-top:1px;">${s.desc}</span>
+          </div>`).join('')}
+        </div>`;
+      }
+
+      if (nearMiss.length > 0) {
+        html += `<div>
+          <div style="font-size:9px;color:#cc8822;margin-bottom:4px;">💡 もう少しで発動 (${nearMiss.length}件)</div>
+          ${nearMiss.slice(0, 3).map(({ syn, hint }) => `<div style="background:rgba(30,15,0,0.9);border:1px solid #664422;border-radius:5px;padding:4px 8px;margin-bottom:3px;border-left:3px solid #cc8822;">
+            <span style="font-size:10px;font-weight:700;color:#cc8822;">${syn.label}</span>
+            <span style="font-size:9px;color:#aa6633;display:block;">${syn.desc}</span>
+            <span style="font-size:9px;color:#ffaa44;display:block;margin-top:2px;">→ ${hint}</span>
+          </div>`).join('')}
+        </div>`;
+      }
+
+      if (active.length === 0 && nearMiss.length === 0) {
+        html += `<div style="font-size:10px;color:#555;text-align:center;padding:8px;">戦術・メンバー構成を変えてシナジーを狙おう</div>`;
+      }
+
+      html += '</div>';
+      return html;
+    }
+    window.renderSynergyPanel = renderSynergyPanel;
+
+
+
+    // CSS: カードフリップアニメーション
+    if (!document.getElementById('encounter-card-style')) {
+      const st = document.createElement('style');
+      st.id = 'encounter-card-style';
+      st.textContent = `
+        @keyframes cardFlip {
+          from { transform: rotateY(-90deg) scaleX(0.1); opacity:0; }
+          to   { transform: rotateY(0deg)  scaleX(1);   opacity:1; }
+        }
+        .encounter-card { perspective: 800px; }
+        .rcab { cursor:pointer; background:#1a1005; border:1px solid var(--gold); color:var(--gold2); border-radius:4px; font-family:'Noto Serif JP',serif; transition:background 0.15s; }
+        .rcab:hover { background:#2a1a08; }
+      `;
+      document.head && document.head.appendChild(st);
+    }
+
+
 
     function loadState() {
       try {
@@ -3458,6 +3670,117 @@
     }
 
     // ---- WEEK TICK ---------------------------------------------------------------
+
+    // =====================================================================
+    // ENCOUNTER ENGINE — 多週継続戦闘システム
+    // =====================================================================
+    function tickEncounter(party) {
+      const enc = party.encounter;
+      if (!enc || enc.resolved) return null;
+      const enemy = enc.enemy;
+      const alive = party.members.filter(m => !m.dead);
+      const riskLv = (REGION_DATA[party.region] || {}).riskLevel || 1;
+
+      // シナジーボーナス
+      let combatBonus = 0;
+      if (typeof TACTIC_SYNERGY !== 'undefined') {
+        const activeSyn = TACTIC_SYNERGY.filter(s => { try { return s.check(party); } catch (e) { return false; } });
+        combatBonus += activeSyn.length * 10; // シナジー1つにつき+10%
+      }
+      // 戦術ボーナス
+      if (enemy.weakTo && enemy.weakTo.includes(party.tactic)) combatBonus += 20;
+
+      // メンバースキルボーナス
+      const attackers = alive.filter(m => m.skill === '剣士' || m.skill === '騎士' || m.skill === '魔法使い');
+      combatBonus += attackers.length * 8;
+
+      // 部位破壊・撃破計算
+      const weekEvents = [];
+      let narrativePick = enemy.combatLog[Math.floor(Math.random() * enemy.combatLog.length)];
+
+      if (enemy.type === 'group') {
+        // group型: 1週に0〜2体を倒す
+        const killChance = 0.4 + combatBonus / 200;
+        const killed = Math.floor(Math.random() < killChance ? 1 + Math.floor(Math.random() * 2) : 0);
+        enc.killedCount = Math.min(enc.killedCount + killed, enemy.maxCount);
+        if (killed > 0) {
+          weekEvents.push({ type: 'drop', text: `${enemy.name}を${killed}体倒した！ (残${enemy.maxCount - enc.killedCount}体)`, rarity: 'common' });
+        } else {
+          weekEvents.push({ type: 'evm', text: narrativePick });
+        }
+        // 全滅で勝利
+        if (enc.killedCount >= enemy.maxCount) {
+          enc.phase = 'victory';
+          enc.resolved = true;
+        }
+      } else {
+        // boss型: 部位ダメージ
+        const unbrokenParts = (enemy.parts || []).filter(p => !p.broken);
+        if (unbrokenParts.length > 0) {
+          const targetPart = unbrokenParts[Math.floor(Math.random() * unbrokenParts.length)];
+          const dmg = Math.floor(8 + combatBonus / 5 + Math.random() * 10);
+          targetPart.hp = Math.max(0, targetPart.hp - dmg);
+          if (targetPart.hp <= 0 && !targetPart.broken) {
+            targetPart.broken = true;
+            weekEvents.push({ type: 'drop', text: `${enemy.name}の【${targetPart.name}】を破壊！→ ${targetPart.effect}`, rarity: 'uncommon' });
+          } else {
+            weekEvents.push({ type: 'evm', text: `${enemy.name}の【${targetPart.name}】に ${dmg}ダメージ！ (残HP: ${targetPart.hp}/${targetPart.maxHp})` });
+          }
+        }
+        // 全部位破壊で勝利
+        const allBroken = (enemy.parts || []).every(p => p.broken);
+        if (allBroken) {
+          enc.phase = 'victory';
+          enc.resolved = true;
+        }
+      }
+
+      // ダメージフィードバック (メンバーへのストレス)
+      const stressDmg = Math.max(0, riskLv * 3 - combatBonus / 10);
+      alive.forEach(m => {
+        m.stress = Math.min(100, (m.stress || 0) + stressDmg);
+      });
+      weekEvents.push({ type: 'evm', text: narrativePick });
+
+      // ラウンド進行
+      enc.round++;
+      enc.weekLog = weekEvents;
+
+      // 最大ラウンド到達 → 未解決なら撤退
+      if (enc.round > enc.maxRounds && !enc.resolved) {
+        enc.phase = 'retreat';
+        enc.resolved = true;
+        weekEvents.push({ type: 'evc', text: `${party.name}は${enemy.name}との戦闘を切り上げ、撤退した。` });
+      }
+
+      return weekEvents;
+    }
+    window.tickEncounter = tickEncounter;
+
+    // 他パーティーによる応援 (ギルドマスター介入)
+    function sendReinforcement(sourcePartyId, targetPartyId) {
+      const src = G_STATE.parties.find(p => p.id === sourcePartyId);
+      const tgt = G_STATE.parties.find(p => p.id === targetPartyId);
+      if (!src || !tgt || !tgt.encounter || tgt.encounter.resolved) {
+        alert('応援できる状態ではありません。');
+        return;
+      }
+      if (src.members.length === 0) {
+        alert(`${src.name}にメンバーがいません。`);
+        return;
+      }
+      // 応援効果: 追加の戦闘ボーナスを付与（次の1ラウンドだけ）
+      tgt.encounter._reinforcedBy = src.name;
+      tgt.encounter._reinforceBonus = 30; // 次ラウンドの戦闘ボーナス+30
+      saveAndRefresh();
+      closeModal('intervene-modal');
+      const modal = document.getElementById('intervene-modal');
+      if (modal) modal.style.display = 'none';
+      setLogBar(`${src.name} が ${tgt.name} に応援に駆けつけた！`);
+      addLog(`応援: ${src.name} → ${tgt.name}`, 'evd');
+    }
+    window.sendReinforcement = sendReinforcement;
+
     function tickParty(party) {
       if (party.members.length === 0) { party.status = 'idle'; return null; }
       const weekly = party.directive.cpPerWeek || 20;
@@ -3478,7 +3801,32 @@
         return { party, events: [{ type: 'morale', text: `【警告】報酬未払いが続いている。解散まであと${5 - Math.floor(party.cpDebt / weekly)}週。` }] };
       }
       G_STATE.gold -= weekly; party.cpDebt = 0;
-      const events = generateWeekEvents(party);
+      // エンカウント処理
+      if (!party.encounter && party.status === 'active' && Math.random() < 0.45) {
+        // 45%の確率で新規エンカウント発生
+        spawnEncounter(party);
+        const enemy = party.encounter.enemy;
+        addLog(`${party.name}が${enemy.name}に遭遇した！`, 'evc');
+      }
+      // 既存エンカウントを進行
+      let encounterEvents = [];
+      if (party.encounter && !party.encounter.resolved) {
+        encounterEvents = tickEncounter(party) || [];
+        // 応援ボーナスを消費
+        if (party.encounter._reinforceBonus) {
+          encounterEvents.push({ type: 'evd', text: `${party.encounter._reinforcedBy}の応援が戦況を好転させた！` });
+          party.encounter._reinforceBonus = 0;
+          party.encounter._reinforcedBy = null;
+        }
+        if (party.encounter.resolved) {
+          if (party.encounter.phase === 'victory') {
+            const enemy = party.encounter.enemy;
+            encounterEvents.push({ type: 'drop', text: `${enemy.name}を撃破！報酬を獲得した。`, rarity: enemy.reward });
+          }
+          party.encounter = null; // クリア
+        }
+      }
+      const events = [...encounterEvents, ...generateWeekEvents(party)];
       // remove dead members
       party.members = party.members.filter(m => !m.dead);
       // 毎週ストレスログ減衰
@@ -3913,6 +4261,99 @@
     window.getMapEventModifiers = getMapEventModifiers;
 
     // ===== D. 作戦シナジーシステム =====
+
+    // =====================================================================
+    // ENEMIES TABLE — 敵エンカウントデータ
+    // =====================================================================
+    const ENEMIES = [
+      {
+        id: 'goblin_pack', name: 'ゴブリン群れ', emoji: '👺', power: 1,
+        image: 'enemy_goblin.png', reward: 'common',
+        // group enemy: 複数体、倒した数で追跡
+        type: 'group', count: 5, maxCount: 5,
+        parts: null, // group型はparts不要
+        weakTo: ['assault'],
+        desc: '数で攻めてくる小悪党。一体一体は弱いが集団で手ごわい。',
+        combatLog: ['ゴブリンが奇声を上げながら突進してきた！', 'ゴブリンの矢が雨のように降り注ぐ！', 'ゴブリンが背後から不意をついてきた！'],
+      },
+      {
+        id: 'orc_warrior', name: 'オーク戦士', emoji: '🪓', power: 2,
+        image: 'enemy_orc.png', reward: 'uncommon',
+        type: 'boss', count: 1, maxCount: 1,
+        // boss型: 部位破壊で戦略変化
+        parts: [
+          { id: 'arms', name: '腕', hp: 30, maxHp: 30, broken: false, effect: '攻撃力-30%' },
+          { id: 'legs', name: '脚', hp: 25, maxHp: 25, broken: false, effect: '速度-50%・逃走不能' },
+          { id: 'armor', name: '鎧', hp: 40, maxHp: 40, broken: false, effect: '防御力ゼロ' },
+        ],
+        weakTo: ['guard'],
+        desc: '頑強な膂力の持ち主。腕を破壊すれば攻撃が鈍り、脚を砕けば逃走できなくなる。',
+        combatLog: ['オークが地鳴りのような咆哮を上げた！', 'オークの斧が石床を叩き割った！', 'オークが盾を構えて押し込んでくる！'],
+      },
+      {
+        id: 'cult_mage', name: '黒衣の術師', emoji: '🧙', power: 3,
+        image: 'enemy_cultmage.png', reward: 'rare',
+        type: 'boss', count: 1, maxCount: 1,
+        parts: [
+          { id: 'staff', name: '魔杖', hp: 20, maxHp: 20, broken: false, effect: '呪文詠唱不能' },
+          { id: 'ritual', name: '儀式陣', hp: 35, maxHp: 35, broken: false, effect: 'ストレス増加ゼロ' },
+        ],
+        weakTo: ['assault'],
+        desc: '呪いと毒を操る危険な存在。魔杖を破壊すれば呪いが止まる。',
+        combatLog: ['術師の呪文がメンバーに暗黒を呼び込んだ！', '毒の霧がパーティー全体をおおった！', '術師が次元の歪みを生み出した！'],
+      },
+      {
+        id: 'undead_lord', name: 'アンデッドロード', emoji: '💀', power: 4,
+        image: 'enemy_orc.png', reward: 'rare', // orc画像を流用
+        type: 'boss', count: 1, maxCount: 1,
+        parts: [
+          { id: 'crown', name: '呪いの王冠', hp: 30, maxHp: 30, broken: false, effect: '眷属召喚停止' },
+          { id: 'core', name: '魂の核', hp: 50, maxHp: 50, broken: false, effect: '再生能力無効' },
+        ],
+        weakTo: ['guard'],
+        desc: '死者を率いる不死の将。魂の核を破壊するまで倒れない。',
+        combatLog: ['アンデッドロードが死者の指揮を始めた！', '眷属のスケルトンが次々と現れた！', '不死の力で傷が塞がっていく！'],
+      },
+      {
+        id: 'dragon_spawn', name: 'ドラゴンの眷属', emoji: '🐉', power: 5,
+        image: 'enemy_dragon.png', reward: 'epic',
+        type: 'boss', count: 1, maxCount: 1,
+        parts: [
+          { id: 'head', name: '頭部', hp: 40, maxHp: 40, broken: false, effect: '炎のブレス封印' },
+          { id: 'wings', name: '翼', hp: 35, maxHp: 35, broken: false, effect: '飛行不能・回避率ダウン' },
+          { id: 'tail', name: '尾', hp: 30, maxHp: 30, broken: false, effect: '薙払い攻撃無効' },
+        ],
+        weakTo: ['gather'], // 弱点を狙って採取するイメージ
+        desc: '炎を吐くハイリスク高報酬の強敵。部位を破壊して有利な状況を作れ。',
+        combatLog: ['ドラゴンが炎を吐きながら接近してくる！', '巨大な翼で凄まじい突風が吹き荒れた！', '鉄を曲げるような強烈な尻尾の一撃！'],
+      },
+    ];
+    window.ENEMIES = ENEMIES;
+
+    // エンカウント生成ヘルパー
+    function spawnEncounter(party) {
+      const riskLv = (REGION_DATA[party.region] || {}).riskLevel || 1;
+      const pool = ENEMIES.filter(e => e.power <= riskLv + 1 && e.power >= Math.max(1, riskLv - 1));
+      const base = pool[Math.floor(Math.random() * pool.length)] || ENEMIES[0];
+      // deep copy
+      const enemy = JSON.parse(JSON.stringify(base));
+      const maxRounds = 2 + Math.floor(Math.random() * 3); // 2〜4週
+      party.encounter = {
+        enemy,
+        round: 1,
+        maxRounds,
+        startWeek: G_STATE.week,
+        resolved: false,
+        // group型用カウンター
+        killedCount: 0,
+        // フェーズ: 'ongoing' | 'victory' | 'retreat'
+        phase: 'ongoing',
+        // 今週のナラティブ
+        weekLog: [],
+      };
+    }
+    window.spawnEncounter = spawnEncounter;
+
     const TACTIC_SYNERGY = [
       {
         id: 'assault_harmony',
@@ -4547,7 +4988,7 @@
       // 合成品の使い道ガイダンス
       const craftGuide = r.rarity === 'epic' ? '伝説級の合成品！高値で売却するか、ウィッシュリストに追加してコレクションに。' :
         r.rarity === 'rare' ? '希少品。売却すれば大きな評判ポイントが得られます。' :
-        'アイテム売却でGoldと評判ポイントが増加します。';
+          'アイテム売却でGoldと評判ポイントが増加します。';
       saveState(); updateHUD();
       setLogBar(`「${r.name}」を合成した！ (${r.rarity} / ${r.value}G) 💡 ${craftGuide}`);
       addLog(`レシピ合成: 「${r.name}」`, 'evm');
@@ -4755,21 +5196,21 @@
           </div>
         </div>`;
       }
-      
+
 
       // ===== フルアートマップ (Phase10-B: AI生成画像ベース) =====
       // 生成画像上の各地域の位置 (640x640基準)
       const REGION_NODES = [
         { name: '北の森林地帯', cx: 310, cy: 145, emoji: '🌲', label: '北の森林地帯' },
-        { name: '東の平原',     cx: 490, cy: 260, emoji: '🌾', label: '東の平原'     },
-        { name: '南の砂漠',     cx: 370, cy: 430, emoji: '🏜', label: '南の砂漠'     },
-        { name: '西の山脈',     cx: 115, cy: 270, emoji: '⛰',  label: '西の山脈'     },
-        { name: '深海洞窟',     cx: 180, cy: 430, emoji: '💧', label: '深海洞窟'     },
-        { name: '古代遺跡',     cx: 185, cy: 315, emoji: '🏛',  label: '古代遺跡'     },
-        { name: '霧の沼地',     cx: 100, cy: 170, emoji: '🌿', label: '霧の沼地'     },
-        { name: '火山地帯',     cx: 445, cy: 150, emoji: '🌋', label: '火山地帯'     },
-        { name: '雪原の果て',   cx: 480, cy: 65,  emoji: '❄',  label: '雪原の果て'   },
-        { name: '禁断の魔境',   cx: 310, cy: 290, emoji: '🔮', label: '禁断の魔境'   },
+        { name: '東の平原', cx: 490, cy: 260, emoji: '🌾', label: '東の平原' },
+        { name: '南の砂漠', cx: 370, cy: 430, emoji: '🏜', label: '南の砂漠' },
+        { name: '西の山脈', cx: 115, cy: 270, emoji: '⛰', label: '西の山脈' },
+        { name: '深海洞窟', cx: 180, cy: 430, emoji: '💧', label: '深海洞窟' },
+        { name: '古代遺跡', cx: 185, cy: 315, emoji: '🏛', label: '古代遺跡' },
+        { name: '霧の沼地', cx: 100, cy: 170, emoji: '🌿', label: '霧の沼地' },
+        { name: '火山地帯', cx: 445, cy: 150, emoji: '🌋', label: '火山地帯' },
+        { name: '雪原の果て', cx: 480, cy: 65, emoji: '❄', label: '雪原の果て' },
+        { name: '禁断の魔境', cx: 310, cy: 290, emoji: '🔮', label: '禁断の魔境' },
       ];
 
       let mapNodesHtml = '';
@@ -4786,7 +5227,7 @@
         const py = (rn.cy / 640 * 100).toFixed(2);
 
         mapNodesHtml += `<div
-          onclick="showRegionDetail('${rn.name.replace(/'/g,"\\'")}');event.stopPropagation();"
+          onclick="showRegionDetail('${rn.name.replace(/'/g, "\\'")}');event.stopPropagation();"
           style="
             position:absolute;
             left:${px}%;top:${py}%;
@@ -4806,7 +5247,7 @@
             font-size:18px;
             transition:transform .15s,box-shadow .15s;
           " onmouseover="this.style.transform='scale(1.18)';this.style.boxShadow='0 0 16px #f0c04099,0 0 30px #c8a04055'"
-             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='${hasParty?'0 0 10px #00dd8888,0 0 20px #00cc6644':'0 0 8px rgba(200,160,80,0.4)'}'">
+             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='${hasParty ? '0 0 10px #00dd8888,0 0 20px #00cc6644' : '0 0 8px rgba(200,160,80,0.4)'}'">
             ${rn.emoji}
           </div>
           <!-- リスクバッジ -->
@@ -4836,7 +5277,7 @@
         autumn: 'rgba(200,90,20,0.1)',
         winter: 'rgba(80,120,200,0.14)',
       };
-      const sKey = season ? ['spring','summer','autumn','winter'][seasonIdx] || 'spring' : 'spring';
+      const sKey = season ? ['spring', 'summer', 'autumn', 'winter'][seasonIdx] || 'spring' : 'spring';
       const seasonOverlayColor = seasonOverlayCss[sKey] || 'transparent';
 
       h += `<div style="padding:8px 14px 14px;">
@@ -5370,6 +5811,9 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       }
       html += `</div>`;
 
+      // シナジービルダーパネル
+      html += renderSynergyPanel(p);
+
       document.getElementById('v-party').innerHTML = html;
     }
 
@@ -5460,70 +5904,81 @@ ${isHired
         if (pendingCount > 0) {
           const allEvents = G_STATE.pendingReports.flatMap(r => r.events || []);
           const drops = allEvents.filter(e => e.type === 'drop');
-          const bestDrop = drops.sort((a,b) => {const ra={common:0,uncommon:1,rare:2,epic:3};return (ra[b.rarity]||0)-(ra[a.rarity]||0);})[0];
+          const bestDrop = drops.sort((a, b) => { const ra = { common: 0, uncommon: 1, rare: 2, epic: 3 }; return (ra[b.rarity] || 0) - (ra[a.rarity] || 0); })[0];
           const rankUps = G_STATE.pendingReports.filter(r => r.rankUp);
-          const crises = allEvents.filter(e => ['death','conflict','illness'].includes(e.type));
+          const crises = allEvents.filter(e => ['death', 'conflict', 'illness'].includes(e.type));
           const highlights = [];
           if (crises.length > 0) highlights.push(`🚨 要対応: <b>${crises.length}件</b>`);
           if (bestDrop) highlights.push(`💰 最高入手: <b>${bestDrop.item || '—'}</b>`);
-          if (rankUps.length > 0) highlights.push(`🏅 ランクアップ: <b>${rankUps.map(r=>r.party?.name).join(', ')}</b>`);
+          if (rankUps.length > 0) highlights.push(`🏅 ランクアップ: <b>${rankUps.map(r => r.party?.name).join(', ')}</b>`);
           if (drops.length > 0) highlights.push(`📦 入手数: <b>${drops.length}件</b>`);
           if (highlights.length > 0) {
-            html += `<div class="report-highlight"><div class="report-highlight-title">✦ 今週のハイライト</div>${highlights.map(h=>`<div style="margin:2px 0;">${h}</div>`).join('')}</div>`;
+            html += `<div class="report-highlight"><div class="report-highlight-title">✦ 今週のハイライト</div>${highlights.map(h => `<div style="margin:2px 0;">${h}</div>`).join('')}</div>`;
           }
         }
         html += `<div style="padding:10px 14px;">`;
+        // CSS注入 (1回だけ)
+        if (!document.getElementById('encounter-card-style')) {
+          const st = document.createElement('style');
+          st.id = 'encounter-card-style';
+          st.textContent = `@keyframes cardFlip{from{transform:rotateY(-90deg) scaleX(0.1);opacity:0}to{transform:rotateY(0deg) scaleX(1);opacity:1}}.encounter-card{perspective:800px}.rcab{cursor:pointer;background:#1a1005;border:1px solid var(--gold);color:var(--gold2);border-radius:4px;font-family:'Noto Serif JP',serif;transition:background 0.15s}.rcab:hover{background:#2a1a08}`;
+          document.head && document.head.appendChild(st);
+        }
         allParties.forEach(p => {
           const reportIdx = G_STATE.pendingReports.findIndex(r => r.party && r.party.id === p.id);
           const report = reportIdx >= 0 ? G_STATE.pendingReports[reportIdx] : null;
           const events = report ? (report.events || []) : [];
-          const aliveM = p.members.filter(m=>!m.dead);
-          const stressMax = aliveM.length ? Math.max(...aliveM.map(m=>m.stress||0)) : 0;
-          const healthMin = aliveM.length ? Math.min(...aliveM.map(m=>m.healthPt||80)) : 100;
-          const hasDeath = events.some(e=>e.type==='death');
-          const hasConflict = events.some(e=>e.type==='conflict'||(e.text&&e.text.includes('揉め事')));
-          const hasCrisis = stressMax>=80||healthMin<=20||events.some(e=>e.type==='illness'||(e.text&&(e.text.includes('崩壊')||e.text.includes('重傷'))));
+          const aliveM = p.members.filter(m => !m.dead);
+          const stressMax = aliveM.length ? Math.max(...aliveM.map(m => m.stress || 0)) : 0;
+          const healthMin = aliveM.length ? Math.min(...aliveM.map(m => m.healthPt || 80)) : 100;
+          const hasDeath = events.some(e => e.type === 'death');
+          const hasConflict = events.some(e => e.type === 'conflict' || (e.text && e.text.includes('揉め事')));
+          const hasCrisis = stressMax >= 80 || healthMin <= 20 || events.some(e => e.type === 'illness' || (e.text && (e.text.includes('崩壊') || e.text.includes('重傷'))));
           const needsAction = scoreParty(p) > 30;
-          let cardBorder='#3a2810'; let cardTag='';
-          if (hasDeath)       { cardBorder='#cc3333'; cardTag=`<span style="background:#800808;color:#ffaaaa;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">☠ 戦死</span>`; }
-          else if (hasConflict){ cardBorder='#c08020'; cardTag=`<span style="background:#6a3000;color:#ffcc44;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">⚔ 対立</span>`; }
-          else if (hasCrisis)  { cardBorder='#cc6820'; cardTag=`<span style="background:#4a2000;color:#ffaa44;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">🚨 要対応</span>`; }
-          else if (report && report.rankUp){ cardBorder='#44aa44'; cardTag=`<span style="background:#0a3a0a;color:#88ff88;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">🏅 昇格</span>`; }
-          else if (!report)     { cardTag=`<span style="color:var(--tx3);font-size:9px;margin-left:6px;">(報告なし)</span>`; }
+          let cardBorder = '#3a2810'; let cardTag = '';
+          if (hasDeath) { cardBorder = '#cc3333'; cardTag = `<span style="background:#800808;color:#ffaaaa;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">☠ 戦死</span>`; }
+          else if (hasConflict) { cardBorder = '#c08020'; cardTag = `<span style="background:#6a3000;color:#ffcc44;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">⚔ 対立</span>`; }
+          else if (hasCrisis) { cardBorder = '#cc6820'; cardTag = `<span style="background:#4a2000;color:#ffaa44;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">🚨 要対応</span>`; }
+          else if (report && report.rankUp) { cardBorder = '#44aa44'; cardTag = `<span style="background:#0a3a0a;color:#88ff88;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;">🏅 昇格</span>`; }
+          else if (!report) { cardTag = `<span style="color:var(--tx3);font-size:9px;margin-left:6px;">(報告なし)</span>`; }
           // アクティブシナジーバッジ
           let synergyBadges = '';
           if (p.status === 'active' && typeof TACTIC_SYNERGY !== 'undefined') {
             try {
               const mods = {};
-              const active = TACTIC_SYNERGY.filter(s => { try { return s.check(p); } catch(e){ return false; }});
+              const active = TACTIC_SYNERGY.filter(s => { try { return s.check(p); } catch (e) { return false; } });
               synergyBadges = active.map(s =>
                 `<span style="display:inline-block;background:rgba(100,0,140,0.7);border:1px solid #9955cc;color:#cc88ff;font-size:8px;padding:1px 5px;border-radius:3px;margin-right:3px;">${s.label}</span>`
               ).join('');
-            } catch(e) {}
+            } catch (e) { }
           }
-          const memberSum = aliveM.map(m=>{
-            const sc=(m.stress||0)>=80?'#ff4444':(m.stress||0)>=60?'#ff8844':'#77cc77';
-            return `<span style="font-size:9px;margin-right:6px;">${m.name} <span style="color:${sc}">ST:${m.stress||0}</span> <span style="color:#44aaff">HP:${m.healthPt||80}</span></span>`;
+          const memberSum = aliveM.map(m => {
+            const sc = (m.stress || 0) >= 80 ? '#ff4444' : (m.stress || 0) >= 60 ? '#ff8844' : '#77cc77';
+            return `<span style="font-size:9px;margin-right:6px;">${m.name} <span style="color:${sc}">ST:${m.stress || 0}</span> <span style="color:#44aaff">HP:${m.healthPt || 80}</span></span>`;
           }).join('');
-          const evHtml = events.slice(0,4).map(e=>{
-            const ic=e.type==='drop'?'💰':e.type==='conflict'?'⚔':e.type==='death'?'💀':'📝';
-            const cls=e.type==='drop'?'evd':e.type==='conflict'?'evc':e.type==='death'?'evx':'evm';
+          const evHtml = events.slice(0, 4).map(e => {
+            const ic = e.type === 'drop' ? '💰' : e.type === 'conflict' ? '⚔' : e.type === 'death' ? '💀' : '📝';
+            const cls = e.type === 'drop' ? 'evd' : e.type === 'conflict' ? 'evc' : e.type === 'death' ? 'evx' : 'evm';
             return `<div class="rce" style="display:flex;align-items:flex-start;gap:5px;font-size:10px;"><span>${ic}</span><span class="${cls}">${e.text}</span></div>`;
-          }).join('') + (events.length>4?`<div style="font-size:9px;color:var(--tx3);text-align:right;">...他${events.length-4}件</div>`:'');
-          html += `<div style="border:1px solid ${cardBorder};border-radius:8px;margin-bottom:8px;background:rgba(20,14,8,0.85);${needsAction?'box-shadow:0 0 8px '+cardBorder+'55;':''}">
+          }).join('') + (events.length > 4 ? `<div style="font-size:9px;color:var(--tx3);text-align:right;">...他${events.length - 4}件</div>` : '');
+          // エンカウントカードをパーティーカードの前に追加
+          if (p.encounter && !p.encounter.resolved) {
+            html += renderEncounterCard(p, reportIdx);
+          }
+          html += `<div style="border:1px solid ${cardBorder};border-radius:8px;margin-bottom:8px;background:rgba(20,14,8,0.85);${needsAction ? 'box-shadow:0 0 8px ' + cardBorder + '55;' : ''}">
             <div style="padding:7px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #2a1e10;">
               <span style="font-weight:700;">${p.name}</span>
-              <span style="font-size:9px;color:var(--tx3);">[${p.status==='active'?'🟢 遠征中':'⚪ 待機'}] ${p.region||'—'}</span>
+              <span style="font-size:9px;color:var(--tx3);">[${p.status === 'active' ? '🟢 遠征中' : '⚪ 待機'}] ${p.region || '—'}</span>
               ${cardTag}
               <div style="margin-left:auto;display:flex;gap:4px;">
                 <button class="rcab" onclick="openDirectiveModal(${p.id})" style="font-size:9px;padding:2px 6px;">方針変更</button>
-                ${needsAction && reportIdx>=0 ? `<button class="rcab" style="font-size:9px;padding:2px 6px;background:linear-gradient(135deg,#2a1505,#3a2008);border-color:#a06020;color:#ddaa44;" onclick="openIntervene(${reportIdx},0)">🚨 介入</button>` : ''}
+                ${needsAction && reportIdx >= 0 ? `<button class="rcab" style="font-size:9px;padding:2px 6px;background:linear-gradient(135deg,#2a1505,#3a2008);border-color:#a06020;color:#ddaa44;" onclick="openIntervene(${reportIdx},0)">🚨 介入</button>` : ''}
               </div>
             </div>
             <div style="padding:4px 10px;font-size:9px;color:var(--tx3);">${memberSum}</div>
             ${synergyBadges ? `<div style="padding:0 10px 4px;">${synergyBadges}</div>` : ''}
-            ${events.length>0?`<div style="padding:4px 10px 6px;">${evHtml}</div>`:''}
-            ${report?`<div style="padding:3px 10px 6px;border-top:1px solid #1a1008;"><button class="rcab" style="font-size:9px;padding:2px 6px;" onclick="dismissReport(${reportIdx})">確認済みにする</button></div>`:''}
+            ${events.length > 0 ? `<div style="padding:4px 10px 6px;">${evHtml}</div>` : ''}
+            ${report ? `<div style="padding:3px 10px 6px;border-top:1px solid #1a1008;"><button class="rcab" style="font-size:9px;padding:2px 6px;" onclick="dismissReport(${reportIdx})">確認済みにする</button></div>` : ''}
           </div>`;
         });
         html += `</div>`;
@@ -5634,7 +6089,16 @@ ${isHired
       G_STATE.roster.forEach(c => {
         const div = document.createElement('div');
         div.className = 'csi';
-        div.innerHTML = `<div class="csin">${c.name} ${c.gender} ${c.age}歳</div><div class="csid">${c.personality} | ${c.skill}↑ | 癖:${c.quirk}</div>`;
+        // このキャラを追加したときのシナジープレビュー
+        let synHint = '';
+        if (typeof TACTIC_SYNERGY !== 'undefined' && p) {
+          const testParty = { ...p, tactic: p.tactic, subTactic: p.subTactic, members: [...p.members, c] };
+          const newSyns = TACTIC_SYNERGY.filter(s => {
+            try { return s.check(testParty) && !s.check(p); } catch (e) { return false; }
+          });
+          if (newSyns.length > 0) synHint = `<div style="font-size:8px;color:#ffaa44;margin-top:1px;">✨ ${newSyns.map(s => s.label).join('/')} 発動！</div>`;
+        }
+        div.innerHTML = `<div class="csin">${c.name} ${c.gender} ${c.age}歳</div><div class="csid">${c.personality} | ${c.skill}↑ | 癖:${c.quirk}</div>${synHint}`;
         div.onclick = () => addMemberToParty(pid, c.id);
         list.appendChild(div);
       });
