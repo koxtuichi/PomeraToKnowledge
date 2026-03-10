@@ -7389,13 +7389,13 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       if (orders.length > 0) {
         html += `<div style="margin-bottom:6px;">`;
         orders.forEach((o, i) => {
-          html += `<div style="font-size:11px;color:var(--tx);margin-bottom:3px;">⏳ ${o.skill !== 'any' ? o.skill : '任意'}の冒険者 — あと${o.weeksLeft}週 <button onclick="cancelRecruitOrder(${i})" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:10px;">✕</button></div>`;
+          html += `<div style="font-size:11px; co lor:var(--tx);margin-bo tt om:3px;">⏳ ${o.skill !== 'any' ? o.skill : '任意'}の冒険者 — あと${o.weeksLeft}週 <button onclick="cancelRecruitOrder(${i})" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:10px;">✕</button></div>`;
         });
         html += `</div>`;
       }
       if (orders.length < 3) {
-        html += `<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">`;
-        html += `<select id="recruit-skill" style="font-size:11px;background:var(--bg3);border:1px solid var(--brd);color:var(--tx);border-radius:4px;padding:3px;flex:1;"><option value="any">— スキル指定なし —</option>${['剣', '弓', '魔法', '回復', '採掘', '隠密', '外交', '錬金', '格闘', '盾'].map(s => `<option value="${s}">${s}使い</option>`).join('')}</select>`;
+        html += `<div style="display:flex;gap: 6p x;align-items:center;flex-wrap:wrap;">`;
+        html += `<select id="recruit-skill" style="font-size:11px;background:var(--bg3);border:1px solid var(--brd);color:var(--tx);border-radius:4px;padding:3px;flex:1;"><op ti on value="any">— スキル指定なし —</option>${['剣', '弓', '魔法', '回復', '採掘', '隠密', '外交', '錬金', '格闘', '盾'].map(s => `<option value="${s}">${s}使い</option>`).join('')}</select>`;
         html += `<button class="hbtn2" onclick="postRecruitOrder()" style="font-size:11px;white-space:nowrap;">300G で招集</button>`;
         html += `</div>`;
       } else {
@@ -7969,15 +7969,40 @@ ${isHired
       _cpoPlayedCards.push(cardIdx);
       _cpoSelectedCardIdx = null;
       saveState();
+      // 1枚使用したら自動的にモーダルを閉じて週を進める
+      setTimeout(() => {
+        document.getElementById('cpo-overlay') && document.getElementById('cpo-overlay').remove();
+        _doAdvanceWeek();
+      }, 600);
+      // 確認フィードバックを表示してから閉じる
       _renderCardPlayOverlay();
     }
     window._cpoUseCardOn = _cpoUseCardOn;
 
     function _applyCardEffect(card, party) {
-      // 既存のweeklyHand効果にマッピングされているものはそちらで適用
-      // 個別パーティー向けの効果をここで処理
+      // カード × ミッション状況 シナジー判定
+      let synergyMult = 1.0;
+      let synergyLabel = '';
+      const mtype = party.mission && party.mission.type;
+      const prio = _partyPriority ? _partyPriority(party) : 99;
+      if (card.type === 'combat' && mtype === 'hunt') {
+        synergyMult = 1.5; synergyLabel = '⚔ 討伐シナジー×1.5';
+      } else if (card.type === 'reward' && mtype === 'treasure') {
+        synergyMult = 1.5; synergyLabel = '💎 宝物庫シナジー×1.5';
+      } else if (card.type === 'speed' && party.mission && party.mission.deadline && (party.mission.deadline - (G_STATE.week||1)) <= 3) {
+        synergyMult = 2.0; synergyLabel = '🏃 緊急加速×2.0';
+      } else if (card.type === 'reinforce' && prio <= 1) {
+        synergyMult = 2.0; synergyLabel = '🛡 救援シナジー×2.0';
+      } else if (card.type === 'event' && mtype === 'explore') {
+        synergyMult = 1.3; synergyLabel = '🔮 探索シナジー×1.3';
+      }
+      if (synergyLabel) {
+        setLogBar(`✨ ${synergyLabel} 発動！`);
+        addLog(`✨ ${party.name}に${synergyLabel}`, 'evd');
+      }
+
       if (!party._pendingCardEffects) party._pendingCardEffects = [];
-      party._pendingCardEffects.push({ ...card });
+      party._pendingCardEffects.push({ ...card, _synergyMult: synergyMult });
 
       // 即時効果系
       const ef = card.effect || {};
@@ -8797,8 +8822,7 @@ ${isHired
         // ─── 防具×タンク/回復 ────────────────────────────────
         { equipKw: ['鎧', 'ローブ'], charTypes: ['盾', '治癒'], label: '全身防護', stressReduction: 6, moodBoost: 3, healthBoost: 7 },
         { equipKw: ['外套', '羽'], charTypes: ['弓', '双剣'], label: '軽やかな回避', stressReduction: 5, moodBoost: 5, healthBoost: 2 },
-        { equipKw: ['竜鱗'], charTypes: ['盾', '大剣'], label: '竜鱗の加護', stressReduction: 7, moodBoost: 4, healthBoost: 6 },
-        { equipKw: ['星影'], charTypes: ['魔術'], label: '星の祝福', stressReduction: 7, moodBoost: 6, healthBoost: 3 },
+        { equipKw: ['竜鱗'], charTypes: ['盾', '大剣'], label: '竜鱗の加護', stressReduction: 7, moodBoost: 4, healthBoost: 6 },       { equipKw: ['星影'], charTypes: ['魔術'], label:  stressReduction: 7, moodBoost: 6, healthBoost: 3 },
         // ─── アイテム×効果 ────────────────────────────────────
         { equipKw: ['砂', '大地', '岩'], charTypes: ['盾', '斧'], label: '大地の盾', stressReduction: 5, moodBoost: 2, healthBoost: 6 },
         { equipKw: ['虹', '幸運', '運命'], charTypes: ['弓', '治癒'], label: '幸運の矢', stressReduction: 5, moodBoost: 8, healthBoost: 3 },
