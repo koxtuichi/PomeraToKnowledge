@@ -2313,6 +2313,241 @@
       border-color: var(--tx3);
       color: var(--tx);
     }
+
+    /* ================================================================
+       CARD PLAY PHASE OVERLAY
+       ================================================================ */
+    .cpo-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 8888;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-y: auto;
+      padding: 0 0 40px;
+    }
+
+    .cpo-header {
+      width: 100%;
+      background: linear-gradient(180deg, #0e0804, #1a0e04);
+      border-bottom: 2px solid var(--gold);
+      padding: 10px 20px 8px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .cpo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold2);
+      font-family: 'Noto Serif JP', serif;
+      letter-spacing: 2px;
+    }
+
+    .cpo-week {
+      font-size: 11px;
+      color: var(--tx3);
+      margin-top: 2px;
+    }
+
+    .cpo-rank-banner {
+      display: inline-block;
+      background: rgba(200, 160, 60, 0.15);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 4px 16px;
+      font-size: 12px;
+      color: var(--gold2);
+      margin-top: 6px;
+    }
+
+    .cpo-hand {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 20px 16px 8px;
+      max-width: 680px;
+      width: 100%;
+    }
+
+    .cpo-card {
+      width: 108px;
+      min-height: 160px;
+      border-radius: 10px;
+      border: 2px solid #5a3a10;
+      background: #0e0804;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cpo-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 16px var(--card-col, #aa8844);
+    }
+
+    .cpo-card.selected {
+      transform: translateY(-12px) scale(1.06);
+      border-color: #fff;
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+    }
+
+    .cpo-card.played {
+      opacity: 0.35;
+      filter: grayscale(0.8);
+      pointer-events: none;
+      transform: none;
+    }
+
+    .cpo-card-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-bottom: 1px solid #2a1a08;
+      display: block;
+    }
+
+    .cpo-card-body {
+      padding: 5px 6px 6px;
+      flex: 1;
+    }
+
+    .cpo-card-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--card-col, #aa8844);
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .cpo-card-desc {
+      font-size: 7.5px;
+      color: #887766;
+      line-height: 1.35;
+    }
+
+    .cpo-played-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg);
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 6px #000;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .cpo-party-select {
+      max-width: 680px;
+      width: 100%;
+      padding: 0 16px;
+      margin-top: 4px;
+    }
+
+    .cpo-party-select-title {
+      font-size: 11px;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .cpo-party-btn {
+      display: block;
+      width: 100%;
+      background: #1a1005;
+      border: 1px solid #3a2810;
+      color: var(--tx1);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 11px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .cpo-party-btn:hover {
+      background: #2a1a08;
+      border-color: var(--gold);
+    }
+
+    .cpo-actions {
+      max-width: 680px;
+      width: 100%;
+      padding: 12px 16px 0;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cpo-btn-advance {
+      flex: 2;
+      padding: 12px;
+      background: linear-gradient(135deg, #5a3200, #8a5010);
+      border: 2px solid var(--gold);
+      color: var(--gold2);
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      transition: background 0.2s;
+    }
+
+    .cpo-btn-advance:hover {
+      background: linear-gradient(135deg, #7a4400, #aa6820);
+    }
+
+    .cpo-btn-skip {
+      flex: 1;
+      padding: 12px;
+      background: #1a1005;
+      border: 1px solid #3a2810;
+      color: var(--tx3);
+      font-size: 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+    }
+
+    .cpo-btn-discard {
+      width: 100%;
+      padding: 8px;
+      background: #0e0804;
+      border: 1px solid #554422;
+      color: #aa8844;
+      font-size: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+    }
+
+    @media (max-width: 480px) {
+      .cpo-card {
+        width: calc(33vw - 16px);
+        min-height: 140px;
+      }
+
+      .cpo-card-img {
+        height: 80px;
+      }
+
+      .cpo-title {
+        font-size: 15px;
+      }
+    }
   </style>
 </head>
 
@@ -7386,6 +7621,244 @@ ${isHired
     }
     window.doEmergencyReturn = doEmergencyReturn;
 
+
+    // ================================================================
+    // CARD PLAY PHASE — 今週の一手
+    // ================================================================
+    const CARD_IMG_MAP = {
+      combat: 'card_combat.png',
+      reward: 'card_reward.png',
+      event: 'card_event.png',
+      reinforce: 'card_reinforce.png',
+      joker_draw: 'card_joker.png',
+      speed: 'card_speed.png',
+    };
+
+    const CARD_COL_MAP = {
+      combat: '#cc4422',
+      reward: '#4fc3f7',
+      event: '#ce93d8',
+      reinforce: '#88cc44',
+      joker_draw: '#ffb74d',
+      speed: '#44ccaa',
+    };
+
+    let _cpoSelectedCardIdx = null;  // 選択中のカードインデックス
+    let _cpoPlayedCards = [];        // 今週出したカードインデックス
+    let _cpoDiscardSelected = [];    // 捨て選択
+
+    function openCardPlayPhase() {
+      // 手札がなければ配布
+      if (!G_STATE.weeklyHand || !G_STATE.weeklyHand.cards || G_STATE.weeklyHand.cards.length === 0) {
+        if (typeof dealWeeklyHand === 'function') dealWeeklyHand();
+      }
+
+      _cpoSelectedCardIdx = null;
+      _cpoPlayedCards = [];
+      _cpoDiscardSelected = [];
+
+      const existing = document.getElementById('cpo-overlay');
+      if (existing) existing.remove();
+
+      _renderCardPlayOverlay();
+    }
+    window.openCardPlayPhase = openCardPlayPhase;
+
+    function _renderCardPlayOverlay() {
+      const existing = document.getElementById('cpo-overlay');
+      if (existing) existing.remove();
+
+      const wh = G_STATE.weeklyHand;
+      if (!wh || !wh.cards) { _doAdvanceWeek(); return; }
+
+      const week = G_STATE.week || 1;
+
+      // 役バナー
+      let rankBanner = '';
+      if (typeof HAND_RANKS !== 'undefined') {
+        const active = HAND_RANKS.filter(r => {
+          try {
+            if (r.check) return r.check(wh.cards);
+            const m = wh.cards.filter(c => r.types ? r.types.includes(c.type) : true);
+            return m.length >= r.minCount;
+          } catch (e) { return false; }
+        });
+        if (active.length > 0) {
+          rankBanner = active.map(r =>
+            `<div class="cpo-rank-banner">✦ ${r.name} — ${r.bonus}</div>`
+          ).join('');
+        }
+      }
+
+      // 手札カード HTML
+      const cardsHtml = wh.cards.map((c, i) => {
+        const col = CARD_COL_MAP[c.type] || '#aa8844';
+        const img = CARD_IMG_MAP[c.type] || '';
+        const played = _cpoPlayedCards.includes(i);
+        const sel = _cpoSelectedCardIdx === i;
+        return `<div class="cpo-card ${played ? 'played' : sel ? 'selected' : ''}"
+          id="cpocard-${i}"
+          style="--card-col:${col};"
+          onclick="_cpoSelectCard(${i})">
+          ${img ? `<img class="cpo-card-img" src="${img}" alt="">` : `<div class="cpo-card-img" style="background:${col}22;"></div>`}
+          <div class="cpo-card-body">
+            <div class="cpo-card-label">${c.label}</div>
+            <div class="cpo-card-desc">${c.desc}</div>
+          </div>
+          ${played ? '<div class="cpo-played-label">USED</div>' : ''}
+        </div>`;
+      }).join('');
+
+      // パーティー選択パネル
+      const partiesHtml = _cpoSelectedCardIdx !== null && !_cpoPlayedCards.includes(_cpoSelectedCardIdx)
+        ? _buildPartySelectHtml(_cpoSelectedCardIdx) : '';
+
+      // 捨て牌ボタン
+      const discardLeft = (wh.discardCount || 0);
+      const discardBtn = discardLeft > 0
+        ? `<button class="cpo-btn-discard" onclick="_cpoToggleDiscardMode()">📤 捨てて引き直す (残${discardLeft}回)</button>`
+        : `<button class="cpo-btn-discard" style="opacity:0.4;cursor:not-allowed;">📤 引き直し使用済み</button>`;
+
+      const playedCount = _cpoPlayedCards.length;
+
+      const html = `<div class="cpo-overlay" id="cpo-overlay">
+        <div class="cpo-header">
+          <div class="cpo-title">🃏 今週の一手</div>
+          <div class="cpo-week">Week ${week} — カードを選んでパーティーへ使おう</div>
+          ${rankBanner}
+        </div>
+        <div class="cpo-hand">${cardsHtml}</div>
+        <div class="cpo-party-select" id="cpo-party-select">${partiesHtml}</div>
+        <div class="cpo-actions">
+          ${discardBtn}
+          <button class="cpo-btn-advance" onclick="_cpoAdvance()">▶▶ この手で出発${playedCount > 0 ? ` (${playedCount}枚使用)` : ''}</button>
+          <button class="cpo-btn-skip" onclick="_cpoSkip()">スキップ</button>
+        </div>
+      </div>`;
+
+      document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    function _buildPartySelectHtml(cardIdx) {
+      const card = G_STATE.weeklyHand.cards[cardIdx];
+      const parties = G_STATE.parties.filter(p => p.status !== 'disbanded' && p.members.length > 0);
+      if (parties.length === 0) {
+        return `<div class="cpo-party-select-title">パーティーなし — スキップするか全体効果カードのみ使用可</div>`;
+      }
+      const opts = parties.map(p => {
+        const mission = p.mission ? ({ explore: '🗺 素材探索', treasure: '💎 宝物庫', hunt: '⚔ 討伐', scout: '🔭 調査', training: '📚 訓練', standby: '🏠 待機' }[p.mission.type] || p.mission.type) : '—';
+        return `<button class="cpo-party-btn" onclick="_cpoUseCardOn(${cardIdx},${p.id})">
+          <strong>${p.name}</strong>
+          <span style="color:var(--tx3);font-size:10px;margin-left:8px;">${p.region || '—'} / ${mission}</span>
+        </button>`;
+      }).join('');
+      return `<div class="cpo-party-select-title">「${card.label}」をどのパーティーへ？</div>${opts}
+        <button class="cpo-party-btn" onclick="_cpoUseCardOn(${cardIdx}, null)" style="border-color:#5a4a20;color:var(--tx3);">🌐 全パーティーへ使う（全体効果）</button>`;
+    }
+
+    function _cpoSelectCard(idx) {
+      if (_cpoPlayedCards.includes(idx)) return;
+      if (_cpoSelectedCardIdx === idx) {
+        _cpoSelectedCardIdx = null;
+      } else {
+        _cpoSelectedCardIdx = idx;
+      }
+      _renderCardPlayOverlay();
+    }
+    window._cpoSelectCard = _cpoSelectCard;
+
+    function _cpoUseCardOn(cardIdx, partyId) {
+      const wh = G_STATE.weeklyHand;
+      if (!wh || !wh.cards[cardIdx]) return;
+
+      const card = wh.cards[cardIdx];
+
+      // カード効果を適用
+      if (partyId !== null) {
+        const p = G_STATE.parties.find(x => x.id === partyId);
+        if (p) {
+          _applyCardEffect(card, p);
+          setLogBar(`${p.name} に「${card.label}」を使用した。`);
+        }
+      } else {
+        // 全体効果
+        G_STATE.parties.filter(p => p.status !== 'disbanded').forEach(p => _applyCardEffect(card, p));
+        setLogBar(`「${card.label}」を全パーティーへ使用した。`);
+      }
+
+      _cpoPlayedCards.push(cardIdx);
+      _cpoSelectedCardIdx = null;
+      saveState();
+      _renderCardPlayOverlay();
+    }
+    window._cpoUseCardOn = _cpoUseCardOn;
+
+    function _applyCardEffect(card, party) {
+      // 既存のweeklyHand効果にマッピングされているものはそちらで適用
+      // 個別パーティー向けの効果をここで処理
+      if (!party._pendingCardEffects) party._pendingCardEffects = [];
+      party._pendingCardEffects.push({ ...card });
+
+      // 即時効果系
+      const ef = card.effect || {};
+      if (ef.moraleBoost) party.members.forEach(m => { m.morale = Math.min(100, (m.morale || 60) + ef.moraleBoost); });
+      if (ef.stressRelief) party.members.forEach(m => { m.stress = Math.max(0, (m.stress || 0) - ef.stressRelief); });
+      if (ef.missionSpeedup && party.mission && party.mission.deadline) {
+        party.mission.deadline = Math.max((G_STATE.week || 1) + 1, party.mission.deadline - (ef.missionSpeedup || 1));
+      }
+      if (ef.grantJoker) {
+        // ランダムジョーカーを付与
+        if (typeof JOKER_CARDS !== 'undefined' && JOKER_CARDS.length > 0) {
+          const j = { ...JOKER_CARDS[Math.floor(Math.random() * JOKER_CARDS.length)] };
+          G_STATE.jokerInventory = G_STATE.jokerInventory || [];
+          G_STATE.jokerInventory.push(j);
+        }
+      }
+    }
+
+    function _cpoToggleDiscardMode() {
+      // 簡易実装: 選択中のカードを捨てる
+      const wh = G_STATE.weeklyHand;
+      if (!wh || wh.discardCount <= 0) return;
+      if (_cpoSelectedCardIdx === null) {
+        setLogBar('まず捨てるカードをタップしてから、もう一度このボタンを押してください。');
+        return;
+      }
+      // 引き直し実行
+      const pool = (window.HAND_CARD_POOL || []).filter(c => !wh.cards.some(h => h.id === c.id));
+      const newCard = pool.length > 0 ? { ...pool[Math.floor(Math.random() * pool.length)] } : { ...wh.cards[_cpoSelectedCardIdx] };
+      wh.cards[_cpoSelectedCardIdx] = newCard;
+      wh.discardCount--;
+      if (typeof evaluateHand === 'function') evaluateHand(wh.cards);
+      _cpoSelectedCardIdx = null;
+      _renderCardPlayOverlay();
+      setLogBar('カードを引き直した！');
+    }
+    window._cpoToggleDiscardMode = _cpoToggleDiscardMode;
+
+    function _cpoAdvance() {
+      document.getElementById('cpo-overlay') && document.getElementById('cpo-overlay').remove();
+      _doAdvanceWeek();
+    }
+    window._cpoAdvance = _cpoAdvance;
+
+    function _cpoSkip() {
+      document.getElementById('cpo-overlay') && document.getElementById('cpo-overlay').remove();
+      _doAdvanceWeek();
+    }
+    window._cpoSkip = _cpoSkip;
+
+    // 実際に週を進める関数（既存のadvanceWeekを保持）
+    let _originalAdvanceWeek = null;
+
+    function _doAdvanceWeek() {
+      if (_originalAdvanceWeek) {
+        _originalAdvanceWeek();
+      } else if (typeof window._realAdvanceWeek === 'function') {
+        window._realAdvanceWeek();
+      }
+    }
+
     function dismissAllReports() {
       G_STATE.pendingReports = [];
       saveState();
@@ -7689,6 +8162,12 @@ ${isHired
     // ---- 全 onclick ハンドラをwindowに公開 ------------------------------------
     // (HTMLの onclick="func()" はグローバルスコープを参照するため明示的に公開が必須)
     window.advanceWeek = advanceWeek;
+
+    // カードプレイフェーズ: 本来の advanceWeek を保持して入口を差し替え
+    window._realAdvanceWeek = advanceWeek;
+    // ボタンから呼ばれる advanceWeek をオーバーライド（openCardPlayPhase から呼ばれる）
+    window.advanceWeek = function () { openCardPlayPhase(); };
+
     window.showParty = showParty;
     window.showView = showView;
     window.dismissReport = dismissReport;
