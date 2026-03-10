@@ -3131,6 +3131,26 @@
     };
 
     function saveState() { try { G_STATE._uid = _uid; localStorage.setItem('gm_v1', JSON.stringify(G_STATE)); } catch (e) { } }
+    // 共通ヘルパー: 保存 + 現在のビューを即時再描画
+    function saveAndRefresh(partyId) {
+      saveState();
+      updateHUD();
+      renderPartyList();
+      // currentView に応じた再描画
+      if (currentView === 'party' && (partyId || currentPartyId)) {
+        showParty(partyId || currentPartyId);
+      } else if (currentView === 'reports') {
+        showReportsView();
+      } else if (currentView === 'inventory') {
+        showInventoryView();
+      } else if (currentView === 'roster') {
+        if (typeof showRosterView === 'function') showRosterView();
+      } else if (currentView === 'map') {
+        showMapView();
+      }
+    }
+    window.saveAndRefresh = saveAndRefresh;
+
     function loadState() {
       try {
         const s = localStorage.getItem('gm_v1');
@@ -5584,12 +5604,12 @@ ${isHired
       if (!confirm('このパーティーを解散しますか？')) return;
       const p = G_STATE.parties.find(x => x.id === pid);
       if (p) { p.status = 'disbanded'; G_STATE.roster.push(...p.members); p.members = []; }
-      saveState(); renderPartyList(); showView('welcome');
+      saveAndRefresh(); showView('welcome');
     }
 
     function setLeader(pid, mid) {
       const p = G_STATE.parties.find(x => x.id === pid);
-      if (p) { p.leaderId = mid; saveState(); showParty(pid); }
+      if (p) { p.leaderId = mid; saveAndRefresh(pid); }
     }
 
     function removeMember(pid, mid) {
@@ -5602,7 +5622,7 @@ ${isHired
       if (Math.random() < 0.3) { c.isGrudge = true; addLog(`${c.name}が不満げに去っていった。`, 'evc'); }
       G_STATE.dismissed.push(c);
       if (p.leaderId === mid) p.leaderId = p.members[0]?.id || null;
-      saveState(); showParty(pid);
+      saveAndRefresh(pid);
     }
 
     // ---- ADD MEMBER MODAL -------------------------------------------------------
@@ -5645,7 +5665,7 @@ ${isHired
       if (!p.leaderId) p.leaderId = c.id;
       if (p.members.length > 0) p.status = 'active';
       closeModal('maddmem');
-      saveState(); updateHUD(); showParty(pid);
+      saveAndRefresh(pid);
       setLogBar(`${c.name}が「${p.name}」に加入した。(-${hireCost}G)`);
     }
 
@@ -5674,7 +5694,7 @@ ${isHired
         p.directive.focus = document.getElementById('md-focus').value;
         p.directive.conflict = document.getElementById('md-conflict').value;
         p.directive.cpPerWeek = parseInt(document.getElementById('md-cp').value) || 20;
-        saveState(); closeModal('mdir');
+        closeModal('mdir'); saveAndRefresh();
         if (currentView === 'party') showParty(pid);
         setLogBar(`「${p.name}」の方針を更新した。`);
       };
@@ -5712,7 +5732,7 @@ ${isHired
         if (g.hb >= 2 && (c.health === 'critical' || c.health === 'injured')) c.health = 'tired';
         else if (g.hb >= 1 && c.health === 'sick') c.health = 'tired';
       }
-      closeModal('mgift'); saveState(); updateHUD();
+      closeModal('mgift'); saveAndRefresh();
       if (currentView === 'party') showParty(pid);
       setLogBar(`${c?.name || '—'}に「${g.name}」を贈った。（-${g.cost} G）`);
       addLog(`${c?.name}へ「${g.name}」贈呈: ${g.effect}`, 'evd');
@@ -5755,15 +5775,15 @@ ${isHired
       const options = [
         {
           label: '📢 訓示を与える — 士気を回復させる (+10 mood, -5 stress)',
-          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 10); m.stress = Math.max(0, (m.stress || 0) - 5); }); saveState(); showReportsView(); setLogBar(`${party.name}に訓示を与えた。`); addLog(`${party.name}に訓示 (mood+10,stress-5)`, 'evm'); } }
+          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 10); m.stress = Math.max(0, (m.stress || 0) - 5); }); saveAndRefresh(); setLogBar(`${party.name}に訓示を与えた。`); addLog(`${party.name}に訓示 (mood+10,stress-5)`, 'evm'); } }
         },
         {
           label: '🎁 報酬を渡す — テンションを上げる (+20 mood, -10G)',
-          fn() { if (G_STATE.gold < 10) { alert('Goldが足りません。'); return; } if (party) { G_STATE.gold -= 10; party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 20); }); updateHUD(); saveState(); showReportsView(); setLogBar(`${party.name}に報酬を渡した。(-10G)`); } }
+          fn() { if (G_STATE.gold < 10) { alert('Goldが足りません。'); return; } if (party) { G_STATE.gold -= 10; party.members.filter(m => !m.dead).forEach(m => { m.mood = Math.min(100, (m.mood || 70) + 20); }); saveAndRefresh(); setLogBar(`${party.name}に報酬を渡した。(-10G)`); } }
         },
         {
           label: '⚖️ 話を聞く — 対立を収める (-20 stress, 問題解決)',
-          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.stress = Math.max(0, (m.stress || 0) - 20); m.rebellion = false; }); saveState(); showReportsView(); setLogBar(`${party.name}の揉め事を収めた。`); addLog(`${party.name}の対立を解消`, 'evg'); } }
+          fn() { if (party) { party.members.filter(m => !m.dead).forEach(m => { m.stress = Math.max(0, (m.stress || 0) - 20); m.rebellion = false; }); saveAndRefresh(); setLogBar(`${party.name}の揉め事を収めた。`); addLog(`${party.name}の対立を解消`, 'evg'); } }
         },
       ];
 
@@ -6012,7 +6032,7 @@ ${isHired
       member.equip = { ...item };
       if (item.qty != null) item.qty--; else item.qty = 0;
       G_STATE.inventory = G_STATE.inventory.filter(it => (it.qty ?? 1) > 0);
-      saveState(); closeEquipModal(); showParty(partyId);
+      closeEquipModal(); saveAndRefresh(partyId);
     }
     function unequipItem(memberId, partyId) {
       const party = G_STATE.parties.find(p => p.id == partyId);
@@ -6021,7 +6041,7 @@ ${isHired
       const old = (G_STATE.inventory || []).find(it => it.id === member.equip.id);
       if (old) old.qty++; else G_STATE.inventory.push({ ...member.equip, qty: 1 });
       member.equip = null;
-      saveState(); closeEquipModal(); showParty(partyId);
+      closeEquipModal(); saveAndRefresh(partyId);
     }
 
     // =====================================================================
