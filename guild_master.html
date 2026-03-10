@@ -552,6 +552,33 @@
       color: #90d060
     }
 
+    /* Balatro: epicドロップ黄金フレーム演出 */
+    @keyframes epic-shimmer {
+      0% {
+        background-position: -200% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .eve-epic {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #c8860a;
+      background: linear-gradient(270deg, #2a1a00, #3a2600, #2a1a00);
+      background-size: 200% auto;
+      animation: epic-shimmer 3s linear infinite;
+      color: #ffb74d;
+      font-weight: 700;
+    }
+
+    .eve-epic .eve-icon {
+      font-size: 18px;
+    }
+
+
     .evc {
       color: #e07050
     }
@@ -2801,9 +2828,21 @@
       const p = G_STATE.parties.find(x => x.id == pid);
       if (!p) return;
       p.tactic = tactic;
+      // 主作戦と同じ副作戦なら副作戦をリセット
+      if (p.subTactic === tactic) p.subTactic = '';
       saveState();
       showParty(pid);
       setLogBar(`${p.name}の作戦を「${TACTIC_PRESETS[tactic].label}」に変更`);
+    };
+
+    window.setPartySubTactic = function (pid, subTactic) {
+      const p = G_STATE.parties.find(x => x.id == pid);
+      if (!p) return;
+      p.subTactic = subTactic;
+      saveState();
+      showParty(pid);
+      const label = subTactic ? `副作戦「${TACTIC_PRESETS[subTactic].label}」を設定` : '副作戦を解除した';
+      setLogBar(`${p.name}: ${label}`);
     };
 
     // ===== C. rarityBadge — アイテム表示共通ユーティリティ =====
@@ -3764,6 +3803,35 @@
       { id: 'blessing', icon: '✨', label: '神聖な加護', cls: 'map-ev-blessing', dropMod: 0.1, riskMod: -1, desc: 'ドロップ+10%・危険度-1' },
     ];
     window.MAP_EVENT_TYPES = MAP_EVENT_TYPES;
+    // ===== Elin: 季節システム =====
+    const SEASONS = {
+      spring: {
+        icon: '🌸', label: '春', bg: '#1a2a1a', color: '#7ecf7e',
+        dropMod: 0.0, eventWeights: { storm: 0.5, monster: 1.0, caravan: 1.5, rumor: 1.5, blessing: 1.5 }
+      },
+      summer: {
+        icon: '☀️', label: '夏', bg: '#2a1f00', color: '#f5c842',
+        dropMod: 0.05, eventWeights: { storm: 1.5, monster: 2.0, caravan: 0.8, rumor: 1.0, blessing: 0.8 }
+      },
+      autumn: {
+        icon: '🍂', label: '秋', bg: '#2a1500', color: '#c8863c',
+        dropMod: 0.0, eventWeights: { storm: 1.0, monster: 0.8, caravan: 1.5, rumor: 2.0, blessing: 1.0 }
+      },
+      winter: {
+        icon: '❄️', label: '冬', bg: '#0d1a2a', color: '#8ab4d4',
+        dropMod: -0.10, eventWeights: { storm: 2.5, monster: 0.5, caravan: 0.5, rumor: 0.8, blessing: 1.5 }
+      },
+    };
+    window.SEASONS = SEASONS;
+
+    function getCurrentSeason() {
+      const weekInYear = ((G_STATE.week - 1) % 52) + 1;
+      if (weekInYear <= 13) return { key: 'spring', ...SEASONS.spring };
+      if (weekInYear <= 26) return { key: 'summer', ...SEASONS.summer };
+      if (weekInYear <= 39) return { key: 'autumn', ...SEASONS.autumn };
+      return { key: 'winter', ...SEASONS.winter };
+    }
+    window.getCurrentSeason = getCurrentSeason;
 
     function spawnMapEvents() {
       if (!G_STATE.mapEvents) G_STATE.mapEvents = {};
@@ -3773,13 +3841,25 @@
           delete G_STATE.mapEvents[reg];
         }
       });
-      // 各地方で15%確率でイベント発生
+      // 季節連動: 重み付きランダムでイベント選択
+      const season = getCurrentSeason();
+      function pickSeasonalEvent() {
+        const weights = season.eventWeights;
+        const pool = [];
+        MAP_EVENT_TYPES.forEach(ev => {
+          const w = Math.round((weights[ev.id] || 1.0) * 10);
+          for (let i = 0; i < w; i++) pool.push(ev);
+        });
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
+      // 各地方で季節補正後の発生率でイベント発生
+      const baseRate = season.key === 'winter' ? 0.20 : season.key === 'summer' ? 0.18 : 0.15;
       Object.keys(REGION_DATA).forEach(reg => {
         if (G_STATE.mapEvents[reg]) return; // 既にイベント中
-        if (Math.random() < 0.15) {
-          const ev = MAP_EVENT_TYPES[Math.floor(Math.random() * MAP_EVENT_TYPES.length)];
+        if (Math.random() < baseRate) {
+          const ev = pickSeasonalEvent();
           G_STATE.mapEvents[reg] = { ...ev, expireWeek: G_STATE.week + rnd(1, 3) };
-          addLog(`🗺 ${reg}で「${ev.icon}${ev.label}」が発生した！`);
+          addLog(`🗺 [${season.icon}${season.label}] ${reg}で「${ev.icon}${ev.label}」が発生した！`);
         }
       });
     }
@@ -3826,14 +3906,51 @@
           party.members.every(m => (m.morale || 50) >= 70),
         apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.15; },
       },
+      // ===== Balatro: 主作戦×副作戦 組み合わせシナジー =====
+      {
+        id: 'combo_assault_gather',
+        label: '⛏ 荒ぶる採掘者',
+        desc: '積極攻撃+素材優先の同時指定でドロップ+25%、負傷リスク+10%',
+        check: (party) => (party.tactic === 'assault' && party.subTactic === 'gather') ||
+          (party.tactic === 'gather' && party.subTactic === 'assault'),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.25; mods.injuryMult = (mods.injuryMult || 1) * 1.10; },
+      },
+      {
+        id: 'combo_guard_gather',
+        label: '🛡 守りの収穫',
+        desc: '堅実防衛+素材優先でドロップ+20%・負傷確率-20%',
+        check: (party) => (party.tactic === 'guard' && party.subTactic === 'gather') ||
+          (party.tactic === 'gather' && party.subTactic === 'guard'),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.20; mods.injuryMult = (mods.injuryMult || 1) * 0.80; },
+      },
+      {
+        id: 'combo_assault_guard',
+        label: '⚡ 電撃制圧',
+        desc: '積極攻撃+堅実防衛でドロップ+15%、ストレス+20%',
+        check: (party) => (party.tactic === 'assault' && party.subTactic === 'guard') ||
+          (party.tactic === 'guard' && party.subTactic === 'assault'),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.15; mods.stressMult = (mods.stressMult || 1) * 1.20; },
+      },
+      {
+        id: 'combo_gather_guard_veteran',
+        label: '🎖 古強者の慎重採掘',
+        desc: '素材優先+堅実防衛・全員ランクC以上でドロップ+35%',
+        check: (party) => (party.tactic === 'gather' && party.subTactic === 'guard') ||
+          (party.tactic === 'guard' && party.subTactic === 'gather') &&
+          party.members.length > 0 && party.members.every(m => ['C', 'B', 'A', 'S'].includes(m.rank || 'F')),
+        apply: (mods) => { mods.dropMult = (mods.dropMult || 1) * 1.35; },
+      },
     ];
     window.TACTIC_SYNERGY = TACTIC_SYNERGY;
 
     function calcTacticSynergies(party) {
+      const mainPreset = TACTIC_PRESETS[party.tactic || 'assault'] || TACTIC_PRESETS.assault;
+      const subPreset = party.subTactic ? (TACTIC_PRESETS[party.subTactic] || {}) : {};
+      // 副作戦は主作戦の補正に対してマイルドにブレンド (係数0.3)
       const mods = {
-        dropMult: TACTIC_PRESETS[party.tactic || 'assault'].dropMult,
-        injuryMult: TACTIC_PRESETS[party.tactic || 'assault'].injuryMult,
-        stressMult: TACTIC_PRESETS[party.tactic || 'assault'].stressMult,
+        dropMult: mainPreset.dropMult * (1 + ((subPreset.dropMult || 1) - 1) * 0.3),
+        injuryMult: mainPreset.injuryMult * (1 + ((subPreset.injuryMult || 1) - 1) * 0.3),
+        stressMult: mainPreset.stressMult * (1 + ((subPreset.stressMult || 1) - 1) * 0.3),
         epicBonus: 0
       };
       const active = [];
@@ -4452,8 +4569,19 @@
       };
       const RISK_COLORS = ['', '#5aaa5a', '#9aaa3a', '#ddaa3a', '#dd6a3a', '#dd3a3a'];
 
+      const season = typeof getCurrentSeason === 'function' ? getCurrentSeason() : null;
+      const seasonDropText = season ? (season.dropMod > 0 ? `ドロップ+${Math.round(season.dropMod * 100)}%` : season.dropMod < 0 ? `ドロップ${Math.round(season.dropMod * 100)}%` : '') : '';
       let h = `<div class="ph"><div class="pht">🗺 地方マップ</div><div class="phs">評判: ${G_STATE.reputation || 0}pt | 派遣先を確認しよう</div></div>`;
+      if (season) {
+        h += `<div style="margin:8px 14px 0;padding:10px 16px;border-radius:10px;background:${season.bg};border:1px solid ${season.color}44;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:22px;">${season.icon}</span>
+          <span style="color:${season.color};font-weight:700;font-size:13px;">現在の季節: ${season.label}</span>
+          ${seasonDropText ? `<span style="font-size:11px;color:var(--tx3);">(${seasonDropText})</span>` : ''}
+          <span style="font-size:11px;color:var(--tx3);margin-left:auto;">Week ${G_STATE.week}</span>
+        </div>`;
+      }
       h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px;">`;
+
       REGIONS.forEach(reg => {
         const rd = REGION_DATA[reg] || { icon: '?', specialty: [], riskLevel: 1 };
         const theme = REGION_THEME[reg] || { grad: 'linear-gradient(135deg,var(--bg2),var(--bg3))', border: 'var(--brd)', textClr: 'var(--gold2)' };
@@ -4934,6 +5062,30 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       });
       html += `</div></div>`;
 
+      // ===== Balatro: 副作戦スロット =====
+      const curSubTactic = p.subTactic || '';
+      const activeComboSyn = (typeof TACTIC_SYNERGY !== 'undefined' ? TACTIC_SYNERGY : [])
+        .filter(syn => syn.id.startsWith('combo_') && p.members.length >= 1 && (() => { try { return syn.check(p); } catch (e) { return false; } })());
+      html += `<div class="sec">
+<div class="sech" data-tip="副作戦を設定すると、主作戦との組み合わせで特別なシナジーが発動することがあります">⚡ 副作戦（コンボ）</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+  <div style="flex:1;min-width:100px;text-align:center">
+    <button class="tactic-btn${curSubTactic === '' ? ' active' : ''}" style="width:100%;font-size:11px" onclick="setPartySubTactic(${pid},'')">なし</button>
+  </div>`;
+      Object.entries(TACTIC_PRESETS).forEach(([key, t]) => {
+        if (key === curTactic) return; // 主作戦は除外
+        html += `<div style="flex:1;min-width:100px;text-align:center">
+          <button class="tactic-btn${curSubTactic === key ? ' active' : ''}" style="width:100%;font-size:11px" onclick="setPartySubTactic(${pid},'${key}')">${t.label}</button>
+        </div>`;
+      });
+      html += `</div>`;
+      if (activeComboSyn.length > 0) {
+        html += `<div style="margin-top:8px;padding:7px 10px;background:#1a2a0a;border-radius:7px;border:1px solid #4a7a1a">
+          ${activeComboSyn.map(s => `<div style="font-size:11px;color:#7acf4a">✨ <strong>${s.label}</strong>: ${s.desc}</div>`).join('')}
+        </div>`;
+      }
+      html += `</div>`;
+
       // Leader select
       if (p.members.length > 0) {
         html += `<div class="sec"><div class="sech">リーダー指定</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
@@ -5064,11 +5216,21 @@ ${isHired
           r.events.forEach((e, ei) => {
             const isConflict = e.type === 'conflict' || (e.text && (e.text.includes('揉め事') || e.text.includes('対立')));
             const isCrisis = e.type === 'illness' || (e.text && (e.text.includes('ストレス') || e.text.includes('崩壊') || e.text.includes('療養') || e.text.includes('反発')));
-            const cls = e.type === 'drop' ? 'evd' : e.type === 'conflict' ? 'evc' : e.type === 'death' ? 'evx' : e.type === 'romance' ? 'evr' : e.type === 'illness' ? 'evi' : 'evm';
-            const typeIcon = e.type === 'drop' ? '💰' : e.type === 'conflict' ? '⚔' : e.type === 'death' ? '💀' : e.type === 'romance' ? '💕' : e.type === 'illness' ? '🤒' : '📝';
-            const interveneBtn = (isConflict || isCrisis) ? `<button onclick="openIntervene(${i},${ei})" style="background:none;border:1px solid #a06020;color:#ddaa44;font-size:10px;padding:1px 8px;border-radius:3px;cursor:pointer;margin-left:8px;float:right;">🚨 介入</button>` : '';
-            html += `<div class="rce" style="display:flex;align-items:flex-start;gap:6px;"><span style="font-size:13px;flex-shrink:0;">${typeIcon}</span><span class="${cls}" style="flex:1;">${e.text}</span>${interveneBtn}</div>`;
+            // ⑦ Balatro: epicドロップ演出
+            const isEpicDrop = e.type === 'drop' && e.item && e.item.rarity === 'epic';
+            if (isEpicDrop) {
+              html += `<div class="rce eve-epic" style="display:flex;align-items:flex-start;gap:8px;margin:6px 0;">
+                <span class="eve-icon">🌟</span>
+                <span style="flex:1;"><div style="font-size:10px;color:#ffcc44;letter-spacing:1px;margin-bottom:2px;">— 伝説の一品 —</div>${e.text}</span>
+              </div>`;
+            } else {
+              const cls = e.type === 'drop' ? 'evd' : e.type === 'conflict' ? 'evc' : e.type === 'death' ? 'evx' : e.type === 'romance' ? 'evr' : e.type === 'illness' ? 'evi' : 'evm';
+              const typeIcon = e.type === 'drop' ? '💰' : e.type === 'conflict' ? '⚔' : e.type === 'death' ? '💀' : e.type === 'romance' ? '💕' : e.type === 'illness' ? '🤒' : '📝';
+              const interveneBtn = (isConflict || isCrisis) ? `<button onclick="openIntervene(${i},${ei})" style="background:none;border:1px solid #a06020;color:#ddaa44;font-size:10px;padding:1px 8px;border-radius:3px;cursor:pointer;margin-left:8px;float:right;">🚨 介入</button>` : '';
+              html += `<div class="rce" style="display:flex;align-items:flex-start;gap:6px;"><span style="font-size:13px;flex-shrink:0;">${typeIcon}</span><span class="${cls}" style="flex:1;">${e.text}</span>${interveneBtn}</div>`;
+            }
           });
+
           html += `</div><div class="rca">
 <button class="rcab" onclick="openDirectiveModal(${p.id})">方針を変更</button>
 ${hasTrouble || hasCrisis ? `<button class="rcab" style="background:linear-gradient(135deg,#2a1505,#3a2008);border-color:#a06020;color:#ddaa44;" onclick="openIntervene(${i},0)">🚨 この報告に介入</button>` : ''}

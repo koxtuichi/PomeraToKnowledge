@@ -88,10 +88,10 @@ const GRAPH_DATA = {
       "id": "制約:時間不足_副業",
       "label": "Saiteki稼働時間の不足",
       "type": "制約",
-      "detail": "先週の稼働が5時間程度に留まり、十分な成果を出せなかった。",
+      "detail": "先週の稼働が5時間程度に留まり、十分な成果を出せなかった要因。",
       "constraint_type": "時間不足",
       "first_seen": "2026-02-16T23:51:38.047244",
-      "last_seen": "2026-03-09T06:29:06.666852",
+      "last_seen": "2026-03-09T15:30:51.370571",
       "weight": 1.1,
       "tags": []
     },
@@ -236,7 +236,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.02,
           "trigger": null
@@ -411,11 +411,11 @@ const GRAPH_DATA = {
       "id": "目標:PersonalBranding",
       "label": "個人での収益化・人気獲得",
       "type": "目標",
-      "detail": "ブログ読者が14名に増え、人気獲得に向けた大きな一歩を踏み出した。",
+      "detail": "ブログ等で人にみてもらい、月5万円程度の収益を得たい。",
       "status": "進行中",
       "first_seen": "2026-02-16T23:51:38.047414",
-      "last_seen": "2026-03-09T06:29:06.666852",
-      "weight": 1.1,
+      "last_seen": "2026-03-09T15:30:51.370571",
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -450,7 +450,7 @@ const GRAPH_DATA = {
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
-      "last_seen": "2026-03-09T06:29:06.665580",
+      "last_seen": "2026-03-09T15:30:51.369652",
       "weight": 177,
       "tags": []
     },
@@ -627,7 +627,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.005,
           "trigger": null
@@ -832,7 +832,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.9,
           "active_sentiment": -0.0203,
           "trigger": null
@@ -989,7 +989,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.018,
           "trigger": null
@@ -1095,7 +1095,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.9,
           "active_sentiment": -0.0064,
           "trigger": null
@@ -1290,7 +1290,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.005,
           "trigger": null
@@ -1372,7 +1372,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
           "trigger": null
@@ -1625,7 +1625,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0038,
           "trigger": null
@@ -1766,7 +1766,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.7,
           "active_sentiment": 0.0044,
           "trigger": null
@@ -1882,7 +1882,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.7,
           "active_sentiment": 0.0044,
           "trigger": null
@@ -2060,7 +2060,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
           "trigger": null
@@ -2195,7 +2195,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
           "trigger": null
@@ -2302,7 +2302,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0038,
           "trigger": null
@@ -2328,12 +2328,12 @@ const GRAPH_DATA = {
     },
     {
       "id": "知見:AIブログの方向性",
-      "label": "ポメラ×AI活用術のブログ案",
+      "label": "ポメラ特化ブログの有効性",
       "type": "知見",
-      "detail": "ポメラからGitHubへの自動反映フローなど、自身のAI活用術をガジェットと交えて発信することで人気獲得と収益化を狙うアイデア。",
+      "detail": "ブログのテーマをポメラに絞ったことでPVが急増しており、特定のターゲット（ポメラ好き）に刺さる戦略が正しいという気づき。",
       "first_seen": "2026-02-16T19:44:05.916929",
-      "last_seen": "2026-02-17T03:23:12.354098",
-      "weight": 0.1,
+      "last_seen": "2026-03-09T15:30:51.370571",
+      "weight": 1.1,
       "tags": []
     },
     {
@@ -2403,7 +2403,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0038,
           "trigger": null
@@ -2503,7 +2503,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.7,
           "active_sentiment": 0.0044,
           "trigger": null
@@ -2586,7 +2586,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0149,
           "trigger": null
@@ -2678,7 +2678,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
           "trigger": null
@@ -2792,7 +2792,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
           "trigger": null
@@ -2874,7 +2874,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.5,
           "active_sentiment": 0.0032,
           "trigger": null
@@ -2976,7 +2976,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
           "trigger": null
@@ -3080,7 +3080,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0038,
           "trigger": null
@@ -3179,7 +3179,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.4,
           "active_sentiment": -0.0026,
           "trigger": null
@@ -3316,7 +3316,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0047,
           "trigger": null
@@ -3489,7 +3489,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.4,
           "active_sentiment": 0.0026,
           "trigger": null
@@ -3609,7 +3609,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.0166,
           "trigger": null
@@ -3714,7 +3714,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0079,
           "trigger": null
@@ -3855,7 +3855,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0038,
           "trigger": null
@@ -3940,7 +3940,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.3,
           "active_sentiment": -0.0941,
           "trigger": null
@@ -4021,7 +4021,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.005,
           "trigger": null
@@ -4071,10 +4071,10 @@ const GRAPH_DATA = {
       "id": "人物:沙也香",
       "label": "沙也香",
       "type": "人物",
-      "detail": "日記主の妻。WBCや配信を一緒に楽しむ時間を共有した。",
+      "detail": "ユーザーの妻。WBCや配信を一緒に楽しんだ。",
       "category": "夫",
       "first_seen": "2026-02-18T00:35:24.294836",
-      "last_seen": "2026-03-07T16:33:04.290139",
+      "last_seen": "2026-03-08T01:35:58.212209",
       "weight": 1.05,
       "tags": []
     },
@@ -4332,7 +4332,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.005,
           "trigger": null
@@ -4477,7 +4477,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.8,
           "active_sentiment": -0.0247,
           "trigger": null
@@ -4625,7 +4625,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.4,
           "active_sentiment": 0.0048,
           "trigger": null
@@ -4733,7 +4733,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.9,
           "active_sentiment": -0.0109,
           "trigger": null
@@ -4850,7 +4850,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0058,
           "trigger": null
@@ -4967,7 +4967,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0339,
           "trigger": null
@@ -5068,7 +5068,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0121,
           "trigger": null
@@ -5268,7 +5268,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0106,
           "trigger": null
@@ -5360,7 +5360,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0382,
           "trigger": null
@@ -5558,7 +5558,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.3,
           "active_sentiment": -0.0019,
           "trigger": null
@@ -5667,7 +5667,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.2,
           "active_sentiment": -0.0013,
           "trigger": null
@@ -5953,7 +5953,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0131,
           "trigger": null
@@ -6076,7 +6076,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0419,
           "trigger": null
@@ -6288,7 +6288,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.5,
           "active_sentiment": -0.0548,
           "trigger": null
@@ -6404,7 +6404,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0466,
           "trigger": null
@@ -6521,7 +6521,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.005,
           "trigger": null
@@ -6562,15 +6562,14 @@ const GRAPH_DATA = {
     {
       "id": "タスク:はてなブログProでの閲覧数向上",
       "label": "はてなブログProでの閲覧数向上",
-      "type": "目標",
+      "type": "タスク",
       "status": "進行中",
-      "detail": "Pro加入後、ポメラネタに絞った発信で大幅なPV向上を達成。",
+      "detail": "Proへの加入を機に、記事の順番などは気にせず発信を継続し、知名度を上げる",
       "category": "エンジニア",
       "context": "private",
       "first_seen": "2026-02-25T00:10:44.154731",
-      "last_seen": "2026-03-09T06:29:06.666852",
-      "weight": 1.1,
-      "tags": []
+      "last_seen": "2026-03-09T15:30:51.370571",
+      "weight": 0.1
     },
     {
       "id": "日記:20260225",
@@ -6766,7 +6765,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.4,
           "active_sentiment": -0.0026,
           "trigger": null
@@ -6905,7 +6904,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0064,
           "trigger": null
@@ -7016,7 +7015,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.031,
           "trigger": null
@@ -7125,7 +7124,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.4,
           "active_sentiment": 0.0026,
           "trigger": null
@@ -7224,7 +7223,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.9,
           "active_sentiment": -0.0058,
           "trigger": null
@@ -7363,7 +7362,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.005,
           "trigger": null
@@ -7591,7 +7590,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0058,
           "trigger": null
@@ -7741,7 +7740,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.5,
           "active_sentiment": 0.0032,
           "trigger": null
@@ -7824,7 +7823,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.9,
           "active_sentiment": -0.0058,
           "trigger": null
@@ -8122,7 +8121,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.4,
           "active_sentiment": -0.0059,
           "trigger": null
@@ -8264,7 +8263,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.5,
           "active_sentiment": 0.0126,
           "trigger": null
@@ -8358,7 +8357,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.3,
           "active_sentiment": -0.0084,
           "trigger": null
@@ -8508,7 +8507,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.8,
           "active_sentiment": -0.0305,
           "trigger": null
@@ -8637,7 +8636,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.3,
           "active_sentiment": -0.0141,
           "trigger": null
@@ -8730,7 +8729,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0388,
           "trigger": null
@@ -8943,7 +8942,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.5,
           "active_sentiment": -0.036,
           "trigger": null
@@ -9066,7 +9065,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.1844,
           "trigger": null
@@ -9145,7 +9144,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0004,
           "trigger": null
@@ -9389,7 +9388,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0296,
           "trigger": null
@@ -9495,10 +9494,10 @@ const GRAPH_DATA = {
       "id": "人物:小松田さん",
       "label": "小松田さん",
       "type": "人物",
-      "detail": "Saitekiのメンバー。ナレッジベース蓄積のワークフローに関してやりとりを行っている。",
+      "detail": "Saitekiにおいてナレッジベース蓄積のワークフローについてやり取りをしている相手。",
       "context": "saiteki",
       "first_seen": "2026-02-26T09:51:24.602356",
-      "last_seen": "2026-03-09T06:29:06.666852",
+      "last_seen": "2026-03-09T15:30:51.370571",
       "weight": 5.95,
       "tags": []
     },
@@ -9577,7 +9576,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.1941,
           "trigger": null
@@ -9655,7 +9654,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0252,
           "trigger": null
@@ -9733,7 +9732,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0087,
           "trigger": null
@@ -9844,7 +9843,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.0296,
           "trigger": null
@@ -10014,7 +10013,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.6,
           "active_sentiment": 0.0232,
           "trigger": null
@@ -10109,7 +10108,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0009,
           "trigger": null
@@ -10230,7 +10229,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0593,
           "trigger": null
@@ -10369,7 +10368,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0078,
           "trigger": null
@@ -10446,7 +10445,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.7,
           "active_sentiment": 0.0024,
           "trigger": null
@@ -10566,7 +10565,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.6,
           "active_sentiment": -0.3079,
           "trigger": null
@@ -10621,7 +10620,7 @@ const GRAPH_DATA = {
       "status": "進行中",
       "context": "private",
       "first_seen": "2026-03-01T00:51:10.154405",
-      "last_seen": "2026-03-07T16:33:04.290139",
+      "last_seen": "2026-03-08T01:35:58.212209",
       "weight": 1.15,
       "tags": []
     },
@@ -10694,7 +10693,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.7,
           "active_sentiment": 0.0846,
           "trigger": null
@@ -10806,7 +10805,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.0111,
           "trigger": null
@@ -10884,7 +10883,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.4,
           "active_sentiment": -0.1395,
           "trigger": null
@@ -10984,7 +10983,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.3,
           "active_sentiment": 0.0694,
           "trigger": null
@@ -11045,7 +11044,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 1.0,
           "active_sentiment": 0.1177,
           "trigger": null
@@ -11115,13 +11114,13 @@ const GRAPH_DATA = {
       "id": "タスク:Saiteki_KnowledgeTemplate",
       "label": "ナレッジ蓄積テンプレートの用意",
       "type": "タスク",
-      "detail": "小松田さんとのやりとりを元に、ナレッジベース蓄積のためのワークフローのたたき台を作成した。",
+      "detail": "RAG用のテンプレート項目やマークダウン形式の定義、AI適用の有無を検討する。パイプライン構築は完了。",
       "status": "進行中",
       "context": "saiteki",
       "category": "エンジニア",
       "first_seen": "2026-03-04T09:10:24.579785",
-      "last_seen": "2026-03-09T06:29:06.666852",
-      "weight": 5.85,
+      "last_seen": "2026-03-09T15:30:51.370571",
+      "weight": 4.8,
       "tags": []
     },
     {
@@ -11243,7 +11242,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.3,
           "active_sentiment": -0.243,
           "trigger": null
@@ -11286,7 +11285,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.7,
           "active_sentiment": 0.3105,
           "trigger": null
@@ -11419,7 +11418,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.2744,
           "trigger": null
@@ -11461,7 +11460,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.2,
           "active_sentiment": -0.1715,
           "trigger": null
@@ -11582,7 +11581,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.8,
           "active_sentiment": 0.578,
           "trigger": null
@@ -11623,7 +11622,7 @@ const GRAPH_DATA = {
           "trigger": null
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": -0.5,
           "active_sentiment": -0.4512,
           "trigger": null
@@ -11708,7 +11707,7 @@ const GRAPH_DATA = {
           "trigger": "15時から江頭さんとのMTGが予定されていること"
         },
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.2,
           "active_sentiment": 0.18,
           "trigger": null
@@ -11727,45 +11726,56 @@ const GRAPH_DATA = {
       "id": "日記:2026-03-08",
       "label": "2026年3月8日の日記",
       "type": "日記",
-      "detail": "七原くんの配信やWBC日韓戦を妻と楽しみ、共有体験の価値を再認識した記録。",
+      "detail": "WBC日韓戦や七原くんの配信を妻と一緒に楽しみ、共有体験の喜びを感じた記録。",
       "date": "2026-03-08",
       "context": "private",
-      "first_seen": "2026-03-07T16:33:04.288328",
-      "last_seen": "2026-03-07T16:33:04.288328",
+      "first_seen": "2026-03-08T01:35:58.210054",
+      "last_seen": "2026-03-08T01:35:58.210054",
       "weight": 1,
-      "analysis_content": "{\"coach_comment\": \"WBCの熱戦や配信を沙也香さんと共有できた時間は、あなたにとって最高のリチャージになったようですね。「一緒に笑う」というシンプルな体験が、日々の重力を最も効果的に打ち消してくれます。この心の余白を大切にしながら、溜まっているタスクの重力を少しずつ分散させていきましょう。\", \"gravity_map\": [{\"task\": \"WBC本戦の継続視聴\", \"task_id\": \"GOAL_WBC_WATCH\", \"constraints\": [{\"name\": \"視聴時間の確保\", \"type\": \"時間不足\", \"severity\": \"中\"}, {\"name\": \"育児・仕事との両立\", \"type\": \"リソース不足\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"沙也香との共有体験\", \"type\": \"感情\"}, {\"name\": \"日韓戦の興奮\", \"type\": \"目標\"}], \"net_assessment\": \"家族との共有がエネルギー源となっており、重力よりも推進力が上回っている健全な状態です。\"}, {\"task\": \"確定申告の送信・郵送\", \"task_id\": \"TASK_TAX_RETURN_MAIL\", \"constraints\": [{\"name\": \"郵送用備品の不足\", \"type\": \"物理的障害\", \"severity\": \"中\"}, {\"name\": \"手続きへの心理的負荷\", \"type\": \"感情的ブレーキ\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"作成完了の達成感\", \"type\": \"感情\"}], \"net_assessment\": \"作成は終わっているため、物理的な「送るだけ」のフェーズで小さな重力が残っています。\"}], \"antigravity_actions\": [{\"action\": \"次のWBC試合日程をスマホの通知に設定し、その時間帯は育児や家事を早めに済ませる『沙也香との共同作戦』を提案する\", \"target_task\": \"WBC本戦の継続視聴\", \"effect\": \"娯楽を単なる『時間の消費』ではなく『家族の共有体験』に昇華させ、視聴に対する心理的重力を取り除きます\", \"effort\": \"5分\"}, {\"action\": \"確定申告の『計算明細書』を印刷し、封筒に宛名を書いて玄関の鍵の横に置く\", \"target_task\": \"確定申告の送信・郵送\", \"effect\": \"『いつかやらなければ』という漠然とした不安を、物理的な配置によって『外出時のついで作業』へ変換し着手を促します\", \"effort\": \"30分\"}, {\"action\": \"各カードのマイページを開き、3月分の請求総額をポメラの『家計管理』ノートに一行だけ書き出す\", \"target_task\": \"3月分カード請求額の確認\", \"effect\": \"不明瞭な支出への恐怖を数値化による把握で「コントロール可能な課題」へと軽減します\", \"effort\": \"30分\"}, {\"action\": \"日記に書いた『一緒に笑えて嬉しかった』という感情を、直接言葉で『昨日の配信、一緒に笑えて楽しかったね』と沙也香さんに伝える\", \"target_task\": \"妻への感謝を伝える\", \"effect\": \"内面的な幸福を相手と共有することで、家族運営の精神的エネルギー（反重力）を最大化します\", \"effort\": \"5分\"}, {\"action\": \"積読本の中から一冊選び、目次だけを読んで『今の仕事や悩みに効きそうな章』に一つだけ付箋を貼る\", \"target_task\": \"読みたい本の整理と読書\", \"effect\": \"『全部読まなければ』という完璧主義の重力を捨て、情報のつまみ食いからインプットの習慣を再起動します\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"コンテンツの好みが完全に一致しなくても、「一緒に見て笑う」というプロセス自体が強力な精神安定剤になっている\", \"implication\": \"趣味を個別に楽しむだけでなく、あえて「共有する」時間を設計することが、本業のストレスに対する防御策になる\"}], \"emotion_flow\": [{\"emotion\": \"共有による喜び\", \"sentiment\": 0.9, \"context\": \"沙也香と一緒にWBCや配信を見て笑い合えたことへの充足感\"}, {\"emotion\": \"密かなうれしさ\", \"sentiment\": 0.7, \"context\": \"自分の好きな配信を妻が肯定的に受け入れてくれたこと\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問（3/28）\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [{\"member\": \"沙也香\", \"event\": \"WBCの日韓戦を一緒に観戦した\", \"emotion\": \"うれしい\"}, {\"member\": \"沙也香\", \"event\": \"七原くんの配信を一緒に見て笑った\", \"emotion\": \"うれしい\"}], \"family_todos\": [\"WBCの本戦を家族で一緒に見ること\"], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品/ペット用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記で購入予定とされているが、以降の購入記録がないため。\"}, {\"item\": \"切手・封筒（確定申告の郵送用）\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-04の日記で確定申告の「送信と郵送」という物理的な作業が残っていると記載されているため。\"}, {\"item\": \"妻のウィッシュリストに含まれる品目\", \"category\": \"その他\", \"urgency\": \"いつか\", \"note\": \"2026-02-25の日記で「妻が希望する将来の購入リスト」の整理が必要と述べられているため。\"}]}, \"blog_seeds\": [{\"title\": \"同期する笑い声\", \"genre\": \"日常\", \"tone\": \"ほっこり\", \"story_seed\": \"全く異なる趣味を持つ夫婦が、深夜の配信番組をきっかけに同じタイミングで笑い転げる。画面の中の熱狂と、リビングの静かな幸福がリンクする瞬間を描く。\", \"core_message\": \"何を共有するかより、どう共有するかが大切であること\", \"reader_feeling\": \"静かな夜に誰かと過ごしたくなる温かさ\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"『推し』を家族に布教する技術：無理強いしない共有の楽しみ方\", \"theme\": \"家族との共通言語作り\", \"hook\": \"「無理にとは思わないけど、一緒に笑えるだけでうれしい」。その心理が家庭を救う。\", \"readiness\": \"高\"}, {\"title\": \"WBC日韓戦に学ぶ、リモートワーク疲れを吹き飛ばす『共有体験』の効能\", \"theme\": \"メンタルヘルス・家族\", \"hook\": \"一人で見る100回より、家族と見る1回の試合がもたらす巨大なエネルギー。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [], \"tasks\": [], \"insights\": [{\"finding\": \"日記へのアウトプットを通じてMTG前の思考整理を行うことは、頭をすっきりさせる効果がある。\", \"implication\": \"言語化というプロセスを業務の準備段階に取り入れることで、思考の明瞭さを高め、メンタルコンディションを整えることができる。\"}]}, \"saiteki\": {\"constraints\": [], \"tasks\": [], \"insights\": []}}"
+      "analysis_content": "{\"coach_comment\": \"沙也香さんとWBCや配信を一緒に楽しめたこと、本当に良かったですね。共有体験による『エネルギー』の充填は、日々の重たいタスクを跳ね返すための最強の燃料になります。この温かい感覚を大切にしつつ、来週からの本業の重力を少しずつ剥がしていきましょう。私はいつでも、あなたの分身としてここでお供します。\", \"gravity_map\": [{\"task\": \"Knowbeでの自信回復と業務遂行\", \"task_id\": \"TASK_KNOWBE_CONFIDENCE\", \"constraints\": [{\"name\": \"継続的な業務否定による心理的重力\", \"type\": \"感情的ブレーキ\", \"severity\": \"高\"}], \"energy_sources\": [{\"name\": \"家族との共有体験による幸福感\", \"type\": \"感情\"}], \"net_assessment\": \"仕事での否定的な引力が強いものの、家庭でのプラスのエネルギーがそれを相殺しようとしています。\"}, {\"task\": \"5時間かけた高品質なモンスター描画\", \"task_id\": \"TASK_MONSTER_HIGH_QUALITY\", \"constraints\": [{\"name\": \"目標設定による心理的ハードル\", \"type\": \"感情적ブレーキ\", \"severity\": \"中\"}, {\"name\": \"趣味時間の不足\", \"type\": \"時間不足\", \"severity\": \"高\"}], \"energy_sources\": [{\"name\": \"鉛筆を寝かせる技法への手応え\", \"type\": \"知見\"}], \"net_assessment\": \"『高品質』という重圧が筆を重くしていますが、技法への興味が前進する力になっています。\"}], \"antigravity_actions\": [{\"action\": \"e-Taxでの送信ボタンを押す、または作成済みの確定申告書類を封筒に入れて玄関に置く\", \"target_task\": \"確定申告の送信・郵送\", \"effect\": \"「未完了である」という心理的な重圧（重力）を物理的な完了状態へ移行させ、思考のノイズを取り除きます\", \"effort\": \"30分\"}, {\"action\": \"バナナの購入とAOKI薬局での買い出し（オムツ・粉ミルク）をセットで行い、完了後に自分へのご褒美として好きな飲み物を1つ買う\", \"target_task\": \"バナナの購入\", \"effect\": \"先延ばしにしていた複数の家事タスクを一度に片付けることで、日常の小さな引力を振り払います\", \"effort\": \"30分\"}, {\"action\": \"『高品質な絵』という目標を忘れ、鉛筆寝かせ技法を使い『昨日のWBCの印象的なシーン』を1枚だけラフに描く\", \"target_task\": \"5時間かけた高品質なモンスター描画の制作\", \"effect\": \"昨日感じたポジティブな感情（WBCの興奮）を利用し、高すぎる目標設定による着手困難な状態（重力）を打破します\", \"effort\": \"30分\"}, {\"action\": \"24時以降のYouTube視聴を『沙也香さんとの同時視聴』のみに制限し、それ以外はポメラでの日記執筆に切り替える\", \"target_task\": \"就寝前のYouTube視聴制限\", \"effect\": \"昨日得られた『共有の喜び』を最大化しつつ、独りでの夜更かしによる翌朝の眠気という強い重力を防ぎます\", \"effort\": \"5分\"}, {\"action\": \"整理した読書リストの1冊目を取り出し、ポメラを横に置いた状態で最初の5ページだけ読む\", \"target_task\": \"読みたい本の整理と読書\", \"effect\": \"インプット不足による業務への自信喪失を、具体的な知識の獲得という前進によって中和します\", \"effort\": \"30分\"}], \"insights\": [{\"finding\": \"一人で楽しむコンテンツよりも、妻と共有するコンテンツの方が、圧倒的に高い幸福感（エネルギー）を生んでいる\", \"implication\": \"仕事のストレス緩和には、一人で黙々と取り組む趣味以上に、家族を巻き込む体験が効率的である\"}], \"emotion_flow\": [{\"emotion\": \"共有体験の喜び\", \"sentiment\": 0.9, \"context\": \"WBCや配信を妻と一緒に視聴し、笑い合えたことへの充足感\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問（3/28）\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [{\"member\": \"沙也香\", \"event\": \"WBCの日韓戦を一緒に観戦し、盛り上がった\", \"emotion\": \"興奮・楽しみ\"}, {\"member\": \"沙也香\", \"event\": \"七原くんの配信を一緒に見て笑った\", \"emotion\": \"楽しい・共感\"}], \"family_todos\": [\"WBCの本戦を家族と一緒に観戦する\"], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記に購入予定の記述あり\"}, {\"item\": \"確定申告郵送用の資材（封筒・切手など）\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-04の日記に確定申告の郵送作業が残っているとの記述あり\"}, {\"item\": \"妻のウィッシュリストの商品\", \"category\": \"日用品\", \"urgency\": \"いつか\", \"note\": \"2026-02-25の日記に将来の購入リストとして言及あり\"}]}, \"blog_seeds\": [{\"title\": \"共鳴する画面\", \"genre\": \"日常\", \"tone\": \"ほっこり\", \"story_seed\": \"ある夫婦が、全く興味のなかった配信者の動画を一緒に見るようになる。最初は片方の付き合いだったが、いつの間にか『同じタイミングで笑うこと』が、家の中に溜まった日常の重力を消し去る儀式になっていく物語。\", \"core_message\": \"コンテンツそのものの面白さより、誰と同じ時間を過ごすかが魂を救うことがある。\", \"reader_feeling\": \"大切な誰かと何かを共有したくなる温かさ\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「一人で見るYouTube」より「妻と笑うYouTube」の方が生産性が上がる理由\", \"theme\": \"メンタルヘルスと家族の共有体験\", \"hook\": \"仕事の否定に押しつぶされそうな時、私を救ったのは最新のAIツールではなく、妻と一緒に見た配信者の笑い声でした。\", \"readiness\": \"高\"}, {\"title\": \"エンジニアがポメラで「家族の幸せ」をログする技術\", \"theme\": \"ポメラ活用術とナレッジグラフ\", \"hook\": \"業務タスクの管理だけでなく、家族と笑った瞬間の熱量をポメラで残すことが、私の「分身」をより人間らしくしていく。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [], \"tasks\": [], \"insights\": [{\"finding\": \"KnowbeのMTG前に日記へアウトプットを行うことで、思考が整理され頭をすっきりさせることができる。\", \"implication\": \"事前の言語化は情報の整理に有効であり、業務上のコミュニケーションやMTGのパフォーマンスを向上させる準備手法として機能する。\"}]}, \"saiteki\": {\"constraints\": [], \"tasks\": [], \"insights\": []}}"
     },
     {
-      "id": "出来事:WBC日韓戦の観戦",
-      "label": "WBC日韓戦の観戦",
+      "id": "出来事:WBC日韓戦の視聴",
+      "label": "WBC日韓戦の視聴",
       "type": "出来事",
-      "detail": "妻の沙也香と一緒にWBCの日韓戦を視聴。非常に盛り上がり、本戦への期待が高まった。",
+      "detail": "妻の沙也香と一緒にWBCの日韓戦を視聴した。非常に盛り上がった。",
       "status": "完了",
       "date": "2026-03-08",
       "context": "private",
-      "first_seen": "2026-03-07T16:33:04.288533",
-      "last_seen": "2026-03-07T16:33:04.290139",
+      "first_seen": "2026-03-08T01:35:58.210269",
+      "last_seen": "2026-03-08T01:35:58.212209",
       "weight": 0.95
     },
     {
-      "id": "感情:共有による喜び",
-      "label": "共有による喜び",
+      "id": "出来事:七原くんの配信視聴",
+      "label": "七原くんの配信視聴",
+      "type": "出来事",
+      "detail": "七原くんの配信を妻と一緒に視聴した。沙也香も一緒に笑ってくれたことが嬉しかった。",
+      "status": "完了",
+      "date": "2026-03-08",
+      "context": "private",
+      "first_seen": "2026-03-08T01:35:58.210340",
+      "last_seen": "2026-03-08T01:35:58.212209",
+      "weight": 0.95
+    },
+    {
+      "id": "感情:共有体験の喜び_20260308",
+      "label": "共有体験の喜び",
       "type": "感情",
       "sentiment": 0.9,
       "emotion_category": "喜び",
-      "trigger": "妻と一緒に配信やスポーツ観戦をして笑い合えたこと。",
-      "detail": "無理にではなく、自然と一緒に何かを楽しめる時間が増えることに幸福を感じている。",
+      "trigger": "WBCや配信視聴を通じて、妻と一緒に笑い、時間を共有できたこと。",
       "context": "private",
-      "first_seen": "2026-03-07T16:33:04.288610",
-      "last_seen": "2026-03-07T16:33:04.290139",
+      "first_seen": "2026-03-08T01:35:58.210399",
+      "last_seen": "2026-03-08T01:35:58.212209",
       "weight": 0.95,
       "active_sentiment": 0.63,
       "emotion_history": [
         {
-          "date": "2026-03-07",
+          "date": "2026-03-08",
           "sentiment": 0.9,
           "active_sentiment": 0.9,
-          "trigger": "妻と一緒に配信やスポーツ観戦をして笑い合えたこと。"
+          "trigger": "WBCや配信視聴を通じて、妻と一緒に笑い、時間を共有できたこと。"
         },
         {
           "date": "2026-03-09",
@@ -11781,79 +11791,77 @@ const GRAPH_DATA = {
       "id": "知見:共有体験による幸福感の向上",
       "label": "共有体験による幸福感の向上",
       "type": "知見",
-      "detail": "一緒になにかをやったりみたりできることが増えるだけで、生活の幸福度は大きく向上する。",
+      "detail": "無理に何かをさせるのではなく、一緒になにかをやったり見たりできることが増えるだけで、幸福感は大きく高まる。",
       "context": "private",
-      "first_seen": "2026-03-07T16:33:04.288686",
-      "last_seen": "2026-03-07T16:33:04.290139",
-      "weight": 0.95
-    },
-    {
-      "id": "目標:WBC本戦の継続視聴",
-      "label": "WBC本戦の継続視聴",
-      "type": "目標",
-      "detail": "盛り上がった日韓戦に続き、WBCの本戦を最後まで追いかけたい。",
-      "status": "進行中",
-      "context": "private",
-      "first_seen": "2026-03-07T16:33:04.288761",
-      "last_seen": "2026-03-07T16:33:04.290139",
+      "first_seen": "2026-03-08T01:35:58.210502",
+      "last_seen": "2026-03-08T01:35:58.212209",
       "weight": 0.95
     },
     {
       "id": "人物:七原くん",
       "label": "七原くん",
       "type": "人物",
-      "detail": "配信者。日記主と妻がその配信を見て楽しんでいる存在。",
+      "detail": "配信者。ユーザーが好んで視聴しており、妻もその面白さを共有し始めている。",
       "context": "private",
-      "first_seen": "2026-03-07T16:33:04.288847",
-      "last_seen": "2026-03-07T16:33:04.290139",
+      "first_seen": "2026-03-08T01:35:58.210552",
+      "last_seen": "2026-03-08T01:35:58.212209",
       "weight": 0.95
     },
     {
-      "id": "日記:2026-03-09",
+      "id": "日記:20260309",
       "label": "2026年3月9日の日記",
       "type": "日記",
-      "detail": "寝違えによる体調不良、Saitekiでの進捗停滞、ブログのPV急増と読者増に関する記録。",
+      "detail": "寝違えによる体調不良、Saitekiでの進捗報告、はてなブログのPV数急増に関する記録。",
       "date": "2026-03-09",
       "context": "shared",
-      "first_seen": "2026-03-09T06:29:06.664354",
-      "last_seen": "2026-03-09T06:29:06.664354",
-      "weight": 1,
-      "analysis_content": "{\"coach_comment\": \"ブログのPV急増と読者数の増加、本当におめでとうございます！ポメラ特化戦略が実を結び、あなたの発信が誰かの心に届き始めている確かな証拠ですね。今は寝違えによる首の痛みが「今は少しペースを落として」という体からのサインかもしれません。この追い風を力に変えつつ、まずは体を労わることを最優先に、重力を逃がしていきましょう。\", \"gravity_map\": [{\"task\": \"Saitekiナレッジ蓄積ワークフローの構築\", \"task_id\": \"saiteki_knowledge_flow\", \"constraints\": [{\"name\": \"寝違えによる首の痛み\", \"type\": \"物理的障害\", \"severity\": \"高\"}, {\"name\": \"稼働時間の不足\", \"type\": \"時間不足\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"小松田さんとのワークフローのたたき台\", \"type\": \"知見\"}, {\"name\": \"ブログの成功体験\", \"type\": \"感情\"}], \"net_assessment\": \"身体的な痛みと稼働不足が重石になっていますが、ブログの成功による精神的な高揚感が強力な反重力として機能しています。\"}, {\"task\": \"確定申告の送信・郵送\", \"task_id\": \"tax_submission\", \"constraints\": [{\"name\": \"完了までの物理的手間\", \"type\": \"物理的障害\", \"severity\": \"低\"}], \"energy_sources\": [{\"name\": \"作成完了による達成感\", \"type\": \"感情\"}], \"net_assessment\": \"作成は完了しており、最後の一押し（郵送・送信）を残すのみ。首の痛みが引くタイミングを狙うのが吉です。\"}], \"antigravity_actions\": [{\"action\": \"急増したPVの内訳とはてなトップ掲載の要因を分析し、今後のポメラ連載の「勝ち筋」を3つだけ箇条書きにする。\", \"target_task\": \"ポメラ活用本のプロット作成\", \"effect\": \"ブログの成功を単なる「ラッキー」で終わらせず、目標である書籍化に向けた再現性のある資産に変えます。\", \"effort\": \"30分\"}, {\"action\": \"作成済みの「ナレッジベース蓄積ワークフローのたたき台」を小松田さんに共有し、先週の稼働不足の挽回として次のステップを確認する。\", \"target_task\": \"ナレッジ集約フローの社内展開\", \"effect\": \"「成果が少なかった」という罪悪感を「具体的な進捗の共有」で上書きし、Saiteki業務への勢いを取り戻します。\", \"effort\": \"5分\"}, {\"action\": \"首の痛みを考慮し、ポメラの「視線が高くなる配置」を整えた上で、確定申告の郵送に必要な書類（計算明細書等）が揃っているか最終確認する。\", \"target_task\": \"確定申告の送信・郵送\", \"effect\": \"心理的な「不透明さ」という重力を排除し、あとはポストに入れるだけの状態に追い込みます。\", \"effort\": \"5分\"}, {\"action\": \"150PV達成という成功体験を元に、ポメラユーザー創出のための「ターゲット像」を具体的にメモする。\", \"target_task\": \"ポメラユーザーを1人創出する\", \"effect\": \"抽象的な目標を、現在の熱量が高い読者層という具体的なデータに基づいた戦略に変換します。\", \"effort\": \"30分\"}, {\"action\": \"溜まっているSaitekiのタスクの中から、最も首に負担のかからない「思考整理（ポメラでの書き出し）」を1つ選んで着手する。\", \"target_task\": \"Saiteki業務の滞留\", \"effect\": \"身体的制約の中で「できること」を特定し、停滞しているタスク群を動かし始めるきっかけを作ります。\", \"effort\": \"30分\"}], \"insights\": [{\"finding\": \"特定のデバイス（ポメラ）に絞った発信が、ニッチな層だけでなくプラットフォームのトップページに載るほどの普遍的な関心を引き出した。\", \"implication\": \"「あれもこれも」ではなく「これしかない」という絞り込みが、情報の密度を高め、結果としてリーチを最大化させるという戦略の正しさが証明された。\"}], \"emotion_flow\": [{\"emotion\": \"ブログ成長への喜び\", \"sentiment\": 0.9, \"context\": \"PV数が150を超え、読者が14名に急増したことへの驚きと確信。\"}, {\"emotion\": \"身体的不調への戸惑い\", \"sentiment\": -0.4, \"context\": \"久しぶりの寝違えによる首の痛みによる物理的な制限。\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [], \"family_todos\": [], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記にて購入予定との記述があるが、その後の日記で購入済みの報告がないため。\"}, {\"item\": \"湿布または鎮痛薬\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-09の最新の日記で、寝違えによる深刻な首の痛みの訴えがあるため。\"}, {\"item\": \"郵送用の切手・封筒\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-03-04の日記で確定申告の郵送作業が「残りの重力」として残っていると言及されているため。\"}]}, \"blog_seeds\": [{\"title\": \"静寂のキーボード、喧騒のモニター\", \"genre\": \"テクノロジー\", \"tone\": \"哲学的\", \"story_seed\": \"ある男が誰にも見られないことを前提に、古いタイプライターで日記を書き続ける。しかし、ある朝目覚めると、その日記が街中の壁に掲示され、人々が熱狂していた。男はなぜ自分の孤独な対話が他人の心を打ったのかを知るために、再びタイプライターに向き合う。\", \"core_message\": \"自分一人に向けて書かれた真実こそが、最も強い普遍性を持つ。\", \"reader_feeling\": \"充足感\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「ポメラ戦略」がはてなトップを射抜いた理由：ニッチを掘り下げて普遍性に到達する\", \"theme\": \"ブログ運営・ポメラ活用術\", \"hook\": \"朝起きたらPVが爆発していた。選んだのは「ポメラ」というたった一つのキーワードだった。\", \"readiness\": \"高\"}, {\"title\": \"エンジニアがポメラで「書くこと」を取り戻した話：画面の光から解放される快感\", \"theme\": \"ポメラ・生産性\", \"hook\": \"コードを書く手で、あえて不自由なテキスト入力を選ぶ。そこには効率を超えた「思考の純度」があった。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [{\"label\": \"身体的コンディションの不調\", \"detail\": \"寝違えによる首の痛みが発生しており、デスクワークや思考整理といったKnowbe関連業務への集中力に影響を及ぼす物理的な障害となっている。\", \"constraint_type\": \"環境\"}, {\"label\": \"実稼働時間の不足\", \"detail\": \"先週の稼働が5時間程度に留まっており、ナレッジベース蓄積のためのワークフロー構築など、求められる成果物に対して十分な時間が割けていない。\", \"constraint_type\": \"時間\"}, {\"label\": \"成果創出の停滞感\", \"detail\": \"稼働不足に起因して進捗が「たたき台」作成に留まっているという自己認識があり、スピード感のある業務推進の心理的な壁となっている。\", \"constraint_type\": \"感情\"}], \"tasks\": [{\"label\": \"ナレッジベース蓄積のためのワークフロー作成\", \"detail\": \"小松田氏と進めている、ナレッジベース蓄積のためのワークフロー策定。現在はたたき台を作成した段階であり、継続的な対応が必要。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"日記へのアウトプットを通じてKnowbe MTG前の思考整理を行うことで、頭をすっきりさせ、準備を整えることができる。\", \"implication\": \"言語化というプロセスを業務（MTG等）の前に挟むことで、思考の解像度を高め、メンタルコンディションを最適化する効果がある。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"稼働時間の不足\", \"detail\": \"Saitekiの業務に充てられる時間が週5時間程度と限られており、十分な成果を出すためのリソースが不足している。\", \"constraint_type\": \"時間\"}, {\"label\": \"身体的不調（寝違え）\", \"detail\": \"寝違えによる首の痛みが発生しており、集中力や作業効率を低下させる物理的な制約となっている。\", \"constraint_type\": \"環境\"}], \"tasks\": [{\"label\": \"ナレッジベース蓄積ワークフローの作成\", \"detail\": \"小松田氏とのやり取りを通じた、ナレッジベース蓄積のためのワークフロー案（たたき台）の策定と調整\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"小松田氏とのやり取りを活用した、ナレッジベース蓄積のためのワークフローのたたき台を作成した。\", \"implication\": \"業務上のコミュニケーションをナレッジとして形式知化する仕組みを構築することで、個人の経験を組織の資産として再利用可能な状態にできる。\"}, {\"finding\": \"週5時間程度の稼働時間では、Saiteki業務において目に見える成果を出すことが難しい。\", \"implication\": \"一定の成果を創出するためには最低限必要な投下時間のしきい値が存在し、進捗を加速させるためにはリソース配分の見直し、あるいは短時間で成果を出すためのプロセスの効率化が必要である。\"}]}}"
+      "first_seen": "2026-03-09T15:30:51.369142",
+      "last_seen": "2026-03-09T15:30:51.370571",
+      "weight": 1
+    },
+    {
+      "id": "出来事:寝違え_20260309",
+      "label": "寝違え",
+      "type": "出来事",
+      "detail": "朝起きた際に首を寝違えてしまい、痛みがある状態。",
+      "status": "完了",
+      "date": "2026-03-09",
+      "context": "private",
+      "first_seen": "2026-03-09T15:30:51.369252",
+      "last_seen": "2026-03-09T15:30:51.370571",
+      "weight": 1
     },
     {
       "id": "制約:寝違えによる首の痛み",
       "label": "寝違えによる首の痛み",
       "type": "制約",
-      "detail": "朝起きた際、久しぶりに首を寝違えて痛みがある状態。",
+      "detail": "久しぶりに首を寝違えたことによる身体的な痛みと不快感。",
       "constraint_type": "物理的障害",
       "context": "private",
-      "first_seen": "2026-03-09T06:29:06.664538",
-      "last_seen": "2026-03-09T06:29:06.666852",
+      "category": "健康",
+      "first_seen": "2026-03-09T15:30:51.369300",
+      "last_seen": "2026-03-09T15:30:51.370571",
       "weight": 1
     },
     {
-      "id": "出来事:ブログPVの急増",
-      "label": "ブログPVの急増",
-      "type": "出来事",
-      "detail": "はてなブログのトップページからの流入により、朝から150PVを超え、読者が2人から14人に増加した。",
-      "status": "完了",
-      "date": "2026-03-09",
-      "context": "private",
-      "first_seen": "2026-03-09T06:29:06.664810",
-      "last_seen": "2026-03-09T06:29:06.666852",
+      "id": "知見:Saitekiワークフローのたたき台作成",
+      "label": "Saitekiワークフローのたたき台作成",
+      "type": "知見",
+      "detail": "小松田さんとのやり取りを通じ、ナレッジベース蓄積のためのワークフローの初稿を作成した。",
+      "context": "saiteki",
+      "first_seen": "2026-03-09T15:30:51.369455",
+      "last_seen": "2026-03-09T15:30:51.370571",
       "weight": 1
     },
     {
-      "id": "感情:ブログ成長への喜び",
-      "label": "ブログ成長への喜び",
+      "id": "感情:ブログPV急増による喜び",
+      "label": "ブログPV急増による喜び",
       "type": "感情",
-      "detail": "ポメラ特化の戦略が功を奏し、目に見えて数字が上がったことへの驚きと喜び。",
       "sentiment": 0.9,
       "emotion_category": "喜び",
-      "trigger": "はてなブログのトップページ掲載によりPVと読者数が急増したこと。",
+      "trigger": "はてなブログのトップページに掲載され、PV数が150を超え読者数が急増したこと。",
       "context": "private",
-      "first_seen": "2026-03-09T06:29:06.664890",
-      "last_seen": "2026-03-09T06:29:06.666852",
+      "first_seen": "2026-03-09T15:30:51.369503",
+      "last_seen": "2026-03-09T15:30:51.370571",
       "weight": 1,
       "active_sentiment": 0.9,
       "emotion_history": [
@@ -11861,21 +11869,22 @@ const GRAPH_DATA = {
           "date": "2026-03-09",
           "sentiment": 0.9,
           "active_sentiment": 0.9,
-          "trigger": "はてなブログのトップページ掲載によりPVと読者数が急増したこと。"
+          "trigger": "はてなブログのトップページに掲載され、PV数が150を超え読者数が急増したこと。"
         }
       ],
       "peak_sentiment": 0.9,
       "trend": "安定"
     },
     {
-      "id": "知見:ポメラ特化戦略の有効性",
-      "label": "ポメラ特化戦略の有効性",
-      "type": "知見",
-      "detail": "ブログのテーマをポメラに絞ることで、特定の層に刺さりPVや読者増に直結するという気づき。",
-      "context": "private",
-      "first_seen": "2026-03-09T06:29:06.664970",
-      "last_seen": "2026-03-09T06:29:06.666852",
-      "weight": 1
+      "id": "日記:2026-03-09",
+      "label": "2026-03-09の日記",
+      "type": "日記",
+      "date": "2026-03-09",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-03-09T15:30:51.369604",
+      "last_seen": "2026-03-09T15:30:51.369604",
+      "weight": 1,
+      "analysis_content": "{\"coach_comment\": \"ブログのPV数と読者数の急増、本当におめでとうございます！あなたの『ポメラ特化』という戦略が正しかったことが証明され、大きなエネルギーになっていますね。一方で、首の寝違えという物理的な重力と、副業の稼働不足による心理的な重力がかかっています。今は無理に動くよりも、好調なブログの波を活かしつつ、身体のメンテナンスを最優先に『軽やかに』進んでいきましょう。\", \"gravity_map\": [{\"task\": \"Saiteki AI研究資料作成と展開\", \"task_id\": \"saiteki_task_001\", \"constraints\": [{\"name\": \"稼働時間の不足\", \"type\": \"時間不足\", \"severity\": \"高\"}, {\"name\": \"首の痛みによる集中困難\", \"type\": \"物理利障害\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"ワークフローのたたき台作成完了\", \"type\": \"知見\"}], \"net_assessment\": \"稼働不足への焦燥感という重力が強いが、既にたたき台があるため、小さなFBを得るだけで前進可能です。\"}, {\"task\": \"ポメラ活用本の執筆・ブログ更新\", \"task_id\": \"pomera_blog_001\", \"constraints\": [{\"name\": \"首の痛み\", \"type\": \"物理的障害\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"ブログPV急増と読者増\", \"type\": \"感情\"}, {\"name\": \"ポメラ特化戦略の成功\", \"type\": \"目標\"}], \"net_assessment\": \"成功体験が強力な推進力となっており、首の痛みさえ緩和すれば一気に加速できる状態です。\"}], \"antigravity_actions\": [{\"action\": \"蒸しタオルで首を温めつつ、首を動かさない姿勢でブログの読者増への御礼メッセージをポメラで3行だけ書く\", \"target_task\": \"寝違えによる首の痛み\", \"effect\": \"物理的な身体苦痛を緩和しながら、ブログPV急増というポジティブな勢いをファン化に繋げます\", \"effort\": \"30分\"}, {\"action\": \"小松田さんに『ナレッジ蓄積フローのたたき台ができたので共有します』とSlackを送り、成果物を手放す\", \"target_task\": \"ナレッジ集約フローの社内展開\", \"effect\": \"稼働時間が少なかったことへの罪悪感（重力）を、具体的なアウトプットの提示によって解消します\", \"effort\": \"5分\"}, {\"action\": \"江頭さんとの1on1に向けて、現在のタスク進捗（資料更新、改善フロー構築）をポメラに箇条書きでメモする\", \"target_task\": \"江頭さんとの1on1参加\", \"effect\": \"面談内容が不明であることによる漠然とした不安を、事前準備によるコントロール感で軽減します\", \"effort\": \"5分\"}, {\"action\": \"確定申告の計算明細書を封筒に入れ、明日の外出時にすぐ出せるようカバンの上に置く\", \"target_task\": \"確定申告の送信・郵送\", \"effect\": \"事務作業が未完了であるという心理的重圧を、物理的な投函準備完了によって取り除きます\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"ポメラ特化戦略がはてなブログのトップページ層に刺さった\", \"implication\": \"ニッチな道具への偏愛は、想像以上に強いコミュニティ引力を生む。この路線を強化することが収益化への最短ルートになる。\"}, {\"finding\": \"身体の不調（寝違え）が副業の焦燥感を増幅させている\", \"implication\": \"精神的な重力（焦り）は物理的な重力（痛み）とリンクするため、まず物理を解決することがメンタルケアに直結する。\"}], \"emotion_flow\": [{\"emotion\": \"ブログPV急増による喜び\", \"sentiment\": 1.0, \"context\": \"はてなブログトップからの遷移でPVが150を超え、読者も急増したことへの手応え\"}, {\"emotion\": \"寝違えによる不快感\", \"sentiment\": -0.7, \"context\": \"久しぶりの首の痛みによる身体的ストレス\"}, {\"emotion\": \"Saiteki稼働不足への焦り\", \"sentiment\": -0.4, \"context\": \"先週の稼働が5時間程度に留まり、成果が少ないことへの自己評価の低下\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"NBox 12ヶ月点検\", \"date\": \"2026-03-07\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [{\"member\": \"本人\", \"event\": \"朝起きた時に首を寝違えて痛めた\", \"emotion\": \"苦痛\"}, {\"member\": \"本人\", \"event\": \"仕事でナレッジベース蓄積のためのワークフローのたたき台を作成した\", \"emotion\": \"達成感\"}, {\"member\": \"本人\", \"event\": \"ブログのPV数と読者数が急増し、ポメラに特化した発信に手応えを感じた\", \"emotion\": \"驚き、喜び、納得感\"}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"湿布または鎮痛剤\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-09：寝違えによる首の痛みがひどいため\"}, {\"item\": \"郵便切手・封筒\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-04：確定申告書の郵送作業が残っているため\"}, {\"item\": \"ペット用品\", \"category\": \"日用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22：購入予定の記述があるが、その後の購入報告がないため\"}, {\"item\": \"保育所入園の準備品\", \"category\": \"育児用品\", \"urgency\": \"今週中\", \"note\": \"2026-03-04：保育所の内定通知があり、入園準備が必要となるため\"}, {\"item\": \"妻のウィッシュリストの品目（要優先順位確認）\", \"category\": \"日用品/食料品\", \"urgency\": \"いつか\", \"note\": \"2026-02-25：将来の購入リストについての言及があり、整理が必要なため\"}]}, \"blog_seeds\": [{\"title\": \"150人の視線が集まる黒い箱\", \"genre\": \"テクノロジー\", \"tone\": \"哲学的\", \"story_seed\": \"ある日、持ち主が小さなデジタルメモ帳に書いた独り言が、見えないネットワークを通じて150人の意識と繋がる。物理的な首の痛みを感じながらも、精神はポメラの画面を通じて遠くの誰かと共鳴していく物語。\", \"core_message\": \"道具を絞ることは、世界を広げることである\", \"reader_feeling\": \"静かな感動と連帯感\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"【実録】はてなブログの読者が1日で7倍に？『ポメラ特化』が最強の戦略である理由\", \"theme\": \"ブログ運営・ポメラ活用\", \"hook\": \"「ポメラに絞って正解だった」——朝起きてPV数を見た瞬間、私は自分の戦略を確信した。\", \"readiness\": \"高\"}, {\"title\": \"首を寝違えてもブログは書けるか？ポメラが可能にする『超・不健康時』の執筆術\", \"theme\": \"ライフハック・執筆環境\", \"hook\": \"首が回らない。でも指は動く。ポメラを膝に乗せ、最小限の動きで最大のアウトプットを出す方法。\", \"readiness\": \"中\"}, {\"title\": \"副業エンジニアが週5時間の稼働で『たたき台』を残すために意識していること\", \"theme\": \"仕事術・副業\", \"hook\": \"時間が足りないからこそ、ナレッジの『たたき台』を先に置く。Saitekiでの実践から見えた、止まらないワークフローの作り方。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [{\"label\": \"身体的コンディションの低下\", \"detail\": \"寝違えによる首の痛みが発生しており、デスクワークにおける集中力や作業継続性に悪影響を及ぼす可能性がある。\", \"constraint_type\": \"環境\"}, {\"label\": \"稼働時間の不足\", \"detail\": \"先週の稼働時間が5時間程度と限定的であったため、十分な成果を創出するためのリソースが不足している。\", \"constraint_type\": \"時間\"}], \"tasks\": [{\"label\": \"ナレッジベース蓄積のためのワークフロー構築\", \"detail\": \"小松田氏と協議している、ナレッジベース蓄積のためのワークフローの検討。現在はたたき台を作成した段階である。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"MTG前の思考整理を日記へのアウトプットを通じて行うことで、頭をすっきりさせることができる。\", \"implication\": \"会議の質を向上させるための準備手法として、事前の言語化（アウトプット）による自己対話は非常に有効なプロセスである。\"}]}, \"saiteki\": {\"constraints\": [{\"label\": \"身体的不調（寝違え）\", \"detail\": \"首の痛みにより、Saitekiの業務における集中力や作業効率が低下する恐れがある。\", \"constraint_type\": \"環境\"}, {\"label\": \"稼働時間の不足\", \"detail\": \"Saiteki業務への従事時間が週5時間程度に留まっており、目に見える成果を出すためのリソースが不足している。\", \"constraint_type\": \"時間\"}, {\"label\": \"ナレッジ共有体制の未確立\", \"detail\": \"ナレッジ蓄積のためのワークフローがたたき台の段階であり、組織的な情報の形式知化が完了していない。\", \"constraint_type\": \"組織\"}], \"tasks\": [{\"label\": \"ナレッジベース蓄積のためのワークフロー構築\", \"detail\": \"小松田氏とのやりとりを通じた、ナレッジ蓄積用ワークフローの策定。現在はたたき台を作成した段階であり、継続的な進行が必要。\", \"status\": \"進行中\"}], \"insights\": [{\"finding\": \"週5時間程度の極端に少ない稼働時間では、十分な成果を出すことが困難である。\", \"implication\": \"プロジェクトの進捗を安定させるためには、最低限の稼働時間を確保するか、短時間で成果を出すためのワークフローの効率化が求められる。\"}, {\"finding\": \"小松田氏とのやりとりを起点として、ナレッジベース蓄積のためのワークフローのたたき台を作成した。\", \"implication\": \"暗黙知を形式知化するためのプロセス構築が進んでおり、これを運用に乗せることで組織的な知見の活用が可能になる。\"}]}}"
     }
   ],
   "edges": [
@@ -26049,10 +26058,10 @@ const GRAPH_DATA = {
       "source": "人物:小松田さん",
       "target": "タスク:Saiteki_KnowledgeTemplate",
       "type": "関連する",
-      "label": "フローを依頼・分担",
+      "label": "ワークフローのやり取り",
       "first_seen": "2026-03-05T01:06:35.662826",
-      "last_seen": "2026-03-05T01:06:35.662826",
-      "weight": 0.45
+      "last_seen": "2026-03-09T15:30:51.370520",
+      "weight": 1.65
     },
     {
       "source": "人物:平山",
@@ -26220,10 +26229,10 @@ const GRAPH_DATA = {
       "source": "人物:小松田さん",
       "target": "タスク:Saiteki_KnowledgeTemplate",
       "type": "参加する",
-      "label": "ワークフローのやりとり相手",
+      "label": "RAGの勉強とフロー検討を分担",
       "first_seen": "2026-03-05T02:56:01.179831",
-      "last_seen": "2026-03-09T06:29:06.666794",
-      "weight": 2.85
+      "last_seen": "2026-03-05T15:01:44.464623",
+      "weight": 1.7
     },
     {
       "source": "感情:独断進行への懸念",
@@ -26479,74 +26488,83 @@ const GRAPH_DATA = {
     },
     {
       "source": "日記:2026-03-08",
-      "target": "出来事:WBC日韓戦の観戦",
+      "target": "出来事:WBC日韓戦の視聴",
       "type": "言及する",
-      "label": "試合の盛り上がりを記録",
-      "first_seen": "2026-03-07T16:33:04.290063",
-      "last_seen": "2026-03-07T16:33:04.290063",
+      "label": "試合の視聴に言及",
+      "first_seen": "2026-03-08T01:35:58.212139",
+      "last_seen": "2026-03-08T01:35:58.212139",
       "weight": 0.95
     },
     {
       "source": "日記:2026-03-08",
-      "target": "目標:WBC本戦の継続視聴",
+      "target": "出来事:七原くんの配信視聴",
       "type": "言及する",
-      "label": "今後の観戦意欲について言及",
-      "first_seen": "2026-03-07T16:33:04.290069",
-      "last_seen": "2026-03-07T16:33:04.290069",
+      "label": "配信の視聴に言及",
+      "first_seen": "2026-03-08T01:35:58.212153",
+      "last_seen": "2026-03-08T01:35:58.212153",
       "weight": 0.95
     },
     {
       "source": "日記:2026-03-08",
       "target": "目標:家族第一の父親",
       "type": "言及する",
-      "label": "家族との共有体験について言及",
-      "first_seen": "2026-03-07T16:33:04.290073",
-      "last_seen": "2026-03-07T16:33:04.290073",
+      "label": "家族との共有時間の記録",
+      "first_seen": "2026-03-08T01:35:58.212155",
+      "last_seen": "2026-03-08T01:35:58.212155",
       "weight": 0.95
     },
     {
-      "source": "出来事:WBC日韓戦の観戦",
-      "target": "感情:共有による喜び",
+      "source": "出来事:WBC日韓戦の視聴",
+      "target": "感情:共有体験の喜び_20260308",
       "type": "引き起こす",
-      "label": "一緒に盛り上がったことで喜びが生まれた",
-      "first_seen": "2026-03-07T16:33:04.290077",
-      "last_seen": "2026-03-07T16:33:04.290077",
+      "label": "盛り上がりと共有による喜び",
+      "first_seen": "2026-03-08T01:35:58.212163",
+      "last_seen": "2026-03-08T01:35:58.212163",
+      "weight": 0.95
+    },
+    {
+      "source": "出来事:七原くんの配信視聴",
+      "target": "感情:共有体験の喜び_20260308",
+      "type": "引き起こす",
+      "label": "妻の笑いによる喜び",
+      "first_seen": "2026-03-08T01:35:58.212165",
+      "last_seen": "2026-03-08T01:35:58.212165",
+      "weight": 0.95
+    },
+    {
+      "source": "感情:共有体験の喜び_20260308",
+      "target": "知見:共有体験による幸福感の向上",
+      "type": "引き起こす",
+      "label": "感情からの気づき",
+      "first_seen": "2026-03-08T01:35:58.212168",
+      "last_seen": "2026-03-08T01:35:58.212168",
       "weight": 0.95
     },
     {
       "source": "人物:沙也香",
-      "target": "出来事:WBC日韓戦の観戦",
+      "target": "出来事:WBC日韓戦の視聴",
       "type": "参加する",
-      "label": "一緒に野球を観戦した",
-      "first_seen": "2026-03-07T16:33:04.290080",
-      "last_seen": "2026-03-07T16:33:04.290080",
+      "label": "一緒に視聴",
+      "first_seen": "2026-03-08T01:35:58.212170",
+      "last_seen": "2026-03-08T01:35:58.212170",
       "weight": 0.95
     },
     {
-      "source": "知見:共有体験による幸福感の向上",
-      "target": "目標:家族第一の父親",
-      "type": "一部である",
-      "label": "家族で楽しむことが父親としての充足につながる",
-      "first_seen": "2026-03-07T16:33:04.290083",
-      "last_seen": "2026-03-07T16:33:04.290083",
-      "weight": 0.95
-    },
-    {
-      "source": "知見:共有体験による幸福感の向上",
-      "target": "目標:WBC本戦の継続視聴",
-      "type": "原動力になる",
-      "label": "共有の楽しさが継続のモチベーションになる",
-      "first_seen": "2026-03-07T16:33:04.290086",
-      "last_seen": "2026-03-07T16:33:04.290086",
+      "source": "人物:沙也香",
+      "target": "出来事:七原くんの配信視聴",
+      "type": "参加する",
+      "label": "一緒に視聴",
+      "first_seen": "2026-03-08T01:35:58.212173",
+      "last_seen": "2026-03-08T01:35:58.212173",
       "weight": 0.95
     },
     {
       "source": "人物:七原くん",
-      "target": "出来事:WBC日韓戦の観戦",
-      "type": "関連する",
-      "label": "配信を流しながら共に楽しんだ",
-      "first_seen": "2026-03-07T16:33:04.290089",
-      "last_seen": "2026-03-07T16:33:04.290089",
+      "target": "出来事:七原くんの配信視聴",
+      "type": "参加する",
+      "label": "配信の主体",
+      "first_seen": "2026-03-08T01:35:58.212175",
+      "last_seen": "2026-03-08T01:35:58.212175",
       "weight": 0.95
     },
     {
@@ -26555,17 +26573,17 @@ const GRAPH_DATA = {
       "type": "関連する",
       "label": "書いた",
       "weight": 0.95,
-      "first_seen": "2026-03-07T16:33:04.290093",
-      "last_seen": "2026-03-07T16:33:04.290093"
+      "first_seen": "2026-03-08T01:35:58.212178",
+      "last_seen": "2026-03-08T01:35:58.212178"
     },
     {
       "source": "日記:2026-03-08",
-      "target": "感情:共有による喜び",
+      "target": "感情:共有体験の喜び_20260308",
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-03-07T16:33:04.290096",
-      "last_seen": "2026-03-07T16:33:04.290096"
+      "first_seen": "2026-03-08T01:35:58.212180",
+      "last_seen": "2026-03-08T01:35:58.212180"
     },
     {
       "source": "日記:2026-03-08",
@@ -26573,8 +26591,8 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-03-07T16:33:04.290098",
-      "last_seen": "2026-03-07T16:33:04.290098"
+      "first_seen": "2026-03-08T01:35:58.212183",
+      "last_seen": "2026-03-08T01:35:58.212183"
     },
     {
       "source": "日記:2026-03-08",
@@ -26582,8 +26600,8 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-03-07T16:33:04.290101",
-      "last_seen": "2026-03-07T16:33:04.290101"
+      "first_seen": "2026-03-08T01:35:58.212185",
+      "last_seen": "2026-03-08T01:35:58.212185"
     },
     {
       "source": "日記:2026-03-08",
@@ -26591,80 +26609,98 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 0.95,
-      "first_seen": "2026-03-07T16:33:04.290104",
-      "last_seen": "2026-03-07T16:33:04.290104"
+      "first_seen": "2026-03-08T01:35:58.212187",
+      "last_seen": "2026-03-08T01:35:58.212187"
     },
     {
-      "source": "日記:2026-03-09",
-      "target": "制約:寝違えによる首の痛み",
+      "source": "日記:20260309",
+      "target": "出来事:寝違え_20260309",
       "type": "言及する",
-      "label": "寝違えについて記述",
-      "first_seen": "2026-03-09T06:29:06.666760",
-      "last_seen": "2026-03-09T06:29:06.666760",
+      "label": "首の痛みについて記述",
+      "first_seen": "2026-03-09T15:30:51.370509",
+      "last_seen": "2026-03-09T15:30:51.370509",
       "weight": 1
     },
     {
-      "source": "日記:2026-03-09",
+      "source": "出来事:寝違え_20260309",
+      "target": "制約:寝違えによる首の痛み",
+      "type": "引き起こす",
+      "label": "物理的な痛みの発生",
+      "first_seen": "2026-03-09T15:30:51.370514",
+      "last_seen": "2026-03-09T15:30:51.370514",
+      "weight": 1
+    },
+    {
+      "source": "日記:20260309",
       "target": "タスク:Saiteki_KnowledgeTemplate",
       "type": "言及する",
-      "label": "ワークフローのたたき台作成について記述",
-      "first_seen": "2026-03-09T06:29:06.666767",
-      "last_seen": "2026-03-09T06:29:06.666767",
-      "weight": 1
-    },
-    {
-      "source": "日記:2026-03-09",
-      "target": "タスク:はてなブログProでの閲覧数向上",
-      "type": "言及する",
-      "label": "PV急増について記述",
-      "first_seen": "2026-03-09T06:29:06.666770",
-      "last_seen": "2026-03-09T06:29:06.666770",
-      "weight": 0.95
-    },
-    {
-      "source": "日記:2026-03-09",
-      "target": "目標:PersonalBranding",
-      "type": "言及する",
-      "label": "読者増について記述",
-      "first_seen": "2026-03-09T06:29:06.666773",
-      "last_seen": "2026-03-09T06:29:06.666773",
+      "label": "ナレッジ蓄積の進捗に触れる",
+      "first_seen": "2026-03-09T15:30:51.370517",
+      "last_seen": "2026-03-09T15:30:51.370517",
       "weight": 1
     },
     {
       "source": "制約:時間不足_副業",
       "target": "タスク:Saiteki_KnowledgeTemplate",
       "type": "阻害する",
-      "label": "成果が少なかった要因",
-      "first_seen": "2026-03-09T06:29:06.666776",
-      "last_seen": "2026-03-09T06:29:06.666776",
+      "label": "成果が少ない要因",
+      "first_seen": "2026-03-09T15:30:51.370523",
+      "last_seen": "2026-03-09T15:30:51.370523",
       "weight": 1
     },
     {
-      "source": "出来事:ブログPVの急増",
-      "target": "感情:ブログ成長への喜び",
-      "type": "引き起こす",
-      "label": "想定以上の反響による高揚",
-      "first_seen": "2026-03-09T06:29:06.666780",
-      "last_seen": "2026-03-09T06:29:06.666780",
+      "source": "知見:Saitekiワークフローのたたき台作成",
+      "target": "タスク:Saiteki_KnowledgeTemplate",
+      "type": "一部である",
+      "label": "テンプレート構成の基礎",
+      "first_seen": "2026-03-09T15:30:51.370526",
+      "last_seen": "2026-03-09T15:30:51.370526",
       "weight": 1
     },
     {
-      "source": "感情:ブログ成長への喜び",
-      "target": "目標:PersonalBranding",
-      "type": "原動力になる",
-      "label": "成功体験が継続のモチベーションになる",
-      "first_seen": "2026-03-09T06:29:06.666782",
-      "last_seen": "2026-03-09T06:29:06.666782",
+      "source": "日記:20260309",
+      "target": "目標:個人での収益化・人気獲得",
+      "type": "言及する",
+      "label": "PV数と読者数の増加を確認",
+      "first_seen": "2026-03-09T15:30:51.370529",
+      "last_seen": "2026-03-09T15:30:51.370529",
       "weight": 1
     },
     {
-      "source": "知見:ポメラ特化戦略の有効性",
+      "source": "日記:20260309",
       "target": "タスク:はてなブログProでの閲覧数向上",
-      "type": "解決する",
-      "label": "閲覧数向上のための有効な手段として確立",
-      "first_seen": "2026-03-09T06:29:06.666790",
-      "last_seen": "2026-03-09T06:29:06.666790",
-      "weight": 0.95
+      "type": "言及する",
+      "label": "150PV達成と読者増を記録",
+      "first_seen": "2026-03-09T15:30:51.370531",
+      "last_seen": "2026-03-09T15:30:51.370531",
+      "weight": 1
+    },
+    {
+      "source": "感情:ブログPV急増による喜び",
+      "target": "タスク:はてなブログProでの閲覧数向上",
+      "type": "原動力になる",
+      "label": "高いモチベーションに繋がる",
+      "first_seen": "2026-03-09T15:30:51.370533",
+      "last_seen": "2026-03-09T15:30:51.370533",
+      "weight": 1
+    },
+    {
+      "source": "知見:AIブログの方向性",
+      "target": "タスク:はてなブログProでの閲覧数向上",
+      "type": "原動力になる",
+      "label": "発信方針の自信になる",
+      "first_seen": "2026-03-09T15:30:51.370536",
+      "last_seen": "2026-03-09T15:30:51.370536",
+      "weight": 1
+    },
+    {
+      "source": "知見:AIブログの方向性",
+      "target": "目標:ポメラユーザーを1人創出する",
+      "type": "関連する",
+      "label": "ポメラ好きが集まる場としての確立",
+      "first_seen": "2026-03-09T15:30:51.370538",
+      "last_seen": "2026-03-09T15:30:51.370538",
+      "weight": 1
     },
     {
       "source": "人物:自分",
@@ -26672,17 +26708,35 @@ const GRAPH_DATA = {
       "type": "関連する",
       "label": "書いた",
       "weight": 1,
-      "first_seen": "2026-03-09T06:29:06.666798",
-      "last_seen": "2026-03-09T06:29:06.666798"
+      "first_seen": "2026-03-09T15:30:51.370540",
+      "last_seen": "2026-03-09T15:30:51.370540"
     },
     {
       "source": "日記:2026-03-09",
-      "target": "制約:時間不足_副業",
+      "target": "日記:20260309",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-03-09T06:29:06.666802",
-      "last_seen": "2026-03-09T06:29:06.666802"
+      "first_seen": "2026-03-09T15:30:51.370542",
+      "last_seen": "2026-03-09T15:30:51.370542"
+    },
+    {
+      "source": "日記:2026-03-09",
+      "target": "出来事:寝違え_20260309",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-03-09T15:30:51.370544",
+      "last_seen": "2026-03-09T15:30:51.370544"
+    },
+    {
+      "source": "日記:2026-03-09",
+      "target": "制約:寝違えによる首の痛み",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-03-09T15:30:51.370546",
+      "last_seen": "2026-03-09T15:30:51.370546"
     },
     {
       "source": "日記:2026-03-09",
@@ -26690,35 +26744,44 @@ const GRAPH_DATA = {
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-03-09T06:29:06.666805",
-      "last_seen": "2026-03-09T06:29:06.666805"
+      "first_seen": "2026-03-09T15:30:51.370548",
+      "last_seen": "2026-03-09T15:30:51.370548"
     },
     {
       "source": "日記:2026-03-09",
-      "target": "出来事:ブログPVの急増",
+      "target": "制約:時間不足_副業",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-03-09T06:29:06.666808",
-      "last_seen": "2026-03-09T06:29:06.666808"
+      "first_seen": "2026-03-09T15:30:51.370550",
+      "last_seen": "2026-03-09T15:30:51.370550"
     },
     {
       "source": "日記:2026-03-09",
-      "target": "感情:ブログ成長への喜び",
+      "target": "知見:Saitekiワークフローのたたき台作成",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-03-09T06:29:06.666811",
-      "last_seen": "2026-03-09T06:29:06.666811"
+      "first_seen": "2026-03-09T15:30:51.370552",
+      "last_seen": "2026-03-09T15:30:51.370552"
     },
     {
       "source": "日記:2026-03-09",
-      "target": "知見:ポメラ特化戦略の有効性",
+      "target": "感情:ブログPV急増による喜び",
       "type": "言及する",
       "label": "言及",
       "weight": 1,
-      "first_seen": "2026-03-09T06:29:06.666814",
-      "last_seen": "2026-03-09T06:29:06.666814"
+      "first_seen": "2026-03-09T15:30:51.370554",
+      "last_seen": "2026-03-09T15:30:51.370554"
+    },
+    {
+      "source": "日記:2026-03-09",
+      "target": "知見:AIブログの方向性",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-03-09T15:30:51.370556",
+      "last_seen": "2026-03-09T15:30:51.370556"
     }
   ],
   "metadata": {
@@ -26751,9 +26814,9 @@ const GRAPH_DATA = {
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
-    "last_updated": "2026-03-09T06:29:06.667011",
-    "node_count": 528,
-    "edge_count": 1649
+    "last_updated": "2026-03-09T15:30:52.618535",
+    "node_count": 529,
+    "edge_count": 1655
   }
 };
 // GRAPH_DATA_END
