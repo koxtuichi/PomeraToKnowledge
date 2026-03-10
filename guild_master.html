@@ -2805,7 +2805,7 @@
       { name: '古龍の弓', ingredients: ['霜雪の弓', '古龍の牙'], rarity: 'rare', value: 200 },
     ];
     const RANKS = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
-    const RANK_XP = [0, 50, 150, 300, 500, 800, 1200];
+    const RANK_XP = [0, 150, 450, 900, 1500, 2400, 3600]; // 3倍に引き上げ
     const RANK_DROP_BONUS = { F: 0, E: 0.02, D: 0.05, C: 0.08, B: 0.12, A: 0.18, S: 0.25 };
     const ITEMS = ['豪炎の大剣', '霜雪の弓', '影狩りの短刀', '雷神の槍', '月光の杖', '竜鱗の鎧', '星影のローブ', '風切りの外套', '鉄壁の盾', '蒼い魔石', '古龍の牙', '精霊の涙', '暗黒鉱石', '虹の羽根', '永遠の花', '神話の断片', '時の砂', '運命の糸', '天使の血', '悪魔の核', '封印の書', '古代の地図', '幻の薬草', '不死鳥の羽', '竜の卵'];
     const ILLNESS_TYPES = [
@@ -3366,8 +3366,8 @@
       }).join('');
 
       const invHtml = inv.length > 0
-        ? inv.map((j, i) => {
-          const col = RARITY_COL[j.rarity] || '#888';
+        ? inv.map(j => {
+          const col = RARITY_COL[j.rarity] || '#aa8844';
           return `<button onclick="equipJoker(${pid},'${j.id}')" style="font-size:9px;padding:3px 8px;background:rgba(20,10,0,0.9);border:1px solid ${col};color:${col};border-radius:6px;cursor:pointer;">${j.label}</button>`;
         }).join('')
         : '<span style="font-size:9px;color:#444;">所持ジョーカーなし — ランクアップ・エンカウントで入手</span>';
@@ -3562,6 +3562,11 @@
             }
           }
         }
+      }
+
+      // ===== MISSION SYSTEM: ミッション別処理 =====
+      if (party.mission && typeof tickMission === 'function') {
+        tickMission(party, events);
       }
 
       // ===== A. 任務完了 → 解散チェック =====
@@ -3886,7 +3891,14 @@
       }
       G_STATE.gold -= weekly; party.cpDebt = 0;
       // エンカウント処理
-      if (!party.encounter && party.status === 'active' && Math.random() < 0.45) {
+      // ミッションがstandby/trainingならエンカウントなし
+      const _noEnc = party.mission && (party.mission.type === 'standby' || party.mission.type === 'training');
+      // treasureの場合はエンカウント確率UP
+      const _encRiskMod = party.mission && party.mission.type === 'treasure' ? 0.30 : 0;
+      // scout の場合はエンカウント確率DOWN (30%)
+      const _scoutMod = party.mission && party.mission.type === 'scout' ? -0.30 : 0;
+      const _encBase = 0.45 + _encRiskMod + _scoutMod;
+      if (!_noEnc && !party.encounter && party.status === 'active' && Math.random() < _encBase) {
         // 45%の確率で新規エンカウント発生
         spawnEncounter(party);
         const enemy = party.encounter.enemy;
@@ -4369,6 +4381,9 @@
       { id: 'reinforce_range', type: 'reinforce', label: '🚀 長距離伝令', desc: '今週だけ応援可能距離が+1マス広がる', effect: { extraRange: 1 } },
       // 🃏 ジョーカー抽選カード (type: 'joker_draw')
       { id: 'joker_chance_a', type: 'joker_draw', label: '🃏 古書の欠片', desc: '所持すると使用時にランダムジョーカーを1枚入手', effect: { grantJoker: true } },
+      // 🐴 速度カード (type: 'speed')
+      { id: 'speed_cart', type: 'speed', label: '🐴 馬車の手配', desc: '選択したパーティーのミッションを1週加速。調査→討伐即時切替も可能。', effect: { speedUp: true } },
+      { id: 'speed_messenger', type: 'speed', label: '🕊 伝令鳥', desc: '離れたパーティーにジョーカーを即日届ける。移動コストゼロ。', effect: { deliverJoker: true } },
     ];
     window.HAND_CARD_POOL = HAND_CARD_POOL;
 
@@ -4562,6 +4577,424 @@
       `;
     }
     window.renderWeeklyHandHTML = renderWeeklyHandHTML;
+
+
+    // =====================================================================
+    // MEMBER ROLES — 職種テーブル
+    // =====================================================================
+    const MEMBER_ROLES = {
+      warrior: { id: 'warrior', label: '⚔ 戦士', color: '#cc4422', canScout: false, combatBonus: 20, xpRate: 1.0 },
+      mage: { id: 'mage', label: '🔮 魔法使い', color: '#8855cc', canScout: true, combatBonus: 10, xpRate: 1.1 },
+      rogue: { id: 'rogue', label: '🗡 盗賊', color: '#338866', canScout: true, combatBonus: 5, xpRate: 1.1, treasureBonus: 0.15 },
+      cleric: { id: 'cleric', label: '✨ 聖職者', color: '#bb9900', canScout: true, combatBonus: 0, xpRate: 1.2, stressReduce: 5 },
+      scholar: { id: 'scholar', label: '📖 学者', color: '#4488bb', canScout: true, combatBonus: -10, xpRate: 1.3, scoutBonus: 0.40 },
+      merchant: { id: 'merchant', label: '💰 商人', color: '#dd9922', canScout: true, combatBonus: -5, xpRate: 1.0, sellBonus: 0.20 },
+    };
+    window.MEMBER_ROLES = MEMBER_ROLES;
+
+    // メンバーの職種タイプからロールオブジェクトを返す
+    function getMemberRole(member) {
+      if (!member) return MEMBER_ROLES.warrior;
+      const role = member.role || assignAutoRole(member);
+      return MEMBER_ROLES[role] || MEMBER_ROLES.warrior;
+    }
+    window.getMemberRole = getMemberRole;
+
+    // 職種が未設定なら自動割り当て (clazz から推定)
+    function assignAutoRole(member) {
+      if (!member) return 'warrior';
+      const clazz = (member.clazz || member.class || '').toLowerCase();
+      if (clazz.includes('魔') || clazz.includes('mage') || clazz.includes('wizard')) return 'mage';
+      if (clazz.includes('盗') || clazz.includes('rogue') || clazz.includes('thief') || clazz.includes('ranger')) return 'rogue';
+      if (clazz.includes('聖') || clazz.includes('cleric') || clazz.includes('priest') || clazz.includes('heal')) return 'cleric';
+      if (clazz.includes('学') || clazz.includes('scholar') || clazz.includes('sage')) return 'scholar';
+      if (clazz.includes('商') || clazz.includes('merchant') || clazz.includes('trader')) return 'merchant';
+      return 'warrior';
+    }
+    window.assignAutoRole = assignAutoRole;
+
+    // パーティーが調査ミッションに必要な職種を持つか
+    function hasScoutCapability(party) {
+      if (!party || !party.members) return false;
+      return party.members.some(m => {
+        const role = m.role || assignAutoRole(m);
+        return MEMBER_ROLES[role] && MEMBER_ROLES[role].canScout;
+      });
+    }
+    window.hasScoutCapability = hasScoutCapability;
+
+    // =====================================================================
+    // MISSION TYPES — ミッションタイプ定義
+    // =====================================================================
+    const MISSION_TYPES = {
+      explore: {
+        id: 'explore', label: '🗺 素材探索', color: '#558822',
+        desc: '指定地域でアイテムを探索する。手札の報酬カードが直接加算される。',
+        encounterRiskMod: 0,
+        maxWeeks: null,
+        requiresScoutRole: false,
+        noCombat: false,
+      },
+      treasure: {
+        id: 'treasure', label: '💎 宝物庫探索', color: '#aa8800',
+        desc: 'epic・legendary品を狙う長期探索。危険なモンスターとの遭遇リスクが高い。',
+        encounterRiskMod: 0.30,  // エンカウント確率+30%
+        maxWeeks: 26,
+        requiresScoutRole: false,
+        noCombat: false,
+        epicForced: true,        // ドロップがepic以上になる
+      },
+      hunt: {
+        id: 'hunt', label: '⚔ 討伐', color: '#cc3300',
+        desc: '特定のモンスターを倒す。調査情報があれば弱点ボーナス+30%。',
+        encounterRiskMod: 0,
+        maxWeeks: null,
+        requiresScoutRole: false,
+        noCombat: false,
+        requiresTarget: true,    // targetEnemyが必要
+      },
+      scout: {
+        id: 'scout', label: '👁 調査', color: '#336688',
+        desc: '戦闘せず地域・敵の情報を持ち帰る。非戦闘職メンバーが必要。',
+        encounterRiskMod: -0.30, // エンカウント確率-30% (逃走優先)
+        maxWeeks: 4,
+        requiresScoutRole: true, // 学者・盗賊・聖職者etc必須
+        noCombat: true,
+        scoutWeeks: 3,           // 完了までの週数
+      },
+      training: {
+        id: 'training', label: '🎓 訓練', color: '#aa5500',
+        desc: '本拠地で集中訓練。XPが速く貯まりスキル解放のチャンスがある。',
+        encounterRiskMod: -1,    // エンカウントなし
+        maxWeeks: null,
+        requiresScoutRole: false,
+        noCombat: true,
+        noRegion: true,          // 地域不要・本拠地
+      },
+      standby: {
+        id: 'standby', label: '💤 待機', color: '#555577',
+        desc: '完全休養。ストレス-25/週、morale+10/週。',
+        encounterRiskMod: -1,    // エンカウントなし
+        maxWeeks: null,
+        requiresScoutRole: false,
+        noCombat: true,
+        noRegion: true,
+        stressHeal: 25,
+        moraleHeal: 10,
+      },
+    };
+    window.MISSION_TYPES = MISSION_TYPES;
+
+    // ミッションを設定する
+    function setPartyMission(partyId, missionType, options = {}) {
+      const party = G_STATE.parties.find(p => p.id == partyId);
+      if (!party) return;
+      const mDef = MISSION_TYPES[missionType];
+      if (!mDef) return;
+      // 調査ミッション: 非戦闘職チェック
+      if (mDef.requiresScoutRole && !hasScoutCapability(party)) {
+        alert('調査ミッションには学者・盗賊・聖職者・魔法使いなどの非戦闘職メンバーが必要です。');
+        return;
+      }
+      // 討伐ミッション: 対象敵チェック
+      if (mDef.requiresTarget && !options.targetEnemy) {
+        alert('討伐ミッションには対象モンスターの指定が必要です。');
+        return;
+      }
+      party.mission = {
+        type: missionType,
+        label: mDef.label,
+        targetEnemy: options.targetEnemy || null,
+        targetItem: options.targetItem || party.targetItem || null,
+        deadline: options.deadline || null,
+        startWeek: G_STATE.week,
+        scoutWeeks: mDef.scoutWeeks || null,
+        scoutProgress: 0,
+        speedCard: null,
+      };
+      G_STATE.scoutReports = G_STATE.scoutReports || {};
+      saveAndRefresh(partyId);
+      setLogBar(`${party.name} のミッションを「${mDef.label}」に設定した。`);
+    }
+    window.setPartyMission = setPartyMission;
+
+    // =====================================================================
+    // RARE ENEMIES — レアモンスターテーブル
+    // =====================================================================
+    const RARE_ENEMIES = [
+      {
+        id: 'ancient_dragon', name: '古龍ヴァルモア', emoji: '🐲', power: 8,
+        image: 'enemy_dragon.png', reward: 'legendary',
+        type: 'boss',
+        spawnCondition: (state) => {
+          const weekInYear = (state.week - 1) % 52;
+          return weekInYear >= 40;
+        },
+        spawnRegions: ['禁断の魔境', '火山地帯'],
+        parts: [
+          { id: 'wing_left', name: '左翼', hp: 80, maxHp: 80, broken: false, effect: '飛行不能・速度ダウン' },
+          { id: 'wing_right', name: '右翼', hp: 80, maxHp: 80, broken: false, effect: '飛行不能・速度ダウン' },
+          { id: 'core', name: '竜核', hp: 120, maxHp: 120, broken: false, effect: '再生能力停止・弱点露出' },
+          { id: 'tail', name: '尾', hp: 60, maxHp: 60, broken: false, effect: '薙払い攻撃封印' },
+        ],
+        weakTo: ['assault'],
+        desc: '年に一度、年末の季節のみ現れる伝説の龍。核を破壊するまで倒れない。',
+        combatLog: ['古龍が翼を広げて熱風を巻き起こした！', '竜核が黄金に輝き始めた…破壊しないと再生し続ける！', '古龍の尾が地面を叩き、地割れが走った！'],
+      },
+      {
+        id: 'phantom_king', name: '幻影の魔王', emoji: '👑', power: 7,
+        image: 'enemy_cultmage.png', reward: 'legendary',
+        type: 'boss',
+        spawnCondition: (state) => (state.reputation || 0) >= 300,
+        spawnRegions: ['古代遺跡', '禁断の魔境'],
+        parts: [
+          { id: 'crown', name: '呪いの王冠', hp: 60, maxHp: 60, broken: false, effect: '周辺モンスター召喚停止' },
+          { id: 'mantle', name: '闇のマント', hp: 80, maxHp: 80, broken: false, effect: '回避能力消失' },
+          { id: 'scepter', name: '支配の杖', hp: 100, maxHp: 100, broken: false, effect: '精神支配攻撃封印' },
+        ],
+        weakTo: ['guard'],
+        desc: 'ギルドの名声が极まった時のみ召喚される超常の存在。',
+        combatLog: ['魔王が虚空から現れた！その存在だけで空気が歪む！', '幻影の鎧が実体化し攻撃を受け付けない！', '魔王が「貴様らごときが我に挑むか」と嗤う…'],
+      },
+      {
+        id: 'frost_hydra', name: '永久凍土の蛇頭竜', emoji: '🐍', power: 6,
+        image: 'enemy_orc.png', reward: 'legendary',
+        type: 'boss',
+        spawnCondition: (state) => {
+          const season = typeof getCurrentSeason === 'function' ? getCurrentSeason() : null;
+          return (state.year || 1) >= 2 && season && season.label === '冬';
+        },
+        spawnRegions: ['雪原の果て'],
+        parts: [
+          { id: 'head1', name: '中央の頭', hp: 70, maxHp: 70, broken: false, effect: '氷結ブレス封印' },
+          { id: 'head2', name: '左の頭', hp: 50, maxHp: 50, broken: false, effect: '左側攻撃封印' },
+          { id: 'head3', name: '右の頭', hp: 50, maxHp: 50, broken: false, effect: '右側攻撃封印' },
+          { id: 'body', name: '胴体', hp: 90, maxHp: 90, broken: false, effect: '撃破条件' },
+        ],
+        weakTo: ['assault'],
+        desc: '2年目以降の冬だけ雪原に現れる三頭の蛇頭竜。全ての頭を破壊してはじめて胴体を攻撃できる。',
+        combatLog: ['蛇頭竜の三つの頭がそれぞれ別の牙を剥いた！', '氷のブレスが吹き荒れ、メンバーの動きが鈍った！', '頭が一つ倒れても、残りの頭が怒りで攻撃を激化させた！'],
+      },
+    ];
+    window.RARE_ENEMIES = RARE_ENEMIES;
+
+    // レアエネミーが今週出現するか確認
+    function checkRareEnemySpawn(party) {
+      if (!party || !party.region || !party.mission) return null;
+      const mType = party.mission.type;
+      // treasure / hunt のみ出現
+      if (mType !== 'treasure' && mType !== 'hunt') return null;
+      return RARE_ENEMIES.find(re => {
+        return re.spawnRegions.includes(party.region)
+          && re.spawnCondition(G_STATE)
+          && Math.random() < 0.25; // 25%で出現
+      }) || null;
+    }
+    window.checkRareEnemySpawn = checkRareEnemySpawn;
+
+
+    // =====================================================================
+    // TICK MISSION — ミッション別週次処理
+    // =====================================================================
+    function tickMission(party, events) {
+      const mission = party.mission;
+      if (!mission) return; // ミッション未設定: 既存ロジックに任せる
+
+      const mType = mission.type;
+
+      // --- 期限チェック ---
+      if (mission.deadline && mission.startWeek) {
+        const elapsed = G_STATE.week - mission.startWeek;
+        const remaining = mission.deadline - elapsed;
+        if (remaining <= 0) {
+          // 期限超過 → 強制帰還 + 評判ペナルティ
+          events.push({ type: 'conflict', text: `⚠ 「${party.name}」の任務期限が超過！評判-5。メンバーが帰還した。` });
+          G_STATE.reputation = Math.max(0, (G_STATE.reputation || 0) - 5);
+          returnPartyHome(party, events);
+          return;
+        } else if (remaining <= 2) {
+          events.push({ type: 'conflict', text: `⏰ 「${party.name}」の期限まで残り${remaining}週！急いで！` });
+        }
+      }
+
+      switch (mType) {
+
+        // --- 🗺 素材探索 ---
+        case 'explore': {
+          // 既存のgatherロジックをそのまま使う (TACTIC_PRESETS.gather)
+          // mods.dropMult / epicBonus を週手札の効果で補正
+          const wh = G_STATE.weeklyHand || {};
+          if (wh._dropBonus && wh._dropBonus > 1) {
+            events.push({ type: 'good', text: `🃏 手札ボーナスでドロップ+${Math.round((wh._dropBonus - 1) * 100)}%！` });
+          }
+          break;
+        }
+
+        // --- 💎 宝物庫探索 ---
+        case 'treasure': {
+          // エンカウント確率+30% (spawnEncounterで使用)
+          party._treasureMode = true;
+          // 宝物庫専用ドロップ: epic以上を確定
+          const elapsed = mission.startWeek ? G_STATE.week - mission.startWeek : 0;
+          if (elapsed > 0 && elapsed % 4 === 0) {
+            // 4週ごとに宝物庫チェック
+            const epicItems = (typeof REGION_DATA !== 'undefined' && REGION_DATA[party.region])
+              ? REGION_DATA[party.region].specialty : ['神秘のアーティファクト'];
+            const item = epicItems[Math.floor(Math.random() * epicItems.length)];
+            const val = 150 + Math.floor(Math.random() * 150);
+            G_STATE.inventory.push({
+              name: item, rarity: 'epic', value: val,
+              partyName: party.name, region: party.region, week: G_STATE.week
+            });
+            events.push({ type: 'drop', text: `💎 宝物庫から【${item}】(epic)を発見！`, rarity: 'epic' });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が宝物庫で「${item}」を発見`);
+          }
+          // レアモンスターチェック
+          const rareEnemy = typeof checkRareEnemySpawn === 'function' ? checkRareEnemySpawn(party) : null;
+          if (rareEnemy && !party.encounter) {
+            party.encounter = spawnEncounterFromEnemy(rareEnemy, party);
+            events.push({ type: 'danger', text: `🔴 レア出現！「${rareEnemy.name}」が現れた！全力で対処せよ！` });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}がレアモンスター「${rareEnemy.name}」に遭遇！`);
+          }
+          break;
+        }
+
+        // --- ⚔ 討伐 ---
+        case 'hunt': {
+          const targetId = mission.targetEnemy;
+          const allEnemies = (typeof ENEMIES !== 'undefined' ? ENEMIES : [])
+            .concat(typeof RARE_ENEMIES !== 'undefined' ? RARE_ENEMIES : []);
+          const targetEnemy = allEnemies.find(e => e.id === targetId);
+          if (!targetEnemy) break;
+          if (!party.encounter) {
+            // 今週は対象敵と遭遇
+            party.encounter = spawnEncounterFromEnemy(targetEnemy, party);
+            // scoutInfo があれば弱点ボーナスをエンカウントに付与
+            const scoutInfo = G_STATE.scoutReports && G_STATE.scoutReports[targetId];
+            if (scoutInfo) {
+              party.encounter._scoutBonus = 30;
+              events.push({ type: 'good', text: `📋 調査情報を活用！「${targetEnemy.name}」への弱点ボーナス+30%！` });
+            }
+          }
+          break;
+        }
+
+        // --- 👁 調査 ---
+        case 'scout': {
+          mission.scoutProgress = (mission.scoutProgress || 0) + 1;
+          const scoutWeeks = (typeof MISSION_TYPES !== 'undefined'
+            ? MISSION_TYPES.scout.scoutWeeks : 3);
+          const progress = mission.scoutProgress;
+          // ストレスを非戦闘シフト: 通常の50%
+          party.members.filter(m => !m.dead).forEach(m => {
+            const roleData = typeof getMemberRole === 'function' ? getMemberRole(m) : null;
+            const scoutBonus = roleData ? (roleData.scoutBonus || 0) : 0;
+            // XP付与 (調査経験)
+            m.xp = (m.xp || 0) + 5 + Math.round(scoutBonus * 10);
+          });
+          if (progress === 1) events.push({ type: 'good', text: `👁 調査隊が「${party.region}」の探索を開始した。` });
+          if (progress === 2) events.push({ type: 'good', text: `👁 「${party.region}」の地形・モンスター情報を記録中…` });
+          if (progress >= scoutWeeks) {
+            // 調査完了! scoutInfo を生成
+            const targetId = mission.targetEnemy;
+            const allEnemies = (typeof ENEMIES !== 'undefined' ? ENEMIES : [])
+              .concat(typeof RARE_ENEMIES !== 'undefined' ? RARE_ENEMIES : []);
+            const targetEnemy = targetId ? allEnemies.find(e => e.id === targetId) : null;
+            const scoutData = {
+              region: party.region,
+              week: G_STATE.week,
+              enemyId: targetId || null,
+              weakTo: targetEnemy ? (targetEnemy.weakTo || []) : [],
+              partsInfo: targetEnemy ? (targetEnemy.parts || []).map(p => ({ id: p.id, name: p.name, effect: p.effect })) : [],
+            };
+            G_STATE.scoutReports = G_STATE.scoutReports || {};
+            if (targetId) G_STATE.scoutReports[targetId] = scoutData;
+            G_STATE.scoutReports[party.region] = scoutData;
+            events.push({ type: 'drop', text: `✅ 調査完了！「${party.region}」の情報を取得。次の討伐に活かせる。`, rarity: 'uncommon' });
+            G_STATE.globalLog.unshift(`[Week${G_STATE.week}] ${party.name}が「${party.region}」の調査を完了`);
+            // 帰還
+            returnPartyHome(party, events);
+          }
+          break;
+        }
+
+        // --- 🎓 訓練 ---
+        case 'training': {
+          const startWeek = mission.startWeek || G_STATE.week;
+          const trainingWeeks = G_STATE.week - startWeek;
+          // 段階別XP
+          let xpGain, stageLabel;
+          if (trainingWeeks < 4) {
+            xpGain = 20; stageLabel = '基礎訓練';
+          } else if (trainingWeeks < 12) {
+            xpGain = 30; stageLabel = '専門訓練';
+          } else if (trainingWeeks < 26) {
+            xpGain = 40; stageLabel = '極意訓練';
+          } else {
+            xpGain = 50; stageLabel = '悟りの境地';
+          }
+          party.members.filter(m => !m.dead).forEach(m => {
+            const roleData = typeof getMemberRole === 'function' ? getMemberRole(m) : null;
+            const xpRate = roleData ? (roleData.xpRate || 1.0) : 1.0;
+            m.xp = (m.xp || 0) + Math.round(xpGain * xpRate);
+            // ストレスなし
+          });
+          if (trainingWeeks % 3 === 0) {
+            events.push({ type: 'morale', text: `🎓 「${party.name}」が${stageLabel}中。全員着実に成長している。` });
+          }
+          // 低確率でスキル即解放
+          if (Math.random() < 0.1) {
+            const member = party.members[Math.floor(Math.random() * party.members.length)];
+            if (member) {
+              events.push({ type: 'drop', text: `🔔 ${member.name}が訓練で才能を開花させた！特別なスキルを習得！`, rarity: 'uncommon' });
+            }
+          }
+          break;
+        }
+
+        // --- 💤 待機 ---
+        case 'standby': {
+          party.members.filter(m => !m.dead).forEach(m => {
+            m.stress = Math.max(0, (m.stress || 0) - 25);
+            m.morale = Math.min(100, (m.morale || 50) + 10);
+          });
+          events.push({ type: 'morale', text: `💤 「${party.name}」が待機中。全員がゆっくり休んでいる。` });
+          break;
+        }
+      }
+    }
+    window.tickMission = tickMission;
+
+    // パーティーを本拠地に帰還させる
+    function returnPartyHome(party, events) {
+      party.mission = null;
+      party.status = 'idle';
+      party._treasureMode = false;
+      events.push({ type: 'good', text: `📍 「${party.name}」が本拠地に帰還した。` });
+    }
+    window.returnPartyHome = returnPartyHome;
+
+    // 特定の敵オブジェクトからエンカウントを生成
+    function spawnEncounterFromEnemy(enemy, party) {
+      const riskLv = (typeof REGION_DATA !== 'undefined' && REGION_DATA[party.region])
+        ? REGION_DATA[party.region].riskLevel : 1;
+      // 部位をディープコピー
+      const parts = enemy.parts ? enemy.parts.map(p => ({ ...p })) : null;
+      const count = enemy.type === 'group' ? (enemy.count || 3) : 1;
+      return {
+        enemyId: enemy.id,
+        enemy: enemy,
+        parts: parts,
+        count: count,
+        maxCount: enemy.maxCount || count,
+        round: 0,
+        maxRound: enemy.type === 'boss' ? 4 : 2,
+        log: [],
+        reinforceBonus: 0,
+        _scoutBonus: 0,
+      };
+    }
+    window.spawnEncounterFromEnemy = spawnEncounterFromEnemy;
 
     // =====================================================================
     // ENEMIES TABLE — 敵エンカウントデータ
@@ -4790,6 +5223,101 @@
         unlockCondition: 'ランダムドロップ',
         effect: 'random_synergy',
       },
+
+      // ===== 探索・宝物庫系ジョーカー (4種) =====
+      {
+        id: 'ancient_map', label: '🗺 古地図の羊皮紙', rarity: 'uncommon',
+        desc: '指定地域のドロップ+50%（今週限り）',
+        unlockCondition: '素材探索20回',
+        effect: 'ancient_map',
+      },
+      {
+        id: 'hidden_door', label: '🧰 秘密の隠し扉', rarity: 'rare',
+        desc: '宝物庫ミッションでepic品を追加ドロップ',
+        unlockCondition: '宝物庫探索クリア',
+        effect: 'hidden_door',
+      },
+      {
+        id: 'lucky_star', label: '🌟 幸運の星座', rarity: 'rare',
+        desc: '今週中のドロップ品レアリティ+1段階UP',
+        unlockCondition: 'ランダムドロップ',
+        effect: 'lucky_star',
+      },
+      {
+        id: 'merchant_contact', label: '💼 商人の口利き', rarity: 'uncommon',
+        desc: '売却価格+30%（今週限り）',
+        unlockCondition: '倉庫売却100回',
+        effect: 'merchant_contact',
+      },
+      // ===== 調査系ジョーカー (3種) =====
+      {
+        id: 'crystal_ball', label: '🔭 遠見の水晶', rarity: 'uncommon',
+        desc: '調査ミッションの期間を1週短縮',
+        unlockCondition: '調査ミッション完了5回',
+        effect: 'crystal_ball',
+      },
+      {
+        id: 'ancient_scroll', label: '📜 古文書の解読', rarity: 'rare',
+        desc: 'scoutInfo弱点ボーナスを+30%→+55%に強化',
+        unlockCondition: '学者メンバー在籍中',
+        effect: 'ancient_scroll',
+      },
+      {
+        id: 'carrier_hawk', label: '🦅 伝書鷹', rarity: 'uncommon',
+        desc: '調査完了時に帰還不要で即時情報取得',
+        unlockCondition: '調査ミッション完了3回',
+        effect: 'carrier_hawk',
+      },
+      // ===== 討伐系ジョーカー (4種) =====
+      {
+        id: 'cursed_blade', label: '🗡 呪われた刃', rarity: 'rare',
+        desc: '討伐ダメージ+40%。ただしストレス+15/週',
+        unlockCondition: '討伐ミッション完了10回',
+        effect: 'cursed_blade',
+      },
+      {
+        id: 'victory_banner', label: '🛡 勝利の戦旗', rarity: 'uncommon',
+        desc: '討伐成功で報酬+30G追加',
+        unlockCondition: 'ランクC達成パーティー',
+        effect: 'victory_banner',
+      },
+      {
+        id: 'battle_cry', label: '🎺 決死の号令', rarity: 'epic',
+        desc: '今週エンカウントを必ず勝利（1回限り使い捨て）',
+        unlockCondition: '禁断の魔境クリア後',
+        effect: 'battle_cry',
+      },
+      {
+        id: 'last_stand', label: '💀 死地の覚悟', rarity: 'rare',
+        desc: 'メンバーHP30以下でダメージ2倍',
+        unlockCondition: 'ダークヒーロー系称号取得',
+        effect: 'last_stand',
+      },
+      // ===== 訓練系ジョーカー (4種) =====
+      {
+        id: 'hero_tome', label: '📕 英雄譚の大全', rarity: 'uncommon',
+        desc: '訓練XP+50%追加',
+        unlockCondition: '古代遺跡クリア',
+        effect: 'hero_tome',
+      },
+      {
+        id: 'harsh_dojo', label: '🏋 厳しい道場', rarity: 'uncommon',
+        desc: '訓練XPを2倍。ただしストレス+10/週',
+        unlockCondition: 'ランクB達成',
+        effect: 'harsh_dojo',
+      },
+      {
+        id: 'mind_balance', label: '🌱 心身の均整', rarity: 'uncommon',
+        desc: '訓練中のストレス増加をゼロに',
+        unlockCondition: '聖職者メンバー在籍中',
+        effect: 'mind_balance',
+      },
+      {
+        id: 'talent_bloom', label: '🔔 才能の開花', rarity: 'rare',
+        desc: '訓練中に低確率でスキルが1つ即解放',
+        unlockCondition: '学者メンバーが先生役',
+        effect: 'talent_bloom',
+      },
     ];
     window.JOKER_CARDS = JOKER_CARDS;
 
@@ -4871,8 +5399,63 @@
             if (context && context.hadDeath) mods.dropMult = (mods.dropMult || 1) * 1.5;
             break;
           case 'legend_fame':
-            // 全シナジー+20% (PARTY_SKILLS の legend_fame と同期)
             if ((party.skills || []).includes('legend_fame')) mods.dropMult = (mods.dropMult || 1) * 1.20;
+            break;
+          // === 探索系 ===
+          case 'ancient_map':
+            mods.dropMult = (mods.dropMult || 1) * 1.50;
+            break;
+          case 'hidden_door':
+            if (party.mission && party.mission.type === 'treasure') mods.epicBonus = (mods.epicBonus || 0) + 0.20;
+            break;
+          case 'lucky_star':
+            mods.rarityUp = true;
+            break;
+          case 'merchant_contact':
+            mods.sellBonus = (mods.sellBonus || 1) * 1.30;
+            break;
+          // === 調査系 ===
+          case 'crystal_ball':
+            // scout期間短縮: tickMission内で参照
+            mods.scoutSpeedup = true;
+            break;
+          case 'ancient_scroll':
+            mods.scoutBonusUp = true;
+            break;
+          case 'carrier_hawk':
+            mods.instantScout = true;
+            break;
+          // === 討伐系 ===
+          case 'cursed_blade':
+            mods.combatBonus = (mods.combatBonus || 0) + 40;
+            mods.stressMult = (mods.stressMult || 1) * 1.15;
+            break;
+          case 'victory_banner':
+            if (party.mission && party.mission.type === 'hunt') mods.goldBonus = (mods.goldBonus || 0) + 30;
+            break;
+          case 'battle_cry':
+            mods.forceWin = true;
+            // 使い捨て: 効果適用後に削除
+            const bci = party.jokers ? party.jokers.findIndex(j => j && j.id === 'battle_cry') : -1;
+            if (bci >= 0) { party.jokers[bci] = null; }
+            break;
+          case 'last_stand':
+            const lowHP = (party.members || []).some(m => (m.healthPt || 80) <= 30);
+            if (lowHP) mods.combatBonus = (mods.combatBonus || 0) + 100;
+            break;
+          // === 訓練系 ===
+          case 'hero_tome':
+            mods.trainingXP = (mods.trainingXP || 1) * 1.50;
+            break;
+          case 'harsh_dojo':
+            mods.trainingXP = (mods.trainingXP || 1) * 2.0;
+            mods.stressMult = (mods.stressMult || 1) * 1.10;
+            break;
+          case 'mind_balance':
+            if (party.mission && party.mission.type === 'training') mods.stressMult = 0;
+            break;
+          case 'talent_bloom':
+            mods.talentBloom = true;
             break;
         }
       });
@@ -6150,6 +6733,30 @@
         </div>`;
       }
 
+      // === ミッション設定セクション ===
+      {
+        const mt = p.mission && p.mission.type;
+        const mIcons = { explore: '🗺', treasure: '💎', hunt: '⚔', scout: '🔭', training: '📚', standby: '🏠' };
+        const mLabels = { explore: '素材探索 (explore)', treasure: '宝物庫 (treasure)', hunt: '討伐 (hunt)', scout: '調査 (scout)', training: '訓練 (training)', standby: '待機 (standby)' };
+        html += `<div class="sec"><div class="sech">ミッション</div>`;
+        html += `<div style="padding:8px 12px 10px;">`;
+        if (mt) {
+          const wkLeft = p.mission.deadline ? (p.mission.deadline - (G_STATE.week || 0)) : null;
+          html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="font-size:16px;">${mIcons[mt] || '📋'}</span>
+            <span style="font-weight:700;">${mLabels[mt] || mt}</span>
+            ${wkLeft !== null ? `<span style="font-size:10px;color:var(--amber);margin-left:4px;">残 ${wkLeft} 週</span>` : ''}
+          </div>`;
+          if (p.mission.targetEnemy) {
+            html += `<div style="font-size:10px;color:var(--tx3);margin-bottom:4px;">討伐対象: <span style="color:var(--red)">${p.mission.targetEnemy}</span></div>`;
+          }
+        } else {
+          html += `<div style="font-size:11px;color:var(--tx3);margin-bottom:6px;">ミッション未設定</div>`;
+        }
+        html += `<button class="hbtn" style="font-size:10px;padding:4px 12px;" onclick="openMissionSelectModal(${pid})">ミッションを設定する</button>`;
+        html += `</div></div>`;
+      }
+
       // Members
 
       html += `<div class="sec"><div class="sech">メンバー</div><div class="mg">`;
@@ -6509,15 +7116,18 @@ ${isHired
               <span style="font-weight:700;">${p.name}</span>
               <span style="font-size:9px;color:var(--tx3);">[${p.status === 'active' ? '🟢 遠征中' : '⚪ 待機'}] ${p.region || '—'}</span>
               ${cardTag}
-              <div style="margin-left:auto;display:flex;gap:4px;">
-                <button class="rcab" onclick="openDirectiveModal(${p.id})" style="font-size:9px;padding:2px 6px;">方針変更</button>
-                ${needsAction && reportIdx >= 0 ? `<button class="rcab" style="font-size:9px;padding:2px 6px;background:linear-gradient(135deg,#2a1505,#3a2008);border-color:#a06020;color:#ddaa44;" onclick="openIntervene(${reportIdx},0)">🚨 介入</button>` : ''}
-              </div>
+              ${(function () { const mt = p.mission && p.mission.type; if (!mt) return ''; const icons = { explore: '🗺', treasure: '💎', hunt: '⚔', scout: '🔭', training: '📚', standby: '🏠' }; const labels = { explore: '素材探索', treasure: '宝物庫', hunt: '討伐', scout: '調査', training: '訓練', standby: '待機' }; const wkLeft = p.mission.deadline ? (p.mission.deadline - (G_STATE.week || 0)) : null; return `<span style="font-size:9px;background:#1a1008;border:1px solid #6a4a20;color:#ccaa66;padding:1px 5px;border-radius:3px;">${icons[mt] || '📋'}${labels[mt] || mt}${wkLeft !== null ? ' (残' + wkLeft + '週)' : ''}</span>`; })()}
             </div>
             <div style="padding:4px 10px;font-size:9px;color:var(--tx3);">${memberSum}</div>
             ${synergyBadges ? `<div style="padding:0 10px 4px;">${synergyBadges}</div>` : ''}
             ${events.length > 0 ? `<div style="padding:4px 10px 6px;">${evHtml}</div>` : ''}
-            ${report ? `<div style="padding:3px 10px 6px;border-top:1px solid #1a1008;"><button class="rcab" style="font-size:9px;padding:2px 6px;" onclick="dismissReport(${reportIdx})">確認済みにする</button></div>` : ''}
+            <div style="padding:5px 10px 7px;border-top:1px solid #1a1008;display:flex;gap:4px;flex-wrap:wrap;">
+              <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openMissionSelectModal(${p.id})">🗺 ミッション変更</button>
+              <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openReinforceModal(${p.id})">🤝 応援送る</button>
+              <button class="rcab" style="font-size:9px;padding:3px 7px;" onclick="openJokerAssignModal(${p.id})">🃏 ジョーカー割当</button>
+              <button class="rcab" style="font-size:9px;padding:3px 7px;color:#ff8888;border-color:#883333;" onclick="emergencyReturn(${p.id})">🏠 緊急帰還</button>
+              ${report ? `<button class="rcab" style="font-size:9px;padding:3px 7px;margin-left:auto;" onclick="dismissReport(${reportIdx})">✔ 確認済</button>` : ''}
+            </div>
           </div>`;
         });
         html += `</div>`;
@@ -6529,6 +7139,177 @@ ${isHired
         renderWeeklyHandHTML(handArea);
       }
     }
+
+    // === P2/P7: ミッション変更モーダル ===
+    function openMissionSelectModal(pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      // 既存モーダルがあれば削除
+      const existing = document.getElementById('mission-select-modal');
+      if (existing) existing.remove();
+
+      const MISSION_TYPES = window.MISSION_TYPES || {};
+      const mKeys = Object.keys(MISSION_TYPES);
+      const ENEMIES = window.ENEMIES || [];
+
+      let optionsHtml = mKeys.map(k => {
+        const m = MISSION_TYPES[k];
+        return `<div style="border:1px solid #3a2810;border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:pointer;transition:background 0.15s;"
+          onclick="selectMissionType('${k}',${pid})" id="mopt-${k}">
+          <div style="font-weight:700;">${m.icon || '📋'} ${m.label}</div>
+          <div style="font-size:10px;color:var(--tx3);margin-top:3px;">${m.desc}</div>
+          <div style="font-size:10px;color:var(--amber);margin-top:2px;">期間: ${m.minWeeks || 4}〜${m.maxWeeks || 26}週 / リスク${Math.round((m.encounterMult || 1) * 100)}%</div>
+        </div>`;
+      }).join('');
+
+      const html = `<div id="mission-select-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#1a1005;border:1px solid var(--gold2);border-radius:10px;padding:16px;width:340px;max-height:80vh;overflow-y:auto;">
+          <div style="font-weight:700;font-size:14px;margin-bottom:10px;">🗺 ミッション設定 — ${p.name}</div>
+          <div style="margin-bottom:8px;font-size:10px;color:var(--tx3);">ミッションタイプを選んでください</div>
+          ${optionsHtml}
+          <div id="mission-deadline-area" style="display:none;margin-top:8px;">
+            <div style="font-size:10px;color:var(--tx3);margin-bottom:4px;">期限 (週数):</div>
+            <input type="range" id="mission-deadline-slider" min="4" max="26" value="8" step="1" style="width:100%;" oninput="document.getElementById('mission-deadline-val').textContent=this.value">
+            <div style="font-size:11px;text-align:center;margin-top:4px;">選択: <span id="mission-deadline-val">8</span>週後 (Week ${(G_STATE.week || 1) + 8})</div>
+            <div id="mission-enemy-area" style="display:none;margin-top:8px;">
+              <div style="font-size:10px;color:var(--tx3);margin-bottom:4px;">討伐対象:</div>
+              <select id="mission-enemy-select" style="width:100%;background:#1a1005;color:var(--tx1);border:1px solid #3a2810;padding:4px;border-radius:4px;">
+                ${ENEMIES.map(e => `<option value="${e.name}">${e.name}</option>`).join('')}
+              </select>
+            </div>
+            <button class="hbtn" style="width:100%;margin-top:10px;padding:6px;" onclick="confirmMission(${pid})">このミッションで出発</button>
+          </div>
+          <button class="rcab" style="width:100%;margin-top:8px;padding:5px;font-size:11px;" onclick="document.getElementById('mission-select-modal').remove()">キャンセル</button>
+        </div>
+      </div>`;
+      document.body.insertAdjacentHTML('beforeend', html);
+    }
+    window.openMissionSelectModal = openMissionSelectModal;
+
+    let _selectedMissionType = null;
+    function selectMissionType(type, pid) {
+      _selectedMissionType = type;
+      // ハイライト
+      document.querySelectorAll('[id^="mopt-"]').forEach(el => el.style.background = '');
+      const opt = document.getElementById('mopt-' + type);
+      if (opt) opt.style.background = '#2a1a08';
+      // deadline エリア表示
+      const da = document.getElementById('mission-deadline-area');
+      if (da) da.style.display = 'block';
+      // enemy セレクタ (hunt のみ)
+      const ea = document.getElementById('mission-enemy-area');
+      if (ea) ea.style.display = type === 'hunt' ? 'block' : 'none';
+    }
+    window.selectMissionType = selectMissionType;
+
+    function confirmMission(pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p || !_selectedMissionType) return;
+      const deadline = parseInt(document.getElementById('mission-deadline-slider').value) + (G_STATE.week || 1);
+      const targetEnemy = document.getElementById('mission-enemy-select') ? document.getElementById('mission-enemy-select').value : null;
+      p.mission = { type: _selectedMissionType, startWeek: G_STATE.week || 1, deadline, targetEnemy: _selectedMissionType === 'hunt' ? targetEnemy : null };
+      saveState();
+      document.getElementById('mission-select-modal') && document.getElementById('mission-select-modal').remove();
+      setLogBar(`${p.name} のミッションを「${_selectedMissionType}」に設定しました。`);
+      if (typeof renderReports === 'function') renderReports();
+      if (typeof showParty === 'function') showParty(pid);
+    }
+    window.confirmMission = confirmMission;
+
+    // === P7: 応援送るモーダル ===
+    function openReinforceModal(pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      const others = G_STATE.parties.filter(x => x.id !== pid && x.members && x.members.length > 0 && x.status !== 'disbanded');
+      if (others.length === 0) { setLogBar('応援を送れるパーティーがいません。'); return; }
+      const existing = document.getElementById('reinforce-modal');
+      if (existing) existing.remove();
+      const opts = others.map(o =>
+        `<div style="border:1px solid #3a2810;border-radius:5px;padding:7px;margin-bottom:5px;cursor:pointer;" onclick="sendReinforce(${o.id},${pid})">
+          <span style="font-weight:700;">${o.name}</span>
+          <span style="font-size:10px;color:var(--tx3);margin-left:6px;">${o.region || '—'} / ${o.members.length}人</span>
+        </div>`).join('');
+      const html = `<div id="reinforce-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#1a1005;border:1px solid var(--gold2);border-radius:10px;padding:16px;width:320px;max-height:70vh;overflow-y:auto;">
+          <div style="font-weight:700;margin-bottom:10px;">🤝 応援送る — ${p.name} へ</div>
+          ${opts}
+          <button class="rcab" style="width:100%;margin-top:8px;padding:5px;" onclick="document.getElementById('reinforce-modal').remove()">キャンセル</button>
+        </div>
+      </div>`;
+      document.body.insertAdjacentHTML('beforeend', html);
+    }
+    window.openReinforceModal = openReinforceModal;
+
+    function sendReinforce(fromId, toId) {
+      const from = G_STATE.parties.find(x => x.id === fromId);
+      const to = G_STATE.parties.find(x => x.id === toId);
+      if (!from || !to) return;
+      to.reinforceFrom = fromId;
+      saveState();
+      document.getElementById('reinforce-modal') && document.getElementById('reinforce-modal').remove();
+      setLogBar(`${from.name} が ${to.name} に応援を送ります。`);
+    }
+    window.sendReinforce = sendReinforce;
+
+    // === P7: ジョーカー割当モーダル ===
+    function openJokerAssignModal(pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      const inv = G_STATE.jokerInventory || [];
+      const existing = document.getElementById('joker-assign-modal');
+      if (existing) existing.remove();
+      if (inv.length === 0) { setLogBar('所持ジョーカーがありません。週手札から入手できます。'); return; }
+      const slots = p.jokers || [null, null, null];
+      const jHtml = inv.map((j, i) =>
+        `<div style="border:1px solid #5a3a10;border-radius:5px;padding:7px;margin-bottom:5px;cursor:pointer;display:flex;align-items:center;gap:8px;" onclick="assignJokerToParty(${i},${pid})">
+          <span style="font-size:14px;">${j.label || j.id}</span>
+          <span style="font-size:10px;color:var(--tx3);">${j.desc || ''}</span>
+        </div>`).join('');
+      const slotHtml = slots.map((j, i) =>
+        `<div style="font-size:10px;color:var(--tx3);">スロット${i + 1}: ${j ? (j.label || j.id) : '空き'}</div>`).join('');
+      const html = `<div id="joker-assign-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#1a1005;border:1px solid var(--gold2);border-radius:10px;padding:16px;width:320px;max-height:70vh;overflow-y:auto;">
+          <div style="font-weight:700;margin-bottom:6px;">🃏 ジョーカー割当 — ${p.name}</div>
+          <div style="margin-bottom:8px;">${slotHtml}</div>
+          <div style="font-size:10px;color:var(--tx3);margin-bottom:6px;">割当するジョーカーをタップ →</div>
+          ${jHtml}
+          <button class="rcab" style="width:100%;margin-top:8px;padding:5px;" onclick="document.getElementById('joker-assign-modal').remove()">キャンセル</button>
+        </div>
+      </div>`;
+      document.body.insertAdjacentHTML('beforeend', html);
+    }
+    window.openJokerAssignModal = openJokerAssignModal;
+
+    function assignJokerToParty(invIdx, pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      const inv = G_STATE.jokerInventory || [];
+      if (!p || !inv[invIdx]) return;
+      p.jokers = p.jokers || [null, null, null];
+      const slot = p.jokers.findIndex(j => !j);
+      if (slot < 0) { setLogBar('ジョーカースロットが全て埋まっています。'); return; }
+      p.jokers[slot] = { ...inv[invIdx] };
+      inv.splice(invIdx, 1);
+      saveState();
+      document.getElementById('joker-assign-modal') && document.getElementById('joker-assign-modal').remove();
+      setLogBar(`${p.name} にジョーカーを装備しました。`);
+      if (typeof renderReports === 'function') renderReports();
+    }
+    window.assignJokerToParty = assignJokerToParty;
+
+    // === P7: 緊急帰還 ===
+    function emergencyReturn(pid) {
+      const p = G_STATE.parties.find(x => x.id === pid);
+      if (!p) return;
+      if (!confirm(`${p.name} を緊急帰還させますか？ミッションは中断されます。`)) return;
+      p.status = 'idle';
+      p.region = 'ギルド本部';
+      p.mission = null;
+      saveState();
+      setLogBar(`${p.name} が緊急帰還しました。`);
+      if (typeof renderReports === 'function') renderReports();
+    }
+    window.emergencyReturn = emergencyReturn;
+
     function dismissAllReports() {
       G_STATE.pendingReports = [];
       saveState();
@@ -6901,8 +7682,8 @@ ${isHired
         icon: '⚔️',
         title: 'ギルドマスターへようこそ',
         body: `あなたは冒険者ギルドの支配人。<br><br>
-          直接戦うのではなく、<strong style="color:var(--gold)">パーティーを編成・管理し、
-          間接的にダンジョンを攻略</strong>させるゲームです。<br><br>
+          直接戦うのではなく、<strong ste="color:var(--gold)">パーティーを編成・管理し、
+          間接的にダン/strong>させるゲームです。<br><br>
           メンバーの人間関係・ストレス・給与…あなたの判断次第でギルドの命運が決まる。`,
       },
       {
