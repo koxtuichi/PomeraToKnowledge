@@ -2435,7 +2435,206 @@
       line-height: 1.35;
     }
 
+    /* ===== カードグレード枠スタイル ===== */
+    .cpo-card[data-grade="gold"] {
+      border-color: #ffaa00;
+      background: linear-gradient(160deg, #1a0f00 70%, #2a1800 100%);
+      box-shadow: 0 0 8px rgba(255, 170, 0, 0.3);
+    }
+
+    .cpo-card[data-grade="gold"] .cpo-card-label {
+      color: #ffcc44;
+    }
+
+    .cpo-card[data-grade="gold"]:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 170, 0, 0.6);
+    }
+
+    .cpo-card[data-grade="silver"] {
+      border-color: #88aacc;
+      background: linear-gradient(160deg, #080e14 70%, #0d1620 100%);
+    }
+
+    .cpo-card[data-grade="silver"] .cpo-card-label {
+      color: #aaccee;
+    }
+
+    .cpo-card[data-grade="purple"] {
+      border-color: #cc55ff;
+      background: linear-gradient(160deg, #100818 70%, #1e0a2a 100%);
+      box-shadow: 0 0 8px rgba(180, 60, 255, 0.25);
+    }
+
+    .cpo-card[data-grade="purple"] .cpo-card-label {
+      color: #dd88ff;
+    }
+
+    .cpo-card[data-grade="purple"]:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 20px rgba(180, 60, 255, 0.5);
+    }
+
+    .cpo-card[data-grade="grey"] {
+      border-color: #555;
+      background: linear-gradient(160deg, #0c0c0c 70%, #141414 100%);
+      opacity: 0.82;
+    }
+
+    .cpo-card[data-grade="grey"] .cpo-card-label {
+      color: #888;
+    }
+
+    .cpo-card[data-grade="grey"]:hover {
+      opacity: 1;
+    }
+
+    /* gradeバッジ */
+    .cpo-grade-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .cpo-grade-badge.gold {
+      background: #ffaa00;
+      color: #000;
+    }
+
+    .cpo-grade-badge.silver {
+      background: #88aacc;
+      color: #000;
+    }
+
+    .cpo-grade-badge.purple {
+      background: #cc55ff;
+      color: #000;
+    }
+
+    .cpo-grade-badge.grey {
+      background: #444;
+      color: #aaa;
+    }
+
+    /* reversibleバッジ（逆転シナジー候補） */
+    .cpo-reversible-hint {
+      font-size: 7px;
+      color: #ff8833;
+      display: block;
+      margin-top: 3px;
+    }
+
+    /* ===== 役成立バーストバナー ===== */
+    @keyframes handBurstIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(30px);
+      }
+
+      60% {
+        opacity: 1;
+        transform: scale(1.08) translateY(-8px);
+      }
+
+      80% {
+        transform: scale(0.98) translateY(2px);
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes handBurstOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes particleFly {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-80px) scale(0);
+      }
+    }
+
+    .hand-burst-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    .hand-burst-box {
+      text-align: center;
+      animation: handBurstIn 0.5s cubic-bezier(.17, .67, .38, 1.3) forwards;
+    }
+
+    .hand-burst-title {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 40px currentColor, 0 0 80px currentColor;
+      line-height: 1.1;
+    }
+
+    .hand-burst-sub {
+      font-size: 16px;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .hand-burst-fx {
+      font-size: 13px;
+      margin-top: 6px;
+      color: #ffee88;
+      text-shadow: 0 0 10px #ffcc00;
+    }
+
+    .hand-burst-particle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 22px;
+      animation: particleFly 1.2s ease-out forwards;
+    }
+
+    /* ===== 逆転シナジー発動演出 ===== */
+    @keyframes reversalFlash {
+
+      0%,
+      100% {
+        background: transparent;
+      }
+
+      30% {
+        background: rgba(255, 80, 0, 0.18);
+      }
+    }
+
+    .reversal-triggered {
+      animation: reversalFlash 0.8s ease;
+    }
+
     .cpo-played-label {
+
       position: absolute;
       top: 50%;
       left: 50%;
@@ -4677,28 +4876,29 @@
     // =====================================================================
     const HAND_CARD_POOL = [
       // ⚔ 戦闘カード (type: 'combat')
-      { id: 'combat_ambush', type: 'combat', label: '⚔ 奇襲の好機', desc: '今週のエンカウントでドロップ+30%', effect: { dropMult: 1.30 } },
-      { id: 'combat_weak_spot', type: 'combat', label: '⚔ 弱点露出', desc: '部位1つをランダムに50%削れた状態で開始', effect: { weakPartBonus: true } },
-      { id: 'combat_rally', type: 'combat', label: '⚔ 集結の鬨', desc: '今週の戦闘ボーナス+20%', effect: { combatBonus: 20 } },
-      { id: 'combat_fatigue', type: 'combat', label: '⚔ 進軍の疲弊', desc: '今週全メンバーストレス+5（悪いカード）', effect: { stressDmg: 5 } },
+      { id: 'combat_ambush', type: 'combat', grade: 'gold', label: '⚔ 奇襲の好機', desc: '今週のエンカウントでドロップ+30%', effect: { dropMult: 1.30 } },
+      { id: 'combat_weak_spot', type: 'combat', grade: 'silver', label: '⚔ 弱点露出', desc: '部位1つをランダムに50%削れた状態で開始', effect: { weakPartBonus: true } },
+      { id: 'combat_rally', type: 'combat', grade: 'gold', label: '⚔ 集結の鬨', desc: '今週の戦闘ボーナス+20%', effect: { combatBonus: 20 } },
+      { id: 'combat_fatigue', type: 'combat', grade: 'grey', label: '⚔ 進軍の疲弊', desc: '今週全メンバーストレス+5（悪い）', effect: { stressDmg: 5 }, negative: true, reversible: true },
       // 💎 報酬カード (type: 'reward')
-      { id: 'reward_rare', type: 'reward', label: '💎 稀少鉱脈', desc: '今週のドロップがrare以上確定', effect: { minRarity: 'rare' } },
-      { id: 'reward_gold', type: 'reward', label: '💎 金塊発見', desc: '今週のドロップ売値+50G', effect: { goldBonus: 50 } },
-      { id: 'reward_epic', type: 'reward', label: '💎 伝説の欠片', desc: 'epic品が1.5倍の確率で出現', effect: { epicBonus: 0.15 } },
+      { id: 'reward_rare', type: 'reward', grade: 'gold', label: '💎 稀少鉱脈', desc: '今週のドロップがrare以上確定', effect: { minRarity: 'rare' } },
+      { id: 'reward_gold', type: 'reward', grade: 'silver', label: '💎 金塊発見', desc: '今週のドロップ売値+50G', effect: { goldBonus: 50 } },
+      { id: 'reward_epic', type: 'reward', grade: 'gold', label: '💎 伝説の欠片', desc: 'epic品が1.5倍の確率で出現', effect: { epicBonus: 0.15 } },
       // 🌀 イベントカード (type: 'event')
-      { id: 'event_festival', type: 'event', label: '🌀 地域の祭り', desc: '今週全パーティーのmorale+10', effect: { moraleAll: 10 } },
-      { id: 'event_plague', type: 'event', label: '🌀 疫病の噂', desc: '今週の負傷確率+20%（悪いカード）', effect: { injuryMult: 1.20 } },
-      { id: 'event_merchant', type: 'event', label: '🌀 旅の商人', desc: '倉庫の素材売値がこの週だけ+25%', effect: { sellBonus: 1.25 } },
+      { id: 'event_festival', type: 'event', grade: 'silver', label: '🌀 地域の祭り', desc: '今週全パーティーのmorale+10', effect: { moraleAll: 10 } },
+      { id: 'event_plague', type: 'event', grade: 'grey', label: '🌀 疫病の噂', desc: '今週の負傷確率+20%（悪い）', effect: { injuryMult: 1.20 }, negative: true, reversible: true },
+      { id: 'event_merchant', type: 'event', grade: 'silver', label: '🌀 旅の商人', desc: '倉庫の素材売値がこの週だけ+25%', effect: { sellBonus: 1.25 } },
       // 🚀 応援カード (type: 'reinforce')
-      { id: 'reinforce_boost', type: 'reinforce', label: '🚀 援軍の急報', desc: '今週の応援ボーナスが2倍になる', effect: { reinforceX2: true } },
-      { id: 'reinforce_range', type: 'reinforce', label: '🚀 長距離伝令', desc: '今週だけ応援可能距離が+1マス広がる', effect: { extraRange: 1 } },
+      { id: 'reinforce_boost', type: 'reinforce', grade: 'silver', label: '🚀 援軍の急報', desc: '今週の応援ボーナスが2倍になる', effect: { reinforceX2: true } },
+      { id: 'reinforce_range', type: 'reinforce', grade: 'silver', label: '🚀 長距離伝令', desc: '今週だけ応援可能距離が+1マス広がる', effect: { extraRange: 1 } },
       // 🃏 ジョーカー抽選カード (type: 'joker_draw')
-      { id: 'joker_chance_a', type: 'joker_draw', label: '🃏 古書の欠片', desc: '所持すると使用時にランダムジョーカーを1枚入手', effect: { grantJoker: true } },
+      { id: 'joker_chance_a', type: 'joker_draw', grade: 'purple', label: '🃏 古書の欠片', desc: '使用時にランダムジョーカーを1枚入手', effect: { grantJoker: true } },
       // 🐴 速度カード (type: 'speed')
-      { id: 'speed_cart', type: 'speed', label: '🐴 馬車の手配', desc: '選択したパーティーのミッションを1週加速。調査→討伐即時切替も可能。', effect: { speedUp: true } },
-      { id: 'speed_messenger', type: 'speed', label: '🕊 伝令鳥', desc: '離れたパーティーにジョーカーを即日届ける。移動コストゼロ。', effect: { deliverJoker: true } },
+      { id: 'speed_cart', type: 'speed', grade: 'silver', label: '🐴 馬車の手配', desc: '選択したパーティーのミッションを1週加速', effect: { speedUp: true } },
+      { id: 'speed_messenger', type: 'speed', grade: 'purple', label: '🕊 伝令鳥', desc: '離れたパーティーにジョーカーを即日届ける。移動コストゼロ', effect: { deliverJoker: true } },
     ];
     window.HAND_CARD_POOL = HAND_CARD_POOL;
+
 
     // ===== 役 (Hand Rank) 判定テーブル =====
     const HAND_RANKS = [
@@ -8091,18 +8291,28 @@ ${isHired
         const img = CARD_IMG_MAP[c.type] || '';
         const played = _cpoPlayedCards.includes(i);
         const sel = _cpoSelectedCardIdx === i;
+        const grade = c.grade || 'silver';
+        const gradeLabel = { gold: '✦ GOLD', silver: '', purple: '★ RARE', grey: '✕ BAD' };
+        const gradeBadge = gradeLabel[grade] ? `<div class="cpo-grade-badge ${grade}">${gradeLabel[grade]}</div>` : '';
+        // 逆転シナジー: 負のカードのジョーカー持ちヒント
+        const hasJoker = (G_STATE.jokerInventory || []).length > 0 || (G_STATE.parties || []).some(p => (p.jokers || []).length > 0);
+        const reversibleHint = c.reversible && hasJoker
+          ? `<span class="cpo-reversible-hint">🔁 ジョーカーと組み合わせると逆転効果</span>` : '';
         return `<div class="cpo-card ${played ? 'played' : sel ? 'selected' : ''}"
           id="cpocard-${i}"
+          data-grade="${grade}"
           style="--card-col:${col};"
           onclick="_cpoSelectCard(${i})">
+          ${gradeBadge}
           ${img ? `<img class="cpo-card-img" src="${img}" alt="">` : `<div class="cpo-card-img" style="background:${col}22;"></div>`}
           <div class="cpo-card-body">
             <div class="cpo-card-label">${c.label}</div>
-            <div class="cpo-card-desc">${c.desc}</div>
+            <div class="cpo-card-desc">${c.desc}${reversibleHint}</div>
           </div>
           ${played ? '<div class="cpo-played-label">USED</div>' : ''}
         </div>`;
       }).join('');
+
 
       // パーティー選択パネル
       const partiesHtml = _cpoSelectedCardIdx !== null && !_cpoPlayedCards.includes(_cpoSelectedCardIdx)
@@ -8272,10 +8482,98 @@ ${isHired
     }
     window._cpoToggleDiscardMode = _cpoToggleDiscardMode;
 
-    function _cpoAdvance() {
-      document.getElementById('cpo-overlay') && document.getElementById('cpo-overlay').remove();
-      _doAdvanceWeek();
+    // =====================================================================
+    // 役成立バーストバナー演出
+    // =====================================================================
+    function showHandRankBurst(activeRanks, onDone) {
+      if (!activeRanks || activeRanks.length === 0) { if (onDone) onDone(); return; }
+
+      const BURST_COLORS = {
+        five_of_a_kind: '#ffb74d', full_reinforce: '#44cc88',
+        triple_combat: '#ff5533', double_treasure: '#4fc3f7',
+        rainbow_hand: '#ff44ff',
+      };
+      const rank = activeRanks[0];
+      const col = BURST_COLORS[rank.id] || '#ffcc44';
+      const particles = ['✦', '★', '◈', '⬟', '◆', '✺'].map(p => {
+        const x = 30 + Math.random() * 40;
+        const y = 20 + Math.random() * 60;
+        const delay = Math.random() * 0.4;
+        return `<div class="hand-burst-particle" style="left:${x}%;top:${y}%;animation-delay:${delay}s;">${p}</div>`;
+      }).join('');
+
+      const overlay = document.createElement('div');
+      overlay.className = 'hand-burst-overlay';
+      overlay.id = 'hand-burst-overlay';
+      overlay.innerHTML = `
+        ${particles}
+        <div class="hand-burst-box" style="color:${col};">
+          <div class="hand-burst-title">✦ ${rank.label || rank.name} ✦</div>
+          <div class="hand-burst-sub" style="color:#fff;">${rank.desc || ''}</div>
+          <div class="hand-burst-fx">効果発動中…</div>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      // 1.8秒後に消してコールバック
+      setTimeout(() => {
+        overlay.style.animation = 'handBurstOut 0.4s ease forwards';
+        setTimeout(() => { overlay.remove(); if (onDone) onDone(); }, 400);
+      }, 1800);
     }
+    window.showHandRankBurst = showHandRankBurst;
+
+    // =====================================================================
+    // 逆転シナジー処理 — 負のカード × ジョーカー装備パーティー
+    // =====================================================================
+    function checkReversalSynergy(card, partyId) {
+      if (!card || !card.reversible) return false;
+      const party = (G_STATE.parties || []).find(p => p.id === partyId);
+      if (!party || !(party.jokers || []).length) return false;
+
+      // 逆転発動: マイナス効果を無効化してボーナスへ変換
+      const overlay = document.getElementById('cpo-overlay');
+      if (overlay) overlay.classList.add('reversal-triggered');
+
+      if (card.effect.stressDmg) {
+        // ストレスダメージを逆転: 全メンバーのmorale+10
+        (party.members || []).forEach(m => { m.mood = Math.min(100, (m.mood || 50) + 10); });
+        addLog(`🔁 【逆転シナジー】${party.name}: 進軍の疲弊が士気高揚に転化！ mood+10`, 'evd');
+        return true;
+      }
+      if (card.effect.injuryMult) {
+        // 負傷リスク増加を逆転: 戦闘ボーナス+15
+        party._weeklyBonusCombat = (party._weeklyBonusCombat || 0) + 15;
+        addLog(`🔁 【逆転シナジー】${party.name}: 疫病の噂が闘志に変わった！ 戦闘+15%`, 'evd');
+        return true;
+      }
+      return false;
+    }
+    window.checkReversalSynergy = checkReversalSynergy;
+
+    function _cpoAdvance() {
+      const wh = G_STATE.weeklyHand;
+
+      // 役成立チェック
+      const activeRanks = (typeof HAND_RANKS !== 'undefined' && wh && wh.cards)
+        ? HAND_RANKS.filter(r => {
+          try {
+            if (r.check) return r.check(wh.cards);
+            const m = wh.cards.filter(c => r.types ? r.types.includes(c.type) : true);
+            return m.length >= (r.minCount || 1);
+          } catch (e) { return false; }
+        })
+        : [];
+
+      document.getElementById('cpo-overlay') && document.getElementById('cpo-overlay').remove();
+
+      if (activeRanks.length > 0) {
+        // バーストバナーを見せてから週を進める
+        showHandRankBurst(activeRanks, () => { _doAdvanceWeek(); });
+      } else {
+        _doAdvanceWeek();
+      }
+    }
+
     window._cpoAdvance = _cpoAdvance;
 
     function _cpoSkip() {
