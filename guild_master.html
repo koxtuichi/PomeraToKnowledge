@@ -3628,6 +3628,29 @@
         html += `<div style="font-size:10px;color:#555;text-align:center;padding:8px;">戦術・メンバー構成を変えてシナジーを狙おう</div>`;
       }
 
+      // ===== メンバー間シナジー表示 =====
+      if (typeof calcMemberPairSynergies === 'function') {
+        const pairActive = calcMemberPairSynergies(party);
+        const pairHints = typeof _getPairSynergyHints === 'function' ? _getPairSynergyHints(party) : [];
+
+        if (pairActive.length > 0) {
+          html += `<div style="margin-top:8px;">
+            <div style="font-size:9px;color:#ff88cc;margin-bottom:4px;">💞 メンバー間シナジー発動中 (${pairActive.length}件)</div>
+            ${pairActive.map(s => `<div style="background:rgba(40,10,30,0.9);border:1px solid #882255;border-radius:5px;padding:4px 8px;margin-bottom:3px;">
+              <span style="font-size:10px;font-weight:700;color:#ff88cc;">${s.label}</span>
+              <span style="font-size:9px;color:#aa5577;display:block;margin-top:1px;">${s.desc}</span>
+            </div>`).join('')}
+          </div>`;
+        }
+
+        if (pairHints.length > 0) {
+          html += `<div style="margin-top:6px;">
+            <div style="font-size:9px;color:#cc6699;margin-bottom:3px;">💡 メンバー入れ替えで発動</div>
+            ${pairHints.map(h => `<div style="font-size:9px;color:#995577;padding:2px 6px;">→ ${h}</div>`).join('')}
+          </div>`;
+        }
+      }
+
       html += '</div>';
       return html;
     }
@@ -4903,7 +4926,166 @@
     }
     window.assignAutoRole = assignAutoRole;
 
+    // =====================================================================
+    // MEMBER PAIR SYNERGY — メンバー間シナジー定義
+    // =====================================================================
+    const MEMBER_PAIR_SYNERGY = [
+      {
+        id: 'vanguard_support',
+        label: '⚔🛡 前衛支援',
+        desc: '戦士×聖職者: 聖職者が戦士のHPを支えることで継戦能力+20%',
+        roles: ['warrior', 'cleric'], minEach: 1,
+        effect: { combatBonus: 15, stressReduce: 3 }
+      },
+      {
+        id: 'arcane_guard',
+        label: '🔮🗡 魔法護衛',
+        desc: '魔法使い×盗賊: 盗賊が護衛し魔法使いの詠唱を守る。魔法ダメージ+25%',
+        roles: ['mage', 'rogue'], minEach: 1,
+        effect: { combatBonus: 20, treasureBonus: 0.10 }
+      },
+      {
+        id: 'tactical_analysis',
+        label: '📖⚔ 戦術分析',
+        desc: '学者×戦士: 学者が弱点を解析し戦士の攻撃に活かす。戦闘XP+15%',
+        roles: ['scholar', 'warrior'], minEach: 1,
+        effect: { combatBonus: 10, xpBonus: 0.15 }
+      },
+      {
+        id: 'merchant_scout',
+        label: '💰🗡 商業諜報',
+        desc: '商人×盗賊: 情報網で敵情報を入手。アイテムドロップ率+20%',
+        roles: ['merchant', 'rogue'], minEach: 1,
+        effect: { treasureBonus: 0.20 }
+      },
+      {
+        id: 'divine_scholar',
+        label: '✨📖 聖典研究',
+        desc: '聖職者×学者: 古文書の解読で祝福効果UP。全メンバーストレス-5/週',
+        roles: ['cleric', 'scholar'], minEach: 1,
+        effect: { stressReduce: 5, xpBonus: 0.10 }
+      },
+      {
+        id: 'trade_route',
+        label: '💰📖 交易路開拓',
+        desc: '商人×学者: 地図と商業知識で最適ルートを選択。報酬+15%',
+        roles: ['merchant', 'scholar'], minEach: 1,
+        effect: { goldBonus: 0.15 }
+      },
+      {
+        id: 'holy_warrior',
+        label: '✨⚔ 聖戦士団',
+        desc: '聖職者2名と戦士が揃うと强固な防御陣形。ダメージ-15%',
+        roles: ['cleric', 'warrior'], minEach: 1,
+        specialCheck: (members) => {
+          const clerics = members.filter(m => (m.role || 'warrior') === 'cleric').length;
+          const warriors = members.filter(m => (m.role || 'warrior') === 'warrior').length;
+          return clerics >= 2 && warriors >= 1;
+        },
+        effect: { defenseBonus: 15, stressReduce: 4 }
+      },
+      {
+        id: 'personality_harmony',
+        label: '🌟 完全調和',
+        desc: 'メンバー全員の性格タイプが合致。全ステータス+10%',
+        special: 'personality_match_all',
+        effect: { combatBonus: 10, stressReduce: 5, xpBonus: 0.10 }
+      },
+      {
+        id: 'personality_clash',
+        label: '⚡ 対立摩擦',
+        desc: '嫌いな性格タイプが混在。ストレス+5/週だがそれを乗り越えXP+20%',
+        special: 'personality_clash_exists',
+        effect: { stressPenalty: 5, xpBonus: 0.20 }
+      },
+      {
+        id: 'full_coverage',
+        label: '🌈 完全編成',
+        desc: '6役職すべてが揃う夢の編成。全効果+20%アップ',
+        special: 'all_roles_present',
+        effect: { combatBonus: 20, treasureBonus: 0.20, xpBonus: 0.20, goldBonus: 0.20 }
+      },
+      {
+        id: 'twin_blades',
+        label: '⚔⚔ 双剣連携',
+        desc: '戦士2名以上: 交互攻撃でコンボ発生。クリティカル率+15%',
+        roles: ['warrior'], minEach: 2,
+        effect: { combatBonus: 18 }
+      },
+    ];
+    window.MEMBER_PAIR_SYNERGY = MEMBER_PAIR_SYNERGY;
+
+    // メンバー間シナジーを計算して発動中リストを返す
+    function calcMemberPairSynergies(party) {
+      if (!party || !party.members || party.members.length < 2) return [];
+      const members = party.members.map(m => ({ ...m, role: m.role || assignAutoRole(m) }));
+      const roles = members.map(m => m.role);
+      const active = [];
+
+      MEMBER_PAIR_SYNERGY.forEach(syn => {
+        try {
+          let triggered = false;
+
+          if (syn.specialCheck) {
+            triggered = syn.specialCheck(members);
+          } else if (syn.special === 'all_roles_present') {
+            const allRoles = Object.keys(MEMBER_ROLES);
+            triggered = allRoles.every(r => roles.includes(r));
+          } else if (syn.special === 'personality_match_all') {
+            const types = members.map(m => m.type || m.personality || '');
+            const liked = members.flatMap(m => [m.likedType, m.type].filter(Boolean));
+            triggered = members.length >= 2 && members.every(m =>
+              liked.includes(m.type) || liked.includes(m.personality));
+          } else if (syn.special === 'personality_clash_exists') {
+            triggered = members.some(m =>
+              members.some(other => other !== m &&
+                (other.type === m.dislikedType || other.personality === m.dislikedType)));
+          } else if (syn.roles && syn.minEach) {
+            if (syn.minEach === 1) {
+              triggered = syn.roles.every(r => roles.includes(r));
+            } else {
+              triggered = syn.roles.every(r =>
+                roles.filter(mr => mr === r).length >= syn.minEach);
+            }
+          }
+
+          if (triggered) active.push(syn);
+        } catch (e) { }
+      });
+
+      return active;
+    }
+    window.calcMemberPairSynergies = calcMemberPairSynergies;
+
+    // ペアシナジーのヒントを返す
+    function _getPairSynergyHints(party) {
+      if (!party || !party.members) return [];
+      const members = party.members.map(m => ({ ...m, role: m.role || assignAutoRole(m) }));
+      const roles = members.map(m => m.role);
+      const hints = [];
+
+      MEMBER_PAIR_SYNERGY.forEach(syn => {
+        if (!syn.roles || syn.special) return;
+        // 既に発動中かチェック
+        let triggered = false;
+        try {
+          if (syn.minEach === 1) triggered = syn.roles.every(r => roles.includes(r));
+          else triggered = syn.roles.every(r => roles.filter(mr => mr === r).length >= (syn.minEach || 1));
+        } catch (e) { }
+        if (triggered) return;
+        // 不足ロールを計算
+        const missing = syn.roles.filter(r => !roles.includes(r));
+        if (missing.length === 1) {
+          const roleLabel = MEMBER_ROLES[missing[0]]?.label || missing[0];
+          hints.push(`${roleLabel}を加えると「${syn.label}」発動`);
+        }
+      });
+      return hints.slice(0, 3);
+    }
+    window._getPairSynergyHints = _getPairSynergyHints;
+
     // パーティーが調査ミッションに必要な職種を持つか
+
     function hasScoutCapability(party) {
       if (!party || !party.members) return false;
       return party.members.some(m => {
@@ -6944,7 +7126,7 @@
     };
     function getEnemyImg(name) {
       if (!name) return null;
-      for (const [k,v] of Object.entries(ENEMY_IMG_MAP)) {
+      for (const [k, v] of Object.entries(ENEMY_IMG_MAP)) {
         if (name.includes(k)) return v;
       }
       return null;
@@ -6957,7 +7139,7 @@
       // 戦闘中
       if (p.currentEncounter) return 0;
       // 危機 (ストレス80+/ HP20以下)
-      if (aliveM.some(m => (m.stress||0) >= 80 || (m.healthPt||80) <= 20)) return 1;
+      if (aliveM.some(m => (m.stress || 0) >= 80 || (m.healthPt || 80) <= 20)) return 1;
       // ミッション中
       if (p.status === 'active') return 10;
       // 待機
@@ -6967,32 +7149,32 @@
     function renderPartyList() {
       const c = document.getElementById('plist-items');
       c.innerHTML = '';
-      const sorted = [...G_STATE.parties].sort((a,b) => _partyPriority(a) - _partyPriority(b));
+      const sorted = [...G_STATE.parties].sort((a, b) => _partyPriority(a) - _partyPriority(b));
       sorted.forEach(p => {
         if (p.status === 'disbanded' && p.members.length === 0) return; // 解散済みは非表示
         const div = document.createElement('div');
         const aliveM = p.members.filter(m => !m.dead);
-        const avgHP = aliveM.length ? Math.round(aliveM.reduce((s,m)=>s+(m.healthPt||80),0)/aliveM.length) : 100;
-        const avgST = aliveM.length ? Math.round(aliveM.reduce((s,m)=>s+(m.stress||0),0)/aliveM.length) : 0;
-        const hasCrisis = aliveM.some(m => (m.stress||0) >= 80 || (m.healthPt||80) <= 20);
+        const avgHP = aliveM.length ? Math.round(aliveM.reduce((s, m) => s + (m.healthPt || 80), 0) / aliveM.length) : 100;
+        const avgST = aliveM.length ? Math.round(aliveM.reduce((s, m) => s + (m.stress || 0), 0) / aliveM.length) : 0;
+        const hasCrisis = aliveM.some(m => (m.stress || 0) >= 80 || (m.healthPt || 80) <= 20);
         const hasEncounter = !!p.currentEncounter;
         const enc = p.currentEncounter;
         const pri = _partyPriority(p);
 
         // バッジ/状態
-        let stBadge='', stBadgeStyle='';
+        let stBadge = '', stBadgeStyle = '';
         if (hasEncounter) {
-          stBadge = `⚔ ${enc.name||'交戦中'}`;
+          stBadge = `⚔ ${enc.name || '交戦中'}`;
           stBadgeStyle = 'color:#ff6644;font-weight:700;';
         } else if (hasCrisis) {
           stBadge = '🚨 危機';
           stBadgeStyle = 'color:#ff4444;font-weight:700;';
         } else if (p.status === 'active' && p.mission) {
-          const mIcon = {explore:'🗺',treasure:'💎',hunt:'⚔',scout:'🔭',training:'📚',standby:'🏠'}[p.mission.type]||'📍';
-          stBadge = `${mIcon} ${p.region||'—'}`;
+          const mIcon = { explore: '🗺', treasure: '💎', hunt: '⚔', scout: '🔭', training: '📚', standby: '🏠' }[p.mission.type] || '📍';
+          stBadge = `${mIcon} ${p.region || '—'}`;
           stBadgeStyle = 'color:#aa9966;';
         } else {
-          stBadge = `🏠 ${p.region||'待機'}`;
+          stBadge = `🏠 ${p.region || '待機'}`;
           stBadgeStyle = 'color:var(--tx3);';
         }
 
@@ -7014,7 +7196,7 @@
         div.style.borderLeft = borderLeft;
         div.innerHTML = `
           <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
-            <div class="pin" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank||'F'}]</span>${cardBadge}</div>
+            <div class="pin" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name} <span style="font-size:9px;color:var(--gold);">[${p.rank || 'F'}]</span>${cardBadge}</div>
             ${hasEncounter ? `<span style="font-size:10px;animation:pulse-red 1s infinite alternate;">⚔</span>` : ''}
           </div>
           <div class="pis" style="${stBadgeStyle}font-size:10px;">${stBadge}</div>
@@ -7027,8 +7209,8 @@
       });
       // 動的CSS (1回だけ挿入)
       if (!document.getElementById('pulse-style')) {
-        const s=document.createElement('style'); s.id='pulse-style';
-        s.textContent=`
+        const s = document.createElement('style'); s.id = 'pulse-style';
+        s.textContent = `
           @keyframes pulse-red{from{opacity:1}to{opacity:0.3}}
           @keyframes glow-gold{from{box-shadow:0 0 8px #cc993322}to{box-shadow:0 0 20px #cc9933aa}}
           @keyframes pulse-green{from{opacity:0.7}to{opacity:1.0}}
@@ -7124,8 +7306,8 @@
         const enc = p.currentEncounter;
         let enemyImg = null;
         if (typeof ENEMY_IMG_MAP !== 'undefined') {
-          for (const [k,v] of Object.entries(ENEMY_IMG_MAP)) {
-            if ((enc.name||'').includes(k)) { enemyImg = v; break; }
+          for (const [k, v] of Object.entries(ENEMY_IMG_MAP)) {
+            if ((enc.name || '').includes(k)) { enemyImg = v; break; }
           }
         }
         const danger = enc.danger || 'normal';
@@ -7133,12 +7315,12 @@
         html += `<div style="margin:8px 0;padding:10px 12px;background:#1a0808;border:2px solid ${dangCol};border-radius:8px;">
           <div style="font-size:10px;color:${dangCol};font-weight:700;margin-bottom:6px;animation:pulse-red 1s infinite alternate;">⚔ 現在交戦中</div>
           <div style="display:flex;align-items:flex-start;gap:10px;">
-            ${enemyImg ? `<img src="${enemyImg}" style="width:72px;height:72px;object-fit:cover;border-radius:5px;border:1px solid ${dangCol};flex-shrink:0;" alt="${enc.name||'敵'}">` : `<div style="width:72px;height:72px;background:#2a1010;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">⚔</div>`}
+            ${enemyImg ? `<img src="${enemyImg}" style="width:72px;height:72px;object-fit:cover;border-radius:5px;border:1px solid ${dangCol};flex-shrink:0;" alt="${enc.name || '敵'}">` : `<div style="width:72px;height:72px;background:#2a1010;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">⚔</div>`}
             <div style="flex:1;">
-              <div style="font-size:13px;font-weight:700;color:#ffaa66;">${enc.name||'不明の敵'}</div>
-              ${enc.hp != null ? `<div style="font-size:9px;color:#aa6644;margin-top:2px;">HP: ${enc.hp}/${enc.maxHp||enc.hp}</div>
-              <div style="height:5px;background:#1a0808;border-radius:2px;margin-top:3px;"><div style="height:5px;width:${Math.min(100,Math.round((enc.hp/(enc.maxHp||enc.hp))*100))}%;background:#cc3300;border-radius:2px;transition:width 0.3s;"></div></div>` : ''}
-              <div style="margin-top:6px;font-size:9px;color:var(--tx3);">${enc.desc||'パーティーと交戦中…'}</div>
+              <div style="font-size:13px;font-weight:700;color:#ffaa66;">${enc.name || '不明の敵'}</div>
+              ${enc.hp != null ? `<div style="font-size:9px;color:#aa6644;margin-top:2px;">HP: ${enc.hp}/${enc.maxHp || enc.hp}</div>
+              <div style="height:5px;background:#1a0808;border-radius:2px;margin-top:3px;"><div style="height:5px;width:${Math.min(100, Math.round((enc.hp / (enc.maxHp || enc.hp)) * 100))}%;background:#cc3300;border-radius:2px;transition:width 0.3s;"></div></div>` : ''}
+              <div style="margin-top:6px;font-size:9px;color:var(--tx3);">${enc.desc || 'パーティーと交戦中…'}</div>
               <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
                 <button onclick="_partyInterventionMenu(${p.id},'card')" style="background:#2a1a08;border:1px solid #cc8822;color:#ffcc66;font-size:10px;padding:5px 10px;border-radius:5px;cursor:pointer;">🃏 カードを使う</button>
                 <button onclick="_partyInterventionMenu(${p.id},'flee')" style="background:#0a1a08;border:1px solid #336622;color:#88cc66;font-size:10px;padding:5px 10px;border-radius:5px;cursor:pointer;">🏃 撤退を命じる</button>
@@ -7380,7 +7562,7 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       html += renderJokerPanel(p);
 
       // ===== パーティースキルパネル =====
-      ht ml  += renderPartySkillPan el (p);
+      html += renderPartySkillPanel(p);
 
       // シナジービルダーパネル
       html += renderSynergyPanel(p);
@@ -7392,9 +7574,9 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
     function showRosterView() {
       currentView = 'roster';
       const ROSTER_CAP = { D: 10, C: 10, B: 15, A: 20, S: 30 };
-        const cap = ROSTER_CAP[G_STATE.guildRank] || 10;
+      const cap = ROSTER_CAP[G_STATE.guildRank] || 10;
       const orders = G_STATE.recruitOrders || [];
-      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター ${G_STATE.roster.length }  / ${cap}人</div></div>`;
+      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター ${G_STATE.roster.length}  / ${cap}人</div></div>`;
 
       // ===== B. 招集パネル =====
       html += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
@@ -7884,20 +8066,20 @@ ${isHired
         } else {
           // 役未成立: 候補を「あと〇枚」で表示
           const typeCount = {};
-          wh.cards.forEach(c => { typeCount[c.type] = (typeCount[c.type]||0)+1; });
+          wh.cards.forEach(c => { typeCount[c.type] = (typeCount[c.type] || 0) + 1; });
           const near = HAND_RANKS.filter(r => {
             if (r.check) return false; // check系は候補表示しない
             const count = r.types ? Object.entries(typeCount)
               .filter(([t]) => r.types.includes(t))
-              .reduce((s,[,n])=>s+n, 0) : wh.cards.length;
-            return count >= (r.minCount||1) - 2 && count < (r.minCount||1);
+              .reduce((s, [, n]) => s + n, 0) : wh.cards.length;
+            return count >= (r.minCount || 1) - 2 && count < (r.minCount || 1);
           }).slice(0, 2);
           const nearHtml = near.length > 0
             ? near.map(r => {
-                const count = r.types ? wh.cards.filter(c=>r.types.includes(c.type)).length : 0;
-                const left = (r.minCount||1) - count;
-                return `<div class="cpo-rank-near">🎯 あと${left}枚で <b>${r.label||r.name}</b> 発動</div>`;
-              }).join('')
+              const count = r.types ? wh.cards.filter(c => r.types.includes(c.type)).length : 0;
+              const left = (r.minCount || 1) - count;
+              return `<div class="cpo-rank-near">🎯 あと${left}枚で <b>${r.label || r.name}</b> 発動</div>`;
+            }).join('')
             : '<div class="cpo-rank-near" style="color:var(--tx3);">役なし — 1枚を最も効果的なパーティーへ</div>';
           rankBannerArea = `<div class="cpo-rank-area">${nearHtml}</div>`;
         }
@@ -7965,8 +8147,8 @@ ${isHired
         const mtype2 = p.mission && p.mission.type;
         if (card.type === 'combat' && mtype2 === 'hunt') hint = '⚔ 討伐シナジー ×1.5';
         else if (card.type === 'reward' && mtype2 === 'treasure') hint = '💎 宝物庫シナジー ×1.5';
-        else if (card.type === 'speed' && p.mission && p.mission.deadline && (p.mission.deadline-(G_STATE.week||1))<=3) hint = '🏃 緊急加速 ×2.0';
-        else if (card.type === 'reinforce' && _partyPriority && _partyPriority(p)<=1) hint = '🛡 救援シナジー ×2.0';
+        else if (card.type === 'speed' && p.mission && p.mission.deadline && (p.mission.deadline - (G_STATE.week || 1)) <= 3) hint = '🏃 緊急加速 ×2.0';
+        else if (card.type === 'reinforce' && _partyPriority && _partyPriority(p) <= 1) hint = '🛡 救援シナジー ×2.0';
         else if (card.type === 'event' && mtype2 === 'explore') hint = '🔮 探索シナジー ×1.3';
         const hintHtml = hint ? `<span class="synergy-hint">✨ ${hint}</span>` : '';
         return `<button class="cpo-party-btn${hint ? ' synergy-match' : ''}" onclick="_cpoUseCardOn(${cardIdx},${p.id})">
@@ -8038,7 +8220,7 @@ ${isHired
         synergyMult = 1.5; synergyLabel = '⚔ 討伐シナジー×1.5';
       } else if (card.type === 'reward' && mtype === 'treasure') {
         synergyMult = 1.5; synergyLabel = '💎 宝物庫シナジー×1.5';
-      } else if (card.type === 'speed' && party.mission && party.mission.deadline && (party.mission.deadline - (G_STATE.week||1)) <= 3) {
+      } else if (card.type === 'speed' && party.mission && party.mission.deadline && (party.mission.deadline - (G_STATE.week || 1)) <= 3) {
         synergyMult = 2.0; synergyLabel = '🏃 緊急加速×2.0';
       } else if (card.type === 'reinforce' && prio <= 1) {
         synergyMult = 2.0; synergyLabel = '🛡 救援シナジー×2.0';
@@ -8121,7 +8303,7 @@ ${isHired
         // 撤退: ミッション中断・帰還
         if (p.currentEncounter) {
           p.currentEncounter = null;
-          p.members.forEach(m => { m.stress = Math.min(100, (m.stress||0) + 15); });
+          p.members.forEach(m => { m.stress = Math.min(100, (m.stress || 0) + 15); });
         }
         returnPartyHome(p);
         setLogBar(`${p.name} に撤退を命じた。ストレス+15。`);
@@ -8832,8 +9014,8 @@ ${isHired
 
     // ---- ミュートトグル -------------------------------------------------------
     function toggleMute() {
-      if (typeofFX === 'undefined') return;
-      SFX.setMuted(!SFX.());
+      if (typeof SFX === 'undefined') return;
+      SFX.setMuted(!SFX.isMuted());
       const btn = document.getElementById('mute-btn');
       if (btn) btn.textContent = SFX.isMuted() ? '🔇' : '🔊';
       SFX.click();
@@ -8871,7 +9053,7 @@ ${isHired
         // ─── 防具×タンク/回復 ────────────────────────────────
         { equipKw: ['鎧', 'ローブ'], charTypes: ['盾', '治癒'], label: '全身防護', stressReduction: 6, moodBoost: 3, healthBoost: 7 },
         { equipKw: ['外套', '羽'], charTypes: ['弓', '双剣'], label: '軽やかな回避', stressReduction: 5, moodBoost: 5, healthBoost: 2 },
-        { equipKw: ['竜鱗'], charTypes: ['盾', '大剣'], label: '竜鱗の加護', stressReduction: 7, moodBoost: 4, healthBoost: 6 },       { equipKw: ['星影'], charTypes: ['魔術'], label:  stressReduction: 7, moodBoost: 6, healthBoost: 3 },
+        { equipKw: ['竜鱗'], charTypes: ['盾', '大剣'], label: '竜鱗の加護', stressReduction: 7, moodBoost: 4, healthBoost: 6 }, { equipKw: ['星影'], charTypes: ['魔術'], label: '星影の加護', stressReduction: 7, moodBoost: 6, healthBoost: 3 },
         // ─── アイテム×効果 ────────────────────────────────────
         { equipKw: ['砂', '大地', '岩'], charTypes: ['盾', '斧'], label: '大地の盾', stressReduction: 5, moodBoost: 2, healthBoost: 6 },
         { equipKw: ['虹', '幸運', '運命'], charTypes: ['弓', '治癒'], label: '幸運の矢', stressReduction: 5, moodBoost: 8, healthBoost: 3 },
