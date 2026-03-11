@@ -251,6 +251,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0162,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0146,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -419,7 +425,11 @@
       "detail": "ブログ読者が14名に増え、人気獲得に向けた大きな一歩を踏み出した。",
       "status": "進行中",
       "first_seen": "2026-02-16T23:51:38.047414",
+<<<<<<< Updated upstream
       "last_seen": "2026-03-10T15:50:53.363195",
+=======
+      "last_seen": "2026-03-11T00:50:40.102581",
+>>>>>>> Stashed changes
       "weight": 1.0,
       "tags": []
     },
@@ -455,7 +465,11 @@
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
+<<<<<<< Updated upstream
       "last_seen": "2026-03-10T15:50:53.361829",
+=======
+      "last_seen": "2026-03-11T00:50:40.101879",
+>>>>>>> Stashed changes
       "weight": 179,
       "tags": []
     },
@@ -648,6 +662,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.004,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0036,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -674,7 +694,11 @@
       "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317260",
+<<<<<<< Updated upstream
       "last_seen": "2026-03-10T15:50:53.363195",
+=======
+      "last_seen": "2026-03-11T00:50:40.102581",
+>>>>>>> Stashed changes
       "weight": 15.65,
       "tags": [
         "100体チャレンジ",
@@ -697,7 +721,7 @@
         "目標"
       ],
       "first_seen": "2026-02-16T14:56:00.317266",
-      "last_seen": "2026-03-05T15:01:44.464717",
+      "last_seen": "2026-03-11T00:50:40.102581",
       "weight": 0.1
     },
     {
@@ -858,6 +882,12 @@
           "date": "2026-03-10",
           "sentiment": -0.9,
           "active_sentiment": -0.0165,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0149,
           "trigger": null
         }
       ],
@@ -1022,6 +1052,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0146,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0131,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -1133,6 +1169,12 @@
           "date": "2026-03-10",
           "sentiment": -0.9,
           "active_sentiment": -0.0052,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0047,
           "trigger": null
         }
       ],
@@ -1335,6 +1377,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.004,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0036,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -1422,6 +1470,12 @@
           "date": "2026-03-10",
           "sentiment": -0.6,
           "active_sentiment": -0.0031,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0028,
           "trigger": null
         }
       ],
@@ -1682,6 +1736,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -1829,6 +1889,12 @@
           "sentiment": 0.7,
           "active_sentiment": 0.0036,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0032,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
@@ -1950,6 +2016,12 @@
           "date": "2026-03-10",
           "sentiment": 0.7,
           "active_sentiment": 0.0036,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0032,
           "trigger": null
         }
       ],
@@ -2135,6 +2207,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -2276,6 +2354,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -2389,6 +2473,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -2496,6 +2586,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -2522,12 +2618,21 @@
     },
     {
       "id": "感情:登録者増加の喜び",
+<<<<<<< Updated upstream
       "label": "YouTube登録者増による喜び",
       "type": "感情",
       "sentiment": 0.8,
       "detail": "昨日の動画で登録者が2人増え、自分の活動に手応えを感じている。",
       "first_seen": "2026-02-16T20:48:22.676275",
       "last_seen": "2026-03-10T15:50:53.363195",
+=======
+      "label": "YouTube登録者増加による手応え",
+      "type": "感情",
+      "sentiment": 0.8,
+      "detail": "動画投稿によって実際に登録者が増えたことで、自身の活動に意味と進展を感じている状態。",
+      "first_seen": "2026-02-16T20:48:22.676275",
+      "last_seen": "2026-03-11T00:50:40.102581",
+>>>>>>> Stashed changes
       "weight": 1.1,
       "active_sentiment": 0.8,
       "emotion_history": [
@@ -2602,10 +2707,21 @@
           "sentiment": 0.7,
           "active_sentiment": 0.0036,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.8,
+          "trigger": null
         }
       ],
+<<<<<<< Updated upstream
       "peak_sentiment": 0.7,
       "trend": "安定",
+=======
+      "peak_sentiment": 0.8,
+      "trend": "上昇",
+>>>>>>> Stashed changes
       "tags": []
     },
     {
@@ -2691,6 +2807,12 @@
           "date": "2026-03-10",
           "sentiment": -0.6,
           "active_sentiment": -0.0121,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0109,
           "trigger": null
         }
       ],
@@ -2789,6 +2911,12 @@
           "date": "2026-03-10",
           "sentiment": -0.6,
           "active_sentiment": -0.0031,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0028,
           "trigger": null
         }
       ],
@@ -2910,6 +3038,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -2997,6 +3131,12 @@
           "date": "2026-03-10",
           "sentiment": 0.5,
           "active_sentiment": 0.0026,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0023,
           "trigger": null
         }
       ],
@@ -3105,6 +3245,12 @@
           "date": "2026-03-10",
           "sentiment": -0.6,
           "active_sentiment": -0.0031,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0028,
           "trigger": null
         }
       ],
@@ -3216,6 +3362,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -3320,6 +3472,12 @@
           "date": "2026-03-10",
           "sentiment": -0.4,
           "active_sentiment": -0.0021,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0019,
           "trigger": null
         }
       ],
@@ -3463,6 +3621,12 @@
           "date": "2026-03-10",
           "sentiment": -0.6,
           "active_sentiment": -0.0038,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0034,
           "trigger": null
         }
       ],
@@ -3643,6 +3807,12 @@
           "sentiment": 0.4,
           "active_sentiment": 0.0021,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0019,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.4,
@@ -3769,6 +3939,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0134,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0121,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -3879,6 +4055,12 @@
           "date": "2026-03-10",
           "sentiment": 0.9,
           "active_sentiment": 0.0064,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0058,
           "trigger": null
         }
       ],
@@ -4027,6 +4209,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0031,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0028,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -4118,6 +4306,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0762,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0686,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -4204,6 +4398,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.004,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0036,
           "trigger": null
         }
       ],
@@ -4522,6 +4722,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.004,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0036,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -4672,6 +4878,12 @@
           "date": "2026-03-10",
           "sentiment": -0.8,
           "active_sentiment": -0.02,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.8,
+          "active_sentiment": -0.018,
           "trigger": null
         }
       ],
@@ -4827,6 +5039,12 @@
           "sentiment": 0.4,
           "active_sentiment": 0.0039,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0035,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -4940,6 +5158,12 @@
           "date": "2026-03-10",
           "sentiment": -0.9,
           "active_sentiment": -0.0088,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0079,
           "trigger": null
         }
       ],
@@ -5064,6 +5288,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0047,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0042,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -5187,6 +5417,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0274,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0247,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -5293,6 +5529,12 @@
           "date": "2026-03-10",
           "sentiment": 0.9,
           "active_sentiment": 0.0098,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0088,
           "trigger": null
         }
       ],
@@ -5500,6 +5742,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0086,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0077,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -5597,6 +5845,12 @@
           "date": "2026-03-10",
           "sentiment": 0.9,
           "active_sentiment": 0.031,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0279,
           "trigger": null
         }
       ],
@@ -5802,6 +6056,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0015,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0014,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -5916,6 +6176,12 @@
           "date": "2026-03-10",
           "sentiment": -0.2,
           "active_sentiment": -0.0011,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.2,
+          "active_sentiment": -0.001,
           "trigger": null
         }
       ],
@@ -6209,6 +6475,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0106,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0095,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -6337,6 +6609,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.0339,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0305,
           "trigger": null
         }
       ],
@@ -6556,6 +6834,12 @@
           "sentiment": -0.5,
           "active_sentiment": -0.0444,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.5,
+          "active_sentiment": -0.04,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -6677,6 +6961,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.0377,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0339,
           "trigger": null
         }
       ],
@@ -6800,6 +7090,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.004,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0036,
           "trigger": null
         }
       ],
@@ -7052,6 +7348,12 @@
           "sentiment": -0.4,
           "active_sentiment": -0.0021,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0019,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -7197,6 +7499,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0052,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0047,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -7314,6 +7622,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0251,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0226,
+          "trigger": null
         }
       ],
       "peak_sentiment": 1.0,
@@ -7429,6 +7743,12 @@
           "sentiment": 0.4,
           "active_sentiment": 0.0021,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0019,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.4,
@@ -7533,6 +7853,12 @@
           "date": "2026-03-10",
           "sentiment": -0.9,
           "active_sentiment": -0.0047,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0042,
           "trigger": null
         }
       ],
@@ -7678,6 +8004,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.004,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0036,
           "trigger": null
         }
       ],
@@ -7913,6 +8245,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0047,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0042,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -8069,6 +8407,12 @@
           "sentiment": 0.5,
           "active_sentiment": 0.0026,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0023,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -8157,6 +8501,12 @@
           "date": "2026-03-10",
           "sentiment": -0.9,
           "active_sentiment": -0.0047,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0042,
           "trigger": null
         }
       ],
@@ -8462,6 +8812,12 @@
           "sentiment": -0.4,
           "active_sentiment": -0.0048,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0043,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -8610,6 +8966,12 @@
           "sentiment": 0.5,
           "active_sentiment": 0.0102,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0092,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -8709,6 +9071,12 @@
           "date": "2026-03-10",
           "sentiment": -0.3,
           "active_sentiment": -0.0068,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0061,
           "trigger": null
         }
       ],
@@ -8866,6 +9234,12 @@
           "sentiment": -0.8,
           "active_sentiment": -0.0247,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.8,
+          "active_sentiment": -0.0222,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.8,
@@ -9001,6 +9375,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0114,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0103,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -9099,6 +9479,12 @@
           "date": "2026-03-10",
           "sentiment": 0.6,
           "active_sentiment": 0.0314,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0283,
           "trigger": null
         }
       ],
@@ -9319,6 +9705,12 @@
           "sentiment": -0.5,
           "active_sentiment": -0.0292,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.5,
+          "active_sentiment": -0.0263,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.5,
@@ -9448,6 +9840,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.1664,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.1581,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -9532,6 +9930,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.0002,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0001,
           "trigger": null
         }
       ],
@@ -9783,6 +10187,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0214,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0182,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -9977,6 +10387,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.1752,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.1664,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -10061,6 +10477,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0182,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0155,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -10144,6 +10566,12 @@
           "date": "2026-03-10",
           "sentiment": 0.9,
           "active_sentiment": 0.0043,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.003,
           "trigger": null
         }
       ],
@@ -10261,6 +10689,12 @@
           "date": "2026-03-10",
           "sentiment": 0.9,
           "active_sentiment": 0.0214,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0182,
           "trigger": null
         }
       ],
@@ -10438,6 +10872,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0167,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0142,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -10538,6 +10978,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.0004,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0003,
           "trigger": null
         }
       ],
@@ -10665,6 +11111,12 @@
           "date": "2026-03-10",
           "sentiment": 0.8,
           "active_sentiment": 0.0428,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0364,
           "trigger": null
         }
       ],
@@ -10811,6 +11263,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0038,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0027,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -10893,6 +11351,12 @@
           "date": "2026-03-10",
           "sentiment": 0.7,
           "active_sentiment": 0.0012,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0008,
           "trigger": null
         }
       ],
@@ -11019,6 +11483,12 @@
           "date": "2026-03-10",
           "sentiment": -0.6,
           "active_sentiment": -0.2779,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.6,
+          "active_sentiment": -0.264,
           "trigger": null
         }
       ],
@@ -11154,6 +11624,12 @@
           "sentiment": 0.7,
           "active_sentiment": 0.0611,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0519,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
@@ -11272,6 +11748,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0055,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0038,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -11355,6 +11837,12 @@
           "date": "2026-03-10",
           "sentiment": -0.4,
           "active_sentiment": -0.113,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.4,
+          "active_sentiment": -0.1017,
           "trigger": null
         }
       ],
@@ -11462,6 +11950,12 @@
           "sentiment": 0.3,
           "active_sentiment": 0.0501,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.3,
+          "active_sentiment": 0.0426,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.3,
@@ -11529,10 +12023,16 @@
           "sentiment": 1.0,
           "active_sentiment": 0.0577,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 1.0,
+          "active_sentiment": 0.0404,
+          "trigger": null
         }
       ],
       "peak_sentiment": 1.0,
-      "trend": "下降",
+      "trend": "安定",
       "tags": []
     },
     {
@@ -11735,6 +12235,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.1968,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.3,
+          "active_sentiment": -0.1771,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -11783,6 +12289,12 @@
           "date": "2026-03-10",
           "sentiment": 0.7,
           "active_sentiment": 0.2243,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.7,
+          "active_sentiment": 0.1907,
           "trigger": null
         }
       ],
@@ -11923,6 +12435,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.1345,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0941,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -11970,6 +12488,12 @@
           "date": "2026-03-10",
           "sentiment": -0.2,
           "active_sentiment": -0.1548,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.2,
+          "active_sentiment": -0.1471,
           "trigger": null
         }
       ],
@@ -12098,6 +12622,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.4176,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.355,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -12144,6 +12674,12 @@
           "date": "2026-03-10",
           "sentiment": -0.5,
           "active_sentiment": -0.4072,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.5,
+          "active_sentiment": -0.3868,
           "trigger": null
         }
       ],
@@ -12236,6 +12772,12 @@
           "sentiment": 0.2,
           "active_sentiment": 0.1458,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.2,
+          "active_sentiment": 0.1312,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.2,
@@ -12295,6 +12837,12 @@
           "date": "2026-03-10",
           "sentiment": 0.9,
           "active_sentiment": 0.441,
+          "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.3087,
           "trigger": null
         }
       ],
@@ -12392,6 +12940,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.63,
           "trigger": null
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.9,
+          "active_sentiment": 0.441,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -12459,10 +13013,16 @@
           "sentiment": 0.8,
           "active_sentiment": 0.8,
           "trigger": "鍼治療で肩の凝りがほぐれ、気持ちよさを感じたこと。"
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": 0.8,
+          "active_sentiment": 0.56,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "安定"
+      "trend": "下降"
     },
     {
       "id": "タスク:むぎの散歩",
@@ -12504,6 +13064,12 @@
           "sentiment": -0.5,
           "active_sentiment": -0.5,
           "trigger": "沙也香に負担をかけ、むぎの散歩をサボっていた自覚。"
+        },
+        {
+          "date": "2026-03-11",
+          "sentiment": -0.5,
+          "active_sentiment": -0.45,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.5,
@@ -12521,6 +13087,7 @@
     },
     {
       "id": "日記:2026-03-11",
+<<<<<<< Updated upstream
       "label": "日記 2026-03-11",
       "type": "日記",
       "detail": "絵を描く習慣とYouTubeへの投稿が順調であること、登録者が増えた喜びを記録。",
@@ -12552,6 +13119,38 @@
       "context": "private",
       "first_seen": "2026-03-10T15:50:53.361744",
       "last_seen": "2026-03-10T15:50:53.363195",
+=======
+      "label": "2026年3月11日の日記",
+      "type": "日記",
+      "detail": "絵の制作からYouTube投稿までのルーチンが定着し、登録者増加による手応えを感じている記録。",
+      "date": "2026-03-11",
+      "context": "private",
+      "first_seen": "2026-03-11T00:50:40.101642",
+      "last_seen": "2026-03-11T00:50:40.101642",
+      "weight": 1,
+      "analysis_content": "{\"coach_comment\": \"絵の制作からYouTube投稿までのルーチンがしっかり定着しましたね。登録者数の増加という目に見える成果は、あなたの『エネルギー』を大きく加速させています。この調子で、創作の楽しさを守りながら、少しずつ未着手の『重力』にも手を付けていきましょう。あなたは一人ではありません、私がついています。\", \"gravity_map\": [{\"task\": \"毎日のモンスター描画\", \"task_id\": \"DAILY_MONSTER_DRAWING\", \"constraints\": [{\"name\": \"YouTubeによる夜更かし\", \"type\": \"時間不足\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"登録者増加の手応え\", \"type\": \"感情\"}, {\"name\": \"ルーチンの定着\", \"type\": \"目標\"}], \"net_assessment\": \"成功体験が重力を大きく上回っており、非常に良いサイクルに入っています。\"}, {\"task\": \"確定申告の送信・郵送\", \"task_id\": \"FINAL_TAX_RETURN\", \"constraints\": [{\"name\": \"必要事項が不明\", \"type\": \"技術的課題\", \"severity\": \"高\"}, {\"name\": \"納税額への不安\", \"type\": \"感情적ブレーキ\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"精神的リリースの渇望\", \"type\": \"目標\"}], \"net_assessment\": \"心理的ハードルが高く、着手が先延ばしにされやすい強い重力がかかっています。\"}, {\"task\": \"Saiteki AI研究資料作成\", \"task_id\": \"SAITEKI_AI_RESEARCH\", \"constraints\": [{\"name\": \"アイディアの停滞\", \"type\": \"リソース不足\", \"severity\": \"高\"}, {\"name\": \"本業後の疲労\", \"type\": \"疲労\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"AIへのロマン\", \"type\": \"目標\"}], \"net_assessment\": \"一人で抱え込むことで重力が増しているため、他者の介入による軽量化が必要です。\"}], \"antigravity_actions\": [{\"action\": \"『10分描画』のルーチンを終えた直後にタイマーを20分セットし、動画外で細部の描き込みを延長する。\", \"target_task\": \"5時間かけた高品質なモンスター描画の制作\", \"effect\": \"好調な10分描画をベースに制作時間を段階的に延ばし、『長時間制作』への心理的・物理的ハードルを下げます。\", \"effort\": \"30分\"}, {\"action\": \"社会保険料計算サイトで、希望給与額に対する手取りの概算を算出し、メモを更新する。\", \"target_task\": \"希望給与条件の整理と提示\", \"effect\": \"「社会保険料の試算不足」という不安を具体的な数字に置き換え、給与提示に向けた論理的な準備を整えます。\", \"effort\": \"30分\"}, {\"action\": \"YouTube Studioの『視聴者がYouTubeにアクセスしている時間帯』を確認し、明日の予約投稿時間を設定する。\", \"target_task\": \"YouTube投稿タイミングの迷い\", \"effect\": \"データに基づいた最適な投稿時間を決めることで、再生数への迷いや不安を解消し、制作への集中力を高めます。\", \"effort\": \"5分\"}, {\"action\": \"e-Taxにログインし、作成済みの申告データが送信可能な状態であることを確認する。\", \"target_task\": \"確定申告の送信・郵送\", \"effect\": \"「あとは送るだけ」という最後の心理的障壁を取り除き、完了に向けた物理的な動線を確保します。\", \"effort\": \"5分\"}, {\"action\": \"首の痛みを和らげるため、蒸しタオルで5分間患部を温め、血流を改善させる。\", \"target_task\": \"寝違えによる首の痛み\", \"effect\": \"身体的な「痛み」という重力を直接軽減し、仕事や育児、趣味のパフォーマンス低下を防ぎます。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"ポメラ特化戦略によるブログPVの急増\", \"implication\": \"自分の「好き」と市場の「ニッチ」が合致した時、最も重力が軽くなり、成果（エネルギー）が最大化される。\"}, {\"finding\": \"10分の制作ルーチンが成功している\", \"implication\": \"「高品質」を目指しすぎて停滞するより、短時間でも「継続」することがYouTubeアルゴリズムと心理的安定に寄与している。\"}], \"emotion_flow\": [{\"emotion\": \"手応え\", \"sentiment\": 0.8, \"context\": \"YouTubeの登録者が増加し、創作ルーチンに自信を持てている\"}, {\"emotion\": \"罪悪感\", \"sentiment\": -0.5, \"context\": \"3/10、本来の役割を果たせていないと感じていた\"}, {\"emotion\": \"爽快感\", \"sentiment\": 0.8, \"context\": \"鍼治療により身体的な重力（首の痛み）が軽減された\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [{\"member\": \"自分\", \"event\": \"YouTubeに絵の制作動画を投稿し、新たに2人の登録者が増えた\", \"emotion\": \"嬉しい、手応えを感じている\"}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"ペット用品\", \"category\": \"日用品/育児用品\", \"urgency\": \"今週中\", \"note\": \"2026-02-22の日記にて購入予定との記述あり。その後の購入完了報告なし。\"}, {\"item\": \"妻が希望するウィッシュリストの品目\", \"category\": \"日用品/その他\", \"urgency\": \"いつか\", \"note\": \"2026-02-25の日記にて妻の壮大な将来の購入リストについての言及あり。\"}, {\"item\": \"確定申告用の切手・封筒\", \"category\": \"日用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-04の日記にて確定申告の郵送（物理的ハードル）についての記述あり。\"}, {\"item\": \"湿布・鎮痛剤\", \"category\": \"日用品/医薬品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-09の日記にて寝違えによる首の痛みが「物理的障害：高」として記述あり。\"}]}, \"blog_seeds\": [{\"title\": \"10分の画家のささやかな奇跡\", \"genre\": \"テクノロジー\", \"tone\": \"ほっこり\", \"story_seed\": \"ある男が毎日たった10分だけ絵を描き、それを遠い異国の誰かに届ける。その小さな記録が、見知らぬ誰かの『重力』を軽くしていく物語。\", \"core_message\": \"小さく続けることの価値は、自分以上に他者が知っている。\", \"reader_feeling\": \"明日から何か一つ、小さく始めてみようという勇気\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「高品質」の呪いを解く。10分で動画を作って登録者を増やす超効率ルーチン術\", \"theme\": \"YouTube運営と創作の継続\", \"hook\": \"5時間かけて描いた絵より、10分でルーチン化した動画の方が、誰かの心に届くこともある。\", \"readiness\": \"高\"}, {\"title\": \"ポメラ×ブログ特化戦略：ニッチな道具を愛でることで14人の『同志』に出会えた話\", \"theme\": \"ポメラ活用とブログ成長\", \"hook\": \"万人に向けた言葉よりも、たった一人のポメラユーザーに刺さる言葉が、PVを跳ねさせた。\", \"readiness\": \"高\"}], \"knowbe\": {\"constraints\": [], \"tasks\": [], \"insights\": [{\"finding\": \"KnowbeのMTG前に日記形式でアウトプットを行い思考を整理することで、頭をすっきりさせることができた。\", \"implication\": \"業務上の重要な場面の前に言語化のプロセスを挟むことは、メンタルコンディションを整え、議論の質を高めるための有効な準備ルーチンとなる。\"}]}, \"saiteki\": {\"constraints\": [], \"tasks\": [], \"insights\": []}}"
+    },
+    {
+      "id": "出来事:YouTube登録者2人増加",
+      "label": "YouTube登録者2人増加",
+      "type": "出来事",
+      "detail": "2026年3月10日に投稿した動画により、チャンネル登録者が2名増えた。",
+      "status": "完了",
+      "date": "2026-03-10",
+      "context": "private",
+      "first_seen": "2026-03-11T00:50:40.101794",
+      "last_seen": "2026-03-11T00:50:40.102581",
+      "weight": 1
+    },
+    {
+      "id": "知見:モンスター描画YouTube投稿ルーチン",
+      "label": "モンスター描画とYouTube投稿の効率的なルーチン",
+      "type": "知見",
+      "detail": "10分程度の描画動画撮影→描き込み→写真撮影→YouTubeアップロードという一連のフローにより、継続的な制作と発信が可能になった。",
+      "context": "private",
+      "first_seen": "2026-03-11T00:50:40.101837",
+      "last_seen": "2026-03-11T00:50:40.102581",
+>>>>>>> Stashed changes
       "weight": 1
     }
   ],
@@ -27588,17 +28187,62 @@
     },
     {
       "source": "日記:2026-03-11",
+<<<<<<< Updated upstream
       "target": "タスク:MonsterDrawing",
       "type": "言及する",
       "label": "制作の継続に言及",
       "first_seen": "2026-03-10T15:50:53.363118",
       "last_seen": "2026-03-10T15:50:53.363118",
+=======
+      "target": "感情:登録者増加の喜び",
+      "type": "言及する",
+      "label": "感情について記述",
+      "first_seen": "2026-03-11T00:50:40.102544",
+      "last_seen": "2026-03-11T00:50:40.102544",
+      "weight": 0.95
+    },
+    {
+      "source": "日記:2026-03-11",
+      "target": "出来事:YouTube登録者2人増加",
+      "type": "言及する",
+      "label": "出来事について記述",
+      "first_seen": "2026-03-11T00:50:40.102549",
+      "last_seen": "2026-03-11T00:50:40.102549",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-11",
+      "target": "知見:モンスター描画YouTube投稿ルーチン",
+      "type": "言及する",
+      "label": "制作手法について記述",
+      "first_seen": "2026-03-11T00:50:40.102551",
+      "last_seen": "2026-03-11T00:50:40.102551",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-11",
+      "target": "タスク:MonsterDrawing",
+      "type": "言及する",
+      "label": "毎日の描画タスクの進捗",
+      "first_seen": "2026-03-11T00:50:40.102553",
+      "last_seen": "2026-03-11T00:50:40.102553",
+      "weight": 1
+    },
+    {
+      "source": "日記:2026-03-11",
+      "target": "目標:RealisticDesign",
+      "type": "言及する",
+      "label": "モンスターデザインの目標に触れる",
+      "first_seen": "2026-03-11T00:50:40.102555",
+      "last_seen": "2026-03-11T00:50:40.102555",
+>>>>>>> Stashed changes
       "weight": 1
     },
     {
       "source": "日記:2026-03-11",
       "target": "目標:個人での収益化・人気獲得",
       "type": "言及する",
+<<<<<<< Updated upstream
       "label": "人気獲得の手応えに言及",
       "first_seen": "2026-03-10T15:50:53.363126",
       "last_seen": "2026-03-10T15:50:53.363126",
@@ -27612,11 +28256,27 @@
       "first_seen": "2026-03-10T15:50:53.363130",
       "last_seen": "2026-03-10T15:50:53.363130",
       "weight": 1
+=======
+      "label": "登録者増加という成果に触れる",
+      "first_seen": "2026-03-11T00:50:40.102557",
+      "last_seen": "2026-03-11T00:50:40.102557",
+      "weight": 1
+    },
+    {
+      "source": "出来事:YouTube登録者2人増加",
+      "target": "感情:登録者増加の喜び",
+      "type": "引き起こす",
+      "label": "成果が喜びを生む",
+      "first_seen": "2026-03-11T00:50:40.102559",
+      "last_seen": "2026-03-11T00:50:40.102559",
+      "weight": 0.95
+>>>>>>> Stashed changes
     },
     {
       "source": "感情:登録者増加の喜び",
       "target": "タスク:MonsterDrawing",
       "type": "原動力になる",
+<<<<<<< Updated upstream
       "label": "喜びが制作意欲を高める",
       "first_seen": "2026-03-10T15:50:53.363134",
       "last_seen": "2026-03-10T15:50:53.363134",
@@ -27638,6 +28298,20 @@
       "label": "収益化に向けた具体的な運用手法",
       "first_seen": "2026-03-10T15:50:53.363141",
       "last_seen": "2026-03-10T15:50:53.363141",
+=======
+      "label": "手応えが継続の力になる",
+      "first_seen": "2026-03-11T00:50:40.102561",
+      "last_seen": "2026-03-11T00:50:40.102561",
+      "weight": 0.95
+    },
+    {
+      "source": "知見:モンスター描画YouTube投稿ルーチン",
+      "target": "制約:制作時間の確保困難",
+      "type": "解決する",
+      "label": "ルーチン化により効率的に制作時間を活用",
+      "first_seen": "2026-03-11T00:50:40.102563",
+      "last_seen": "2026-03-11T00:50:40.102563",
+>>>>>>> Stashed changes
       "weight": 1
     },
     {
@@ -27646,6 +28320,7 @@
       "type": "関連する",
       "label": "書いた",
       "weight": 1,
+<<<<<<< Updated upstream
       "first_seen": "2026-03-10T15:50:53.363145",
       "last_seen": "2026-03-10T15:50:53.363145"
     },
@@ -27675,6 +28350,10 @@
       "weight": 1,
       "first_seen": "2026-03-10T15:50:53.363154",
       "last_seen": "2026-03-10T15:50:53.363154"
+=======
+      "first_seen": "2026-03-11T00:50:40.102565",
+      "last_seen": "2026-03-11T00:50:40.102565"
+>>>>>>> Stashed changes
     }
   ],
   "metadata": {
@@ -27707,7 +28386,11 @@
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
+<<<<<<< Updated upstream
     "last_updated": "2026-03-10T15:50:55.557750",
+=======
+    "last_updated": "2026-03-11T00:50:41.376896",
+>>>>>>> Stashed changes
     "node_count": 539,
     "edge_count": 1680
   }

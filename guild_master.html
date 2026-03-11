@@ -7025,10 +7025,23 @@
         div.onclick = () => showParty(p.id);
         c.appendChild(div);
       });
-      // 点滅アニメCSS (1回だけ挿入)
+      // 動的CSS (1回だけ挿入)
       if (!document.getElementById('pulse-style')) {
         const s=document.createElement('style'); s.id='pulse-style';
-        s.textContent='@keyframes pulse-red{from{opacity:1}to{opacity:0.3}}';
+        s.textContent=`
+          @keyframes pulse-red{from{opacity:1}to{opacity:0.3}}
+          @keyframes glow-gold{from{box-shadow:0 0 8px #cc993322}to{box-shadow:0 0 20px #cc9933aa}}
+          @keyframes pulse-green{from{opacity:0.7}to{opacity:1.0}}
+          .cpo-rank-area{margin:6px 16px 0;padding:8px 12px;background:#110e06;border:1px solid #3a2d10;border-radius:8px;text-align:center;}
+          .cpo-rank-area.reached{background:#1a1404;border:2px solid #cc9933;animation:glow-gold 1.5s ease-in-out infinite alternate;}
+          .cpo-rank-active{display:flex;flex-direction:column;align-items:center;gap:3px;}
+          .cpo-rank-glow{font-size:15px;font-weight:800;color:#ffcc44;letter-spacing:0.05em;text-shadow:0 0 12px #ffcc4488;}
+          .cpo-rank-effect{font-size:11px;color:#cc9944;}
+          .cpo-rank-near{font-size:11px;color:#aa8833;padding:2px 0;}
+          .cpo-rank-near b{color:#ddaa55;}
+          .cpo-party-btn.synergy-match{border-color:#88cc44!important;background:#0e1a08!important;}
+          .cpo-party-btn .synergy-hint{display:block;font-size:9px;color:#88cc66;margin-top:2px;animation:pulse-green 1s ease-in-out infinite alternate;}
+        `;
         document.head.appendChild(s);
       }
     }
@@ -7367,7 +7380,7 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
       html += renderJokerPanel(p);
 
       // ===== パーティースキルパネル =====
-      html += renderPartySkillPanel(p);
+      ht ml  += renderPartySkillPan el (p);
 
       // シナジービルダーパネル
       html += renderSynergyPanel(p);
@@ -7379,9 +7392,9 @@ ${m.equip && typeof SYNERGY !== 'undefined' && SYNERGY.find(m.equip.name, m.type
     function showRosterView() {
       currentView = 'roster';
       const ROSTER_CAP = { D: 10, C: 10, B: 15, A: 20, S: 30 };
-      const cap = ROSTER_CAP[G_STATE.guildRank] || 10;
+        const cap = ROSTER_CAP[G_STATE.guildRank] || 10;
       const orders = G_STATE.recruitOrders || [];
-      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター ${G_STATE.roster.length} / ${cap}人</div></div>`;
+      let html = `<div class="ph"><div class="pht">ギルド待機所</div><div class="phs">採用可能なキャラクター ${G_STATE.roster.length }  / ${cap}人</div></div>`;
 
       // ===== B. 招集パネル =====
       html += `<div style="padding:8px 10px;background:var(--bg2);margin:8px;border-radius:8px;">`;
@@ -7847,20 +7860,46 @@ ${isHired
 
       const week = G_STATE.week || 1;
 
-      // 役バナー
+      // 役バナー (手札5枚の構成で役が決まる)
       let rankBanner = '';
+      let rankBannerArea = '';
       if (typeof HAND_RANKS !== 'undefined') {
         const active = HAND_RANKS.filter(r => {
           try {
             if (r.check) return r.check(wh.cards);
             const m = wh.cards.filter(c => r.types ? r.types.includes(c.type) : true);
-            return m.length >= r.minCount;
+            return m.length >= (r.minCount || 1);
           } catch (e) { return false; }
         });
+
         if (active.length > 0) {
-          rankBanner = active.map(r =>
-            `<div class="cpo-rank-banner">✦ ${r.name} — ${r.bonus}</div>`
+          // 役成立: 派手な表示
+          const roleHtml = active.map(r =>
+            `<div class="cpo-rank-active">
+              <span class="cpo-rank-glow">✦ ${r.label || r.name}</span>
+              <span class="cpo-rank-effect">${r.desc || r.bonus || ''}</span>
+            </div>`
           ).join('');
+          rankBannerArea = `<div class="cpo-rank-area reached">${roleHtml}</div>`;
+        } else {
+          // 役未成立: 候補を「あと〇枚」で表示
+          const typeCount = {};
+          wh.cards.forEach(c => { typeCount[c.type] = (typeCount[c.type]||0)+1; });
+          const near = HAND_RANKS.filter(r => {
+            if (r.check) return false; // check系は候補表示しない
+            const count = r.types ? Object.entries(typeCount)
+              .filter(([t]) => r.types.includes(t))
+              .reduce((s,[,n])=>s+n, 0) : wh.cards.length;
+            return count >= (r.minCount||1) - 2 && count < (r.minCount||1);
+          }).slice(0, 2);
+          const nearHtml = near.length > 0
+            ? near.map(r => {
+                const count = r.types ? wh.cards.filter(c=>r.types.includes(c.type)).length : 0;
+                const left = (r.minCount||1) - count;
+                return `<div class="cpo-rank-near">🎯 あと${left}枚で <b>${r.label||r.name}</b> 発動</div>`;
+              }).join('')
+            : '<div class="cpo-rank-near" style="color:var(--tx3);">役なし — 1枚を最も効果的なパーティーへ</div>';
+          rankBannerArea = `<div class="cpo-rank-area">${nearHtml}</div>`;
         }
       }
 
@@ -7899,7 +7938,7 @@ ${isHired
         <div class="cpo-header">
           <div class="cpo-title">🃏 今週の一手</div>
           <div class="cpo-week">Week ${week} — 今週使えるカードは<b style='color:#ffcc44'>1枚だけ</b>。どのパーティーへ使う？</div>
-          ${rankBanner}
+          ${rankBannerArea}
         </div>
         <div class="cpo-hand">${cardsHtml}</div>
         <div class="cpo-party-select" id="cpo-party-select">${partiesHtml}</div>
@@ -7921,9 +7960,19 @@ ${isHired
       }
       const opts = parties.map(p => {
         const mission = p.mission ? ({ explore: '🗺 素材探索', treasure: '💎 宝物庫', hunt: '⚔ 討伐', scout: '🔭 調査', training: '📚 訓練', standby: '🏠 待機' }[p.mission.type] || p.mission.type) : '—';
-        return `<button class="cpo-party-btn" onclick="_cpoUseCardOn(${cardIdx},${p.id})">
+        // シナジーヒント計算
+        let hint = '';
+        const mtype2 = p.mission && p.mission.type;
+        if (card.type === 'combat' && mtype2 === 'hunt') hint = '⚔ 討伐シナジー ×1.5';
+        else if (card.type === 'reward' && mtype2 === 'treasure') hint = '💎 宝物庫シナジー ×1.5';
+        else if (card.type === 'speed' && p.mission && p.mission.deadline && (p.mission.deadline-(G_STATE.week||1))<=3) hint = '🏃 緊急加速 ×2.0';
+        else if (card.type === 'reinforce' && _partyPriority && _partyPriority(p)<=1) hint = '🛡 救援シナジー ×2.0';
+        else if (card.type === 'event' && mtype2 === 'explore') hint = '🔮 探索シナジー ×1.3';
+        const hintHtml = hint ? `<span class="synergy-hint">✨ ${hint}</span>` : '';
+        return `<button class="cpo-party-btn${hint ? ' synergy-match' : ''}" onclick="_cpoUseCardOn(${cardIdx},${p.id})">
           <strong>${p.name}</strong>
           <span style="color:var(--tx3);font-size:10px;margin-left:8px;">${p.region || '—'} / ${mission}</span>
+          ${hintHtml}
         </button>`;
       }).join('');
       return `<div class="cpo-party-select-title">「${card.label}」をどのパーティーへ？</div>${opts}
@@ -8783,8 +8832,8 @@ ${isHired
 
     // ---- ミュートトグル -------------------------------------------------------
     function toggleMute() {
-      if (typeof SFX === 'undefined') return;
-      SFX.setMuted(!SFX.isMuted());
+      if (typeofFX === 'undefined') return;
+      SFX.setMuted(!SFX.());
       const btn = document.getElementById('mute-btn');
       if (btn) btn.textContent = SFX.isMuted() ? '🔇' : '🔊';
       SFX.click();
