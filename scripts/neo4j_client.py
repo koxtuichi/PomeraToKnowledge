@@ -263,6 +263,86 @@ class Neo4jClient:
             )
 
     # ──────────────────────────────────────────
+    # グラフエクスポート
+    # ──────────────────────────────────────────
+
+    @staticmethod
+    def _deserialize_props(props: dict) -> dict:
+        """Neo4j から取り出したプロパティをPythonネイティブ型に戻す。
+        
+        _JSON_PROPS に登録されたフィールドや、文字列としてシリアライズされた
+        dict/list フィールドを元の型に復元する。
+        """
+        result = {}
+        for k, v in props.items():
+            if isinstance(v, str):
+                # JSON文字列として保存されたフィールドを復元
+                if k in Neo4jClient._JSON_PROPS or (v.startswith("{") or v.startswith("[")):
+                    try:
+                        result[k] = json.loads(v)
+                        continue
+                    except (json.JSONDecodeError, ValueError):
+                        pass
+            result[k] = v
+        return result
+
+    def export_graph(self) -> dict:
+        """Neo4j の全ノード・エッジを graph_data.js 形式の dict で返す。
+
+        Returns:
+            {"nodes": [...], "edges": [...], "metadata": {...}}
+        """
+        nodes = []
+        edges = []
+
+        with self._driver.session() as session:
+            # ノード取得
+            node_result = session.run(
+                "MATCH (n:Node) RETURN properties(n) AS props ORDER BY n.id"
+            )
+            for record in node_result:
+                raw = dict(record["props"])
+                nid = raw.get("id")
+                if not nid:
+                    continue
+                node_dict = {"id": nid}
+                node_dict.update(self._deserialize_props(raw))
+                nodes.append(node_dict)
+
+            # エッジ取得
+            edge_result = session.run(
+                """
+                MATCH (a:Node)-[r:RELATED_TO]->(b:Node)
+                RETURN properties(r) AS props
+                ORDER BY r.source, r.target
+                """
+            )
+            for record in edge_result:
+                raw = dict(record["props"])
+                source = raw.get("source") or raw.get("src")
+                target = raw.get("target") or raw.get("tgt")
+                if not source or not target:
+                    continue
+                edge_dict = {"source": source, "target": target}
+                edge_dict.update(self._deserialize_props(
+                    {k: v for k, v in raw.items() if k not in ("source", "target")}
+                ))
+                edges.append(edge_dict)
+
+        return {
+            "nodes": nodes,
+            "edges": edges,
+            "metadata": {
+                "schema_version": "2.0-antigravity",
+                "description": "タスクの重力モデルに基づく知識グラフ",
+                "exported_from": "neo4j",
+                "exported_at": datetime.now(timezone.utc).isoformat(),
+                "node_count": len(nodes),
+                "edge_count": len(edges),
+            },
+        }
+
+    # ──────────────────────────────────────────
     # ユーティリティ
     # ──────────────────────────────────────────
 

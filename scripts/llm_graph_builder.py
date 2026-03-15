@@ -1178,18 +1178,16 @@ def main():
         print(f"❌ 抽出中にエラー: {e}")
         return
 
-    # 4. マスターグラフへのマージ
-    print("🔄 マスターグラフへマージ中...")
+    # 4. マスターグラフへのマージ (Neo4jが正とのため、JSON書き込みは廃止)
+    print("🔄 グラフをマージ中...")
     updated_master = None
     try:
         with open(args.output_graph, "r", encoding="utf-8") as f:
             daily_graph_for_merge = json.load(f)
 
         updated_master = graph_merger.merge_graphs(master_graph, daily_graph_for_merge)
-
-        with open(args.master_graph, "w", encoding="utf-8") as f:
-            json.dump(updated_master, f, ensure_ascii=False, indent=2)
-        print(f"✅ マスターグラフを更新しました: {args.master_graph}")
+        # knowledge_graph.jsonld への書き込みは廃止。Neo4j が正のデータソース。
+        print(f"✅ グラフのマージが完了しました (Neo4jは同期済み)")
 
     except Exception as e:
         print(f"❌ マージ中にエラー: {e}")
@@ -1208,11 +1206,18 @@ def main():
                 f.write(analysis_text)
             print(f"✅ 分析レポートを保存しました: {args.output_report}")
 
-            current_diary_node["analysis_content"] = analysis_text
-
-            with open(args.master_graph, "w", encoding="utf-8") as f:
-                json.dump(updated_master, f, ensure_ascii=False, indent=2)
-            print(f"✅ グラフの {diary_node_id} に分析結果を統合しました")
+            # 分析結果を Neo4j の日記ノードに書き込む
+            try:
+                import neo4j_client as _nc
+                _client = _nc.Neo4jClient()
+                _client.upsert_node_batch_simple([{
+                    "id": diary_node_id,
+                    "analysis_content": analysis_text,
+                }])
+                _client.close()
+                print(f"✅ グラフの {diary_node_id} に分析結果を統合しました")
+            except Exception as neo4j_err:
+                print(f"⚠️  Neo4j への分析結果書き込みに失敗: {neo4j_err}")
 
         else:
             print("⚠️ 日記ノードが見つかりません。分析をスキップします。")
@@ -1220,15 +1225,24 @@ def main():
     except Exception as e:
         print(f"❌ 分析中にエラー: {e}")
 
-    # 6. HTML可視化の更新
+    # 6. Neo4j → graph_data.js エクスポート
     try:
-        html_path = "index.html"
-        if os.path.exists(html_path):
-            update_html_visualization(html_path, updated_master)
-        else:
-            print(f"⚠️ {html_path} が見つかりません。可視化の更新をスキップします。")
+        import importlib.util, sys as _sys
+        _exp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "export_neo4j_to_graphdata.py")
+        _spec = importlib.util.spec_from_file_location("export_neo4j_to_graphdata", _exp_path)
+        _mod = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+
+        _js_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../graph_data.js")
+        _js_path = os.path.normpath(_js_path)
+
+        import neo4j_client as _nc
+        _client = _nc.Neo4jClient()
+        _graph = _client.export_graph()
+        _client.close()
+        _mod.write_graph_data_js(_graph, _js_path)
     except Exception as e:
-        print(f"❌ 可視化更新中にエラー: {e}")
+        print(f"❌ graph_data.js エクスポート中にエラー: {e}")
 
 
 if __name__ == "__main__":
