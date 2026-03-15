@@ -515,7 +515,62 @@ def merge_graphs(master, daily):
     today_str = datetime.now().strftime("%Y-%m-%d")
     apply_emotion_decay(master, daily_node_ids, today_str)
 
+    # --- 6. Neo4j Aura Free への書き込み (二重書き) ---
+    _sync_to_neo4j(daily, master, daily_node_ids, _make_edge_key_set(daily), today_str)
+
     return master
+
+
+def _sync_to_neo4j(daily: dict, master: dict, daily_node_ids: set, daily_edge_keys: set, today_str: str) -> None:
+    """マージ後に差分ノード・エッジを Neo4j へ同期する。
+    
+    接続情報が未設定、またはパッケージが未インストールの場合はスキップ。
+    """
+    try:
+        import os
+        import sys
+        _script_dir = os.path.dirname(os.path.abspath(__file__))
+        if _script_dir not in sys.path:
+            sys.path.insert(0, _script_dir)
+
+        from neo4j_client import Neo4jClient
+
+        uri = os.getenv("NEO4J_URI", "")
+        if not uri:
+            # .env から読み込みを試みる
+            try:
+                from dotenv import load_dotenv
+                load_dotenv(os.path.join(_script_dir, "..", ".env"))
+                uri = os.getenv("NEO4J_URI", "")
+            except ImportError:
+                pass
+
+        if not uri:
+            print("ℹ️  NEO4J_URI 未設定のため Neo4j 同期をスキップします。")
+            return
+
+        print("🔗 Neo4j Aura Free へ同期中...")
+        client = Neo4jClient()
+
+        # デイリーグラフのノード・エッジのみ送信 (差分同期)
+        node_count = client.upsert_node_batch_simple(daily.get("nodes", []))
+        edge_count = client.upsert_edge_batch_simple(daily.get("edges", []))
+        print(f"   📤 ノード {node_count}件 / エッジ {edge_count}件 を同期しました。")
+
+        # 感情減衰をNeo4jにも反映
+        client.apply_emotion_decay_cypher(daily_node_ids, today_str)
+
+        # ウェイト減衰をNeo4jにも反映
+        client.apply_weight_decay_cypher(daily_node_ids, daily_edge_keys)
+
+        client.close()
+        print("✅ Neo4j 同期完了")
+
+    except ImportError as e:
+        print(f"ℹ️  Neo4j クライアント未準備のためスキップ: {e}")
+    except Exception as e:
+        print(f"⚠️  Neo4j 同期エラー (処理は継続): {e}")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Merge a daily knowledge graph into the master graph.")
