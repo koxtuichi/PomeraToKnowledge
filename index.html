@@ -1937,7 +1937,11 @@
 
       if (targetNode && targetNode.analysis_content) {
         let raw = targetNode.analysis_content;
-        // Markdownのコードブロック記法を除去: ```json ... ``` または ``` ... ```
+        // Neo4j エクスポート時にすでに object として展開されている場合はそのまま返す
+        if (typeof raw === 'object' && raw !== null) {
+          return raw;
+        }
+        // 文字列の場合は Markdown コードブロック記法を除去して JSON パース
         raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
         try {
           let parsed = JSON.parse(raw);
@@ -1952,6 +1956,7 @@
           return null;
         }
       }
+
 
       return null;
     }
@@ -1996,10 +2001,14 @@
       renderStalledGoals();
 
       // メタデータ
-      if (GRAPH_DATA.metadata && GRAPH_DATA.metadata.last_updated) {
-        const d = new Date(GRAPH_DATA.metadata.last_updated);
-        document.getElementById('last-updated').textContent = `最終更新: ${d.toLocaleDateString('ja-JP')} ${d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}`;
+      if (GRAPH_DATA.metadata) {
+        const ts = GRAPH_DATA.metadata.last_updated || GRAPH_DATA.metadata.exported_at;
+        if (ts) {
+          const d = new Date(ts);
+          document.getElementById('last-updated').textContent = `最終更新: ${d.toLocaleDateString('ja-JP')} ${d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}`;
+        }
       }
+
     }
 
     // ── 停滞目標チェックイン ──
