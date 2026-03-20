@@ -73,10 +73,23 @@ jobs:
           NEO4J_URI: ${{ secrets.NEO4J_URI }}
           NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
           NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          HATENA_ID: ${{ secrets.HATENA_ID }}
+          HATENA_API_KEY: ${{ secrets.HATENA_API_KEY }}
+          HATENA_STUDY_BLOG_ID: ${{ secrets.HATENA_STUDY_BLOG_ID }}
         run: |
           echo "📚 勉強レポートを更新中..."
           pip install neo4j --quiet
           python scripts/study_analyzer.py || echo "⚠️ study_analyzer.py 失敗（スキップ）"
+          echo "📝 study_drafts/ のファイルからブログ記事を生成中..."
+          if ls study_drafts/*.txt 2>/dev/null | head -1 | grep -q .; then
+            for f in study_drafts/*.txt; do
+              echo "  → $f"
+              python scripts/study_blog_writer.py "$f" || echo "⚠️ 失敗: $f"
+              sleep 5
+            done
+          else
+            echo "💤 study_drafts/ にファイルがありません"
+          fi
 
       - name: HTML の整合性チェック
         run: python3 scripts/validate_html.py graph_data.js
@@ -106,6 +119,7 @@ jobs:
           git add finance_report.json || true
           git add finance_context.json || true
           git add study_report.json || true
+          git add blog_ready/ || true
 
           if git diff --quiet && git diff --staged --quiet; then
             echo "変更なし。スキップします。"

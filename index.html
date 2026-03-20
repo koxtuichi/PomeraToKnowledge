@@ -1696,11 +1696,22 @@
             <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録が溜まるとクイズが自動生成されます。</p>
           </div>
         </div>
+        <!-- 生成済みブログ下書き -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(52,211,153,0.1);color:#34d399;">✍️</div>
+            <div class="card-title">生成済みブログ下書き</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-left:auto;">→ kakikukekoichi-study.hateblo.jp</div>
+          </div>
+          <div id="study-blog-drafts">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録を送るとブログ下書きが自動生成されます。</p>
+          </div>
+        </div>
         <!-- ブログアイデア -->
         <div class="dash-card" style="margin-bottom:20px;">
           <div class="card-header">
             <div class="card-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa;">💡</div>
-            <div class="card-title">勉強内容からのブログアイデア</div>
+            <div class="card-title">ブログネタ候補（AIが提案）</div>
           </div>
           <div id="study-blog-ideas">
             <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録を元にブログアイデアが生成されます。</p>
@@ -2361,6 +2372,30 @@
                   </div>`;
               }).join('');
             }
+          }
+
+          // 生成済みブログ下書き（blog_ready/ の study_article type）
+          const draftsEl = document.getElementById('study-blog-drafts');
+          if (draftsEl) {
+            fetch('blog_ready/?list=1&t=' + Date.now())
+              .catch(() => null)
+              .then(() => {
+                // blog_ready/ ディレクトリ一覧は直接取得できないため、
+                // study_report.json に含まれる最新記事リストを使用
+                const drafts = report.recent_study_articles || [];
+                if (drafts.length === 0) {
+                  draftsEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:12px 0;">まだ生成されたブログ記事はありません。[STUDY]メールを送ると自動生成されます。</p>';
+                } else {
+                  draftsEl.innerHTML = drafts.map(d => `
+                    <div style="margin-bottom:12px;padding:12px 14px;background:var(--glass-bg);border-radius:10px;border:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                      <div style="flex:1;min-width:0;">
+                        <p style="font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.title}</p>
+                        <p style="font-size:11px;color:var(--text-dim);">${d.subject || ''} · ${d.generated_at ? new Date(d.generated_at).toLocaleDateString('ja-JP') : ''} · ${d.estimated_read_time || ''}</p>
+                      </div>
+                      <span style="font-size:11px;color:#34d399;white-space:nowrap;padding:2px 8px;border:1px solid #34d399;border-radius:4px;">下書き済み</span>
+                    </div>`).join('');
+                }
+              });
           }
 
           // ブログアイデア

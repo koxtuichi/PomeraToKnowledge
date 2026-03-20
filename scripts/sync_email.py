@@ -406,11 +406,11 @@ def run_story_pipeline(story_files):
 
 
 def run_study_pipeline(study_files):
-    """勉強記録ファイルをナレッジグラフに取り込み、study_report.json を生成する。"""
+    """勉強記録ファイルをナレッジグラフに取り込み、study_report.json を生成し、ブログ下書きを投稿する。"""
     if not study_files: return
     print(f"📚 勉強パイプラインを開始します ({len(study_files)} 件)...")
 
-    # 1. 各勉強ファイルをグラフに取り込む
+    # 1. 各勉強ファイルをグラフに取り込む（llm_graph_builder → Neo4j）
     for i, file_path in enumerate(study_files, 1):
         print(f"   [{i}/{len(study_files)}] Analyzing Study Draft: {file_path}")
         cmd = ["python3", ANALYSIS_SCRIPT, file_path]
@@ -420,12 +420,23 @@ def run_study_pipeline(study_files):
         if i < len(study_files):
             time.sleep(5)
 
-    # 2. study_analyzer.py で分析・レポート生成
+    # 2. study_analyzer.py で分析・レポート生成（study_report.json）
     print("📊 study_analyzer.py を実行中...")
     cmd = ["python3", "scripts/study_analyzer.py"]
     result = subprocess.run(cmd)
     if result.returncode != 0:
         print(f"   ⚠️ study_analyzer.py 失敗 (returncode={result.returncode})")
+
+    # 3. study_blog_writer.py で各勉強ファイルからブログ下書きを生成・投稿
+    print(f"📝 勉強ブログ記事を生成中...")
+    for i, file_path in enumerate(study_files, 1):
+        print(f"   [{i}/{len(study_files)}] Generating Blog Draft: {file_path}")
+        cmd = ["python3", "scripts/study_blog_writer.py", file_path]
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            print(f"   ⚠️ ブログ記事生成失敗: {file_path} (returncode={result.returncode})")
+        if i < len(study_files):
+            time.sleep(5)
 
 
 def main():

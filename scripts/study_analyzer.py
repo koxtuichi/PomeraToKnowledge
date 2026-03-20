@@ -351,6 +351,41 @@ JSON形式で返してください:
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ブログ記事一覧収集
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def _collect_recent_study_articles(blog_ready_dir: str = "blog_ready", limit: int = 10) -> List[Dict[str, Any]]:
+    """blog_ready/ にある type=study_article のメタデータを収集して返す。"""
+    articles = []
+    if not os.path.exists(blog_ready_dir):
+        return articles
+
+    for fname in sorted(os.listdir(blog_ready_dir), reverse=True):
+        if not fname.endswith(".json"):
+            continue
+        meta_path = os.path.join(blog_ready_dir, fname)
+        try:
+            with open(meta_path, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            if meta.get("type") == "study_article":
+                articles.append({
+                    "title": meta.get("title", "無題"),
+                    "subject": meta.get("subject", ""),
+                    "generated_at": meta.get("generated_at", ""),
+                    "estimated_read_time": meta.get("estimated_read_time", ""),
+                    "categories": meta.get("categories", []),
+                    "description": meta.get("description", ""),
+                })
+        except Exception:
+            pass
+
+        if len(articles) >= limit:
+            break
+
+    return articles
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # メイン
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -387,13 +422,17 @@ def main():
     # 5. 週次サマリー
     weekly_summary = generate_weekly_summary(study_nodes, subjects)
 
-    # 6. レポート生成
+    # 6. 生成済みブログ記事一覧（blog_ready/ の study_article type）
+    recent_study_articles = _collect_recent_study_articles()
+
+    # 7. レポート生成
     report = {
         "generated_at": datetime.now().isoformat(),
         "subjects": subjects,
         "quiz": quiz,
         "study_blog_ideas": blog_ideas,
         "weekly_summary": weekly_summary,
+        "recent_study_articles": recent_study_articles,
     }
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
