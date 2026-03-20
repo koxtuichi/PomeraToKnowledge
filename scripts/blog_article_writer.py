@@ -17,7 +17,7 @@ from typing import Dict, Any, Optional, Tuple
 
 # 設定
 API_KEY = os.getenv("GOOGLE_API_KEY")
-MASTER_GRAPH_PATH = "knowledge_graph.jsonld"
+MASTER_GRAPH_PATH = "knowledge_graph.jsonld"  # フォールバック用（Neo4jが優先）
 BLOG_READY_DIR = "blog_ready"
 HATENA_PUBLISHER_SCRIPT = "scripts/hatena_publisher.py"
 WRITING_STYLE_PATH = "writing_style.md"
@@ -181,11 +181,26 @@ def load_writing_style() -> str:
 
 
 def load_knowledge_graph() -> Optional[Dict[str, Any]]:
-    """ナレッジグラフを読み込む。"""
+    """ナレッジグラフを読み込む。Neo4j が優先、なければ jsonld にフォールバック。"""
+    # Neo4j から取得（正のデータソース）
+    try:
+        import sys as _sys
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        if script_dir not in _sys.path:
+            _sys.path.insert(0, script_dir)
+        import neo4j_client as _nc
+        client = _nc.Neo4jClient()
+        graph = client.export_graph()
+        client.close()
+        print("✅ Neo4j からナレッジグラフを取得しました")
+        return graph
+    except Exception as e:
+        print(f"⚠️ Neo4j 取得失敗 ({e})。knowledge_graph.jsonld にフォールバックします。")
+
+    # フォールバック: ローカルファイル
     if not os.path.exists(MASTER_GRAPH_PATH):
         print("⚠️ ナレッジグラフが見つかりません。草案のみで記事を生成します。")
         return None
-    
     try:
         with open(MASTER_GRAPH_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
