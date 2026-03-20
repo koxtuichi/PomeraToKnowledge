@@ -354,6 +354,27 @@ JSON形式で返してください:
 # ブログ記事一覧収集
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+def _collect_recent_reviews(reviews_dir: str = "study_reviews", limit: int = 20) -> List[Dict[str, Any]]:
+    """study_reviews/ にあるレビューJSONを日付降順で収集して返す。"""
+    reviews = []
+    if not os.path.exists(reviews_dir):
+        return reviews
+
+    for fname in sorted(os.listdir(reviews_dir), reverse=True):
+        if not fname.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(reviews_dir, fname), "r", encoding="utf-8") as f:
+                data = json.load(f)
+            reviews.append(data)
+        except Exception:
+            pass
+        if len(reviews) >= limit:
+            break
+
+    return reviews
+
+
 def _collect_recent_study_articles(blog_ready_dir: str = "blog_ready", limit: int = 10) -> List[Dict[str, Any]]:
     """blog_ready/ にある type=study_article のメタデータを収集して返す。"""
     articles = []
@@ -425,7 +446,10 @@ def main():
     # 6. 生成済みブログ記事一覧（blog_ready/ の study_article type）
     recent_study_articles = _collect_recent_study_articles()
 
-    # 7. レポート生成
+    # 7. 最近のレビュー一覧（study_reviews/）
+    recent_reviews = _collect_recent_reviews()
+
+    # 8. レポート生成
     report = {
         "generated_at": datetime.now().isoformat(),
         "subjects": subjects,
@@ -433,6 +457,7 @@ def main():
         "study_blog_ideas": blog_ideas,
         "weekly_summary": weekly_summary,
         "recent_study_articles": recent_study_articles,
+        "recent_reviews": recent_reviews,
     }
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:

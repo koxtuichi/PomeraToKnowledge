@@ -27,6 +27,7 @@ import requests
 # ── 設定 ──
 API_KEY = os.getenv("GOOGLE_API_KEY")
 BLOG_READY_DIR = "blog_ready"
+STUDY_REVIEWS_DIR = "study_reviews"
 HATENA_PUBLISHER_SCRIPT = "scripts/hatena_publisher.py"
 WRITING_STYLE_PATH = "writing_style.md"
 STUDY_BLOG_ID = os.getenv("HATENA_STUDY_BLOG_ID", "kakikukekoichi-study.hateblo.jp")
@@ -81,6 +82,31 @@ STUDY_BLOG_SYSTEM_PROMPT = """
 }
 
 言語: 日本語。JSON以外のテキストは一切含めないでください。
+"""
+
+STUDY_CONTENT_REVIEW_PROMPT = """
+# 役割
+あなたは経験豊富なエンジニア・メンターです。
+学習者が書いた「勉強メモ」を読んで、理解度をフィードバックしてください。
+
+# 評価の基本姿勢
+- 学習者を励ます。厳しく採点するのではなく「次に進むための地図」を渡すイメージ
+- 「わかっていること」を先に認める
+- 抜け漏れや誤りは「こっちも面白いよ」という提示の仕方で伝える
+
+# 出力形式（必ずこのJSONで）
+{
+  "understanding_score": 0.0〜1.0,
+  "understanding_summary": "今の理解度を一言で表す（例：基礎の入口に立っている）",
+  "strong_points": ["理解できている点①", "②"],
+  "missing_points": ["まだカバーできていないが重要な点①", "②"],
+  "corrections": ["明確に誤っている理解があれば指摘（なければ空配列）"],
+  "next_steps": ["次に学ぶと理解が深まる具体的なトピック①", "②", "③"],
+  "encouraging_message": "学習者への短いエールメッセージ（2〜3文。筆者の言葉で）",
+  "estimated_time_to_next_level": "次のレベルに達するまでの目安（例：週1回の練習で1ヶ月程度）"
+}
+
+JSON以外のテキストは一切含めないでください。言語: 日本語。
 """
 
 STUDY_REVIEW_PROMPT = """
@@ -238,6 +264,85 @@ def fetch_subject_context(subject: str) -> str:
     except Exception as e:
         print(f"⚠️ Neo4j からの学習コンテキスト取得失敗（スキップ）: {e}")
         return ""
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 勉強内容レビュー生成
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def generate_study_review(
+    memo_text: str,
+    subject: str,
+    past_context: str,
+    study_date: str,
+) -> Dict[str, Any]:
+    """勉強メモをAIがレビューし、理解度・抜け漏れ・次のステップを返す。"""
+    if not API_KEY:
+        print("⚠️ GOOGLE_API_KEY 未設定。レビューをスキップします。")
+        return {}
+
+    prompt = f"""
+{STUDY_CONTENT_REVIEW_PROMPT}
+
+{past_context}
+
+### 今回の勉強メモ（{study_date}）
+科目: {subject}
+
+{memo_text}
+
+### 指示
+上記の勉強メモを読んで、学習者の理解度を評価してください。
+過去の学習履歴があれば、成長度合いも考慮してください。
+"""
+
+    print(f"🔍 勉強内容をレビュー中... (科目: {subject})")
+    try:
+        raw = call_gemini_api(prompt)
+        cleaned = raw.strip()
+        if cleaned.startswith("```"):
+            cleaned = re.sub(r'^```(?:json)?\s*', '', cleaned)
+            cleaned = re.sub(r'```\s*$', '', cleaned).strip()
+        review = json.loads(cleaned)
+        score = review.get("understanding_score", 0)
+        print(f"✅ レビュー完了: 理解度スコア {int(score * 100)}%")
+        return review
+    except Exception as e:
+        print(f"⚠️ レビュー生成失敗: {e}")
+        return {}
+
+
+def save_study_review(
+    review: Dict[str, Any],
+    source_file: str,
+    subject: str,
+    study_date: str,
+) -> Optional[str]:
+    """レビュー結果を study_reviews/ に保存する。"""
+    if not review:
+        return None
+
+    if not os.path.exists(STUDY_REVIEWS_DIR):
+        os.makedirs(STUDY_REVIEWS_DIR)
+
+    date_str = study_date.replace("-", "") if study_date else datetime.now().strftime("%Y%m%d")
+    safe_subject = re.sub(r'[\\/*?:"<>|]', '', subject)[:30]
+    filename = f"{date_str}_review_{safe_subject}.json"
+    filepath = os.path.join(STUDY_REVIEWS_DIR, filename)
+
+    output = {
+        "source_file": source_file,
+        "subject": subject,
+        "date": study_date,
+        "generated_at": datetime.now().isoformat(),
+        "review": review,
+    }
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, indent=2)
+
+    print(f"✅ レビューを保存しました: {filepath}")
+    return filepath
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -469,7 +574,16 @@ def main():
     # 5. Neo4j から過去の学習コンテキストを取得
     past_context = fetch_subject_context(subject)
 
-    # 6. 記事を生成
+    # 6. 勉強内容レビューを生成
+    review = generate_study_review(
+        memo_text=memo_text,
+        subject=subject,
+        past_context=past_context,
+        study_date=study_date,
+    )
+    save_study_review(review, args.input_file, subject, study_date)
+
+    # 7. 記事を生成
     try:
         article_data = generate_study_article(
             memo_text=memo_text,
@@ -483,10 +597,10 @@ def main():
         print(f"❌ 記事生成中にエラー: {e}")
         return
 
-    # 7. ファイルに保存
+    # 8. ファイルに保存
     md_path, meta_path = save_article(article_data, args.input_file, study_date)
 
-    # 8. はてなブログ（勉強専用）に投稿
+    # 9. はてなブログ（勉強専用）に投稿
     if not args.skip_publish:
         publish_to_hatena(md_path, meta_path)
     else:

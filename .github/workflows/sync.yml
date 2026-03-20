@@ -126,6 +126,7 @@ jobs:
           git add finance_report.json || true
           git add finance_context.json || true
           git add study_report.json || true
+          git add study_reviews/ || true
           git add blog_ready/ || true
 
           if git diff --quiet && git diff --staged --quiet; then
