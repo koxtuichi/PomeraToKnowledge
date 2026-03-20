@@ -1341,6 +1341,10 @@
         <span class="mobile-nav-icon">💴</span>
         <span>家計</span>
       </button>
+      <button class="mobile-nav-item" onclick="mobileSwitch('study')">
+        <span class="mobile-nav-icon">📚</span>
+        <span>勉強</span>
+      </button>
     </div>
   </nav>
   <div id="app">
@@ -1389,6 +1393,11 @@
           <li>
             <div class="nav-link" onclick="switchView('chat')">
               <span>💬</span> チャット
+            </div>
+          </li>
+          <li>
+            <div class="nav-link" onclick="switchView('study')">
+              <span>📚</span> 勉強
             </div>
           </li>
           <li>
@@ -1651,6 +1660,54 @@
         </div>
       </div>
 
+      <!-- 勉強ダッシュボードビュー -->
+      <div id="study-view" style="display:none;" class="dashboard-container">
+        <div class="header-section">
+          <h1>📚 勉強ダッシュボード</h1>
+          <p class="date-text" id="study-updated-at">study_report.json を読み込み中...</p>
+        </div>
+        <!-- 週次サマリー -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(52,211,153,0.1);color:#34d399;">📝</div>
+            <div class="card-title">今週の学習サマリー</div>
+          </div>
+          <div id="study-weekly-summary" style="padding:12px 0;color:var(--text-main);font-size:14px;line-height:1.7;">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">読み込み中...</p>
+          </div>
+        </div>
+        <!-- 科目別習熟度 -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(56,189,248,0.1);color:#38bdf8;">📊</div>
+            <div class="card-title">科目別習熟度</div>
+          </div>
+          <div id="study-subjects">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録を送ると自動で反映されます。</p>
+          </div>
+        </div>
+        <!-- クイズ -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24;">🧠</div>
+            <div class="card-title">理解度チェック クイズ</div>
+          </div>
+          <div id="study-quiz">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録が溜まるとクイズが自動生成されます。</p>
+          </div>
+        </div>
+        <!-- ブログアイデア -->
+        <div class="dash-card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa;">💡</div>
+            <div class="card-title">勉強内容からのブログアイデア</div>
+          </div>
+          <div id="study-blog-ideas">
+            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録を元にブログアイデアが生成されます。</p>
+          </div>
+        </div>
+      </div>
+
       <div id="graph-view">
         <div id="graph-container">
           <svg id="graph-svg"></svg>
@@ -1698,7 +1755,7 @@
 
 
     // ── ビュー切り替え ──
-    const ALL_VIEWS = ['advisor', 'knowbe', 'saiteki', 'graph', 'finance', 'chat'];
+    const ALL_VIEWS = ['advisor', 'knowbe', 'saiteki', 'graph', 'finance', 'chat', 'study'];
 
     // チャット関連の状態
     const CHAT_CF_URL = 'https://asia-northeast1-pomeradriven.cloudfunctions.net/chat-knowledge';
@@ -1731,6 +1788,7 @@
       if (view === 'knowbe') renderWorkView('knowbe');
       if (view === 'saiteki') renderWorkView('saiteki');
       if (view === 'finance') renderFinanceView();
+      if (view === 'study') renderStudyView();
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
@@ -1758,6 +1816,7 @@
       if (view === 'knowbe') renderWorkView('knowbe');
       if (view === 'saiteki') renderWorkView('saiteki');
       if (view === 'finance') renderFinanceView();
+      if (view === 'study') renderStudyView();
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
@@ -1882,7 +1941,7 @@
 
     function syncMobileNav(view) {
       document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
-      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'graph': 3, 'finance': 4 };
+      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'graph': 3, 'finance': 4, 'study': 5 };
       const idx = viewMap[view];
       if (idx !== undefined) {
         const items = document.querySelectorAll('.mobile-nav-item');
@@ -1893,7 +1952,7 @@
     function syncSidebarNav(view) {
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
       const navLinks = document.querySelectorAll('.nav-link');
-      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'graph': 3, 'finance': 4 };
+      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'graph': 3, 'finance': 4, 'study': 5 };
       const idx = viewMap[view];
       if (idx !== undefined && navLinks[idx]) navLinks[idx].classList.add('active');
     }
@@ -2223,6 +2282,115 @@
             <span class="chip-title">${item.title}</span>
           </div>`;
       }).join('');
+    }
+
+    // ── 勉強ダッシュボード ──
+    function renderStudyView() {
+      fetch('study_report.json?t=' + Date.now())
+        .then(r => r.ok ? r.json() : Promise.reject('not found'))
+        .then(report => {
+          // 更新日時
+          const updatedEl = document.getElementById('study-updated-at');
+          if (updatedEl && report.generated_at) {
+            const d = new Date(report.generated_at);
+            updatedEl.textContent = `最終更新: ${d.toLocaleString('ja-JP')}`;
+          }
+
+          // 週次サマリー
+          const summaryEl = document.getElementById('study-weekly-summary');
+          if (summaryEl) {
+            summaryEl.textContent = report.weekly_summary || '学習サマリーがありません。';
+          }
+
+          // 科目別習熟度
+          const subjectsEl = document.getElementById('study-subjects');
+          if (subjectsEl) {
+            const subjects = report.subjects || [];
+            if (subjects.length === 0) {
+              subjectsEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">勉強記録がまだありません。</p>';
+            } else {
+              subjectsEl.innerHTML = subjects.map(s => {
+                const masteryPct = Math.round((s.mastery || 0) * 100);
+                const barColor = masteryPct >= 70 ? '#34d399' : masteryPct >= 40 ? '#fbbf24' : '#f87171';
+                const conceptsHtml = (s.key_concepts || []).slice(0, 5).map(c =>
+                  `<span style="display:inline-block;background:rgba(56,189,248,0.1);color:#38bdf8;border-radius:4px;padding:2px 8px;font-size:11px;margin:2px;">${c}</span>`
+                ).join('');
+                return `
+                  <div style="margin-bottom:18px;padding:14px;background:var(--glass-bg);border-radius:10px;border:1px solid var(--border-color);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                      <span style="font-weight:600;font-size:14px;">${s.subject}</span>
+                      <span style="font-size:12px;color:var(--text-muted);">${s.count} 回 / 最終: ${s.last_studied || '—'}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                      <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:4px;height:8px;overflow:hidden;">
+                        <div style="width:${masteryPct}%;height:100%;background:${barColor};border-radius:4px;transition:width 0.5s;"></div>
+                      </div>
+                      <span style="font-size:12px;color:${barColor};font-weight:600;min-width:36px;">${masteryPct}%</span>
+                    </div>
+                    ${conceptsHtml ? `<div style="margin-bottom:6px;">${conceptsHtml}</div>` : ''}
+                    ${s.unsolved_question_count > 0 ? `<div style="font-size:12px;color:var(--text-dim);">未解決の疑問: ${s.unsolved_question_count} 件</div>` : ''}
+                  </div>`;
+              }).join('');
+            }
+          }
+
+          // クイズ
+          const quizEl = document.getElementById('study-quiz');
+          if (quizEl) {
+            const quiz = report.quiz || [];
+            if (quiz.length === 0) {
+              quizEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">クイズがまだ生成されていません。</p>';
+            } else {
+              quizEl.innerHTML = quiz.map((q, i) => {
+                const diffColor = q.difficulty === '難' ? '#f87171' : q.difficulty === '中' ? '#fbbf24' : '#34d399';
+                return `
+                  <div style="margin-bottom:16px;padding:14px;background:var(--glass-bg);border-radius:10px;border:1px solid var(--border-color);">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                      <span style="font-size:11px;color:var(--text-dim);">Q${i+1} · ${q.subject || ''}</span>
+                      <span style="font-size:11px;color:${diffColor};">難易度: ${q.difficulty || '—'}</span>
+                    </div>
+                    <p style="font-size:14px;font-weight:500;margin-bottom:10px;">${q.question}</p>
+                    <details style="cursor:pointer;">
+                      <summary style="font-size:12px;color:var(--accent-primary);user-select:none;">ヒントを見る</summary>
+                      <p style="font-size:12px;color:var(--text-muted);margin-top:6px;padding:8px;background:rgba(56,189,248,0.05);border-radius:6px;">${q.hint || ''}</p>
+                    </details>
+                    <details style="cursor:pointer;margin-top:6px;">
+                      <summary style="font-size:12px;color:var(--accent-success);user-select:none;">解答を見る</summary>
+                      <p style="font-size:13px;color:var(--text-main);margin-top:6px;padding:8px;background:rgba(52,211,153,0.05);border-radius:6px;">${q.answer || ''}</p>
+                    </details>
+                  </div>`;
+              }).join('');
+            }
+          }
+
+          // ブログアイデア
+          const blogEl = document.getElementById('study-blog-ideas');
+          if (blogEl) {
+            const ideas = report.study_blog_ideas || [];
+            if (ideas.length === 0) {
+              blogEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">ブログアイデアがまだ生成されていません。</p>';
+            } else {
+              blogEl.innerHTML = ideas.map(idea => {
+                const readinessColor = idea.readiness === '高' ? '#34d399' : idea.readiness === '中' ? '#fbbf24' : '#94a3b8';
+                return `
+                  <div style="margin-bottom:14px;padding:14px;background:var(--glass-bg);border-radius:10px;border:1px solid var(--border-color);">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+                      <div>
+                        <p style="font-size:14px;font-weight:600;margin-bottom:4px;">${idea.title}</p>
+                        <p style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">${idea.theme || ''}</p>
+                        <p style="font-size:12px;color:var(--text-dim);font-style:italic;">${idea.hook || ''}</p>
+                      </div>
+                      <span style="font-size:11px;color:${readinessColor};white-space:nowrap;padding:2px 8px;border:1px solid ${readinessColor};border-radius:4px;">${idea.readiness || '—'}</span>
+                    </div>
+                  </div>`;
+              }).join('');
+            }
+          }
+        })
+        .catch(() => {
+          const updatedEl = document.getElementById('study-updated-at');
+          if (updatedEl) updatedEl.textContent = 'study_report.json が見つかりません。study_analyzer.py を実行してください。';
+        });
     }
 
     // ── 家計ダッシュボード ──

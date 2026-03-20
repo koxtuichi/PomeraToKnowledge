@@ -67,6 +67,17 @@ jobs:
             echo "💤 finance_context.json がないためスキップします"
           fi
 
+      - name: Update Study Report
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: |
+          echo "📚 勉強レポートを更新中..."
+          pip install neo4j --quiet
+          python scripts/study_analyzer.py || echo "⚠️ study_analyzer.py 失敗（スキップ）"
+
       - name: HTML の整合性チェック
         run: python3 scripts/validate_html.py graph_data.js
 
@@ -90,9 +101,11 @@ jobs:
           git add daily_graph.json || true
           git add daily_report.md || true
           git add story_drafts/ || true
+          git add study_drafts/ || true
           git add sync_history.txt || true
           git add finance_report.json || true
           git add finance_context.json || true
+          git add study_report.json || true
 
           if git diff --quiet && git diff --staged --quiet; then
             echo "変更なし。スキップします。"
