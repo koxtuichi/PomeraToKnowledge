@@ -369,10 +369,14 @@ def save_article(article_data: Dict[str, Any], source_file: str) -> tuple:
 
 
 def publish_to_hatena(md_path: str, meta_path: str):
-    """はてなブログに下書き投稿する。"""
+    """はてなブログに下書き投稿する。SECBLOGは専用ブログに投稿する。"""
+    import copy
+    env = copy.copy(os.environ)
+    env["HATENA_BLOG_ID"] = "kakikukekoichi-study.hateblo.jp"
+
     cmd = ["python3", HATENA_PUBLISHER_SCRIPT, md_path, "--meta", meta_path, "--force"]
-    print("🚀 はてなブログへの投稿を開始...")
-    result = subprocess.run(cmd)
+    print("🚀 はてなブログ（セキュリティ学習ブログ）への投稿を開始...")
+    result = subprocess.run(cmd, env=env)
     if result.returncode != 0:
         print(f"⚠️ はてなブログへの投稿に失敗しました (returncode={result.returncode})")
     else:
