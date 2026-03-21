@@ -89,11 +89,9 @@ class Neo4jClient:
                 """
                 MERGE (n:Node {id: $id})
                 SET n += $props
-                SET n:$(ntype)
                 """,
                 id=nid,
                 props=props,
-                ntype=ntype,
             )
 
     def upsert_node_batch(self, nodes: list) -> int:
