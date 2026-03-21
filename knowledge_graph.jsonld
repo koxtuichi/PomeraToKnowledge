@@ -7864,6 +7864,7 @@
   "metadata": {
     "last_updated": "2026-03-15T13:16:30.901030",
     "node_count": 252,
-    "edge_count": 502
+    "edge_count": 502,
+    "schema_version": "2.0-antigravity"
   }
 }
