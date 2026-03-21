@@ -18,12 +18,15 @@ STORY_DRAFTS_DIR = "story_drafts"
 ANALYSIS_SCRIPT = "scripts/llm_graph_builder.py"
 BLOG_ARTICLE_WRITER_SCRIPT = "scripts/blog_article_writer.py"
 STORY_WRITER_SCRIPT = "scripts/story_writer.py"
+STUDY_ANALYZER_SCRIPT = "scripts/study_analyzer.py"
 SUBJECT_KEYWORD = "POMERA" # POMERAまたはPOMERAtoKNOWLEDGEを含む件名
 ROLE_KEYWORD = "ROLEtoKNOWLEDGE" # 役割定義用キーワード
 BLOG_KEYWORD = "BLOG"  # ブログ記事用キーワード
 STORY_KEYWORD = "STORY"  # 小説草案用キーワード
+STUDY_KEYWORD = "STUDY"  # 勉強記録用キーワード
 ROLE_DEF_FILE = "role_definition.txt"
 HISTORY_FILE = "sync_history.txt"
+STUDY_DRAFTS_DIR = "study_drafts"
 
 def clean_filename(subject):
     """Converts email subject to a safe filename."""
@@ -142,16 +145,17 @@ def check_emails(mail, save_dir, blog_only=False):
 
     # 各キーワードで個別に検索して対象メールだけ取得
     search_targets = [
-        (SUBJECT_KEYWORD, False, False, False),   # POMERA
-        (BLOG_KEYWORD, False, True, False),        # BLOG
-        (STORY_KEYWORD, False, False, True),        # STORY
-        (ROLE_KEYWORD, True, False, False),         # ROLEtoKNOWLEDGE
+        (SUBJECT_KEYWORD, False, False, False, False),   # POMERA
+        (BLOG_KEYWORD, False, True, False, False),        # BLOG
+        (STORY_KEYWORD, False, False, True, False),       # STORY
+        (STUDY_KEYWORD, False, False, False, True),       # STUDY
+        (ROLE_KEYWORD, True, False, False, False),        # ROLEtoKNOWLEDGE
     ]
 
     all_target_ids = []
-    id_metadata = {}  # e_id -> (is_role, is_blog, is_story)
+    id_metadata = {}  # e_id -> (is_role, is_blog, is_story, is_study)
 
-    for keyword, is_role, is_blog, is_story in search_targets:
+    for keyword, is_role, is_blog, is_story, is_study in search_targets:
         print(f"🔍 検索中: SUBJECT '{keyword}' SINCE {today_date}")
         try:
             status, data = mail.search(None, f'(SINCE {today_date} SUBJECT "{keyword}")')
@@ -162,7 +166,7 @@ def check_emails(mail, save_dir, blog_only=False):
                     eid_str = eid.decode()
                     if eid_str not in id_metadata:
                         all_target_ids.append(eid)
-                        id_metadata[eid_str] = (is_role, is_blog, is_story)
+                        id_metadata[eid_str] = (is_role, is_blog, is_story, is_study)
             else:
                 print(f"   → 0 件")
         except Exception as e:
@@ -175,9 +179,10 @@ def check_emails(mail, save_dir, blog_only=False):
     print(f"📩 IMAP検索ヒット: {len(all_target_ids)} 件 → 10分以内+未処理をフィルタ中...")
 
     story_files = []
+    study_files = []
     for e_id_bytes in all_target_ids:
         e_id = e_id_bytes.decode()
-        is_role_definition, is_blog_draft, is_story_draft = id_metadata[e_id]
+        is_role_definition, is_blog_draft, is_story_draft, is_study_draft = id_metadata[e_id]
         
         # UID と INTERNALDATE を同時に取得
         try:
@@ -293,6 +298,28 @@ def check_emails(mail, save_dir, blog_only=False):
                         mail.store(e_id, '+FLAGS', '\\Seen')
                     else:
                         print("      ⚠️ Story draft email had no body.")
+
+                # --- STUDY DRAFT HANDLING ---
+                elif is_study_draft:
+                    body = get_body_content(msg)
+                    if body:
+                        study_dir = STUDY_DRAFTS_DIR
+                        if not os.path.exists(study_dir):
+                            os.makedirs(study_dir)
+                        filename = f"{extract_date_from_subject(subject)}_{subject}.txt"
+                        filepath = os.path.join(study_dir, filename)
+                        # 同日に複数回送信した場合は追記
+                        mode = "a" if os.path.exists(filepath) else "w"
+                        with open(filepath, mode, encoding="utf-8") as f:
+                            if mode == "a":
+                                f.write("\n\n---\n")
+                            f.write(body)
+                        study_files.append(filepath)
+                        action = "追記" if mode == "a" else "新規"
+                        print(f"      📚 Saved Study Draft ({action}): {filename}")
+                        mail.store(e_id, '+FLAGS', '\\Seen')
+                    else:
+                        print("      ⚠️ Study draft email had no body.")
                     
                 # --- POMERA DIARY HANDLING ---
                 else:
@@ -335,8 +362,9 @@ def check_emails(mail, save_dir, blog_only=False):
     unique_files = list(dict.fromkeys(saved_files))
     unique_blog_files = list(dict.fromkeys(blog_files))
     unique_story_files = list(dict.fromkeys(story_files))
-    print(f"✅ 完了: 日記 {len(unique_files)} 件, ブログ {len(unique_blog_files)} 件, 小説 {len(unique_story_files)} 件")
-    return unique_files, unique_blog_files, unique_story_files
+    unique_study_files = list(dict.fromkeys(study_files))
+    print(f"✅ 完了: 日記 {len(unique_files)} 件, ブログ {len(unique_blog_files)} 件, 小説 {len(unique_story_files)} 件, 勉強 {len(unique_study_files)} 件")
+    return unique_files, unique_blog_files, unique_story_files, unique_study_files
 
 def run_analysis(files):
     if not files: return
@@ -383,13 +411,39 @@ def run_story_pipeline(story_files):
             time.sleep(5)
 
 
+def run_study_pipeline(study_files):
+    """勉強記録ファイルをナレッジグラフに取り込み、分析レポートを生成する。"""
+    if not study_files: return
+    print(f"📚 勉強パイプラインを開始します ({len(study_files)} 件)...")
+
+    # Step 1: 各ファイルをナレッジグラフに分析・取り込む
+    for i, file_path in enumerate(study_files, 1):
+        print(f"   [{i}/{len(study_files)}] Analyzing Study: {file_path}")
+        cmd = ["python3", ANALYSIS_SCRIPT, file_path]
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            print(f"   ⚠️ 勉強記録の分析失敗: {file_path} (returncode={result.returncode})")
+        if i < len(study_files):
+            time.sleep(5)
+
+    # Step 2: 勉強レポートを生成
+    print("   📊 勉強レポートを生成中...")
+    cmd = ["python3", STUDY_ANALYZER_SCRIPT]
+    result = subprocess.run(cmd)
+    if result.returncode != 0:
+        print(f"   ⚠️ 勉強レポート生成失敗 (returncode={result.returncode})")
+    else:
+        print("   ✅ 勉強レポート生成完了")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Sync Pomera emails and trigger analysis.")
     parser.add_argument("--watch", action="store_true", help="Keep watching for new emails.")
     parser.add_argument("--interval", type=int, default=300, help="Check interval in seconds (default: 300s/5min).")
     parser.add_argument("--blog-only", action="store_true", help="Process only BLOG emails.")
     parser.add_argument("--story-only", action="store_true", help="Process only STORY emails.")
-    
+    parser.add_argument("--study-only", action="store_true", help="Process only STUDY emails.")
+
     args = parser.parse_args()
 
     if not os.path.exists(LOCAL_DIARY_DIR):
@@ -398,23 +452,27 @@ def main():
         os.makedirs(BLOG_DRAFTS_DIR)
     if not os.path.exists(STORY_DRAFTS_DIR):
         os.makedirs(STORY_DRAFTS_DIR)
+    if not os.path.exists(STUDY_DRAFTS_DIR):
+        os.makedirs(STUDY_DRAFTS_DIR)
 
-    print("📧 Pomera & Role & Blog & Story Email Sync Agent Started")
+    print("📧 Pomera & Role & Blog & Story & Study Email Sync Agent Started")
     print(f"   Account: {EMAIL_ACCOUNT}")
     print(f"   Target Dir: {LOCAL_DIARY_DIR}")
     print(f"   Blog Drafts Dir: {BLOG_DRAFTS_DIR}")
     print(f"   Story Drafts Dir: {STORY_DRAFTS_DIR}")
+    print(f"   Study Drafts Dir: {STUDY_DRAFTS_DIR}")
     print(f"   Role Definition File: {ROLE_DEF_FILE}")
     print(f"   Blog Only Mode: {args.blog_only}")
     print(f"   Story Only Mode: {args.story_only}")
+    print(f"   Study Only Mode: {args.study_only}")
     print("   --------------------------------")
 
     while True:
         mail = connect_imap()
         if mail:
             try:
-                new_files, blog_files, story_files = check_emails(mail, LOCAL_DIARY_DIR, blog_only=args.blog_only)
-                
+                new_files, blog_files, story_files, study_files = check_emails(mail, LOCAL_DIARY_DIR, blog_only=args.blog_only)
+
                 if args.blog_only:
                     # BLOGモード: ブログパイプラインのみ実行
                     if blog_files:
@@ -427,25 +485,33 @@ def main():
                         run_story_pipeline(story_files)
                     else:
                         print("💤 新着のSTORYメールはありませんでした。")
+                elif args.study_only:
+                    # STUDYモード: 勉強パイプラインのみ実行
+                    if study_files:
+                        run_study_pipeline(study_files)
+                    else:
+                        print("💤 新着のSTUDYメールはありませんでした。")
                 else:
-                    # 通常モード: 日記分析 + ブログ + 小説パイプライン
+                    # 通常モード: 日記分析 + ブログ + 小説 + 勉強パイプライン
                     if new_files:
                         run_analysis(new_files)
                     if blog_files:
                         run_blog_pipeline(blog_files)
                     if story_files:
                         run_story_pipeline(story_files)
-                    if not new_files and not blog_files and not story_files:
+                    if study_files:
+                        run_study_pipeline(study_files)
+                    if not new_files and not blog_files and not story_files and not study_files:
                         if not args.watch:
                             print("💤 新着の対象メールはありませんでした。")
-                
+
                 mail.logout()
             except Exception as e:
                 print(f"❌ Error during check: {e}")
-        
+
         if not args.watch:
             break
-            
+
         print(f"⏳ 次のチェックまで待機中... ({args.interval}秒)")
         time.sleep(args.interval)
 

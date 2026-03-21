@@ -326,7 +326,7 @@ def get_role_definition() -> str:
     return ""
 
 
-def call_gemini_api(prompt: str, model: str = "gemini-3-flash-preview", response_mime_type: str = "text/plain", max_retries: int = 3) -> str:
+def call_gemini_api(prompt: str, model: str = "gemini-3.1-flash-lite-preview", response_mime_type: str = "text/plain", max_retries: int = 3) -> str:
     if not API_KEY:
         raise ValueError("GOOGLE_API_KEY is not set.")
 
@@ -380,7 +380,7 @@ def extract_graph(text: str, context_str: str = "") -> Dict[str, Any]:
     {text}
     """
     print("🔄 グラフを抽出中...")
-    json_text = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
+    json_text = call_gemini_api(prompt, model="gemini-3.1-flash-lite-preview", response_mime_type="application/json")
     return json.loads(json_text)
 
 
@@ -458,7 +458,7 @@ def resolve_semantic_duplicates(daily_graph: Dict[str, Any], master_graph: Dict[
     """
 
     try:
-        json_text = call_gemini_api(prompt, model="gemini-3-flash-preview", response_mime_type="application/json")
+        json_text = call_gemini_api(prompt, model="gemini-3.1-flash-lite-preview", response_mime_type="application/json")
         mapping = json.loads(json_text)
 
         if not mapping:
@@ -569,7 +569,7 @@ def build_diary_history(master_graph: Dict[str, Any], max_days: int = 30) -> str
     return "\n".join(lines)
 
 
-_DEFAULT_SECTION_MODEL = "gemini-3-flash-preview"
+_DEFAULT_SECTION_MODEL = "gemini-3.1-flash-lite-preview"
 
 def call_section_llm(section_name: str, prompt: str, expect_json: bool = True) -> Any:
     """セクション別の独立したLLM呼び出し。JSON配列またはオブジェクトを返す。
