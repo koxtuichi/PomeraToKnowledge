@@ -182,7 +182,7 @@ function triggerGitHubActions(token, subject) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const BLOG_CONFIG = {
-    EVENT_TYPE: 'pomera-blog',
+    CF_URL_KEY: 'BLOG_CF_URL',  // スクリプトプロパティのキー名
     GMAIL_QUERY: 'subject:BLOG is:unread newer_than:1h -subject:POMERA'
 };
 
@@ -217,21 +217,32 @@ function checkBlogMail() {
         // 防御2: 先に既読化
         threads.forEach(thread => thread.markRead());
 
-        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-        if (!token) {
-            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        const cfUrl = PropertiesService.getScriptProperties().getProperty(BLOG_CONFIG.CF_URL_KEY);
+        if (!cfUrl) {
+            console.error('❌ BLOG_CF_URL がスクリプトプロパティに設定されていません');
             threads.forEach(thread => thread.markUnread());
             return;
         }
 
-        const success = triggerGitHubActionsWithEvent(token, subject, BLOG_CONFIG.EVENT_TYPE, body);
+        // Cloud Function に HTTP POST
+        const payload = JSON.stringify({ subject: subject, body: body });
+        const options = {
+            method: 'post',
+            contentType: 'application/json',
+            payload: payload,
+            muteHttpExceptions: true
+        };
+
+        const response = UrlFetchApp.fetch(cfUrl, options);
+        const statusCode = response.getResponseCode();
+        const success = statusCode >= 200 && statusCode < 300;
 
         if (success) {
             markAsProcessed(msgId, 'BLOG');
-            console.log('✅ Blog GitHub Actions をトリガーしました');
+            console.log(`✅ Blog Cloud Function を呼び出しました (status=${statusCode})`);
         } else {
             threads.forEach(thread => thread.markUnread());
-            console.error('⚠️ Blogトリガー失敗のため未読に戻しました');
+            console.error(`⚠️ Blog Cloud Function 失敗 (status=${statusCode})。未読に戻しました`);
         }
 
     } finally {
