@@ -384,7 +384,7 @@ function testStoryTrigger() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const SECBLOG_CONFIG = {
-    EVENT_TYPE: 'pomera-secblog',
+    CF_URL_KEY: 'SECBLOG_CF_URL',  // スクリプトプロパティのキー名
     GMAIL_QUERY: 'subject:SECBLOG is:unread newer_than:1h'
 };
 
@@ -419,21 +419,32 @@ function checkSecBlogMail() {
         // 防御2: 先に既読化
         threads.forEach(thread => thread.markRead());
 
-        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-        if (!token) {
-            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+        const cfUrl = PropertiesService.getScriptProperties().getProperty(SECBLOG_CONFIG.CF_URL_KEY);
+        if (!cfUrl) {
+            console.error('❌ SECBLOG_CF_URL がスクリプトプロパティに設定されていません');
             threads.forEach(thread => thread.markUnread());
             return;
         }
 
-        const success = triggerGitHubActionsWithEvent(token, subject, SECBLOG_CONFIG.EVENT_TYPE, body);
+        // Cloud Function に HTTP POST
+        const payload = JSON.stringify({ subject: subject, body: body });
+        const options = {
+            method: 'post',
+            contentType: 'application/json',
+            payload: payload,
+            muteHttpExceptions: true
+        };
+
+        const response = UrlFetchApp.fetch(cfUrl, options);
+        const statusCode = response.getResponseCode();
+        const success = statusCode >= 200 && statusCode < 300;
 
         if (success) {
             markAsProcessed(msgId, 'SECBLOG');
-            console.log('✅ SecBlog GitHub Actions をトリガーしました');
+            console.log(`✅ SecBlog Cloud Function を呼び出しました (status=${statusCode})`);
         } else {
             threads.forEach(thread => thread.markUnread());
-            console.error('⚠️ SecBlogトリガー失敗のため未読に戻しました');
+            console.error(`⚠️ SecBlog Cloud Function 失敗 (status=${statusCode})。未読に戻しました`);
         }
 
     } finally {
@@ -442,13 +453,23 @@ function checkSecBlogMail() {
 }
 
 function testSecBlogTrigger() {
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN が未設定です');
+    const cfUrl = PropertiesService.getScriptProperties().getProperty(SECBLOG_CONFIG.CF_URL_KEY);
+    if (!cfUrl) {
+        console.error('❌ SECBLOG_CF_URL が未設定です');
         return;
     }
-    const success = triggerGitHubActionsWithEvent(token, '[TEST] SECBLOGテスト送信', SECBLOG_CONFIG.EVENT_TYPE, 'XSSについて学んでいます。テストメモです。');
-    console.log(success ? '✅ SecBlogテスト成功！' : '❌ SecBlogテスト失敗');
+    const payload = JSON.stringify({
+        subject: '[TEST] SECBLOGテスト送信',
+        body: 'XSSについて学んでいます。投稿できる項目に対してスクリプトを埋め込むということだと思うが、どうやってそれが可能だと攻撃者はわかるのか。テストメモです。'
+    });
+    const response = UrlFetchApp.fetch(cfUrl, {
+        method: 'post',
+        contentType: 'application/json',
+        payload: payload,
+        muteHttpExceptions: true
+    });
+    const success = response.getResponseCode() >= 200 && response.getResponseCode() < 300;
+    console.log(success ? `✅ SecBlogテスト成功！` : `❌ SecBlogテスト失敗 (status=${response.getResponseCode()})`);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
