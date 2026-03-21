@@ -5,10 +5,11 @@
  * GASの役割: メール検知 → Cloud FunctionsにHTTPリクエスト
  * 
  * ■ Cloud Functions エンドポイント
- *   - process-diary:   日記 → ナレッジグラフ更新
- *   - process-blog:    ブログ草案 → 記事生成 → はてな投稿
- *   - process-story:   小説テーマ → フィクション生成 → はてな投稿
- *   - process-finance: 家計テキスト → 分析レポート生成
+ *   - process-diary:    日記 → ナレッジグラフ更新
+ *   - process-blog:     ブログ草案 → 記事生成 → はてな投稿
+ *   - process-security: セキュリティ記事 → 記事生成 → はてな投稿
+ *   - process-story:    小説テーマ → フィクション生成 → はてな投稿
+ *   - process-finance:  家計テキスト → 分析レポート生成
  * 
  * ■ 重複防止策（3層防御）
  *   1. LockService: 同時実行を排他制御
@@ -33,6 +34,7 @@ var CLOUD_FUNCTIONS_BASE = 'https://asia-northeast1-pomeradriven.cloudfunctions.
 var CLOUD_FUNCTIONS = {
     DIARY: CLOUD_FUNCTIONS_BASE + '/process-diary',
     BLOG: CLOUD_FUNCTIONS_BASE + '/process-blog',
+    SECURITY: CLOUD_FUNCTIONS_BASE + '/process-security',
     STORY: CLOUD_FUNCTIONS_BASE + '/process-story',
     FINANCE: CLOUD_FUNCTIONS_BASE + '/process-finance',
     SNS_APPROVAL: CLOUD_FUNCTIONS_BASE + '/process-sns-approval'
@@ -40,6 +42,10 @@ var CLOUD_FUNCTIONS = {
 
 var BLOG_CONFIG = {
     GMAIL_QUERY: 'subject:BLOG is:unread newer_than:1h -subject:POMERA'
+};
+
+var SECBLOG_CONFIG = {
+    GMAIL_QUERY: 'subject:SECBLOG is:unread newer_than:1h -subject:POMERA'
 };
 
 var STORY_CONFIG = {
@@ -255,6 +261,53 @@ function checkBlogMail() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SECBLOG セキュリティブログ メール検知
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+function checkSecBlogMail() {
+    var lock = LockService.getScriptLock();
+    if (!lock.tryLock(3000)) {
+        console.log('⏳ 他のSECBLOGトリガーが処理中。スキップします');
+        return;
+    }
+
+    try {
+        var threads = GmailApp.search(SECBLOG_CONFIG.GMAIL_QUERY);
+        if (threads.length === 0) return;
+
+        console.log('🔒 ' + threads.length + ' 件のSECBLOGメールを検出');
+
+        var msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+        var msgId = msg.getId();
+        var subject = threads[0].getFirstMessageSubject();
+        var body = getPlainBody(msg);
+
+        if (isAlreadyProcessed(msgId, 'SECBLOG')) {
+            threads.forEach(function (t) { t.markRead(); });
+            return;
+        }
+
+        threads.forEach(function (t) { t.markRead(); });
+
+        var success = callCloudFunction(CLOUD_FUNCTIONS.SECURITY, {
+            subject: subject,
+            body: body
+        });
+
+        if (success) {
+            markAsProcessed(msgId, 'SECBLOG');
+            console.log('✅ Cloud Functions でセキュリティブログ処理完了');
+        } else {
+            threads.forEach(function (t) { t.markUnread(); });
+            console.error('⚠️ Cloud Functions 失敗のため未読に戻しました');
+        }
+
+    } finally {
+        lock.releaseLock();
+    }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // STORY メール検知
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -368,6 +421,14 @@ function testBlogTrigger() {
     console.log(result ? '✅ ブログテスト成功！' : '❌ ブログテスト失敗');
 }
 
+function testSecBlogTrigger() {
+    var result = callCloudFunction(CLOUD_FUNCTIONS.SECURITY, {
+        subject: '[TEST] SECBLOGテスト送信',
+        body: 'テスト: SQLインジェクションの基礎と対策について'
+    });
+    console.log(result ? '✅ セキュリティブログテスト成功！' : '❌ セキュリティブログテスト失敗');
+}
+
 function testStoryTrigger() {
     var result = callCloudFunction(CLOUD_FUNCTIONS.STORY, {
         subject: '[TEST] STORYテスト送信',
@@ -390,7 +451,7 @@ function testFinanceTrigger() {
 
 function showProcessedIds() {
     var props = PropertiesService.getScriptProperties();
-    var categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX'];
+    var categories = ['POMERA', 'BLOG', 'SECBLOG', 'STORY', 'FINCTX'];
 
     categories.forEach(function (cat) {
         var raw = props.getProperty('PROCESSED_' + cat) || '[]';
@@ -400,7 +461,7 @@ function showProcessedIds() {
 
 function resetProcessedIds() {
     var props = PropertiesService.getScriptProperties();
-    var categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX', 'SNS_APPROVAL'];
+    var categories = ['POMERA', 'BLOG', 'SECBLOG', 'STORY', 'FINCTX', 'SNS_APPROVAL'];
 
     categories.forEach(function (cat) {
         props.deleteProperty('PROCESSED_' + cat);
