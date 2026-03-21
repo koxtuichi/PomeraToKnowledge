@@ -57,22 +57,35 @@ SECBLOG_SYSTEM_PROMPT = """
 6. 記事全体を通して「学ぶのが楽しい」という読後感を心がける
 7. **メタ表現禁止**: 「メモ」「草案」「書いてくれた内容」「提供された情報によると」など、筆者が事前に何かを書いたことを匂わせる表現は一切使わない。セキュリティ初学者は自分の経験・考えとして自然に語る
 
-# 出力形式
-以下のJSON形式で出力してください:
+# 記事の構成
 
-{
-  "title": "ブログ記事のタイトル（例: 「XSSってどういう攻撃？」を専門家に聞いてみた）",
-  "body": "本文（はてなブログ用Markdown形式）",
-  "description": "メタデスクリプション（120文字以内）",
-  "categories": ["セキュリティ", "学習記録"],
-  "estimated_read_time": "○分"
-}
+## Part 1: 対話パート（セキュリティ初学者 × セキュリティスペシャリスト）
+前述の対話の構成ルールに従い対話形式で執筆する。
+
+## Part 2: 技術メモ
+対話パートの後ろに、以下のセクションを「---」で区切った上で「## 技術メモ」として必ず追加する。
+
+技術メモには以下の3つを必ず含めること:
+
+[1] 「### 攻撃の種類」
+トピックの攻撃手法の種類をMarkdownテーブルで整理する（種類名・特徴・主なリスク の3列）。
+XSSの場合は「反射型 / 蓄積型 / DOM型」。SQLiやCSRFなど別の脅威ならその脅威の分類を書く。
+
+[2] 「### コード例（学習用・悪用不可）」
+攻撃ペイロードの簡易例（html コードブロック）と、防御側のエスケープ・サニタイズ処理例（python など）を示す。
+トピックに応じて言語・内容を変えること。
+
+[3] 「### 防御の実装チェックリスト」
+エンジニアが実際に対処できる防御策を「- [ ] 〜」形式で5〜8項目列挙する。
+XSSなら: HTMLエスケープ、CSPヘッダー、HttpOnly属性、Secure属性、X-Content-Type-Options、ライブラリの最新化、定期スキャン など。
+トピックに応じた内容に変更すること。
 
 # 文字数・ボリュームの基準
-- 本文は必ず2000文字以上3500文字以下にすること
-- 各問のセキュリティスペシャリストの補足説明は250〜400文字を目安に書く
+- 本文全体（対話パート＋技術メモ）は2500文字以上4500文字以下にすること
+- 対話パートのセキュリティスペシャリストの補足説明は250〜400文字を目安に書く
 - 実際の事例（○○社の情報漏洩事件、ハッカーがよく使う手口など）を最低1件以上、具体的に盛り込む
 - 「今日のまとめ」は箇条書き3〜5点で、各点を2〜3文で説明する
+- 技術メモのテーブル・コードブロック・チェックリストは必ず全て含める
 
 言語: 日本語。
 JSON以外のテキストは一切含めないでください。
@@ -121,7 +134,7 @@ def call_gemini_api(prompt: str, max_retries: int = 3) -> str:
 
     data = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"response_mime_type": "application/json"}
+        "generationConfig": {"temperature": 0.7}
     }
 
     for attempt in range(max_retries + 1):
@@ -140,7 +153,17 @@ def call_gemini_api(prompt: str, max_retries: int = 3) -> str:
     result = response.json()
     try:
         if "candidates" in result and result["candidates"]:
-            return result["candidates"][0]["content"]["parts"][0]["text"]
+            raw_text = result["candidates"][0]["content"]["parts"][0]["text"]
+            # ```json ... ``` ブロックを抽出、なければそのまま使う
+            json_match = re.search(r'```json\s*([\s\S]*?)\s*```', raw_text)
+            if json_match:
+                return json_match.group(1).strip()
+            # コードブロックなしの生JSONを返す場合
+            json_start = raw_text.find('{')
+            json_end = raw_text.rfind('}') + 1
+            if json_start != -1 and json_end > json_start:
+                return raw_text[json_start:json_end]
+            return raw_text
         else:
             raise Exception(f"Empty candidates in response: {result}")
     except (KeyError, IndexError):
@@ -194,23 +217,76 @@ def review_article(article_body: str) -> Tuple[bool, list]:
     return passed, issues
 
 
+def call_gemini_api_text(prompt: str, max_retries: int = 3) -> str:
+    """Gemini APIをプレーンテキストモードで呼び出す。"""
+    if not API_KEY:
+        raise ValueError("GOOGLE_API_KEY is not set.")
+
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent"
+    params = {"key": API_KEY}
+    headers = {"Content-Type": "application/json"}
+
+    data = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.7}
+    }
+
+    for attempt in range(max_retries + 1):
+        response = requests.post(url, headers=headers, json=data, params=params)
+        if response.status_code == 200:
+            break
+        elif response.status_code == 429 and attempt < max_retries:
+            wait_time = 30 * (2 ** attempt)
+            print(f"⏳ レートリミット到達。{wait_time}秒後にリトライします... ({attempt + 1}/{max_retries})")
+            import time
+            time.sleep(wait_time)
+        else:
+            raise Exception(f"API Error: {response.status_code} - {response.text}")
+
+    result = response.json()
+    try:
+        if "candidates" in result and result["candidates"]:
+            return result["candidates"][0]["content"]["parts"][0]["text"]
+        else:
+            raise Exception(f"Empty candidates in response: {result}")
+    except (KeyError, IndexError):
+        raise Exception(f"Unexpected API response format: {result}")
+
+
+def generate_meta(body: str, memo_text: str) -> Dict[str, Any]:
+    """本文からタイトル・説明文・カテゴリをJSON形式で生成する。"""
+    prompt = f"""
+以下のセキュリティブログ記事の本文を読み、次の情報を生成してください。
+
+本文:
+{body[:800]}
+
+出力はJSON形式で、以下の4つのキーのみ含めてください:
+- title: 魅力的なブログ記事タイトル（50文字以内）
+- description: SEO向けメタディスクリプション（120文字以内）
+- categories: カテゴリのリスト（例: ["セキュリティ", "学習記録"]）
+- estimated_read_time: 読了時間（例: "8分"）
+
+JSON以外のテキストは一切含めないでください。
+"""
+    json_text = call_gemini_api(prompt)
+    try:
+        return json.loads(json_text)
+    except json.JSONDecodeError:
+        return {"title": "セキュリティ学習記録", "description": "", "categories": ["セキュリティ", "学習記録"], "estimated_read_time": ""}
+
+
 def generate_secblog_article(memo_text: str, max_revisions: int = 1) -> Dict[str, Any]:
     """メモから対話形式のセキュリティブログ記事を生成する。"""
-    prompt = build_generation_prompt(memo_text)
+    # Step 1: 本文をプレーンテキストで生成
+    body_prompt = build_generation_prompt(memo_text)
     print("📝 セキュリティ対話記事を生成中...")
-    json_text = call_gemini_api(prompt)
-    article_data = json.loads(json_text)
+    body_text = call_gemini_api_text(body_prompt)
 
-    for revision in range(max_revisions):
-        article_body = article_data.get("body", "")
-        if not article_body:
-            break
+    # Step 2: レビュー
+    passed, issues = review_article(body_text)
 
-        passed, issues = review_article(article_body)
-
-        if passed:
-            break
-
+    if not passed and max_revisions > 0:
         feedback_lines = []
         for issue in issues:
             feedback_lines.append(
@@ -218,28 +294,36 @@ def generate_secblog_article(memo_text: str, max_revisions: int = 1) -> Dict[str
                 f"  改善案: {issue.get('suggestion', '')}"
             )
         feedback_section = "\n".join(feedback_lines)
-
         revision_prompt = f"""
 {SECBLOG_SYSTEM_PROMPT}
 
 {build_generation_prompt(memo_text)}
 
 ### 前回の生成結果に対するレビューフィードバック
-以下の問題が指摘されました。これらを全て修正した上で、記事を書き直してください。
+以下の問題が指摘されました。これらを全て修正した上で、記事本文のみを書き直してください。
 
 {feedback_section}
 
 ### 前回の本文（参考）
-{article_body[:1000]}...
+{body_text[:800]}...
 
-### 指示
-上記のフィードバックを反映し、問題を修正した新しいバージョンの記事を執筆してください。
+記事本文のみを出力してください。JSONは不要です。
 """
-        print(f"📝 フィードバック反映版を生成中... (リビジョン {revision + 1}/{max_revisions})")
-        json_text = call_gemini_api(revision_prompt)
-        article_data = json.loads(json_text)
+        print(f"📝 フィードバック反映版を生成中... (リビジョン 1/{max_revisions})")
+        body_text = call_gemini_api_text(revision_prompt)
 
-    return article_data
+    # Step 3: タイトル・メタ情報を別途生成
+    print("🏷️ タイトル・メタ情報を生成中...")
+    meta = generate_meta(body_text, memo_text)
+
+    return {
+        "title": meta.get("title", "セキュリティ学習記録"),
+        "body": body_text,
+        "description": meta.get("description", ""),
+        "categories": meta.get("categories", ["セキュリティ", "学習記録"]),
+        "estimated_read_time": meta.get("estimated_read_time", ""),
+    }
+
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
