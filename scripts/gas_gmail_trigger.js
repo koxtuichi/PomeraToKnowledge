@@ -380,6 +380,78 @@ function testStoryTrigger() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SECBLOG メール検知 — トリガーから1分間隔で呼び出される
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+const SECBLOG_CONFIG = {
+    EVENT_TYPE: 'pomera-secblog',
+    GMAIL_QUERY: 'subject:SECBLOG is:unread newer_than:1h'
+};
+
+function checkSecBlogMail() {
+    // 防御1: 排他制御
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(3000)) {
+        console.log('⏳ 他のSECBLOGトリガーが処理中。スキップします');
+        return;
+    }
+
+    try {
+        const threads = GmailApp.search(SECBLOG_CONFIG.GMAIL_QUERY);
+
+        if (threads.length === 0) {
+            return;
+        }
+
+        console.log(`🔒 ${threads.length} 件のSECBLOGメールを検出`);
+
+        const msg = threads[0].getMessages()[threads[0].getMessageCount() - 1];
+        const msgId = msg.getId();
+        const subject = threads[0].getFirstMessageSubject();
+        const body = msg.getPlainBody();
+
+        // 防御3: メッセージID重複チェック
+        if (isAlreadyProcessed(msgId, 'SECBLOG')) {
+            threads.forEach(thread => thread.markRead());
+            return;
+        }
+
+        // 防御2: 先に既読化
+        threads.forEach(thread => thread.markRead());
+
+        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+        if (!token) {
+            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
+            threads.forEach(thread => thread.markUnread());
+            return;
+        }
+
+        const success = triggerGitHubActionsWithEvent(token, subject, SECBLOG_CONFIG.EVENT_TYPE, body);
+
+        if (success) {
+            markAsProcessed(msgId, 'SECBLOG');
+            console.log('✅ SecBlog GitHub Actions をトリガーしました');
+        } else {
+            threads.forEach(thread => thread.markUnread());
+            console.error('⚠️ SecBlogトリガー失敗のため未読に戻しました');
+        }
+
+    } finally {
+        lock.releaseLock();
+    }
+}
+
+function testSecBlogTrigger() {
+    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+    if (!token) {
+        console.error('❌ GITHUB_TOKEN が未設定です');
+        return;
+    }
+    const success = triggerGitHubActionsWithEvent(token, '[TEST] SECBLOGテスト送信', SECBLOG_CONFIG.EVENT_TYPE, 'XSSについて学んでいます。テストメモです。');
+    console.log(success ? '✅ SecBlogテスト成功！' : '❌ SecBlogテスト失敗');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 家計コンテキスト (FINCTX) メール検知
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -484,7 +556,7 @@ function testFinCtxTrigger() {
 /** 処理済みIDの一覧を確認する（デバッグ用） */
 function showProcessedIds() {
     const props = PropertiesService.getScriptProperties();
-    const categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX'];
+    const categories = ['POMERA', 'BLOG', 'STORY', 'SECBLOG', 'FINCTX'];
 
     categories.forEach(cat => {
         const raw = props.getProperty(`PROCESSED_${cat}`) || '[]';
@@ -495,7 +567,7 @@ function showProcessedIds() {
 /** 処理済みIDをリセットする（トラブル時に使用） */
 function resetProcessedIds() {
     const props = PropertiesService.getScriptProperties();
-    const categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX'];
+    const categories = ['POMERA', 'BLOG', 'STORY', 'SECBLOG', 'FINCTX'];
 
     categories.forEach(cat => {
         props.deleteProperty(`PROCESSED_${cat}`);

@@ -1,0 +1,87 @@
+name: SecBlog Publish
+
+on:
+  repository_dispatch:
+    types: [pomera-secblog]
+  workflow_dispatch:
+    inputs:
+      input_file:
+        description: "処理対象のセキュリティメモファイルパス（省略時はsecblog_drafts/内の最新ファイル）"
+        required: false
+
+jobs:
+  publish-secblog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Save SecBlog draft from payload
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          mkdir -p secblog_drafts
+          SUBJECT="${{ github.event.client_payload.subject }}"
+          DATE=$(date +"%Y%m%d_%H%M%S")
+          SAFE_SUBJECT=$(echo "$SUBJECT" | sed 's/[^a-zA-Z0-9_\-]/_/g')
+          DRAFT_FILE="secblog_drafts/${DATE}_${SAFE_SUBJECT}.txt"
+          echo "${{ github.event.client_payload.body }}" > "$DRAFT_FILE"
+          echo "DRAFT_FILE=$DRAFT_FILE" >> $GITHUB_ENV
+          echo "📝 SecBlog草案を保存しました: $DRAFT_FILE"
+
+      - name: Find latest SecBlog draft (workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.input_file == ''
+        run: |
+          LATEST=$(ls -t secblog_drafts/*.txt 2>/dev/null | head -1)
+          if [ -z "$LATEST" ]; then
+            echo "❌ secblog_drafts/ にファイルが見つかりません"
+            exit 1
+          fi
+          echo "DRAFT_FILE=$LATEST" >> $GITHUB_ENV
+          echo "📂 最新のSecBlogファイル: $LATEST"
+
+      - name: Use specified input file (workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.input_file != ''
+        run: |
+          echo "DRAFT_FILE=${{ github.event.inputs.input_file }}" >> $GITHUB_ENV
+
+      - name: Download knowledge graph from GCS (optional)
+        continue-on-error: true
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+        run: |
+          if [ -n "$GCS_BUCKET" ]; then
+            echo "⚠️ GCSからのグラフ取得はスキップ（SecBlogはグラフ不要）"
+          fi
+
+      - name: Generate SecBlog article and publish to Hatena
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          HATENA_ID: ${{ secrets.HATENA_ID }}
+          HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}
+          HATENA_API_KEY: ${{ secrets.HATENA_API_KEY }}
+        run: |
+          echo "🔒 セキュリティ対話ブログを生成中..."
+          python3 scripts/secblog_writer.py "$DRAFT_FILE"
+          echo "✅ SecBlog投稿処理完了"
+
+      - name: Commit generated article
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog_ready/ || true
+          if git diff --cached --quiet; then
+            echo "コミット対象なし"
+          else
+            git commit -m "auto: SecBlogブログ記事を生成 [skip ci]"
+            git push
+          fi
