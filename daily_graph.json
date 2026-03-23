@@ -41,7 +41,9 @@
       "detail": "日記の作成者",
       "first_seen": "2026-03-11T00:50:18.872574",
       "last_seen": "2026-03-11T00:50:18.872577",
-      "weight": 1
+      "weight": 1,
+      "spriteUrl": "sprites/characters/nodes/人物_自分.png",
+      "rarity": "UR"
     }
   ],
   "edges": [
