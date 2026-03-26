@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-23T05:14:41.791960",
+  "generated_at": "2026-03-26T08:41:41.404270",
   "summary": {
     "monthly_income": 870000,
     "monthly_fixed_costs": 160000,
@@ -151,94 +151,49 @@
     {
       "icon": "💳",
       "title": "クレジットカード利用額の見直し",
-      "detail": "クレジットカードの利用額が月収の44%を占めています。内訳を確認し、不要な支出がないか見直しましょう。特にファミマカードは利用頻度が高いようですが、優先すべきカードがない場合に使うとのことなので、他のカードの特典などを比較検討し、利用カードを絞ることを検討しましょう。",
+      "detail": "クレジットカードの利用額が月収の約44%を占めています。特にセゾンゴールドカードとファミマカードの利用額が多いので、本当に必要な支出か見直してみましょう。利用頻度の低いカードは解約も検討しましょう。",
       "severity": "warning"
     },
     {
       "icon": "💰",
       "title": "現金支出の管理",
-      "detail": "現金支出が70,000円とやや高めです。システム手帳や漫画の購入希望とのことですが、本当に必要かどうか検討し、予算を立てて計画的に購入しましょう。現金支出を減らすために、クレジットカードや電子マネーの利用を検討するのも有効です。",
+      "detail": "現金支出が70,000円とやや高めです。システム手帳や漫画の購入は計画的な支出ですか？本当に必要かどうか検討し、予算を立てて管理しましょう。",
       "severity": "warning"
     },
     {
       "icon": "📊",
       "title": "貯蓄率の維持",
-      "detail": "月収87万円に対して貯蓄率が29.5%と高い水準を維持できています。この調子で貯蓄を継続し、将来の目標に向けて着実に資産を増やしていきましょう。",
+      "detail": "現在の貯蓄率は29.5%と非常に良好です。この水準を維持できるよう、引き続き支出の管理を徹底しましょう。目標貯蓄率を設定するのも良いでしょう。",
       "severity": "success"
     },
     {
-      "icon": "🛍️",
+      "icon": "🎯",
       "title": "カード利用目的の明確化",
-      "detail": "各カードの利用目的が明確になっている点は素晴らしいです。ただし、セゾンシネマズカードのように利用目的がないカードは、解約を検討しても良いかもしれません。年会費や特典などを考慮し、最適なカード構成を目指しましょう。",
+      "detail": "各カードの利用目的が設定されていますが、セゾンシネマズカードのように利用目的がないカードがあります。利用頻度が低い場合は解約を検討しましょう。ポイント還元率などを考慮して、利用するカードを絞り込むのも有効です。",
       "severity": "info"
     },
     {
       "icon": "🏡",
-      "title": "住宅ローンの確認",
-      "detail": "固定費が16万円で、その内訳が住宅ローンのみとのことです。住宅ローンの金利や返済期間などを定期的に確認し、借り換えなどを検討することで、固定費を削減できる可能性があります。",
-      "severity": "info"
+      "title": "固定費の安定",
+      "detail": "固定費が住宅ローンのみで160,000円に抑えられているのは素晴らしいです。今後も固定費が増えないように注意しましょう。",
+      "severity": "success"
     },
     {
-      "icon": "🎯",
-      "title": "支出目標の設定",
-      "detail": "現在の月次余剰は256,607円ですが、さらに貯蓄率を向上させるために、各カードの利用額に対して月ごとの目標金額を設定してみましょう。目標金額を設定することで、無駄な支出を減らし、計画的な支出を促すことができます。",
+      "icon": "🤔",
+      "title": "カード利用の見直し提案",
+      "detail": "ファミマカードを「優先すべきカードがないときに使う」という使い方は、ポイント還元率などを考慮すると非効率な可能性があります。他のカードの特典と比較し、よりお得なカードがないか検討してみましょう。",
       "severity": "info"
     }
   ],
   "life_events_forecast": [
     {
-      "event": "むぎのペットシート",
-      "category": "ペット",
-      "timing": "直近",
+      "event": "保育園への訪問（面談・説明等）",
+      "category": "育児",
+      "timing": "2026年3月28日",
       "months_until": 0,
       "estimated_cost": null,
       "certainty": "高",
-      "note": "消耗品の補充"
-    },
-    {
-      "event": "猫の餌",
-      "category": "ペット",
-      "timing": "直近",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "高",
-      "note": "消耗品の補充"
-    },
-    {
-      "event": "風邪薬・冷却シート",
-      "category": "日用品",
-      "timing": "直近",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "妻の風邪の看病のため"
-    },
-    {
-      "event": "消化の良い食品・ゼリー飲料",
-      "category": "食料品",
-      "timing": "直近",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "妻の体調不良のため"
-    },
-    {
-      "event": "確定申告の提出用封筒・切手",
-      "category": "日用品",
-      "timing": "2026年3月中",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "高",
-      "note": "確定申告の郵送手続きのため"
-    },
-    {
-      "event": "印刷用コピー用紙",
-      "category": "日用品",
-      "timing": "2026年3月中",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "高",
-      "note": "確定申告の書類出力のため"
+      "note": "保育園の準備に関する出費が発生する可能性"
     },
     {
       "event": "N-Box 12ヶ月点検",
@@ -247,106 +202,214 @@
       "months_until": 0,
       "estimated_cost": null,
       "certainty": "高",
-      "note": "定期点検"
+      "note": "車のメンテナンス費用"
+    },
+    {
+      "event": "妊娠検査キットの購入",
+      "category": "医療",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 2000,
+      "certainty": "中",
+      "note": "妻の妊娠の可能性を確認するため"
+    },
+    {
+      "event": "むぎのペットシート",
+      "category": "ペット",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 3000,
+      "certainty": "高",
+      "note": "消耗品の補充"
+    },
+    {
+      "event": "猫の餌",
+      "category": "ペット",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 5000,
+      "certainty": "高",
+      "note": "消耗品の補充"
+    },
+    {
+      "event": "蒼馬のおむつ",
+      "category": "育児",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 5000,
+      "certainty": "高",
+      "note": "消耗品の補充"
+    },
+    {
+      "event": "粉ミルク",
+      "category": "育児",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 4000,
+      "certainty": "高",
+      "note": "消耗品の補充"
+    },
+    {
+      "event": "風邪薬・冷却シート",
+      "category": "日用品",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 2000,
+      "certainty": "中",
+      "note": "妻の看病のため"
+    },
+    {
+      "event": "消化の良い食品・ゼリー飲料",
+      "category": "食料品",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 3000,
+      "certainty": "中",
+      "note": "妻の看病のため"
     },
     {
       "event": "離乳食（市販品・材料）",
-      "category": "育児",
-      "timing": "2026年3月",
+      "category": "育児用品",
+      "timing": "直近",
       "months_until": 0,
-      "estimated_cost": null,
+      "estimated_cost": 5000,
       "certainty": "高",
-      "note": "蒼馬の離乳食"
-    },
-    {
-      "event": "犬の散歩用消耗品（マナー袋など）",
-      "category": "ペット",
-      "timing": "2026年3月",
-      "months_until": 0,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "むぎの散歩のため"
+      "note": "消耗品の補充"
     },
     {
       "event": "鉛筆",
       "category": "日用品",
-      "timing": "2026年3月",
+      "timing": "直近",
       "months_until": 0,
-      "estimated_cost": null,
+      "estimated_cost": 1000,
       "certainty": "中",
-      "note": "モンスターデザインのため"
+      "note": "鉛筆画のため"
     },
     {
-      "event": "保育園への訪問（面談・説明等）",
-      "category": "育児",
-      "timing": "2026年3月28日",
+      "event": "確定申告の提出用封筒・切手",
+      "category": "日用品",
+      "timing": "直近",
       "months_until": 0,
-      "estimated_cost": null,
+      "estimated_cost": 1000,
       "certainty": "高",
-      "note": "保育園の面談・説明会"
+      "note": "確定申告の郵送手続きのため"
+    },
+    {
+      "event": "印刷用コピー用紙",
+      "category": "日用品",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 2000,
+      "certainty": "高",
+      "note": "確定申告の書類出力のため"
+    },
+    {
+      "event": "保育園の入園準備用品（衣類・小物等）",
+      "category": "育児用品",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 10000,
+      "certainty": "中",
+      "note": "保育園内定に伴う準備"
+    },
+    {
+      "event": "犬の散歩用消耗品（マナー袋など）",
+      "category": "日用品",
+      "timing": "直近",
+      "months_until": 0,
+      "estimated_cost": 1000,
+      "certainty": "中",
+      "note": "むぎの散歩再開のため"
+    },
+    {
+      "event": "蒼馬 1歳 誕生日",
+      "category": "育児",
+      "timing": "2026年5月",
+      "months_until": 1,
+      "estimated_cost": 20000,
+      "certainty": "高",
+      "note": "誕生日プレゼント、食事など"
     },
     {
       "event": "Antigravity有料プラン",
       "category": "仕事",
-      "timing": "2026年4月,5月,6月",
+      "timing": "2026年4月〜6月",
       "months_until": 1,
       "estimated_cost": 18000,
       "certainty": "高",
-      "note": "SaitekiのAntigravity有料プラン"
+      "note": "SaitekiのAntigravity有料プランの支払い（残り2ヶ月分）"
     },
     {
-      "event": "保育園入園準備",
+      "event": "蒼馬の保育園入園準備",
       "category": "育児",
-      "timing": "2026年4月頃",
+      "timing": "2026年4月〜5月",
       "months_until": 1,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "5月からの入園に向けて準備"
-    },
-    {
-      "event": "蒼馬 保育園入園",
-      "category": "育児",
-      "timing": "2026年5月頃",
-      "months_until": 2,
-      "estimated_cost": null,
+      "estimated_cost": 50000,
       "certainty": "高",
-      "note": "保育料"
+      "note": "入園準備グッズ、制服など"
     },
     {
-      "event": "蒼馬 1歳の誕生日",
+      "event": "蒼馬の保育園入園",
       "category": "育児",
       "timing": "2026年5月",
       "months_until": 2,
-      "estimated_cost": 20000,
-      "certainty": "高",
-      "note": "プレゼント、誕生日会など"
-    },
-    {
-      "event": "乾太くん(ガス衣類乾燥機)",
-      "category": "家電",
-      "timing": "2026年5月以降",
-      "months_until": 2,
-      "estimated_cost": null,
+      "estimated_cost": 30000,
       "certainty": "中",
-      "note": "蒼馬の入園後に増える洗濯物に対応するため検討"
+      "note": "保育料"
     },
     {
-      "event": "400Lクラスの冷蔵庫",
-      "category": "家電",
-      "timing": "2026年5月以降",
-      "months_until": 2,
-      "estimated_cost": null,
-      "certainty": "中",
-      "note": "子供の成長に合わせて、より容量の大きい冷蔵庫を検討"
-    },
-    {
-      "event": "沙也香の誕生日",
+      "event": "妻の誕生日",
       "category": "記念日",
-      "timing": "2026年〇月頃",
-      "months_until": null,
-      "estimated_cost": 20000,
+      "timing": "2026年",
+      "months_until": 8,
+      "estimated_cost": 30000,
       "certainty": "高",
-      "note": "プレゼント・外食など"
+      "note": "プレゼント、食事など"
+    },
+    {
+      "event": "GitHub Personal Access Tokenの更新",
+      "category": "仕事",
+      "timing": "2027年2月",
+      "months_until": 11,
+      "estimated_cost": null,
+      "certainty": "高",
+      "note": "Saitekiの読書サイクルシステムで使用するPATの更新作業"
+    },
+    {
+      "event": "住宅ローン更新",
+      "category": "住宅",
+      "timing": "2026年",
+      "months_until": 12,
+      "estimated_cost": null,
+      "certainty": "低",
+      "note": "住宅ローンの借り換え手数料、金利上昇の可能性"
+    },
+    {
+      "event": "車検",
+      "category": "自動車",
+      "timing": "2027年",
+      "months_until": 12,
+      "estimated_cost": 100000,
+      "certainty": "低",
+      "note": "N-Boxの車検費用"
+    },
+    {
+      "event": "ソファの購入",
+      "category": "家具",
+      "timing": "2028年5月",
+      "months_until": 26,
+      "estimated_cost": 100000,
+      "certainty": "低",
+      "note": "蒼馬が3歳になる頃、プレイマットが不要になるため"
+    },
+    {
+      "event": "三菱 デリカD5 購入",
+      "category": "自動車",
+      "timing": "2026年以降",
+      "months_until": null,
+      "estimated_cost": 6000000,
+      "certainty": "低",
+      "note": "残価設定ローンでの購入を検討"
     },
     {
       "event": "外構工事",
@@ -358,25 +421,34 @@
       "note": "駐車場の後ろの外構工事を検討"
     },
     {
-      "event": "ダイニングの照明",
-      "category": "日用品",
+      "event": "乾太くん(ガス衣類乾燥機)の購入",
+      "category": "家電",
       "timing": "未定",
       "months_until": null,
-      "estimated_cost": 100000,
+      "estimated_cost": null,
       "certainty": "中",
-      "note": "妻が希望している"
+      "note": "蒼馬の入園後に増える洗濯物に対応するため検討"
     },
     {
-      "event": "60インチの大型テレビ",
+      "event": "400Lクラスの冷蔵庫の購入",
+      "category": "家電",
+      "timing": "未定",
+      "months_until": null,
+      "estimated_cost": null,
+      "certainty": "中",
+      "note": "子供の成長に合わせて、より容量の大きい冷蔵庫を検討"
+    },
+    {
+      "event": "60インチの大型テレビの購入",
       "category": "家電",
       "timing": "未定",
       "months_until": null,
       "estimated_cost": null,
       "certainty": "低",
-      "note": "現在のものより大きいテレビへの買い替え"
+      "note": "現在のものより大きいテレビへの買い替えを検討"
     },
     {
-      "event": "テレビボード",
+      "event": "テレビボードの購入",
       "category": "家具",
       "timing": "未定",
       "months_until": null,
@@ -385,22 +457,13 @@
       "note": "大型テレビの導入に合わせて検討"
     },
     {
-      "event": "ソファ",
+      "event": "ダイニング照明の購入",
       "category": "家具",
-      "timing": "蒼馬が3歳になる頃",
-      "months_until": null,
-      "estimated_cost": null,
-      "certainty": "低",
-      "note": "プレイマットが不要になる時期に検討"
-    },
-    {
-      "event": "三菱 デリカD5",
-      "category": "自動車",
       "timing": "未定",
       "months_until": null,
-      "estimated_cost": 6000000,
-      "certainty": "低",
-      "note": "残価設定ローンでの購入をイメージ（月々6万円、5年後150万円支払い）"
+      "estimated_cost": 100000,
+      "certainty": "中",
+      "note": "妻が希望している"
     }
   ]
 }
