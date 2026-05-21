@@ -264,6 +264,88 @@
       border-radius: 6px;
     }
 
+    .value-shift-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .value-shift-item {
+      background: rgba(167, 139, 250, 0.08);
+      border: 1px solid rgba(167, 139, 250, 0.18);
+      border-radius: 12px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .value-shift-item.down {
+      background: rgba(148, 163, 184, 0.08);
+      border-color: rgba(148, 163, 184, 0.18);
+    }
+
+    .value-shift-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      min-width: 0;
+    }
+
+    .value-shift-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: #c4b5fd;
+      background: rgba(167, 139, 250, 0.16);
+      border-radius: 999px;
+      padding: 3px 7px;
+    }
+
+    .value-shift-item.down .value-shift-badge {
+      color: #cbd5e1;
+      background: rgba(148, 163, 184, 0.14);
+    }
+
+    .value-shift-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      overflow-wrap: anywhere;
+    }
+
+    .value-shift-summary {
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .value-shift-example {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-dim);
+      border-left: 2px solid rgba(167, 139, 250, 0.35);
+      padding-left: 8px;
+      margin-top: 6px;
+      overflow-wrap: anywhere;
+    }
+
+    .value-shift-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      color: var(--text-dim);
+      font-size: 10px;
+    }
+
+    .value-shift-meta span {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+
     /* --- Gravity Map --- */
     .gravity-item {
       margin-bottom: 20px;
@@ -1444,6 +1526,16 @@
         </div>
 
         <div class="dashboard-grid">
+          <!-- 最近前に出てきたテーマ -->
+          <div class="dash-card full-width" id="value-shift-card" style="display:none;">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(167, 139, 250, 0.1); color: #a78bfa;">🫧</div>
+              <div class="card-title">最近前に出てきたテーマ</div>
+              <div class="card-count" id="value-shift-count"></div>
+            </div>
+            <div class="value-shift-list" id="value-shift-list"></div>
+          </div>
+
           <!-- 重力マップ -->
           <div class="dash-card">
             <div class="card-header">
@@ -1978,6 +2070,9 @@
         document.getElementById('coach-comment').innerHTML = marked.parse(data.coach_comment);
       }
 
+      // 最近前に出てきたテーマ
+      renderValueShiftTopics(data.value_shift_topics || []);
+
       // 重力マップ
       renderGravityMap(data.gravity_map || []);
 
@@ -2080,7 +2175,80 @@
             <div class="empty-state-text">データなし</div>
           </div>`;
       });
+      const valueShiftCard = document.getElementById('value-shift-card');
+      if (valueShiftCard) valueShiftCard.style.display = 'none';
       document.getElementById('schedule-strip').innerHTML = '<div class="schedule-none">確定予定なし</div>';
+    }
+
+    function sanitizeText(value) {
+      return String(value || '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[ch]));
+    }
+
+    function shortenText(value, maxLength = 90) {
+      const text = String(value || '').trim();
+      return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+    }
+
+    function renderValueShiftTopics(items) {
+      const card = document.getElementById('value-shift-card');
+      const list = document.getElementById('value-shift-list');
+      const count = document.getElementById('value-shift-count');
+      if (!card || !list) return;
+
+      const topics = (items || [])
+        .filter(item => item && item.category && item.evidence_summary)
+        .slice(0, 3);
+
+      if (!topics.length) {
+        card.style.display = 'none';
+        list.innerHTML = '';
+        if (count) count.textContent = '';
+        return;
+      }
+
+      card.style.display = '';
+      if (count) count.textContent = `${topics.length}件`;
+
+      list.innerHTML = topics.map(item => {
+        const direction = item.direction || 'steady';
+        const directionClass = direction === 'down' ? 'down' : '';
+        const label = item.delta_label || (direction === 'down' ? '少し落ち着いている' : '以前より前に出ている');
+        const examples = (item.recent_examples || [])
+          .filter(example => example && (example.date || example.summary))
+          .slice(0, 2);
+        const windowInfo = item.comparison_window || {};
+        const confidence = item.confidence ? `根拠: ${item.confidence}` : '根拠: 観察中';
+        const period = windowInfo.recent_label && windowInfo.baseline_label
+          ? `${windowInfo.recent_label} / ${windowInfo.baseline_label}`
+          : windowInfo.recent_days && windowInfo.baseline_days
+          ? `直近${windowInfo.recent_days}日 / 比較${windowInfo.baseline_days}日`
+          : '';
+
+        return `
+          <div class="value-shift-item ${directionClass}">
+            <div class="value-shift-top">
+              <span class="value-shift-badge">${sanitizeText(label)}</span>
+              <span class="value-shift-title">${sanitizeText(item.category)}</span>
+            </div>
+            <div class="value-shift-summary">${sanitizeText(item.evidence_summary)}</div>
+            ${examples.map(example => `
+              <div class="value-shift-example">
+                ${example.date ? `<strong>${sanitizeText(example.date)}</strong> ` : ''}
+                ${sanitizeText(shortenText(example.summary || '', 100))}
+              </div>
+            `).join('')}
+            <div class="value-shift-meta">
+              <span>${sanitizeText(confidence)}</span>
+              ${period ? `<span>${sanitizeText(period)}</span>` : ''}
+            </div>
+          </div>`;
+      }).join('');
     }
 
     function renderGravityMap(items) {

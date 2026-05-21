@@ -1,7 +1,8 @@
 import os
 import json
 import argparse
-from datetime import datetime
+import re
+from datetime import datetime, timedelta
 import requests
 from typing import Dict, Any, List, Optional
 
@@ -211,6 +212,27 @@ ANALYSIS_SYSTEM_PROMPT = """
       "context": "その感情が生じた文脈"
     }
   ],
+  "value_shift_topics": [
+    {
+      "category": "価値カテゴリ名（例: 創作・表現）",
+      "direction": "up/down/steady",
+      "delta_label": "以前より前に出ている/以前より少し落ち着いている/観察中",
+      "evidence_summary": "直近の日記と比較期間から見える、断定しない根拠要約",
+      "recent_examples": [
+        {
+          "date": "YYYY-MM-DD",
+          "summary": "生の日記本文ではなく、短く丸めた要約"
+        }
+      ],
+      "impact": "行動や感情への影響の可能性（診断ではなく仮説として書く）",
+      "question": "次に考えるための穏やかな問い",
+      "confidence": "高/中/低",
+      "comparison_window": {
+        "recent_days": 14,
+        "baseline_days": 60
+      }
+    }
+  ],
   "upcoming_schedule": [
     {
       "title": "予定名",
@@ -271,6 +293,7 @@ ANALYSIS_SYSTEM_PROMPT = """
   - すでに「買った」「届いた」「注文済み」など完了している品目は shopping_list に含めないでください。
   - 家族全員に共通する日用品・食料品も含めてください。日記に言及がなければ空配列で構いません。
 - 「family_digest」には ROLEtoKNOWLEDGE の役割定義に記載されている家族メンバーに関する情報を抽出してください。日記に家族の話題がなければ空で構いません。
+- 「value_shift_topics」は「価値観が変わった」と断定せず、「最近の日記では以前よりこのテーマが前に出ているようです」のような観察表現にしてください。心理診断や人格断定、生の日記本文の長い引用、家族名・金額・健康状態など機微情報の露出は避けてください。
 - 「blog_seeds」にはユーザーの日記から1話完結のフィクション短編小説の着想を提案してください。星新一のショートショートのような、匿名的で寓話的な物語です。ユーザーの体験をそのまま書くのではなく、テーマや感情を抽出して架空の物語にする前提です。readiness が「高」なものは、感情やエピソードが十分に濃く、すぐに執筆できるものです。
 - 「blog_ideas」にはこの日記の内容からブログ記事として書けそうなアイディアをLLMが能動的に提案してください。
   - 「ブログアイディア::」という記法がなくても、日記の体験・気づき・感情・出来事から積極的に2〜3件提案してください。
@@ -567,6 +590,245 @@ def build_diary_history(master_graph: Dict[str, Any], max_days: int = 30) -> str
         lines.append(f"\n**{date_str}の日記:**")
         lines.append(content[:500] if content else "（内容なし）")
     return "\n".join(lines)
+
+
+VALUE_SHIFT_DEFS = [
+    {
+        "label": "家族・つながり",
+        "keywords": ["家族", "妻", "父親", "一緒", "相談", "共有", "チーム", "メンバー", "感謝"],
+        "impact": "つながりの記述が増えると、協力や感謝が行動の支えになりやすい一方、自分の時間との配分も気になりやすくなります。",
+        "question": "このテーマが前に出ると、今週どの場面が少し動きやすくなりますか？",
+    },
+    {
+        "label": "創作・表現",
+        "keywords": ["ブログ", "ポメラ", "YouTube", "発信", "執筆", "小説", "描く", "描いた", "動画", "書籍", "記事", "表現", "原稿"],
+        "impact": "形にして外へ出すテーマが前に出ると、達成感が増えやすい一方、未完了の種も増えやすくなります。",
+        "question": "今週の小さな一手にするとしたら、どの表現を少しだけ形にしますか？",
+    },
+    {
+        "label": "探究・成長",
+        "keywords": ["読書", "学び", "学ぶ", "学習", "AI", "研究", "知見", "NotebookLM", "試す", "試した", "試行", "改善", "技術", "分析", "実験"],
+        "impact": "学びや改善の手がかりが増えると、迷いを構造化しやすくなりますが、調べる量が増えて着手が重くなることもあります。",
+        "question": "この学びを、今日の行動に一つだけつなげるなら何がよさそうですか？",
+    },
+    {
+        "label": "自由・選択",
+        "keywords": ["自由", "選択", "収益", "独立", "転職", "社員化", "ストックオプション", "主体", "裁量", "自分で選", "自分のため"],
+        "impact": "自分で選ぶ感覚が前に出ると、納得感のある行動を選びやすくなります。",
+        "question": "いま選び直せる余地があるとしたら、どこに小さく作れそうですか？",
+    },
+    {
+        "label": "安心・整える",
+        "keywords": ["安心", "不安", "貯金", "支出", "確定申告", "体重", "健康", "整理", "条件", "手取り", "お金", "掃除"],
+        "impact": "整えるテーマが前に出ると、曖昧な不安を扱いやすくなります。",
+        "question": "見える形にすると少し軽くなりそうなものは何ですか？",
+    },
+]
+
+
+def _parse_value_shift_date(node: Dict[str, Any]) -> Optional[datetime]:
+    raw = str(node.get("date") or node.get("last_seen") or node.get("id") or node.get("label") or "")
+    for pattern in ("%Y-%m-%d", "%Y%m%d"):
+        try:
+            return datetime.strptime(raw[:10] if pattern == "%Y-%m-%d" else raw[:8], pattern)
+        except ValueError:
+            pass
+    match = re.search(r"(\d{4})[-/]?(\d{2})[-/]?(\d{2})", raw)
+    if not match:
+        return None
+    try:
+        return datetime(int(match.group(1)), int(match.group(2)), int(match.group(3)))
+    except ValueError:
+        return None
+
+
+def _walk_value_shift_text(value: Any, depth: int = 0) -> List[str]:
+    if value is None or depth > 4:
+        return []
+    if isinstance(value, (str, int, float)):
+        return [str(value)]
+    if isinstance(value, list):
+        parts: List[str] = []
+        for item in value[:12]:
+            parts.extend(_walk_value_shift_text(item, depth + 1))
+        return parts
+    if isinstance(value, dict):
+        parts = []
+        for item in list(value.values())[:16]:
+            parts.extend(_walk_value_shift_text(item, depth + 1))
+        return parts
+    return []
+
+
+def _parse_analysis_content(raw: Any) -> Any:
+    if isinstance(raw, (dict, list)):
+        return raw
+    if not isinstance(raw, str) or not raw.strip():
+        return None
+    cleaned = raw.strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r'^```(?:json)?\s*', '', cleaned)
+        cleaned = re.sub(r'```\s*$', '', cleaned).strip()
+    try:
+        parsed = json.loads(cleaned)
+        if isinstance(parsed, str):
+            parsed = json.loads(parsed)
+        return parsed
+    except Exception:
+        return None
+
+
+def _value_shift_entry_text(node: Dict[str, Any]) -> str:
+    parts = [
+        node.get("label", ""),
+        node.get("detail", ""),
+        node.get("current_state", ""),
+        " ".join(node.get("tags") or []),
+    ]
+    for history in node.get("update_history") or []:
+        if isinstance(history, dict):
+            parts.extend([history.get("content", ""), history.get("state", "")])
+
+    analysis = _parse_analysis_content(node.get("analysis_content"))
+    if isinstance(analysis, dict):
+        for key in ("insights", "emotion_flow", "gravity_map", "antigravity_actions", "blog_ideas"):
+            parts.extend(_walk_value_shift_text(analysis.get(key)))
+
+    return "。".join(str(part) for part in parts if part)[:6000]
+
+
+def _count_value_shift_keywords(text: str, keywords: List[str]) -> int:
+    source = str(text or "").lower()
+    score = 0
+    for keyword in keywords:
+        target = str(keyword).lower()
+        if target:
+            if re.fullmatch(r"[a-z0-9][a-z0-9_+-]*", target):
+                score += len(re.findall(rf"(?<![a-z0-9]){re.escape(target)}(?![a-z0-9])", source))
+            else:
+                score += source.count(target)
+    return score
+
+
+def build_value_shift_topics(master_graph: Dict[str, Any], max_topics: int = 3) -> List[Dict[str, Any]]:
+    """日記履歴から、以前より前に出ている/落ち着いている価値テーマを保守的に抽出する。"""
+    entries = []
+    for node in master_graph.get("nodes", []):
+        if node.get("type") not in ("日記", "diary"):
+            continue
+        date_value = _parse_value_shift_date(node)
+        if not date_value:
+            continue
+        text = _value_shift_entry_text(node)
+        if not text.strip():
+            continue
+        entries.append({"date": date_value, "date_str": date_value.strftime("%Y-%m-%d"), "text": text})
+
+    entries.sort(key=lambda item: item["date"])
+    if len(entries) < 6:
+        return []
+
+    reference_date = entries[-1]["date"]
+    recent_days = 14
+    baseline_days = 60
+    recent_start = reference_date - timedelta(days=recent_days - 1)
+    baseline_start = recent_start - timedelta(days=baseline_days)
+
+    recent_entries = [item for item in entries if item["date"] >= recent_start]
+    baseline_entries = [item for item in entries if baseline_start <= item["date"] < recent_start]
+    recent_label = f"直近{recent_days}日"
+    baseline_label = f"比較{baseline_days}日"
+
+    if len(recent_entries) < 2 or len(baseline_entries) < 3:
+        recent_entries = entries[-5:]
+        baseline_entries = entries[-25:-5]
+        if len(recent_entries) < 2 or len(baseline_entries) < 3:
+            return []
+        recent_label = f"直近{len(recent_entries)}件"
+        baseline_label = f"比較{len(baseline_entries)}件"
+
+    topics = []
+    for definition in VALUE_SHIFT_DEFS:
+        keywords = definition["keywords"]
+        recent_scores = [
+            _count_value_shift_keywords(item["text"], keywords)
+            for item in recent_entries
+        ]
+        baseline_scores = [
+            _count_value_shift_keywords(item["text"], keywords)
+            for item in baseline_entries
+        ]
+        recent_score = sum(recent_scores)
+        baseline_score = sum(baseline_scores)
+        recent_rate = recent_score / max(1, len(recent_entries))
+        baseline_rate = baseline_score / max(1, len(baseline_entries))
+        delta = recent_rate - baseline_rate
+        magnitude = abs(delta)
+
+        if delta >= 0.45 and recent_score >= 2:
+            direction = "up"
+            delta_label = "以前より前に出ている"
+            evidence = f"{recent_label}では「{definition['label']}」に関する手がかりが、比較期間より目立っています。ひとつの傾向として読むのがよさそうです。"
+            active_score = recent_score
+        elif delta <= -0.45 and baseline_score >= 2:
+            direction = "down"
+            delta_label = "以前より少し落ち着いている"
+            evidence = f"{recent_label}では「{definition['label']}」に関する手がかりが、比較期間より少なめです。関心が消えたというより、いまは他テーマが前に出ている可能性があります。"
+            active_score = baseline_score
+        else:
+            continue
+
+        if magnitude >= 1.2 and active_score >= 4:
+            confidence = "高"
+        elif magnitude >= 0.7 and active_score >= 3:
+            confidence = "中"
+        else:
+            continue
+
+        recent_examples = []
+        seen_example_dates = set()
+        for entry, score in zip(recent_entries, recent_scores):
+            if score > 0 and entry["date_str"] not in seen_example_dates:
+                seen_example_dates.add(entry["date_str"])
+                recent_examples.append({
+                    "date": entry["date_str"],
+                    "summary": f"この日の記述で「{definition['label']}」に関する手がかりがありました。",
+                })
+            if len(recent_examples) >= 2:
+                break
+
+        if not recent_examples and direction == "down" and recent_entries:
+            recent_examples.append({
+                "date": f"{recent_entries[0]['date_str']}〜{recent_entries[-1]['date_str']}",
+                "summary": f"直近期間では「{definition['label']}」に関する具体的な手がかりは控えめでした。",
+            })
+
+        topics.append({
+            "category": definition["label"],
+            "direction": direction,
+            "delta_label": delta_label,
+            "evidence_summary": evidence,
+            "recent_examples": recent_examples,
+            "impact": definition["impact"],
+            "question": definition["question"],
+            "confidence": confidence,
+            "comparison_window": {
+                "recent_days": recent_days,
+                "baseline_days": baseline_days,
+                "recent_label": recent_label,
+                "baseline_label": baseline_label,
+                "recent_entries": len(recent_entries),
+                "baseline_entries": len(baseline_entries),
+            },
+            "metrics": {
+                "recent_score": round(recent_rate, 2),
+                "baseline_score": round(baseline_rate, 2),
+                "delta": round(delta, 2),
+            },
+        })
+
+    topics.sort(key=lambda item: abs(item.get("metrics", {}).get("delta", 0)), reverse=True)
+    return topics[:max_topics]
 
 
 _DEFAULT_SECTION_MODEL = "gemini-3.1-flash-lite-preview"
@@ -982,8 +1244,11 @@ JSON配列のみ出力:
             "insights": new_saiteki_insights if isinstance(new_saiteki_insights, list) else [],
         }
 
+        # LLMの推測ではなく、日記ノードの時系列比較からホーム表示用の観察トピックを作る。
+        base_obj["value_shift_topics"] = build_value_shift_topics(master_graph)
+
         cleaned = json.dumps(base_obj, ensure_ascii=False)
-        print("   ✅ family/knowbe/saiteki のセクション別LLM結果を統合しました")
+        print("   ✅ family/knowbe/saiteki/value_shift_topics の結果を統合しました")
     except Exception as e:
         print(f"   ⚠️ セクション統合に失敗（元の結果を維持）: {e}")
 
