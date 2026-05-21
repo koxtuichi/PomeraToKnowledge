@@ -2053,6 +2053,177 @@
       return null;
     }
 
+    const VALUE_SHIFT_DEFS = [
+      {
+        label: '家族・つながり',
+        keywords: ['家族', '妻', '父親', '一緒', '相談', '共有', 'チーム', 'メンバー', '感謝']
+      },
+      {
+        label: '創作・表現',
+        keywords: ['ブログ', 'ポメラ', 'YouTube', '発信', '執筆', '小説', '描く', '描いた', '動画', '書籍', '記事', '表現', '原稿']
+      },
+      {
+        label: '探究・成長',
+        keywords: ['読書', '学び', '学ぶ', '学習', 'AI', '研究', '知見', 'NotebookLM', '試す', '試した', '試行', '改善', '技術', '分析', '実験']
+      },
+      {
+        label: '自由・選択',
+        keywords: ['自由', '選択', '収益', '独立', '転職', '社員化', 'ストックオプション', '主体', '裁量', '自分で選', '自分のため']
+      },
+      {
+        label: '安心・整える',
+        keywords: ['安心', '不安', '貯金', '支出', '確定申告', '体重', '健康', '整理', '条件', '手取り', 'お金', '掃除']
+      }
+    ];
+
+    function parseValueShiftDate(node) {
+      const raw = String(node.date || node.last_seen || node.id || node.label || '');
+      const match = raw.match(/(\d{4})[-/]?(\d{2})[-/]?(\d{2})/);
+      if (!match) return null;
+      const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function formatValueShiftDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function valueShiftEntryText(node) {
+      return [
+        node.label,
+        node.detail,
+        node.current_state,
+        Array.isArray(node.tags) ? node.tags.join(' ') : '',
+        node.analysis_content
+      ].filter(Boolean).join('。').slice(0, 6000);
+    }
+
+    function countValueShiftKeywords(text, keywords) {
+      const source = String(text || '').toLowerCase();
+      return keywords.reduce((sum, keyword) => {
+        const target = String(keyword || '').toLowerCase();
+        if (!target) return sum;
+        if (/^[a-z0-9][a-z0-9_+-]*$/.test(target)) {
+          const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const matches = source.match(new RegExp(`(?<![a-z0-9])${escaped}(?![a-z0-9])`, 'g'));
+          return sum + (matches ? matches.length : 0);
+        }
+        return sum + source.split(target).length - 1;
+      }, 0);
+    }
+
+    function buildValueShiftTopicsFromGraph(maxTopics = 3) {
+      const nodes = (GRAPH_DATA && GRAPH_DATA.nodes) ? GRAPH_DATA.nodes : [];
+      const entries = nodes
+        .filter(node => node.type === '日記' || node.type === 'diary')
+        .map(node => {
+          const date = parseValueShiftDate(node);
+          const text = valueShiftEntryText(node);
+          return date && text.trim() ? {
+            date,
+            dateStr: formatValueShiftDate(date),
+            text
+          } : null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.date - b.date);
+
+      if (entries.length < 6) return [];
+
+      const referenceDate = entries[entries.length - 1].date;
+      const recentDays = 14;
+      const baselineDays = 60;
+      const oneDayMs = 24 * 60 * 60 * 1000;
+      const recentStart = new Date(referenceDate.getTime() - (recentDays - 1) * oneDayMs);
+      const baselineStart = new Date(recentStart.getTime() - baselineDays * oneDayMs);
+
+      let recentEntries = entries.filter(entry => entry.date >= recentStart);
+      let baselineEntries = entries.filter(entry => entry.date >= baselineStart && entry.date < recentStart);
+      let recentLabel = `直近${recentDays}日`;
+      let baselineLabel = `比較${baselineDays}日`;
+
+      if (recentEntries.length < 2 || baselineEntries.length < 3) {
+        recentEntries = entries.slice(-5);
+        baselineEntries = entries.slice(-25, -5);
+        if (recentEntries.length < 2 || baselineEntries.length < 3) return [];
+        recentLabel = `直近${recentEntries.length}件`;
+        baselineLabel = `比較${baselineEntries.length}件`;
+      }
+
+      const topics = VALUE_SHIFT_DEFS.map(definition => {
+        const recentScores = recentEntries.map(entry => countValueShiftKeywords(entry.text, definition.keywords));
+        const baselineScores = baselineEntries.map(entry => countValueShiftKeywords(entry.text, definition.keywords));
+        const recentScore = recentScores.reduce((sum, score) => sum + score, 0);
+        const baselineScore = baselineScores.reduce((sum, score) => sum + score, 0);
+        const recentRate = recentScore / Math.max(1, recentEntries.length);
+        const baselineRate = baselineScore / Math.max(1, baselineEntries.length);
+        const delta = recentRate - baselineRate;
+        const magnitude = Math.abs(delta);
+
+        let direction = '';
+        let deltaLabel = '';
+        let evidenceSummary = '';
+        let activeScore = 0;
+
+        if (delta >= 0.45 && recentScore >= 2) {
+          direction = 'up';
+          deltaLabel = '以前より前に出ている';
+          evidenceSummary = `${recentLabel}では「${definition.label}」に関する手がかりが、比較期間より目立っています。ひとつの傾向として読むのがよさそうです。`;
+          activeScore = recentScore;
+        } else if (delta <= -0.45 && baselineScore >= 2) {
+          direction = 'down';
+          deltaLabel = '以前より少し落ち着いている';
+          evidenceSummary = `${recentLabel}では「${definition.label}」に関する手がかりが、比較期間より少なめです。関心が消えたというより、いまは他テーマが前に出ている可能性があります。`;
+          activeScore = baselineScore;
+        } else {
+          return null;
+        }
+
+        const confidence = magnitude >= 1.2 && activeScore >= 4 ? '高' : magnitude >= 0.7 && activeScore >= 3 ? '中' : '';
+        if (!confidence) return null;
+
+        const recentExamples = [];
+        recentEntries.forEach((entry, index) => {
+          if (recentExamples.length >= 2 || recentScores[index] <= 0) return;
+          recentExamples.push({
+            date: entry.dateStr,
+            summary: `この日の記述で「${definition.label}」に関する手がかりがありました。`
+          });
+        });
+        if (!recentExamples.length && direction === 'down') {
+          recentExamples.push({
+            date: `${recentEntries[0].dateStr}〜${recentEntries[recentEntries.length - 1].dateStr}`,
+            summary: `直近期間では「${definition.label}」に関する具体的な手がかりは控えめでした。`
+          });
+        }
+
+        return {
+          category: definition.label,
+          direction,
+          delta_label: deltaLabel,
+          evidence_summary: evidenceSummary,
+          recent_examples: recentExamples,
+          confidence,
+          comparison_window: {
+            recent_days: recentDays,
+            baseline_days: baselineDays,
+            recent_label: recentLabel,
+            baseline_label: baselineLabel
+          },
+          metrics: {
+            delta
+          }
+        };
+      }).filter(Boolean);
+
+      return topics
+        .sort((a, b) => Math.abs(b.metrics.delta) - Math.abs(a.metrics.delta))
+        .slice(0, maxTopics);
+    }
+
     // ── ダッシュボード描画 ──
     function renderDashboard() {
       setDateDisplay();
@@ -2071,6 +2242,9 @@
       }
 
       // 最近前に出てきたテーマ
+      if (!Array.isArray(data.value_shift_topics) || !data.value_shift_topics.length) {
+        data.value_shift_topics = buildValueShiftTopicsFromGraph();
+      }
       renderValueShiftTopics(data.value_shift_topics || []);
 
       // 重力マップ
