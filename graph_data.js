@@ -50,7 +50,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T23:51:38.047228",
       "last_seen": "2026-03-05T15:01:44.464717",
-      "weight": 1.85,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -104,7 +104,7 @@ const GRAPH_DATA = {
       "date": "2026-02-16",
       "first_seen": "2026-02-16T23:51:38.047249",
       "last_seen": "2026-05-21T19:12:08.989399",
-      "weight": 0.95,
+      "weight": 0.9,
       "update_history": [
         {
           "date": "2026-03-23",
@@ -188,7 +188,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T13:31:18.388128",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0077,
+      "active_sentiment": 0.0069,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -377,7 +377,7 @@ const GRAPH_DATA = {
       "detail": "Saiteki社長。友人。20日にMTG予定。",
       "first_seen": "2026-02-16T23:51:38.047361",
       "last_seen": "2026-02-25T13:31:18.388128",
-      "weight": 1.1,
+      "weight": 0.1,
       "tags": []
     },
     {
@@ -431,7 +431,7 @@ const GRAPH_DATA = {
       "constraint_type": "物理的障害",
       "first_seen": "2026-02-16T23:51:38.047405",
       "last_seen": "2026-05-21T19:12:08.989399",
-      "weight": 0.95,
+      "weight": 0.9,
       "tags": []
     },
     {
@@ -442,7 +442,7 @@ const GRAPH_DATA = {
       "status": "達成",
       "first_seen": "2026-02-16T23:51:38.047414",
       "last_seen": "2026-05-21T19:14:04.965535",
-      "weight": 2.0,
+      "weight": 1.95,
       "tags": [],
       "current_state": "JEEPラングラー（JK36）を購入済み。4月17日に納車予定。",
       "update_history": [
@@ -492,8 +492,8 @@ const GRAPH_DATA = {
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
-      "last_seen": "2026-05-21T19:15:01.691985",
-      "weight": 185,
+      "last_seen": "2026-05-21T19:15:58.264034",
+      "weight": 186,
       "tags": []
     },
     {
@@ -549,7 +549,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317227",
       "last_seen": "2026-05-21T18:52:32.277159",
-      "weight": 0.9,
+      "weight": 0.85,
       "tags": []
     },
     {
@@ -573,7 +573,7 @@ const GRAPH_DATA = {
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317236",
       "last_seen": "2026-05-21T19:12:08.989399",
-      "weight": 14.75,
+      "weight": 14.7,
       "tags": [],
       "current_state": "78.5kg。今週中に77kg台、ゆくゆくは76kg台への到達を目指す。",
       "update_history": [
@@ -628,7 +628,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T14:56:00.317250",
       "last_seen": "2026-02-16T14:56:00.317250",
       "weight": 0.1,
-      "active_sentiment": 0.0019,
+      "active_sentiment": 0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -811,7 +811,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-16T14:56:00.317285",
       "last_seen": "2026-05-21T19:14:04.965535",
-      "weight": 1.05,
+      "weight": 1.0,
       "tags": []
     },
     {
@@ -851,7 +851,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T14:56:00.317300",
       "last_seen": "2026-02-25T13:30:26.452966",
       "weight": 0.1,
-      "active_sentiment": -0.0079,
+      "active_sentiment": -0.0071,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1026,7 +1026,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T13:30:26.452966",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0069,
+      "active_sentiment": 0.0062,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1150,7 +1150,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T08:34:40.891024",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0025,
+      "active_sentiment": -0.0023,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1362,8 +1362,8 @@ const GRAPH_DATA = {
       "sentiment": 0.8,
       "first_seen": "2026-02-16T15:04:30.041960",
       "last_seen": "2026-05-21T18:52:32.277159",
-      "weight": 0.9,
-      "active_sentiment": 0.5249,
+      "weight": 0.85,
+      "active_sentiment": 0.4724,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1464,7 +1464,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-16T23:11:32.101808",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0015,
+      "active_sentiment": -0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1735,7 +1735,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T15:46:47.956552",
       "last_seen": "2026-02-16T15:46:47.956552",
       "weight": 0.1,
-      "active_sentiment": 0.0015,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1894,7 +1894,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-16T23:28:46.457466",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0017,
+      "active_sentiment": 0.0015,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2020,15 +2020,15 @@ const GRAPH_DATA = {
     },
     {
       "id": "感情:制作への意欲",
-      "label": "高品質制作への意欲",
+      "label": "内省への期待",
       "type": "感情",
       "detail": "登録者が増えたことで、時間をかけた制作の重要性を実感し、前向きな意欲が湧いている。",
-      "sentiment": 0.7,
+      "sentiment": 0.5,
       "first_seen": "2026-02-16T15:54:33.865489",
-      "last_seen": "2026-02-16T22:28:56.075167",
-      "weight": 0.1,
+      "last_seen": "2026-05-21T19:15:58.265068",
+      "weight": 1.1,
       "tags": [],
-      "active_sentiment": 0.0017,
+      "active_sentiment": 0.5,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2151,7 +2151,7 @@ const GRAPH_DATA = {
       "status": "完了",
       "first_seen": "2026-02-16T16:06:26.261236",
       "last_seen": "2026-05-21T18:52:32.277159",
-      "weight": 18.5,
+      "weight": 18.45,
       "tags": [],
       "sentiment": 0.8
     },
@@ -2224,7 +2224,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-17T00:48:08.432014",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0015,
+      "active_sentiment": -0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2377,7 +2377,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-16T23:27:41.812836",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0015,
+      "active_sentiment": -0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2502,7 +2502,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-24T15:39:05.953298",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0015,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2621,7 +2621,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-16T21:58:29.888270",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0015,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2739,7 +2739,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T20:48:22.676275",
       "last_seen": "2026-03-11T08:01:24.892498",
       "weight": 0.1,
-      "active_sentiment": 0.4724,
+      "active_sentiment": 0.4252,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2841,7 +2841,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T13:31:18.388128",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0058,
+      "active_sentiment": -0.0052,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2951,7 +2951,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T21:57:30.981575",
       "last_seen": "2026-02-16T21:57:30.981575",
       "weight": 0.1,
-      "active_sentiment": -0.0015,
+      "active_sentiment": -0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3083,7 +3083,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T22:11:54.661032",
       "last_seen": "2026-02-16T22:11:54.661032",
       "weight": 0.1,
-      "active_sentiment": -0.0015,
+      "active_sentiment": -0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3183,7 +3183,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-16T23:11:32.101821",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0013,
+      "active_sentiment": 0.0012,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3303,7 +3303,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-16T23:44:39.918795",
       "last_seen": "2026-02-16T23:44:39.918795",
       "weight": 0.1,
-      "active_sentiment": -0.0015,
+      "active_sentiment": -0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3425,7 +3425,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-17T00:49:10.716612",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0015,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3542,7 +3542,7 @@ const GRAPH_DATA = {
         "生活リズム"
       ],
       "date": "2026-02-17",
-      "active_sentiment": -0.0011,
+      "active_sentiment": -0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3697,7 +3697,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T08:35:42.758751",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0019,
+      "active_sentiment": -0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3888,7 +3888,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-17T08:20:38.808621",
       "last_seen": "2026-02-17T08:20:38.808621",
       "weight": 0.1,
-      "active_sentiment": 0.0011,
+      "active_sentiment": 0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4026,7 +4026,7 @@ const GRAPH_DATA = {
         "メンタル",
         "仕事"
       ],
-      "active_sentiment": -0.0064,
+      "active_sentiment": -0.0058,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4149,7 +4149,7 @@ const GRAPH_DATA = {
         "ガジェット",
         "ツール"
       ],
-      "active_sentiment": 0.0031,
+      "active_sentiment": 0.0028,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4308,7 +4308,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-18T00:35:24.294699",
       "last_seen": "2026-02-18T00:35:24.294699",
       "weight": 0.1,
-      "active_sentiment": 0.0015,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4406,12 +4406,12 @@ const GRAPH_DATA = {
       "sentiment": -1.0,
       "first_seen": "2026-02-18T00:35:24.294715",
       "last_seen": "2026-05-21T19:13:04.204973",
-      "weight": 1.0,
+      "weight": 0.95,
       "tags": [
         "体調",
         "生活リズム"
       ],
-      "active_sentiment": -0.81,
+      "active_sentiment": -0.729,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4511,7 +4511,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-18T00:35:24.294748",
       "last_seen": "2026-02-18T00:35:24.294748",
       "weight": 0.1,
-      "active_sentiment": 0.0019,
+      "active_sentiment": 0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4840,7 +4840,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-18T01:35:59.875002",
       "last_seen": "2026-02-18T01:35:59.875002",
       "weight": 0.1,
-      "active_sentiment": 0.0019,
+      "active_sentiment": 0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5003,7 +5003,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T13:32:43.263646",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0095,
+      "active_sentiment": -0.0086,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5118,7 +5118,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-18T18:00:48.854775",
       "last_seen": "2026-05-21T19:13:04.204973",
-      "weight": 1.0,
+      "weight": 0.95,
       "date": "2026-03-26",
       "tags": []
     },
@@ -5171,7 +5171,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-20T08:31:06.380212",
       "last_seen": "2026-02-25T08:40:29.387939",
       "weight": 0.1,
-      "active_sentiment": 0.0019,
+      "active_sentiment": 0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5297,7 +5297,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-20T08:31:06.380257",
       "last_seen": "2026-02-25T08:40:29.387939",
       "weight": 0.1,
-      "active_sentiment": -0.0042,
+      "active_sentiment": -0.0038,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5432,7 +5432,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-24T15:46:07.314854",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0023,
+      "active_sentiment": 0.0021,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5567,7 +5567,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T13:35:09.286242",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0131,
+      "active_sentiment": 0.0118,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5686,7 +5686,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-21T03:31:20.783290",
       "last_seen": "2026-02-25T08:41:55.747991",
       "weight": 0.1,
-      "active_sentiment": 0.0047,
+      "active_sentiment": 0.0042,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5904,7 +5904,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-22T00:56:28.725229",
       "last_seen": "2026-02-25T08:41:55.747991",
       "weight": 0.1,
-      "active_sentiment": 0.004,
+      "active_sentiment": 0.0036,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -6014,7 +6014,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-22T00:56:28.725304",
       "last_seen": "2026-02-25T13:35:09.286242",
       "weight": 0.1,
-      "active_sentiment": 0.0149,
+      "active_sentiment": 0.0134,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -6230,7 +6230,7 @@ const GRAPH_DATA = {
       "weight": 0.1,
       "tags": [],
       "sentiment": -0.3,
-      "active_sentiment": -0.0008,
+      "active_sentiment": -0.0007,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -6329,7 +6329,7 @@ const GRAPH_DATA = {
       "category": "父親",
       "first_seen": "2026-02-22T11:15:44.747393",
       "last_seen": "2026-05-21T19:14:04.965535",
-      "weight": 1.05,
+      "weight": 1.0,
       "tags": [
         "ペット",
         "家事",
@@ -6661,7 +6661,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-23T07:23:14.339390",
       "last_seen": "2026-02-25T08:43:59.654947",
       "weight": 0.1,
-      "active_sentiment": 0.005,
+      "active_sentiment": 0.0045,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -6802,7 +6802,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-23T21:45:53.296071",
       "last_seen": "2026-02-25T13:37:31.318620",
       "weight": 0.1,
-      "active_sentiment": 0.0162,
+      "active_sentiment": 0.0146,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7032,7 +7032,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-26T20:11:39.237921",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0213,
+      "active_sentiment": -0.0192,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7166,7 +7166,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-24T23:55:50.870919",
       "last_seen": "2026-02-25T13:38:14.199730",
       "weight": 0.1,
-      "active_sentiment": 0.018,
+      "active_sentiment": 0.0162,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7301,7 +7301,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T00:10:44.154476",
       "last_seen": "2026-02-25T00:10:44.156532",
       "weight": 0.1,
-      "active_sentiment": 0.0019,
+      "active_sentiment": 0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7564,7 +7564,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-24T15:40:25.046291",
       "last_seen": "2026-02-24T15:40:25.046838",
       "weight": 0.1,
-      "active_sentiment": -0.0011,
+      "active_sentiment": -0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7721,7 +7721,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-24T15:42:44.917535",
       "last_seen": "2026-02-25T08:39:24.372371",
       "weight": 0.1,
-      "active_sentiment": 0.0025,
+      "active_sentiment": 0.0023,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7850,7 +7850,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-24T15:42:44.917598",
       "last_seen": "2026-02-25T13:33:23.166281",
       "weight": 0.1,
-      "active_sentiment": 0.0121,
+      "active_sentiment": 0.0109,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7977,7 +7977,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-24T15:44:23.130359",
       "last_seen": "2026-02-24T15:44:23.130998",
       "weight": 0.1,
-      "active_sentiment": 0.0011,
+      "active_sentiment": 0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8094,7 +8094,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-24T15:44:23.130409",
       "last_seen": "2026-02-24T15:44:23.130998",
       "weight": 0.1,
-      "active_sentiment": -0.0023,
+      "active_sentiment": -0.0021,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8251,7 +8251,7 @@ const GRAPH_DATA = {
       "last_seen": "2026-02-25T01:18:47.615001",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0019,
+      "active_sentiment": 0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8497,7 +8497,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T01:15:10.085218",
       "last_seen": "2026-02-25T01:15:10.085857",
       "weight": 0.1,
-      "active_sentiment": 0.0023,
+      "active_sentiment": 0.0021,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8665,7 +8665,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T01:15:50.185825",
       "last_seen": "2026-02-25T01:15:50.186464",
       "weight": 0.1,
-      "active_sentiment": 0.0013,
+      "active_sentiment": 0.0012,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8766,7 +8766,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T01:15:50.185849",
       "last_seen": "2026-02-25T01:15:50.186464",
       "weight": 0.1,
-      "active_sentiment": -0.0023,
+      "active_sentiment": -0.0021,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9082,7 +9082,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T08:42:52.051449",
       "last_seen": "2026-02-25T08:42:52.052191",
       "weight": 0.1,
-      "active_sentiment": -0.0023,
+      "active_sentiment": -0.0021,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9242,7 +9242,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T13:31:18.387368",
       "last_seen": "2026-02-25T13:31:18.388128",
       "weight": 0.1,
-      "active_sentiment": 0.0049,
+      "active_sentiment": 0.0044,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9354,7 +9354,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T13:32:00.950525",
       "last_seen": "2026-02-25T13:32:00.951378",
       "weight": 0.1,
-      "active_sentiment": -0.0032,
+      "active_sentiment": -0.0029,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9522,7 +9522,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T13:34:10.525258",
       "last_seen": "2026-02-25T13:34:10.525993",
       "weight": 0.1,
-      "active_sentiment": -0.0118,
+      "active_sentiment": -0.0106,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9669,7 +9669,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T13:36:24.245041",
       "last_seen": "2026-02-25T13:36:24.245725",
       "weight": 0.1,
-      "active_sentiment": -0.0055,
+      "active_sentiment": -0.0049,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9780,7 +9780,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-25T13:38:48.926756",
       "last_seen": "2026-02-25T13:38:48.927363",
       "weight": 0.1,
-      "active_sentiment": 0.0149,
+      "active_sentiment": 0.0134,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -10017,7 +10017,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T01:06:23.157989",
       "last_seen": "2026-02-26T01:06:23.159250",
       "weight": 0.1,
-      "active_sentiment": -0.014,
+      "active_sentiment": -0.0126,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -10158,7 +10158,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T01:10:34.836637",
       "last_seen": "2026-02-26T09:51:24.603986",
       "weight": 0.1,
-      "active_sentiment": -0.1163,
+      "active_sentiment": -0.1105,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -10517,7 +10517,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T09:51:24.601153",
       "last_seen": "2026-02-26T20:11:39.237921",
       "weight": 0.1,
-      "active_sentiment": 0.0069,
+      "active_sentiment": 0.0059,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -10723,7 +10723,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T17:56:14.334678",
       "last_seen": "2026-02-26T17:56:14.338079",
       "weight": 0.1,
-      "active_sentiment": -0.1224,
+      "active_sentiment": -0.1163,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -10819,7 +10819,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T17:56:14.334872",
       "last_seen": "2026-02-26T17:56:14.338079",
       "weight": 0.1,
-      "active_sentiment": 0.0059,
+      "active_sentiment": 0.005,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -10915,7 +10915,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T17:56:14.334938",
       "last_seen": "2026-03-01T12:31:16.380310",
       "weight": 0.1,
-      "active_sentiment": 0.0003,
+      "active_sentiment": 0.0002,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -11008,7 +11008,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-02-26T17:56:14.335002",
       "last_seen": "2026-05-21T18:52:32.277159",
-      "weight": 0.9,
+      "weight": 0.85,
       "update_history": [
         {
           "date": "2026-05-21",
@@ -11053,7 +11053,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-26T20:11:39.235368",
       "last_seen": "2026-02-26T20:11:39.237921",
       "weight": 0.1,
-      "active_sentiment": 0.0069,
+      "active_sentiment": 0.0059,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -11247,7 +11247,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-27T16:05:32.478426",
       "last_seen": "2026-02-27T16:05:32.480583",
       "weight": 0.1,
-      "active_sentiment": 0.0054,
+      "active_sentiment": 0.0046,
       "emotion_history": [
         {
           "date": "2026-02-27",
@@ -11505,7 +11505,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-28T00:44:42.321028",
       "last_seen": "2026-02-28T17:35:48.923595",
       "weight": 0.1,
-      "active_sentiment": 0.0137,
+      "active_sentiment": 0.0116,
       "emotion_history": [
         {
           "date": "2026-02-28",
@@ -11662,7 +11662,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-02-28T01:11:00.338735",
       "last_seen": "2026-03-01T12:31:16.380310",
       "weight": 0.1,
-      "active_sentiment": 0.0003,
+      "active_sentiment": 0.0002,
       "emotion_history": [
         {
           "date": "2026-02-28",
@@ -11901,7 +11901,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-01T00:46:04.708648",
       "last_seen": "2026-03-01T12:31:16.380310",
       "weight": 0.1,
-      "active_sentiment": -0.1941,
+      "active_sentiment": -0.1844,
       "emotion_history": [
         {
           "date": "2026-03-01",
@@ -12047,7 +12047,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-01T12:31:16.379151",
       "last_seen": "2026-03-01T12:31:16.380310",
       "weight": 0.1,
-      "active_sentiment": 0.0195,
+      "active_sentiment": 0.0166,
       "emotion_history": [
         {
           "date": "2026-03-01",
@@ -12183,7 +12183,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-02T06:55:03.660958",
       "last_seen": "2026-03-02T06:55:03.662161",
       "weight": 0.1,
-      "active_sentiment": 0.0004,
+      "active_sentiment": 0.0003,
       "emotion_history": [
         {
           "date": "2026-03-02",
@@ -12279,7 +12279,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-02T10:15:17.912352",
       "last_seen": "2026-03-02T10:15:17.913825",
       "weight": 0.1,
-      "active_sentiment": -0.0541,
+      "active_sentiment": -0.0487,
       "emotion_history": [
         {
           "date": "2026-03-02",
@@ -12403,7 +12403,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-04T01:47:48.852826",
       "last_seen": "2026-03-04T01:47:48.929896",
       "weight": 0.1,
-      "active_sentiment": 0.0161,
+      "active_sentiment": 0.0137,
       "emotion_history": [
         {
           "date": "2026-03-04",
@@ -12482,7 +12482,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-04T02:08:02.698994",
       "last_seen": "2026-03-04T09:10:24.581672",
       "weight": 0.1,
-      "active_sentiment": 0.0048,
+      "active_sentiment": 0.0034,
       "emotion_history": [
         {
           "date": "2026-03-04",
@@ -12706,7 +12706,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-05T01:06:35.660633",
       "last_seen": "2026-03-05T15:01:44.464717",
       "weight": 0.1,
-      "active_sentiment": -0.0941,
+      "active_sentiment": -0.0847,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -12766,8 +12766,8 @@ const GRAPH_DATA = {
       "context": "shared",
       "first_seen": "2026-03-05T01:06:35.660703",
       "last_seen": "2026-05-21T19:15:01.693109",
-      "weight": 1.1,
-      "active_sentiment": 0.6,
+      "weight": 1.05,
+      "active_sentiment": 0.51,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -12830,14 +12830,22 @@ const GRAPH_DATA = {
     },
     {
       "id": "知見:朝の思考整理の効能",
-      "label": "朝のアウトプットによる思考整理",
+      "label": "内省による好循環の開始",
       "type": "知見",
       "detail": "朝に日記等で頭の中を書き出すことで、山積みのタスクによる混乱が解消され、頭がスッキリする。",
       "context": "shared",
       "first_seen": "2026-03-05T01:06:35.660838",
-      "last_seen": "2026-03-05T15:01:44.464717",
-      "weight": 0.1,
-      "tags": []
+      "last_seen": "2026-05-21T19:15:58.265068",
+      "weight": 1.1,
+      "tags": [],
+      "update_history": [
+        {
+          "date": "2026-04-07",
+          "diary_id": "日記:20260407",
+          "content": "日々の内省を習慣化することで、生活の全ての側面がポジティブに回り始めると確信。",
+          "state": "認識"
+        }
+      ]
     },
     {
       "id": "タスク:Saiteki_PipelineConstruction",
@@ -12919,7 +12927,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-05T02:56:01.177449",
       "last_seen": "2026-03-05T02:56:01.179890",
       "weight": 0.1,
-      "active_sentiment": 0.0111,
+      "active_sentiment": 0.0078,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -12979,7 +12987,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-05T02:56:01.177521",
       "last_seen": "2026-03-05T02:56:01.179890",
       "weight": 0.1,
-      "active_sentiment": -0.1081,
+      "active_sentiment": -0.1027,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -13118,7 +13126,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-05T15:01:44.462881",
       "last_seen": "2026-03-05T15:01:44.464717",
       "weight": 0.1,
-      "active_sentiment": 0.1338,
+      "active_sentiment": 0.1137,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -13177,7 +13185,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-05T15:01:44.462952",
       "last_seen": "2026-03-05T15:01:44.464717",
       "weight": 0.1,
-      "active_sentiment": -0.2842,
+      "active_sentiment": -0.27,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -13286,7 +13294,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-06T05:18:58.709378",
       "last_seen": "2026-03-06T05:18:58.710931",
       "weight": 0.1,
-      "active_sentiment": 0.0698,
+      "active_sentiment": 0.0628,
       "emotion_history": [
         {
           "date": "2026-03-06",
@@ -13364,7 +13372,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-07T16:33:04.288610",
       "last_seen": "2026-03-07T16:33:04.290139",
       "weight": 0.1,
-      "active_sentiment": 0.0363,
+      "active_sentiment": 0.0254,
       "emotion_history": [
         {
           "date": "2026-03-07",
@@ -13478,7 +13486,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-09T06:29:06.664890",
       "last_seen": "2026-03-09T06:29:06.666852",
       "weight": 0.1,
-      "active_sentiment": 0.0519,
+      "active_sentiment": 0.0363,
       "emotion_history": [
         {
           "date": "2026-03-09",
@@ -13563,7 +13571,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-10T15:12:35.781049",
       "last_seen": "2026-03-10T15:12:35.783079",
       "weight": 0.1,
-      "active_sentiment": 0.0659,
+      "active_sentiment": 0.0461,
       "emotion_history": [
         {
           "date": "2026-03-10",
@@ -13620,7 +13628,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-10T15:12:35.781386",
       "last_seen": "2026-03-10T15:12:35.783079",
       "weight": 0.1,
-      "active_sentiment": -0.2392,
+      "active_sentiment": -0.2153,
       "emotion_history": [
         {
           "date": "2026-03-10",
@@ -13724,7 +13732,7 @@ const GRAPH_DATA = {
       "first_seen": "2026-03-11T08:01:24.890335",
       "last_seen": "2026-03-11T08:01:24.892498",
       "weight": 0.1,
-      "active_sentiment": 0.2662,
+      "active_sentiment": 0.2263,
       "emotion_history": [
         {
           "date": "2026-03-11",
@@ -13770,7 +13778,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-05-21T18:52:32.275381",
       "last_seen": "2026-05-21T18:52:32.277159",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "id": "感想:関係性の改善",
@@ -13780,7 +13788,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-05-21T18:52:32.275731",
       "last_seen": "2026-05-21T18:52:32.277159",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "id": "日記:20260521",
@@ -13854,7 +13862,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-05-21T19:13:04.203676",
       "last_seen": "2026-05-21T19:13:04.204973",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "id": "日記:2026-03-26",
@@ -13896,7 +13904,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-05-21T19:14:04.963825",
       "last_seen": "2026-05-21T19:14:04.965535",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "課題:Knowbeでの業務遂行とチーム連携",
@@ -13916,7 +13924,7 @@ const GRAPH_DATA = {
       "context": "knowbe",
       "first_seen": "2026-05-21T19:14:04.963956",
       "last_seen": "2026-05-21T19:14:04.965535",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "感情:喜びと充実感",
@@ -13928,8 +13936,8 @@ const GRAPH_DATA = {
       "context": "knowbe",
       "first_seen": "2026-05-21T19:14:04.964185",
       "last_seen": "2026-05-21T19:14:04.965535",
-      "weight": 0.95,
-      "active_sentiment": 0.63,
+      "weight": 0.9,
+      "active_sentiment": 0.441,
       "emotion_history": [
         {
           "date": "2026-05-21",
@@ -13981,7 +13989,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-05-21T19:15:01.691607",
       "last_seen": "2026-05-21T19:15:01.693109",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "解決策:日記運用の簡略化",
@@ -13999,7 +14007,7 @@ const GRAPH_DATA = {
       "context": "private",
       "first_seen": "2026-05-21T19:15:01.691709",
       "last_seen": "2026-05-21T19:15:01.693109",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "課題:勉強の習慣化",
@@ -14019,7 +14027,7 @@ const GRAPH_DATA = {
       "context": "shared",
       "first_seen": "2026-05-21T19:15:01.691859",
       "last_seen": "2026-05-21T19:15:01.693109",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "日記:2026-04-06",
@@ -14031,6 +14039,64 @@ const GRAPH_DATA = {
       "last_seen": "2026-05-21T19:15:01.691922",
       "weight": 1,
       "analysis_content": "{\"coach_comment\": \"日記の再開、本当にお疲れ様でした。忙しい中で「自分と向き合う」時間を確保しようとする意志こそが、成長の原動力ですね。今は無理に完璧な日記を目指さず、まずは「ポメラを開く」ことだけに集中してみましょう。蒼馬くんとの時間も、あなたの工夫次第で豊かな学びの時間に変わるはずです。\", \"gravity_map\": [{\"task\": \"日記の継続的な記述\", \"task_id\": \"日記の継続\", \"constraints\": [{\"name\": \"完璧主義による心理的ハードル\", \"type\": \"感情\", \"severity\": \"高\"}, {\"name\": \"テンプレートによる形式の固定化\", \"type\": \"環境\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"自己省察による成長欲求\", \"type\": \"目標\"}], \"net_assessment\": \"書式を極限までシンプルにすることで、日記の心理的重力が劇的に下がります。\"}, {\"task\": \"勉強の習慣化\", \"task_id\": \"勉強の習慣\", \"constraints\": [{\"name\": \"育児による細切れ時間\", \"type\": \"環境\", \"severity\": \"高\"}], \"energy_sources\": [{\"name\": \"蒼馬くんとの同時並行という工夫\", \"type\": \"知見\"}], \"net_assessment\": \"現在の「背負いながら」の工夫は素晴らしいですが、成長に伴う変化への予備戦略が必要です。\"}], \"antigravity_actions\": [{\"action\": \"日記とメモの統合ルール策定\", \"target_task\": \"日記の継続的な記述\", \"effect\": \"記録場所を一本化することで、情報の散逸を防ぎ、記述時の迷いを排除して心理的負荷を下げる。\", \"effort\": \"30分\"}, {\"action\": \"勉強と日記をポメラの特定ファイルに連結して記述する\", \"target_task\": \"勉強の習慣化\", \"effect\": \"勉強の記録と日記をセットで行うことで、両方の習慣を同時に定着させ、切り替えのコストを最小化する。\", \"effort\": \"5分\"}, {\"action\": \"蒼馬の成長段階別（おんぶ期、歩行期など）の学習環境マップを作成する\", \"target_task\": \"蒼馬の生活リズム調整\", \"effect\": \"成長に伴う環境変化を先読みして準備することで、学習時間の急減を防ぎ、精神的な余裕を作る。\", \"effort\": \"1時間\"}, {\"action\": \"ブログ執筆の簡素化に向けた「殴り書き公開」フローのテスト\", \"target_task\": \"AIによるブログ執筆自動化の検討\", \"effect\": \"完璧主義を捨てて日記の断片をそのままブログへ流す経路を作ることで、執筆のハードルを劇的に下げる。\", \"effort\": \"30分\"}], \"insights\": [{\"finding\": \"日記を「成長のための内省ツール」と定義し直している。\", \"implication\": \"日記の目的が明確化されたため、形式よりも「中身」にフォーカスすることで継続しやすくなる。\"}, {\"finding\": \"蒼馬くんの成長に伴う対策の無効化を予見している。\", \"implication\": \"先回りで次の学習環境を模索する柔軟性が必要なフェーズに入っている。\"}], \"emotion_flow\": [{\"emotion\": \"内省的\", \"sentiment\": 0.5, \"context\": \"日記を再開し、自分自身と向き合おうとする過程\"}, {\"emotion\": \"前向きな工夫\", \"sentiment\": 0.7, \"context\": \"育児と学習を両立させるための戦略を練る思考\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [{\"member\": \"蒼馬\", \"event\": \"おんぶされながら過ごしている、歩き始めている\", \"emotion\": \"成長への喜びと将来への切なさ\"}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"保育園用布団\", \"category\": \"育児用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-30\"}]}, \"blog_seeds\": [{\"title\": \"背中の上の教室\", \"genre\": \"子育て\", \"tone\": \"ほっこり\", \"story_seed\": \"子供を背負って過ごす時間が、実は一番集中できる贅沢な時間だと気づく父親の話。\", \"core_message\": \"制約こそが集中を生むクリエイティビティの源泉である。\", \"reader_feeling\": \"癒やしとやる気\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「書くのが面倒」を解決する、ポメラ活用の極意\", \"theme\": \"日記・習慣化\", \"hook\": \"1週間日記が書けなかった私が、テンプレートを捨てた途端に書けるようになった理由。\", \"readiness\": \"高\"}, {\"title\": \"育児とエンジニアの二刀流、細切れ時間のハック術\", \"theme\": \"時間管理\", \"hook\": \"子供を背負いながら学習を継続する、現役エンジニアのリアルな工夫。\", \"readiness\": \"高\"}], \"knowbe\": {\"constraints\": [], \"tasks\": [], \"insights\": []}, \"saiteki\": {\"constraints\": [{\"label\": \"日記執筆の習慣化と時間確保\", \"detail\": \"忙しさを理由に優先度が下がり日記の更新が途絶えてしまうため、継続的な執筆時間を確保する仕組みが必要である。\", \"constraint_type\": \"時間\"}, {\"label\": \"情報の管理手法の冗長化\", \"detail\": \"現在「メモ」と「日記」を分けて管理しているが、運用の最適化のために統合を含めた整理を行う必要がある。\", \"constraint_type\": \"環境\"}, {\"label\": \"日記フォーマットの最適化不足\", \"detail\": \"現状のテンプレートが目的と合致していない可能性があり、管理コストを削減するために記述様式を見直す必要がある。\", \"constraint_type\": \"環境\"}], \"tasks\": [], \"insights\": []}}"
+    },
+    {
+      "id": "日記:20260407",
+      "label": "2026年4月7日の日記",
+      "type": "日記",
+      "detail": "平日夜の限られた時間におけるSaiteki業務と自己研鑽（内省、勉強、ブログ）のタイムマネジメントを計画した。蒼馬を背負っての「ながら」作業の可能性と、朝のポメラ内省の有効性について言及。",
+      "date": "2026-04-07",
+      "context": "shared",
+      "first_seen": "2026-05-21T19:15:58.263503",
+      "last_seen": "2026-05-21T19:15:58.265068",
+      "weight": 1
+    },
+    {
+      "id": "課題:時間管理の最適化",
+      "label": "平日夜のタスク遂行時間の確保",
+      "type": "課題",
+      "status": "改善中",
+      "current_state": "平日17時半以降のスケジュールを整理。むぎの散歩後の30分を内省・勉強・ブログに充てるルーチンを構築中。",
+      "update_history": [
+        {
+          "date": "2026-04-07",
+          "diary_id": "日記:20260407",
+          "content": "平日夜の18時半から30分間の枠を捻出し、内省・勉強・ブログに割り当てる計画を立てた。",
+          "state": "改善中"
+        }
+      ],
+      "context": "shared",
+      "first_seen": "2026-05-21T19:15:58.263701",
+      "last_seen": "2026-05-21T19:15:58.265068",
+      "weight": 1
+    },
+    {
+      "id": "解決策:時間ブロック活用",
+      "label": "平日30分間タイムブロック",
+      "type": "解決策",
+      "update_history": [
+        {
+          "date": "2026-04-07",
+          "diary_id": "日記:20260407",
+          "content": "日記（内省）10分、勉強とブログ20分という配分で、蒼馬を背負った状態での作業フローを決定した。",
+          "state": "運用開始"
+        }
+      ],
+      "context": "shared",
+      "first_seen": "2026-05-21T19:15:58.263766",
+      "last_seen": "2026-05-21T19:15:58.265068",
+      "weight": 1
+    },
+    {
+      "id": "日記:2026-04-07",
+      "label": "2026-04-07の日記",
+      "type": "日記",
+      "date": "2026-04-07",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-05-21T19:15:58.263973",
+      "last_seen": "2026-05-21T19:15:58.263973",
+      "weight": 1,
+      "analysis_content": "{\"coach_comment\": \"平日夜の貴重な30分を、内省と成長のために組み込もうとする姿勢、とても素晴らしいです。すべてを一度にこなそうとせず、まずはルーチンを定着させることに集中しましょう。蒼馬くんとの時間を大切にしながら、少しずつあなたのペースを取り戻していけば大丈夫ですよ。\", \"gravity_map\": [{\"task\": \"平日夜のタスク遂行時間の確保\", \"task_id\": \"平日夜のタスク遂行時間の確保\", \"constraints\": [{\"name\": \"限られた時間\", \"type\": \"時間\", \"severity\": \"中\"}, {\"name\": \"育児による中断の可能性\", \"type\": \"外部条件\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"内省による好循環\", \"type\": \"知見\"}], \"net_assessment\": \"30分という限定時間を「内省・勉強・ブログ」の3点セットに割り当てることで、明確な目的意識が生まれています。\"}, {\"task\": \"日記の継続的な記述\", \"task_id\": \"日記の継続的な記述\", \"constraints\": [{\"name\": \"習慣化の未成熟\", \"type\": \"感情\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"内省があることによる好循環への期待\", \"type\": \"目標\"}], \"net_assessment\": \"日記を「作業」ではなく「内省＝メンテナンス」と定義し直すことで、重力が軽減されています。\"}], \"antigravity_actions\": [{\"action\": \"ポメラに『内省用質問テンプレート』を登録し、日記の書き出しで迷わない仕組みを作る\", \"target_task\": \"日記とSNS投稿内容の定義策定\", \"effect\": \"内省時に何をどう書くか迷う時間をゼロにし、10分以内での完了を確実にします。\", \"effort\": \"30分\"}, {\"action\": \"朝の仕事開始前の10分間を『脳のダンプ専用タイム』としてカレンダーにブロックし、ポメラに向かう習慣を固定する\", \"target_task\": \"毎朝のタスク思考の整理\", \"effect\": \"頭の中のタスクが朝の悩みになる前に吐き出し、クリアな状態で本業へ移行できます。\", \"effort\": \"5分\"}, {\"action\": \"Saitekiの連絡返信用の定型文や、頻出質問への回答テンプレートを事前にポメラで作成しておく\", \"target_task\": \"Saitekiの連絡対応\", \"effect\": \"夜の限られた30分の中で、文章作成にかかる負荷を減らし、即座に返信可能にします。\", \"effort\": \"30分\"}, {\"action\": \"金曜夜に『勉強・ブログ・日記』を一気に進めるための深夜カフェ作業、あるいは自宅の集中環境の事前セットアップ\", \"target_task\": \"平日夜のタスク遂行時間の確保\", \"effect\": \"平日の細切れ時間を補完する「集中日」を作ることで、進捗の停滞を打破します。\", \"effort\": \"1時間\"}, {\"action\": \"蒼馬を背負う際の『物理的準備（抱っこ紐の配置、ポメラのスタンド位置）』を検証し、最も書きやすい姿勢を確定させる\", \"target_task\": \"蒼馬の生活リズム調整\", \"effect\": \"ながら作業時の身体的負担と集中力の低下を最小限に抑え、執筆の安定感を高めます。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"内省を日記の目的として再定義したこと\", \"implication\": \"「記録を残す」という重いタスクから「自分を整える」という軽いタスクへ変換できており、継続のハードルが下がっています。\"}, {\"finding\": \"蒼馬くんとの同時作業（ながら作業）の許容\", \"implication\": \"完璧な環境を求めず、限られた環境を最適化する方向にシフトしたことで、実行可能性が高まっています。\"}], \"emotion_flow\": [{\"emotion\": \"前向きな模索\", \"sentiment\": 0.6, \"context\": \"夜の30分の使い道を具体的に計画している際の思考\"}], \"upcoming_schedule\": [{\"title\": \"保育園訪問\", \"date\": \"2026-03-28\", \"time\": null, \"category\": \"家族\"}, {\"title\": \"沙也香の仕事再開\", \"date\": \"2026-05-01\", \"time\": null, \"category\": \"家族\"}], \"family_digest\": {\"highlights\": [{\"member\": \"むぎ\", \"event\": \"散歩をした\", \"emotion\": \"不明\"}, {\"member\": \"蒼馬\", \"event\": \"日記の筆者に背負われていた\", \"emotion\": \"不明\"}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"保育園用布団\", \"category\": \"育児用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-30\"}]}, \"blog_seeds\": [{\"title\": \"背中の小さな観測者\", \"genre\": \"育児\", \"tone\": \"ほっこり\", \"story_seed\": \"仕事に追われる父親が、背中の子供の温もりを感じながらポメラで思考を整理する日常。\", \"core_message\": \"忙しさの中で見つける、小さな静寂の尊さ。\", \"reader_feeling\": \"癒やしと共感\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「日記」をやめて「内省」を始めたら、毎日の重力が軽くなった話\", \"theme\": \"AI日記・自己管理\", \"hook\": \"「今日何を書こう」と迷う時間が、ポメラのテンプレートひとつで消滅しました。\", \"readiness\": \"高\"}, {\"title\": \"育児中エンジニアが死守する「夜の30分」：タスクを詰め込みすぎないための工夫\", \"theme\": \"育児と仕事の両立\", \"hook\": \"17時半の終業後、散歩を挟んでからの30分。何を諦めて、何を残したか。\", \"readiness\": \"高\"}], \"knowbe\": {\"constraints\": [{\"label\": \"業務と自己研鑽のタイムマネジメント不足\", \"detail\": \"平日において「saiteki」の業務や勉強、ブログ、内省にあてる時間の確保が困難であり、スケジュールが定まっていない。\", \"constraint_type\": \"時間\"}, {\"label\": \"未対応の連絡事項の蓄積\", \"detail\": \"連絡が溜まっていることが多く、現状の限られた時間内では対応が追いついていない。\", \"constraint_type\": \"時間\"}], \"tasks\": [], \"insights\": []}, \"saiteki\": {\"constraints\": [{\"label\": \"Saiteki業務のリソース管理\", \"detail\": \"平日の限られた時間の中で、Saitekiの業務、勉強、内省、ブログの優先順位と配分が曖昧であり、確実に業務時間を確保するためのルーチンが確立されていない。\", \"constraint_type\": \"時間\"}, {\"label\": \"タスク管理の未効率性\", \"detail\": \"連絡事項が溜まりがちであり、30分という短時間の枠では連絡対応のみに追われてしまい、中長期的なSaitekiの業務進捗や深い思考が阻害されている。\", \"constraint_type\": \"時間\"}], \"tasks\": [], \"insights\": [{\"finding\": \"Saitekiの業務遂行や学習における時間の確保が課題となっている。\", \"implication\": \"平日の限られた時間（17時半以降）を連絡対応や内省、勉強に充てるルーチンを構築することで、生産性を高める必要がある。\"}, {\"finding\": \"内省（日記）を習慣化することが業務全体の効率化に繋がる可能性がある。\", \"implication\": \"内省時間を業務開始前や後の固定枠として確保することで、日々のタスクや思考の整理が最適化される。\"}]}}"
     }
   ],
   "edges": [
@@ -14219,7 +14285,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-16",
       "type": "関連する",
       "label": "書いた",
-      "weight": 3.65,
+      "weight": 0.1,
       "first_seen": "2026-02-16T23:51:38.047564",
       "last_seen": "2026-02-25T08:35:42.758707"
     },
@@ -15814,7 +15880,7 @@ const GRAPH_DATA = {
       "label": "言及",
       "first_seen": "2026-02-16T15:48:16.120854",
       "last_seen": "2026-02-25T08:37:07.461991",
-      "weight": 2.65
+      "weight": 0.1
     },
     {
       "source": "日記:2026-02-17",
@@ -15884,7 +15950,7 @@ const GRAPH_DATA = {
       "target": "日記:2026-02-17",
       "type": "関連する",
       "label": "書いた",
-      "weight": 7.2,
+      "weight": 3.0,
       "first_seen": "2026-02-16T15:48:16.120871",
       "last_seen": "2026-02-25T13:32:00.951345"
     },
@@ -29269,7 +29335,7 @@ const GRAPH_DATA = {
       "label": "体重の推移報告",
       "first_seen": "2026-05-21T18:52:32.277065",
       "last_seen": "2026-05-21T18:52:32.277065",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "出来事:Saiteki_OnlineDrinking",
@@ -29278,7 +29344,7 @@ const GRAPH_DATA = {
       "label": "関係改善に向けた行動",
       "first_seen": "2026-05-21T18:52:32.277080",
       "last_seen": "2026-05-21T18:52:32.277080",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "感想:関係性の改善",
@@ -29287,7 +29353,7 @@ const GRAPH_DATA = {
       "label": "現在の課題に対する内省",
       "first_seen": "2026-05-21T18:52:32.277085",
       "last_seen": "2026-05-21T18:52:32.277085",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "日記:20260521",
@@ -29296,7 +29362,7 @@ const GRAPH_DATA = {
       "label": "体重目標について言及",
       "first_seen": "2026-05-21T18:52:32.277088",
       "last_seen": "2026-05-21T18:52:32.277088",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "日記:20260521",
@@ -29305,7 +29371,7 @@ const GRAPH_DATA = {
       "label": "夫婦関係について言及",
       "first_seen": "2026-05-21T18:52:32.277090",
       "last_seen": "2026-05-21T18:52:32.277090",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "知見:思考整理による自己認識の深化",
@@ -29314,7 +29380,7 @@ const GRAPH_DATA = {
       "label": "課題解決のアプローチとして活用",
       "first_seen": "2026-05-21T18:52:32.277093",
       "last_seen": "2026-05-21T18:52:32.277093",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "感情:家族への感謝",
@@ -29323,14 +29389,14 @@ const GRAPH_DATA = {
       "label": "関係改善の原動力",
       "first_seen": "2026-05-21T18:52:32.277096",
       "last_seen": "2026-05-21T18:52:32.277096",
-      "weight": 0.8
+      "weight": 0.75
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-05-21",
       "type": "関連する",
       "label": "書いた",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277099",
       "last_seen": "2026-05-21T18:52:32.277099"
     },
@@ -29339,7 +29405,7 @@ const GRAPH_DATA = {
       "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277102",
       "last_seen": "2026-05-21T18:52:32.277102"
     },
@@ -29348,7 +29414,7 @@ const GRAPH_DATA = {
       "target": "課題:夫婦の信頼関係構築",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277104",
       "last_seen": "2026-05-21T18:52:32.277104"
     },
@@ -29357,7 +29423,7 @@ const GRAPH_DATA = {
       "target": "概念:WeightStatus",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277107",
       "last_seen": "2026-05-21T18:52:32.277107"
     },
@@ -29366,7 +29432,7 @@ const GRAPH_DATA = {
       "target": "出来事:Saiteki_OnlineDrinking",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277110",
       "last_seen": "2026-05-21T18:52:32.277110"
     },
@@ -29375,7 +29441,7 @@ const GRAPH_DATA = {
       "target": "感想:関係性の改善",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277112",
       "last_seen": "2026-05-21T18:52:32.277112"
     },
@@ -29384,7 +29450,7 @@ const GRAPH_DATA = {
       "target": "知見:思考整理による自己認識の深化",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277115",
       "last_seen": "2026-05-21T18:52:32.277115"
     },
@@ -29393,7 +29459,7 @@ const GRAPH_DATA = {
       "target": "感情:家族への感謝",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277117",
       "last_seen": "2026-05-21T18:52:32.277117"
     },
@@ -29402,7 +29468,7 @@ const GRAPH_DATA = {
       "target": "日記:20260521",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.75,
       "first_seen": "2026-05-21T18:52:32.277120",
       "last_seen": "2026-05-21T18:52:32.277120"
     },
@@ -29413,7 +29479,7 @@ const GRAPH_DATA = {
       "label": "目標の進捗と現在の体重について記載",
       "first_seen": "2026-05-21T19:12:08.989326",
       "last_seen": "2026-05-21T19:12:08.989326",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "日記:20260323",
@@ -29422,7 +29488,7 @@ const GRAPH_DATA = {
       "label": "JEEP購入検討について記載",
       "first_seen": "2026-05-21T19:12:08.989336",
       "last_seen": "2026-05-21T19:12:08.989336",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "日記:20260323",
@@ -29431,7 +29497,7 @@ const GRAPH_DATA = {
       "label": "Saitekiの連絡対応について記載",
       "first_seen": "2026-05-21T19:12:08.989340",
       "last_seen": "2026-05-21T19:12:08.989340",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "制約:Hunger",
@@ -29440,14 +29506,14 @@ const GRAPH_DATA = {
       "label": "体重管理を阻害している",
       "first_seen": "2026-05-21T19:12:08.989343",
       "last_seen": "2026-05-21T19:12:08.989343",
-      "weight": 0.85
+      "weight": 0.8
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-03-23",
       "type": "関連する",
       "label": "書いた",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-05-21T19:12:08.989346",
       "last_seen": "2026-05-21T19:12:08.989346"
     },
@@ -29456,7 +29522,7 @@ const GRAPH_DATA = {
       "target": "日記:20260323",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-05-21T19:12:08.989349",
       "last_seen": "2026-05-21T19:12:08.989349"
     },
@@ -29465,7 +29531,7 @@ const GRAPH_DATA = {
       "target": "目標:WeightUnder75",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-05-21T19:12:08.989351",
       "last_seen": "2026-05-21T19:12:08.989351"
     },
@@ -29474,7 +29540,7 @@ const GRAPH_DATA = {
       "target": "目標:PersonalBranding",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-05-21T19:12:08.989354",
       "last_seen": "2026-05-21T19:12:08.989354"
     },
@@ -29483,7 +29549,7 @@ const GRAPH_DATA = {
       "target": "タスク:Saiteki_ReplySuzuki",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-05-21T19:12:08.989356",
       "last_seen": "2026-05-21T19:12:08.989356"
     },
@@ -29492,7 +29558,7 @@ const GRAPH_DATA = {
       "target": "制約:Hunger",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.8,
       "first_seen": "2026-05-21T19:12:08.989360",
       "last_seen": "2026-05-21T19:12:08.989360"
     },
@@ -29503,7 +29569,7 @@ const GRAPH_DATA = {
       "label": "夫婦関係の危機に言及",
       "first_seen": "2026-05-21T19:13:04.204901",
       "last_seen": "2026-05-21T19:13:04.204901",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "日記:20260326",
@@ -29512,7 +29578,7 @@ const GRAPH_DATA = {
       "label": "極度の精神的苦痛を吐露",
       "first_seen": "2026-05-21T19:13:04.204911",
       "last_seen": "2026-05-21T19:13:04.204911",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "感情:頭のもやもや",
@@ -29521,7 +29587,7 @@ const GRAPH_DATA = {
       "label": "冷静な対話や課題解決を困難にしている",
       "first_seen": "2026-05-21T19:13:04.204915",
       "last_seen": "2026-05-21T19:13:04.204915",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "制約:心理的ノイズによる集中分断",
@@ -29530,14 +29596,14 @@ const GRAPH_DATA = {
       "label": "関係修復のための対話を阻害する要因",
       "first_seen": "2026-05-21T19:13:04.204918",
       "last_seen": "2026-05-21T19:13:04.204918",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-03-26",
       "type": "関連する",
       "label": "書いた",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-05-21T19:13:04.204922",
       "last_seen": "2026-05-21T19:13:04.204922"
     },
@@ -29546,7 +29612,7 @@ const GRAPH_DATA = {
       "target": "日記:20260326",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-05-21T19:13:04.204925",
       "last_seen": "2026-05-21T19:13:04.204925"
     },
@@ -29555,7 +29621,7 @@ const GRAPH_DATA = {
       "target": "課題:夫婦関係の修復と精神的安定",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-05-21T19:13:04.204928",
       "last_seen": "2026-05-21T19:13:04.204928"
     },
@@ -29564,7 +29630,7 @@ const GRAPH_DATA = {
       "target": "感情:頭のもやもや",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-05-21T19:13:04.204930",
       "last_seen": "2026-05-21T19:13:04.204930"
     },
@@ -29573,7 +29639,7 @@ const GRAPH_DATA = {
       "target": "制約:心理的ノイズによる集中分断",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-05-21T19:13:04.204933",
       "last_seen": "2026-05-21T19:13:04.204933"
     },
@@ -29584,7 +29650,7 @@ const GRAPH_DATA = {
       "label": "購入報告",
       "first_seen": "2026-05-21T19:14:04.965452",
       "last_seen": "2026-05-21T19:14:04.965452",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260330",
@@ -29593,7 +29659,7 @@ const GRAPH_DATA = {
       "label": "仕事の順調さについて",
       "first_seen": "2026-05-21T19:14:04.965460",
       "last_seen": "2026-05-21T19:14:04.965460",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260330",
@@ -29602,7 +29668,7 @@ const GRAPH_DATA = {
       "label": "外出報告",
       "first_seen": "2026-05-21T19:14:04.965463",
       "last_seen": "2026-05-21T19:14:04.965463",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "日記:20260330",
@@ -29611,7 +29677,7 @@ const GRAPH_DATA = {
       "label": "今日やること",
       "first_seen": "2026-05-21T19:14:04.965466",
       "last_seen": "2026-05-21T19:14:04.965466",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "イベント:FamilyParkVisit",
@@ -29620,7 +29686,7 @@ const GRAPH_DATA = {
       "label": "家族との時間",
       "first_seen": "2026-05-21T19:14:04.965469",
       "last_seen": "2026-05-21T19:14:04.965469",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "感情:喜びと充実感",
@@ -29629,14 +29695,14 @@ const GRAPH_DATA = {
       "label": "集中力を高める",
       "first_seen": "2026-05-21T19:14:04.965472",
       "last_seen": "2026-05-21T19:14:04.965472",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-03-30",
       "type": "関連する",
       "label": "書いた",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965475",
       "last_seen": "2026-05-21T19:14:04.965475"
     },
@@ -29645,7 +29711,7 @@ const GRAPH_DATA = {
       "target": "日記:20260330",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965478",
       "last_seen": "2026-05-21T19:14:04.965478"
     },
@@ -29654,7 +29720,7 @@ const GRAPH_DATA = {
       "target": "目標:PersonalBranding",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965481",
       "last_seen": "2026-05-21T19:14:04.965481"
     },
@@ -29663,7 +29729,7 @@ const GRAPH_DATA = {
       "target": "目標:保育園の準備",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965484",
       "last_seen": "2026-05-21T19:14:04.965484"
     },
@@ -29672,7 +29738,7 @@ const GRAPH_DATA = {
       "target": "課題:Knowbeでの業務遂行とチーム連携",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965487",
       "last_seen": "2026-05-21T19:14:04.965487"
     },
@@ -29681,7 +29747,7 @@ const GRAPH_DATA = {
       "target": "イベント:FamilyParkVisit",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965489",
       "last_seen": "2026-05-21T19:14:04.965489"
     },
@@ -29690,7 +29756,7 @@ const GRAPH_DATA = {
       "target": "感情:喜びと充実感",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965492",
       "last_seen": "2026-05-21T19:14:04.965492"
     },
@@ -29699,7 +29765,7 @@ const GRAPH_DATA = {
       "target": "タスク:ペット用品の購入",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-05-21T19:14:04.965495",
       "last_seen": "2026-05-21T19:14:04.965495"
     },
@@ -29710,7 +29776,7 @@ const GRAPH_DATA = {
       "label": "日記を書く習慣についての言及",
       "first_seen": "2026-05-21T19:15:01.693021",
       "last_seen": "2026-05-21T19:15:01.693021",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:20260406",
@@ -29719,7 +29785,7 @@ const GRAPH_DATA = {
       "label": "テンプレートや統合案についての言及",
       "first_seen": "2026-05-21T19:15:01.693031",
       "last_seen": "2026-05-21T19:15:01.693031",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "解決策:日記運用の簡略化",
@@ -29728,7 +29794,7 @@ const GRAPH_DATA = {
       "label": "日記継続のための簡略化",
       "first_seen": "2026-05-21T19:15:01.693035",
       "last_seen": "2026-05-21T19:15:01.693035",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:20260406",
@@ -29737,7 +29803,7 @@ const GRAPH_DATA = {
       "label": "最近の時間の使い方への手応え",
       "first_seen": "2026-05-21T19:15:01.693039",
       "last_seen": "2026-05-21T19:15:01.693039",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:20260406",
@@ -29746,7 +29812,7 @@ const GRAPH_DATA = {
       "label": "学習時間確保への言及",
       "first_seen": "2026-05-21T19:15:01.693043",
       "last_seen": "2026-05-21T19:15:01.693043",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "感情:思考の明瞭化",
@@ -29755,14 +29821,14 @@ const GRAPH_DATA = {
       "label": "うまくいく感覚が勉強継続のモチベーションになる",
       "first_seen": "2026-05-21T19:15:01.693047",
       "last_seen": "2026-05-21T19:15:01.693047",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-04-06",
       "type": "関連する",
       "label": "書いた",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-05-21T19:15:01.693051",
       "last_seen": "2026-05-21T19:15:01.693051"
     },
@@ -29771,7 +29837,7 @@ const GRAPH_DATA = {
       "target": "日記:20260406",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-05-21T19:15:01.693055",
       "last_seen": "2026-05-21T19:15:01.693055"
     },
@@ -29780,7 +29846,7 @@ const GRAPH_DATA = {
       "target": "課題:日記の継続",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-05-21T19:15:01.693059",
       "last_seen": "2026-05-21T19:15:01.693059"
     },
@@ -29789,7 +29855,7 @@ const GRAPH_DATA = {
       "target": "解決策:日記運用の簡略化",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-05-21T19:15:01.693062",
       "last_seen": "2026-05-21T19:15:01.693062"
     },
@@ -29798,7 +29864,7 @@ const GRAPH_DATA = {
       "target": "感情:思考の明瞭化",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-05-21T19:15:01.693065",
       "last_seen": "2026-05-21T19:15:01.693065"
     },
@@ -29807,9 +29873,99 @@ const GRAPH_DATA = {
       "target": "課題:勉強の習慣化",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-05-21T19:15:01.693068",
       "last_seen": "2026-05-21T19:15:01.693068"
+    },
+    {
+      "source": "日記:20260407",
+      "target": "課題:時間管理の最適化",
+      "type": "言及する",
+      "label": "平日夜の時間確保について",
+      "first_seen": "2026-05-21T19:15:58.264995",
+      "last_seen": "2026-05-21T19:15:58.264995",
+      "weight": 1
+    },
+    {
+      "source": "解決策:時間ブロック活用",
+      "target": "課題:時間管理の最適化",
+      "type": "解決策として",
+      "label": "平日夜30分のルール化",
+      "first_seen": "2026-05-21T19:15:58.265003",
+      "last_seen": "2026-05-21T19:15:58.265003",
+      "weight": 1
+    },
+    {
+      "source": "知見:朝の思考整理の効能",
+      "target": "感情:制作への意欲",
+      "type": "促進する",
+      "label": "内省習慣がモチベーションを向上させる",
+      "first_seen": "2026-05-21T19:15:58.265007",
+      "last_seen": "2026-05-21T19:15:58.265007",
+      "weight": 1
+    },
+    {
+      "source": "日記:20260407",
+      "target": "知見:朝の思考整理の効能",
+      "type": "言及する",
+      "label": "内省が全てをうまく回すと確信",
+      "first_seen": "2026-05-21T19:15:58.265009",
+      "last_seen": "2026-05-21T19:15:58.265009",
+      "weight": 1
+    },
+    {
+      "source": "人物:自分",
+      "target": "日記:2026-04-07",
+      "type": "関連する",
+      "label": "書いた",
+      "weight": 1,
+      "first_seen": "2026-05-21T19:15:58.265012",
+      "last_seen": "2026-05-21T19:15:58.265012"
+    },
+    {
+      "source": "日記:2026-04-07",
+      "target": "日記:20260407",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-05-21T19:15:58.265016",
+      "last_seen": "2026-05-21T19:15:58.265016"
+    },
+    {
+      "source": "日記:2026-04-07",
+      "target": "課題:時間管理の最適化",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-05-21T19:15:58.265019",
+      "last_seen": "2026-05-21T19:15:58.265019"
+    },
+    {
+      "source": "日記:2026-04-07",
+      "target": "解決策:時間ブロック活用",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-05-21T19:15:58.265021",
+      "last_seen": "2026-05-21T19:15:58.265021"
+    },
+    {
+      "source": "日記:2026-04-07",
+      "target": "感情:制作への意欲",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-05-21T19:15:58.265024",
+      "last_seen": "2026-05-21T19:15:58.265024"
+    },
+    {
+      "source": "日記:2026-04-07",
+      "target": "知見:朝の思考整理の効能",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-05-21T19:15:58.265026",
+      "last_seen": "2026-05-21T19:15:58.265026"
     }
   ],
   "metadata": {
@@ -29842,9 +29998,9 @@ const GRAPH_DATA = {
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
-    "last_updated": "2026-05-21T19:15:01.693472",
-    "node_count": 562,
-    "edge_count": 1753
+    "last_updated": "2026-05-21T19:15:58.265368",
+    "node_count": 566,
+    "edge_count": 1763
   }
 };
 // GRAPH_DATA_END
