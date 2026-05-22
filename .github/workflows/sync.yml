@@ -56,17 +56,6 @@ jobs:
             sleep 5
           done
 
-      - name: Update Finance Report
-        env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-        run: |
-          if [ -f finance_context.json ]; then
-            echo "💰 家計レポートを更新中..."
-            python scripts/finance_analyzer.py --output finance_report.json || echo "⚠️ finance_analyzer.py 失敗（スキップ）"
-          else
-            echo "💤 finance_context.json がないためスキップします"
-          fi
-
       - name: HTML の整合性チェック
         run: python3 scripts/validate_html.py graph_data.js
 
@@ -91,8 +80,6 @@ jobs:
           git add daily_report.md || true
           git add story_drafts/ || true
           git add sync_history.txt || true
-          git add finance_report.json || true
-          git add finance_context.json || true
 
           if git diff --quiet && git diff --staged --quiet; then
             echo "変更なし。スキップします。"
@@ -101,7 +88,7 @@ jobs:
             for i in 1 2 3; do
               git pull --rebase -X theirs origin main || {
                 echo "⚠️ rebaseコンフリクト発生。自動解決します..."
-                git checkout --theirs diary/ knowledge_graph.jsonld graph_data.js daily_graph.json daily_report.md sync_history.txt finance_report.json finance_context.json 2>/dev/null || true
+                git checkout --theirs diary/ knowledge_graph.jsonld graph_data.js daily_graph.json daily_report.md sync_history.txt 2>/dev/null || true
                 git add -A
                 git rebase --continue || git rebase --skip
               }

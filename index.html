@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Antigravity Advisor</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -264,6 +263,224 @@
       border-radius: 6px;
     }
 
+    /* --- Mind Mirror --- */
+    .mind-overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .mind-lead {
+      font-size: 15px;
+      line-height: 1.8;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .mind-focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .mind-focus-tile {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .mind-focus-label {
+      color: var(--text-dim);
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .mind-focus-text {
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--text-main);
+      overflow-wrap: anywhere;
+    }
+
+    .mind-question {
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.16);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .need-panel {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .need-row {
+      margin-bottom: 13px;
+    }
+
+    .need-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .need-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .need-status {
+      color: var(--text-dim);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .need-track {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+
+    .need-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #38bdf8, #34d399);
+    }
+
+    .need-desc {
+      color: var(--text-dim);
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .mind-emotions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .emotion-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .emotion-chip.positive {
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+    }
+
+    .emotion-chip.negative {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+    }
+
+    .value-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .value-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .value-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .value-label {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .value-cue {
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .value-score {
+      color: var(--text-dim);
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 999px;
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+
+    .value-bar {
+      grid-column: 1 / -1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .value-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #a78bfa, #38bdf8);
+      border-radius: 999px;
+    }
+
+    .woop-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .woop-step {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .woop-label {
+      color: var(--accent-primary);
+      font-size: 10px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .woop-text {
+      color: var(--text-main);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
     .value-shift-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -344,180 +561,6 @@
       background: rgba(255, 255, 255, 0.04);
       border-radius: 6px;
       padding: 2px 6px;
-    }
-
-    /* --- Gravity Map --- */
-    .gravity-item {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .gravity-item:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .gravity-task-name {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .gravity-task-assessment {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .gravity-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .gravity-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-    }
-
-    .gravity-bar-label {
-      width: 20px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .gravity-bar-track {
-      flex: 1;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .gravity-bar-fill {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.6s ease;
-    }
-
-    .gravity-bar-fill.gravity {
-      background: linear-gradient(90deg, var(--gravity-red), var(--gravity-orange));
-    }
-
-    .gravity-bar-fill.energy {
-      background: linear-gradient(90deg, var(--energy-teal), var(--energy-green));
-    }
-
-    .gravity-bar-text {
-      font-size: 10px;
-      color: var(--text-dim);
-      min-width: 80px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .constraint-tags,
-    .energy-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: 600;
-    }
-
-    .tag-gravity {
-      background: rgba(239, 68, 68, 0.12);
-      color: var(--gravity-red);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-    }
-
-    .tag-gravity.severity-high {
-      background: rgba(239, 68, 68, 0.2);
-    }
-
-    .tag-gravity.severity-med {
-      background: rgba(249, 115, 22, 0.15);
-      color: var(--gravity-orange);
-      border-color: rgba(249, 115, 22, 0.2);
-    }
-
-    .tag-gravity.severity-low {
-      background: rgba(234, 179, 8, 0.12);
-      color: var(--gravity-yellow);
-      border-color: rgba(234, 179, 8, 0.2);
-    }
-
-    .tag-energy {
-      background: rgba(34, 197, 94, 0.12);
-      color: var(--energy-green);
-      border: 1px solid rgba(34, 197, 94, 0.2);
-    }
-
-    /* --- Action Items --- */
-    .action-item {
-      margin-bottom: 16px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      transition: all 0.2s;
-    }
-
-    .action-item:hover {
-      border-color: rgba(34, 197, 94, 0.2);
-      background: rgba(34, 197, 94, 0.03);
-    }
-
-    .action-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .action-text {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      line-height: 1.4;
-    }
-
-    .action-meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-
-    .action-effort {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 1px 6px;
-      border-radius: 4px;
-      background: rgba(56, 189, 248, 0.1);
-      color: var(--accent-primary);
-      font-weight: 600;
-    }
-
-    .action-effect {
-      color: var(--text-muted);
     }
 
     /* --- Insight Items --- */
@@ -807,13 +850,6 @@
       font-style: italic;
     }
 
-    /* --- Graph View --- */
-    #graph-view {
-      display: none;
-      height: calc(100vh - 64px);
-      position: relative;
-    }
-
     /* --- Chat View --- */
     #chat-view {
       display: none;
@@ -1054,16 +1090,6 @@
       transform: none;
     }
 
-
-    #graph-container {
-      width: 100%;
-      height: 100%;
-      background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      overflow: hidden;
-    }
-
     /* --- Loading / Empty States --- */
     .empty-state {
       text-align: center;
@@ -1135,6 +1161,12 @@
 
     @media (max-width: 1100px) {
       .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mind-overview,
+      .mind-focus-grid,
+      .woop-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1221,36 +1253,6 @@
         font-size: 14px;
       }
 
-      /* 重力マップ */
-      .gravity-task-name {
-        font-size: 13px;
-      }
-
-      .gravity-bar-text {
-        min-width: 60px;
-        font-size: 9px;
-      }
-
-      .tag {
-        font-size: 9px;
-        padding: 1px 6px;
-      }
-
-      /* アクション */
-      .action-item {
-        padding: 12px;
-      }
-
-      .action-text {
-        font-size: 12px;
-      }
-
-      .action-meta {
-        flex-wrap: wrap;
-        gap: 6px;
-        font-size: 10px;
-      }
-
       /* 知見 */
       .insight-finding {
         font-size: 12px;
@@ -1329,15 +1331,6 @@
         font-size: 12px;
       }
 
-      /* グラフビュー */
-      #graph-container {
-        height: 300px;
-      }
-
-      /* データ更新ビュー */
-      #data-update-view .dash-card {
-        padding: 14px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1406,22 +1399,9 @@
         <span class="mobile-nav-icon">🏠</span>
         <span>ホーム</span>
       </button>
-      <button class="mobile-nav-item" onclick="mobileSwitch('knowbe')">
-        <span class="mobile-nav-icon">💼</span>
-        <span>Knowbe</span>
-      </button>
-      <button class="mobile-nav-item" onclick="mobileSwitch('saiteki')">
-        <span class="mobile-nav-icon">🤖</span>
-        <span>Saiteki</span>
-      </button>
-
-      <button class="mobile-nav-item" onclick="mobileSwitch('graph')">
-        <span class="mobile-nav-icon">🕸️</span>
-        <span>グラフ</span>
-      </button>
-      <button class="mobile-nav-item" onclick="mobileSwitch('finance')">
-        <span class="mobile-nav-icon">💴</span>
-        <span>家計</span>
+      <button class="mobile-nav-item" onclick="mobileSwitch('chat')">
+        <span class="mobile-nav-icon">💬</span>
+        <span>チャット</span>
       </button>
     </div>
   </nav>
@@ -1438,54 +1418,9 @@
               <span>🏠</span> ダッシュボード
             </div>
           </li>
-          <li style="margin-top: 12px;">
-            <div
-              style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 0 16px; margin-bottom: 4px;">
-              仕事</div>
-          </li>
-          <li>
-            <div class="nav-link" onclick="switchView('knowbe')">
-              <span>💼</span> Knowbe
-            </div>
-          </li>
-          <li>
-            <div class="nav-link" onclick="switchView('saiteki')">
-              <span>🤖</span> Saiteki
-            </div>
-          </li>
-          <li style="margin-top: 12px;">
-            <div
-              style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 0 16px; margin-bottom: 4px;">
-              その他</div>
-          </li>
-          <li>
-            <div class="nav-link" onclick="switchView('graph')">
-              <span>🕸️</span> ナレッジグラフ
-            </div>
-          </li>
-          <li>
-            <div class="nav-link" onclick="switchView('finance')">
-              <span>💴</span> 家計
-            </div>
-          </li>
           <li>
             <div class="nav-link" onclick="switchView('chat')">
               <span>💬</span> チャット
-            </div>
-          </li>
-          <li>
-            <div class="nav-link" onclick="window.location.reload()">
-              <span>🔄</span> データ更新
-            </div>
-          </li>
-          <li style="margin-top: 12px;">
-            <div
-              style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 0 16px; margin-bottom: 4px;">
-              世界</div>
-          </li>
-          <li>
-            <div class="nav-link" onclick="window.location.href='./medieval_world.html'">
-              <span>⚔️</span> 異世界の自分
             </div>
           </li>
         </ul>
@@ -1526,6 +1461,16 @@
         </div>
 
         <div class="dashboard-grid">
+          <!-- 心の現在地 -->
+          <div class="dash-card full-width">
+            <div class="card-header">
+              <div class="card-icon" style="background: rgba(56, 189, 248, 0.1); color: #38bdf8;">🪞</div>
+              <div class="card-title">心の現在地</div>
+              <div class="card-count">整理版</div>
+            </div>
+            <div id="mind-state-body"></div>
+          </div>
+
           <!-- 最近前に出てきたテーマ -->
           <div class="dash-card full-width" id="value-shift-card" style="display:none;">
             <div class="card-header">
@@ -1536,24 +1481,24 @@
             <div class="value-shift-list" id="value-shift-list"></div>
           </div>
 
-          <!-- 重力マップ -->
+          <!-- 価値コンパス -->
           <div class="dash-card">
             <div class="card-header">
-              <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">🪨</div>
-              <div class="card-title">重力マップ</div>
-              <div class="card-count" id="gravity-count"></div>
+              <div class="card-icon" style="background: rgba(167, 139, 250, 0.1); color: #a78bfa;">🧭</div>
+              <div class="card-title">価値コンパス</div>
+              <div class="card-count" id="values-count"></div>
             </div>
-            <div id="gravity-map-list"></div>
+            <div class="value-list" id="values-compass-list"></div>
           </div>
 
-          <!-- 重力軽減アクション -->
+          <!-- 今日のWOOP -->
           <div class="dash-card">
             <div class="card-header">
-              <div class="card-icon" style="background: rgba(34, 197, 94, 0.1); color: #22c55e;">🚀</div>
-              <div class="card-title">重力軽減アクション</div>
-              <div class="card-count" id="action-count"></div>
+              <div class="card-icon" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">🧩</div>
+              <div class="card-title">今日のWOOP</div>
+              <div class="card-count">実行用</div>
             </div>
-            <div id="action-list"></div>
+            <div id="woop-list"></div>
           </div>
 
           <!-- 知見 -->
@@ -1600,154 +1545,6 @@
         </div>
       </div>
 
-      <!-- 家計ダッシュボードビュー -->
-      <div id="finance-view" style="display:none;" class="dashboard-container">
-        <div class="header-section">
-          <h1>💴 家計ダッシュボード</h1>
-          <p class="date-text" id="finance-updated-at">finance_report.json を読み込み中...</p>
-        </div>
-        <!-- KPIサマリー -->
-        <div id="finance-kpi-row"
-          style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:28px;">
-        </div>
-        <!-- AIアドバイス -->
-        <div class="dash-card" style="margin-bottom:20px;">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24;">💡</div>
-            <div class="card-title">家計アドバイス</div>
-          </div>
-          <div id="finance-advice">
-            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">
-              分析スクリプトを実行するとAIアドバイスが表示されます。</p>
-          </div>
-        </div>
-        <!-- カード別請求明細 -->
-        <div class="dash-card" style="margin-bottom:20px;">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(56,189,248,0.1);color:#38bdf8;">💳</div>
-            <div class="card-title">カード別請求明細</div>
-          </div>
-          <div id="finance-cc-tabs" style="display:flex;gap:6px;margin-bottom:14px;"></div>
-          <div id="finance-cc-body">
-            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">日記にクレカ請求額を記載すると自動で反映されます。
-            </p>
-          </div>
-        </div>
-        <!-- 現金・その他の支出 -->
-        <div class="dash-card" style="margin-bottom:20px;">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(248,113,113,0.1);color:#f87171;">💵</div>
-            <div class="card-title">現金・その他の支出</div>
-          </div>
-          <div id="finance-cash">
-            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">日記に現金支出を記録すると自動で反映されます。
-            </p>
-          </div>
-        </div>
-        <!-- ライフイベント予測タイムライン -->
-        <div class="dash-card" style="margin-bottom:20px;">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(129,140,248,0.1);color:#818cf8;">🔮</div>
-            <div class="card-title">ライフイベント予測タイムライン</div>
-          </div>
-          <div id="finance-timeline">
-            <p style="color:var(--text-dim);font-size:13px;text-align:center;padding:24px 0;">分析スクリプトを実行すると予測が表示されます。
-            </p>
-          </div>
-        </div>
-
-        <!-- 収支内訳 & クレカカレンダー -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
-          <div class="dash-card">
-            <div class="card-header">
-              <div class="card-icon" style="background:rgba(96,165,250,0.1);color:#60a5fa;">📊</div>
-              <div class="card-title">月次収支内訳</div>
-            </div>
-            <div id="finance-breakdown"></div>
-          </div>
-          <div class="dash-card">
-            <div class="card-header">
-              <div class="card-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24;">📅</div>
-              <div class="card-title">クレカ引落カレンダー</div>
-            </div>
-            <div id="finance-credit"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Knowbeビュー -->
-      <div id="knowbe-view" style="display:none;" class="dashboard-container">
-        <div class="header-section">
-          <h1>💼 Knowbe — 重力場</h1>
-          <p class="date-text">フロントエンドチームリーダーとしての制約と原動力</p>
-        </div>
-        <div id="knowbe-node-summary" style="margin-bottom: 24px;"></div>
-        <div class="dashboard-grid">
-          <div class="dash-card">
-            <div class="card-header">
-              <div class="card-icon" style="background: rgba(96,165,250,0.1); color: #60a5fa;">🪨</div>
-              <div class="card-title">Knowbe の制約</div>
-              <div class="card-count" id="knowbe-constraint-count"></div>
-            </div>
-            <div id="knowbe-constraints"></div>
-          </div>
-          <div class="dash-card">
-            <div class="card-header">
-              <div class="card-icon" style="background: rgba(96,165,250,0.1); color: #60a5fa;">🎯</div>
-              <div class="card-title">Knowbe の目標・タスク</div>
-              <div class="card-count" id="knowbe-task-count"></div>
-            </div>
-            <div id="knowbe-tasks"></div>
-          </div>
-          <div class="dash-card full-width">
-            <div class="card-header">
-              <div class="card-icon" style="background: rgba(96,165,250,0.1); color: #60a5fa;">💡</div>
-              <div class="card-title">Knowbe の知見</div>
-            </div>
-            <div id="knowbe-insights"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Saitekiビュー -->
-      <div id="saiteki-view" style="display:none;" class="dashboard-container">
-        <div class="header-section">
-          <h1>🤖 Saiteki — 重力場</h1>
-          <p class="date-text">AI研究・副業としての制約と原動力</p>
-        </div>
-        <div id="saiteki-node-summary" style="margin-bottom: 24px;"></div>
-        <div class="dashboard-grid">
-          <div class="dash-card">
-            <div class="card-header">
-              <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">🪨</div>
-              <div class="card-title">Saiteki の制約</div>
-              <div class="card-count" id="saiteki-constraint-count"></div>
-            </div>
-            <div id="saiteki-constraints"></div>
-          </div>
-          <div class="dash-card">
-            <div class="card-header">
-              <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">🎯</div>
-              <div class="card-title">Saiteki の目標・タスク</div>
-              <div class="card-count" id="saiteki-task-count"></div>
-            </div>
-            <div id="saiteki-tasks"></div>
-          </div>
-          <div class="dash-card full-width">
-            <div class="card-header">
-              <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">💡</div>
-              <div class="card-title">Saiteki の知見</div>
-            </div>
-            <div id="saiteki-insights"></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="graph-view">
-        <div id="graph-container">
-          <svg id="graph-svg"></svg>
-        </div>
-      </div>
     </main>
   </div>
 
@@ -1758,20 +1555,20 @@
     <div id="chat-view">
       <div class="chat-container">
         <div class="chat-header">
-          <h2>💬 ナレッジグラフ対話</h2>
+          <h2>💬 日記ログ対話</h2>
           <p>あなたの日記・思考の記録に質問してみましょう</p>
         </div>
         <div class="chat-suggestions" id="chat-suggestions">
           <button class="chat-suggestion-btn" onclick="sendSuggestion('最近の自分はどんなことに悩んでいる？')">最近の悩みは？</button>
           <button class="chat-suggestion-btn" onclick="sendSuggestion('今月の思考の傾向を教えて')">今月の傾向</button>
           <button class="chat-suggestion-btn" onclick="sendSuggestion('ブログ記事になりそうなテーマを3つ挙げて')">ブログネタ</button>
-          <button class="chat-suggestion-btn" onclick="sendSuggestion('重力の重いタスクは何？')">重力タスク</button>
+          <button class="chat-suggestion-btn" onclick="sendSuggestion('最近、自分の価値観はどう変わってきている？')">価値観の変化</button>
           <button class="chat-suggestion-btn" onclick="sendSuggestion('最近よく登場するキーワードは？')">頻出キーワード</button>
         </div>
         <div class="chat-messages" id="chat-messages">
           <div class="chat-message">
             <div class="chat-avatar ai">🧠</div>
-            <div class="chat-bubble ai">こんにちは！あなたのナレッジグラフを読み込みました。日記の内容や思考の傾向について何でも聞いてください。</div>
+            <div class="chat-bubble ai">こんにちは！日記の内容や思考の傾向について何でも聞いてください。</div>
           </div>
         </div>
         <div class="chat-input-area">
@@ -1790,7 +1587,7 @@
 
 
     // ── ビュー切り替え ──
-    const ALL_VIEWS = ['advisor', 'knowbe', 'saiteki', 'graph', 'finance', 'chat'];
+    const ALL_VIEWS = ['advisor', 'chat'];
 
     // チャット関連の状態
     const CHAT_CF_URL = 'https://asia-northeast1-pomeradriven.cloudfunctions.net/chat-knowledge';
@@ -1819,11 +1616,6 @@
 
       syncMobileNav(view);
 
-      if (view === 'graph') renderGraph();
-      if (view === 'knowbe') renderWorkView('knowbe');
-      if (view === 'saiteki') renderWorkView('saiteki');
-      if (view === 'finance') renderFinanceView();
-
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
     }
@@ -1845,11 +1637,6 @@
 
       syncMobileNav(view);
       syncSidebarNav(view);
-
-      if (view === 'graph') renderGraph();
-      if (view === 'knowbe') renderWorkView('knowbe');
-      if (view === 'saiteki') renderWorkView('saiteki');
-      if (view === 'finance') renderFinanceView();
 
       const main = document.querySelector('main');
       if (main) main.scrollTop = 0;
@@ -1974,7 +1761,7 @@
 
     function syncMobileNav(view) {
       document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
-      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'graph': 3, 'finance': 4 };
+      const viewMap = { 'advisor': 0, 'chat': 1 };
       const idx = viewMap[view];
       if (idx !== undefined) {
         const items = document.querySelectorAll('.mobile-nav-item');
@@ -1985,7 +1772,7 @@
     function syncSidebarNav(view) {
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
       const navLinks = document.querySelectorAll('.nav-link');
-      const viewMap = { 'advisor': 0, 'knowbe': 1, 'saiteki': 2, 'graph': 3, 'finance': 4 };
+      const viewMap = { 'advisor': 0, 'chat': 1 };
       const idx = viewMap[view];
       if (idx !== undefined && navLinks[idx]) navLinks[idx].classList.add('active');
     }
@@ -2238,20 +2025,17 @@
 
       // コーチコメント
       if (data.coach_comment) {
-        document.getElementById('coach-comment').innerHTML = marked.parse(data.coach_comment);
+        document.getElementById('coach-comment').innerHTML = marked.parse(toDisplayText(data.coach_comment));
       }
+
+      // 心の現在地
+      renderMindMirror(data);
 
       // 最近前に出てきたテーマ
       if (!Array.isArray(data.value_shift_topics) || !data.value_shift_topics.length) {
         data.value_shift_topics = buildValueShiftTopicsFromGraph();
       }
       renderValueShiftTopics(data.value_shift_topics || []);
-
-      // 重力マップ
-      renderGravityMap(data.gravity_map || []);
-
-      // 重力軽減アクション
-      renderActions(data.antigravity_actions || []);
 
       // 知見
       renderInsights(data.insights || []);
@@ -2331,19 +2115,21 @@
             <div style="font-size: 22px; padding-top: 2px;">🎯</div>
             <div style="flex: 1; min-width: 0;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-                <span style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${g.label}</span>
-                <span style="font-size: 11px; background: rgba(251,191,36,0.15); color: ${statusColor}; border-radius: 4px; padding: 2px 6px;">${statusLabel}</span>
+                <span style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${sanitizeText(g.label)}</span>
+                <span style="font-size: 11px; background: rgba(251,191,36,0.15); color: ${statusColor}; border-radius: 4px; padding: 2px 6px;">${sanitizeText(statusLabel)}</span>
                 <span style="font-size: 11px; color: var(--muted);">⏱ ${dayDiff}日前に言及</span>
               </div>
-              ${g.detail ? `<div style="font-size: 12px; color: var(--muted); line-height: 1.6;">${g.detail}</div>` : ''}
+              ${g.detail ? `<div style="font-size: 12px; color: var(--muted); line-height: 1.6;">${sanitizeText(g.detail)}</div>` : ''}
             </div>
           </div>`;
       }).join('');
     }
 
     function renderEmptyStates() {
-      ['gravity-map-list', 'action-list', 'insights-list', 'emotion-list', 'blog-ideas-list', 'blog-seeds-list'].forEach(id => {
-        document.getElementById(id).innerHTML = `
+      ['mind-state-body', 'values-compass-list', 'woop-list', 'insights-list', 'emotion-list', 'blog-ideas-list', 'blog-seeds-list'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📝</div>
             <div class="empty-state-text">データなし</div>
@@ -2354,8 +2140,25 @@
       document.getElementById('schedule-strip').innerHTML = '<div class="schedule-none">確定予定なし</div>';
     }
 
+    const DISPLAY_TEXT_REPLACEMENTS = [
+      [new RegExp('know' + 'be', 'gi'), '仕事'],
+      [new RegExp('sai' + 'teki', 'gi'), '副業'],
+      [new RegExp('ナレッジ' + 'グラフ', 'g'), '日記ログ'],
+      [new RegExp('家' + '計', 'g'), '暮らし'],
+      [new RegExp('重力' + 'マップ', 'g'), '整理マップ'],
+      [new RegExp('重力' + '軽減', 'g'), '軽くする'],
+      [new RegExp('異' + '世界', 'g'), '物語']
+    ];
+
+    function toDisplayText(value) {
+      return DISPLAY_TEXT_REPLACEMENTS.reduce(
+        (text, [pattern, replacement]) => text.replace(pattern, replacement),
+        String(value || '')
+      );
+    }
+
     function sanitizeText(value) {
-      return String(value || '').replace(/[&<>"']/g, ch => ({
+      return toDisplayText(value).replace(/[&<>"']/g, ch => ({
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
@@ -2365,8 +2168,226 @@
     }
 
     function shortenText(value, maxLength = 90) {
-      const text = String(value || '').trim();
+      const text = toDisplayText(value).trim();
       return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+    }
+
+    function truncateText(value, max = 90) {
+      const text = toDisplayText(value).replace(/\s+/g, ' ').trim();
+      if (text.length <= max) return text;
+      return `${text.slice(0, max - 1)}...`;
+    }
+
+    function collectText(value, depth = 0) {
+      if (value == null || depth > 5) return '';
+      if (typeof value === 'string' || typeof value === 'number') return String(value);
+      if (Array.isArray(value)) return value.map(item => collectText(item, depth + 1)).join('。');
+      if (typeof value === 'object') return Object.values(value).map(item => collectText(item, depth + 1)).join('。');
+      return '';
+    }
+
+    function getRecentGraphText() {
+      const nodes = (GRAPH_DATA && GRAPH_DATA.nodes) ? GRAPH_DATA.nodes : [];
+      return nodes
+        .slice()
+        .sort((a, b) => String(b.last_seen || b.date || '').localeCompare(String(a.last_seen || a.date || '')))
+        .slice(0, 80)
+        .map(n => [n.label, n.detail, n.current_state, n.status, n.type].filter(Boolean).join(' '))
+        .join('。');
+    }
+
+    function countKeywordMatches(text, keywords) {
+      const source = String(text || '').toLowerCase();
+      return keywords.reduce((sum, keyword) => {
+        const target = String(keyword || '').toLowerCase();
+        if (!target) return sum;
+        const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const boundary = /^[a-z0-9]+$/.test(target) ? `\\b${escaped}\\b` : escaped;
+        const matches = source.match(new RegExp(boundary, 'g'));
+        return sum + (matches ? matches.length : 0);
+      }, 0);
+    }
+
+    function findCue(text, keywords, fallback) {
+      const sentences = String(text || '')
+        .split(/[。\n]/)
+        .map(s => s.trim())
+        .filter(Boolean);
+      const cue = sentences.find(sentence => keywords.some(keyword => sentence.includes(keyword)));
+      return truncateText(cue || fallback, 86);
+    }
+
+    function getCuratedGravity(items, limit = 3) {
+      return (items || [])
+        .filter(item => {
+          const constraints = item && (item.constraints || item.challenges || []);
+          return item && (item.task || item.net_assessment || constraints.length || (item.energy_sources || []).length);
+        })
+        .sort((a, b) => {
+          const severityScore = item => (item.constraints || item.challenges || []).reduce((sum, c) => {
+            if (c.severity === '高') return sum + 3;
+            if (c.severity === '中') return sum + 2;
+            return sum + 1;
+          }, 0);
+          return severityScore(b) - severityScore(a);
+        })
+        .slice(0, limit);
+    }
+
+    function buildReflectionModel(data) {
+      const analysisText = collectText(data);
+      const graphText = getRecentGraphText();
+      const allText = `${analysisText}。${graphText}`;
+      const gravityItems = getCuratedGravity(data.gravity_map || [], 3);
+      const focus = gravityItems[0] || {};
+      const constraints = focus.constraints || focus.challenges || [];
+      const energies = focus.energy_sources || [];
+      const action = (data.antigravity_actions || []).find(item => item && item.action) || {};
+      const emotions = (data.emotion_flow || [])
+        .filter(item => item && item.emotion)
+        .sort((a, b) => Math.abs(Number(b.sentiment || 0)) - Math.abs(Number(a.sentiment || 0)))
+        .slice(0, 3);
+
+      const valueDefs = [
+        { label: '家族・つながり', icon: '🏠', keywords: ['家族', '妻', '父親', '一緒', '相談', '共有', 'チーム', 'メンバー', '感謝'], fallback: '誰かと一緒に進めるほど軽くなるテーマが見えます。' },
+        { label: '創作・表現', icon: '✍️', keywords: ['ブログ', 'ポメラ', 'YouTube', '発信', '執筆', '小説', '描く', '描いた', '動画', '書籍', '記事', '表現', '原稿'], fallback: '書く・作る・外に出すことが、前進感につながっています。' },
+        { label: '探究・成長', icon: '📚', keywords: ['読書', '学び', '学ぶ', '学習', 'AI', '研究', '知見', 'NotebookLM', '試す', '試した', '試行', '改善', '技術', '分析', '実験'], fallback: '知的な型を得ることで、仕事や創作の不安が軽くなっています。' },
+        { label: '自由・選択', icon: '🪽', keywords: ['自由', '選択', '収益', '独立', '転職', '社員化', 'ストックオプション', '主体', '裁量', '自分で選', '自分のため'], fallback: '自分で選べている感覚を取り戻すことが大事そうです。' },
+        { label: '安心・整える', icon: '🛟', keywords: ['安心', '不安', '貯金', '支出', '確定申告', '体重', '健康', '整理', '条件', '手取り'], fallback: '数字や条件を見える形にすると、心の負荷が下がりそうです。' }
+      ];
+
+      const values = valueDefs
+        .map(def => {
+          const score = countKeywordMatches(allText, def.keywords);
+          return {
+            ...def,
+            score,
+            cue: findCue(analysisText || graphText, def.keywords, def.fallback)
+          };
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+
+      const needDefs = [
+        { label: '自律性', desc: '自分で選べている感覚', keywords: ['選択', '自由', '能動', '主体', '裁量', 'やりたい', '提案', '自分のため'] },
+        { label: '有能感', desc: 'できている・上達している感覚', keywords: ['できた', '成功', '達成', '増加', '自信', '学び', '作成', '改善', '活用', '突破口'] },
+        { label: '関係性', desc: '誰かとつながれている感覚', keywords: ['妻', '家族', '子', '共有', '相談', '社内', 'チーム', '一緒', 'メンバー'] }
+      ];
+
+      const needs = needDefs.map(def => {
+        const score = countKeywordMatches(allText, def.keywords);
+        const percent = Math.max(18, Math.min(100, 26 + score * 12));
+        return {
+          ...def,
+          score,
+          percent,
+          status: score >= 5 ? '強い手がかり' : score >= 2 ? '手がかりあり' : '観察中'
+        };
+      });
+
+      const topValueText = values.slice(0, 2).map(v => v.label).join(' / ') || 'まだ観察中';
+      const focusName = focus.task || action.target_task || '今日気になっているテーマ';
+      const obstacle = (constraints[0] && constraints[0].name) || 'まだ言語化途中の重さ';
+      const energy = (energies[0] && energies[0].name) || (values[0] && values[0].label) || '小さな前進';
+      const question = `「${truncateText(focusName, 34)}」は、${topValueText}を守る一歩か、それとも義務感で抱えている重さか？`;
+      const outcome = `${truncateText(energy, 44)}を使って、前に進む感覚を取り戻す。`;
+      const plan = action.action
+        ? `もし「${truncateText(obstacle, 30)}」で止まったら、${truncateText(action.action, 72)}`
+        : 'もし止まったら、10分だけ状況を書き出して次の一歩に分ける。';
+
+      return {
+        values,
+        needs,
+        emotions,
+        focusName,
+        obstacle,
+        energy,
+        question,
+        woop: [
+          { label: 'WISH', title: '願い', text: focusName },
+          { label: 'OUTCOME', title: '望む結果', text: outcome },
+          { label: 'OBSTACLE', title: '内側の障害', text: obstacle },
+          { label: 'PLAN', title: 'もし〜なら', text: plan }
+        ],
+        lead: `いま前に出ている価値は「${topValueText}」。一方で「${truncateText(obstacle, 42)}」が心の重さとして出ています。`
+      };
+    }
+
+    function renderMindMirror(data) {
+      const model = buildReflectionModel(data);
+      const mindEl = document.getElementById('mind-state-body');
+      const valuesEl = document.getElementById('values-compass-list');
+      const woopEl = document.getElementById('woop-list');
+      const valuesCountEl = document.getElementById('values-count');
+      if (!mindEl || !valuesEl || !woopEl) return;
+
+      if (valuesCountEl) valuesCountEl.textContent = `${model.values.length}件`;
+
+      const emotionHtml = model.emotions.length ? `
+        <div class="mind-emotions">
+          ${model.emotions.map(item => {
+            const sentiment = Number(item.sentiment || 0);
+            const cls = sentiment > 0.2 ? 'positive' : sentiment < -0.2 ? 'negative' : '';
+            const sign = sentiment > 0 ? '+' : '';
+            return `<span class="emotion-chip ${cls}">${sanitizeText(item.emotion)} ${sign}${sentiment.toFixed(1)}</span>`;
+          }).join('')}
+        </div>` : '';
+
+      mindEl.innerHTML = `
+        <div class="mind-overview">
+          <div>
+            <div class="mind-lead">${sanitizeText(model.lead)}</div>
+            <div class="mind-focus-grid">
+              <div class="mind-focus-tile">
+                <div class="mind-focus-label">中心テーマ</div>
+                <div class="mind-focus-text">${sanitizeText(truncateText(model.focusName, 62))}</div>
+              </div>
+              <div class="mind-focus-tile">
+                <div class="mind-focus-label">いちばん重いもの</div>
+                <div class="mind-focus-text">${sanitizeText(truncateText(model.obstacle, 62))}</div>
+              </div>
+              <div class="mind-focus-tile">
+                <div class="mind-focus-label">使える追い風</div>
+                <div class="mind-focus-text">${sanitizeText(truncateText(model.energy, 62))}</div>
+              </div>
+            </div>
+            <div class="mind-question">${sanitizeText(model.question)}</div>
+          </div>
+          <div class="need-panel">
+            ${model.needs.map(need => `
+              <div class="need-row">
+                <div class="need-head">
+                  <span>${sanitizeText(need.label)}</span>
+                  <span class="need-status">${sanitizeText(need.status)}</span>
+                </div>
+                <div class="need-track"><div class="need-fill" style="width:${need.percent}%"></div></div>
+                <div class="need-desc">${sanitizeText(need.desc)}</div>
+              </div>`).join('')}
+            ${emotionHtml}
+          </div>
+        </div>`;
+
+      valuesEl.innerHTML = model.values.map(value => {
+        const width = Math.max(16, Math.min(100, value.score * 14));
+        return `
+          <div class="value-row">
+            <div>
+              <div class="value-label">${value.icon} ${sanitizeText(value.label)}</div>
+              <div class="value-cue">${sanitizeText(value.cue)}</div>
+            </div>
+            <div class="value-score">${value.score ? `${value.score}件` : '観察中'}</div>
+            <div class="value-bar"><div class="value-bar-fill" style="width:${width}%"></div></div>
+          </div>`;
+      }).join('');
+
+      woopEl.innerHTML = `
+        <div class="woop-grid">
+          ${model.woop.map(step => `
+            <div class="woop-step">
+              <div class="woop-label">${sanitizeText(step.label)} / ${sanitizeText(step.title)}</div>
+              <div class="woop-text">${sanitizeText(truncateText(step.text, 118))}</div>
+            </div>`).join('')}
+        </div>`;
     }
 
     function renderValueShiftTopics(items) {
@@ -2425,74 +2446,6 @@
       }).join('');
     }
 
-    function renderGravityMap(items) {
-      const el = document.getElementById('gravity-map-list');
-      document.getElementById('gravity-count').textContent = `${items.length}件`;
-
-      if (!items.length) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✨</div><div class="empty-state-text">重力フリー！素晴らしい状態です</div></div>';
-        return;
-      }
-
-      el.innerHTML = items.map(item => {
-        const constraintCount = (item.constraints || []).length;
-        const energyCount = (item.energy_sources || []).length;
-        const maxBar = Math.max(constraintCount, energyCount, 1);
-
-        const constraintTags = (item.constraints || []).map(c => {
-          const sevClass = c.severity === '高' ? 'severity-high' : c.severity === '中' ? 'severity-med' : 'severity-low';
-          return `<span class="tag tag-gravity ${sevClass}">🪨 ${c.name}</span>`;
-        }).join('');
-
-        const energyTags = (item.energy_sources || []).map(e =>
-          `<span class="tag tag-energy">⚡ ${e.name}</span>`
-        ).join('');
-
-        return `
-          <div class="gravity-item">
-            <div class="gravity-task-name">📋 ${item.task}</div>
-            <div class="gravity-bars">
-              <div class="gravity-bar-row">
-                <div class="gravity-bar-label">🪨</div>
-                <div class="gravity-bar-track">
-                  <div class="gravity-bar-fill gravity" style="width: ${(constraintCount / maxBar) * 100}%"></div>
-                </div>
-                <div class="gravity-bar-text">${constraintCount}つの制約</div>
-              </div>
-              <div class="gravity-bar-row">
-                <div class="gravity-bar-label">⚡</div>
-                <div class="gravity-bar-track">
-                  <div class="gravity-bar-fill energy" style="width: ${(energyCount / maxBar) * 100}%"></div>
-                </div>
-                <div class="gravity-bar-text">${energyCount}つの原動力</div>
-              </div>
-            </div>
-            <div class="constraint-tags">${constraintTags}${energyTags}</div>
-            ${item.net_assessment ? `<div class="gravity-task-assessment">${item.net_assessment}</div>` : ''}
-          </div>`;
-      }).join('');
-    }
-
-    function renderActions(items) {
-      const el = document.getElementById('action-list');
-      document.getElementById('action-count').textContent = `${items.length}件`;
-
-      if (!items.length) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-text">アクション提案なし</div></div>';
-        return;
-      }
-
-      el.innerHTML = items.map(item => `
-        <div class="action-item">
-          <div class="action-text">💡 ${item.action}</div>
-          <div class="action-meta">
-            ${item.effort ? `<span class="action-effort">⏱ ${item.effort}</span>` : ''}
-            ${item.effect ? `<span class="action-effect">${item.effect}</span>` : ''}
-          </div>
-        </div>`
-      ).join('');
-    }
-
     function renderInsights(items) {
       const el = document.getElementById('insights-list');
 
@@ -2503,8 +2456,8 @@
 
       el.innerHTML = items.map(item => `
         <div class="insight-item">
-          <div class="insight-finding">🔍 ${item.finding}</div>
-          ${item.implication ? `<div class="insight-implication">${item.implication}</div>` : ''}
+          <div class="insight-finding">🔍 ${sanitizeText(item.finding)}</div>
+          ${item.implication ? `<div class="insight-implication">${sanitizeText(item.implication)}</div>` : ''}
         </div>`
       ).join('');
     }
@@ -2526,8 +2479,8 @@
           <div class="emotion-item">
             <div class="emotion-dot ${dotClass}"></div>
             <div class="emotion-info">
-              <div class="emotion-name">${item.emotion}</div>
-              ${item.context ? `<div class="emotion-context">${item.context}</div>` : ''}
+              <div class="emotion-name">${sanitizeText(item.emotion)}</div>
+              ${item.context ? `<div class="emotion-context">${sanitizeText(item.context)}</div>` : ''}
             </div>
             <div class="emotion-score" style="color: ${scoreColor}">${s > 0 ? '+' : ''}${s.toFixed(1)}</div>
           </div>`;
@@ -2562,239 +2515,9 @@
           <div class="schedule-chip">
             <div class="chip-cat ${catClass}"></div>
             <span class="chip-date">${dateStr}${timeStr}</span>
-            <span class="chip-title">${item.title}</span>
+            <span class="chip-title">${sanitizeText(item.title)}</span>
           </div>`;
       }).join('');
-    }
-
-    // ── 家計ダッシュボード ──
-    function renderFinanceView() {
-      const fmt = n => (n != null && !isNaN(n)) ? Number(n).toLocaleString('ja-JP') + '円' : '—';
-
-      fetch('finance_report.json?t=' + Date.now())
-        .then(r => r.ok ? r.json() : Promise.reject('not found'))
-        .then(report => {
-          // 更新日時
-          const updatedEl = document.getElementById('finance-updated-at');
-          if (updatedEl && report.generated_at) {
-            const d = new Date(report.generated_at);
-            updatedEl.textContent = `最終更新: ${d.toLocaleString('ja-JP')}`;
-          }
-
-          // KPIカード
-          const s = report.summary || {};
-          const surplusColor = (s.monthly_surplus >= 0) ? '#4ade80' : '#f87171';
-          const rateColor = (s.savings_rate_pct >= 10) ? '#4ade80' : (s.savings_rate_pct >= 5) ? '#fbbf24' : '#f87171';
-          const kpiEl = document.getElementById('finance-kpi-row');
-          if (kpiEl) {
-            const kpis = [
-              { label: '月収合計', value: fmt(s.monthly_income), color: '#60a5fa', sub: '収入' },
-              { label: 'クレカ利用額', value: fmt(s.monthly_variable_estimate), color: '#fbbf24', sub: s.note || '' },
-            ];
-            if (s.cash_total > 0) {
-              kpis.push({ label: '現金支出', value: fmt(s.cash_total), color: '#f87171', sub: '日記から集計' });
-            }
-            kpis.push(
-              { label: '月次余剰', value: fmt(s.monthly_surplus), color: surplusColor, sub: '収入−固定費−変動費−現金' },
-              { label: '貯蓄率', value: (s.savings_rate_pct || 0) + '%', color: rateColor, sub: '' },
-            );
-            kpiEl.innerHTML = kpis.map(k => `
-              <div style="background:var(--card-bg);border:1px solid var(--border-color);border-radius:14px;padding:16px 18px;transition:transform 0.2s;">
-                <div style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">${k.label}</div>
-                <div style="font-size:22px;font-weight:700;color:${k.color};">${k.value}</div>
-                ${k.sub ? `<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">${k.sub}</div>` : ''}
-              </div>`).join('');
-          }
-
-          // AIアドバイス
-          renderFinanceAdvice(report);
-
-          // カード別請求明細
-          renderFinanceCardCharges(report, fmt);
-
-          // 現金支出
-          renderFinanceCashExpenses(report, fmt);
-
-          // ライフイベント予測タイムライン
-          renderFinanceTimeline(report, fmt);
-
-
-
-          // 収支内訳
-          const bdEl = document.getElementById('finance-breakdown');
-          if (bdEl) {
-            const rows = [
-              ['月収合計', s.monthly_income, '#60a5fa'],
-              ['月次固定費', s.monthly_fixed_costs, '#fbbf24'],
-              ['変動費目安', s.monthly_variable_estimate, '#f87171'],
-              ['教育費積立', s.monthly_education_saving, '#f472b6'],
-              ['月次余剰', s.monthly_surplus, s.monthly_surplus >= 0 ? '#4ade80' : '#f87171'],
-            ];
-            bdEl.innerHTML = rows.map(([label, val, color]) => `
-              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);">
-                <span style="font-size:13px;color:var(--text-dim);">${label}</span>
-                <span style="font-weight:600;color:${color};">${fmt(val)}</span>
-              </div>`).join('');
-            if (s.note) {
-              bdEl.innerHTML += `<p style="font-size:11px;color:var(--text-dim);margin-top:8px;">※ ${s.note}</p>`;
-            }
-          }
-
-          // クレカ引落カレンダー
-          const ccEl = document.getElementById('finance-credit');
-          if (ccEl) {
-            const calendar = report.credit_card_calendar || [];
-            if (calendar.length === 0) {
-              ccEl.innerHTML = '<p style="color:var(--text-dim);font-size:13px;">データなし</p>';
-            } else {
-              const byDay = {};
-              calendar.forEach(e => { byDay[e.day] = e.cards; });
-              let calHtml = '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">';
-              for (let d = 1; d <= 31; d++) {
-                const cards = byDay[d];
-                if (cards) {
-                  calHtml += `<div style="min-height:50px;border-radius:8px;border:1px solid rgba(56,189,248,0.3);background:rgba(56,189,248,0.04);padding:5px;font-size:9px;">`;
-                  calHtml += `<div style="font-weight:600;font-size:10px;color:var(--accent-primary);margin-bottom:2px;">${d}日</div>`;
-                  cards.forEach(c => { calHtml += `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:8px;background:rgba(56,189,248,0.1);color:var(--accent-primary);border-radius:3px;padding:1px 3px;margin-bottom:1px;" title="${c.name}">${c.name}</div>`; });
-                  calHtml += '</div>';
-                } else {
-                  calHtml += `<div style="min-height:50px;border-radius:8px;border:1px solid var(--border-color);padding:5px;"><div style="font-size:10px;opacity:0.3;">${d}</div></div>`;
-                }
-              }
-              calHtml += '</div>';
-              ccEl.innerHTML = calHtml;
-            }
-          }
-        })
-        .catch(() => {
-          const kpiEl = document.getElementById('finance-kpi-row');
-          if (kpiEl) kpiEl.innerHTML = '<p style="color:var(--text-dim);">finance_report.json が見つかりません</p>';
-        });
-    }
-
-    function renderFinanceCardCharges(report, fmt) {
-      const data = report.card_charges_by_month || [];
-      const tabsEl = document.getElementById('finance-cc-tabs');
-      const bodyEl = document.getElementById('finance-cc-body');
-      if (!tabsEl || !bodyEl || data.length === 0) return;
-
-      function show(idx) {
-        const m = data[idx];
-        const mx = Math.max(...m.cards.map(c => c.amount), 1);
-        let h = '';
-        m.cards.forEach(c => {
-          const pct = Math.max((c.amount / mx) * 100, 1);
-          const zero = c.amount === 0 ? 'opacity:0.4;' : '';
-          const usageHtml = c.usage ? `<div style="font-size:9px;color:var(--text-dim);margin-top:1px;">${c.usage}</div>` : '';
-          h += `<div style="display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03);">`;
-          h += `<div style="font-size:12px;font-weight:500;" title="${c.name}"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.name}</div>${usageHtml}</div>`;
-          h += `<div style="height:14px;border-radius:5px;background:rgba(255,255,255,0.03);overflow:hidden;"><div style="height:100%;width:${pct}%;border-radius:5px;background:linear-gradient(90deg,rgba(56,189,248,0.5),rgba(129,140,248,0.4));transition:width 0.5s;min-width:2px;"></div></div>`;
-          h += `<div style="font-size:12px;font-weight:600;color:var(--accent-primary);text-align:right;${zero}">${fmt(c.amount)}</div>`;
-          h += '</div>';
-        });
-        h += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;margin-top:6px;border-top:1px solid var(--border-color);"><span style="font-size:11px;color:var(--text-dim);">合計</span><span style="font-size:16px;font-weight:700;color:var(--accent-warning);">${fmt(m.total)}</span></div>`;
-        bodyEl.innerHTML = h;
-      }
-
-      tabsEl.innerHTML = data.map((m, i) => {
-        const lbl = m.month.replace(/^(\d{4})-(\d{2})$/, '$1年$2月');
-        const active = i === 0 ? 'background:rgba(56,189,248,0.12);color:var(--accent-primary);border-color:rgba(56,189,248,0.3);' : '';
-        return `<button style="font-size:11px;padding:5px 14px;border-radius:18px;border:1px solid var(--border-color);background:transparent;color:var(--text-dim);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;${active}" data-idx="${i}" class="fc-tab-btn">${lbl}</button>`;
-      }).join('');
-
-      tabsEl.addEventListener('click', e => {
-        const b = e.target.closest('.fc-tab-btn');
-        if (!b) return;
-        tabsEl.querySelectorAll('.fc-tab-btn').forEach(t => {
-          t.style.background = 'transparent';
-          t.style.color = 'var(--text-dim)';
-          t.style.borderColor = 'var(--border-color)';
-        });
-        b.style.background = 'rgba(56,189,248,0.12)';
-        b.style.color = 'var(--accent-primary)';
-        b.style.borderColor = 'rgba(56,189,248,0.3)';
-        show(parseInt(b.dataset.idx));
-      });
-      show(0);
-    }
-
-    function renderFinanceTimeline(report, fmt) {
-      const evs = report.life_events_forecast || [];
-      const tlEl = document.getElementById('finance-timeline');
-      if (!tlEl || evs.length === 0) return;
-
-      const cc = { '高': 'var(--accent-primary)', '中': 'var(--accent-warning)', '低': 'var(--text-dim)' };
-      const cl = { '高': '確度:高', '中': '確度:中', '低': '確度:低' };
-      const bg = { '高': 'rgba(56,189,248,0.12)', '中': 'rgba(251,191,36,0.12)', '低': 'rgba(148,163,184,0.12)' };
-      const bdr = { '高': 'rgba(56,189,248,0.2)', '中': 'rgba(251,191,36,0.2)', '低': 'rgba(148,163,184,0.2)' };
-
-      tlEl.innerHTML = evs.map((ev, i) => {
-        const c = cc[ev.certainty] || cc['低'];
-        const l = cl[ev.certainty] || ev.certainty;
-        const cost = ev.estimated_cost != null ? fmt(ev.estimated_cost) : '金額未定';
-        const mo = ev.months_until != null ? (ev.months_until <= 0 ? '今月' : ev.months_until + 'ヶ月後') : '';
-        const badgeBg = bg[ev.certainty] || bg['低'];
-        const badgeBdr = bdr[ev.certainty] || bdr['低'];
-
-        return `<div style="display:grid;grid-template-columns:90px 1fr;gap:14px;padding:10px 0;position:relative;animation:fadeIn 0.3s ease ${i * 0.04}s both;">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:3px;">
-            <div style="width:8px;height:8px;border-radius:50%;border:2px solid ${c};background:rgba(15,23,42,0.8);position:relative;z-index:1;"></div>
-            <div style="font-size:9px;color:var(--text-dim);text-align:center;line-height:1.3;">${mo}<br>${ev.timing || ''}</div>
-          </div>
-          <div style="padding:12px 16px;border-radius:12px;border:1px solid var(--border-color);background:rgba(255,255,255,0.02);transition:border-color 0.2s;">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:4px;">
-              <div>
-                <span style="font-size:9px;padding:2px 7px;border-radius:8px;background:rgba(129,140,248,0.12);color:var(--accent-secondary);margin-right:3px;">${ev.category || 'その他'}</span>
-                <span style="font-weight:600;font-size:13px;">${ev.event}</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-                <span style="font-size:13px;font-weight:600;color:var(--accent-warning);white-space:nowrap;">${cost}</span>
-                <span style="font-size:9px;padding:2px 7px;border-radius:16px;white-space:nowrap;background:${badgeBg};color:${c};border:1px solid ${badgeBdr};">${l}</span>
-              </div>
-            </div>
-            ${ev.note ? `<div style="font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.5;">${ev.note}</div>` : ''}
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function renderFinanceAdvice(report) {
-      const advice = report.spending_advice || [];
-      const el = document.getElementById('finance-advice');
-      if (!el || advice.length === 0) return;
-
-      const sevBorder = { warning: 'rgba(251,191,36,0.4)', info: 'rgba(56,189,248,0.3)', success: 'rgba(52,211,153,0.3)' };
-      el.innerHTML = advice.map((a, i) => {
-        const sev = a.severity || 'info';
-        const bc = sevBorder[sev] || sevBorder.info;
-        return `<div style="display:flex;gap:14px;padding:14px 16px;border-radius:12px;border:1px solid var(--border-color);border-left:3px solid ${bc};background:rgba(255,255,255,0.02);margin-bottom:10px;animation:fadeIn 0.3s ease ${i * 0.06}s both;">
-          <div style="font-size:20px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">${a.icon || '💡'}</div>
-          <div style="flex:1;">
-            <div style="font-weight:600;font-size:13px;margin-bottom:3px;">${a.title}</div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.6;">${a.detail}</div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function renderFinanceCashExpenses(report, fmt) {
-      const expenses = report.cash_expenses || [];
-      const el = document.getElementById('finance-cash');
-      if (!el || expenses.length === 0) return;
-
-      const total = expenses.reduce((s, e) => s + e.amount, 0);
-      let html = expenses.map(e => `
-        <div style="display:grid;grid-template-columns:1fr 60px 90px;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);">
-          <div style="font-size:13px;font-weight:500;">${e.label}</div>
-          <div style="font-size:10px;color:var(--text-dim);text-align:center;">${e.source}</div>
-          <div style="font-size:13px;font-weight:600;color:var(--accent-warning);text-align:right;">${fmt(e.amount)}</div>
-        </div>
-      `).join('');
-      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;margin-top:6px;border-top:1px solid var(--border-color);">
-        <span style="font-size:11px;color:var(--text-dim);">現金支出合計</span>
-        <span style="font-size:16px;font-weight:700;color:var(--accent-warning);">${fmt(total)}</span>
-      </div>`;
-      el.innerHTML = html;
     }
 
     // ブログタブ切り替え
@@ -2851,16 +2574,16 @@
         const r = readinessMap[item.readiness] || readinessMap['低'];
         const themeHtml = item.theme ? `
           <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">
-            🏷 ${item.theme}
+            🏷 ${sanitizeText(item.theme)}
           </div>` : '';
         const hookHtml = item.hook ? `
           <div style="font-size: 13px; color: var(--text-secondary); font-style: italic; border-left: 2px solid rgba(251,191,36,0.4); padding-left: 10px; margin-bottom: 8px; line-height: 1.6;">
-            "${item.hook}"
+            "${sanitizeText(item.hook)}"
           </div>` : '';
         return `
           <div class="blog-seed-item" style="border-left: 3px solid rgba(251,191,36,0.5);">
             <div class="blog-seed-header">
-              <div class="blog-seed-title">${item.title}</div>
+              <div class="blog-seed-title">${sanitizeText(item.title)}</div>
             </div>
             ${themeHtml}
             ${hookHtml}
@@ -2898,8 +2621,8 @@
           // ジャンル・トーンの表示
           const tagsHtml = `
             <div class="blog-seed-sources">
-              ${item.genre ? `<span class="blog-seed-source-tag">${item.genre}</span>` : ''}
-              ${item.tone ? `<span class="blog-seed-source-tag">${item.tone}</span>` : ''}
+              ${item.genre ? `<span class="blog-seed-source-tag">${sanitizeText(item.genre)}</span>` : ''}
+              ${item.tone ? `<span class="blog-seed-source-tag">${sanitizeText(item.tone)}</span>` : ''}
             </div>`;
 
           // 物語の種
@@ -2907,7 +2630,7 @@
             <div class="blog-seed-outline">
               <div class="blog-seed-outline-step">
                 <span class="blog-seed-step-num">📖</span>
-                <span>${item.story_seed}</span>
+                <span>${sanitizeText(item.story_seed)}</span>
               </div>
             </div>` : '';
 
@@ -2916,7 +2639,7 @@
             <div class="blog-seed-outline">
               <div class="blog-seed-outline-step">
                 <span class="blog-seed-step-num">💬</span>
-                <span>${item.core_message}</span>
+                <span>${sanitizeText(item.core_message)}</span>
               </div>
             </div>` : '';
 
@@ -2925,14 +2648,14 @@
             <div class="blog-seed-outline">
               <div class="blog-seed-outline-step">
                 <span class="blog-seed-step-num">🌙</span>
-                <span>読後感: ${item.reader_feeling}</span>
+                <span>読後感: ${sanitizeText(item.reader_feeling)}</span>
               </div>
             </div>` : '';
 
           return `
             <div class="blog-seed-item">
               <div class="blog-seed-header">
-                <div class="blog-seed-title">${item.title}</div>
+                <div class="blog-seed-title">${sanitizeText(item.title)}</div>
               </div>
               ${tagsHtml}
               ${storySeedHtml}
@@ -2949,7 +2672,7 @@
           const sourcesHtml = sources.length ? `
             <div class="blog-seed-sources">
               <div class="blog-seed-sources-label">📌 きっかけ</div>
-              ${sources.map(s => `<span class="blog-seed-source-tag">${s}</span>`).join('')}
+              ${sources.map(s => `<span class="blog-seed-source-tag">${sanitizeText(s)}</span>`).join('')}
             </div>` : '';
 
           let outlineHtml = '';
@@ -2961,7 +2684,7 @@
               const cleanStep = step.replace(/^\d+\.\s*/, '');
               return `<div class="blog-seed-outline-step">
                     <span class="blog-seed-step-num">${i + 1}.</span>
-                    <span>${cleanStep}</span>
+                    <span>${sanitizeText(cleanStep)}</span>
                   </div>`;
             }).join('')}
               </div>`;
@@ -2970,8 +2693,8 @@
           return `
             <div class="blog-seed-item">
               <div class="blog-seed-header">
-                <div class="blog-seed-title">${item.title}</div>
-                ${item.theme ? `<span class="blog-seed-theme">${item.theme}</span>` : ''}
+                <div class="blog-seed-title">${sanitizeText(item.title)}</div>
+                ${item.theme ? `<span class="blog-seed-theme">${sanitizeText(item.theme)}</span>` : ''}
               </div>
               ${sourcesHtml}
               ${outlineHtml}
@@ -2983,293 +2706,6 @@
         }
       }).join('');
     }
-
-    // ── グラフ可視化 ──
-    function renderGraph() {
-      const container = document.getElementById('graph-container');
-      const svg = d3.select('#graph-svg');
-      svg.selectAll('*').remove();
-
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-
-      svg.attr('width', width).attr('height', height);
-
-      const nodes = (GRAPH_DATA.nodes || []).map(n => ({ ...n }));
-      const edges = (GRAPH_DATA.edges || []).filter(e => {
-        const hasSource = nodes.some(n => n.id === e.source);
-        const hasTarget = nodes.some(n => n.id === e.target);
-        return hasSource && hasTarget;
-      }).map(e => ({ ...e, source: e.source, target: e.target }));
-
-      if (!nodes.length) {
-        svg.append('text')
-          .attr('x', width / 2)
-          .attr('y', height / 2)
-          .attr('text-anchor', 'middle')
-          .attr('fill', '#64748b')
-          .attr('font-size', '16px')
-          .text('グラフデータがありません');
-        return;
-      }
-
-      const typeColors = {
-        'タスク': '#38bdf8', 'task': '#38bdf8',
-        '制約': '#ef4444', 'constraint': '#ef4444',
-        '知見': '#818cf8', 'insight': '#818cf8',
-        '感情': '#f472b6', 'emotion': '#f472b6',
-        '人物': '#fbbf24', 'person': '#fbbf24', 'self': '#fbbf24',
-        '出来事': '#34d399', 'event': '#34d399',
-        '目標': '#a78bfa', 'goal': '#a78bfa',
-        'プロジェクト': '#fb923c', 'project': '#fb923c',
-        '概念': '#94a3b8', 'concept': '#94a3b8',
-        '場所': '#2dd4bf', 'place': '#2dd4bf',
-        '日記': '#64748b', 'diary': '#64748b'
-      };
-
-      const g = svg.append('g');
-
-      const zoom = d3.zoom()
-        .scaleExtent([0.2, 4])
-        .on('zoom', (event) => g.attr('transform', event.transform));
-      svg.call(zoom);
-
-      const simulation = d3.forceSimulation(nodes)
-        .force('link', d3.forceLink(edges).id(d => d.id).distance(100))
-        .force('charge', d3.forceManyBody().strength(-200))
-        .force('center', d3.forceCenter(width / 2, height / 2))
-        .force('collision', d3.forceCollide().radius(30));
-
-      // エッジの描画
-      const link = g.append('g')
-        .selectAll('line')
-        .data(edges)
-        .enter().append('line')
-        .attr('stroke', d => {
-          const t = d.type || '';
-          if (t === '阻害する' || t === 'BARRIER') return 'rgba(239,68,68,0.4)';
-          if (t === '原動力になる') return 'rgba(34,197,94,0.4)';
-          return 'rgba(255,255,255,0.08)';
-        })
-        .attr('stroke-width', d => Math.min((d.weight || 1), 3))
-        .attr('stroke-dasharray', d => {
-          const t = d.type || '';
-          if (t === '阻害する' || t === 'BARRIER') return '4,4';
-          return null;
-        });
-
-      // ノードの描画
-      const node = g.append('g')
-        .selectAll('g')
-        .data(nodes)
-        .enter().append('g')
-        .call(d3.drag()
-          .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-          .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
-          .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
-        );
-
-      node.append('circle')
-        .attr('r', d => {
-          const t = d.type || '';
-          if (t === '日記' || t === 'diary') return 8;
-          if (t === '制約' || t === 'constraint') return 7;
-          return Math.min(6 + (d.weight || 1) * 1.5, 14);
-        })
-        .attr('fill', d => typeColors[d.type] || '#94a3b8')
-        .attr('stroke', d => typeColors[d.type] || '#94a3b8')
-        .attr('stroke-width', 2)
-        .attr('stroke-opacity', 0.3)
-        .attr('fill-opacity', 0.8);
-
-      node.append('text')
-        .text(d => d.label || d.id)
-        .attr('dx', 14)
-        .attr('dy', 4)
-        .attr('font-size', '11px')
-        .attr('fill', '#cbd5e1')
-        .attr('font-family', "'Noto Sans JP', sans-serif");
-
-      // ツールチップ
-      const tooltip = d3.select('body').append('div')
-        .style('position', 'absolute')
-        .style('background', 'rgba(15,23,42,0.95)')
-        .style('border', '1px solid rgba(255,255,255,0.1)')
-        .style('border-radius', '8px')
-        .style('padding', '10px 14px')
-        .style('font-size', '12px')
-        .style('color', '#f1f5f9')
-        .style('max-width', '280px')
-        .style('pointer-events', 'none')
-        .style('display', 'none')
-        .style('z-index', '1000')
-        .style('font-family', "'Noto Sans JP', sans-serif");
-
-      node.on('mouseover', (event, d) => {
-        tooltip.style('display', 'block')
-          .html(`<strong>${d.label}</strong><br><span style="color:#94a3b8">${d.type}</span><br>${d.detail || ''}`);
-      })
-        .on('mousemove', (event) => {
-          tooltip.style('left', (event.pageX + 12) + 'px').style('top', (event.pageY - 12) + 'px');
-        })
-        .on('mouseout', () => tooltip.style('display', 'none'));
-
-      simulation.on('tick', () => {
-        link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
-          .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
-        node.attr('transform', d => `translate(${d.x},${d.y})`);
-      });
-    }
-
-    // ── 仕事ビュー描画 ──
-    function renderWorkView(contextKey) {
-      const nodes = (GRAPH_DATA && GRAPH_DATA.nodes) ? GRAPH_DATA.nodes : [];
-
-      // contextKey または shared にマッチするノードを抽出。
-      // context フィールドがない古いノードは shared 扱いにしない（表示しない）。
-      const filtered = nodes.filter(n => {
-        const c = n.context || '';
-        return c === contextKey || c === 'shared';
-      });
-
-      const accentColor = contextKey === 'knowbe' ? '#60a5fa' : '#a78bfa';
-      const prefix = contextKey;
-
-      // サマリー
-      const summaryEl = document.getElementById(prefix + '-node-summary');
-      if (summaryEl) {
-        const total = filtered.length;
-        const constraintCount = filtered.filter(n => n.type === '制約').length;
-        const taskCount = filtered.filter(n => n.type === 'タスク' || n.type === '目標').length;
-        const insightCount = filtered.filter(n => n.type === '知見').length;
-        summaryEl.innerHTML = `
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
-              <div style="font-size:22px; font-weight:700; color:${accentColor}">${total}</div>
-              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">関連ノード</div>
-            </div>
-            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
-              <div style="font-size:22px; font-weight:700; color:#ef4444">${constraintCount}</div>
-              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">制約（重力）</div>
-            </div>
-            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
-              <div style="font-size:22px; font-weight:700; color:#38bdf8">${taskCount}</div>
-              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">タスク・目標</div>
-            </div>
-            <div style="padding:12px 18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; text-align:center;">
-              <div style="font-size:22px; font-weight:700; color:#818cf8">${insightCount}</div>
-              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">知見</div>
-            </div>
-          </div>`;
-      }
-
-      // 制約
-      const constraints = filtered.filter(n => n.type === '制約').sort((a, b) => (b.weight || 1) - (a.weight || 1));
-      const constraintEl = document.getElementById(prefix + '-constraints');
-      const constraintCountEl = document.getElementById(prefix + '-constraint-count');
-      if (constraintCountEl) constraintCountEl.textContent = `${constraints.length}件`;
-      if (constraintEl) {
-        if (!constraints.length) {
-          constraintEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✨</div><div class="empty-state-text">制約なし</div></div>';
-        } else {
-          constraintEl.innerHTML = constraints.map(n => `
-            <div class="action-item" style="border-left: 3px solid #ef4444;">
-              <div class="action-text">🪨 ${n.label}</div>
-              ${n.detail ? `<div class="action-meta"><span class="action-effect">${n.detail}</span></div>` : ''}
-              ${n.constraint_type ? `<div style="margin-top:6px;"><span class="tag tag-gravity">${n.constraint_type}</span></div>` : ''}
-            </div>`).join('');
-        }
-      }
-
-      // タスク・目標
-      const tasks = filtered.filter(n => n.type === 'タスク' || n.type === '目標').sort((a, b) => (b.weight || 1) - (a.weight || 1));
-      const taskEl = document.getElementById(prefix + '-tasks');
-      const taskCountEl = document.getElementById(prefix + '-task-count');
-      if (taskCountEl) taskCountEl.textContent = `${tasks.length}件`;
-      if (taskEl) {
-        if (!tasks.length) {
-          taskEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-text">タスク・目標なし</div></div>';
-        } else {
-          taskEl.innerHTML = tasks.map(n => {
-            const statusColor = n.status === '完了' ? '#22c55e' : n.status === '進行中' ? accentColor : '#fbbf24';
-            return `
-              <div class="action-item">
-                <div class="action-text">📋 ${n.label}</div>
-                <div class="action-meta">
-                  ${n.status ? `<span class="action-effort" style="background:${statusColor}20; color:${statusColor}">${n.status}</span>` : ''}
-                  ${n.detail ? `<span class="action-effect">${n.detail}</span>` : ''}
-                </div>
-              </div>`;
-          }).join('');
-        }
-      }
-
-      // 知見
-      const insights = filtered.filter(n => n.type === '知見').sort((a, b) => (b.weight || 1) - (a.weight || 1));
-      const insightEl = document.getElementById(prefix + '-insights');
-      if (insightEl) {
-        if (!insights.length) {
-          insightEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💡</div><div class="empty-state-text">まだ知見がありません。日記を続けると蓄積されていきます。</div></div>';
-        } else {
-          insightEl.innerHTML = insights.map(n => `
-            <div class="insight-item">
-              <div class="insight-finding">🔍 ${n.label}</div>
-              ${n.detail ? `<div class="insight-implication">${n.detail}</div>` : ''}
-            </div>`).join('');
-        }
-      }
-
-      // ── daily_graph.json の LLM生成セクションを追加表示 ──
-      const analysisData = getAnalysisData();
-      if (analysisData && analysisData[contextKey]) {
-        const llmSection = analysisData[contextKey];
-
-        // LLM生成の制約を上書き（データがあれば）
-        if (constraintEl && Array.isArray(llmSection.constraints) && llmSection.constraints.length) {
-          const llmConstraints = llmSection.constraints;
-          constraintEl.innerHTML = llmConstraints.map(c => `
-            <div class="action-item" style="border-left: 3px solid #ef4444;">
-              <div class="action-text">🪨 ${c.label || ''}</div>
-              ${c.detail ? `<div class="action-meta"><span class="action-effect">${c.detail}</span></div>` : ''}
-              ${c.constraint_type ? `<div style="margin-top:6px;"><span class="tag tag-gravity">${c.constraint_type}</span></div>` : ''}
-            </div>`).join('');
-          if (constraintCountEl) constraintCountEl.textContent = `${llmConstraints.length}件`;
-        }
-
-        // LLM生成のタスクを追加（データがあれば）
-        if (taskEl && Array.isArray(llmSection.tasks) && llmSection.tasks.length) {
-          const llmTasks = llmSection.tasks;
-          const existingHtml = taskEl.innerHTML.includes('empty-state') ? '' : taskEl.innerHTML;
-          taskEl.innerHTML = existingHtml + llmTasks.map(t => {
-            const statusColor = t.status === '完了' ? '#22c55e' : t.status === '進行中' ? accentColor : '#fbbf24';
-            return `
-              <div class="action-item" style="border-left: 3px solid ${accentColor}20;">
-                <div class="action-text">📋 ${t.label || ''}</div>
-                <div class="action-meta">
-                  ${t.status ? `<span class="action-effort" style="background:${statusColor}20; color:${statusColor}">${t.status}</span>` : ''}
-                  ${t.detail ? `<span class="action-effect">${t.detail}</span>` : ''}
-                  <span class="tag" style="background:rgba(99,102,241,0.15); color:#818cf8;">✨ 今日の日記より</span>
-                </div>
-              </div>`;
-          }).join('');
-          if (taskCountEl) {
-            const total = (taskEl.querySelectorAll('.action-item') || []).length;
-            taskCountEl.textContent = `${total}件`;
-          }
-        }
-
-        // LLM生成の知見を上書き（データがあれば）
-        if (insightEl && Array.isArray(llmSection.insights) && llmSection.insights.length) {
-          const llmInsights = llmSection.insights;
-          insightEl.innerHTML = llmInsights.map(i => `
-            <div class="insight-item">
-              <div class="insight-finding">🔍 ${i.finding || ''}</div>
-              ${i.implication ? `<div class="insight-implication">${i.implication}</div>` : ''}
-            </div>`).join('');
-        }
-      }
-    }
-
 
     // ── 初期化 ──
     renderDashboard();

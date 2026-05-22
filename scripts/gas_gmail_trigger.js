@@ -484,111 +484,13 @@ function testSecBlogTrigger() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 家計コンテキスト (FINCTX) メール検知
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-const FINCTX_CONFIG = {
-    EVENT_TYPE: 'pomera-finctx',
-    GMAIL_QUERY: 'subject:FINCTX is:unread newer_than:24h'
-};
-
-function checkFinCtxMail() {
-    // 防御1: 排他制御
-    const lock = LockService.getScriptLock();
-    if (!lock.tryLock(3000)) {
-        console.log('⏳ 他のFINCTXトリガーが処理中。スキップします');
-        return;
-    }
-
-    try {
-        const threads = GmailApp.search(FINCTX_CONFIG.GMAIL_QUERY);
-
-        if (threads.length === 0) {
-            return;
-        }
-
-        console.log(`💰 ${threads.length} 件のFINCTXメールを検出`);
-
-        const message = threads[0].getMessages()[threads[0].getMessages().length - 1];
-        const msgId = message.getId();
-        const subject = message.getSubject();
-        const body = message.getPlainBody();
-
-        // 防御3: メッセージID重複チェック
-        if (isAlreadyProcessed(msgId, 'FINCTX')) {
-            threads.forEach(thread => thread.markRead());
-            return;
-        }
-
-        // 防御2: 先に既読化
-        threads.forEach(thread => thread.markRead());
-
-        const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-        if (!token) {
-            console.error('❌ GITHUB_TOKEN がスクリプトプロパティに設定されていません');
-            threads.forEach(thread => thread.markUnread());
-            return;
-        }
-
-        const success = triggerGitHubActionsWithEvent(token, subject, FINCTX_CONFIG.EVENT_TYPE, body);
-
-        if (success) {
-            markAsProcessed(msgId, 'FINCTX');
-            console.log('✅ FINCTX GitHub Actions をトリガーしました');
-        } else {
-            threads.forEach(thread => thread.markUnread());
-            console.error('⚠️ FINCTXトリガー失敗のため未読に戻しました');
-        }
-
-    } finally {
-        lock.releaseLock();
-    }
-}
-
-function testFinCtxTrigger() {
-    const sampleBody = `[FINCTX]テスト\n\n## 収入\n給与・Knowbe: 650000\n副業・Saiteki: 80000\n`;
-    const token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
-    if (!token) {
-        console.error('❌ GITHUB_TOKEN が未設定です');
-        return;
-    }
-
-    const url = `https://api.github.com/repos/${CONFIG.GITHUB_OWNER}/${CONFIG.GITHUB_REPO}/dispatches`;
-    const options = {
-        method: 'post',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'X-GitHub-Api-Version': '2022-11-28'
-        },
-        contentType: 'application/json',
-        payload: JSON.stringify({
-            event_type: FINCTX_CONFIG.EVENT_TYPE,
-            client_payload: {
-                subject: '[FINCTX]テスト',
-                body: sampleBody,
-                triggered_at: new Date().toISOString()
-            }
-        }),
-        muteHttpExceptions: true
-    };
-
-    try {
-        const response = UrlFetchApp.fetch(url, options);
-        console.log(response.getResponseCode() === 204 ? '✅ FINCTXテスト成功！' : '❌ FINCTXテスト失敗');
-    } catch (e) {
-        console.error(`❌ リクエスト失敗: ${e.message}`);
-    }
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 処理済みID管理用ユーティリティ
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /** 処理済みIDの一覧を確認する（デバッグ用） */
 function showProcessedIds() {
     const props = PropertiesService.getScriptProperties();
-    const categories = ['POMERA', 'BLOG', 'STORY', 'SECBLOG', 'FINCTX'];
+    const categories = ['POMERA', 'BLOG', 'STORY', 'SECBLOG'];
 
     categories.forEach(cat => {
         const raw = props.getProperty(`PROCESSED_${cat}`) || '[]';
@@ -599,7 +501,7 @@ function showProcessedIds() {
 /** 処理済みIDをリセットする（トラブル時に使用） */
 function resetProcessedIds() {
     const props = PropertiesService.getScriptProperties();
-    const categories = ['POMERA', 'BLOG', 'STORY', 'SECBLOG', 'FINCTX'];
+    const categories = ['POMERA', 'BLOG', 'STORY', 'SECBLOG'];
 
     categories.forEach(cat => {
         props.deleteProperty(`PROCESSED_${cat}`);

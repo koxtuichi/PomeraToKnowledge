@@ -8,7 +8,6 @@
  *   - process-diary:   日記 → ナレッジグラフ更新
  *   - process-blog:    ブログ草案 → 記事生成 → はてな投稿
  *   - process-story:   小説テーマ → フィクション生成 → はてな投稿
- *   - process-finance: 家計テキスト → 分析レポート生成
  * 
  * ■ 重複防止策（3層防御）
  *   1. LockService: 同時実行を排他制御
@@ -34,7 +33,6 @@ var CLOUD_FUNCTIONS = {
     DIARY: CLOUD_FUNCTIONS_BASE + '/process-diary',
     BLOG: CLOUD_FUNCTIONS_BASE + '/process-blog',
     STORY: CLOUD_FUNCTIONS_BASE + '/process-story',
-    FINANCE: CLOUD_FUNCTIONS_BASE + '/process-finance',
     SNS_APPROVAL: CLOUD_FUNCTIONS_BASE + '/process-sns-approval'
 };
 
@@ -44,10 +42,6 @@ var BLOG_CONFIG = {
 
 var STORY_CONFIG = {
     GMAIL_QUERY: 'subject:STORY is:unread newer_than:1h -subject:POMERA -subject:BLOG'
-};
-
-var FINCTX_CONFIG = {
-    GMAIL_QUERY: 'subject:FINCTX is:unread newer_than:24h'
 };
 
 var SNS_CONFIG = {
@@ -302,53 +296,6 @@ function checkStoryMail() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FINCTX 家計コンテキスト メール検知
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-function checkFinCtxMail() {
-    var lock = LockService.getScriptLock();
-    if (!lock.tryLock(3000)) {
-        console.log('⏳ 他のFINCTXトリガーが処理中。スキップします');
-        return;
-    }
-
-    try {
-        var threads = GmailApp.search(FINCTX_CONFIG.GMAIL_QUERY);
-        if (threads.length === 0) return;
-
-        console.log('💰 ' + threads.length + ' 件のFINCTXメールを検出');
-
-        var msg = threads[0].getMessages()[threads[0].getMessages().length - 1];
-        var msgId = msg.getId();
-        var subject = msg.getSubject();
-        var body = getPlainBody(msg);
-
-        if (isAlreadyProcessed(msgId, 'FINCTX')) {
-            threads.forEach(function (t) { t.markRead(); });
-            return;
-        }
-
-        threads.forEach(function (t) { t.markRead(); });
-
-        var success = callCloudFunction(CLOUD_FUNCTIONS.FINANCE, {
-            subject: subject,
-            body: body
-        });
-
-        if (success) {
-            markAsProcessed(msgId, 'FINCTX');
-            console.log('✅ Cloud Functions で家計処理完了');
-        } else {
-            threads.forEach(function (t) { t.markUnread(); });
-            console.error('⚠️ Cloud Functions 失敗のため未読に戻しました');
-        }
-
-    } finally {
-        lock.releaseLock();
-    }
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // テスト用
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -376,21 +323,13 @@ function testStoryTrigger() {
     console.log(result ? '✅ 小説テスト成功！' : '❌ 小説テスト失敗');
 }
 
-function testFinanceTrigger() {
-    var result = callCloudFunction(CLOUD_FUNCTIONS.FINANCE, {
-        subject: '[TEST] FINCTXテスト送信',
-        body: '収入: Knowbe 650000円\n副業: Saiteki 80000円\nセゾンゴールド 171412円'
-    });
-    console.log(result ? '✅ 家計テスト成功！' : '❌ 家計テスト失敗');
-}
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 処理済みID管理用ユーティリティ
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function showProcessedIds() {
     var props = PropertiesService.getScriptProperties();
-    var categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX'];
+    var categories = ['POMERA', 'BLOG', 'STORY'];
 
     categories.forEach(function (cat) {
         var raw = props.getProperty('PROCESSED_' + cat) || '[]';
@@ -400,7 +339,7 @@ function showProcessedIds() {
 
 function resetProcessedIds() {
     var props = PropertiesService.getScriptProperties();
-    var categories = ['POMERA', 'BLOG', 'STORY', 'FINCTX', 'SNS_APPROVAL'];
+    var categories = ['POMERA', 'BLOG', 'STORY', 'SNS_APPROVAL'];
 
     categories.forEach(function (cat) {
         props.deleteProperty('PROCESSED_' + cat);

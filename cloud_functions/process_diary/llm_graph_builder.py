@@ -48,20 +48,6 @@ EXTRACTION_SYSTEM_PROMPT = """
     - cost: 金額の目安（言及されている場合のみ、整数円）
     - priority: 「高」（生活上必要不可欠）「中」（近い将来に欲しい）「低」（いつか欲しい）の3分類
     - status: 「検討中」 / 「購入済」 / 「キャンセル」
-13. **月次クレカ請求**: 日記でクレジットカードの月次請求額を記録した記述。「セゾンゴールド::171412」「2月のクレカ請求」のような記述から抽出する。
-    - id形式: 「月次クレカ請求:カード名:YYYY-MM」（例: 「月次クレカ請求:セゾンゴールド:2026-02」）
-    - card_name: カード名（文字列）
-    - month: 対象月（YYYY-MM形式）
-    - amount: 請求額（整数・円）
-    - 請求額が0円のカードも含めること
-14. **月次収入**: 日記で収入を記録した記述。「knowbeから〇〇万円の振込」「今月の収入は〇〇円」のような記述から抽出する。
-    - id形式: 「月次収入:収入源名:YYYY-MM」（例: 「月次収入:knowbe:2026-02」）
-    - source: 収入源名（文字列）
-    - month: 対象月（YYYY-MM形式）
-    - amount: 収入額（整数・円）
-    - note: 補足（税抜き/税込み等）
-
-
 # 関係性（エッジの種類）
 
 | 関係名 | 方向 | 意味 |
@@ -105,16 +91,8 @@ EXTRACTION_SYSTEM_PROMPT = """
 各ノードに `context` フィールドを付与してください。
 日記は1つのファイルに複数の文脈が混在するため、ノードの内容ごとに適切な文脈を判断してください。
 
-- "knowbe"  : Knowbeでの仕事（フロントエンド、チームリーダーとしての活動）に関係するノード
-- "saiteki" : Saitekiでの副業（AI研究）に関係するノード
-- "private" : プライベート（家族、健康、趣味、個人的な目標など）に関係するノード
+- "private" : 家族、健康、趣味、個人的な目標などに関係するノード
 - "shared"  : どの文脈にも当てはまらないもの、または複数にまたがるもの
-
-判断のヒント:
-- 「チーム」「フロントエンド」「リーダー」「メンバー」などはKnowbeが多い
-- 「AI」「研究」「副業」「スタートアップ」などはSaitekiが多い
-- 「妻」「子供」「ポメラ」「健康」「体重」「ブログ」などはprivateが多い
-- 「エンジニア」「プログラミング」など両社に共通するものはsharedにする
 
 # ノード構造
 {
@@ -128,7 +106,7 @@ EXTRACTION_SYSTEM_PROMPT = """
   "trigger": "感情ノードの場合: その感情が生まれたきっかけ（1文）",
   "date": "該当する場合 YYYY-MM-DD",
   "category": "役割カテゴリ（エンジニア、父親、夫 など）",
-  "context": "knowbe/saiteki/private/shared",
+  "context": "private/shared",
   "tags": ["タグ配列"],
   "constraint_type": "制約ノードの場合: 時間不足/疲労/技術的課題/感情的ブレーキ/物理的障害/リソース不足/その他",
   "cost": "購入希望ノードの場合のみ: 金額の目安（整数円）、不明なら null",
@@ -158,9 +136,9 @@ ANALYSIS_SYSTEM_PROMPT = """
 
 # 分析のアプローチ
 
-1. **重力マップの作成**: 各タスクにどんな制約（重力）がかかっているかを整理する
+1. **ひっかかりの整理**: 各タスクにどんな制約がかかっているかを整理する
 2. **エネルギーの発見**: どんな感情や知見がタスクの原動力になるかを見つける
-3. **重力軽減の提案**: 制約を解消・軽減する具体的なアクションを提案する
+3. **次の一歩の提案**: 制約を解消・軽減する具体的なアクションを提案する
    - 「やるかやらないか」二択ではなく、「どうすれば重力を軽くできるか」を考える
    - 例: 「副業の重力が強すぎるから、掃除の優先度を下げて、代わりに5分で終わるこの作業をしよう」
    - 例: 「粘着剤を剥がす方法をGeminiで検索して解決する」
@@ -193,7 +171,7 @@ ANALYSIS_SYSTEM_PROMPT = """
   ],
   "antigravity_actions": [
     {
-      "action": "具体的な重力軽減アクション",
+      "action": "具体的な次の一歩",
       "target_task": "対象タスク",
       "effect": "このアクションで軽減される重力の説明",
       "effort": "5分/30分/1時間/半日"
@@ -281,7 +259,7 @@ ANALYSIS_SYSTEM_PROMPT = """
 }
 
 # 重要な注意事項
-- 「antigravity_actions」では、日記の本文で「買った」「注文した」「完了した」「やった」「済んだ」「実行した」など完了を示す記述があるアクションは提案しないでください。完了済みのアクションを除外し、代わりに新しい重力軽減アクションを提案してください。
+- 「antigravity_actions」では、日記の本文で「買った」「注文した」「完了した」「やった」「済んだ」「実行した」など完了を示す記述があるアクションは提案しないでください。完了済みのアクションを除外し、代わりに新しい一歩を提案してください。
   - 前回出力したアクションリストがコンテキストに含まれている場合、日記で完了が確認できたものは除外し、まだ実行されていないものは引き続き提案してください。
 - 「upcoming_schedule」には日記やグラフで言及されている「確定している未来の予定」だけを含めてください。過去の予定は含めないでください。
   - 日記中に「予定::2026/02/20 18:00-19:00」のように `予定::` メタデータで日時が記載されている場合は、そこから date と time を正確に抽出してください。
@@ -516,7 +494,7 @@ def build_graph_context(master_graph: Dict[str, Any], category_filter: Optional[
 
     Args:
         master_graph: knowledge_graph.jsonld 全体
-        category_filter: 'knowbe' / 'saiteki' / '家族' / '個人' などでフィルタ。Noneなら全件。
+        category_filter: '家族' / '個人' などでフィルタ。Noneなら全件。
     """
     nodes = master_graph.get("nodes", [])
     if category_filter:
@@ -962,7 +940,7 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
         context_summary += json.dumps(prev_schedule, ensure_ascii=False, indent=2) + "\n"
 
     if prev_actions:
-        context_summary += "\n**前回出力した重力軽減アクション（日記で完了が確認できたものは除外し、新しいアクションに入れ替えてください）:**\n"
+        context_summary += "\n**前回出力した次の一歩（日記で完了が確認できたものは除外し、新しいアクションに入れ替えてください）:**\n"
         context_summary += json.dumps(prev_actions, ensure_ascii=False, indent=2) + "\n"
 
     if prev_shopping_list:
@@ -1062,10 +1040,10 @@ def analyze_updated_state(master_graph: Dict[str, Any], current_diary_node: Dict
 ### 今日の日記
 {diary_text[:1500]}
 
-### 前回の重力軽減アクション（参考）
+### 前回の次の一歩（参考）
 {prev_actions_str}
 
-以下のルールに従って「重力軽減アクション」を3〜5件提案してください。
+以下のルールに従って「次の一歩」を3〜5件提案してください。
 
 ルール:
 1. ナレッジグラフで status が「完了」「購入済み」「注文済み」「done」「completed」のノードに関するアクションは【絶対に提案しないこと】
@@ -1141,84 +1119,6 @@ JSON配列のみ出力:
     new_family_todos = call_section_llm("family_todos", family_todos_prompt)
     new_shopping = call_section_llm("shopping_list", shopping_prompt)
 
-    # ── knowbe サブセクション別LLM呼び出し ──────────────────────────────
-    knowbe_graph_ctx = build_graph_context(master_graph, category_filter="knowbe")
-    knowbe_constraints_prompt = f"""あなたはKnowbe業務の分析者です。今日の日記からKnowbeの業務に関する「重力（制約・障害）」を3件以内で抽出してください。
-
-{knowbe_graph_ctx}
-
-### 今日の日記
-{diary_short}
-
-Knowbeに関する記述がなければ空配列を返してください。
-JSON配列のみ出力:
-[{{"label": "制約名", "detail": "詳細", "constraint_type": "組織/感情/環境/時間"}}]
-"""
-    knowbe_tasks_prompt = f"""今日の日記とKnowbeのナレッジグラフから、Knowbe業務の「進行中・未完了タスク」を抽出してください。
-
-{knowbe_graph_ctx}
-
-### 今日の日記
-{diary_short}
-
-Knowbeに関するタスク情報がなければ空配列を返してください。
-JSON配列のみ出力:
-[{{"label": "タスク名", "detail": "詳細", "status": "進行中"}}]
-"""
-    knowbe_insights_prompt = f"""今日の日記とKnowbeのナレッジグラフから、Knowbe業務に関する「知見・学び」を抽出してください。
-
-{knowbe_graph_ctx}
-
-### 今日の日記
-{diary_short}
-
-Knowbeに関する知見がなければ空配列を返してください。
-JSON配列のみ出力:
-[{{"finding": "気づき", "implication": "それが意味すること"}}]
-"""
-    new_knowbe_constraints = call_section_llm("knowbe_constraints", knowbe_constraints_prompt)
-    new_knowbe_tasks = call_section_llm("knowbe_tasks", knowbe_tasks_prompt)
-    new_knowbe_insights = call_section_llm("knowbe_insights", knowbe_insights_prompt)
-
-    # ── saiteki サブセクション別LLM呼び出し ─────────────────────────────
-    saiteki_graph_ctx = build_graph_context(master_graph, category_filter="saiteki")
-    saiteki_constraints_prompt = f"""あなたはSaiteki業務の分析者です。今日の日記からSaitekiの業務に関する「重力（制約・障害）」を3件以内で抽出してください。
-
-{saiteki_graph_ctx}
-
-### 今日の日記
-{diary_short}
-
-Saitekiに関する記述がなければ空配列を返してください。
-JSON配列のみ出力:
-[{{"label": "制約名", "detail": "詳細", "constraint_type": "組織/感情/環境/時間"}}]
-"""
-    saiteki_tasks_prompt = f"""今日の日記とSaitekiのナレッジグラフから、Saiteki業務の「進行中・未完了タスク」を抽出してください。
-
-{saiteki_graph_ctx}
-
-### 今日の日記
-{diary_short}
-
-Saitekiに関するタスク情報がなければ空配列を返してください。
-JSON配列のみ出力:
-[{{"label": "タスク名", "detail": "詳細", "status": "進行中"}}]
-"""
-    saiteki_insights_prompt = f"""今日の日記とSaitekiのナレッジグラフから、Saiteki業務に関する「知見・学び」を抽出してください。
-
-{saiteki_graph_ctx}
-
-### 今日の日記
-{diary_short}
-
-Saitekiに関する知見がなければ空配列を返してください。
-JSON配列のみ出力:
-[{{"finding": "気づき", "implication": "それが意味すること"}}]
-"""
-    new_saiteki_constraints = call_section_llm("saiteki_constraints", saiteki_constraints_prompt)
-    new_saiteki_tasks = call_section_llm("saiteki_tasks", saiteki_tasks_prompt)
-    new_saiteki_insights = call_section_llm("saiteki_insights", saiteki_insights_prompt)
-
     # ── 全セクションをJSONに統合 ─────────────────────────────────────────
     try:
         base_obj = json.loads(cleaned)
@@ -1230,25 +1130,11 @@ JSON配列のみ出力:
             "shopping_list": new_shopping if isinstance(new_shopping, list) else [],
         }
 
-        # knowbe セクションを追加
-        base_obj["knowbe"] = {
-            "constraints": new_knowbe_constraints if isinstance(new_knowbe_constraints, list) else [],
-            "tasks": new_knowbe_tasks if isinstance(new_knowbe_tasks, list) else [],
-            "insights": new_knowbe_insights if isinstance(new_knowbe_insights, list) else [],
-        }
-
-        # saiteki セクションを追加
-        base_obj["saiteki"] = {
-            "constraints": new_saiteki_constraints if isinstance(new_saiteki_constraints, list) else [],
-            "tasks": new_saiteki_tasks if isinstance(new_saiteki_tasks, list) else [],
-            "insights": new_saiteki_insights if isinstance(new_saiteki_insights, list) else [],
-        }
-
         # LLMの推測ではなく、日記ノードの時系列比較からホーム表示用の観察トピックを作る。
         base_obj["value_shift_topics"] = build_value_shift_topics(master_graph)
 
         cleaned = json.dumps(base_obj, ensure_ascii=False)
-        print("   ✅ family/knowbe/saiteki/value_shift_topics の結果を統合しました")
+        print("   ✅ family/value_shift_topics の結果を統合しました")
     except Exception as e:
         print(f"   ⚠️ セクション統合に失敗（元の結果を維持）: {e}")
 
