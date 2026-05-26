@@ -7,6 +7,8 @@ subjects, and forwards matching mail bodies to the existing processing Cloud
 Functions.
 """
 import base64
+import email
+import imaplib
 import json
 import os
 import re
@@ -25,6 +27,7 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 DEFAULT_ENDPOINT_BASE = "https://asia-northeast1-pomeradriven.cloudfunctions.net"
 STATE_PATH = os.environ.get("GMAIL_STATE_PATH", "gmail_push/state.json")
 MAX_PROCESSED_IDS = int(os.environ.get("GMAIL_MAX_PROCESSED_IDS", "1000"))
+POLL_MAX_MESSAGES = int(os.environ.get("GMAIL_POLL_MAX_MESSAGES", "10"))
 
 
 ROUTES = [
@@ -170,6 +173,92 @@ def gmail_ingress(cloud_event):
 
 
 @functions_framework.http
+def poll_gmail(request):
+    """Poll unread Gmail messages over IMAP. Used when OAuth watch is unavailable."""
+    if request.method == "OPTIONS":
+        return ("", 204, _cors_headers())
+
+    account = os.environ.get("GMAIL_ACCOUNT")
+    password = os.environ.get("GMAIL_APP_PASSWORD")
+    if not account or not password:
+        return _json_response({"error": "GMAIL_ACCOUNT or GMAIL_APP_PASSWORD is not set"}, 500)
+
+    state = _load_state()
+    processed_history = state.get("poll_processed_message_ids", [])
+    processed_ids = set(processed_history)
+    newly_processed = []
+    routed = []
+    failures = []
+
+    mailbox = os.environ.get("GMAIL_MAILBOX", "INBOX")
+    search_query = os.environ.get("GMAIL_IMAP_SEARCH", "UNSEEN")
+
+    with imaplib.IMAP4_SSL(os.environ.get("GMAIL_IMAP_SERVER", "imap.gmail.com"), timeout=30) as mail:
+        mail.login(account, password)
+        status, _ = mail.select(mailbox)
+        if status != "OK":
+            return _json_response({"error": f"failed to select mailbox: {mailbox}"}, 500)
+
+        status, data = mail.search(None, search_query)
+        if status != "OK":
+            return _json_response({"error": f"failed to search mailbox: {search_query}"}, 500)
+
+        raw_ids = data[0].split()
+        if POLL_MAX_MESSAGES > 0:
+            raw_ids = raw_ids[-POLL_MAX_MESSAGES:]
+
+        for raw_id in raw_ids:
+            uid = _imap_uid(mail, raw_id)
+            if not uid or uid in processed_ids:
+                continue
+
+            subject = _imap_subject(mail, raw_id)
+            route = _match_route(subject)
+            if not route:
+                continue
+
+            status, message_data = mail.fetch(raw_id, "(BODY.PEEK[])")
+            if status != "OK" or not message_data:
+                continue
+
+            message = None
+            for item in message_data:
+                if isinstance(item, tuple):
+                    message = email.message_from_bytes(item[1])
+                    break
+            if message is None:
+                continue
+
+            body = _plain_body_from_email(message)
+            if route["needs_body"] and not body:
+                failures.append({"uid": uid, "subject": subject, "error": "empty body"})
+                continue
+
+            try:
+                _forward_message(route, subject, body, uid, state.get("last_notification_history_id", "imap"))
+                routed.append({"uid": uid, "subject": subject, "category": route["category"]})
+                processed_ids.add(uid)
+                newly_processed.append(uid)
+                if _mark_read_enabled():
+                    mail.store(raw_id, "+FLAGS", "\\Seen")
+            except Exception as exc:
+                failures.append({"uid": uid, "subject": subject, "error": str(exc)})
+
+    state["poll_processed_message_ids"] = (processed_history + newly_processed)[-MAX_PROCESSED_IDS:]
+    state["poll_last_checked_at"] = _now()
+    state["poll_last_routed"] = routed[-20:]
+
+    if failures:
+        state["poll_last_failures"] = failures[-20:]
+        _save_state(state)
+        return _json_response({"status": "partial_failure", "routed": routed, "failures": failures}, 500)
+
+    state.pop("poll_last_failures", None)
+    _save_state(state)
+    return _json_response({"status": "ok", "routed_count": len(routed), "routed": routed})
+
+
+@functions_framework.http
 def refresh_gmail_watch(request):
     """Renew the Gmail watch. Run daily from Cloud Scheduler."""
     if request.method == "OPTIONS":
@@ -281,6 +370,47 @@ def _decode_header(value):
         else:
             parts.append(fragment)
     return "".join(parts)
+
+
+def _imap_uid(mail, raw_id):
+    status, data = mail.fetch(raw_id, "(UID)")
+    if status != "OK" or not data or not data[0]:
+        return None
+    text = data[0].decode("utf-8", errors="replace") if isinstance(data[0], bytes) else str(data[0])
+    match = re.search(r"UID (\d+)", text)
+    return match.group(1) if match else None
+
+
+def _imap_subject(mail, raw_id):
+    status, data = mail.fetch(raw_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+    if status != "OK" or not data:
+        return ""
+    for item in data:
+        if isinstance(item, tuple):
+            header_message = email.message_from_bytes(item[1])
+            return _decode_header(header_message.get("Subject", ""))
+    return ""
+
+
+def _plain_body_from_email(message):
+    if message.is_multipart():
+        for part in message.walk():
+            if part.get_content_type() == "text/plain" and "attachment" not in (part.get("Content-Disposition") or ""):
+                return _decode_email_payload(part)
+        for part in message.walk():
+            filename = part.get_filename() or ""
+            if filename.lower().endswith(".txt"):
+                return _decode_email_payload(part)
+        return ""
+    return _decode_email_payload(message)
+
+
+def _decode_email_payload(part):
+    payload = part.get_payload(decode=True)
+    if payload is None:
+        return ""
+    charset = part.get_content_charset() or "utf-8"
+    return payload.decode(charset, errors="replace").strip()
 
 
 def _get_plain_body(service, message):
