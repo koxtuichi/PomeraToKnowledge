@@ -1,7 +1,7 @@
 """
 main.py — Cloud Function エントリポイント：SNS承認処理
 
-GASから承認メール検知時にHTTPで呼ばれ、
+HTTPで承認通知を受け取り、
 SNS投稿キューをpending→approvedに移動する。
 
 処理フロー:
@@ -20,7 +20,7 @@ import gcs_io
 
 @functions_framework.http
 def process_sns_approval(request):
-    """GASから承認メール検知時に呼ばれるエントリポイント。"""
+    """承認通知で呼ばれるエントリポイント。"""
 
     if request.method == "OPTIONS":
         headers = {

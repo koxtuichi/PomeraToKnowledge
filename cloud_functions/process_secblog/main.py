@@ -1,7 +1,7 @@
 """
 main.py — Cloud Function エントリポイント：SECBLOG記事生成
 
-GASからHTTPでPOSTされた SECBLOGメールの本文を受け取り、
+HTTPでPOSTされた SECBLOGメールの本文を受け取り、
 対話形式のセキュリティブログ記事を生成してはてなブログに下書き投稿する。
 
 処理フロー:
@@ -25,18 +25,22 @@ import hatena_publisher
 
 @functions_framework.http
 def process_secblog(request):
-    """GASからHTTPで呼ばれるSECBLOG処理エントリポイント。"""
+    """HTTPで呼ばれるSECBLOG処理エントリポイント。"""
 
     if request.method == "OPTIONS":
         headers = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST",
-            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Headers": "Content-Type, X-Pomera-Internal-Token",
             "Access-Control-Max-Age": "3600",
         }
         return ("", 204, headers)
 
     try:
+        auth_error = _auth_error(request)
+        if auth_error:
+            return auth_error
+
         data = request.get_json(silent=True)
         if not data:
             return json.dumps({"error": "リクエストボディが空です"}), 400
@@ -116,3 +120,10 @@ def process_secblog(request):
         import traceback
         print(f"❌ エラー: {e}\n{traceback.format_exc()}")
         return json.dumps({"error": str(e)}), 500
+
+
+def _auth_error(request):
+    expected = os.environ.get("POMERA_INTERNAL_TOKEN")
+    if expected and request.headers.get("X-Pomera-Internal-Token") != expected:
+        return json.dumps({"error": "unauthorized"}), 401
+    return None
