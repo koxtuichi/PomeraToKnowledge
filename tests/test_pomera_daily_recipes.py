@@ -101,5 +101,9 @@ def test_render_article_is_not_prompt_sale():
     assert "プロンプト" not in markdown
     assert "source_diary_id" not in markdown
     assert "source_date" not in markdown
+    assert module.ARTICLE_MIN_CHARS <= module.visible_character_count(markdown) <= module.ARTICLE_MAX_CHARS
     assert quality["passed"]
-    assert "## 10分で書く3ステップ" in markdown
+    assert quality["length_ok"]
+    assert "## 15分で書く5ステップ" in markdown
+    assert "## 書き込み欄" in markdown
+    assert "## つまずいたときの調整" in markdown
