@@ -1,0 +1,64 @@
+{
+  "weekdays": [
+    {
+      "day": "monday",
+      "label": "月",
+      "preferred_themes": ["work", "unblock", "self_understanding"],
+      "fallback_theme": "next_step"
+    },
+    {
+      "day": "tuesday",
+      "label": "火",
+      "preferred_themes": ["publishing", "work", "creation"],
+      "fallback_theme": "small_restart"
+    },
+    {
+      "day": "wednesday",
+      "label": "水",
+      "preferred_themes": ["relationships", "self_understanding", "unblock"],
+      "fallback_theme": "name_the_weight"
+    },
+    {
+      "day": "thursday",
+      "label": "木",
+      "preferred_themes": ["life", "health_money", "self_understanding"],
+      "fallback_theme": "make_it_visible"
+    },
+    {
+      "day": "friday",
+      "label": "金",
+      "preferred_themes": ["unblock", "work", "self_understanding"],
+      "fallback_theme": "weekly_unblock"
+    },
+    {
+      "day": "saturday",
+      "label": "土",
+      "preferred_themes": ["creation", "publishing", "self_understanding"],
+      "fallback_theme": "find_material"
+    },
+    {
+      "day": "sunday",
+      "label": "日",
+      "preferred_themes": ["review", "self_understanding", "life"],
+      "fallback_theme": "weekly_review"
+    }
+  ],
+  "theme_labels": {
+    "work": "仕事を動かす",
+    "publishing": "副業・発信を進める",
+    "relationships": "人間関係を整える",
+    "life": "生活を整える",
+    "health_money": "健康・お金を見直す",
+    "unblock": "詰まりをほどく",
+    "creation": "創作・ネタを拾う",
+    "self_understanding": "自己理解を深める",
+    "review": "前進を見落とさない",
+    "next_step": "今日の一歩を決める",
+    "small_restart": "小さく再起動する",
+    "name_the_weight": "重さに名前をつける",
+    "make_it_visible": "見えない不安を見える形にする",
+    "weekly_unblock": "今週の詰まりを1つだけほどく",
+    "find_material": "日記から素材を拾う",
+    "weekly_review": "一週間を短く振り返る"
+  }
+}
