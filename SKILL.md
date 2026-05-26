@@ -6,10 +6,10 @@
 
 ## プロジェクト概要
 
-ポメラで書いた日記をGmailで送信し、GitHub Actionsで自動解析・ナレッジグラフ化して
+ポメラで書いた日記をGmailで送信し、Cloud Functionsで自動解析・ナレッジグラフ化して
 GitHub Pagesで可視化するパイプライン。
 
-- **エントリポイント:** Gmail → GAS(gas_gmail_trigger.js) → GitHub Actions → GitHub Pages
+- **エントリポイント:** Gmail → Gmail API Push通知 → Pub/Sub → Cloud Functions → GitHub Pages
 - **メインUI:** https://koxtuichi.github.io/PomeraToKnowledge/
 - **主要ファイル:**
   - `index.html` — ダッシュボード（SPA: switchView関数でビュー切り替え）
@@ -75,7 +75,7 @@ python3 scripts/validate_html.py graph_data.js
 
 ## セットアップ系ドキュメント
 
-- `SETUP_GAS_TRIGGER.md` — GAS設定手順
+- `SETUP_GMAIL_PUSH.md` — Gmail Push / Pub/Sub / Cloud Functions 設定手順
 - `SETUP_BLOG_PIPELINE.md` — ブログ生成パイプライン設定
 
 ---

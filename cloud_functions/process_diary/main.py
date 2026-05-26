@@ -1,7 +1,7 @@
 """
 main.py — Cloud Function エントリポイント
 
-GASからHTTPでPOSTされたリクエストを受け取り、日記処理パイプラインを実行する。
+HTTPでPOSTされたリクエストを受け取り、日記処理パイプラインを実行する。
 既存の llm_graph_builder.py と graph_merger.py をインポートして処理を行う。
 
 処理フロー:
@@ -28,19 +28,23 @@ import graph_merger
 
 @functions_framework.http
 def process_diary(request):
-    """GASからHTTPで呼ばれるメインエントリポイント。"""
+    """HTTPで呼ばれるメインエントリポイント。"""
 
     # CORS対応
     if request.method == "OPTIONS":
         headers = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Pomera-Internal-Token",
             "Access-Control-Max-Age": "3600",
         }
         return ("", 204, headers)
 
     try:
+        auth_error = _auth_error(request)
+        if auth_error:
+            return auth_error
+
         data = request.get_json(silent=True)
         if not data:
             return json.dumps({"error": "リクエストボディが空です"}), 400
@@ -222,6 +226,13 @@ def _extract_date(subject: str) -> str:
         y, m, d = match.groups()
         return f"{y}-{int(m):02d}-{int(d):02d}"
     return datetime.now().strftime("%Y-%m-%d")
+
+
+def _auth_error(request):
+    expected = os.environ.get("POMERA_INTERNAL_TOKEN")
+    if expected and request.headers.get("X-Pomera-Internal-Token") != expected:
+        return json.dumps({"error": "unauthorized"}), 401
+    return None
 
 
 def _make_diary_filename(subject: str, date_str: str) -> str:

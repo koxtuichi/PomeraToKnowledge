@@ -22,50 +22,31 @@
 
 ---
 
-## 2. GitHub Secrets の設定
+## 2. Cloud Functions 環境変数の設定
 
-リポジトリの Settings → Secrets and variables → Actions で以下を追加:
+`process-blog` の環境変数に以下を設定します。
 
-| Secret名 | 値 |
+| 環境変数名 | 値 |
 |-----------|-----|
 | `HATENA_ID` | `kakikukekoichi` |
 | `HATENA_BLOG_ID` | `kakikukekoichi.hatenablog.com` |
 | `HATENA_API_KEY` | はてなブログのAPIキー |
 
-既存のSecrets（`GOOGLE_API_KEY`, `GMAIL_ACCOUNT`, `GMAIL_APP_PASSWORD`）はそのまま使用します。
+既存の `GOOGLE_API_KEY`, `GCS_BUCKET`, `GITHUB_REPO`, `GITHUB_TOKEN` も引き続き使います。
 
 ---
 
-## 3. GAS トリガーの追加設定
+## 3. Gmail Push 入口の設定
 
-### 3-1. スクリプトの更新
+GASは使いません。`SETUP_GMAIL_PUSH.md` に沿って `gmail-ingress` と
+`refresh-gmail-watch` をデプロイしてください。
 
-1. [script.google.com](https://script.google.com) で「PomeraToKnowledge Trigger」を開く
-2. `scripts/gas_gmail_trigger.js` の最新内容で全体を更新する
-3. 保存
-
-### 3-2. トリガーの追加
-
-1. 左メニューの ⏰「トリガー」をクリック
-2. 「トリガーを追加」をクリック
-3. 以下のように設定:
-   - **実行する関数**: `checkBlogMail`
-   - **イベントのソース**: 時間主導型
-   - **時間ベースのトリガーのタイプ**: 分ベースのタイマー
-   - **間隔**: 1分おき
-4. 「保存」をクリック
+`gmail-ingress` は件名に `BLOG` を含み、`POMERA` を含まない未読メールを
+`process-blog` に転送します。
 
 ---
 
 ## 4. テスト実行
-
-### 4-1. GASからのテスト
-
-1. GASエディタで `testBlogTrigger` 関数を選択
-2. ▶ 実行ボタンをクリック
-3. GitHub Actions のページで Blog ワークフローが起動されたことを確認
-
-### 4-2. ポメラからのテスト
 
 1. ポメラで以下のようなテスト草案を書く:
    ```
@@ -78,8 +59,9 @@
    ・書くことに特化した潔さ
    ```
 2. 件名「BLOG テスト記事」でGmailに送信
-3. 1-2分後、GitHub Actions が起動
-4. はてなブログの管理画面で「下書き」に記事が作成されていることを確認
+3. `gmail-ingress` のログで `BLOG` に分類されることを確認
+4. `process-blog` のログで記事生成が完了することを確認
+5. はてなブログの管理画面で「下書き」に記事が作成されていることを確認
 
 ---
 
@@ -106,7 +88,8 @@
 
 | 症状 | 対処法 |
 |------|--------|
-| ブログに記事が投稿されない | GitHub Secretsの `HATENA_API_KEY` を確認 |
+| ブログに記事が投稿されない | `process-blog` の `HATENA_API_KEY` 環境変数を確認 |
 | エッセイの品質が低い | 草案にもう少し具体的なエピソードを追加 |
 | 二重投稿された | `blog_published/publish_history.json` を確認 |
-| ワークフローが起動しない | GASで `checkBlogMail` のトリガーが設定されているか確認 |
+| メールが処理されない | `gmail-ingress` のログ、件名、未読状態を確認 |
+| `process-blog` に届かない | `.env.gmail.yaml` の `PROCESS_BLOG_URL` を確認 |
