@@ -132,6 +132,21 @@ THEME_KEYWORDS = {
     "review": ["週", "今月", "前進", "達成", "進ん", "完了", "変化", "振り返"],
 }
 
+MATERIAL_THEME_KEYWORDS = {
+    **THEME_KEYWORDS,
+    "work": [
+        "仕事",
+        "業務",
+        "会議",
+        "MTG",
+        "提案",
+        "Knowbe",
+        "Saiteki",
+        "プロジェクト",
+        "稼働",
+    ],
+}
+
 SENSITIVE_REPLACEMENTS = {
     "沙也香": "パートナー",
     "沙也加": "パートナー",
@@ -230,6 +245,7 @@ class ArticleSlot:
     actual_theme: str
     fallback_theme: str
     diary: DiaryCandidate | None
+    material: Any | None = None
 
 
 def load_json(path: Path, default: Any) -> Any:
@@ -255,6 +271,15 @@ def load_graph_from_neo4j() -> dict[str, Any]:
 
     with Neo4jClient() as client:
         return client.export_graph()
+
+
+def load_materials_from_neo4j(diary_ids: list[str]) -> dict[str, Any]:
+    sys.path.insert(0, str(ROOT_DIR / "scripts"))
+    from neo4j_client import Neo4jClient
+    from note_recipe_neo4j_queries import fetch_note_recipe_materials
+
+    with Neo4jClient() as client:
+        return fetch_note_recipe_materials(client, diary_ids)
 
 
 def stop_report(reason: str, message: str, error: Exception | None = None) -> dict[str, Any]:
@@ -484,6 +509,9 @@ def assemble_week(
 
 def sanitize_text(text: str) -> str:
     result = text
+    for src, dst in {"重力": "ひっかかり", "引力": "手応え"}.items():
+        result = result.replace(src, dst)
+    result = result.replace("Knowbe MTG", "仕事のMTG")
     for src, dst in SENSITIVE_REPLACEMENTS.items():
         result = result.replace(src, dst)
     result = result.replace("関係者さん", "関係者")
@@ -508,10 +536,99 @@ def theme_label(theme: str, guide: dict[str, Any]) -> str:
     return guide.get("theme_labels", {}).get(theme, theme)
 
 
+def text_blob(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        return " ".join(text_blob(v) for v in value.values())
+    if isinstance(value, list):
+        return " ".join(text_blob(item) for item in value)
+    return str(value)
+
+
+def theme_keyword_score(value: Any, theme: str) -> int:
+    if theme in {"self_understanding", "review"}:
+        return 1
+    text = text_blob(value)
+    return sum(1 for keyword in MATERIAL_THEME_KEYWORDS.get(theme, []) if keyword in text)
+
+
+def theme_item(items: list[Any], theme: str) -> tuple[dict[str, Any], int]:
+    candidates = [item for item in items if isinstance(item, dict)]
+    if not candidates:
+        return {}, 0
+    scored = [(theme_keyword_score(item, theme), index, item) for index, item in enumerate(candidates)]
+    score, _, item = max(scored, key=lambda row: (row[0], -row[1]))
+    return (item, score) if score > 0 else (candidates[0], 0)
+
+
+def pain_from_action(action: dict[str, Any]) -> str:
+    target = text_blob(action.get("target_task"))
+    effect = text_blob(action.get("effect"))
+    if "MTG" in target or "会議" in effect:
+        return "会議前に話す論点と時間配分を絞りきれていない。"
+    if target:
+        return f"{target}の入口がまだ決まっていない。"
+    return effect
+
+
+def material_matches_theme(material: Any, theme: str) -> bool:
+    if material is None:
+        return False
+    if theme in {"self_understanding", "review"}:
+        return True
+    values = [
+        getattr(material, "problem", ""),
+        getattr(material, "background", ""),
+        getattr(material, "desired_state", ""),
+        getattr(material, "current_status", ""),
+        getattr(material, "next_step", ""),
+        " ".join(getattr(material, "pain_points", []) or []),
+        " ".join(getattr(material, "evidence", []) or []),
+    ]
+    return theme_keyword_score(values, theme) > 0
+
+
 def extract_seed(slot: ArticleSlot) -> dict[str, str]:
+    material = slot.material
+    if material_matches_theme(material, slot.actual_theme):
+        return {
+            "problem": short_sentence(getattr(material, "problem", ""), 120),
+            "background": short_sentence(getattr(material, "background", ""), 150),
+            "pain_points": [
+                short_sentence(item, 80)
+                for item in (getattr(material, "pain_points", []) or [])[:3]
+            ],
+            "desired_state": short_sentence(getattr(material, "desired_state", ""), 120),
+            "current_status": short_sentence(getattr(material, "current_status", ""), 120),
+            "next_step": short_sentence(getattr(material, "next_step", ""), 120),
+            "evidence": [
+                short_sentence(item, 90)
+                for item in (getattr(material, "evidence", []) or [])[:3]
+            ],
+            "situation": short_sentence(
+                getattr(material, "current_status", "") or getattr(material, "background", ""),
+                110,
+            ),
+            "finding": short_sentence(
+                getattr(material, "desired_state", "") or getattr(material, "problem", ""),
+                110,
+            ),
+            "action": short_sentence(getattr(material, "next_step", ""), 110),
+        }
+
     diary = slot.diary
     if not diary:
         return {
+            "problem": "何から考え始めればいいか分からない。",
+            "background": "忙しさの中で、考える時間が細かく中断されている。",
+            "pain_points": ["時間が足りない", "情報が混ざっている", "次の一歩が見えない"],
+            "desired_state": "今日の自分が少し動ける状態にする。",
+            "current_status": "考える材料が頭の中に残っている。",
+            "next_step": "今日の5分だけで決める一歩を1つ書く。",
+            "evidence": [],
             "situation": "忙しさの中で、何から考え始めればいいか分からない状態。",
             "finding": "まず書く入口を小さくすると、行動の一歩を決めやすくなる。",
             "action": "今日の5分だけで決める一歩を1つ書く。",
@@ -522,29 +639,52 @@ def extract_seed(slot: ArticleSlot) -> dict[str, str]:
     actions = analysis.get("antigravity_actions") or []
     insights = analysis.get("insights") or []
     emotions = analysis.get("emotion_flow") or []
+    selected_gravity, gravity_score = theme_item(gravity_map, slot.actual_theme)
+    selected_action, action_score = theme_item(actions, slot.actual_theme)
+    selected_insight, insight_score = theme_item(insights, slot.actual_theme)
 
     situation = diary.detail if diary.detail and diary.detail != "今日の日記エントリ" else ""
-    if gravity_map:
-        first = gravity_map[0]
-        situation = first.get("net_assessment") or first.get("task") or situation
+    if gravity_score:
+        situation = selected_gravity.get("net_assessment") or selected_gravity.get("task") or situation
+    elif action_score:
+        situation = selected_action.get("target_task") or selected_action.get("effect") or situation
     if not situation:
         situation = analysis.get("coach_comment", "")
 
     finding = ""
-    if insights:
-        finding = insights[0].get("finding") or insights[0].get("implication") or ""
+    if selected_insight and (insight_score or slot.actual_theme in {"self_understanding", "review"}):
+        finding = selected_insight.get("finding") or selected_insight.get("implication") or ""
     if not finding and emotions:
         finding = f"{emotions[0].get('emotion', '感情')}が思考の入口になっている。"
     if not finding:
         finding = "書くことで、重さの正体を外に出せる。"
 
     action = ""
-    if actions:
-        action = actions[0].get("action") or actions[0].get("effect") or ""
+    if selected_action and (action_score or slot.actual_theme in {"self_understanding", "review"}):
+        action = selected_action.get("action") or selected_action.get("effect") or ""
     if not action:
         action = "いま一番軽くできる一歩を、5分以内に終わる形で書く。"
 
+    pain_points = []
+    if gravity_score:
+        pain_points = [
+            short_sentence(item.get("name", ""), 70)
+            for item in (selected_gravity.get("constraints") or [])
+            if item.get("name")
+        ][:3]
+    if not pain_points and action_score:
+        pain = pain_from_action(selected_action)
+        if pain:
+            pain_points = [short_sentence(pain, 70)]
+
     return {
+        "problem": short_sentence(situation, 110),
+        "background": short_sentence(diary.detail or analysis.get("coach_comment", ""), 130),
+        "pain_points": pain_points,
+        "desired_state": short_sentence(finding, 110),
+        "current_status": short_sentence(situation, 110),
+        "next_step": short_sentence(action, 110),
+        "evidence": [short_sentence(finding, 90)] if finding else [],
         "situation": short_sentence(situation, 110),
         "finding": short_sentence(finding, 110),
         "action": short_sentence(action, 110),
@@ -568,6 +708,14 @@ def visible_character_count(markdown: str) -> int:
     return len(re.sub(r"\s+", "", visible))
 
 
+def display_path(path: Path) -> str:
+    absolute = path.resolve()
+    try:
+        return str(absolute.relative_to(ROOT_DIR))
+    except ValueError:
+        return str(absolute)
+
+
 def recipe_title(slot: ArticleSlot, guide: dict[str, Any]) -> str:
     theme = theme_label(slot.actual_theme, guide)
     title_map = {
@@ -589,6 +737,12 @@ def render_article(slot: ArticleSlot, guide: dict[str, Any], week_id: str) -> st
     title = recipe_title(slot, guide)
     theme = theme_label(slot.actual_theme, guide)
     copy = theme_article_copy(slot.actual_theme)
+    pain_lines = "\n".join(
+        f"- {item}" for item in (seed.get("pain_points") or ["次の一歩が見えない"])
+    )
+    evidence_lines = "\n".join(
+        f"- {item}" for item in (seed.get("evidence") or [seed["finding"]])
+    )
 
     return f"""# 100円｜今日のポメラ駆動: {title}
 
@@ -607,21 +761,32 @@ def render_article(slot: ArticleSlot, guide: dict[str, Any], week_id: str) -> st
 日記は、その日の記録で終わらせると「書いたけれど、何も変わらなかった」で止まりがちです。けれど、日記には次の行動の材料が残っています。何に迷ったのか。どこで少し軽くなったのか。誰に何を言えなかったのか。そこを拾うと、日記は過去ログではなく、今日の自分を動かす道具になります。
 
 ## 元になった状況
-{seed["situation"]}
+{seed["background"] or seed["situation"]}
 
-この状況は、特殊な一日の話に見えて、実は多くの人に起きる形をしています。忙しいときほど、私たちは「やるべきこと」と「気になっていること」と「まだ言葉になっていない感情」を同じ場所に置いてしまいます。その結果、問題そのものよりも、問題の輪郭が見えないことに疲れてしまいます。
+現在地は、{seed["current_status"] or seed["situation"]}という状態です。忙しいときほど、私たちは「やるべきこと」と「気になっていること」と「まだ言葉になっていない感情」を同じ場所に置いてしまいます。
 
-## 抽出した思考の型
-**{title}**
+## 問題はなにか
+問題は、{seed["problem"]}という形で現れています。
 
-{seed["finding"]}
+これを性格や根性の問題にしないことが大事です。日記とグラフを見返すと、止まっている理由は一つではなく、背景、制約、未整理の判断が重なっています。
+
+## なにに困っているのか
+今回見えている引っかかりは、主に次の通りです。
+
+{pain_lines}
 
 {copy["reader"]}
 
 ここで使う考え方は、重さを消すことではありません。重さを、扱える大きさに分けることです。気合いで押し切ると、次の日にまた同じ場所で止まります。だから今日は、考える対象を小さくして、行動の入口だけを作ります。
 
-## 今日の読み方
+## 目指す状態
+目指すのは、{seed["desired_state"] or seed["finding"]} という状態です。
+
 {copy["lens"]}
+
+日記から拾えた根拠は、次のようなものです。
+
+{evidence_lines}
 
 まず、今日の自分に問いを一つだけ置きます。
 
@@ -652,7 +817,7 @@ def render_article(slot: ArticleSlot, guide: dict[str, Any], week_id: str) -> st
 - 扱える形にした考え: {seed["finding"]}
 - 今日の最小行動: {seed["action"]}
 
-この変換のポイントは、結論を急がないことです。日記から拾った材料は、まだ生の状態です。だから最初にやるのは、正しい答えを出すことではなく、次の行動に接続できる形へ置き直すことです。
+この変換のポイントは、結論を急がないことです。日記から拾った材料を、次の行動に接続できる形へ置き直します。
 
 ## 使いどころ
 - 考えることが多すぎて、最初の一手が見えないとき。
@@ -837,8 +1002,25 @@ def run(args: argparse.Namespace) -> int:
         print_dry_run(slots, guide)
         return 0
 
+    diary_ids = [slot.diary.id for slot in slots if slot.diary]
+    try:
+        material_map = load_materials_from_neo4j(diary_ids)
+    except Exception as e:
+        print_stop_report(
+            stop_report(
+                "neo4j_material_query_failed",
+                "Neo4jの関係性素材を取得できないため、note下書き生成を停止しました。",
+                e,
+            )
+        )
+        return NEO4J_STOP_EXIT_CODE
+    for slot in slots:
+        if slot.diary:
+            slot.material = material_map.get(slot.diary.id)
+
     week_id = args.week_id or default_week_id()
-    week_dir = args.output_dir / week_id
+    output_dir = args.output_dir if args.output_dir.is_absolute() else ROOT_DIR / args.output_dir
+    week_dir = output_dir / week_id
     if week_dir.exists() and not args.overwrite:
         raise FileExistsError(f"出力先が既に存在します。--overwrite を指定してください: {week_dir}")
     if week_dir.exists() and args.overwrite:
@@ -872,7 +1054,7 @@ def run(args: argparse.Namespace) -> int:
             {
                 "article_id": article_id,
                 "week_id": week_id,
-                "filename": str(path.relative_to(ROOT_DIR)),
+                "filename": display_path(path),
                 "source_diary_ids": record["source_diary_ids"],
                 "actual_theme": slot.actual_theme,
                 "status": "drafted",
@@ -893,7 +1075,7 @@ def run(args: argparse.Namespace) -> int:
     summary = {
         "source": "neo4j",
         "week_id": week_id,
-        "output_dir": str(week_dir.relative_to(ROOT_DIR)),
+        "output_dir": display_path(week_dir),
         "article_count": len(articles),
         "source_diary_count": week_manifest["diary_coverage"]["source_diary_count"],
         "fallback_count": week_manifest["diary_coverage"]["fallback_count"],

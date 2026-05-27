@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+from types import SimpleNamespace
 from pathlib import Path
 
 import pytest
@@ -160,6 +161,25 @@ def test_run_stops_when_neo4j_has_no_diary_nodes(monkeypatch, tmp_path, capsys):
     assert output.out == ""
 
 
+def test_run_stops_without_fallback_when_neo4j_material_query_fails(
+    monkeypatch, tmp_path, capsys
+):
+    def fail_to_query_materials(diary_ids):
+        raise RuntimeError("query failed")
+
+    monkeypatch.setattr(module, "load_graph_from_neo4j", sample_graph)
+    monkeypatch.setattr(module, "load_materials_from_neo4j", fail_to_query_materials)
+    exit_code = module.run(run_args(tmp_path, dry_run=False))
+    output = capsys.readouterr()
+
+    assert exit_code == module.NEO4J_STOP_EXIT_CODE
+    assert '"reason": "neo4j_material_query_failed"' in output.err
+    assert '"fallback_attempted": false' in output.err
+    assert "JSON-LD" in output.err
+    assert output.out == ""
+    assert not (tmp_path / "note_recipe_ready").exists()
+
+
 def test_collect_diaries_prefers_analysis_node():
     graph = sample_graph()
     graph["nodes"].append(
@@ -202,6 +222,13 @@ def test_sanitize_text_removes_sensitive_terms():
     assert "パートナー" in text
 
 
+def test_sanitize_text_softens_old_gravity_terms():
+    text = module.sanitize_text("技術的トラブルが重力となるが、制作物の引力は強い。")
+    assert "重力" not in text
+    assert "引力" not in text
+    assert "ひっかかり" in text
+
+
 def test_render_article_is_not_prompt_sale():
     guide = module.load_guide(ROOT / "config" / "pomera_daily_weekday_guide.json")
     diary = module.score_diary(module.collect_diaries(sample_graph())[0])
@@ -225,3 +252,124 @@ def test_render_article_is_not_prompt_sale():
     assert "## 15分で書く5ステップ" in markdown
     assert "## 書き込み欄" in markdown
     assert "## つまずいたときの調整" in markdown
+    assert "## 問題はなにか" in markdown
+    assert "## なにに困っているのか" in markdown
+    assert "## 目指す状態" in markdown
+
+
+def test_render_article_uses_cypher_material():
+    guide = module.load_guide(ROOT / "config" / "pomera_daily_weekday_guide.json")
+    diary = module.score_diary(module.collect_diaries(sample_graph())[0])
+    material = SimpleNamespace(
+        problem="提案の論点が多すぎて次の判断が止まっている。",
+        background="仕事の提案を進めたいが、確認事項が混ざっている。",
+        pain_points=["情報が足りない", "誰に確認するかが曖昧"],
+        desired_state="今日決める一文だけを取り出せている。",
+        current_status="提案は進行中だが、最初の確認で止まっている。",
+        next_step="関係者に確認する一文を5分で書く。",
+        evidence=["日記では提案が重いと書かれている。"],
+    )
+    slot = module.ArticleSlot(
+        index=1,
+        day="monday",
+        day_label="月",
+        preferred_themes=["work"],
+        actual_theme="work",
+        fallback_theme="next_step",
+        diary=diary,
+        material=material,
+    )
+
+    markdown = module.render_article(slot, guide, "2026-W22")
+
+    assert "提案の論点が多すぎて次の判断が止まっている" in markdown
+    assert "関係者に確認する一文を5分で書く" in markdown
+    assert "情報が足りない" in markdown
+    assert module.quality_check(markdown, slot)["passed"]
+
+
+def test_extract_seed_ignores_off_theme_cypher_material():
+    diary = module.score_diary(module.collect_diaries(sample_graph())[0])
+    slot = module.ArticleSlot(
+        index=1,
+        day="monday",
+        day_label="月",
+        preferred_themes=["work"],
+        actual_theme="work",
+        fallback_theme="next_step",
+        diary=diary,
+        material=SimpleNamespace(
+            problem="体重の数値を下げたい。",
+            background="食事と健康の話。",
+            pain_points=["カロリー過多"],
+            desired_state="健康を整える。",
+            current_status="体重管理中。",
+            next_step="食事を見直す。",
+            evidence=["進捗管理を楽しんだ。"],
+        ),
+    )
+
+    seed = module.extract_seed(slot)
+
+    assert seed["problem"] != "体重の数値を下げたい。"
+    assert seed["action"] == "いま一番軽くできる一歩を、5分以内に終わる形で書く。"
+
+
+def test_extract_seed_prefers_theme_relevant_analysis_items():
+    diary = module.DiaryCandidate(
+        id="日記:2026-03-01",
+        date="2026-03-01",
+        label="日記",
+        detail="家族予定、YouTube動画トラブル、仕事MTGについて記録。",
+        analysis={
+            "gravity_map": [
+                {
+                    "task": "YouTube動画の継続運用",
+                    "constraints": [{"name": "BANリスクの予期不安"}],
+                    "net_assessment": "動画トラブルが気になっている。",
+                }
+            ],
+            "antigravity_actions": [
+                {
+                    "action": "知人とのMTGに向け、話すべき3項目をポメラでメモする",
+                    "target_task": "Knowbe MTG前の思考整理",
+                    "effect": "会議前に論点を絞り、時間のひっかかりを減らす。",
+                },
+                {
+                    "action": "YouTube Studioを見ない",
+                    "target_task": "YouTube動画アップロードトラブル",
+                    "effect": "再生回数への不安を遮断する。",
+                },
+            ],
+            "insights": [
+                {
+                    "finding": "不完全な動画への高い反応がある。",
+                    "implication": "動画には手応えがある。",
+                },
+                {
+                    "finding": "Knowbeでの受動的な不満を、Saitekiでの能動的な成果で相殺し始めている。",
+                    "implication": "進捗を可視化するスタイルを仕事にも転用できる。",
+                },
+            ],
+        },
+        themes={},
+        score=0.0,
+    )
+    slot = module.ArticleSlot(
+        index=1,
+        day="monday",
+        day_label="月",
+        preferred_themes=["work"],
+        actual_theme="work",
+        fallback_theme="next_step",
+        diary=diary,
+    )
+
+    seed = module.extract_seed(slot)
+
+    assert "MTG前の思考整理" in seed["problem"]
+    assert "動画" not in seed["problem"]
+    assert "知人とのMTG" in seed["action"]
+    assert "仕事での受動的な不満" in seed["finding"]
+    assert seed["pain_points"] == ["会議前に話す論点と時間配分を絞りきれていない。"]
+    assert all("BAN" not in point for point in seed["pain_points"])
