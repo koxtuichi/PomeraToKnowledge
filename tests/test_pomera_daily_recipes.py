@@ -1,6 +1,12 @@
+import argparse
 import importlib.util
+import json
+import os
+import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,6 +46,118 @@ def sample_graph():
         ],
         "edges": [],
     }
+
+
+def run_args(tmp_path, **overrides):
+    args = argparse.Namespace(
+        source="neo4j",
+        guide=ROOT / "config" / "pomera_daily_weekday_guide.json",
+        manifest=tmp_path / "note_recipe_manifest.json",
+        output_dir=tmp_path / "note_recipe_ready",
+        week_id="2026-W22",
+        dry_run=True,
+        allow_reuse=False,
+        no_update_manifest=True,
+        overwrite=False,
+    )
+    for key, value in overrides.items():
+        setattr(args, key, value)
+    return args
+
+
+def test_default_manifest_marks_neo4j_as_only_source(tmp_path):
+    manifest = module.load_manifest(tmp_path / "missing_manifest.json")
+    assert manifest["source_priority"] == ["neo4j"]
+    assert manifest["source_policy"] == {
+        "primary": "neo4j",
+        "fallback_to_jsonld": False,
+        "fallback_to_graph_data": False,
+    }
+
+
+def test_existing_manifest_source_policy_is_normalized(tmp_path):
+    manifest_path = tmp_path / "note_recipe_manifest.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "source_priority": ["graph_data", "neo4j"],
+                "used_diary_ids": ["日記:2026-05-01"],
+                "generated_weeks": [],
+                "article_history": [],
+                "last_run_at": None,
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    manifest = module.load_manifest(manifest_path)
+    assert manifest["source_priority"] == ["neo4j"]
+    assert manifest["source_policy"] == {
+        "primary": "neo4j",
+        "fallback_to_jsonld": False,
+        "fallback_to_graph_data": False,
+    }
+    assert manifest["used_diary_ids"] == ["日記:2026-05-01"]
+
+
+def test_parser_rejects_graph_data_source():
+    with pytest.raises(SystemExit):
+        module.build_parser().parse_args(["--source", "graph_data"])
+
+
+def test_run_reads_from_neo4j_by_default(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(module, "load_graph_from_neo4j", sample_graph)
+    exit_code = module.run(run_args(tmp_path))
+    output = capsys.readouterr()
+    assert exit_code == 0
+    assert "日記:2026-05-02" in output.out
+    assert output.err == ""
+
+
+def test_cli_stops_without_fallback_when_neo4j_env_is_missing(tmp_path):
+    env = os.environ.copy()
+    for key in ("NEO4J_URI", "NEO4J_USER", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
+        env.pop(key, None)
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--dry-run"],
+        cwd=tmp_path,
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == module.NEO4J_STOP_EXIT_CODE
+    assert '"reason": "neo4j_unavailable"' in result.stderr
+    assert '"fallback_attempted": false' in result.stderr
+    assert result.stdout == ""
+
+
+def test_run_stops_without_fallback_when_neo4j_is_unavailable(monkeypatch, tmp_path, capsys):
+    def fail_to_connect():
+        raise RuntimeError("connection refused")
+
+    monkeypatch.setattr(module, "load_graph_from_neo4j", fail_to_connect)
+    exit_code = module.run(run_args(tmp_path))
+    output = capsys.readouterr()
+    assert exit_code == module.NEO4J_STOP_EXIT_CODE
+    assert '"status": "stopped"' in output.err
+    assert '"reason": "neo4j_unavailable"' in output.err
+    assert '"fallback_attempted": false' in output.err
+    assert "JSON-LD" in output.err
+    assert output.out == ""
+
+
+def test_run_stops_when_neo4j_has_no_diary_nodes(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(module, "load_graph_from_neo4j", lambda: {"nodes": [], "edges": []})
+    exit_code = module.run(run_args(tmp_path))
+    output = capsys.readouterr()
+    assert exit_code == module.NEO4J_NO_DIARY_EXIT_CODE
+    assert '"reason": "neo4j_no_diaries"' in output.err
+    assert '"fallback_attempted": false' in output.err
+    assert output.out == ""
 
 
 def test_collect_diaries_prefers_analysis_node():

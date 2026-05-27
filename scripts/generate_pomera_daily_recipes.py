@@ -13,6 +13,7 @@ import datetime as dt
 import json
 import os
 import re
+import sys
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -20,10 +21,12 @@ from typing import Any
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-DEFAULT_GRAPH_DATA = ROOT_DIR / "graph_data.js"
 DEFAULT_GUIDE = ROOT_DIR / "config" / "pomera_daily_weekday_guide.json"
 DEFAULT_OUTPUT_DIR = ROOT_DIR / "note_recipe_ready"
 DEFAULT_MANIFEST = ROOT_DIR / "note_recipe_manifest.json"
+NEO4J_STOP_EXIT_CODE = 10
+NEO4J_NO_DIARY_EXIT_CODE = 11
+SOURCE_PRIORITY = ["neo4j"]
 
 
 THEME_KEYWORDS = {
@@ -246,22 +249,32 @@ def atomic_write_json(path: Path, data: Any) -> None:
     os.replace(tmp_name, path)
 
 
-def load_graph_from_graph_data(path: Path) -> dict[str, Any]:
-    content = path.read_text(encoding="utf-8")
-    match = re.search(r"const GRAPH_DATA = (\{.*\});", content, re.DOTALL)
-    if not match:
-        raise ValueError(f"GRAPH_DATA が見つかりません: {path}")
-    return json.loads(match.group(1))
-
-
 def load_graph_from_neo4j() -> dict[str, Any]:
-    import sys
-
     sys.path.insert(0, str(ROOT_DIR / "scripts"))
     from neo4j_client import Neo4jClient
 
     with Neo4jClient() as client:
         return client.export_graph()
+
+
+def stop_report(reason: str, message: str, error: Exception | None = None) -> dict[str, Any]:
+    report = {
+        "status": "stopped",
+        "reason": reason,
+        "message": message,
+        "source": "neo4j",
+        "fallback_attempted": False,
+        "fallback_policy": "JSON-LD と graph_data.js への代替生成は行わない",
+        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+    }
+    if error is not None:
+        report["error_type"] = type(error).__name__
+        report["error"] = str(error)
+    return report
+
+
+def print_stop_report(report: dict[str, Any]) -> None:
+    print(json.dumps(report, ensure_ascii=False, indent=2), file=sys.stderr)
 
 
 def parse_analysis(raw: Any) -> dict[str, Any]:
@@ -374,17 +387,34 @@ def score_diary(diary: DiaryCandidate) -> DiaryCandidate:
     return diary
 
 
+def neo4j_source_policy() -> dict[str, bool | str]:
+    return {
+        "primary": "neo4j",
+        "fallback_to_jsonld": False,
+        "fallback_to_graph_data": False,
+    }
+
+
+def normalize_manifest_source_policy(manifest: dict[str, Any]) -> dict[str, Any]:
+    manifest["source_priority"] = list(SOURCE_PRIORITY)
+    manifest["source_policy"] = neo4j_source_policy()
+    return manifest
+
+
 def load_manifest(path: Path) -> dict[str, Any]:
-    return load_json(
-        path,
-        {
-            "version": 1,
-            "source_priority": ["graph_data", "neo4j"],
-            "used_diary_ids": [],
-            "generated_weeks": [],
-            "article_history": [],
-            "last_run_at": None,
-        },
+    return normalize_manifest_source_policy(
+        load_json(
+            path,
+            {
+                "version": 1,
+                "source_priority": list(SOURCE_PRIORITY),
+                "source_policy": neo4j_source_policy(),
+                "used_diary_ids": [],
+                "generated_weeks": [],
+                "article_history": [],
+                "last_run_at": None,
+            },
+        )
     )
 
 
@@ -721,6 +751,7 @@ def update_manifest(
     week_manifest: dict[str, Any],
     article_records: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    normalize_manifest_source_policy(manifest)
     used = set(manifest.get("used_diary_ids", []))
     used.update(week_manifest["diary_coverage"]["source_diary_ids"])
     manifest["used_diary_ids"] = sorted(used)
@@ -777,12 +808,28 @@ def run(args: argparse.Namespace) -> int:
     guide = load_guide(args.guide)
     manifest = load_manifest(args.manifest)
 
-    if args.source == "neo4j":
+    try:
         graph = load_graph_from_neo4j()
-    else:
-        graph = load_graph_from_graph_data(args.graph_data)
+    except Exception as e:
+        print_stop_report(
+            stop_report(
+                "neo4j_unavailable",
+                "Neo4jに接続できないため、note下書き生成を停止しました。",
+                e,
+            )
+        )
+        return NEO4J_STOP_EXIT_CODE
 
     candidates = collect_diaries(graph)
+    if not candidates:
+        print_stop_report(
+            stop_report(
+                "neo4j_no_diaries",
+                "Neo4jから日記ノードを取得できなかったため、note下書き生成を停止しました。",
+            )
+        )
+        return NEO4J_NO_DIARY_EXIT_CODE
+
     used_ids = set(manifest.get("used_diary_ids", []))
     slots = assemble_week(candidates, guide, used_ids, allow_reuse=args.allow_reuse)
 
@@ -844,6 +891,7 @@ def run(args: argparse.Namespace) -> int:
     )
 
     summary = {
+        "source": "neo4j",
         "week_id": week_id,
         "output_dir": str(week_dir.relative_to(ROOT_DIR)),
         "article_count": len(articles),
@@ -866,10 +914,14 @@ def run(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="POMERA日記から100円note向けデイリーレシピを一週間分生成する"
+        description="Neo4jの日記データから100円note向けデイリーレシピを一週間分生成する"
     )
-    parser.add_argument("--source", choices=["graph_data", "neo4j"], default="graph_data")
-    parser.add_argument("--graph-data", type=Path, default=DEFAULT_GRAPH_DATA)
+    parser.add_argument(
+        "--source",
+        choices=["neo4j"],
+        default="neo4j",
+        help="入力元。JSON-LD/graph_data fallback は行わないため neo4j のみ指定可能。",
+    )
     parser.add_argument("--guide", type=Path, default=DEFAULT_GUIDE)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)

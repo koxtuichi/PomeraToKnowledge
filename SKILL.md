@@ -73,6 +73,21 @@ python3 scripts/validate_html.py graph_data.js
 
 ---
 
+## note生成パイプライン
+
+`scripts/generate_pomera_daily_recipes.py` は Neo4j の日記ノードを唯一の入力元として扱う。
+`knowledge_graph.jsonld` や `graph_data.js` へ fallback して note 下書きを生成してはいけない。
+
+Neo4j に接続できない、または Neo4j から日記ノードを取得できない場合は、生成を停止して
+停止レポートを出す。古いJSON-LDや表示用 `graph_data.js` から補完すると、売り物にする文章の
+根拠が古くなるため禁止する。
+
+```bash
+python3 scripts/generate_pomera_daily_recipes.py --source neo4j --dry-run
+```
+
+---
+
 ## セットアップ系ドキュメント
 
 - `SETUP_GMAIL_PUSH.md` — Gmail Push / Pub/Sub / Cloud Functions 設定手順
