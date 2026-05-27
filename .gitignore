@@ -1,6 +1,7 @@
 .env
 .env.gmail.yaml
 *.log
+note_recipe_manifest.json
 note_recipe_ready*/
 __pycache__/
 .DS_Store
