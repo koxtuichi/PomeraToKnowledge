@@ -232,9 +232,14 @@ def test_run_single_generates_one_longform_article(monkeypatch, tmp_path, capsys
     assert "## 背景" in markdown
     assert "## どのように対処すればいいのか" in markdown
     assert "同じ重さ" not in markdown
+    assert "全部埋める必要" not in markdown
+    assert "最初は一つだけ" not in markdown
+    assert "できる範囲で" not in markdown
     quality = json.loads((run_dir / "quality_report.json").read_text(encoding="utf-8"))
     assert quality["passed"]
     article_quality = quality["items"][0]["quality"]
+    assert article_quality["reader_commitment"]
+    assert article_quality["reader_weakening_terms"] == []
     assert article_quality["concrete_signal_ok"]
     assert article_quality["seed_concrete_checks"]["passed"]
     assert len(article_quality["concrete_signals"]) >= 3
@@ -373,6 +378,40 @@ def test_primary_quality_rejects_generic_seed_even_with_template_signals():
     assert quality["concrete_signal_ok"]
     assert not quality["seed_concrete_checks"]["passed"]
     assert not quality["concrete_language"]
+    assert not quality["passed"]
+
+
+def test_primary_quality_rejects_reader_weakening_language():
+    markdown = "\n".join(
+        [
+            "## これは何か",
+            "全部埋める必要はありません。最初は一つだけでも十分です。",
+            "## 元になった記録",
+            "## 問題はなにか",
+            "## 背景",
+            "## なにに困っているのか",
+            "## 目指す状態",
+            "## どのように対処すればいいのか",
+            "## 書き込み欄",
+            "## 今日の最小行動",
+            "<!-- source: neo4j diary / run test -->",
+        ]
+    )
+
+    quality = module.quality_check(
+        markdown,
+        mode="primary",
+        seed={
+            "problem": "仕事の確認事項が混ざっている。",
+            "background": "会議前に確認することが増えている。",
+            "desired_state": "今日確認する一文が決まっている。",
+            "next_step": "関係者に確認する一文を書く。",
+            "evidence": ["会議前の迷いが残っている。", "確認事項が増えている。"],
+        },
+    )
+
+    assert not quality["reader_commitment"]
+    assert "全部埋める必要" in quality["reader_weakening_terms"]
     assert not quality["passed"]
 
 
