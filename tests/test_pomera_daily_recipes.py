@@ -49,6 +49,37 @@ def sample_graph():
     }
 
 
+def sample_weekly_graph():
+    return {
+        "nodes": [
+            {
+                "id": f"日記:2026-05-{day:02d}",
+                "type": "日記",
+                "date": f"2026-05-{day:02d}",
+                "label": f"2026-05-{day:02d}の日記",
+                "detail": f"仕事の確認事項が増えたので、次に確認することを整理した日 {day}",
+                "analysis_content": {
+                    "gravity_map": [
+                        {
+                            "task": "仕事の確認事項整理",
+                            "constraints": [{"name": "確認事項が多い"}],
+                            "net_assessment": "仕事の確認事項が多く、次の一歩を選びにくい。",
+                        }
+                    ],
+                    "antigravity_actions": [
+                        {"action": "今日確認する項目を3つだけメモする。"}
+                    ],
+                    "insights": [
+                        {"finding": "確認事項を絞ると、次の会話に入りやすい。"}
+                    ],
+                },
+            }
+            for day in range(1, 8)
+        ],
+        "edges": [],
+    }
+
+
 def run_args(tmp_path, **overrides):
     args = argparse.Namespace(
         source="neo4j",
@@ -56,6 +87,7 @@ def run_args(tmp_path, **overrides):
         manifest=tmp_path / "note_recipe_manifest.json",
         output_dir=tmp_path / "note_recipe_ready",
         week_id="2026-W22",
+        mode="single",
         dry_run=True,
         allow_reuse=False,
         no_update_manifest=True,
@@ -109,10 +141,12 @@ def test_parser_rejects_graph_data_source():
 
 def test_run_reads_from_neo4j_by_default(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr(module, "load_graph_from_neo4j", sample_graph)
+    monkeypatch.setattr(module, "load_materials_from_neo4j", lambda diary_ids: {})
     exit_code = module.run(run_args(tmp_path))
     output = capsys.readouterr()
     assert exit_code == 0
-    assert "日記:2026-05-02" in output.out
+    assert '"mode": "single"' in output.out
+    assert "selected_diary_id" in output.out
     assert output.err == ""
 
 
@@ -180,6 +214,32 @@ def test_run_stops_without_fallback_when_neo4j_material_query_fails(
     assert not (tmp_path / "note_recipe_ready").exists()
 
 
+def test_run_single_generates_one_longform_article(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(module, "load_graph_from_neo4j", sample_graph)
+    monkeypatch.setattr(module, "load_materials_from_neo4j", lambda diary_ids: {})
+    exit_code = module.run(run_args(tmp_path, dry_run=False, overwrite=True))
+    output = capsys.readouterr()
+
+    assert exit_code == 0
+    assert '"mode": "single"' in output.out
+    assert '"article_count": 1' in output.out
+    run_dir = tmp_path / "note_recipe_ready" / "2026-W22"
+    markdowns = list(run_dir.glob("*.md"))
+    assert len(markdowns) == 1
+    markdown = markdowns[0].read_text(encoding="utf-8")
+    assert module.ARTICLE_MIN_CHARS <= module.visible_character_count(markdown) <= module.ARTICLE_MAX_CHARS
+    assert "## 問題はなにか" in markdown
+    assert "## 背景" in markdown
+    assert "## どのように対処すればいいのか" in markdown
+    assert "同じ重さ" not in markdown
+    quality = json.loads((run_dir / "quality_report.json").read_text(encoding="utf-8"))
+    assert quality["passed"]
+    article_quality = quality["items"][0]["quality"]
+    assert article_quality["concrete_signal_ok"]
+    assert article_quality["seed_concrete_checks"]["passed"]
+    assert len(article_quality["concrete_signals"]) >= 3
+
+
 def test_collect_diaries_prefers_analysis_node():
     graph = sample_graph()
     graph["nodes"].append(
@@ -211,6 +271,33 @@ def test_choose_best_for_slot_respects_theme_order():
     assert selected.id == "日記:2026-05-02"
 
 
+def test_run_weekly_mode_keeps_legacy_seven_draft_flow(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(module, "load_graph_from_neo4j", sample_graph)
+    exit_code = module.run(run_args(tmp_path, mode="weekly"))
+    output = capsys.readouterr()
+
+    assert exit_code == 0
+    assert '"slot": 1' in output.out
+    assert "selected_diary_id" not in output.out
+
+
+def test_run_weekly_mode_can_generate_legacy_seven_articles(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(module, "load_graph_from_neo4j", sample_weekly_graph)
+    monkeypatch.setattr(module, "load_materials_from_neo4j", lambda diary_ids: {})
+    exit_code = module.run(run_args(tmp_path, mode="weekly", dry_run=False, overwrite=True))
+    output = capsys.readouterr()
+
+    assert exit_code == 0
+    assert '"mode": "weekly"' in output.out
+    assert '"article_count": 7' in output.out
+    run_dir = tmp_path / "note_recipe_ready" / "2026-W22"
+    markdowns = list(run_dir.glob("*.md"))
+    assert len(markdowns) == 7
+    quality = json.loads((run_dir / "quality_report.json").read_text(encoding="utf-8"))
+    assert quality["passed"]
+    assert len(quality["items"]) == 7
+
+
 def test_sanitize_text_removes_sensitive_terms():
     text = module.sanitize_text("2026年5月1日に沙也香とKnowbeの話をして80.2kgで、傑さんとSlackの後に鍼治療へ行った")
     assert "沙也香" not in text
@@ -226,7 +313,8 @@ def test_sanitize_text_softens_old_gravity_terms():
     text = module.sanitize_text("技術的トラブルが重力となるが、制作物の引力は強い。")
     assert "重力" not in text
     assert "引力" not in text
-    assert "ひっかかり" in text
+    assert "行動を止めている理由" in text
+    assert "何度も戻って見たくなる手応え" in text
 
 
 def test_render_article_is_not_prompt_sale():
@@ -242,11 +330,11 @@ def test_render_article_is_not_prompt_sale():
         diary=diary,
     )
     markdown = module.render_article(slot, guide, "2026-W22")
-    quality = module.quality_check(markdown, slot)
+    quality = module.quality_check(markdown, slot, mode="weekly")
     assert "プロンプト" not in markdown
     assert "source_diary_id" not in markdown
     assert "source_date" not in markdown
-    assert module.ARTICLE_MIN_CHARS <= module.visible_character_count(markdown) <= module.ARTICLE_MAX_CHARS
+    assert module.LEGACY_ARTICLE_MIN_CHARS <= module.visible_character_count(markdown) <= module.LEGACY_ARTICLE_MAX_CHARS
     assert quality["passed"]
     assert quality["length_ok"]
     assert "## 15分で書く5ステップ" in markdown
@@ -255,6 +343,37 @@ def test_render_article_is_not_prompt_sale():
     assert "## 問題はなにか" in markdown
     assert "## なにに困っているのか" in markdown
     assert "## 目指す状態" in markdown
+
+
+def test_primary_quality_rejects_generic_seed_even_with_template_signals():
+    diary = module.score_diary(module.collect_diaries(sample_graph())[0])
+    seed = {
+        "problem": "進行中",
+        "background": "今日の日記エントリ",
+        "pain_points": [],
+        "desired_state": "達成",
+        "current_status": "進行中",
+        "next_step": "進行中",
+        "evidence": [],
+        "situation": "進行中",
+        "finding": "達成",
+        "action": "進行中",
+    }
+    candidate = module.ArticleCandidate(
+        diary=diary,
+        material=None,
+        seed=seed,
+        score=0.0,
+        reasons=[],
+    )
+
+    markdown = module.render_primary_article(candidate, "test-run")
+    quality = module.quality_check(markdown, mode="primary", seed=seed)
+
+    assert quality["concrete_signal_ok"]
+    assert not quality["seed_concrete_checks"]["passed"]
+    assert not quality["concrete_language"]
+    assert not quality["passed"]
 
 
 def test_render_article_uses_cypher_material():
@@ -285,7 +404,7 @@ def test_render_article_uses_cypher_material():
     assert "提案の論点が多すぎて次の判断が止まっている" in markdown
     assert "関係者に確認する一文を5分で書く" in markdown
     assert "情報が足りない" in markdown
-    assert module.quality_check(markdown, slot)["passed"]
+    assert module.quality_check(markdown, slot, mode="weekly")["passed"]
 
 
 def test_extract_seed_ignores_off_theme_cypher_material():
@@ -370,6 +489,6 @@ def test_extract_seed_prefers_theme_relevant_analysis_items():
     assert "MTG前の思考整理" in seed["problem"]
     assert "動画" not in seed["problem"]
     assert "知人とのMTG" in seed["action"]
-    assert "仕事での受動的な不満" in seed["finding"]
+    assert "打ち合わせで話す3項目" in seed["finding"]
     assert seed["pain_points"] == ["会議前に話す論点と時間配分を絞りきれていない。"]
     assert all("BAN" not in point for point in seed["pain_points"])
