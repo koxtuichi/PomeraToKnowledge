@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" style="margin:0;padding:0">
+<head style="margin:0;padding:0">
+<meta content="width=device-width" name="viewport" style="margin:0;padding:0">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" style="margin:0;padding:0"><title style="margin:0;padding:0">フォローのおしらせ</title>
+<style>@media only screen and (max-width: 600px) {
+a[class="btn"]{display:block !important;margin-bottom:10px !important;background-image:none !important;margin-right:0 !important}
+div[class="column"]{width:auto !important;float:none !important}
+table.social div[class="column"]{width:auto !important}
+}
+.article-body a:hover{opacity:0.8 !important}
+.button:hover{opacity:0.8}
+.mailer-o-articleSmall__title:hover{text-decoration:underline}</style></head>
+<body bgcolor="#FFFFFF" style="margin:0;padding:0;-webkit-r-smoothing:antialiased;-webkit-text-size-adjust:none;height:100%;font-size:14px;line-height:1.5;font-family:sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-kerning:normal;width:100% !important">
+<div class="wrapper" style="margin:0;padding:0;background-color:#ffffff">
+<table class="wrapper__inner" style="margin:0;padding:0;width:100%;max-width:700px;margin:0 auto;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tbody style="margin:0;padding:0">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td style="color:#222222;margin:0;padding:0;padding-left:16px;padding-right:16px;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<div class="header" style="margin:0;padding:0;background-color:#fff;margin-bottom:24px;padding-top:24px;text-align:center">
+<table class="header__inner" style="margin:0;padding:0;width:100%;max-width:700px;margin-left:auto;margin-right:auto;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tbody style="margin:0;padding:0">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td class="header__logo" style="color:#222222;margin:0;padding:0;vertical-align:middle;text-align:center;font-size:0 !important;line-height:0 !important;vertical-align:top !important"><a href="https://link2.note.com/CL0/https:%2F%2Fnote.com/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/Fz7wWlitBv6DClC94YCKBwq2Xl3aO5UYuP1QsFYUFkQ=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important"><img height="20" src="https://assets.st-note.com/poc-image/manual/production/logo_202212.png" style="margin:0;padding:0"></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<table bgcolor="#f7f9f9" class="content" style="margin:0;padding:0;width:100%;margin:16px 0;background-color:#fff;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tbody style="margin:0;padding:0">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td align="left" class="inner" valign="top" style="color:#222222;margin:0;padding:0;width:100%;max-width:610px;padding:24px;background-color:#fff;border:1px solid #e6e6e6;border-radius:4px;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<table bgcolor="#FFFFFF" style="margin:0;padding:0;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td align="left" class="profile-img" valign="top" style="color:#222222;margin:0;padding:0;width:60px;padding:0 20px 0 0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<a href="https://link2.note.com/CL0/https:%2F%2Fnote.com%2Fmegumibebes%3Fnt=_14854775/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/TvA4zlDq7IOj6UrBeyjRb2cqQnmKFL1l8ENYhoG0X0g=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;word-break:break-all;text-decoration:none !important">
+<img alt="" class="profile-img--avatar" src="https://assets.st-note.com/production/uploads/images/286363876/profile_ddedcb162c37ef20963254b472d34ba1.jpeg?fit=bounds&amp;format=jpeg&amp;quality=85&amp;width=330" style="margin:0;padding:0;border-radius:50%;width:60px;">
+</a>
+</td>
+<td align="left" class="profile-right" valign="top" style="color:#222222;margin:0;padding:0;width:100%;max-width:460px;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<p class="space-b-h txt-bold txt-black" style="margin:0;padding:0;font-weight:normal;font-size:13px;line-height:1.6;line-height:1.3;font-size:12px;line-height:1.5;color:#222;margin-bottom:5px !important;font-weight:bold !important;color:#000000 !important"><a class="txt-black" href="https://link2.note.com/CL0/https:%2F%2Fnote.com%2Fmegumibebes%3Fnt=_14854775/2/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/pObgByuE0uQk3wV40g9MgvKI1ji3pUGXY3zcdzWLFoM=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;line-height:1.3;word-break:break-all;text-decoration:none !important;color:#000000 !important">Megumiの双子妊娠Diary🤰</a><span style="margin:0;padding:0">さんがフォローしました。</span></p><p class="space-b-03" style="margin:0;padding:0;font-weight:normal;font-size:13px;line-height:1.6;font-size:12px;line-height:1.5;color:#222;margin-bottom:3px !important"></p><a class="txt-bold" href="https://link2.note.com/CL0/https:%2F%2Fnote.com%2Fmegumibebes%3Fnt=_14854775/3/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/947-vWc8Bim1PxdIichljr2rdX5BeoSwaLLhGRhfiug=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;word-break:break-all;text-decoration:none !important;font-weight:bold !important">Megumiの双子妊娠Diary🤰</a>
+
+<p class="txt-s" style="margin:0;padding:0;font-weight:normal;font-size:13px;line-height:1.6;font-size:12px;line-height:1.5;color:#222;font-size:12px !important">ピアニスト🎹| 36歳で初妊娠| 一卵性双胎|MD|
+
+双子を授かりました👶👶❣️今夏出産予定です☀️
+これを機に、記録用として気ままに書いてみることにし...</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="section" style="margin:0;padding:0">
+<h2 class="mailer-popularSiblingNotes__title" style='padding:0;font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;line-height:1.1;margin-bottom:15px;color:#000;font-size:24px;font-weight:bold;font-size:18px;line-height:1.5;margin:0;padding-top:18px;font-weight:bold !important'>
+このクリエイターの人気記事
+</h2>
+
+<div class="mailer-o-articleSmall" style="margin:0;padding:0;padding-top:16px;padding-bottom:16px">
+<table style="margin:0;padding:0;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td class="mailer-o-articleSmall__info" style="color:#222222;margin:0;padding:0;width:100%;vertical-align:top;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<a href="https://link2.note.com/CL0/https:%2F%2Fnote.com%2Fmegumibebes%2Fn%2Fn3b43134c9076/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/aB7J-j0sWzN6f6SErmrmsAFGYHeop5-WTV8a1yWldxM=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;color:#222222;text-decoration:none !important">
+<h2 class="mailer-o-articleSmall__title" style='margin:0;padding:0;font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;line-height:1.1;margin-bottom:15px;color:#000;font-size:24px;font-size:16px;line-height:1.5;font-weight:bold;font-weight:bold !important'>【はじめてのnote】自己紹介🎀</h2>
+</a>
+</td>
+<td class="mailer-o-articleSmall__thumb" style="color:#222222;margin:0;padding:0;vertical-align:top;padding-left:16px;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<a href="https://link2.note.com/CL0/https:%2F%2Fnote.com%2Fmegumibebes%2Fn%2Fn3b43134c9076/2/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/3mIcWRXpwLsIOB1bXaIZb_T40I2ppMcWqOllBfx0nIw=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;color:#222222;text-decoration:none !important">
+<img alt="見出し画像" src="https://assets.st-note.com/production/uploads/images/286439601/rectangle_large_type_2_479b566064ce62220db744aaf898697b.jpg" style="margin:0;padding:0;width:80px;border-radius:4px;border:1px solid #e6e6e6">
+</a>
+</td>
+</tr>
+</table>
+<table style="margin:0;padding:0;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<a href="https://link2.note.com/CL0/https:%2F%2Fnote.com%2Fmegumibebes/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/ToHaecnQAqiE7fj6NmnOdPDtP5GaDttwFMYmKTobhpE=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;color:#222222;text-decoration:none !important">
+<span class="mailer-o-articleSmall__name" style="margin:0;padding:0;font-size:12px;color:#6F7372">Megumiの双子妊娠Diary🤰</span>
+</a>
+</td>
+<td style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important;padding-left: 8px;">
+
+<div class="mailer-m-likeCount" data-size="small" style="margin:0;padding:0;line-height:100%;color:#ea3f60;font-size:0px;white-space:nowrap">
+<img alt="スキ" class="mailer-m-likeCount__img" src="https://poc-image.s3.ap-northeast-1.amazonaws.com/manual/mail/production/heart%402x_red.png" style="margin:0;padding:0;width:16px;height:16px;display:inline-block;vertical-align:middle">
+<span class="mailer-m-likeCount__number" style="margin:0;padding:0;font-size:12px;margin-left:4px;display:inline-block;vertical-align:middle">21</span>
+</div>
+
+</td>
+</tr>
+</table>
+</div>
+
+</div>
+
+<div class="mailer-footer" style="margin:0;padding:0">
+<table class="mailer-footer__inner" style="margin:0;padding:0;width:100%;max-width:700px;margin-right:auto;margin-left:auto;border-collapse:collapse !important;border:none !important;border-spacing:0 !important;border-color:none !important">
+<tbody style="margin:0;padding:0">
+<tr style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<td style="color:#222222;margin:0;padding:0;font-size:0 !important;line-height:0 !important;vertical-align:top !important">
+<p class="mailer-footer__menu" style="margin:0;padding:0;font-weight:normal;font-size:13px;line-height:1.6;padding-top:32px;padding-bottom:16px;font-size:14px;line-height:2">
+<a href="https://link2.note.com/CL0/https:%2F%2Fwww.help-note.com%2Fhc%2Fja/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/eWw7ilxRx31ecc_1K7j-suHWDJpSu7wPLcrbwYiPuXI=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important">
+ヘルプ /
+</a>
+<a href="https://link2.note.com/CL0/https:%2F%2Fpremium.lp-note.com%2F/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/3Dkzv4hnp798Aey-Xg0qsWV1FXzqAi-X0ZaFR_XbyrE=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important">
+noteプレミアム /
+</a>
+<a href="https://link2.note.com/CL0/https:%2F%2Fpro.lp-note.com%2F%3Futm_source=mail%26utm_medium=notemail%26utm_campaign=notemail/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/A9GGUEqMz6wiopuEE-DyS0YLyW2uyFLkpwgy4gTPdZ4=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important">
+noteの法人向けサービス /
+</a>
+<a href="https://link2.note.com/CL0/https:%2F%2Fterms.help-note.com%2Fhc%2Fja%2Farticles%2F44948981050649/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/e_ASVI-iKPosYvJiSK0kBqYsWE9H7298ZOUWLFb979Y=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important">
+プライバシーポリシー /
+</a>
+<a href="https://link2.note.com/CL0/https:%2F%2Fterms.help-note.com%2Fhc%2Fja%2Farticles%2F44943817565465/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/SobqilPZVJEEOd7yrlHssKPpUKQ9K1BdbtnFp3SvbeY=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important">
+利用規約
+</a>
+</p>
+<p class="mailer-footer__copyright" style="margin:0;padding:0;font-weight:normal;font-size:13px;line-height:1.6;padding-top:16px;padding-bottom:40px;font-size:12px;color:#787c7b;border-top:1px solid #e6e6e6">
+<a href="https://link2.note.com/CL0/https:%2F%2Fnote.jp%2F/1/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/ucnlBydjoHbSxgXMvLAwKVOXoB5DbLCxrl1ZWtQNK0g=258" style="margin:0;padding:0;color:#222;text-decoration:none;color:#000;color:#787c7b;text-decoration:none !important">
+© note inc.
+</a>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img alt="" src="http://link2.note.com/CI0/0106019edaad2226-ae1be894-1573-4428-bec9-52c96e517591-000000/FQT9jwMmv55EgpmWxOFgjfAq7R_ywJ3plxQDOwu81ys=258" style="display: none; width: 1px; height: 1px;">
+</body>
+</html><html style="margin:0;padding:0">
+</html>
