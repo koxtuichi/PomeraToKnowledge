@@ -188,7 +188,7 @@
       "last_seen": "2026-02-25T13:31:18.388128",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0015,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -338,6 +338,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.0015,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0014,
           "trigger": null
         }
       ],
@@ -543,13 +549,13 @@
     },
     {
       "id": "制約:CreativeTimeShortage",
-      "label": "制作時間の確保困難",
+      "label": "育児中の制作時間",
       "type": "制約",
-      "detail": "5時間程度の高品質な描画を行うためのまとまった時間を確保することが難しい。",
+      "detail": "育児中であるためまとまった時間は取れないが、走り書きのような形でイメージを紙に落とし込んでいる。",
       "constraint_type": "時間不足",
       "first_seen": "2026-02-16T23:51:38.047434",
-      "last_seen": "2026-02-17T00:49:10.716675",
-      "weight": 0.1,
+      "last_seen": "2026-07-16T16:18:32.666995",
+      "weight": 1.1,
       "tags": []
     },
     {
@@ -558,8 +564,8 @@
       "type": "人物",
       "detail": "日記の作成者",
       "first_seen": "2026-02-16T23:51:38.047444",
-      "last_seen": "2026-07-15T16:35:33.951961",
-      "weight": 200,
+      "last_seen": "2026-07-16T16:18:32.609094",
+      "weight": 201,
       "tags": []
     },
     {
@@ -845,6 +851,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -865,14 +877,14 @@
     },
     {
       "id": "タスク:MonsterDrawing",
-      "label": "オレンジモンスターの収集",
+      "label": "自己表現としてのクリーチャー制作",
       "type": "目標",
-      "detail": "短時間の動画撮影を組み合わせた制作フローが定着し、継続できている。",
+      "detail": "単なるストレス解消の趣味から、自分が生み出したモンスターのデザイン・生態・生息域までを表現する本格的な創作活動へ移行する。",
       "status": "進行中",
       "category": "エンジニア",
       "first_seen": "2026-02-16T14:56:00.317260",
-      "last_seen": "2026-05-22T00:43:23.865313",
-      "weight": 0.1,
+      "last_seen": "2026-07-16T16:18:32.666995",
+      "weight": 1.1,
       "tags": [
         "100体チャレンジ",
         "Monster",
@@ -883,12 +895,18 @@
         "継続",
         "習慣"
       ],
-      "current_state": "自身のオレンジモンスターは購入済みで愛用中。妻にも購入してあげたいと考えている。",
+      "current_state": "絵を描くことでストレスを解消しつつ、自己表現としてダークファンタジーなクリーチャーを創造したいという意欲が高まっている。",
       "update_history": [
         {
           "date": "2026-05-22",
           "diary_id": "日記:20260522",
           "content": "購入したセイコーの腕時計『オレンジモンスター』が非常に気に入っている。妻の分も購入したい。",
+          "state": "進行中"
+        },
+        {
+          "date": "2026-03-09",
+          "diary_id": "日記:20260309",
+          "content": "単なる趣味からクリーチャーのデザインや生態構築を含めた自己表現へと目標を昇華させた。",
           "state": "進行中"
         }
       ]
@@ -992,7 +1010,7 @@
       "first_seen": "2026-02-16T14:56:00.317300",
       "last_seen": "2026-02-25T13:30:26.452966",
       "weight": 0.1,
-      "active_sentiment": -0.0017,
+      "active_sentiment": -0.0015,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1143,6 +1161,12 @@
           "sentiment": -0.9,
           "active_sentiment": -0.0017,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0015,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
@@ -1243,7 +1267,7 @@
       "last_seen": "2026-02-25T13:30:26.452966",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0014,
+      "active_sentiment": 0.0013,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1393,6 +1417,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.0014,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0013,
           "trigger": null
         }
       ],
@@ -1584,6 +1614,12 @@
           "sentiment": -0.9,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
@@ -1712,7 +1748,7 @@
       "first_seen": "2026-02-16T15:04:30.041960",
       "last_seen": "2026-05-21T18:52:32.277159",
       "weight": 0.1,
-      "active_sentiment": 0.1082,
+      "active_sentiment": 0.0974,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -1863,10 +1899,16 @@
           "sentiment": 0.8,
           "active_sentiment": 0.1082,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0974,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降",
+      "trend": "安定",
       "tags": []
     },
     {
@@ -2027,6 +2069,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -2367,6 +2415,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -2592,6 +2646,12 @@
           "sentiment": 0.7,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
@@ -2639,9 +2699,9 @@
       "sentiment": 0.8,
       "first_seen": "2026-02-16T15:54:33.865489",
       "last_seen": "2026-07-15T16:35:33.953092",
-      "weight": 1.1,
+      "weight": 1.05,
       "tags": [],
-      "active_sentiment": 0.8,
+      "active_sentiment": 0.72,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -2791,6 +2851,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.8,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.72,
           "trigger": null
         }
       ],
@@ -3054,6 +3120,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -3273,6 +3345,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -3305,15 +3383,15 @@
     },
     {
       "id": "感情:創作への渇望",
-      "label": "クリエイティブへの渇望",
+      "label": "創作への情熱",
       "type": "感情",
-      "sentiment": 0.6,
+      "sentiment": 0.8,
       "detail": "人気者になりたい、AIを活用したブログ執筆や表現活動に時間を使いたいという強い意欲",
       "first_seen": "2026-02-16T19:17:33.757353",
-      "last_seen": "2026-02-24T15:39:05.953298",
-      "weight": 0.1,
+      "last_seen": "2026-07-16T16:18:32.666995",
+      "weight": 1.1,
       "tags": [],
-      "active_sentiment": 0.0005,
+      "active_sentiment": 0.8,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3464,10 +3542,16 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.8,
+          "trigger": null
         }
       ],
-      "peak_sentiment": 0.6,
-      "trend": "安定"
+      "peak_sentiment": 0.8,
+      "trend": "上昇"
     },
     {
       "id": "知見:高品質なイラスト of 集客効果",
@@ -3649,6 +3733,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -3662,7 +3752,7 @@
       "constraint_type": "時間不足",
       "first_seen": "2026-02-16T20:12:16.303207",
       "last_seen": "2026-07-13T18:33:28.136227",
-      "weight": 0.95,
+      "weight": 0.85,
       "tags": []
     },
     {
@@ -3683,7 +3773,7 @@
       "first_seen": "2026-02-16T20:48:22.676275",
       "last_seen": "2026-03-11T08:01:24.892498",
       "weight": 0.1,
-      "active_sentiment": 0.0974,
+      "active_sentiment": 0.0877,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -3834,10 +3924,16 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0974,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0877,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降",
+      "trend": "安定",
       "tags": []
     },
     {
@@ -3851,7 +3947,7 @@
       "last_seen": "2026-02-25T13:31:18.388128",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0013,
+      "active_sentiment": -0.0012,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -4002,6 +4098,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0013,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0012,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.0,
@@ -4015,7 +4117,7 @@
       "detail": "AI生成記事の判断基準がわからず、品質維持に対する不安が運用の遅れを招いている。",
       "first_seen": "2026-02-16T21:27:39.053825",
       "last_seen": "2026-07-14T15:31:23.316037",
-      "weight": 1.05,
+      "weight": 1.0,
       "tags": []
     },
     {
@@ -4175,6 +4277,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -4376,6 +4484,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -4539,6 +4653,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": 0.5,
           "active_sentiment": 0.0005,
           "trigger": null
@@ -4725,6 +4845,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -4916,6 +5042,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -5096,6 +5228,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.4,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -5325,6 +5463,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.6,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -5585,6 +5729,12 @@
           "sentiment": 0.4,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.4,
@@ -5638,7 +5788,7 @@
         "メンタル",
         "仕事"
       ],
-      "active_sentiment": -0.0014,
+      "active_sentiment": -0.0013,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5789,6 +5939,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0014,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0013,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -5827,7 +5983,7 @@
         "ガジェット",
         "ツール"
       ],
-      "active_sentiment": 0.0007,
+      "active_sentiment": 0.0006,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -5978,6 +6134,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0007,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0006,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -5990,7 +6152,7 @@
       "detail": "ツールや環境作りは単なる手段ではなく、自分が自分に優しくある（目標を達成する）ための自己管理そのものである。",
       "first_seen": "2026-02-17T09:07:31.677787",
       "last_seen": "2026-07-15T16:35:33.953092",
-      "weight": 1.1,
+      "weight": 1.05,
       "tags": [],
       "update_history": [
         {
@@ -6211,6 +6373,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.6,
@@ -6229,7 +6397,7 @@
         "体調",
         "生活リズム"
       ],
-      "active_sentiment": -0.1668,
+      "active_sentiment": -0.1501,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -6380,10 +6548,16 @@
           "sentiment": -1.0,
           "active_sentiment": -0.1668,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -1.0,
+          "active_sentiment": -0.1501,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
-      "trend": "上昇",
+      "trend": "安定",
       "date": "2026-03-26"
     },
     {
@@ -6543,6 +6717,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": 0.8,
           "active_sentiment": 0.0005,
           "trigger": null
@@ -6941,6 +7121,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -7019,7 +7205,7 @@
       "last_seen": "2026-02-25T13:32:43.263646",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0019,
+      "active_sentiment": -0.0017,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7169,6 +7355,12 @@
           "date": "2026-07-15",
           "sentiment": -0.8,
           "active_sentiment": -0.0019,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.8,
+          "active_sentiment": -0.0017,
           "trigger": null
         }
       ],
@@ -7404,6 +7596,12 @@
           "sentiment": 0.4,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -7445,7 +7643,7 @@
       "first_seen": "2026-02-20T08:31:06.380257",
       "last_seen": "2026-02-25T08:40:29.387939",
       "weight": 0.1,
-      "active_sentiment": -0.001,
+      "active_sentiment": -0.0009,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7595,6 +7793,12 @@
           "date": "2026-07-15",
           "sentiment": -0.9,
           "active_sentiment": -0.001,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0009,
           "trigger": null
         }
       ],
@@ -7797,6 +8001,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -7847,7 +8057,7 @@
       "last_seen": "2026-02-25T13:35:09.286242",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": 0.0026,
+      "active_sentiment": 0.0023,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -7998,6 +8208,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0026,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0023,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -8032,7 +8248,7 @@
       "first_seen": "2026-02-21T03:31:20.783290",
       "last_seen": "2026-02-25T08:41:55.747991",
       "weight": 0.1,
-      "active_sentiment": 0.0011,
+      "active_sentiment": 0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8183,6 +8399,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0011,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -8316,7 +8538,7 @@
       "first_seen": "2026-02-22T00:56:28.725229",
       "last_seen": "2026-02-25T08:41:55.747991",
       "weight": 0.1,
-      "active_sentiment": 0.0009,
+      "active_sentiment": 0.0008,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8467,6 +8689,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0009,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0008,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -8492,7 +8720,7 @@
       "first_seen": "2026-02-22T00:56:28.725304",
       "last_seen": "2026-02-25T13:35:09.286242",
       "weight": 0.1,
-      "active_sentiment": 0.0031,
+      "active_sentiment": 0.0028,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -8642,6 +8870,12 @@
           "date": "2026-07-15",
           "sentiment": 0.9,
           "active_sentiment": 0.0031,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0028,
           "trigger": null
         }
       ],
@@ -8925,6 +9159,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -9115,6 +9355,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.2,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.2,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -9313,7 +9559,7 @@
       "category": "エンジニア",
       "first_seen": "2026-02-23T07:23:14.339354",
       "last_seen": "2026-07-13T11:59:24.916202",
-      "weight": 0.9,
+      "weight": 0.8,
       "tags": [],
       "current_state": "ブログでの発信を通じて魅力を言語化中。論理だけでなく没入体験としての価値を整理している。",
       "update_history": [
@@ -9346,7 +9592,7 @@
       "first_seen": "2026-02-23T07:23:14.339390",
       "last_seen": "2026-02-25T08:43:59.654947",
       "weight": 0.1,
-      "active_sentiment": 0.0011,
+      "active_sentiment": 0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9497,6 +9743,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0011,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -9553,7 +9805,7 @@
       "first_seen": "2026-02-23T21:45:53.296071",
       "last_seen": "2026-02-25T13:37:31.318620",
       "weight": 0.1,
-      "active_sentiment": 0.0032,
+      "active_sentiment": 0.0029,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -9704,6 +9956,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0032,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0029,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -9849,7 +10107,7 @@
       "last_seen": "2026-02-26T20:11:39.237921",
       "weight": 0.1,
       "tags": [],
-      "active_sentiment": -0.0044,
+      "active_sentiment": -0.004,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -10000,6 +10258,12 @@
           "sentiment": -0.5,
           "active_sentiment": -0.0044,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.5,
+          "active_sentiment": -0.004,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -10049,7 +10313,7 @@
       "first_seen": "2026-02-24T23:55:50.870919",
       "last_seen": "2026-02-25T13:38:14.199730",
       "weight": 0.1,
-      "active_sentiment": 0.0036,
+      "active_sentiment": 0.0032,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -10199,6 +10463,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.0036,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0032,
           "trigger": null
         }
       ],
@@ -10398,6 +10668,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": 0.8,
           "active_sentiment": 0.0005,
           "trigger": null
@@ -10730,6 +11006,12 @@
           "sentiment": -0.4,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -10953,6 +11235,12 @@
           "sentiment": 0.6,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -10997,7 +11285,7 @@
       "first_seen": "2026-02-24T15:42:44.917598",
       "last_seen": "2026-02-25T13:33:23.166281",
       "weight": 0.1,
-      "active_sentiment": 0.0025,
+      "active_sentiment": 0.0023,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -11147,6 +11435,12 @@
           "date": "2026-07-15",
           "sentiment": 0.9,
           "active_sentiment": 0.0025,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0023,
           "trigger": null
         }
       ],
@@ -11341,6 +11635,12 @@
           "sentiment": 0.4,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.4,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.4,
@@ -11521,6 +11821,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": -0.9,
           "active_sentiment": -0.0005,
           "trigger": null
@@ -11744,6 +12050,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": 0.8,
           "active_sentiment": 0.0005,
           "trigger": null
@@ -12059,6 +12371,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -12293,6 +12611,12 @@
           "sentiment": 0.5,
           "active_sentiment": 0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -12460,6 +12784,12 @@
           "sentiment": -0.9,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.9,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.9,
@@ -12534,7 +12864,7 @@
       ],
       "first_seen": "2026-02-25T01:18:10.297535",
       "last_seen": "2026-07-14T15:31:23.316037",
-      "weight": 2.05,
+      "weight": 2.0,
       "status": "進行中",
       "current_state": "育児のみのジャンルから、エンジニア職も含むエッセイ形式への転換を検討中。AI活用は手段とし、自身の目線や熱量を届けることを重視する。",
       "update_history": [
@@ -12858,6 +13188,12 @@
           "sentiment": -0.4,
           "active_sentiment": -0.0005,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.4,
+          "active_sentiment": -0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -12933,7 +13269,7 @@
       "first_seen": "2026-02-25T13:31:18.387368",
       "last_seen": "2026-02-25T13:31:18.388128",
       "weight": 0.1,
-      "active_sentiment": 0.0011,
+      "active_sentiment": 0.001,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -13084,6 +13420,12 @@
           "sentiment": 0.5,
           "active_sentiment": 0.0011,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.5,
+          "active_sentiment": 0.001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.5,
@@ -13111,7 +13453,7 @@
       "first_seen": "2026-02-25T13:32:00.950525",
       "last_seen": "2026-02-25T13:32:00.951378",
       "weight": 0.1,
-      "active_sentiment": -0.0007,
+      "active_sentiment": -0.0006,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -13262,6 +13604,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0007,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0006,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -13345,7 +13693,7 @@
       "first_seen": "2026-02-25T13:34:10.525258",
       "last_seen": "2026-02-25T13:34:10.525993",
       "weight": 0.1,
-      "active_sentiment": -0.0023,
+      "active_sentiment": -0.0021,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -13496,6 +13844,12 @@
           "sentiment": -0.8,
           "active_sentiment": -0.0023,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.8,
+          "active_sentiment": -0.0021,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.8,
@@ -13558,7 +13912,7 @@
       "first_seen": "2026-02-25T13:36:24.245041",
       "last_seen": "2026-02-25T13:36:24.245725",
       "weight": 0.1,
-      "active_sentiment": -0.0012,
+      "active_sentiment": -0.0011,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -13709,6 +14063,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0012,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0011,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -13735,7 +14095,7 @@
       "first_seen": "2026-02-25T13:38:48.926756",
       "last_seen": "2026-02-25T13:38:48.927363",
       "weight": 0.1,
-      "active_sentiment": 0.0031,
+      "active_sentiment": 0.0028,
       "emotion_history": [
         {
           "date": "2026-02-25",
@@ -13885,6 +14245,12 @@
           "date": "2026-07-15",
           "sentiment": 0.6,
           "active_sentiment": 0.0031,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0028,
           "trigger": null
         }
       ],
@@ -14038,7 +14404,7 @@
       "first_seen": "2026-02-26T01:06:23.157989",
       "last_seen": "2026-02-26T01:06:23.159250",
       "weight": 0.1,
-      "active_sentiment": -0.0029,
+      "active_sentiment": -0.0026,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -14183,6 +14549,12 @@
           "sentiment": -0.5,
           "active_sentiment": -0.0029,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.5,
+          "active_sentiment": -0.0026,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.5,
@@ -14245,7 +14617,7 @@
       "first_seen": "2026-02-26T01:10:34.836637",
       "last_seen": "2026-02-26T09:51:24.603986",
       "weight": 0.1,
-      "active_sentiment": -0.0538,
+      "active_sentiment": -0.0511,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -14389,6 +14761,12 @@
           "date": "2026-07-15",
           "sentiment": -0.6,
           "active_sentiment": -0.0538,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0511,
           "trigger": null
         }
       ],
@@ -14550,6 +14928,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0001,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": 0.8,
           "active_sentiment": 0.0001,
           "trigger": null
@@ -14736,7 +15120,7 @@
       "first_seen": "2026-02-26T09:51:24.601153",
       "last_seen": "2026-02-26T20:11:39.237921",
       "weight": 0.1,
-      "active_sentiment": 0.0006,
+      "active_sentiment": 0.0005,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -14881,6 +15265,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0006,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -15008,7 +15398,7 @@
       "first_seen": "2026-02-26T17:56:14.334678",
       "last_seen": "2026-02-26T17:56:14.338079",
       "weight": 0.1,
-      "active_sentiment": -0.0566,
+      "active_sentiment": -0.0538,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -15153,6 +15543,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.0566,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0538,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -15170,7 +15566,7 @@
       "first_seen": "2026-02-26T17:56:14.334872",
       "last_seen": "2026-02-26T17:56:14.338079",
       "weight": 0.1,
-      "active_sentiment": 0.0005,
+      "active_sentiment": 0.0004,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -15314,6 +15710,12 @@
           "date": "2026-07-15",
           "sentiment": 0.9,
           "active_sentiment": 0.0005,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0004,
           "trigger": null
         }
       ],
@@ -15477,6 +15879,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 1.0,
@@ -15536,7 +15944,7 @@
       "first_seen": "2026-02-26T20:11:39.235368",
       "last_seen": "2026-02-26T20:11:39.237921",
       "weight": 0.1,
-      "active_sentiment": 0.0006,
+      "active_sentiment": 0.0005,
       "emotion_history": [
         {
           "date": "2026-02-26",
@@ -15681,6 +16089,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0006,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0005,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -15796,7 +16210,7 @@
       "first_seen": "2026-02-27T16:05:32.478426",
       "last_seen": "2026-02-27T16:05:32.480583",
       "weight": 0.1,
-      "active_sentiment": 0.0004,
+      "active_sentiment": 0.0003,
       "emotion_history": [
         {
           "date": "2026-02-27",
@@ -15934,6 +16348,12 @@
           "date": "2026-07-15",
           "sentiment": 0.6,
           "active_sentiment": 0.0004,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0003,
           "trigger": null
         }
       ],
@@ -16114,6 +16534,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -16186,7 +16612,7 @@
       "first_seen": "2026-02-28T00:44:42.321028",
       "last_seen": "2026-02-28T17:35:48.923595",
       "weight": 0.1,
-      "active_sentiment": 0.0012,
+      "active_sentiment": 0.001,
       "emotion_history": [
         {
           "date": "2026-02-28",
@@ -16318,6 +16744,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.0012,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.001,
           "trigger": null
         }
       ],
@@ -16542,6 +16974,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -16703,6 +17141,12 @@
           "sentiment": 0.7,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.7,
@@ -16780,7 +17224,7 @@
       "first_seen": "2026-03-01T00:46:04.708648",
       "last_seen": "2026-03-01T12:31:16.380310",
       "weight": 0.1,
-      "active_sentiment": -0.09,
+      "active_sentiment": -0.0855,
       "emotion_history": [
         {
           "date": "2026-03-01",
@@ -16907,6 +17351,12 @@
           "sentiment": -0.6,
           "active_sentiment": -0.09,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.6,
+          "active_sentiment": -0.0855,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.6,
@@ -16992,7 +17442,7 @@
       "first_seen": "2026-03-01T12:31:16.379151",
       "last_seen": "2026-03-01T12:31:16.380310",
       "weight": 0.1,
-      "active_sentiment": 0.0017,
+      "active_sentiment": 0.0014,
       "emotion_history": [
         {
           "date": "2026-03-01",
@@ -17118,6 +17568,12 @@
           "date": "2026-07-15",
           "sentiment": 0.7,
           "active_sentiment": 0.0017,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.7,
+          "active_sentiment": 0.0014,
           "trigger": null
         }
       ],
@@ -17315,6 +17771,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -17356,7 +17818,7 @@
       "first_seen": "2026-03-02T10:15:17.912352",
       "last_seen": "2026-03-02T10:15:17.913825",
       "weight": 0.1,
-      "active_sentiment": -0.0111,
+      "active_sentiment": -0.01,
       "emotion_history": [
         {
           "date": "2026-03-02",
@@ -17477,6 +17939,12 @@
           "sentiment": -0.4,
           "active_sentiment": -0.0111,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.4,
+          "active_sentiment": -0.01,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.4,
@@ -17546,7 +18014,7 @@
       "first_seen": "2026-03-04T01:47:48.852826",
       "last_seen": "2026-03-04T01:47:48.929896",
       "weight": 0.1,
-      "active_sentiment": 0.0014,
+      "active_sentiment": 0.0012,
       "emotion_history": [
         {
           "date": "2026-03-04",
@@ -17660,6 +18128,12 @@
           "date": "2026-07-15",
           "sentiment": 0.3,
           "active_sentiment": 0.0014,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.3,
+          "active_sentiment": 0.0012,
           "trigger": null
         }
       ],
@@ -17803,6 +18277,12 @@
         },
         {
           "date": "2026-07-15",
+          "sentiment": 1.0,
+          "active_sentiment": 0.0001,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
           "sentiment": 1.0,
           "active_sentiment": 0.0001,
           "trigger": null
@@ -17981,7 +18461,7 @@
       "first_seen": "2026-03-05T01:06:35.660633",
       "last_seen": "2026-03-05T15:01:44.464717",
       "weight": 0.1,
-      "active_sentiment": -0.0193,
+      "active_sentiment": -0.0174,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -18090,6 +18570,12 @@
           "sentiment": -0.3,
           "active_sentiment": -0.0193,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.3,
+          "active_sentiment": -0.0174,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.3,
@@ -18108,7 +18594,7 @@
       "first_seen": "2026-03-05T01:06:35.660703",
       "last_seen": "2026-05-21T19:15:01.693109",
       "weight": 0.1,
-      "active_sentiment": 0.0524,
+      "active_sentiment": 0.0445,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -18216,6 +18702,12 @@
           "date": "2026-07-15",
           "sentiment": 0.6,
           "active_sentiment": 0.0524,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0445,
           "trigger": null
         }
       ],
@@ -18443,6 +18935,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -18460,7 +18958,7 @@
       "first_seen": "2026-03-05T02:56:01.177521",
       "last_seen": "2026-03-05T02:56:01.179890",
       "weight": 0.1,
-      "active_sentiment": -0.0501,
+      "active_sentiment": -0.0476,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -18569,6 +19067,12 @@
           "sentiment": -0.2,
           "active_sentiment": -0.0501,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.2,
+          "active_sentiment": -0.0476,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.2,
@@ -18665,7 +19169,7 @@
       "first_seen": "2026-03-05T15:01:44.462881",
       "last_seen": "2026-05-22T00:43:23.865313",
       "weight": 0.1,
-      "active_sentiment": 0.1137,
+      "active_sentiment": 0.0966,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -18774,10 +19278,16 @@
           "sentiment": 0.8,
           "active_sentiment": 0.1137,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0966,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
-      "trend": "下降",
+      "trend": "安定",
       "detail": null,
       "tags": []
     },
@@ -18792,7 +19302,7 @@
       "first_seen": "2026-03-05T15:01:44.462952",
       "last_seen": "2026-03-05T15:01:44.464717",
       "weight": 0.1,
-      "active_sentiment": -0.1317,
+      "active_sentiment": -0.1251,
       "emotion_history": [
         {
           "date": "2026-03-05",
@@ -18901,6 +19411,12 @@
           "sentiment": -0.5,
           "active_sentiment": -0.1317,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.5,
+          "active_sentiment": -0.1251,
+          "trigger": null
         }
       ],
       "peak_sentiment": -0.5,
@@ -18967,7 +19483,7 @@
       "first_seen": "2026-03-06T05:18:58.709378",
       "last_seen": "2026-03-06T05:18:58.710931",
       "weight": 0.1,
-      "active_sentiment": 0.0143,
+      "active_sentiment": 0.0129,
       "emotion_history": [
         {
           "date": "2026-03-06",
@@ -19069,6 +19585,12 @@
           "date": "2026-07-15",
           "sentiment": 0.2,
           "active_sentiment": 0.0143,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.2,
+          "active_sentiment": 0.0129,
           "trigger": null
         }
       ],
@@ -19208,6 +19730,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0001,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -19291,7 +19819,7 @@
       "first_seen": "2026-03-09T06:29:06.664890",
       "last_seen": "2026-03-09T06:29:06.666852",
       "weight": 0.1,
-      "active_sentiment": 0.0002,
+      "active_sentiment": 0.0001,
       "emotion_history": [
         {
           "date": "2026-03-09",
@@ -19382,6 +19910,12 @@
           "sentiment": 0.9,
           "active_sentiment": 0.0002,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0001,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.9,
@@ -19442,7 +19976,7 @@
       "first_seen": "2026-03-10T15:12:35.781049",
       "last_seen": "2026-03-10T15:12:35.783079",
       "weight": 0.1,
-      "active_sentiment": 0.0003,
+      "active_sentiment": 0.0002,
       "emotion_history": [
         {
           "date": "2026-03-10",
@@ -19527,6 +20061,12 @@
           "sentiment": 0.8,
           "active_sentiment": 0.0003,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0002,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.8,
@@ -19565,7 +20105,7 @@
       "first_seen": "2026-03-10T15:12:35.781386",
       "last_seen": "2026-03-10T15:12:35.783079",
       "weight": 0.1,
-      "active_sentiment": -0.0493,
+      "active_sentiment": -0.0444,
       "emotion_history": [
         {
           "date": "2026-03-10",
@@ -19649,6 +20189,12 @@
           "date": "2026-07-15",
           "sentiment": -0.5,
           "active_sentiment": -0.0493,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": -0.5,
+          "active_sentiment": -0.0444,
           "trigger": null
         }
       ],
@@ -19735,7 +20281,7 @@
       "first_seen": "2026-03-11T08:01:24.890335",
       "last_seen": "2026-03-11T08:01:24.892498",
       "weight": 0.1,
-      "active_sentiment": 0.0232,
+      "active_sentiment": 0.0197,
       "emotion_history": [
         {
           "date": "2026-03-11",
@@ -19813,6 +20359,12 @@
           "date": "2026-07-15",
           "sentiment": 0.6,
           "active_sentiment": 0.0232,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.6,
+          "active_sentiment": 0.0197,
           "trigger": null
         }
       ],
@@ -20006,7 +20558,7 @@
       "first_seen": "2026-05-21T19:14:04.964185",
       "last_seen": "2026-05-21T19:14:04.965535",
       "weight": 0.1,
-      "active_sentiment": 0.003,
+      "active_sentiment": 0.0021,
       "emotion_history": [
         {
           "date": "2026-05-21",
@@ -20078,6 +20630,12 @@
           "date": "2026-07-15",
           "sentiment": 0.9,
           "active_sentiment": 0.003,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.9,
+          "active_sentiment": 0.0021,
           "trigger": null
         }
       ],
@@ -20420,7 +20978,7 @@
       "first_seen": "2026-05-24T00:13:22.447921",
       "last_seen": "2026-05-24T00:13:22.449271",
       "weight": 0.1,
-      "active_sentiment": 0.0141,
+      "active_sentiment": 0.0099,
       "emotion_history": [
         {
           "date": "2026-05-24",
@@ -20474,6 +21032,12 @@
           "date": "2026-07-15",
           "sentiment": 0.5,
           "active_sentiment": 0.0141,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.5,
+          "active_sentiment": 0.0099,
           "trigger": null
         }
       ],
@@ -20544,7 +21108,7 @@
       "first_seen": "2026-06-25T22:22:24.497104",
       "last_seen": "2026-07-04T22:55:21.910365",
       "weight": 0.1,
-      "active_sentiment": 0.0941,
+      "active_sentiment": 0.0659,
       "emotion_history": [
         {
           "date": "2026-06-25",
@@ -20586,6 +21150,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.0941,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.0659,
           "trigger": null
         }
       ],
@@ -20668,7 +21238,7 @@
       "first_seen": "2026-07-02T09:29:25.918019",
       "last_seen": "2026-07-02T09:29:25.919565",
       "weight": 0.1,
-      "active_sentiment": 0.0247,
+      "active_sentiment": 0.0173,
       "emotion_history": [
         {
           "date": "2026-07-02",
@@ -20705,10 +21275,16 @@
           "sentiment": 0.3,
           "active_sentiment": 0.0247,
           "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.3,
+          "active_sentiment": 0.0173,
+          "trigger": null
         }
       ],
       "peak_sentiment": 0.3,
-      "trend": "下降"
+      "trend": "安定"
     },
     {
       "id": "日記:2026-07-02",
@@ -20839,7 +21415,7 @@
       "context": "private",
       "first_seen": "2026-07-13T11:59:24.914666",
       "last_seen": "2026-07-13T11:59:24.916202",
-      "weight": 0.8
+      "weight": 0.7
     },
     {
       "id": "日記:2026-07-13",
@@ -20857,12 +21433,21 @@
       "id": "日記:20260309",
       "label": "2026-03-09の日記",
       "type": "日記",
-      "detail": "絵を描くことが自分にとってのストレス解消や頭の整理、自己メンテナンスになっていることについて綴った。家族の時間を大切にしつつ、隙間時間で手帳を活用してクリエイティブな活動を維持している。",
+      "detail": "絵を描くことのヒーリング効果を再認識しつつ、単なる趣味から自己表現としてのクリーチャー制作へステップアップしたいという意欲が芽生えた。",
       "date": "2026-03-09",
       "context": "private",
       "first_seen": "2026-07-13T18:33:28.134061",
-      "last_seen": "2026-07-13T18:33:28.136227",
-      "weight": 1
+      "last_seen": "2026-07-16T16:18:32.666995",
+      "weight": 1,
+      "update_history": [
+        {
+          "date": "2026-03-09",
+          "diary_id": "日記:20260309",
+          "content": "趣味の絵を通じて自己表現やクリーチャー制作に意欲を見出す。",
+          "state": "執筆"
+        }
+      ],
+      "tags": []
     },
     {
       "id": "課題:メンタル維持と自己メンテナンス",
@@ -20882,7 +21467,7 @@
       "context": "private",
       "first_seen": "2026-07-13T18:33:28.134329",
       "last_seen": "2026-07-13T18:33:28.136227",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "id": "出来事:5倍がゆ作り",
@@ -20893,17 +21478,18 @@
       "context": "private",
       "first_seen": "2026-07-13T18:33:28.134455",
       "last_seen": "2026-07-13T18:33:28.136227",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "id": "感想:絵を描くことの楽しさ",
-      "label": "絵を描くことの楽しさ",
+      "label": "絵を描くことの効能",
       "type": "感想",
-      "detail": "誰に見せるためでもなく、自分が楽しいと感じることが重要である。描くことで悩みが整理され、精神的に楽になる。",
+      "detail": "絵を描くことは日々のストレスを軽減し、まとまらなかった考えを整理するヒーリング効果がある。",
       "context": "private",
       "first_seen": "2026-07-13T18:33:28.134576",
-      "last_seen": "2026-07-13T18:33:28.136227",
-      "weight": 0.85
+      "last_seen": "2026-07-16T16:18:32.666995",
+      "weight": 1.85,
+      "tags": []
     },
     {
       "id": "日記:20260303_AI活用と執筆方針",
@@ -20934,7 +21520,7 @@
       "context": "private",
       "first_seen": "2026-07-13T20:01:36.715765",
       "last_seen": "2026-07-13T20:01:36.717444",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "id": "解決策:ポメラによる手書き回帰",
@@ -20952,7 +21538,7 @@
       "context": "private",
       "first_seen": "2026-07-13T20:01:36.715899",
       "last_seen": "2026-07-13T20:01:36.717444",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "id": "知見:AI小説におけるテーマ設定の重要性",
@@ -20970,7 +21556,7 @@
       "context": "shared",
       "first_seen": "2026-07-13T20:01:36.716024",
       "last_seen": "2026-07-13T20:01:36.717444",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "id": "感情:ポメラ活用への手応え",
@@ -20982,8 +21568,8 @@
       "context": "private",
       "first_seen": "2026-07-13T20:01:36.716155",
       "last_seen": "2026-07-13T20:01:36.717444",
-      "weight": 0.9,
-      "active_sentiment": 0.392,
+      "weight": 0.8,
+      "active_sentiment": 0.2744,
       "emotion_history": [
         {
           "date": "2026-07-13",
@@ -21001,6 +21587,12 @@
           "date": "2026-07-15",
           "sentiment": 0.8,
           "active_sentiment": 0.392,
+          "trigger": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": 0.8,
+          "active_sentiment": 0.2744,
           "trigger": null
         }
       ],
@@ -21035,7 +21627,7 @@
       "context": "shared",
       "first_seen": "2026-07-14T15:31:23.314391",
       "last_seen": "2026-07-14T15:31:23.316037",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "解決策:エッセイジャンルへの絞り込み",
@@ -21053,7 +21645,7 @@
       "context": "private",
       "first_seen": "2026-07-14T15:31:23.314649",
       "last_seen": "2026-07-14T15:31:23.316037",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "感想:他人の価値観への敬意",
@@ -21063,7 +21655,7 @@
       "context": "private",
       "first_seen": "2026-07-14T15:31:23.314781",
       "last_seen": "2026-07-14T15:31:23.316037",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "id": "日記:2026-07-14",
@@ -21105,7 +21697,7 @@
       "context": "shared",
       "first_seen": "2026-07-15T16:35:33.951275",
       "last_seen": "2026-07-15T16:35:33.953092",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "解決策:ポメラ・手帳駆動の集中環境",
@@ -21123,7 +21715,7 @@
       "context": "shared",
       "first_seen": "2026-07-15T16:35:33.951410",
       "last_seen": "2026-07-15T16:35:33.953092",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "id": "日記:2026-07-15",
@@ -21135,6 +21727,17 @@
       "last_seen": "2026-07-15T16:35:33.951832",
       "weight": 1,
       "analysis_content": "{\"coach_comment\": \"ポメラや手帳を「自分自身に優しくするためのツール」と捉え直せたのは大きな一歩ですね。過去への後悔を今の行動へのエネルギーへ変換し、隙間時間を慈しむ姿勢は非常に建設的です。まずは「完璧な成果」よりも「決めたことをやった」という事実を積み重ねていきましょう。あなたの選択した道は、今、ここにいる家族と共に作られている尊いものです。\", \"gravity_map\": [{\"task\": \"ブログ執筆フローと管理ルールの策定\", \"task_id\": \"blog_writing_flow\", \"constraints\": [{\"name\": \"ブログ内容への完璧主義\", \"type\": \"感情\", \"severity\": \"高\"}, {\"name\": \"執筆時間の確保と家族との時間バランス\", \"type\": \"環境\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"エンジニアとしてのキャリア向上心\", \"type\": \"目標\"}, {\"name\": \"ポメラを活用した手書きの集中力\", \"type\": \"知見\"}], \"net_assessment\": \"ツール活用による環境構築の道筋は見えているため、あとは「毎日20分」という最小単位から運用を開始することで重力を軽減できます。\"}, {\"task\": \"5時間かけた高品質なモンスター描画の制作\", \"task_id\": \"monster_drawing\", \"constraints\": [{\"name\": \"目標設定による心理的ハードル\", \"type\": \"感情\", \"severity\": \"高\"}, {\"name\": \"制作時間の確保困難\", \"type\": \"時間\", \"severity\": \"高\"}], \"energy_sources\": [{\"name\": \"絵を描くことへの純粋な情熱\", \"type\": \"感情\"}], \"net_assessment\": \"「5時間で完成」という目標が逆に重力となっています。micro5手帳での日々のスケッチを「制作の一部」と再定義することで心理的負荷を下げられます。\"}], \"antigravity_actions\": [{\"action\": \"YouTube視聴を制限するため、ブラウザの特定URLへのアクセスをブロックする拡張機能を導入し、代替としてポメラを触る時間を強制的に確保する\", \"target_task\": \"就寝前のYouTube視聴制限\", \"effect\": \"後悔につながる無意識の視聴を物理的に遮断し、自己肯定感を高めるための「今」に集中できる環境を整えます。\", \"effort\": \"30分\"}, {\"action\": \"寝る前のYouTubeを禁止する代わりに、翌日の予定や「今日頑張ったこと」をポメラに5分だけ書くルーチンを就寝前儀式として設定する\", \"target_task\": \"就寝前のYouTube視聴制限\", \"effect\": \"後悔の種を夜に残さず、翌朝のタスク思考による重力を軽減します。\", \"effort\": \"5分\"}, {\"action\": \"「noteを書く」という大きな目標を、「ポメラで20分間、箇条書きで思考を吐き出すだけ」という最小単位の作業に分割してタスクを更新する\", \"target_task\": \"AIによるブログ執筆自動化の検討\", \"effect\": \"「完璧に書かなければならない」という心理的ブレーキを外し、継続可能な執筆習慣を確立します。\", \"effort\": \"5分\"}, {\"action\": \"夕食後、家族との時間を優先するために「スマホはリビングに持ち込まない」というルールを試験的に導入し、仕事の通知から物理的に離れる\", \"target_task\": \"家族第一の父親\", \"effect\": \"ながら育児やマルチタスクによる集中力低下を解消し、家族への感謝と関わりに集中できる状態を作ります。\", \"effort\": \"5分\"}, {\"action\": \"micro5手帳に「描くこと」をスケジュール帳の余白に組み込み、空き時間を見つけるのではなく、手帳を開くタイミング＝描くタイミングと定義する\", \"target_task\": \"5時間かけた高品質なモンスター描画の制作\", \"effect\": \"まとまった時間の確保が難しいという諦めを捨て、隙間時間を活用した描画の習慣化を加速させます。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"ポメラや手帳を「成果を生むツール」ではなく「自分に優しくするための環境」と再定義している\", \"implication\": \"道具の使い方を「目標達成の手段」から「自己肯定の基盤」へシフトさせることで、執筆への心理的ブレーキを無効化できる可能性が高い。\"}], \"emotion_flow\": [{\"emotion\": \"後悔\", \"sentiment\": -0.8, \"context\": \"過去の時間の使い方への反省から生じている\"}, {\"emotion\": \"決意\", \"sentiment\": 0.9, \"context\": \"今を真剣に生き、目標達成のための環境を整えようとする意志\"}], \"upcoming_schedule\": [], \"family_digest\": {\"highlights\": [{\"member\": \"妻\", \"event\": \"日記の筆者（夫）と共に生活を送っている\", \"emotion\": \"肯定的な受容\"}, {\"member\": \"子供\", \"event\": \"日記の筆者（父）と共に生活を送っている\", \"emotion\": \"肯定的な受容\"}], \"family_todos\": [], \"shopping_list\": [{\"item\": \"保育園用布団\", \"category\": \"育児用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-30\"}]}, \"blog_seeds\": [{\"title\": \"「後悔」という名のタイムマシン\", \"genre\": \"日常\", \"tone\": \"哲学的\", \"story_seed\": \"ある男が、過去の後悔を修正するために精巧なタイマーを作り始めるが、実際にはそのタイマーが「現在」の濃度を高めるものだったと気づく物語。\", \"core_message\": \"過去を嘆く時間は、実は今の濃度を高めるための肥料である。\", \"reader_feeling\": \"ほっとする安らぎ\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"「ポメラを買ったのに続かない」を解決する、自分に優しくなるための環境作り\", \"theme\": \"ポメラ活用術・自己管理\", \"hook\": \"ポメラを買ってもYouTubeを見て後悔してしまう…そんな自分を責めるのは今日でやめませんか？\", \"readiness\": \"高\"}, {\"title\": \"なぜエンジニアは「書く」ことに集中したいのか？隙間時間で1500文字を紡ぐ仕組み\", \"theme\": \"エンジニアの思考整理・執筆術\", \"hook\": \"忙しいエンジニアこそ、あえてテキストしか扱えないガジェットを手に取る理由があります。\", \"readiness\": \"中\"}], \"knowbe\": {\"constraints\": [], \"tasks\": [], \"insights\": [{\"finding\": \"KnowbeのMTG前に思考を整理するプロセスが有効に機能している\", \"implication\": \"業務の質を高めるためには、ポメラのようなデジタルツールを用いた「思考の隔離・集中環境」を意識的に作り出すことが、Knowbeでの生産的なアウトプットに直結する\"}]}, \"saiteki\": {\"constraints\": [], \"tasks\": [], \"insights\": []}}"
+    },
+    {
+      "id": "日記:2026-07-16",
+      "label": "2026-07-16の日記",
+      "type": "日記",
+      "date": "2026-07-16",
+      "detail": "今日の日記エントリ",
+      "first_seen": "2026-07-16T16:18:32.608967",
+      "last_seen": "2026-07-16T16:18:32.608967",
+      "weight": 1,
+      "analysis_content": "{\"coach_comment\": \"忙しい育児の合間に、絵を描くことで自己対話とストレスケアができているのは本当に素晴らしいことです。クリーチャーの生態までデザインしたいという情熱は、あなたの内面が豊かである証拠ですね。まとまった時間がなくても、その「走り書きの情熱」を大切にすることで、心はもっと軽やかになれるはずです。あなたのペースで、少しずつその世界を広げていきましょう。\", \"gravity_map\": [{\"task\": \"5時間かけた高品質なモンスター描画の制作\", \"task_id\": \"monster_draw_001\", \"constraints\": [{\"name\": \"育児中の制作時間不足\", \"type\": \"時間\", \"severity\": \"高\"}, {\"name\": \"高品質への完璧主義的な心理的ハードル\", \"type\": \"感情\", \"severity\": \"中\"}], \"energy_sources\": [{\"name\": \"自己表現への渇望\", \"type\": \"感情\"}, {\"name\": \"描くことによるヒーリング効果\", \"type\": \"知見\"}], \"net_assessment\": \"制作への情熱は高いが、時間的制約が心理的なブレーキを強めている状態です。\"}], \"antigravity_actions\": [{\"action\": \"寝る前のスマホ・PCを禁止し、システム手帳を枕元に置く習慣を作る\", \"target_task\": \"就寝前のYouTube視聴制限\", \"effect\": \"夜更かしの誘因である動画視聴を物理的に断ち、描画のアイデアを育てる時間を睡眠確保に転換します。\", \"effort\": \"5分\"}, {\"action\": \"モンスターの生態や生息域を1日1行だけノートに書き出す「3行設定メモ」を始める\", \"target_task\": \"5時間かけた高品質なモンスター描画の制作\", \"effect\": \"絵の完成度への焦りから解放され、言葉で世界観を構築することで満足感を先取りします。\", \"effort\": \"5分\"}, {\"action\": \"日記アプリやSNSへの投稿とは別に、モンスター専門の非公開用Xアカウントを一つ作り、そこに走り書きの絵だけを投稿する\", \"target_task\": \"SNS運用システム化の検討\", \"effect\": \"「人に伝える」という目的を小さな単位で達成し、公開によるフィードバックの心理的報酬を早期に得られます。\", \"effort\": \"30分\"}, {\"action\": \"AOKI薬局に行く際に、家族へ「15分だけ買い物の前に一人で歩いていいか」と交渉し、散歩中にモンスターの構想を練る時間を作る\", \"target_task\": \"AOKI薬局での買い物\", \"effect\": \"育児という日常の中に、思考の脱出経路となる一人時間を意図的に組み込むことで精神的負荷を軽減します。\", \"effort\": \"5分\"}], \"insights\": [{\"finding\": \"絵を描くことが単なる趣味を超え、30代の自己実現とストレス軽減の基盤になっている。\", \"implication\": \"絵は生産性を追い求める仕事とは別の、精神的な避難場所として不可欠な存在である。\"}, {\"finding\": \"クリーチャーの生態や生息域をデザインしたいという知的な興味が生まれている。\", \"implication\": \"単なる描画スキル向上だけでなく、クリエイティブな「設定構築」に楽しさの重心が移っている。\"}], \"emotion_flow\": [{\"emotion\": \"創作への情熱\", \"sentiment\": 0.9, \"context\": \"クリーチャーの生態やデザインを深く考えたいという意欲\"}, {\"emotion\": \"自己実現の期待\", \"sentiment\": 0.8, \"context\": \"絵を通じて30代の生き方を形にしたいという想い\"}], \"upcoming_schedule\": [], \"family_digest\": {\"highlights\": [], \"family_todos\": [], \"shopping_list\": [{\"item\": \"保育園用布団\", \"category\": \"育児用品\", \"urgency\": \"急ぎ\", \"note\": \"2026-03-30\"}]}, \"blog_seeds\": [{\"title\": \"「名もなき怪物の生態学」\", \"genre\": \"日常\", \"tone\": \"哲学的\", \"story_seed\": \"ある男が毎日、誰にも見せない怪物の絵を描き続けている。ある日、その怪物が住む世界の地図が完成した時、男の現実世界に少しだけ変化が訪れる。\", \"core_message\": \"自己表現は、自分の中に住む不可解な自分と和解する儀式である。\", \"reader_feeling\": \"静かな感動と自己肯定感\", \"readiness\": \"高\"}], \"blog_ideas\": [{\"title\": \"30代から始める「下手でも楽しい」大人の絵日記術\", \"theme\": \"趣味の活用\", \"hook\": \"「子供の頃は描けなかった絵が、大人になってから最大の癒やしになった理由」\", \"readiness\": \"高\"}, {\"title\": \"育児の合間にクリーチャーを創る：隙間時間で世界を構築する方法\", \"theme\": \"クリエイティブと育児の両立\", \"hook\": \"「まとまった時間がなくても、頭の中のモンスターは育てられる」\", \"readiness\": \"高\"}], \"knowbe\": {\"constraints\": [], \"tasks\": [], \"insights\": [{\"finding\": \"Knowbe MTG前の思考整理を日記へのアウトプットで行ったことで、頭がすっきりする効果があった。\", \"implication\": \"業務の意思決定や議論の質を高めるためには、直接的な準備作業だけでなく、日記等の媒体を通じた内省的なアウトプットが非常に有効である。\"}]}, \"saiteki\": {\"constraints\": [], \"tasks\": [], \"insights\": []}}"
     }
   ],
   "edges": [
@@ -37561,7 +38164,7 @@
       "label": "不便なツールの価値についての気づき",
       "first_seen": "2026-07-13T11:59:24.916135",
       "last_seen": "2026-07-13T11:59:24.916135",
-      "weight": 0.8
+      "weight": 0.7
     },
     {
       "source": "日記:20260224_pomera_proposal",
@@ -37570,7 +38173,7 @@
       "label": "ポメラ活用の意義についての言語化",
       "first_seen": "2026-07-13T11:59:24.916144",
       "last_seen": "2026-07-13T11:59:24.916144",
-      "weight": 0.75
+      "weight": 0.65
     },
     {
       "source": "知見:ポメラの本質的価値は思考整理",
@@ -37579,14 +38182,14 @@
       "label": "ポメラの価値を伝えるための論拠として利用",
       "first_seen": "2026-07-13T11:59:24.916147",
       "last_seen": "2026-07-13T11:59:24.916147",
-      "weight": 0.75
+      "weight": 0.65
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-07-13",
       "type": "関連する",
       "label": "書いた",
-      "weight": 2.9,
+      "weight": 2.8,
       "first_seen": "2026-07-13T11:59:24.916150",
       "last_seen": "2026-07-13T20:01:36.717375"
     },
@@ -37595,7 +38198,7 @@
       "target": "日記:20260224_pomera_proposal",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.7,
       "first_seen": "2026-07-13T11:59:24.916154",
       "last_seen": "2026-07-13T11:59:24.916154"
     },
@@ -37604,7 +38207,7 @@
       "target": "知見:ポメラの本質的価値は思考整理",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.8,
+      "weight": 0.7,
       "first_seen": "2026-07-13T11:59:24.916157",
       "last_seen": "2026-07-13T11:59:24.916157"
     },
@@ -37613,7 +38216,7 @@
       "target": "目標:ポメラユーザーの創出",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.75,
+      "weight": 0.65,
       "first_seen": "2026-07-13T11:59:24.916160",
       "last_seen": "2026-07-13T11:59:24.916160"
     },
@@ -37624,7 +38227,7 @@
       "label": "メンタル維持の手段として言及",
       "first_seen": "2026-07-13T18:33:28.136098",
       "last_seen": "2026-07-13T18:33:28.136098",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "source": "日記:20260309",
@@ -37633,16 +38236,16 @@
       "label": "手帳による隙間時間活用の記録",
       "first_seen": "2026-07-13T18:33:28.136110",
       "last_seen": "2026-07-13T18:33:28.136110",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "source": "日記:20260309",
       "target": "感想:絵を描くことの楽しさ",
       "type": "言及する",
-      "label": "絵に対する主観的価値",
+      "label": "絵に対する内省",
       "first_seen": "2026-07-13T18:33:28.136135",
-      "last_seen": "2026-07-13T18:33:28.136135",
-      "weight": 0.85
+      "last_seen": "2026-07-16T16:18:32.666917",
+      "weight": 1.8
     },
     {
       "source": "出来事:5倍がゆ作り",
@@ -37651,7 +38254,7 @@
       "label": "課題解決のための具体策",
       "first_seen": "2026-07-13T18:33:28.136139",
       "last_seen": "2026-07-13T18:33:28.136139",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "source": "感想:絵を描くことの楽しさ",
@@ -37660,7 +38263,7 @@
       "label": "精神的効果への評価",
       "first_seen": "2026-07-13T18:33:28.136143",
       "last_seen": "2026-07-13T18:33:28.136143",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "source": "制約:活動時間の物理的限界",
@@ -37669,14 +38272,14 @@
       "label": "時間的な制約要因",
       "first_seen": "2026-07-13T18:33:28.136146",
       "last_seen": "2026-07-13T18:33:28.136146",
-      "weight": 0.85
+      "weight": 0.75
     },
     {
       "source": "日記:2026-07-13",
       "target": "日記:20260309",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.75,
       "first_seen": "2026-07-13T18:33:28.136154",
       "last_seen": "2026-07-13T18:33:28.136154"
     },
@@ -37685,7 +38288,7 @@
       "target": "課題:メンタル維持と自己メンテナンス",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.75,
       "first_seen": "2026-07-13T18:33:28.136157",
       "last_seen": "2026-07-13T18:33:28.136157"
     },
@@ -37694,7 +38297,7 @@
       "target": "出来事:5倍がゆ作り",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.75,
       "first_seen": "2026-07-13T18:33:28.136160",
       "last_seen": "2026-07-13T18:33:28.136160"
     },
@@ -37703,7 +38306,7 @@
       "target": "感想:絵を描くことの楽しさ",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.75,
       "first_seen": "2026-07-13T18:33:28.136164",
       "last_seen": "2026-07-13T18:33:28.136164"
     },
@@ -37712,7 +38315,7 @@
       "target": "制約:活動時間の物理的限界",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.85,
+      "weight": 0.75,
       "first_seen": "2026-07-13T18:33:28.136166",
       "last_seen": "2026-07-13T18:33:28.136166"
     },
@@ -37723,7 +38326,7 @@
       "label": "新たな目標として設定",
       "first_seen": "2026-07-13T20:01:36.717357",
       "last_seen": "2026-07-13T20:01:36.717357",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "source": "日記:20260303_AI活用と執筆方針",
@@ -37732,7 +38335,7 @@
       "label": "AI活用における課題の特定",
       "first_seen": "2026-07-13T20:01:36.717363",
       "last_seen": "2026-07-13T20:01:36.717363",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "source": "解決策:ポメラによる手書き回帰",
@@ -37741,7 +38344,7 @@
       "label": "熱量を伝えるための解決策",
       "first_seen": "2026-07-13T20:01:36.717367",
       "last_seen": "2026-07-13T20:01:36.717367",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "source": "感情:ポメラ活用への手応え",
@@ -37750,7 +38353,7 @@
       "label": "執筆のモチベーションとして機能",
       "first_seen": "2026-07-13T20:01:36.717369",
       "last_seen": "2026-07-13T20:01:36.717369",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "source": "知見:AI小説におけるテーマ設定の重要性",
@@ -37759,14 +38362,14 @@
       "label": "AI指示の難しさを理解し手書きへ転換",
       "first_seen": "2026-07-13T20:01:36.717372",
       "last_seen": "2026-07-13T20:01:36.717372",
-      "weight": 0.9
+      "weight": 0.8
     },
     {
       "source": "日記:2026-07-13",
       "target": "日記:20260303_AI活用と執筆方針",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.8,
       "first_seen": "2026-07-13T20:01:36.717379",
       "last_seen": "2026-07-13T20:01:36.717379"
     },
@@ -37775,7 +38378,7 @@
       "target": "知見:ブログ執筆の心理的ハードル緩和",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.8,
       "first_seen": "2026-07-13T20:01:36.717389",
       "last_seen": "2026-07-13T20:01:36.717389"
     },
@@ -37784,7 +38387,7 @@
       "target": "課題:AI生成文章の薄っぺらさ",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.8,
       "first_seen": "2026-07-13T20:01:36.717393",
       "last_seen": "2026-07-13T20:01:36.717393"
     },
@@ -37793,7 +38396,7 @@
       "target": "解決策:ポメラによる手書き回帰",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.8,
       "first_seen": "2026-07-13T20:01:36.717396",
       "last_seen": "2026-07-13T20:01:36.717396"
     },
@@ -37802,7 +38405,7 @@
       "target": "知見:AI小説におけるテーマ設定の重要性",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.8,
       "first_seen": "2026-07-13T20:01:36.717400",
       "last_seen": "2026-07-13T20:01:36.717400"
     },
@@ -37811,7 +38414,7 @@
       "target": "感情:ポメラ活用への手応え",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.8,
       "first_seen": "2026-07-13T20:01:36.717404",
       "last_seen": "2026-07-13T20:01:36.717404"
     },
@@ -37822,7 +38425,7 @@
       "label": "noteの運用方針を再定義",
       "first_seen": "2026-07-14T15:31:23.315947",
       "last_seen": "2026-07-14T15:31:23.315947",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "日記:2026-03-XX_POMERA",
@@ -37831,7 +38434,7 @@
       "label": "記事判断基準への悩み",
       "first_seen": "2026-07-14T15:31:23.315955",
       "last_seen": "2026-07-14T15:31:23.315955",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "解決策:エッセイジャンルへの絞り込み",
@@ -37840,7 +38443,7 @@
       "label": "運用の指針を明確化して迷いを減らす",
       "first_seen": "2026-07-14T15:31:23.315958",
       "last_seen": "2026-07-14T15:31:23.315958",
-      "weight": 0.95
+      "weight": 0.9
     },
     {
       "source": "制約:文章作成の迷い",
@@ -37849,7 +38452,7 @@
       "label": "評価基準の不安による運用開始の遅延",
       "first_seen": "2026-07-14T15:31:23.315962",
       "last_seen": "2026-07-14T15:31:23.315962",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "感想:他人の価値観への敬意",
@@ -37858,14 +38461,14 @@
       "label": "執筆のモチベーション源泉",
       "first_seen": "2026-07-14T15:31:23.315965",
       "last_seen": "2026-07-14T15:31:23.315965",
-      "weight": 0.9
+      "weight": 0.85
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-07-14",
       "type": "関連する",
       "label": "書いた",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-07-14T15:31:23.315968",
       "last_seen": "2026-07-14T15:31:23.315968"
     },
@@ -37874,7 +38477,7 @@
       "target": "日記:2026-03-XX_POMERA",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-07-14T15:31:23.315971",
       "last_seen": "2026-07-14T15:31:23.315971"
     },
@@ -37883,7 +38486,7 @@
       "target": "知見:ブログ執筆の心理的ハードル緩和",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-07-14T15:31:23.315973",
       "last_seen": "2026-07-14T15:31:23.315973"
     },
@@ -37892,7 +38495,7 @@
       "target": "課題:記事の評価基準の欠如",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-07-14T15:31:23.315976",
       "last_seen": "2026-07-14T15:31:23.315976"
     },
@@ -37901,7 +38504,7 @@
       "target": "制約:文章作成の迷い",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.9,
+      "weight": 0.85,
       "first_seen": "2026-07-14T15:31:23.315979",
       "last_seen": "2026-07-14T15:31:23.315979"
     },
@@ -37910,7 +38513,7 @@
       "target": "解決策:エッセイジャンルへの絞り込み",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-07-14T15:31:23.315991",
       "last_seen": "2026-07-14T15:31:23.315991"
     },
@@ -37919,7 +38522,7 @@
       "target": "感想:他人の価値観への敬意",
       "type": "言及する",
       "label": "言及",
-      "weight": 0.95,
+      "weight": 0.9,
       "first_seen": "2026-07-14T15:31:23.315995",
       "last_seen": "2026-07-14T15:31:23.315995"
     },
@@ -37930,7 +38533,7 @@
       "label": "時間管理への課題意識",
       "first_seen": "2026-07-15T16:35:33.953002",
       "last_seen": "2026-07-15T16:35:33.953002",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "日記:2026-03-09_Pomera_Reflection",
@@ -37939,7 +38542,7 @@
       "label": "集中するためのツール活用",
       "first_seen": "2026-07-15T16:35:33.953012",
       "last_seen": "2026-07-15T16:35:33.953012",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "解決策:ポメラ・手帳駆動の集中環境",
@@ -37948,7 +38551,7 @@
       "label": "集中環境による課題解決",
       "first_seen": "2026-07-15T16:35:33.953015",
       "last_seen": "2026-07-15T16:35:33.953015",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "感情:制作への意欲",
@@ -37957,7 +38560,7 @@
       "label": "習慣化の推進",
       "first_seen": "2026-07-15T16:35:33.953018",
       "last_seen": "2026-07-15T16:35:33.953018",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "知見:執筆集中環境の構築",
@@ -37966,14 +38569,14 @@
       "label": "ツール活用の正当化",
       "first_seen": "2026-07-15T16:35:33.953021",
       "last_seen": "2026-07-15T16:35:33.953021",
-      "weight": 1
+      "weight": 0.95
     },
     {
       "source": "人物:自分",
       "target": "日記:2026-07-15",
       "type": "関連する",
       "label": "書いた",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-07-15T16:35:33.953025",
       "last_seen": "2026-07-15T16:35:33.953025"
     },
@@ -37982,7 +38585,7 @@
       "target": "日記:2026-03-09_Pomera_Reflection",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-07-15T16:35:33.953028",
       "last_seen": "2026-07-15T16:35:33.953028"
     },
@@ -37991,7 +38594,7 @@
       "target": "課題:時間管理と後悔の回避",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-07-15T16:35:33.953030",
       "last_seen": "2026-07-15T16:35:33.953030"
     },
@@ -38000,7 +38603,7 @@
       "target": "解決策:ポメラ・手帳駆動の集中環境",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-07-15T16:35:33.953033",
       "last_seen": "2026-07-15T16:35:33.953033"
     },
@@ -38009,7 +38612,7 @@
       "target": "感情:制作への意欲",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-07-15T16:35:33.953035",
       "last_seen": "2026-07-15T16:35:33.953035"
     },
@@ -38018,9 +38621,99 @@
       "target": "知見:執筆集中環境の構築",
       "type": "言及する",
       "label": "言及",
-      "weight": 1,
+      "weight": 0.95,
       "first_seen": "2026-07-15T16:35:33.953047",
       "last_seen": "2026-07-15T16:35:33.953047"
+    },
+    {
+      "source": "日記:20260309",
+      "target": "タスク:MonsterDrawing",
+      "type": "言及する",
+      "label": "クリーチャー制作への意欲",
+      "first_seen": "2026-07-16T16:18:32.666888",
+      "last_seen": "2026-07-16T16:18:32.666888",
+      "weight": 1
+    },
+    {
+      "source": "制約:CreativeTimeShortage",
+      "target": "タスク:MonsterDrawing",
+      "type": "制約として",
+      "label": "創作活動における時間的制約",
+      "first_seen": "2026-07-16T16:18:32.666925",
+      "last_seen": "2026-07-16T16:18:32.666925",
+      "weight": 1
+    },
+    {
+      "source": "感情:創作への渇望",
+      "target": "タスク:MonsterDrawing",
+      "type": "促進する",
+      "label": "創作の原動力",
+      "first_seen": "2026-07-16T16:18:32.666929",
+      "last_seen": "2026-07-16T16:18:32.666929",
+      "weight": 1
+    },
+    {
+      "source": "感想:絵を描くことの楽しさ",
+      "target": "タスク:MonsterDrawing",
+      "type": "感想として",
+      "label": "制作活動の背景にある価値観",
+      "first_seen": "2026-07-16T16:18:32.666932",
+      "last_seen": "2026-07-16T16:18:32.666932",
+      "weight": 0.95
+    },
+    {
+      "source": "人物:自分",
+      "target": "日記:2026-07-16",
+      "type": "関連する",
+      "label": "書いた",
+      "weight": 1,
+      "first_seen": "2026-07-16T16:18:32.666935",
+      "last_seen": "2026-07-16T16:18:32.666935"
+    },
+    {
+      "source": "日記:2026-07-16",
+      "target": "日記:20260309",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-07-16T16:18:32.666939",
+      "last_seen": "2026-07-16T16:18:32.666939"
+    },
+    {
+      "source": "日記:2026-07-16",
+      "target": "タスク:MonsterDrawing",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-07-16T16:18:32.666941",
+      "last_seen": "2026-07-16T16:18:32.666941"
+    },
+    {
+      "source": "日記:2026-07-16",
+      "target": "感想:絵を描くことの楽しさ",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 0.95,
+      "first_seen": "2026-07-16T16:18:32.666944",
+      "last_seen": "2026-07-16T16:18:32.666944"
+    },
+    {
+      "source": "日記:2026-07-16",
+      "target": "制約:CreativeTimeShortage",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-07-16T16:18:32.666947",
+      "last_seen": "2026-07-16T16:18:32.666947"
+    },
+    {
+      "source": "日記:2026-07-16",
+      "target": "感情:創作への渇望",
+      "type": "言及する",
+      "label": "言及",
+      "weight": 1,
+      "first_seen": "2026-07-16T16:18:32.666949",
+      "last_seen": "2026-07-16T16:18:32.666949"
     }
   ],
   "metadata": {
@@ -38053,8 +38746,8 @@
       "関連する"
     ],
     "created_at": "2026-02-16T23:32:00+09:00",
-    "last_updated": "2026-07-15T16:35:33.953667",
-    "node_count": 617,
-    "edge_count": 1876
+    "last_updated": "2026-07-16T16:18:32.667368",
+    "node_count": 618,
+    "edge_count": 1886
   }
 }
