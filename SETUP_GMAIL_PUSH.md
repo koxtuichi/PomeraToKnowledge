@@ -1,6 +1,8 @@
 # Gmail Push / Cloud Functions セットアップ手順
 
 PomeraからGmailへ送られたメールを、Google Apps Scriptを使わずに処理する構成です。
+推奨はGmail Push通知ですが、OAuthクライアントのGmailスコープ承認が整うまでは
+Cloud Scheduler + IMAPポーリングでも運用できます。どちらもGASは使いません。
 
 ```
 Pomera -> Gmail -> Gmail API watch -> Pub/Sub -> gmail-ingress
@@ -49,6 +51,9 @@ refresh tokenは、Google Cloud ConsoleでOAuthクライアントを作成し、
 などで上記スコープを承認して取得します。取得した値は `.env.gmail.yaml` にだけ置き、
 リポジトリにはコミットしません。
 
+OAuthがまだ用意できない場合は、既存の `GMAIL_APP_PASSWORD` を使うIMAPポーリング方式で
+先にGASを廃止できます。
+
 ## 4. 環境変数ファイルを作る
 
 ```bash
@@ -59,6 +64,7 @@ cp .env.gmail.example.yaml .env.gmail.yaml
 
 ```yaml
 GMAIL_ACCOUNT: your-account@gmail.com
+GMAIL_APP_PASSWORD: your-gmail-app-password
 GMAIL_OAUTH_CLIENT_ID: your-oauth-client-id.apps.googleusercontent.com
 GMAIL_OAUTH_CLIENT_SECRET: your-oauth-client-secret
 GMAIL_OAUTH_REFRESH_TOKEN: your-oauth-refresh-token
@@ -75,7 +81,26 @@ GOOGLE_API_KEY: your-gemini-api-key
 `process-diary` / `process-blog` / `process-story` / `process-secblog` 側にも
 環境変数として設定すると、直接呼び出しを拒否できます。空のままなら従来通り認証なしで動きます。
 
-## 5. Cloud Functions と Scheduler をデプロイする
+## 5A. IMAPポーリング方式で先にデプロイする
+
+OAuthがブロックされる、または未準備の場合はこちらを使います。
+
+```bash
+./cloud_functions/gmail_ingress/deploy_polling.sh
+```
+
+デプロイされる関数:
+
+| 関数 | 種別 | 役割 |
+| --- | --- | --- |
+| `poll-gmail` | HTTP + Scheduler | 未読メールをIMAPで取得し、既存処理関数へ転送 |
+
+Cloud Scheduler job `poll-gmail-every-minute` は1分おきに実行されます。
+これはGASの1分トリガーをCloud Functionsへ置き換える運用です。
+初回に未読メールが多い場合でも詰まらないよう、`GMAIL_POLL_MAX_MESSAGES` で
+1回あたりの確認件数を制限できます。
+
+## 5B. Gmail Push方式でデプロイする
 
 Schedulerから認証付きで `refresh-gmail-watch` を呼ぶためのサービスアカウントを指定します。
 
